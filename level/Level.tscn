@@ -95,6 +95,8 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 
 [sub_resource type="TileSet" id=31]
+resource_local_to_scene = true
+resource_name = "tileset"
 0/name = "0x72_DungeonTilesetII_v1.3.png 0"
 0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
@@ -299,6 +301,8 @@ points = PoolVector2Array( 0, 0, 16, 0, 16, 16, 0, 16 )
 
 [node name="TileMap" type="TileMap"]
 position = Vector2( 0, -9 )
+z_index = -1900
+z_as_relative = false
 tile_set = SubResource( 31 )
 cell_size = Vector2( 16, 16 )
 format = 1
@@ -308,3 +312,9 @@ xSpeed = 100.0
 
 [node name="StartingPoint" type="Position2D" parent="."]
 position = Vector2( 46.3159, -20 )
+
+[node name="Spawner1" type="Position2D" parent="."]
+position = Vector2( 200, 0 )
+__meta__ = {
+"_gizmo_extents_": 29.4
+}
