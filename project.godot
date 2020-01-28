@@ -17,7 +17,14 @@ _global_script_class_icons={
 
 config/name="nodungeon"
 run/main_scene="res://World.tscn"
-boot_splash/fullsize=false
+run/disable_stdout=true
+run/disable_stderr=true
+boot_splash/image="res://image/ouyaIcon.png"
+config/icon="res://image/icon_mdpi.png"
+
+[debug]
+
+settings/stdout/verbose_stdout=true
 
 [display]
 
