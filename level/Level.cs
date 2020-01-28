@@ -14,17 +14,17 @@ public class Level : TileMap
     }
 
     public override void _Process(float delta) {
-        Vector2 position=this.GetPosition();
+        Vector2 position=this.Position;
         if(Mathf.Abs(position.x)>=(156*16)-512) {
             float x=position.x+(156*16)-512;
-            SetPosition(new Vector2(x,position.y));
+            Position=new Vector2(x,position.y);
         }
 
         MoveLocalX(-xSpeed*delta,false);
     }
 
     public void resetView() {
-        SetPosition(new Vector2(0,-4));
+        Position=new Vector2(0,-4);
     }
 
 }

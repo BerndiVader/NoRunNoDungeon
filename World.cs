@@ -16,10 +16,10 @@ public class World : Node
         level=(Level)pLevel.Instance();
         player=(Player)pPlayer.Instance();
 
-        OS.SetWindowSize(new Vector2(1024,576));
+        OS.WindowSize=new Vector2(1024,576);
         
         level.startingPoint=(Position2D)level.GetNode("StartingPoint");
-        player.SetPosition(level.startingPoint.Position);
+        player.Position=level.startingPoint.Position;
 
         AddChild(level);
         AddChild(player);
@@ -35,7 +35,7 @@ public class World : Node
     }
 
     public void restart() {
-        player.SetPosition(level.startingPoint.Position);
+        player.Position=level.startingPoint.Position;
         level.resetView();
     }
 }

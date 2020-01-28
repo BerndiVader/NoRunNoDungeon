@@ -50,14 +50,14 @@ public class Player : KinematicBody2D
             if(Input.IsActionJustPressed("ui_up")) {
                 animationController.Play(ANIM_JUMP);
                 velocity.y=jump.y;
-            } else if(animationController.GetAnimation()!=ANIM_RUN) {
+            } else if(animationController.Animation!=ANIM_RUN) {
                 animationController.Play(ANIM_RUN);
             }
         }
 
     	Vector2 position=Position;
         position.x=Mathf.Clamp(Position.x,camera.LimitLeft,camera.LimitRight);
-        SetPosition(position);
+        Position=position;
 
         if(Position.y>camera.LimitBottom+50) world.restart();
 
