@@ -30,8 +30,19 @@ script = ExtResource( 1 )
 Speed = 80.0
 gravity = Vector2( 10, 600 )
 
+[node name="Camera2D" type="Camera2D" parent="."]
+z_index = 20
+rotating = true
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 512
+limit_bottom = 288
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource( 7 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 0.611725, -0.815632 )
 frames = SubResource( 1 )
 animation = "RUN"
 frame = 2
@@ -39,10 +50,3 @@ frame = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.243767, 3.95261 )
 shape = SubResource( 2 )
-
-[node name="Camera2D" type="Camera2D" parent="."]
-limit_left = 0
-limit_top = 0
-limit_right = 512
-limit_bottom = 288
-script = ExtResource( 7 )
