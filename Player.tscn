@@ -22,13 +22,14 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 4.41984, 6.99778 )
+extents = Vector2( 4.33419, 7.20576 )
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 46, 24 )
 script = ExtResource( 1 )
-Speed = 80.0
-gravity = Vector2( 10, 600 )
+Speed = 110.0
+gravity = Vector2( 15, 900 )
+jump = Vector2( -100, -250 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 z_index = 20
@@ -48,5 +49,5 @@ animation = "RUN"
 frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.243767, 3.95261 )
+position = Vector2( 0.0291292, 4.38189 )
 shape = SubResource( 2 )

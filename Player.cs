@@ -28,7 +28,7 @@ public class Player : KinematicBody2D
         this.AddToGroup("Players");
     }
 
-    public override void _PhysicsProcess(float delta) {
+    public override void _Process(float delta) {
 
         Vector2 movement=new Vector2(0f,0f);
         float gravityFactor=1f;
@@ -47,12 +47,13 @@ public class Player : KinematicBody2D
             animationController.FlipH=false;
         }
 
-        if(!IsOnFloor()) {
+        if(isJumping&&!IsOnWall()) {
             if(Input.IsKeyPressed((int)KeyList.S)) {
                 gravityFactor=2f;
-            } else if(isJumping&&velocity.y>0f&&Input.IsKeyPressed((int)KeyList.W)) {
-                gravityFactor=0.2f;
+            } else if(velocity.y>0f&&Input.IsKeyPressed((int)KeyList.W)) {
+                gravityFactor=0.4f;
             }
+
         }
 
         movement=movement.Normalized()*Speed;
@@ -77,9 +78,9 @@ public class Player : KinematicBody2D
             }
         }
 
-        if(isJumping==true&&Input.IsActionJustPressed("key_w")) {
+        if(isJumping&&Input.IsActionJustPressed("key_w")) {
             if(DateTime.Now.Ticks-jumpStamp<600000) {
-                velocity.y+=jump.y;
+                velocity.y+=jump.y*0.5f;
             }
         }
 

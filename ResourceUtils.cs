@@ -15,8 +15,8 @@ public static class ResourceUtils
 
         player=(PackedScene)ResourceLoader.Load("res://Player.tscn");
 
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
 
     }
 

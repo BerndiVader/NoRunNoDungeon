@@ -19,4 +19,8 @@ public class Level : TileMap
 
     }
 
+    new public void SetCell(int x,int y,int tile,bool flipX=false,bool flipY=false,bool transpose=false,Vector2? autotileCoord=null) {
+        base.SetCell(x,y,tile,flipX,flipY,transpose,autotileCoord);
+    }
+
 }
