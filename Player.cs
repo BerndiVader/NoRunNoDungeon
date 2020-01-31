@@ -79,15 +79,15 @@ public class Player : KinematicBody2D
         }
 
         if(isJumping&&Input.IsActionJustPressed("key_w")) {
-            if(DateTime.Now.Ticks-jumpStamp<600000) {
+            if(DateTime.Now.Ticks-jumpStamp<700000) {
                 velocity.y+=jump.y*0.5f;
             }
         }
 
 
         if(Position.y>camera.LimitBottom+50||Position.x<camera.Position.x-20f) {
-            world.restartGame();
             reset();
+            world.restartGame();
         }
 
         lastVelocity=velocity;

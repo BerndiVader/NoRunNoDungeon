@@ -4,10 +4,10 @@ using System;
 public class World : Node
 {
      
-    int stage;
-    Level level;
-    Level cachedLevel;
-    Player player;
+    public int stage;
+    public Level level;
+    public Level cachedLevel;
+    public Player player;
     public CanvasModulate renderer;
     public override void _Ready()
     {
@@ -34,7 +34,7 @@ public class World : Node
     {
 
         if(Input.IsKeyPressed((int)KeyList.Escape)) {
-            GetTree().Quit();
+            WorldUtils.quit();
         }
 
         level.MoveLocalX(-level.xSpeed*delta,false); 
@@ -50,22 +50,23 @@ public class World : Node
 
     public void restartGame() {
         stage=0;
+        cachedLevel.QueueFree();
         cachedLevel=(Level)ResourceUtils.levels[stage].Instance();
         startLevel();
         player.Position=level.startingPoint.Position;
     }
 
     public void startLevel(float restX=0f) {
-        Level oldLevel=level;
-        level=cachedLevel;
-        this.cacheLevel(stage+1);
+        level.QueueFree();
+        level=(Level)cachedLevel.Duplicate();
+        cacheLevel(stage+1);
         level.startingPoint=(Position2D)level.GetNode("StartingPoint");
         renderer.AddChild(level);
         level.Position=new Vector2(restX,0);
-        oldLevel.QueueFree();
     }
 
     public void cacheLevel(int nextStage) {
+        if(cachedLevel!=null) cachedLevel.Free();
         if(nextStage>ResourceUtils.levels.Count-1) nextStage=0;
         cachedLevel=(Level)ResourceUtils.levels[nextStage].Instance();
         WorldUtils.mergeMaps(level,cachedLevel);

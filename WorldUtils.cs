@@ -27,4 +27,13 @@ public static class WorldUtils
 
     }
 
+    public static void quit() {
+        world.cachedLevel.Free();
+        world.GetTree().Quit();
+    }
+
+    public static void debug() {
+        Console.WriteLine(world.GetTree().GetNodeCount());
+    }
+
 }
