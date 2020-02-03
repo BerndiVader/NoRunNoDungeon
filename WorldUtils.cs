@@ -4,14 +4,7 @@ using System.Collections.Generic;
 
 public static class WorldUtils
 {
-    static World world;
-
-    public static World getWorld() {
-        return world;
-    }
-    public static void setworld(World world) {
-        WorldUtils.world=world;
-    }
+    public static World world;
 
     public static void mergeMaps(Level newLevel, Level nextLevel) {
 

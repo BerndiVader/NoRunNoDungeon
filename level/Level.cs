@@ -13,6 +13,7 @@ public class Level : TileMap
     {
         mapLength=((int)GetUsedRect().End.x)-1;
         pixelLength=mapLength*(int)this.CellSize.x;
+        startingPoint=(Position2D)GetNode("StartingPoint");
     }
 
     public override void _Process(float delta) {

@@ -5,98 +5,144 @@ public class Player : KinematicBody2D
 {
     static String ANIM_RUN="RUN";
     static String ANIM_JUMP="HIT";
-    static World world=WorldUtils.getWorld();
+    static World world=WorldUtils.world;
 
-    [Export] public float Speed=100f;
-    [Export] public Vector2 gravity=new Vector2(10f,200f);
-    [Export] public Vector2 jump=new Vector2(-20f,-200f);
+    [Export] public float GRAVITY=500f;
+    [Export] public float FLOOR_ANGLE_TOLERANCE=40f;
+    [Export] public float WALK_FORCE=600f;
+    [Export] public float WALK_MIN_SPEED=10f;
+    [Export] public float WALK_MAX_SPEED=200f;
+    [Export] public float STOP_FORCE=1300f;
+    [Export] public float JUMP_SPEED=200f;
+    [Export] public float JUMP_MAX_AIRBORNE_TIME=0.2f;
+
+    [Export] public float SLIDE_STOP_VELOCITY=1f;
+    [Export] public float SLIDE_STOP_MIN_TRAVEL=1f;
+
+    Vector2 velocity=new Vector2(0f,0f);
+    float onAirTime=100f;
+    bool jumping=false;
+    bool doubleJump=false;
+    bool justJumped=false;
+    bool prevJumpPressed=false;
+
+    float slopeAngle=0f;
+    Vector2 lastVelocity=new Vector2(0f,0f);
 
     AnimatedSprite animationController;
     CollisionShape2D collisionController;
-    Camera2D camera;
-    Vector2 velocity=new Vector2(0f,0f);
-    Vector2 lastVelocity=new Vector2(0f,0f);
-    bool isJumping=false;
-    long jumpStamp=0;
 
     public override void _Ready()
     {
         animationController=(AnimatedSprite)this.GetNode("AnimatedSprite");
         collisionController=(CollisionShape2D)this.GetNode("CollisionShape2D");
         animationController.Play(ANIM_RUN);
-        camera=(Camera2D)GetNode("Camera2D");
         this.AddToGroup("Players");
+
     }
+
+    public override void _EnterTree() {
+        Position=world.level.startingPoint.Position;
+    }
+
 
     public override void _Process(float delta) {
 
-        Vector2 movement=new Vector2(0f,0f);
-        float gravityFactor=1f;
+        Vector2 force=new Vector2(0,GRAVITY);
+        bool left=Input.IsKeyPressed((int)KeyList.A);
+        bool right=Input.IsKeyPressed((int)KeyList.D);
+        bool jump=Input.IsKeyPressed((int)KeyList.Up);
 
-        if(Input.IsKeyPressed((int)KeyList.A)) {
-            if(!animationController.FlipH) {
-                animationController.FlipH=true;
+        bool stop=true;
+
+        if(left){
+            if(velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED) {
+                force.x-=WALK_FORCE;
+                stop=false;
             }
-            movement.x-=1;
-        } else if (Input.IsKeyPressed((int)KeyList.D)) {
-            if(animationController.FlipH) {
-                animationController.FlipH=false;
+        } else if(right){
+            if(velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED) {
+                force.x+=WALK_FORCE;
+                stop=false;
             }
-            movement.x+=1;
-        } else if(animationController.FlipH) {
-            animationController.FlipH=false;
         }
 
-        if(isJumping&&!IsOnWall()) {
-            if(Input.IsKeyPressed((int)KeyList.S)) {
-                gravityFactor=2f;
-            } else if(velocity.y>0f&&Input.IsKeyPressed((int)KeyList.W)) {
-                gravityFactor=0.4f;
-            }
+        if(stop){
+            float vSign=Mathf.Sign(velocity.x);
+            float vLen=Mathf.Abs(velocity.x);
 
+            vLen-=STOP_FORCE*delta;
+            if(vLen<0f){
+                vLen=0f;
+            }
+            velocity.x=vLen*vSign;
         }
 
-        movement=movement.Normalized()*Speed;
-        velocity.x=movement.x;
-        velocity.y+=gravity.x*gravityFactor;
-        velocity.y=Mathf.Min(velocity.y,gravity.y);
+        velocity+=force*delta;
+        if(justJumped){
+            MoveLocalX(velocity.x*delta);
+            MoveLocalY(velocity.y*delta);
+            justJumped=false;
+        } else {
+            velocity=MoveAndSlide(velocity,Vector2.Up,false,4,0.785398f,false);
+        }
 
-        velocity=MoveAndSlide(velocity,Vector2.Up);
-
-        if(IsOnFloor()) {
-            isJumping=false;
+        if(IsOnFloor()){
+            onAirTime=0f;
             if(lastVelocity.y>300f) {
-                camera.shake+=lastVelocity.y*0.007f;
-            } 
-            if(Input.IsActionJustPressed("ui_up")) {
-                isJumping=true;
-                animationController.Play(ANIM_JUMP);
-                velocity.y=jump.y;
-                jumpStamp=DateTime.Now.Ticks;
-            } else if(animationController.Animation!=ANIM_RUN) {
-                animationController.Play(ANIM_RUN);
-            }
+                world.renderer.shake+=lastVelocity.y*0.004f;
+            }        
+        }
+        
+        if(jumping&&velocity.y>0f) {
+            animationController.Play(ANIM_RUN);
+            doubleJump=jumping=false;
         }
 
-        if(isJumping&&Input.IsActionJustPressed("key_w")) {
-            if(DateTime.Now.Ticks-jumpStamp<700000) {
-                velocity.y+=jump.y*0.5f;
-            }
+        if(jump&&jumping&&!prevJumpPressed&&!doubleJump) {
+            doubleJump=true;
+            velocity.y=-JUMP_SPEED;
+            animationController.Play(ANIM_JUMP);
         }
 
+        if(onAirTime<JUMP_MAX_AIRBORNE_TIME&&jump&&!prevJumpPressed&&!jumping) {
+            if(isOnSlope()) {
+                if(slopeAngle<0) {
+                    velocity.x+=100;
+                } else if(slopeAngle<1f) {
+                    velocity.x-=100;
+                }
+            }
+            velocity.y=-JUMP_SPEED;
+            animationController.Play(ANIM_JUMP);
+            justJumped=jumping=true;
+        }
 
-        if(Position.y>camera.LimitBottom+50||Position.x<camera.Position.x-20f) {
+        onAirTime+=delta;
+        prevJumpPressed=jump;
+
+        if(Position.y>320f||Position.x<-20f) {
             reset();
             world.restartGame();
         }
 
         lastVelocity=velocity;
+
     }
 
     public void reset() {
-        velocity=new Vector2(0f,0f);
-        lastVelocity=new Vector2(0f,0f);
-        isJumping=false;        
+        //
+    }
+
+    public bool isOnSlope() {
+        int count=GetSlideCount();
+        for(int i=0;i<count;i++){
+            KinematicCollision2D collision=GetSlideCollision(i);
+            if(collision.Collider==null||collision.ColliderId!=world.level.GetInstanceId()) continue;
+            slopeAngle=collision.Normal.AngleTo(Vector2.Up);
+            return Mathf.Abs(slopeAngle)>=0.785298f;
+        }
+        return false;
     }
 
 }

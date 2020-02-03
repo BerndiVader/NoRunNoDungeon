@@ -6,7 +6,7 @@
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f1.png" type="Texture" id=4]
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f2.png" type="Texture" id=5]
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f3.png" type="Texture" id=6]
-[ext_resource path="res://Camera2D.cs" type="Script" id=7]
+[ext_resource path="res://PlayerCollisionShape.cs" type="Script" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -22,26 +22,18 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 4.33419, 7.20576 )
+extents = Vector2( 4.07659, 6.09739 )
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 46, 24 )
+collision_mask = 1024
 script = ExtResource( 1 )
-Speed = 110.0
-gravity = Vector2( 15, 900 )
-jump = Vector2( -100, -250 )
-
-[node name="Camera2D" type="Camera2D" parent="."]
-z_index = 20
-rotating = true
-current = true
-limit_left = 0
-limit_top = 0
-limit_right = 512
-limit_bottom = 288
-editor_draw_limits = true
-editor_draw_drag_margin = true
-script = ExtResource( 7 )
+GRAVITY = 700.0
+WALK_FORCE = 1300.0
+WALK_MIN_SPEED = 120.0
+WALK_MAX_SPEED = 120.0
+STOP_FORCE = 1300.0
+JUMP_SPEED = 220.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
@@ -49,5 +41,6 @@ animation = "RUN"
 frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.0291292, 4.38189 )
+position = Vector2( 0, 4.80524 )
 shape = SubResource( 2 )
+script = ExtResource( 9 )
