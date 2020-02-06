@@ -13,8 +13,8 @@ public class BackgroundSprite : Sprite
         id=layer.Name.Substr(layer.Name.Length-1,1).ToInt();
         image=(Texture)ResourceUtils.bgTextures[id].Duplicate();
         this.Texture=image;
-        Scale=new Vector2(1.6f,1.6f);
-        ZIndex=layer.ZIndex;
+
+        Scale=new Vector2(GetViewport().Size/image.GetSize());
     }
 
 

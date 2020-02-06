@@ -29,6 +29,8 @@ public class Player : KinematicBody2D
     float slopeAngle=0f;
     Vector2 lastVelocity=new Vector2(0f,0f);
 
+    public float lastFallingSpeed=0f;
+
     AnimatedSprite animationController;
     CollisionShape2D collisionController;
 
@@ -46,8 +48,8 @@ public class Player : KinematicBody2D
     }
 
 
-    public override void _Process(float delta) {
-
+    public override void _PhysicsProcess(float delta) {
+        if(world.level==null) return;
         Vector2 force=new Vector2(0,GRAVITY);
         bool left=Input.IsKeyPressed((int)KeyList.A);
         bool right=Input.IsKeyPressed((int)KeyList.D);
@@ -78,13 +80,31 @@ public class Player : KinematicBody2D
             velocity.x=vLen*vSign;
         }
 
+        if(velocity.y!=0) lastFallingSpeed=velocity.y;
+
+        velocity+=GetFloorVelocity()*delta;
         velocity+=force*delta;
+
         if(justJumped){
             MoveLocalX(velocity.x*delta);
             MoveLocalY(velocity.y*delta);
             justJumped=false;
         } else {
-            velocity=MoveAndSlide(velocity,Vector2.Up,false,4,0.785398f,false);
+            Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0,10);
+            velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
+        }
+
+        if(GetSlideCount()>0) {
+            for(int i=0;i<GetSlideCount();i++){
+                KinematicCollision2D collision=GetSlideCollision(i);
+            }
+
+        }
+
+        if(IsOnCeiling()) {
+            if(lastVelocity.y<-150f) {
+                world.renderer.shake+=Mathf.Abs(lastVelocity.y*0.004f);
+            }        
         }
 
         if(IsOnFloor()){
@@ -127,18 +147,25 @@ public class Player : KinematicBody2D
         }
 
         lastVelocity=velocity;
-
     }
 
     public void reset() {
-        //
+        Vector2 velocity=new Vector2(0f,0f);
+        onAirTime=100f;
+        jumping=false;
+        doubleJump=false;
+        justJumped=false;
+        prevJumpPressed=false;
+        slopeAngle=0f;
+        lastVelocity=new Vector2(0f,0f);        
     }
 
     public bool isOnSlope() {
         int count=GetSlideCount();
+        ulong id=world.level.GetInstanceId();
         for(int i=0;i<count;i++){
             KinematicCollision2D collision=GetSlideCollision(i);
-            if(collision.Collider==null||collision.ColliderId!=world.level.GetInstanceId()) continue;
+            if(collision.Collider==null||collision.ColliderId!=id) continue;
             slopeAngle=collision.Normal.AngleTo(Vector2.Up);
             return Mathf.Abs(slopeAngle)>=0.785298f;
         }

@@ -9,5 +9,4 @@ public static class MathUtils {
         return random.NextDouble()*(max-min)+min;
     }    
 
-
 }

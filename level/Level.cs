@@ -11,13 +11,14 @@ public class Level : TileMap
 
     public override void _Ready()
     {
+        SetProcess(false);
+        SetPhysicsProcess(false);
+        SetProcessInput(false);
+
         mapLength=((int)GetUsedRect().End.x)-1;
         pixelLength=mapLength*(int)this.CellSize.x;
         startingPoint=(Position2D)GetNode("StartingPoint");
-    }
-
-    public override void _Process(float delta) {
-
+        this.TileSet=WorldUtils.world.tileSet;
     }
 
     new public void SetCell(int x,int y,int tile,bool flipX=false,bool flipY=false,bool transpose=false,Vector2? autotileCoord=null) {

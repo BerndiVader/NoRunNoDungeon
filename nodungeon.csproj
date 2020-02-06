@@ -54,10 +54,11 @@
     <Compile Include="Background.cs" />
     <Compile Include="BackgroundLayer.cs" />
     <Compile Include="BackgroundSprite.cs" />
+    <Compile Include="level\FallingPlatform.cs" />
     <Compile Include="level\Level.cs" />
+    <Compile Include="level\MovingPlatform0.cs" />
     <Compile Include="MathUtils.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="PlayerCollisionShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="ResourceUtils.cs" />
