@@ -13,13 +13,5 @@ script = ExtResource( 1 )
 position = Vector2( 0, -1 )
 shape = SubResource( 1 )
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-position = Vector2( -4.17233e-06, -0.999999 )
-scale = Vector2( 0.824516, 0.740681 )
-
 [node name="terrain_platform_center" type="Sprite" parent="."]
 texture = ExtResource( 2 )
-
-[node name="Tween" type="Tween" parent="."]
-[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

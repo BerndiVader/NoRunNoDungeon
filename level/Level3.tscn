@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
 [ext_resource path="res://level/FallingPlatform1x1.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Bonus/Coin.tscn" type="PackedScene" id=4]
-[ext_resource path="res://level/Spikes.tscn" type="PackedScene" id=5]
+[ext_resource path="res://level/MovingPlatform2x2.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Bonus/Coin.tscn" type="PackedScene" id=5]
+[ext_resource path="res://level/Spikes.tscn" type="PackedScene" id=6]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -53,30 +54,54 @@ position = Vector2( 911.582, 230.049 )
 [node name="FallingPlatform8" parent="." instance=ExtResource( 3 )]
 position = Vector2( 971.484, 173.62 )
 
-[node name="Coin" parent="." instance=ExtResource( 4 )]
-position = Vector2( 969.38, 146.921 )
+[node name="MovingPlatform0" parent="." instance=ExtResource( 4 )]
+position = Vector2( 706.49, 97.1941 )
 
-[node name="Coin2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 834.595, 105.046 )
+[node name="MovingPlatform1" parent="." instance=ExtResource( 4 )]
+position = Vector2( 843.892, 72.3309 )
 
-[node name="Coin3" parent="." instance=ExtResource( 4 )]
-position = Vector2( 663.17, 140.378 )
+[node name="MovingPlatform2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 578.248, 71.0223 )
 
-[node name="Coin4" parent="." instance=ExtResource( 4 )]
-position = Vector2( 540.163, 183.561 )
+[node name="Coin" parent="." instance=ExtResource( 5 )]
+position = Vector2( 583.048, 135.403 )
 
-[node name="Coin5" parent="." instance=ExtResource( 4 )]
-position = Vector2( 661.684, 247.829 )
+[node name="Coin2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 590.727, 123.081 )
 
-[node name="Coin6" parent="." instance=ExtResource( 4 )]
-position = Vector2( 700, 247.829 )
+[node name="Coin3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 590.727, 143.048 )
 
-[node name="Coin7" parent="." instance=ExtResource( 4 )]
-position = Vector2( 830, 248.579 )
+[node name="Coin4" parent="." instance=ExtResource( 5 )]
+position = Vector2( 577.048, 119.081 )
 
-[node name="Coin8" parent="." instance=ExtResource( 4 )]
-position = Vector2( 950, 248.579 )
+[node name="Coin5" parent="." instance=ExtResource( 5 )]
+position = Vector2( 571.029, 135.403 )
 
-[node name="SpikesStatic" parent="." instance=ExtResource( 5 )]
-position = Vector2( 534.163, 266 )
+[node name="Coin6" parent="." instance=ExtResource( 5 )]
+position = Vector2( 578.248, 151.048 )
+
+[node name="Coin7" parent="." instance=ExtResource( 5 )]
+position = Vector2( 842.256, 19.752 )
+
+[node name="Coin8" parent="." instance=ExtResource( 5 )]
+position = Vector2( 707.658, 36.7136 )
+
+[node name="Coin9" parent="." instance=ExtResource( 5 )]
+position = Vector2( 576.889, 20.8463 )
+
+[node name="Coin10" parent="." instance=ExtResource( 5 )]
+position = Vector2( 969.741, 143.955 )
+
+[node name="Coin11" parent="." instance=ExtResource( 5 )]
+position = Vector2( 730, 245.5 )
+
+[node name="Coin12" parent="." instance=ExtResource( 5 )]
+position = Vector2( 773.983, 247 )
+
+[node name="Coin13" parent="." instance=ExtResource( 5 )]
+position = Vector2( 827.892, 246.25 )
+
+[node name="SpikesStatic" parent="." instance=ExtResource( 6 )]
+position = Vector2( 680, 267 )
 StaticElement = false

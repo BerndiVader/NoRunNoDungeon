@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class MovingPlatform0 : StaticBody2D
+public class MovingPlatform0 : Platform
 {
 
     [Export] public Vector2 Direction=new Vector2(0f,-1f);
@@ -16,34 +16,36 @@ public class MovingPlatform0 : StaticBody2D
     int currentLength;
     Vector2 dir,startPos;
     float currentShrink;
-    Tween tween;
 
     CollisionShape2D collisionController;
 
     public override void _Ready()
     {
+        base._Ready();
         dir=Direction.Normalized();
         startPos=new Vector2(Position);
         maxLength=Length*16;
         currentLength=maxLength/2;
         startPos-=dir*currentLength;
         currentShrink=0f;
-        tween=(Tween)GetNode("Tween");
 
-        SetProcess(false);
-        SetPhysicsProcess(false);
-        SetProcessInput(false);
     }
 
-    public override void _PhysicsProcess(float delta) {
+    public override void _PhysicsProcess(float delta)
+    {
 
-        if(!Linear){
-            if(Mathf.Abs(Mathf.Abs((startPos+dir*maxLength).Length())-Position.Length())<=LerpFactor) {
+        if(!Linear)
+        {
+            if(Mathf.Abs(Mathf.Abs((startPos+dir*maxLength).Length())-Position.Length())<=LerpFactor) 
+            {
                 dir*=-1;
             }
             Position=Position.LinearInterpolate(startPos+dir*maxLength,delta*Speed);
-        } else {
-            if(currentLength>=maxLength) {
+        } 
+        else 
+        {
+            if(currentLength>=maxLength) 
+            {
                 currentLength=0;
                 dir*=-1;
             }
@@ -51,15 +53,6 @@ public class MovingPlatform0 : StaticBody2D
             currentLength++;
         }
         Position+=new Vector2(0,currentShrink*delta);
-    }
-
-    public void _on_VisibilityNotifier2D_screen_entered() {
-        SetProcess(true);
-        SetPhysicsProcess(true);
-    }
-
-    public void _on_VisibilityNotifier2D_screen_exited() {
-        QueueFree();
     }
 
 }

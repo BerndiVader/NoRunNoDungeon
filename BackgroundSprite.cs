@@ -14,8 +14,7 @@ public class BackgroundSprite : Sprite
         image=(Texture)ResourceUtils.bgTextures[id].Duplicate();
         this.Texture=image;
 
-        Scale=new Vector2(GetViewport().Size/image.GetSize());
+        Scale=new Vector2(WorldUtils.world.RESOLUTION/image.GetSize());
     }
-
 
 }

@@ -1,34 +1,37 @@
 using Godot;
 using System;
 
-public class FallingPlatform : StaticBody2D
+public class FallingPlatform : Platform
 {
 
-    bool falling=false;
     [Export] public int TimeSpan=20;
     int time;
 
-    float shake=2f,shakeMax=6f,speed=0f;
-    Vector2 startPosition;
+    Area2D area2D;
+    CollisionShape2D area2dShape;
 
-    CollisionShape2D collisionController;
+    float shake=2f,shakeMax=6f,speed=0f;
 
     public override void _Ready()
     {
-        SetProcess(false);
-        SetPhysicsProcess(false);
-        SetProcessInput(false);
-        startPosition=Position;
+        base._Ready();
         time=TimeSpan;
-        collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
+        area2D=(Area2D)GetNode("Area2D");
+        area2dShape=(CollisionShape2D)area2D.GetNode("CollisionShape2D2");
+        Connect("tree_exiting",this,nameof(_exitingTree));
     }
 
-    public override void _PhysicsProcess(float delta) {
-        if(falling){
-            if(time<=0) {
+    public override void _PhysicsProcess(float delta)
+    {
+        if(falling)
+        {
+            if(time<=0) 
+            {
                 speed=Mathf.Min(speed+=10f,200f);
                 MoveLocalY(speed*delta,false);
-            } else {
+            } 
+            else 
+            {
                 applyShake();
             }
             time--;
@@ -36,32 +39,55 @@ public class FallingPlatform : StaticBody2D
         
     }
 
-    public void _on_VisibilityNotifier2D_screen_entered() {
-        SetProcess(true);
-        SetPhysicsProcess(true);
-    }
-
-    public void _on_VisibilityNotifier2D_screen_exited() {
-        QueueFree();
-    }
-
-    public void _on_Area2D_body_entered(Node body) {
-        if(!body.IsInGroup("Players")||falling) return;
-        Player player=(Player)body;
-        falling=true;
-    }
-
-    public void _on_Area2D_body_exited(Node body) {
-        if(!body.IsInGroup("Players")) return;
-        Player player=(Player)body;
-    }
-
-    void applyShake() {
+    void applyShake() 
+    {
         shake=Math.Min(shake,shakeMax);
         Vector2 offset=new Vector2(0,0);
         offset.x=(float)MathUtils.randomRange(-shake,shake);
         offset.y=(float)MathUtils.randomRange(-shake,shake);
         Position=startPosition+offset;
         shake*=0.9f;
+    }
+
+    public void _on_Area2D_body_entered(Node body) 
+    {
+        if(!body.IsInGroup("Players")&&!body.IsInGroup("Level")) return;
+        if(!falling) 
+        {
+            Vector2 position=new Vector2(area2dShape.Position);
+            position.y=5;
+            area2dShape.Position=position;
+            falling=true;
+        } 
+        else if(time<0) 
+        {
+            if(body.IsInGroup("Level")) 
+            {
+                    BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[0].Instance();
+                    blockBreakParticle.Position=Position;
+                    WorldUtils.world.level.CallDeferred("add_child",blockBreakParticle);
+                    CallDeferred("queue_free");
+                    return;
+            }
+
+            Player player=(Player)body;
+            if(player.Position.y>Position.y) 
+            {
+                BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[0].Instance();
+                blockBreakParticle.Position=Position;
+                WorldUtils.world.level.CallDeferred("add_child",blockBreakParticle);
+                CallDeferred("queue_free");
+            }
+        }
+    }
+
+    public void _on_Area2D_body_exited(Node body) 
+    {
+        if(!body.IsInGroup("Players")) return;
+    }    
+
+    public void _exitingTree()
+    {
+        area2D.Monitoring=false;
     }
 }

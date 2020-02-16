@@ -3,9 +3,13 @@ using System;
 
 public class Level : TileMap
 {
-    [Export] public float xSpeed=70f;
+    [Export] public float Speed=120f;
+    [Export] public Vector2 direction=new Vector2(-1f,0f);
     public int mapLength;
     public int pixelLength;
+
+    bool firstloop=true,secondloop=false;
+    int childcount=0;
 
     public Position2D startingPoint;
 
@@ -14,14 +18,36 @@ public class Level : TileMap
         SetProcess(false);
         SetPhysicsProcess(false);
         SetProcessInput(false);
+        SetCollisionLayerBit(1,true);
 
         mapLength=((int)GetUsedRect().End.x)-1;
         pixelLength=mapLength*(int)this.CellSize.x;
         startingPoint=(Position2D)GetNode("StartingPoint");
-        this.TileSet=WorldUtils.world.tileSet;
+        TileSet=WorldUtils.world.tileSet;
+
+        Connect("tree_exiting",this,nameof(freeLevel));
+
+        ZIndex=0;
+
+        AddToGroup("Level");
+
     }
 
-    new public void SetCell(int x,int y,int tile,bool flipX=false,bool flipY=false,bool transpose=false,Vector2? autotileCoord=null) {
+    public override void _EnterTree()
+    {
+    }
+
+    public void freeLevel() 
+    {
+        foreach(Node node in GetChildren()) 
+        {
+            if(node!=null&&!node.IsQueuedForDeletion()) node.CallDeferred("queue_free");
+        }
+        CallDeferred("queue_free");
+    }
+
+    new public void SetCell(int x,int y,int tile,bool flipX=false,bool flipY=false,bool transpose=false,Vector2? autotileCoord=null) 
+    {
         base.SetCell(x,y,tile,flipX,flipY,transpose,autotileCoord);
     }
 

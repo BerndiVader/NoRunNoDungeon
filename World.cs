@@ -5,14 +5,15 @@ using System.Threading;
 public class World : Node
 {
      
+    [Export] public Vector2 RESOLUTION=new Vector2(512f,288f);
     public int stage;
-    public Level level;
+    public Level level,newLevel,cachedLevel,oldLevel;
     public TileSet tileSet;
     public Background background;
-    public Level cachedLevel;
     public Player player;
     public Renderer renderer;
-    bool change;
+
+    public Gamestate state;
     public override void _Ready()
     {
         WorldUtils.world=this;
@@ -21,16 +22,16 @@ public class World : Node
         ResourceUtils.Init();
 
         tileSet=(TileSet)ResourceUtils.tilesets[0];
-        level=(Level)ResourceUtils.levels[(int)MathUtils.randomRange(0,3)].Instance();
-        cacheLevel((int)MathUtils.randomRange(0,3));
+        level=(Level)ResourceUtils.levels[(int)MathUtils.randomRange(0,ResourceUtils.levels.Count-1)].Instance();
+        cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count-1));
         WorldUtils.mergeMaps(level,cachedLevel);
         player=(Player)ResourceUtils.player.Instance();
 
         OS.WindowSize=new Vector2(1024,576);
 
         background=(Background)ResourceUtils.background.Instance();
+        state=Gamestate.RUNNING;
 
-        change=false;
         renderer.AddChild(level);
         renderer.AddChild(player);
         renderer.AddChild(background);
@@ -40,58 +41,82 @@ public class World : Node
 
     public override void _Process(float delta)
     {
-        if(Input.IsKeyPressed((int)KeyList.Escape)) {
-            WorldUtils.quit();
+        switch(state) 
+        {
+            case Gamestate.RESTART:
+            {
+                break;
+            }
+            case Gamestate.SCENE_CHANGED:
+            {
+                renderer.RemoveChild(level);
+                oldLevel=level;
+                level=newLevel;
+                newLevel=null;
+                level.Position=new Vector2(-(Mathf.Abs(oldLevel.Position.x)-(oldLevel.pixelLength-512)),0);
+                oldLevel.freeLevel();
+                state=Gamestate.RUNNING;
+                step(delta);
+                break;
+            }
+            default:
+            {
+                step(delta);
+                break;
+            }
+            
         }
 
-        if(level==null) return;
+    }
 
-        level.MoveLocalX(-level.xSpeed*delta,false); 
+    void step(float delta) 
+    {
+        if(Input.IsKeyPressed((int)KeyList.Escape)) WorldUtils.quit();
+
+        level.MoveLocalX((level.direction.x*level.Speed)*delta,false); 
+        level.MoveLocalY((level.direction.y*level.Speed)*delta,false); 
         Vector2 position=level.Position;
-        if(!change&&Mathf.Abs(position.x)>=(level.pixelLength)-512) {
-            change=true;
+
+        if((state==Gamestate.RUNNING)&&Mathf.Abs(position.x)>=(level.pixelLength)-528) 
+        {
+            state=Gamestate.SCENE_CHANGE;
             stage++;
             if(stage>=ResourceUtils.levels.Count) stage=0;
-            System.Threading.Thread thread=new System.Threading.Thread(()=>startLevel());
+            System.Threading.Thread thread=new System.Threading.Thread(()=>prepareLevel());
             thread.Start();
         }
-
     }
 
-    public void restartGame() {
-        stage=0;
-        cachedLevel.Free();
-        cachedLevel=(Level)ResourceUtils.levels[(int)MathUtils.randomRange(0,3)].Instance();
-        startLevel(0f,true);
-        player.Position=level.startingPoint.Position;
+    public void restartGame()
+    {
+        state=Gamestate.RESTART;
+        renderer.RemoveChild(level);
+        level.CallDeferred("queue_free");
+        level=(Level)ResourceUtils.levels[(int)MathUtils.randomRange(0,ResourceUtils.levels.Count-1)].Instance();
+        cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count-1));
+        WorldUtils.mergeMaps(level,cachedLevel);
+        renderer.AddChild(level);
+        renderer.RemoveChild(player);
+        player.CallDeferred("queue_free");
+        player=(Player)ResourceUtils.player.Instance();
+        renderer.AddChild(player);
+        state=Gamestate.RUNNING;
     }
 
-    public void startLevel(float restX=0f,bool useX=false) {
-        Level newLevel=(Level)cachedLevel.Duplicate();
-        Level oldLevel=level;
-        newLevel.Visible=false;
-        cacheLevel((int)MathUtils.randomRange(0,3));
+    void prepareLevel() 
+    {
+        if(cachedLevel==null) cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count-1));
+        newLevel=(Level)cachedLevel.Duplicate();
+        cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count-1));
         WorldUtils.mergeMaps(newLevel,cachedLevel);
         renderer.AddChild(newLevel);
-        newLevel.Position=new Vector2(useX?restX:-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
-        newLevel.Visible=true;
-        level.SetProcess(false);
-        level.Visible=false;
-        newLevel.Position=new Vector2(useX?restX:-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
-        renderer.RemoveChild(oldLevel);
-        level=newLevel;
-        oldLevel.Free();
-        change=false;
+        state=Gamestate.SCENE_CHANGED;
     }
 
-    public void cacheLevel(int nextStage) {
-        if(cachedLevel!=null) cachedLevel.Free();
-        if(nextStage>ResourceUtils.levels.Count-1) nextStage=0;
+    void cacheLevel(int nextStage) 
+    {
+        if(cachedLevel!=null&&!cachedLevel.IsQueuedForDeletion()) cachedLevel.CallDeferred("freeLevel");
         cachedLevel=(Level)ResourceUtils.levels[nextStage].Instance();
-    }
-
-    public Level getCurrentLevel() {
-        return this.level;
     }
 
 }

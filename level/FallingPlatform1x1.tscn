@@ -3,11 +3,11 @@
 [ext_resource path="res://level/FallingPlatform.cs" type="Script" id=1]
 [ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_platform_center.png" type="Texture" id=2]
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 8.15206, 6.29374 )
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8.02843, 6.0266 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 7.28672, 1.71094 )
+extents = Vector2( 7.28672, 2.19438 )
 
 [node name="FallingPlatform" type="StaticBody2D"]
 script = ExtResource( 1 )
@@ -21,16 +21,12 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -1 )
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="Area2D" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
-visible = false
 position = Vector2( 0, -6 )
 shape = SubResource( 2 )
-[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

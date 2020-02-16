@@ -11,9 +11,8 @@ public class Background : ParallaxBackground
         
     }
 
-    public override void _Process(float delta) {
-
+    public override void _Process(float delta) 
+    {
         ScrollOffset+=(Movement*delta);
-
     }
 }

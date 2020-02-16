@@ -1,0 +1,30 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://image/0x72/frames/coin_anim_f2.png" type="Texture" id=1]
+[ext_resource path="res://image/0x72/frames/coin_anim_f1.png" type="Texture" id=2]
+[ext_resource path="res://image/0x72/frames/coin_anim_f0.png" type="Texture" id=3]
+[ext_resource path="res://image/0x72/frames/coin_anim_f3.png" type="Texture" id=4]
+[ext_resource path="res://Bonus/Coin.cs" type="Script" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 2 ), ExtResource( 1 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 8.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 2.76199
+height = 2.58096
+
+[node name="Coin" type="Area2D"]
+scale = Vector2( 1.5, 1.5 )
+script = ExtResource( 5 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 0.5 )
+shape = SubResource( 2 )

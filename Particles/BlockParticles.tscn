@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Particles/BlockParticles.cs" type="Script" id=1]
+[ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_platform_center.png" type="Texture" id=2]
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+z_index = -2000
+z_as_relative = false
+emitting = false
+amount = 2
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+draw_order = 1
+texture = ExtResource( 2 )
+emission_shape = 1
+emission_sphere_radius = 6.71
+direction = Vector2( 0, -1 )
+spread = 49.58
+gravity = Vector2( 0, 180 )
+initial_velocity = 59.74
+angular_velocity = 720.0
+angular_velocity_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 0.25
+color = Color( 0.929412, 0.898039, 0.890196, 1 )
+script = ExtResource( 1 )
+[connection signal="tree_entered" from="." to="." method="_enteredTree" flags=3]

@@ -25,14 +25,3 @@ texture = ExtResource( 3 )
 
 [node name="terrain_platform_center" type="Sprite" parent="."]
 texture = ExtResource( 2 )
-
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-position = Vector2( 9.53674e-07, -1 )
-scale = Vector2( 2.4, 0.9 )
-
-[node name="Tween" type="Tween" parent="."]
-repeat = true
-playback_process_mode = 0
-playback/repeat = true
-[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered" flags=6]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
