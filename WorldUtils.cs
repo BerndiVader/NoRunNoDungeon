@@ -23,8 +23,8 @@ public static class WorldUtils
 
     public static void quit() 
     {
-        if(world.cachedLevel!=null) world.cachedLevel.Free();
-        world.GetTree().Quit();
+        if(world.cachedLevel!=null) world.cachedLevel.CallDeferred("free");
+        world.GetTree().CallDeferred("quit");
     }
     
 }

@@ -6,9 +6,10 @@ public class Platform : StaticBody2D
     protected float damage=1f;
     protected float health=1f;
     protected bool falling=false;
-    protected Vector2 startPosition;
-    
+    protected Vector2 startPosition,lastPosition;
     protected VisibilityNotifier2D visibleNotifier;
+
+    public Vector2 CurrentSpeed;
 
 
     public override void _Ready()
@@ -25,6 +26,10 @@ public class Platform : StaticBody2D
         visibleNotifier.Connect("screen_entered",this,nameof(enteredScreen));
         visibleNotifier.Connect("screen_exited",this,nameof(exitedScreen));
         CallDeferred("add_child",visibleNotifier);
+
+        AddToGroup("Platforms");
+
+        lastPosition=Position;
     }
 
     public float collide(float damage) 
@@ -48,6 +53,12 @@ public class Platform : StaticBody2D
             SetPhysicsProcess(false);
             CallDeferred("queue_free");
         }
+    }
+
+    public override void _PhysicsProcess(float delta)
+    {
+        CurrentSpeed=(Position-lastPosition)/delta;
+        lastPosition=Position;
     }
 
 }

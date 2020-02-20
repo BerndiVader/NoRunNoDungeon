@@ -29,8 +29,6 @@ public class Player : KinematicBody2D
     float slopeAngle=0f;
     Vector2 lastVelocity=new Vector2(0f,0f);
 
-    public float lastFallingSpeed=0f;
-
     AnimatedSprite animationController;
     CollisionShape2D collisionController;
 
@@ -40,7 +38,6 @@ public class Player : KinematicBody2D
         collisionController=(CollisionShape2D)this.GetNode("CollisionShape2D");
         animationController.Play(ANIM_RUN);
         this.AddToGroup("Players");
-
         ZIndex=1;
     }
 
@@ -52,11 +49,13 @@ public class Player : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
+
         if(world.state==Gamestate.SCENE_CHANGED||world.state==Gamestate.RESTART) return;
         Vector2 force=new Vector2(0,GRAVITY);
-        bool left=Input.IsKeyPressed((int)KeyList.A);
-        bool right=Input.IsKeyPressed((int)KeyList.D);
-        bool jump=Input.IsKeyPressed((int)KeyList.Up);
+
+        bool left=world.input.getLeft();
+        bool right=world.input.getRight();
+        bool jump=world.input.getJump();
 
         bool stop=true;
 
@@ -70,7 +69,7 @@ public class Player : KinematicBody2D
         } 
         else if(right)
         {
-            if(velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED) 
+            if(velocity.x>=-(WALK_MIN_SPEED)&&velocity.x<(WALK_MIN_SPEED)) 
             {
                 force.x+=WALK_FORCE;
                 stop=false;
@@ -87,9 +86,7 @@ public class Player : KinematicBody2D
             velocity.x=vLen*vSign;
         }
 
-        if(velocity.y!=0) lastFallingSpeed=velocity.y;
-
-        velocity+=GetFloorVelocity()*delta;
+        velocity-=GetFloorVelocity()*delta;
         velocity+=force*delta;
 
         if(justJumped)
@@ -100,17 +97,8 @@ public class Player : KinematicBody2D
         } 
         else 
         {
-            Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0,10);
+            Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0f,10f);
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
-        }
-
-        if(GetSlideCount()>0) 
-        {
-            for(int i=0;i<GetSlideCount();i++)
-            {
-                KinematicCollision2D collision=GetSlideCollision(i);
-            }
-
         }
 
         if(IsOnCeiling()) 
@@ -141,7 +129,7 @@ public class Player : KinematicBody2D
         {
             if(isOnSlope()) 
             {
-                if(slopeAngle<0) 
+                if(slopeAngle<0f) 
                 {
                     velocity.x+=100;
                 } 
@@ -158,9 +146,9 @@ public class Player : KinematicBody2D
         onAirTime+=delta;
         prevJumpPressed=jump;
 
-        if(Position.y>320f||Position.x<-20f) 
+        if(Position.y>320f||Position.x<-20f||Position.x>520f) 
         {
-            world.restartGame();
+            world.restartGame(true);
         }
 
         lastVelocity=velocity;
@@ -178,7 +166,7 @@ public class Player : KinematicBody2D
         lastVelocity=new Vector2(0f,0f);        
     }
 
-    public bool isOnSlope() 
+    public bool isOnSlope()
     {
         int count=GetSlideCount();
         ulong id=world.level.GetInstanceId();

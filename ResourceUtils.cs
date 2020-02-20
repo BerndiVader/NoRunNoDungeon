@@ -12,23 +12,37 @@ public static class ResourceUtils
     public static List<PackedScene> particles;
     public static PackedScene background;
     public static List<Texture> bgTextures;
+    public static PackedScene touch;
+    public static PackedScene buttons;
+
+    public static bool isMobile;
 
     public static void Init() 
     {
+
+        isMobile=OS.GetName().ToLower().Equals("android");
+
         levels=new List<PackedScene>();
         enemies=new List<PackedScene>();
         tilesets=new List<TileSet>();
         bgTextures=new List<Texture>();
         particles=new List<PackedScene>();
 
+        if(isMobile)
+        {
+            touch=(PackedScene)ResourceLoader.Load("res://Touch.tscn");
+            buttons=(PackedScene)ResourceLoader.Load("res://Buttons.tscn");
+        }
+
         world=(PackedScene)ResourceLoader.Load("res://World.tscn");
         player=(PackedScene)ResourceLoader.Load("res://Player.tscn");
         background=(PackedScene)ResourceLoader.Load("res://Background.tscn");
 
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
 
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset1.tres"));
 

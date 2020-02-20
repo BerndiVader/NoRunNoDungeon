@@ -22,13 +22,13 @@ public class Bonus : Area2D
         visibleNotifier.Connect("screen_exited",this,nameof(_onScreenExited));
     }
 
-    public void _onScreenEntered() 
+    void _onScreenEntered() 
     {
         SetProcess(true);
         SetPhysicsProcess(true);
     }
 
-    public void _onScreenExited() 
+    void _onScreenExited() 
     {
         SetProcess(false);
         SetPhysicsProcess(false);

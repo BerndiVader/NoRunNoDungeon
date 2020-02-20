@@ -4,14 +4,18 @@
 [ext_resource path="res://level/Spikes.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 6.73017, 6.21408 )
+extents = Vector2( 6.95751, 5.26152 )
 
 [node name="Spikes" type="Area2D"]
+rotation = 1.5708
+scale = Vector2( -1, 1 )
 z_index = -1
 script = ExtResource( 2 )
+StaticElement = false
+MoveDirection = Vector2( 1, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.5, 1.5 )
+position = Vector2( -0.500007, 2.5 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]

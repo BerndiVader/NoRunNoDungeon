@@ -10,13 +10,18 @@ public class Spikes : Area2D
     [Export] float Speed=0.5f;
     [Export] int InDelay=1;
     [Export] int OutDelay=1;
+    [Export] float StartDelay=0.1f;
+    [Export] float ActOnDistance=-1f;
 
     VisibilityNotifier2D notifier;
     Tween tween;
+    Timer timer;
+
+    Vector2 Movement;
 
     Vector2 follow=new Vector2(0f,0f);
     bool reverse=false;
-
+    bool running;
 
     public override void _Ready()
     {
@@ -35,53 +40,94 @@ public class Spikes : Area2D
 
         tween.Connect("tween_all_completed",this,nameof(finishedTween));
 
-        MoveDirection=MoveDirection*MoveLength;
+        Movement=MoveDirection*MoveLength;
 
-        if(!StaticElement) initTween();
 
     }
 
     public override void _PhysicsProcess(float delta)
     {
-    }
+        Player player=WorldUtils.world.player;
+        Vector2 gamePos=Position+WorldUtils.world.level.Position;
+        float distance=player.Position.DistanceTo(gamePos);
 
+        if(distance<ActOnDistance)
+        {
+
+            Vector2 direction=(gamePos-player.Position).Normalized();
+            float angle=Mathf.Rad2Deg(direction.Angle());
+
+            float dot=direction.Dot(MoveDirection);
+            float angleToNode=Mathf.Rad2Deg(Mathf.Acos(dot));
+            if(angleToNode<90) 
+            {
+                SetPhysicsProcess(false);
+                InDelay=0;
+                timer=new Timer();
+                timer.OneShot=true;
+                AddChild(timer);
+                timer.Connect("timeout",this,nameof(timedOut));
+                timer.Start(StartDelay);
+            }
+        }
+    }
 
     void initTween()
     {
-        tweenIn();
-        tween.Start();
+        if(ActOnDistance<0f)
+        {
+            timer=new Timer();
+            timer.OneShot=true;
+            AddChild(timer);
+            timer.Connect("timeout",this,nameof(timedOut));
+            timer.Start(StartDelay);
+        }
+        else
+        {
+            SetPhysicsProcess(true);
+        }
     }
 
-    public void tweenOut(Vector2 delta)
+    void timedOut() 
+    {
+        tweenIn();
+        tween.Start();
+        timer.QueueFree();
+    }
+
+    void tweening(Vector2 delta)
     {
         Position=delta;
     }
 
-    public void finishedTween()
+    void finishedTween()
     {
         reverse=!reverse;
-        if(reverse) {
+        if(reverse) 
+        {
             tweenOut();
-        } else {
+        } 
+        else 
+        {
             tweenIn();
         }
+
         tween.Start();
     }
 
     void tweenIn()
     {
-        tween.InterpolateMethod(this,"tweenOut",Position,Position-MoveDirection,Speed,Tween.TransitionType.Bounce,Tween.EaseType.Out,InDelay);
+        tween.InterpolateMethod(this,"tweening",Position,Position-Movement,Speed,Tween.TransitionType.Bounce,Tween.EaseType.Out,InDelay);
     }
 
     void tweenOut()
     {
-        tween.InterpolateMethod(this,"tweenOut",Position,Position+MoveDirection,Speed,Tween.TransitionType.Linear,Tween.EaseType.Out,OutDelay);
+        tween.InterpolateMethod(this,"tweening",Position,Position+Movement,Speed,Tween.TransitionType.Linear,Tween.EaseType.Out,OutDelay);
     }
-
 
     public void enteredScreen()
     {
-        SetPhysicsProcess(true);
+        if(!StaticElement) initTween();
     }
 
     public void exitedScreen()
@@ -94,7 +140,7 @@ public class Spikes : Area2D
     {
         if(node.IsInGroup("Players")) 
         {
-            WorldUtils.world.CallDeferred("restartGame");
+            WorldUtils.world.CallDeferred("restartGame",true);
         }
 
     }

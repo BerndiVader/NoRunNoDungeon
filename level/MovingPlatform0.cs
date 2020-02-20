@@ -15,7 +15,6 @@ public class MovingPlatform0 : Platform
     int maxLength;
     int currentLength;
     Vector2 dir,startPos;
-    float currentShrink;
 
     CollisionShape2D collisionController;
 
@@ -27,8 +26,6 @@ public class MovingPlatform0 : Platform
         maxLength=Length*16;
         currentLength=maxLength/2;
         startPos-=dir*currentLength;
-        currentShrink=0f;
-
     }
 
     public override void _PhysicsProcess(float delta)
@@ -52,7 +49,9 @@ public class MovingPlatform0 : Platform
             Position+=dir*(Speed*delta);
             currentLength++;
         }
-        Position+=new Vector2(0,currentShrink*delta);
+
+        base._PhysicsProcess(delta);
+
     }
 
 }

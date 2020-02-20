@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Renderer : CanvasModulate
+public class Renderer : Camera2D
 {
     [Export] public double ShakeMax=6d;
     public double shake;
@@ -13,7 +13,7 @@ public class Renderer : CanvasModulate
 
     public override void _Process(float delta)
     {
-        applyShake();
+        if(shake!=0d) applyShake();
     }
 
     private void applyShake()
