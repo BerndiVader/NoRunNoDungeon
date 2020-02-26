@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public abstract class AbstractInput
+public abstract class InputController
 {
     public abstract bool getLeft();
     public abstract bool getRight();

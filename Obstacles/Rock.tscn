@@ -1,0 +1,43 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://image/0x72/frames/chest_mimic_open_anim_f1.png" type="Texture" id=1]
+[ext_resource path="res://image/0x72/frames/chest_mimic_open_anim_f2.png" type="Texture" id=2]
+[ext_resource path="res://image/0x72/frames/chest_mimic_open_anim_f0.png" type="Texture" id=3]
+[ext_resource path="res://Obstacles/Rock.cs" type="Script" id=4]
+[ext_resource path="res://level/SpikesDown.tscn" type="PackedScene" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8.05464, 6.48893 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 7.8732, 6.41868 )
+
+[node name="Rock" type="KinematicBody2D"]
+collision_layer = 4
+collision_mask = 6
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 1 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 0, 1 )
+shape = SubResource( 3 )
+
+[node name="Spikes" parent="." instance=ExtResource( 5 )]
+position = Vector2( -0.594223, 7.05683 )
+StaticElement = true

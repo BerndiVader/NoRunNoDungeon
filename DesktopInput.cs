@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class DesktopInput : AbstractInput
+public class DesktopInput : InputController
 {
 
     public override bool getLeft()

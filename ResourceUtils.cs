@@ -38,11 +38,7 @@ public static class ResourceUtils
         player=(PackedScene)ResourceLoader.Load("res://Player.tscn");
         background=(PackedScene)ResourceLoader.Load("res://Background.tscn");
 
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level.tscn"));
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
 
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset1.tres"));
 
@@ -53,6 +49,18 @@ public static class ResourceUtils
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/BlockParticles.tscn"));
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/CoinTakenParticles.tscn"));
 
+    }
+
+    public static InputController getInputController()
+    {
+        if(isMobile)
+        {
+            return new MobileInput();
+        }
+        else
+        {
+            return new DesktopInput();
+        }
     }
 
 }

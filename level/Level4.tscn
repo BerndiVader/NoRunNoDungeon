@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
-[ext_resource path="res://level/FallingPlatform1x1.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Bonus/PhysicsCoin.tscn" type="PackedScene" id=4]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -15,45 +13,3 @@ script = ExtResource( 2 )
 
 [node name="StartingPoint" type="Position2D" parent="."]
 position = Vector2( 64, 168 )
-
-[node name="FallingPlatform" parent="." instance=ExtResource( 3 )]
-position = Vector2( 968, 280 )
-
-[node name="FallingPlatform2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 984, 280 )
-
-[node name="FallingPlatform3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1016, 280 )
-
-[node name="FallingPlatform4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1032, 280 )
-
-[node name="FallingPlatform5" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1048, 280 )
-
-[node name="FallingPlatform6" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1064, 280 )
-
-[node name="FallingPlatform7" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1080, 280 )
-
-[node name="FallingPlatform8" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1112, 280 )
-
-[node name="Coin" parent="." instance=ExtResource( 4 )]
-position = Vector2( 944, -24 )
-
-[node name="Coin2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 976, -16 )
-
-[node name="Coin3" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1000, -24 )
-
-[node name="Coin4" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1032, -16 )
-
-[node name="Coin5" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1064, -16 )
-
-[node name="Coin6" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1096, -16 )

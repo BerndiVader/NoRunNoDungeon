@@ -5,34 +5,21 @@ public class Bonus : Area2D
 {
     protected AnimatedSprite animationController;
     protected CollisionShape2D collisionController;
-    protected VisibilityNotifier2D visibleNotifier;
+    protected VisibilityNotifier2D notifier2D;
+
+    protected Node2D parent;
 
     public override void _Ready()
     {
-        SetProcess(false);
-        SetPhysicsProcess(false);
-        SetProcessInput(false);
-
+        parent=(Node2D)GetParent();
+        
         animationController=(AnimatedSprite)this.GetNode("AnimatedSprite");
         collisionController=(CollisionShape2D)this.GetNode("CollisionShape2D");
         animationController.Play("default");
-        visibleNotifier=new VisibilityNotifier2D();
-        CallDeferred("add_child",visibleNotifier);
-        visibleNotifier.Connect("screen_entered",this,nameof(_onScreenEntered));
-        visibleNotifier.Connect("screen_exited",this,nameof(_onScreenExited));
-    }
 
-    void _onScreenEntered() 
-    {
-        SetProcess(true);
-        SetPhysicsProcess(true);
-    }
-
-    void _onScreenExited() 
-    {
-        SetProcess(false);
-        SetPhysicsProcess(false);
-        CallDeferred("queue_free");
+        notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",parent,"exitedScreen");
+        AddChild(notifier2D);
     }
 
 }

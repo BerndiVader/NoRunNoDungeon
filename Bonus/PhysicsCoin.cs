@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class PhysicsCoin : PhysicsBonus
+public class PhysicsCoin : PhysicsObject
 {
     AnimatedSprite animationController;
     Area2D area2D;
@@ -29,9 +29,9 @@ public class PhysicsCoin : PhysicsBonus
         if(body.IsInGroup("Players")) 
         {
             CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[1].Instance();
-            particles.Position=Position;
+            particles.Position=parent.Position+Position;
             WorldUtils.world.level.AddChild(particles);
-            CallDeferred("queue_free");
+            parent.CallDeferred("queue_free");
         }
     }
 

@@ -4,7 +4,6 @@ using System;
 public class FallingRocks : StaticBody2D
 {
     [Export] public float ActivationDistance=100f;
-    protected VisibilityNotifier2D notifier;
     protected Area2D area,groundControl;
     protected int state=0;
     protected float GRAVITY=600f;
@@ -13,20 +12,19 @@ public class FallingRocks : StaticBody2D
     protected float ShakeMax=0.6f;
     bool colliding=false;
     Platform collider;
+    Placeholder parent;
+
+    VisibilityNotifier2D notifier2D;
 
 
 
     public override void _Ready()
     {
+        parent=(Placeholder)GetParent();
 
-        SetProcess(false);
-        SetPhysicsProcess(false);
-        SetProcessInput(false);
-
-        notifier=new VisibilityNotifier2D();
-        notifier.Connect("screen_entered",this,nameof(enteredScreen));
-        notifier.Connect("screen_exited",this,nameof(exitedScreen));
-        AddChild(notifier);
+        notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",parent,"exitedScreen");
+        AddChild(notifier2D);
 
         SetCollisionLayerBit(1,true);     
 
@@ -47,7 +45,7 @@ public class FallingRocks : StaticBody2D
         {
             case 0:
                 Player player=WorldUtils.world.player;
-                Vector2 gamePos=Position+WorldUtils.world.level.Position;
+                Vector2 gamePos=Position+parent.Position+WorldUtils.world.level.Position;
                 gamePos.y=player.Position.y;
                 float distance=player.Position.DistanceTo(gamePos);
                 if(distance<ActivationDistance) state=1;
@@ -68,17 +66,6 @@ public class FallingRocks : StaticBody2D
 
         applyShake();
 
-    }
-
-    void enteredScreen()
-    {
-        SetPhysicsProcess(true);
-    }
-
-    void exitedScreen() 
-    {
-        SetPhysicsProcess(false);
-        CallDeferred("queue_free");
     }
 
     void onBodyEntered(Node2D body)

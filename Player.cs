@@ -69,7 +69,7 @@ public class Player : KinematicBody2D
         } 
         else if(right)
         {
-            if(velocity.x>=-(WALK_MIN_SPEED)&&velocity.x<(WALK_MIN_SPEED)) 
+            if(velocity.x>=-(WALK_MIN_SPEED*0.3f)&&velocity.x<(WALK_MAX_SPEED*0.3f)) 
             {
                 force.x+=WALK_FORCE;
                 stop=false;
@@ -149,7 +149,7 @@ public class Player : KinematicBody2D
         if(Position.y>320f||Position.x<-20f||Position.x>520f) 
         {
             world.restartGame(true);
-        }
+                                      }
 
         lastVelocity=velocity;
     }

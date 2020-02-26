@@ -13,7 +13,7 @@ public class World : Node
     public Player player;
     public Renderer renderer;
 
-    public AbstractInput input;
+    public InputController input;
 
     int currentLevel,nextLevel;
 
@@ -32,14 +32,7 @@ public class World : Node
         WorldUtils.mergeMaps(level,cachedLevel);
         player=(Player)ResourceUtils.player.Instance();
 
-        if(ResourceUtils.isMobile)
-        {
-            input=new MobileInput();
-        }
-        else
-        {
-            input=new DesktopInput();
-        }
+        input=ResourceUtils.getInputController();
 
         OS.WindowSize=new Vector2(1024,576);
 
@@ -87,8 +80,8 @@ public class World : Node
     {
         if(Input.IsKeyPressed((int)KeyList.Escape)) WorldUtils.quit();
 
-        level.MoveLocalX((level.direction.x*level.Speed)*delta,false); 
-        level.MoveLocalY((level.direction.y*level.Speed)*delta,false); 
+        level.MoveLocalX((level.direction.x*level.Speed)*delta,true); 
+        level.MoveLocalY((level.direction.y*level.Speed)*delta,true); 
 
         Vector2 position=level.Position;
 

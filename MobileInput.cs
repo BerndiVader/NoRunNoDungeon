@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class MobileInput : AbstractInput
+public class MobileInput : InputController
 {
 
     Touch touch;

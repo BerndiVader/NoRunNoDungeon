@@ -13,7 +13,8 @@ public class Spikes : Area2D
     [Export] float StartDelay=0.1f;
     [Export] float ActOnDistance=-1f;
 
-    VisibilityNotifier2D notifier;
+    VisibilityNotifier2D notifier2D;
+
     Tween tween;
     Timer timer;
 
@@ -23,22 +24,27 @@ public class Spikes : Area2D
     bool reverse=false;
     bool running;
 
+    Node2D parent;
+
     public override void _Ready()
     {
+        if(GetParent().Name=="Placeholder")
+        {
+            parent=(Placeholder)GetParent();
+            notifier2D=new VisibilityNotifier2D();
+            notifier2D.Connect("screen_exited",parent,"exitedScreen");
+            AddChild(notifier2D);
+        }
+        else
+        {
+            parent=(Node2D)GetParent();
+        }
 
-        SetProcess(false);
-        SetPhysicsProcess(false);
-        SetProcessInput(false);
-
-        notifier=(VisibilityNotifier2D)GetNode("Notifier");
-        tween=(Tween)GetNode("Tween");
-
-        notifier.Connect("screen_entered",this,nameof(enteredScreen));
-        notifier.Connect("screen_exited",this,nameof(exitedScreen));
+        tween=new Tween();
+        tween.Connect("tween_all_completed",this,nameof(finishedTween));
+        AddChild(tween);
 
         Connect("body_entered",this,nameof(enteredBody));
-
-        tween.Connect("tween_all_completed",this,nameof(finishedTween));
 
         Movement=MoveDirection*MoveLength;
 
@@ -48,7 +54,7 @@ public class Spikes : Area2D
     public override void _PhysicsProcess(float delta)
     {
         Player player=WorldUtils.world.player;
-        Vector2 gamePos=Position+WorldUtils.world.level.Position;
+        Vector2 gamePos=Position+parent.Position+WorldUtils.world.level.Position;
         float distance=player.Position.DistanceTo(gamePos);
 
         if(distance<ActOnDistance)
@@ -125,15 +131,9 @@ public class Spikes : Area2D
         tween.InterpolateMethod(this,"tweening",Position,Position+Movement,Speed,Tween.TransitionType.Linear,Tween.EaseType.Out,OutDelay);
     }
 
-    public void enteredScreen()
+    public override void _EnterTree()
     {
         if(!StaticElement) initTween();
-    }
-
-    public void exitedScreen()
-    {
-        SetPhysicsProcess(false);
-        CallDeferred("queue_free");
     }
 
     public void enteredBody(Node node)

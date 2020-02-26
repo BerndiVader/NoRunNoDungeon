@@ -1,23 +1,22 @@
 using Godot;
 using System;
 
-public class PhysicsBonus : KinematicBody2D
+public class PhysicsObject : KinematicBody2D
 {
     protected float GRAVITY=300f;
-    protected VisibilityEnabler2D notifier;
+    protected VisibilityNotifier2D notifier2D;
 
     protected Vector2 velocity=new Vector2(0f,0f);
 
+    protected Placeholder parent;
+
     public override void _Ready()
     {
-        SetPhysicsProcess(false);
-        SetProcess(false);
-        SetProcessInput(false);
+        parent=(Placeholder)GetParent();
 
-        notifier=new VisibilityEnabler2D();
-        CallDeferred("add_child",notifier);
-        notifier.Connect("screen_entered",this,nameof(_onScreenEntered));
-        notifier.Connect("screen_exited",this,nameof(_onScreenExited));
+        notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",parent,"exitedScreen");
+        AddChild(notifier2D);
     }
 
     public override void _PhysicsProcess(float delta)
@@ -32,7 +31,8 @@ public class PhysicsBonus : KinematicBody2D
         if(collision!=null) 
         {
             Node2D node=(Node2D)collision.Collider;
-            velocity=velocity.Bounce(collision.Normal)*0.5f;
+            float friction=node.IsInGroup("Platforms")?0.5f:0.7f;
+            velocity=velocity.Bounce(collision.Normal)*friction;
 
             if(node.IsInGroup("Platforms"))
             {
@@ -42,16 +42,5 @@ public class PhysicsBonus : KinematicBody2D
 
         }
     }
-
-    void _onScreenEntered() 
-    {
-        SetPhysicsProcess(true);
-    }
-
-    void _onScreenExited() 
-    {
-        SetPhysicsProcess(false);
-        CallDeferred("queue_free");
-    }    
 
 }

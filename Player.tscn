@@ -24,13 +24,12 @@ animations = [ {
 extents = Vector2( 4.07659, 6.09739 )
 
 [node name="Player" type="KinematicBody2D"]
-position = Vector2( 46, 24 )
 collision_mask = 3
 script = ExtResource( 1 )
 GRAVITY = 700.0
 WALK_FORCE = 1300.0
-WALK_MIN_SPEED = 120.0
-WALK_MAX_SPEED = 120.0
+WALK_MIN_SPEED = 119.0
+WALK_MAX_SPEED = 119.0
 JUMP_SPEED = 220.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

@@ -14,9 +14,9 @@ public class Coin : Bonus
         if(body.IsInGroup("Players")) 
         {
             CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[1].Instance();
-            particles.Position=Position;
+            particles.Position=parent.Position+Position;
             WorldUtils.world.level.AddChild(particles);
-            CallDeferred("queue_free");
+            parent.CallDeferred("queue_free");
         }
     }
 

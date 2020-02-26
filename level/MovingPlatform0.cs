@@ -13,7 +13,6 @@ public class MovingPlatform0 : Platform
     [Export] public float Shrink=0f;
 
     int maxLength;
-    int currentLength;
     Vector2 dir,startPos;
 
     CollisionShape2D collisionController;
@@ -24,30 +23,29 @@ public class MovingPlatform0 : Platform
         dir=Direction.Normalized();
         startPos=new Vector2(Position);
         maxLength=Length*16;
-        currentLength=maxLength/2;
-        startPos-=dir*currentLength;
     }
 
     public override void _PhysicsProcess(float delta)
     {
+        float currentLength=Position.Length()-startPos.Length();
 
         if(!Linear)
         {
-            if(Mathf.Abs(Mathf.Abs((startPos+dir*maxLength).Length())-Position.Length())<=LerpFactor) 
+            if(currentLength>=maxLength)
             {
                 dir*=-1;
             }
-            Position=Position.LinearInterpolate(startPos+dir*maxLength,delta*Speed);
+            float speed=Mathf.Lerp(currentLength,maxLength,LerpFactor);
+            
+            Position+=dir*(speed*delta);
         } 
         else 
         {
-            if(currentLength>=maxLength) 
+            if(currentLength>=maxLength)
             {
-                currentLength=0;
                 dir*=-1;
             }
             Position+=dir*(Speed*delta);
-            currentLength++;
         }
 
         base._PhysicsProcess(delta);

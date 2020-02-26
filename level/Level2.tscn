@@ -1,11 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
-[ext_resource path="res://level/MovingPlatform2x2.tscn" type="PackedScene" id=3]
-[ext_resource path="res://level/MovingPlatform3x3.tscn" type="PackedScene" id=4]
-[ext_resource path="res://level/Spikes.tscn" type="PackedScene" id=5]
-
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -17,24 +13,3 @@ script = ExtResource( 2 )
 
 [node name="StartingPoint" type="Position2D" parent="."]
 position = Vector2( 69.665, 251.849 )
-
-[node name="MovingPlatform0" parent="." instance=ExtResource( 3 )]
-position = Vector2( 535, 137.407 )
-Direction = Vector2( 0, 1 )
-Speed = 1.0
-MaxSpeed = 1.0
-Length = 4
-Linear = false
-
-[node name="MovingPlatform1" parent="." instance=ExtResource( 4 )]
-position = Vector2( 824, 200 )
-Direction = Vector2( -1, 0 )
-
-[node name="SpikesStatic" parent="." instance=ExtResource( 5 )]
-position = Vector2( 521, 178 )
-
-[node name="SpikesStatic2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 537, 173 )
-
-[node name="SpikesStatic3" parent="." instance=ExtResource( 5 )]
-position = Vector2( 553, 176 )

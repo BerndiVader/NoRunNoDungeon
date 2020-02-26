@@ -64,9 +64,9 @@ public class FallingPlatform : Platform
             if(body.IsInGroup("Level")) 
             {
                     BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[0].Instance();
-                    blockBreakParticle.Position=Position;
+                    blockBreakParticle.Position=parent.Position+Position;
                     WorldUtils.world.level.CallDeferred("add_child",blockBreakParticle);
-                    CallDeferred("queue_free");
+                    parent.CallDeferred("queue_free");
                     return;
             }
 
@@ -74,9 +74,9 @@ public class FallingPlatform : Platform
             if(player.Position.y>Position.y) 
             {
                 BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[0].Instance();
-                blockBreakParticle.Position=Position;
+                blockBreakParticle.Position=parent.Position+Position;
                 WorldUtils.world.level.CallDeferred("add_child",blockBreakParticle);
-                CallDeferred("queue_free");
+                parent.CallDeferred("queue_free");
             }
         }
     }

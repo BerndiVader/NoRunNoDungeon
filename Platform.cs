@@ -7,25 +7,24 @@ public class Platform : StaticBody2D
     protected float health=1f;
     protected bool falling=false;
     protected Vector2 startPosition,lastPosition;
-    protected VisibilityNotifier2D visibleNotifier;
+    protected Placeholder parent;
+    protected VisibilityNotifier2D notifier2D;
 
     public Vector2 CurrentSpeed;
 
 
     public override void _Ready()
     {
-        SetProcess(false);
-        SetPhysicsProcess(false);
-        SetProcessInput(false);
+        parent=(Placeholder)GetParent();
+        
         startPosition=Position;
 
         SetCollisionLayerBit(0,false);
         SetCollisionLayerBit(1,true);     
 
-        visibleNotifier=new VisibilityNotifier2D();
-        visibleNotifier.Connect("screen_entered",this,nameof(enteredScreen));
-        visibleNotifier.Connect("screen_exited",this,nameof(exitedScreen));
-        CallDeferred("add_child",visibleNotifier);
+        notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",parent,"exitedScreen");
+        AddChild(notifier2D);
 
         AddToGroup("Platforms");
 
@@ -37,22 +36,6 @@ public class Platform : StaticBody2D
         health-=damage;
         if(health<=0f) QueueFree();
         return this.damage;
-    }
-
-    public void enteredScreen() 
-    {
-        SetProcess(true);
-        SetPhysicsProcess(true);
-    }
-
-    public void exitedScreen()
-    {
-        if(!IsQueuedForDeletion())
-        {
-            SetProcess(false);
-            SetPhysicsProcess(false);
-            CallDeferred("queue_free");
-        }
     }
 
     public override void _PhysicsProcess(float delta)
