@@ -16,6 +16,8 @@ extents = Vector2( 13.6747, 16 )
 extents = Vector2( 10.1343, 1.39079 )
 
 [node name="Rock" type="StaticBody2D"]
+collision_layer = 16
+collision_mask = 0
 script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -39,11 +41,14 @@ position = Vector2( 8, -8 )
 texture = ExtResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 2 )
 
 [node name="Area2D2" type="Area2D" parent="."]
+collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
 position = Vector2( 0, 15 )

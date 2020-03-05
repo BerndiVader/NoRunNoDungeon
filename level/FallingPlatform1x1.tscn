@@ -10,6 +10,8 @@ extents = Vector2( 8.02843, 6.0266 )
 extents = Vector2( 7.28672, 2.19438 )
 
 [node name="FallingPlatform" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource( 1 )
 
 [node name="terrain_platform_center" type="Sprite" parent="."]
@@ -20,6 +22,8 @@ position = Vector2( 0, -1 )
 shape = SubResource( 1 )
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 51
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 0, -6 )

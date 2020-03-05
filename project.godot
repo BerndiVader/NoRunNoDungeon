@@ -37,10 +37,14 @@ key_w={
  ]
 }
 
-[physics]
+[layer_names]
 
-common/physics_fps=120
-2d/cell_size=16
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Level"
+2d_physics/layer_3="Platform"
+2d_physics/layer_4="Bonus"
+2d_physics/layer_5="Obstacle"
+2d_physics/layer_6="Enemie"
 
 [rendering]
 

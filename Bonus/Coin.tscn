@@ -20,6 +20,7 @@ height = 2.58096
 
 [node name="Coin" type="Area2D"]
 scale = Vector2( 1.5, 1.5 )
+collision_layer = 8
 script = ExtResource( 5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

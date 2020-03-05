@@ -1,0 +1,6 @@
+c:\godot\nodungeon\.mono\temp\bin\Release\nodungeon.dll
+c:\godot\nodungeon\.mono\temp\bin\Release\nodungeon.pdb
+c:\godot\nodungeon\.mono\temp\obj\Release\nodungeon.csprojAssemblyReference.cache
+c:\godot\nodungeon\.mono\temp\obj\Release\nodungeon.csproj.CoreCompileInputs.cache
+c:\godot\nodungeon\.mono\temp\obj\Release\nodungeon.dll
+c:\godot\nodungeon\.mono\temp\obj\Release\nodungeon.pdb

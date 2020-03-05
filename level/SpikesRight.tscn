@@ -10,6 +10,7 @@ extents = Vector2( 6.95751, 5.26152 )
 rotation = 1.5708
 scale = Vector2( -1, 1 )
 z_index = -1
+collision_layer = 16
 script = ExtResource( 2 )
 StaticElement = false
 MoveDirection = Vector2( 1, 0 )

@@ -9,6 +9,7 @@ extents = Vector2( 6.78004, 5.08407 )
 [node name="Spikes" type="Area2D"]
 rotation = 3.14159
 z_index = -1
+collision_layer = 16
 script = ExtResource( 2 )
 StaticElement = false
 MoveDirection = Vector2( 0, -1 )

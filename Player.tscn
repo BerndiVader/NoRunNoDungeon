@@ -24,7 +24,7 @@ animations = [ {
 extents = Vector2( 4.07659, 6.09739 )
 
 [node name="Player" type="KinematicBody2D"]
-collision_mask = 3
+collision_mask = 54
 script = ExtResource( 1 )
 GRAVITY = 700.0
 WALK_FORCE = 1300.0

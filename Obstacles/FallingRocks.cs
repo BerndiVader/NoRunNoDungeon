@@ -26,8 +26,6 @@ public class FallingRocks : StaticBody2D
         notifier2D.Connect("screen_exited",parent,"exitedScreen");
         AddChild(notifier2D);
 
-        SetCollisionLayerBit(1,true);     
-
         area=(Area2D)GetNode("Area2D");
         area.Connect("body_entered",this,nameof(onBodyEntered));
         area.Connect("body_exited",this,nameof(onBodyExited));

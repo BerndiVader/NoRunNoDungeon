@@ -8,6 +8,7 @@ extents = Vector2( 6.73017, 6.21408 )
 
 [node name="Spikes" type="Area2D"]
 z_index = -1
+collision_layer = 16
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -26,13 +26,10 @@ public class PhysicsCoin : PhysicsObject
 
     public void onBodyEntered(Node body) 
     {
-        if(body.IsInGroup("Players")) 
-        {
-            CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[1].Instance();
-            particles.Position=parent.Position+Position;
-            WorldUtils.world.level.AddChild(particles);
-            parent.CallDeferred("queue_free");
-        }
+        CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[1].Instance();
+        particles.Position=parent.Position+Position;
+        WorldUtils.world.level.AddChild(particles);
+        parent.CallDeferred("queue_free");
     }
 
 }
