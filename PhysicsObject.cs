@@ -4,19 +4,24 @@ using System;
 public class PhysicsObject : KinematicBody2D
 {
     protected float GRAVITY=300f;
-    protected VisibilityNotifier2D notifier2D;
 
     protected Vector2 velocity=new Vector2(0f,0f);
-
     protected Placeholder parent;
+    protected VisibilityNotifier2D notifier2D;
 
     public override void _Ready()
     {
-        parent=(Placeholder)GetParent();
-
-        notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        AddChild(notifier2D);
+        if(GetParent().GetType().Name=="Placeholder")
+        {
+            parent=(Placeholder)GetParent();
+            parent.notifier2D.Connect("screen_exited",this,"exitedScreen");
+        }
+        else
+        {
+            notifier2D=new VisibilityNotifier2D();
+            AddChild(notifier2D);
+            notifier2D.Connect("screen_exited",this,"exitedScreen");
+        }
     }
 
     public override void _PhysicsProcess(float delta)
@@ -41,6 +46,28 @@ public class PhysicsObject : KinematicBody2D
             }
 
         }
+    }
+
+    public Vector2 getPosition()
+    {
+        return parent!=null?parent.Position+Position:Position;
+    }
+
+    public void _Free()
+    {
+        if(parent!=null)
+        {
+            parent.CallDeferred("queue_free");
+        }
+        else
+        {
+            CallDeferred("queue_free");
+        }
+    }
+
+    void exitedScreen()
+    {
+        CallDeferred("queue_free");
     }
 
 }

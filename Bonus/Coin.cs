@@ -6,15 +6,16 @@ public class Coin : Bonus
     public override void _Ready()
     {
         base._Ready();
-        Connect("body_entered",this,nameof(onBodyEntered));
+        Connect("body_entered",this,"enteredBody");
     }
 
-    public void onBodyEntered(Node body) 
+    public void enteredBody(Node body) 
     {
         CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[1].Instance();
-        particles.Position=parent.Position+Position;
+
+        particles.Position=getPosition();
         WorldUtils.world.level.AddChild(particles);
-        parent.CallDeferred("queue_free");
+        _Free();
     }
 
 }

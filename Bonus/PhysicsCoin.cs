@@ -27,9 +27,9 @@ public class PhysicsCoin : PhysicsObject
     public void onBodyEntered(Node body) 
     {
         CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[1].Instance();
-        particles.Position=parent.Position+Position;
+        particles.Position=getPosition();
         WorldUtils.world.level.AddChild(particles);
-        parent.CallDeferred("queue_free");
+        _Free();
     }
 
 }

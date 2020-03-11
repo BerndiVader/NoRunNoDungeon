@@ -8,6 +8,7 @@ public static class ResourceUtils
     public static PackedScene player;
     public static List<PackedScene> levels;
     public static List<PackedScene> enemies;
+    public static List<PackedScene> bullets;
     public static List<TileSet> tilesets;
     public static List<PackedScene> particles;
     public static PackedScene background;
@@ -27,6 +28,7 @@ public static class ResourceUtils
         tilesets=new List<TileSet>();
         bgTextures=new List<Texture>();
         particles=new List<PackedScene>();
+        bullets=new List<PackedScene>();
 
         if(isMobile)
         {
@@ -39,6 +41,9 @@ public static class ResourceUtils
         background=(PackedScene)ResourceLoader.Load("res://Background.tscn");
 
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
 
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset1.tres"));
 
@@ -48,6 +53,8 @@ public static class ResourceUtils
 
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/BlockParticles.tscn"));
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/CoinTakenParticles.tscn"));
+
+        bullets.Add((PackedScene)ResourceLoader.Load("res://Bullets/TestBullet.tscn"));
 
     }
 

@@ -7,27 +7,28 @@ public class Platform : StaticBody2D
     protected float health=1f;
     protected bool falling=false;
     protected Vector2 startPosition,lastPosition;
-    protected Placeholder parent;
     protected VisibilityNotifier2D notifier2D;
+    protected Placeholder parent;
 
     public Vector2 CurrentSpeed;
 
 
     public override void _Ready()
     {
-        parent=(Placeholder)GetParent();
+        if(GetParent().GetType().Name=="Placeholder")
+        {
+            parent=(Placeholder)GetParent();
+            parent.notifier2D.Connect("screen_exited",this,"exitedScreen");
+        }
+        else
+        {
+            notifier2D=new VisibilityNotifier2D();
+            notifier2D.Connect("screen_exited",this,"exitedScreen");
+            AddChild(notifier2D);
+        }
         
         startPosition=Position;
-
-        SetCollisionLayerBit(0,false);
-        SetCollisionLayerBit(1,true);     
-
-        notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        AddChild(notifier2D);
-
         AddToGroup("Platforms");
-
         lastPosition=Position;
     }
 
@@ -42,6 +43,28 @@ public class Platform : StaticBody2D
     {
         CurrentSpeed=(Position-lastPosition)/delta;
         lastPosition=Position;
+    }
+
+    public Vector2 getPosition()
+    {
+        return parent!=null?parent.Position+Position:Position;
+    }
+
+    public void _Free()
+    {
+        if(parent!=null)
+        {
+            parent.CallDeferred("queue_free");
+        }
+        else
+        {
+            CallDeferred("queue_free");
+        }
+    }
+
+    void exitedScreen()
+    {
+        CallDeferred("queue_free");
     }
 
 }

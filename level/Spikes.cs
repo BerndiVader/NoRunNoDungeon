@@ -28,12 +28,12 @@ public class Spikes : Area2D
 
     public override void _Ready()
     {
-        if(GetParent().Name=="Placeholder")
+        if(GetParent().GetType().Name=="Placeholder")
         {
             parent=(Placeholder)GetParent();
             notifier2D=new VisibilityNotifier2D();
-            notifier2D.Connect("screen_exited",parent,"exitedScreen");
             AddChild(notifier2D);
+            notifier2D.Connect("screen_exited",parent,"exitedScreen");
         }
         else
         {

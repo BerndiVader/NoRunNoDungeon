@@ -8,9 +8,6 @@ public class Level : TileMap
     public int mapLength;
     public int pixelLength;
 
-    bool firstloop=true,secondloop=false;
-    int childcount=0;
-
     public Position2D startingPoint;
 
     public override void _Ready()
@@ -18,7 +15,6 @@ public class Level : TileMap
         SetProcess(false);
         SetPhysicsProcess(false);
         SetProcessInput(false);
-        SetCollisionLayerBit(1,true);
 
         mapLength=((int)GetUsedRect().End.x)-1;
         pixelLength=mapLength*(int)this.CellSize.x;
@@ -26,15 +22,8 @@ public class Level : TileMap
         TileSet=WorldUtils.world.tileSet;
 
         Connect("tree_exiting",this,nameof(freeLevel));
-
         ZIndex=0;
-
         AddToGroup("Level");
-
-    }
-
-    public override void _EnterTree()
-    {
     }
 
     public void freeLevel() 

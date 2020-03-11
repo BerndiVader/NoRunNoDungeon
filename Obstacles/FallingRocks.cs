@@ -14,17 +14,10 @@ public class FallingRocks : StaticBody2D
     Platform collider;
     Placeholder parent;
 
-    VisibilityNotifier2D notifier2D;
-
-
-
     public override void _Ready()
     {
         parent=(Placeholder)GetParent();
-
-        notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        AddChild(notifier2D);
+        parent.notifier2D.Connect("screen_exited",this,"exitedScreen");
 
         area=(Area2D)GetNode("Area2D");
         area.Connect("body_entered",this,nameof(onBodyEntered));
@@ -116,6 +109,11 @@ public class FallingRocks : StaticBody2D
             shake=0f;
             Rotation=0;
         }
+    }
+
+    void exitedScreen()
+    {
+        parent.CallDeferred("queue_free");
     }
 
 
