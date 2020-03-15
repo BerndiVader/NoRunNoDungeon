@@ -15,7 +15,7 @@ scale = Vector2( 2, 2 )
 script = ExtResource( 7 )
 
 [node name="X" type="TouchScreenButton" parent="."]
-position = Vector2( 8, -8 )
+position = Vector2( -8, 8.5 )
 normal = ExtResource( 1 )
 pressed = ExtResource( 5 )
 script = ExtResource( 6 )
@@ -27,7 +27,7 @@ pressed = ExtResource( 5 )
 script = ExtResource( 6 )
 
 [node name="O" type="TouchScreenButton" parent="."]
-position = Vector2( -8, 8 )
+position = Vector2( 8, -7.5 )
 normal = ExtResource( 2 )
 pressed = ExtResource( 5 )
 script = ExtResource( 6 )

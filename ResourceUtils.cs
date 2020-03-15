@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public static class ResourceUtils
 {
     public static PackedScene world;
+    public static PackedScene intro;
     public static PackedScene player;
     public static List<PackedScene> levels;
     public static List<PackedScene> enemies;
@@ -37,6 +38,7 @@ public static class ResourceUtils
         }
 
         world=(PackedScene)ResourceLoader.Load("res://World.tscn");
+        intro=(PackedScene)ResourceLoader.Load("res://Intro.tscn");
         player=(PackedScene)ResourceLoader.Load("res://Player.tscn");
         background=(PackedScene)ResourceLoader.Load("res://Background.tscn");
 
@@ -58,11 +60,11 @@ public static class ResourceUtils
 
     }
 
-    public static InputController getInputController()
+    public static InputController getInputController(Node scene)
     {
         if(isMobile)
         {
-            return new MobileInput();
+            return new MobileInput(scene);
         }
         else
         {

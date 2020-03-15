@@ -5,7 +5,7 @@ public class Player : KinematicBody2D
 {
     static String ANIM_RUN="RUN";
     static String ANIM_JUMP="HIT";
-    static World world=WorldUtils.world;
+    static World world;
 
     [Export] public float GRAVITY=500f;
     [Export] public float FLOOR_ANGLE_TOLERANCE=40f;
@@ -34,18 +34,16 @@ public class Player : KinematicBody2D
 
     public override void _Ready()
     {
+        world=WorldUtils.world;
+
+        Position=world.level.startingPoint.Position;
+
         animationController=(AnimatedSprite)this.GetNode("AnimatedSprite");
         collisionController=(CollisionShape2D)this.GetNode("CollisionShape2D");
         animationController.Play(ANIM_RUN);
         this.AddToGroup("Players");
         ZIndex=1;
     }
-
-    public override void _EnterTree() 
-    {
-        Position=world.level.startingPoint.Position;
-    }
-
 
     public override void _PhysicsProcess(float delta)
     {
@@ -148,8 +146,9 @@ public class Player : KinematicBody2D
 
         if(Position.y>320f||Position.x<-20f||Position.x>520f) 
         {
-            world.restartGame(true);
-                                      }
+            WorldUtils.changeScene(ResourceUtils.intro);
+//            world.restartGame(true);
+        }
 
         lastVelocity=velocity;
     }

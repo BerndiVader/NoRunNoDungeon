@@ -5,6 +5,7 @@ public class Placeholder : Node2D
 {
     public VisibilityNotifier2D notifier2D;
     InstancePlaceholder placeholder;
+    public Node2D instance;
     bool instantiated;
 
     public override void _Ready()
@@ -27,7 +28,7 @@ public class Placeholder : Node2D
         if(instantiated)
         {
             SetProcess(false);
-            placeholder.ReplaceByInstance();
+            instance=(Node2D)placeholder.CreateInstance(true);
         }
     }
 

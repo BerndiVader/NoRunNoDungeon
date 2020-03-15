@@ -51,6 +51,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoLoad.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BackgroundLayer.cs" />
     <Compile Include="BackgroundSprite.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Bonus\Coin.cs" />
     <Compile Include="Bullets\TestBullet.cs" />
     <Compile Include="Enemies\Zombie.cs" />
+    <Compile Include="Intro.cs" />
     <Compile Include="level\Tile.cs" />
     <Compile Include="PhysicsObject.cs" />
     <Compile Include="Bonus\PhysicsCoin.cs" />

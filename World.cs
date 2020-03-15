@@ -5,14 +5,13 @@ using System.Threading;
 public class World : Node
 {
      
-    [Export] public Vector2 RESOLUTION=new Vector2(512f,288f);
+    public Vector2 RESOLUTION=new Vector2(512f,288f);
     public int stage;
     public Level level,newLevel,cachedLevel,oldLevel;
     public TileSet tileSet;
     public Background background;
     public Player player;
     public Renderer renderer;
-
     public InputController input;
 
     int currentLevel,nextLevel;
@@ -20,10 +19,10 @@ public class World : Node
     public Gamestate state;
     public override void _Ready()
     {
-        WorldUtils.world=this;
+        input=ResourceUtils.getInputController(this);
+
         stage=0;
         renderer=(Renderer)GetNode("Renderer");
-        ResourceUtils.Init();
 
         tileSet=(TileSet)ResourceUtils.tilesets[0];
         currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
@@ -31,10 +30,6 @@ public class World : Node
         cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
         WorldUtils.mergeMaps(level,cachedLevel);
         player=(Player)ResourceUtils.player.Instance();
-
-        input=ResourceUtils.getInputController();
-
-        OS.WindowSize=new Vector2(1024,576);
 
         background=(Background)ResourceUtils.background.Instance();
         state=Gamestate.RUNNING;
@@ -44,7 +39,6 @@ public class World : Node
         renderer.AddChild(background);
 
     }
-
 
     public override void _Process(float delta)
     {
@@ -63,12 +57,12 @@ public class World : Node
                 level.Position=new Vector2(-(Mathf.Abs(oldLevel.Position.x)-(oldLevel.pixelLength-512)),0);
                 oldLevel.freeLevel();
                 state=Gamestate.RUNNING;
-                step(delta);
+                tick(delta);
                 break;
             }
             default:
             {
-                step(delta);
+                tick(delta);
                 break;
             }
             
@@ -76,7 +70,13 @@ public class World : Node
 
     }
 
-    void step(float delta) 
+    public override void _EnterTree()
+    {
+        WorldUtils.world=this;
+        GetTree().CurrentScene=this;
+    }
+
+    void tick(float delta) 
     {
         if(Input.IsKeyPressed((int)KeyList.Escape)) WorldUtils.quit();
 
@@ -130,6 +130,16 @@ public class World : Node
         nextLevel=nextStage;
         if(cachedLevel!=null&&!cachedLevel.IsQueuedForDeletion()) cachedLevel.CallDeferred("freeLevel");
         cachedLevel=(Level)ResourceUtils.levels[nextStage].Instance();
+    }
+
+    public void _Free()
+    {
+        state=Gamestate.RESTART;
+        if(cachedLevel!=null)
+        {
+            cachedLevel.Free();
+        }
+        Free();
     }
 
 }
