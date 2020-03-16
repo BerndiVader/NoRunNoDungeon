@@ -17,6 +17,12 @@ public static class ResourceUtils
     public static PackedScene touch;
     public static PackedScene buttons;
 
+    public enum ENEMIES
+    {
+        ZOMBIE=0,
+
+    }
+
     public static bool isMobile;
 
     public static void Init() 
