@@ -16,6 +16,9 @@ public class MobileInput : InputController
             buttons=(Buttons)ResourceUtils.buttons.Instance();
             buttons.ZIndex=2000;
             scene.AddChild(buttons);
+
+            buttons.PauseMode=Node.PauseModeEnum.Process;
+            scene.PauseMode=Node.PauseModeEnum.Process;
     }
 
     public override bool getLeft()
@@ -44,5 +47,15 @@ public class MobileInput : InputController
     {
         touch.QueueFree();
         buttons.QueueFree();
+    }
+
+    public override bool getPause()
+    {
+        return false;
+    }
+
+    public override bool getQuit()
+    {
+        return false;
     }
 }

@@ -14,6 +14,10 @@ public class CoinTakenParticles : Particles
             SetProcess(false);
             QueueFree();
         }
+
+        Vector2 position=Position;
+        position.y-=0.5f;
+        Position=position;
     }
 
     public void _enteredTree()

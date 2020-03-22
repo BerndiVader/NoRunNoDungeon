@@ -13,11 +13,21 @@ public class FallingRocks : StaticBody2D
     bool colliding=false;
     Platform collider;
     Placeholder parent;
+    VisibilityNotifier2D notifier2D;
 
     public override void _Ready()
     {
-        parent=(Placeholder)GetParent();
-        parent.notifier2D.Connect("screen_exited",this,"exitedScreen");
+        notifier2D=new VisibilityNotifier2D();
+        if(GetParent().GetType().Name=="Placeholder")
+        {
+            parent=(Placeholder)GetParent();
+            notifier2D.Connect("screen_exited",parent,"exitedScreen");
+        }
+        else 
+        {
+            notifier2D.Connect("screen_exited",this,"exitedScreen");
+        }
+        AddChild(notifier2D);
 
         area=(Area2D)GetNode("Area2D");
         area.Connect("body_entered",this,nameof(onBodyEntered));
@@ -113,7 +123,7 @@ public class FallingRocks : StaticBody2D
 
     void exitedScreen()
     {
-        parent.CallDeferred("queue_free");
+        CallDeferred("queue_free");
     }
 
 

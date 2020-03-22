@@ -11,7 +11,7 @@ public class Coin : Bonus
 
     public void enteredBody(Node body) 
     {
-        CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[1].Instance();
+        CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKENPARTICLES].Instance();
 
         particles.Position=getPosition();
         WorldUtils.world.level.AddChild(particles);

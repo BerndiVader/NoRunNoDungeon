@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Placeholders/Zombie.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Placeholders/SpikesUp.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Placeholders/PlatformFalling.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Placeholders/ZombieRunning.tscn" type="PackedScene" id=10]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -35,7 +36,7 @@ position = Vector2( 688, 108 )
 position = Vector2( 800, 109 )
 
 [node name="CoinPhysics" parent="." instance=ExtResource( 3 )]
-position = Vector2( 736, 45.5 )
+position = Vector2( 768, 82 )
 
 [node name="CoinStatic4" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1216, 160 )
@@ -127,25 +128,40 @@ LerpFactor = 2.0
 Linear = false
 
 [node name="Zombie" parent="." instance=ExtResource( 7 )]
-position = Vector2( 742, 101 )
-
-[node name="Zombie2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 752, 46 )
+position = Vector2( 741, 100.5 )
 
 [node name="Zombie3" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1048, 82 )
 
-[node name="Zombie4" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1513, 101 )
-
 [node name="Zombie5" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1640, 85 )
-
-[node name="Zombie6" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1920, 16 )
+position = Vector2( 1744, 48 )
 
 [node name="Zombie7" parent="." instance=ExtResource( 7 )]
 position = Vector2( 2080, 240 )
+
+[node name="ZombieRunning" parent="." instance=ExtResource( 10 )]
+position = Vector2( 750, 47.5 )
+
+[node name="RunningZombie" parent="ZombieRunning" index="0"]
+ACTIVATION_RANGE = 100.0
+
+[node name="ZombieRunning2" parent="." instance=ExtResource( 10 )]
+position = Vector2( 830, 102.5 )
+
+[node name="RunningZombie" parent="ZombieRunning2" index="0"]
+ACTIVATION_RANGE = 200.0
+
+[node name="ZombieRunning3" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1580, 98 )
+
+[node name="RunningZombie" parent="ZombieRunning3" index="0"]
+ACTIVATION_RANGE = 300.0
+
+[node name="ZombieRunning4" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1963, 0 )
+
+[node name="RunningZombie" parent="ZombieRunning4" index="0"]
+ACTIVATION_RANGE = 50.0
 
 [editable path="SpikesUp3"]
 
@@ -154,3 +170,11 @@ position = Vector2( 2080, 240 )
 [editable path="SpikesUp6"]
 
 [editable path="PlatformMoving3x3"]
+
+[editable path="ZombieRunning"]
+
+[editable path="ZombieRunning2"]
+
+[editable path="ZombieRunning3"]
+
+[editable path="ZombieRunning4"]

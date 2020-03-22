@@ -22,7 +22,7 @@ extents = Vector2( 7.8732, 6.41868 )
 
 [node name="Rock" type="KinematicBody2D"]
 collision_layer = 0
-collision_mask = 22
+collision_mask = 38
 script = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -33,7 +33,7 @@ shape = SubResource( 1 )
 frames = SubResource( 2 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-collision_layer = 32
+collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( 0, 1 )

@@ -6,6 +6,7 @@ public enum Gamestate
     RESTART,
     SCENE_CHANGE,
     SCENE_CHANGED,
-    RUNNING
+    RUNNING,
+    PAUSED
     
 }

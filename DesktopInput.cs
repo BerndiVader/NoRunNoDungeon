@@ -28,4 +28,13 @@ public class DesktopInput : InputController
     {
         return;
     }
+    public override bool getPause()
+    {
+        return Input.IsActionJustPressed("ui_pause");
+    }
+
+    public override bool getQuit()
+    {
+        return Input.IsKeyPressed((int)KeyList.Escape);
+    }
 }

@@ -58,8 +58,14 @@
     <Compile Include="Bonus\Bonus.cs" />
     <Compile Include="Bonus\Coin.cs" />
     <Compile Include="Bullets\TestBullet.cs" />
+    <Compile Include="Enemies\KinematicMonster.cs" />
+    <Compile Include="Enemies\RunningZombie.cs" />
     <Compile Include="Enemies\Zombie.cs" />
+    <Compile Include="Enumerations\BULLETS.cs" />
+    <Compile Include="Enumerations\ENEMIES.cs" />
+    <Compile Include="Enumerations\PARTICLES.cs" />
     <Compile Include="Intro.cs" />
+    <Compile Include="IntroMap.cs" />
     <Compile Include="level\Tile.cs" />
     <Compile Include="PhysicsObject.cs" />
     <Compile Include="Bonus\PhysicsCoin.cs" />
@@ -84,6 +90,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="ResourceUtils.cs" />
+    <Compile Include="StateMachine\STATE.cs" />
     <Compile Include="Stick.cs" />
     <Compile Include="Touch.cs" />
     <Compile Include="World.cs" />

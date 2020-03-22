@@ -63,7 +63,7 @@ public class FallingPlatform : Platform
         {
             if(body.IsInGroup("Level")) 
             {
-                    BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[0].Instance();
+                    BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCKPARTICLES].Instance();
                     blockBreakParticle.Position=getPosition();
                     WorldUtils.world.level.CallDeferred("add_child",blockBreakParticle);
                     _Free();
@@ -73,7 +73,7 @@ public class FallingPlatform : Platform
             Player player=(Player)body;
             if(player.Position.y>Position.y) 
             {
-                BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[0].Instance();
+                BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCKPARTICLES].Instance();
                 blockBreakParticle.Position=getPosition();
                 WorldUtils.world.level.CallDeferred("add_child",blockBreakParticle);
                 _Free();

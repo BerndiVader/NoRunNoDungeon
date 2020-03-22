@@ -1,0 +1,241 @@
+using Godot;
+using System;
+
+public class RunningZombie : KinematicMonster
+{
+    [Export] public float ACTIVATION_RANGE=400f;
+    [Export] public float GRAVITY=500f;
+    [Export] public float FLOOR_ANGLE_TOLERANCE=40f;
+    [Export] public float WALK_FORCE=600f;
+    [Export] public float WALK_MIN_SPEED=10f;
+    [Export] public float WALK_MAX_SPEED=60f;
+    [Export] public float STOP_FORCE=1300f;
+    [Export] public float JUMP_SPEED=100f;
+    [Export] public float JUMP_MAX_AIRBORNE_TIME=0.2f;
+    [Export] public float SLIDE_STOP_VELOCITY=1f;
+    [Export] public float SLIDE_STOP_MIN_TRAVEL=1f;
+
+    Vector2 velocity=new Vector2(0f,0f);
+    Vector2 direction=new Vector2(0f,0f);
+    float onAirTime=100f;
+    bool jumping=false;
+    bool prevJumpPressed=false;
+    bool firstAttack=true;
+
+    float slopeAngle=0f;
+    Vector2 lastVelocity=new Vector2(0f,0f);
+
+    AnimatedSprite animationController;
+    CollisionShape2D collisionController;
+    VisibilityNotifier2D notifier2D;
+    RayCast2D rayCast2D;
+    Placeholder parent;
+
+    public override void _Ready()
+    {
+        notifier2D=new VisibilityNotifier2D();
+        if(GetParent().GetType().Name=="Placeholder")
+        {
+            parent=(Placeholder)GetParent();
+            notifier2D.Connect("screen_exited",parent,"exitedScreen");
+        }
+        else 
+        {
+            notifier2D.Connect("screen_exited",this,"exitedScreen");
+        }
+        AddChild(notifier2D);
+
+        rayCast2D=(RayCast2D)GetNode("RayCast2D");
+        rayCast2D.Enabled=true;
+
+        animationController=(AnimatedSprite)GetNode("AnimatedSprite");
+        animationController.Play("default");
+        state=STATE.IDLE;
+
+        collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
+
+
+        direction=new Vector2(-1,0);
+    }
+
+    public override void _PhysicsProcess(float delta)
+    {
+        tick(delta);
+    }
+
+    public override void idle(float delta)
+    {
+        Vector2 force=new Vector2(0,GRAVITY);
+
+        velocity+=GetFloorVelocity()*delta;
+        velocity+=force*delta;
+
+        KinematicCollision2D collision=MoveAndCollide(velocity*delta);
+
+        if(collision!=null)
+        {
+            Node2D node=(Node2D)collision.Collider;
+            velocity=velocity.Bounce(collision.Normal)*0.01f;
+
+            if(node.IsInGroup("Platforms"))
+            {
+                Platform collider=(Platform)node;
+                velocity.x+=collider.CurrentSpeed.x*1.8f;
+            }
+
+        }
+
+        if(inRange())
+        {
+            state=STATE.ATTACK;
+            animationController.Play("run");
+            animationController.SpeedScale=2;
+        }
+    }
+
+    public override void attack(float delta)
+    {
+        Vector2 force=new Vector2(0,GRAVITY);
+
+        bool left=direction.x==-1;
+        bool right=direction.x==1;
+        bool jump=!rayCast2D.IsColliding();
+
+        if(firstAttack)
+        {
+            velocity.y=-60f;
+            jumping=true;
+            firstAttack=false;
+        }
+
+        bool stop=true;
+
+        if(left)
+        {
+            if(velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED) 
+            {
+                force.x-=WALK_FORCE;
+                stop=false;
+            }
+        } 
+        else if(right)
+        {
+            if(velocity.x>=-(WALK_MIN_SPEED)&&velocity.x<(WALK_MAX_SPEED)) 
+            {
+                force.x+=WALK_FORCE;
+                stop=false;
+            }
+        }
+
+        if(stop)
+        {
+            float vSign=Mathf.Sign(velocity.x);
+            float vLen=Mathf.Abs(velocity.x);
+
+            vLen-=STOP_FORCE*delta;
+            if(vLen<0f) vLen=0f;
+            velocity.x=vLen*vSign;
+        }
+
+        velocity-=GetFloorVelocity()*delta;
+        velocity+=force*delta;
+
+        Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0f,8f);
+        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
+
+        if(IsOnFloor())
+        {
+            onAirTime=0f;
+        }
+
+        if(jumping&&velocity.y>0f) 
+        {
+            jumping=false;
+        }
+
+        if(!jump&&IsOnWall())
+        {
+            direction=new Vector2(direction.x*-1,0);
+            FlipH();
+        }
+
+        if(onAirTime<JUMP_MAX_AIRBORNE_TIME&&jump&&!prevJumpPressed&&!jumping) 
+        {
+            int decide=MathUtils.randomRangeInt(1,3);
+            switch(decide)
+            {
+                case 1:
+                {
+                    velocity.y=-JUMP_SPEED;
+                    jumping=true;
+                    break;
+                }
+                case 2:
+                {
+                    direction=new Vector2(direction.x*-1,0);
+                    FlipH();
+                    break;
+                }
+            }
+        }
+
+        onAirTime+=delta;
+        prevJumpPressed=jump;
+
+        onAirTime+=delta;
+    }
+
+    public override void fight(float delta)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void die(float delta)
+    {
+        throw new NotImplementedException();
+    }
+
+
+
+    public Vector2 getPosition()
+    {
+        return parent!=null?parent.Position+Position:Position;
+    }
+
+    bool inRange()
+    {
+        Player player=WorldUtils.world.player;
+        Vector2 gamePos=Position+parent.Position+WorldUtils.world.level.Position;
+        float distance=player.Position.DistanceTo(gamePos);
+        return distance<ACTIVATION_RANGE;
+    }
+
+    void FlipH()
+    {
+        animationController.FlipH^=true;
+        Vector2 position=rayCast2D.Position;
+        position.x*=-1;
+        rayCast2D.Position=position;
+        position=collisionController.Position;
+        position.x*=-1;
+        collisionController.Position=position;
+    }
+
+    public void _Free()
+    {
+        if(parent!=null)
+        {
+            parent.CallDeferred("queue_free");
+        }
+        else
+        {
+            CallDeferred("queue_free");
+        }
+    }
+
+    void exitedScreen()
+    {
+        CallDeferred("queue_free");
+    }
+
+}

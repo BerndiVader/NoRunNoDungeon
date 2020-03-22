@@ -9,6 +9,7 @@ public class Intro : Node
     {
         input=ResourceUtils.getInputController(this);
         GetTree().CurrentScene=this;
+        GetTree().Paused=false;
     }
 
     public override void _Process(float delta)

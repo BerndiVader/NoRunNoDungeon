@@ -95,7 +95,7 @@ public class Player : KinematicBody2D
         } 
         else 
         {
-            Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0f,10f);
+            Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0f,8f);
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
         }
 
@@ -147,7 +147,6 @@ public class Player : KinematicBody2D
         if(Position.y>320f||Position.x<-20f||Position.x>520f) 
         {
             WorldUtils.changeScene(ResourceUtils.intro);
-//            world.restartGame(true);
         }
 
         lastVelocity=velocity;

@@ -8,5 +8,7 @@ public abstract class InputController
     public abstract bool getUp();
     public abstract bool getDown();
     public abstract bool getJump();
+    public abstract bool getPause();
+    public abstract bool getQuit();
     public abstract void _free();
 }

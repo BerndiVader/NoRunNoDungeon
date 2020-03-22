@@ -17,12 +17,6 @@ public static class ResourceUtils
     public static PackedScene touch;
     public static PackedScene buttons;
 
-    public enum ENEMIES
-    {
-        ZOMBIE=0,
-
-    }
-
     public static bool isMobile;
 
     public static void Init() 
@@ -48,10 +42,7 @@ public static class ResourceUtils
         player=(PackedScene)ResourceLoader.Load("res://Player.tscn");
         background=(PackedScene)ResourceLoader.Load("res://Background.tscn");
 
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
 
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset1.tres"));
 

@@ -15,17 +15,17 @@ public class Platform : StaticBody2D
 
     public override void _Ready()
     {
+        notifier2D=new VisibilityNotifier2D();
         if(GetParent().GetType().Name=="Placeholder")
         {
             parent=(Placeholder)GetParent();
-            parent.notifier2D.Connect("screen_exited",this,"exitedScreen");
+            notifier2D.Connect("screen_exited",parent,"exitedScreen");
         }
-        else
+        else 
         {
-            notifier2D=new VisibilityNotifier2D();
             notifier2D.Connect("screen_exited",this,"exitedScreen");
-            AddChild(notifier2D);
         }
+        AddChild(notifier2D);
         
         startPosition=Position;
         AddToGroup("Platforms");

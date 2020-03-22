@@ -24,7 +24,7 @@ height = 3.55287
 
 [node name="Coin" type="KinematicBody2D"]
 collision_layer = 0
-collision_mask = 54
+collision_mask = 22
 script = ExtResource( 5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

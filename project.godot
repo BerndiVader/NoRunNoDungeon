@@ -26,6 +26,10 @@ config/icon="res://image/icon_mdpi.png"
 
 AutoLoad="*res://AutoLoad.cs"
 
+[debug]
+
+settings/crash_handler/message="Please include this when reporting the bug on https://github.com/berndivader/NoRunNoDungeon/issues"
+
 [display]
 
 window/size/width=512
@@ -38,6 +42,11 @@ window/stretch/aspect="keep"
 key_w={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_pause={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":80,"unicode":0,"echo":false,"script":null)
  ]
 }
 

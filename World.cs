@@ -16,7 +16,7 @@ public class World : Node
 
     int currentLevel,nextLevel;
 
-    public Gamestate state;
+    public Gamestate state, oldState;
     public override void _Ready()
     {
         input=ResourceUtils.getInputController(this);
@@ -62,7 +62,29 @@ public class World : Node
             }
             default:
             {
-                tick(delta);
+                if(input.getPause())
+                {
+                    GetTree().Paused^=true;
+                    if(GetTree().Paused)
+                    {
+                        oldState=state;
+                        state=Gamestate.PAUSED;
+                    }
+                    else
+                    {
+                        state=oldState;
+                    }
+                }
+
+                if(input.getQuit())
+                {
+                    WorldUtils.quit();
+                }
+
+                if(state!=Gamestate.PAUSED)
+                {
+                    tick(delta);
+                }
                 break;
             }
             
@@ -78,8 +100,6 @@ public class World : Node
 
     void tick(float delta) 
     {
-        if(Input.IsKeyPressed((int)KeyList.Escape)) WorldUtils.quit();
-
         level.MoveLocalX((level.direction.x*level.Speed)*delta,true); 
         level.MoveLocalY((level.direction.y*level.Speed)*delta,true); 
 

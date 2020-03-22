@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Zombie : KinematicBody2D
+public class Zombie : KinematicMonster
 {
     [Export] public float GRAVITY=300f;
     PackedScene BULLET;
@@ -12,39 +12,31 @@ public class Zombie : KinematicBody2D
 
     Player player;
 
-    enum STATE
-    {
-        IDLE,
-        ATTACK
-    }
-
     RayCast2D rayCast2D;
     Vector2 CASTTO;
     AnimatedSprite animationController;
-    STATE sTATE;
-
     Placeholder parent;
 
     public override void _Ready()
     {
+        notifier2D=new VisibilityNotifier2D();
         if(GetParent().GetType().Name=="Placeholder")
         {
             parent=(Placeholder)GetParent();
-            parent.notifier2D.Connect("screen_exited",this,"exitedScreen");
+            notifier2D.Connect("screen_exited",parent,"exitedScreen");
         }
-        else
+        else 
         {
-            notifier2D=new VisibilityNotifier2D();
-            AddChild(notifier2D);
             notifier2D.Connect("screen_exited",this,"exitedScreen");
         }
+        AddChild(notifier2D);
 
         rayCast2D=(RayCast2D)GetNode("RayCast2D");
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
         animationController=(AnimatedSprite)GetNode("AnimatedSprite");
-        sTATE=STATE.IDLE;
+        state=STATE.IDLE;
 
         animationController.Play("default");
         animationController.FlipH=MathUtils.randomRangeInt(0,2)!=0;
@@ -56,7 +48,7 @@ public class Zombie : KinematicBody2D
             rayCast2D.CastTo=rayCast2D.CastTo*-1;
         }
 
-        BULLET=ResourceUtils.bullets[0];
+        BULLET=ResourceUtils.bullets[(int)BULLETS.TESTBULLET];
 
     }
 
@@ -82,48 +74,57 @@ public class Zombie : KinematicBody2D
 
         }
 
-        switch(sTATE)
-        {
-            case STATE.ATTACK:
-            {
-                Vector2 d=new Vector2(rayCast2D.GlobalPosition.DirectionTo(player.GlobalPosition));
-                d=d*rayCast2D.GlobalPosition.DistanceTo(player.GlobalPosition);
-                rayCast2D.CastTo=d;
-                if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==player.GetInstanceId())
-                {
-                    if(cooldown>5)
-                    {
-                        TestBullet bullet=(TestBullet)BULLET.Instance();
-                        bullet.Position=getPosition();
-                        bullet.direction=GlobalPosition.DirectionTo(player.GlobalPosition);
-                        WorldUtils.world.level.AddChild(bullet);
-                        cooldown=0;
-                    }
-                }
-                else {
-                    rayCast2D.CastTo=CASTTO;
-                    sTATE=STATE.IDLE;
-                    player=null;
-                }
-                cooldown++;
-                break;
-            }
-            default:
-            {
-                if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId())
-                {
-                    player=WorldUtils.world.player;
-                    cooldown=0;
-                    sTATE=STATE.ATTACK;
-                }
-                else {
-                    rayCast2D.CastTo=rayCast2D.CastTo*-1;
-                }
-                break;
-            }
-        }
+        tick(delta);
     
     }
+
+    public override void idle(float delta)
+    {
+        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId())
+        {
+            player=WorldUtils.world.player;
+            cooldown=0;
+            state=STATE.ATTACK;
+        }
+        else {
+            rayCast2D.CastTo=rayCast2D.CastTo*-1;
+        }
+    }
+
+    public override void attack(float delta)
+    {
+        Vector2 d=new Vector2(rayCast2D.GlobalPosition.DirectionTo(player.GlobalPosition));
+        d=d*rayCast2D.GlobalPosition.DistanceTo(player.GlobalPosition);
+        rayCast2D.CastTo=d;
+        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==player.GetInstanceId())
+        {
+            if(cooldown>5)
+            {
+                TestBullet bullet=(TestBullet)BULLET.Instance();
+                bullet.Position=getPosition();
+                bullet.direction=GlobalPosition.DirectionTo(player.GlobalPosition);
+                WorldUtils.world.level.AddChild(bullet);
+                cooldown=0;
+            }
+        }
+        else {
+            rayCast2D.CastTo=CASTTO;
+            state=STATE.IDLE;
+            player=null;
+        }
+        cooldown++;
+    }
+
+    public override void fight(float delta)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void die(float delta)
+    {
+        throw new NotImplementedException();
+    }
+
     public Vector2 getPosition()
     {
         return parent!=null?parent.Position+Position:Position;
@@ -145,5 +146,4 @@ public class Zombie : KinematicBody2D
     {
         CallDeferred("queue_free");
     }
-
 }
