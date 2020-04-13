@@ -17,9 +17,10 @@ _global_script_class_icons={
 
 config/name="nodungeon"
 run/main_scene="res://Intro.tscn"
-boot_splash/image="res://image/ouyaIcon.png"
+boot_splash/image="res://image/splash.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://image/icon_mdpi.png"
 
 [autoload]

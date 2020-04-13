@@ -1053,7 +1053,7 @@
         </member>
         <member name="M:Godot.Object.HasUserSignal(System.String)">
             <summary>
-            <para>Returns <c>true</c> if the given user-defined <c>signal</c> exists.</para>
+            <para>Returns <c>true</c> if the given user-defined <c>signal</c> exists. Only signals added using <see cref="M:Godot.Object.AddUserSignal(System.String,Godot.Collections.Array)"/> are taken into account.</para>
             </summary>
         </member>
         <member name="M:Godot.Object.EmitSignal(System.String,System.Object[])">
@@ -1097,6 +1097,11 @@
         <member name="M:Godot.Object.HasMethod(System.String)">
             <summary>
             <para>Returns <c>true</c> if the object contains the given <c>method</c>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Object.HasSignal(System.String)">
+            <summary>
+            <para>Returns <c>true</c> if the given <c>signal</c> exists.</para>
             </summary>
         </member>
         <member name="M:Godot.Object.GetSignalList">
@@ -4891,7 +4896,7 @@
             animation.track_insert_key(track_index, 0.0, 0)
             animation.track_insert_key(track_index, 0.5, 100)
             </code></para>
-            <para>Animations are just data containers, and must be added to nodes such as an <see cref="T:Godot.AnimationPlayer"/> or <see cref="T:Godot.AnimationTreePlayer"/> to be played back.</para>
+            <para>Animations are just data containers, and must be added to nodes such as an <see cref="T:Godot.AnimationPlayer"/> or <see cref="T:Godot.AnimationTreePlayer"/> to be played back. Animation tracks have different types, each with its own set of dedicated methods. Check <see cref="T:Godot.Animation.TrackType"/> to see available types.</para>
             </summary>
         </member>
         <member name="F:Godot.Animation.TrackType.Value">
@@ -4909,6 +4914,21 @@
             <para>Method tracks call functions with given arguments per key.</para>
             </summary>
         </member>
+        <member name="F:Godot.Animation.TrackType.Bezier">
+            <summary>
+            <para>Bezier tracks are used to interpolate a value using custom curves. They can also be used to animate sub-properties of vectors and colors (e.g. alpha value of a <see cref="T:Godot.Color"/>).</para>
+            </summary>
+        </member>
+        <member name="F:Godot.Animation.TrackType.Audio">
+            <summary>
+            <para>Audio tracks are used to play an audio stream with either type of <see cref="T:Godot.AudioStreamPlayer"/>. The stream can be trimmed and previewed in the animation.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.Animation.TrackType.Animation">
+            <summary>
+            <para>Animation tracks play animations in other <see cref="T:Godot.AnimationPlayer"/> nodes.</para>
+            </summary>
+        </member>
         <member name="F:Godot.Animation.UpdateMode.Continuous">
             <summary>
             <para>Update between keyframes.</para>
@@ -4922,6 +4942,11 @@
         <member name="F:Godot.Animation.UpdateMode.Trigger">
             <summary>
             <para>Update at the keyframes.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.Animation.UpdateMode.Capture">
+            <summary>
+            <para>Same as linear interpolation, but also interpolates from the current value (i.e. dynamically at runtime) if the first key isn't at 0 seconds.</para>
             </summary>
         </member>
         <member name="F:Godot.Animation.InterpolationType.Nearest">
@@ -5147,8 +5172,100 @@
             </summary>
         </member>
         <member name="M:Godot.Animation.BezierTrackInsertKey(System.Int32,System.Single,System.Single,System.Nullable{Godot.Vector2},System.Nullable{Godot.Vector2})">
+            <summary>
+            <para>Inserts a Bezier Track key at the given <c>time</c> in seconds. The <c>track_idx</c> must be the index of a Bezier Track.</para>
+            <para><c>in_handle</c> is the left-side weight of the added Bezier curve point, <c>out_handle</c> is the right-side one, while <c>value</c> is the actual value at this point.</para>
+            </summary>
             <param name="inHandle">If the parameter is null, then the default value is new Vector2(0, 0)</param>
             <param name="outHandle">If the parameter is null, then the default value is new Vector2(0, 0)</param>
+        </member>
+        <member name="M:Godot.Animation.BezierTrackSetKeyValue(System.Int32,System.Int32,System.Single)">
+            <summary>
+            <para>Sets the value of the key identified by <c>key_idx</c> to the given value. The <c>track_idx</c> must be the index of a Bezier Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.BezierTrackSetKeyInHandle(System.Int32,System.Int32,Godot.Vector2)">
+            <summary>
+            <para>Sets the in handle of the key identified by <c>key_idx</c> to value <c>in_handle</c>. The <c>track_idx</c> must be the index of a Bezier Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.BezierTrackSetKeyOutHandle(System.Int32,System.Int32,Godot.Vector2)">
+            <summary>
+            <para>Sets the out handle of the key identified by <c>key_idx</c> to value <c>out_handle</c>. The <c>track_idx</c> must be the index of a Bezier Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.BezierTrackGetKeyValue(System.Int32,System.Int32)">
+            <summary>
+            <para>Returns the value of the key identified by <c>key_idx</c>. The <c>track_idx</c> must be the index of a Bezier Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.BezierTrackGetKeyInHandle(System.Int32,System.Int32)">
+            <summary>
+            <para>Returns the in handle of the key identified by <c>key_idx</c>. The <c>track_idx</c> must be the index of a Bezier Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.BezierTrackGetKeyOutHandle(System.Int32,System.Int32)">
+            <summary>
+            <para>Returns the out handle of the key identified by <c>key_idx</c>. The <c>track_idx</c> must be the index of a Bezier Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.BezierTrackInterpolate(System.Int32,System.Single)">
+            <summary>
+            <para>Returns the interpolated value at the given <c>time</c> (in seconds). The <c>track_idx</c> must be the index of a Bezier Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.AudioTrackInsertKey(System.Int32,System.Single,Godot.Resource,System.Single,System.Single)">
+            <summary>
+            <para>Inserts an Audio Track key at the given <c>time</c> in seconds. The <c>track_idx</c> must be the index of an Audio Track.</para>
+            <para><c>stream</c> is the <see cref="T:Godot.AudioStream"/> resource to play. <c>start_offset</c> is the number of seconds cut off at the beginning of the audio stream, while <c>end_offset</c> is at the ending.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.AudioTrackSetKeyStream(System.Int32,System.Int32,Godot.Resource)">
+            <summary>
+            <para>Sets the stream of the key identified by <c>key_idx</c> to value <c>offset</c>. The <c>track_idx</c> must be the index of an Audio Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.AudioTrackSetKeyStartOffset(System.Int32,System.Int32,System.Single)">
+            <summary>
+            <para>Sets the start offset of the key identified by <c>key_idx</c> to value <c>offset</c>. The <c>track_idx</c> must be the index of an Audio Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.AudioTrackSetKeyEndOffset(System.Int32,System.Int32,System.Single)">
+            <summary>
+            <para>Sets the end offset of the key identified by <c>key_idx</c> to value <c>offset</c>. The <c>track_idx</c> must be the index of an Audio Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.AudioTrackGetKeyStream(System.Int32,System.Int32)">
+            <summary>
+            <para>Returns the audio stream of the key identified by <c>key_idx</c>. The <c>track_idx</c> must be the index of an Audio Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.AudioTrackGetKeyStartOffset(System.Int32,System.Int32)">
+            <summary>
+            <para>Returns the start offset of the key identified by <c>key_idx</c>. The <c>track_idx</c> must be the index of an Audio Track.</para>
+            <para>Start offset is the number of seconds cut off at the beginning of the audio stream.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.AudioTrackGetKeyEndOffset(System.Int32,System.Int32)">
+            <summary>
+            <para>Returns the end offset of the key identified by <c>key_idx</c>. The <c>track_idx</c> must be the index of an Audio Track.</para>
+            <para>End offset is the number of seconds cut off at the ending of the audio stream.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.AnimationTrackInsertKey(System.Int32,System.Single,System.String)">
+            <summary>
+            <para>Inserts a key with value <c>animation</c> at the given <c>time</c> (in seconds). The <c>track_idx</c> must be the index of an Animation Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.AnimationTrackSetKeyAnimation(System.Int32,System.Int32,System.String)">
+            <summary>
+            <para>Sets the key identified by <c>key_idx</c> to value <c>animation</c>. The <c>track_idx</c> must be the index of an Animation Track.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Animation.AnimationTrackGetKeyAnimation(System.Int32,System.Int32)">
+            <summary>
+            <para>Returns the animation name at the key identified by <c>key_idx</c>. The <c>track_idx</c> must be the index of an Animation Track.</para>
+            </summary>
         </member>
         <member name="M:Godot.Animation.Clear">
             <summary>
@@ -5516,8 +5633,111 @@
             <para>Returns the number of triangles in the blend space.</para>
             </summary>
         </member>
+        <member name="T:Godot.AnimationNodeBlendTree">
+            <summary>
+            <para>This node may contain a sub-tree of any other blend type nodes, such as mix, blend2, blend3, one shot, etc. This is one of the most commonly used roots.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.AnimationNodeBlendTree.ConnectionOk">
+            <summary>
+            <para>The connection was successful.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.AnimationNodeBlendTree.ConnectionErrorNoInput">
+            <summary>
+            <para>The input node is <c>null</c>.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.AnimationNodeBlendTree.ConnectionErrorNoInputIndex">
+            <summary>
+            <para>The specified input port is out of range.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.AnimationNodeBlendTree.ConnectionErrorNoOutput">
+            <summary>
+            <para>The output node is <c>null</c>.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.AnimationNodeBlendTree.ConnectionErrorSameNode">
+            <summary>
+            <para>Input and output nodes are the same.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.AnimationNodeBlendTree.ConnectionErrorConnectionExists">
+            <summary>
+            <para>The specified connection already exists.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AnimationNodeBlendTree.GraphOffset">
+            <summary>
+            <para>The global offset of all sub-nodes.</para>
+            </summary>
+        </member>
         <member name="M:Godot.AnimationNodeBlendTree.AddNode(System.String,Godot.AnimationNode,System.Nullable{Godot.Vector2})">
+            <summary>
+            <para>Adds an <see cref="T:Godot.AnimationNode"/> at the given <c>position</c>. The <c>name</c> is used to identify the created sub-node later.</para>
+            </summary>
             <param name="position">If the parameter is null, then the default value is new Vector2(0, 0)</param>
+        </member>
+        <member name="M:Godot.AnimationNodeBlendTree.GetNode(System.String)">
+            <summary>
+            <para>Returns the sub-node with the specified <c>name</c>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AnimationNodeBlendTree.RemoveNode(System.String)">
+            <summary>
+            <para>Removes a sub-node.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AnimationNodeBlendTree.RenameNode(System.String,System.String)">
+            <summary>
+            <para>Changes the name of a sub-node.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AnimationNodeBlendTree.HasNode(System.String)">
+            <summary>
+            <para>Returns <c>true</c> if a sub-node with specified <c>name</c> exists.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AnimationNodeBlendTree.ConnectNode(System.String,System.Int32,System.String)">
+            <summary>
+            <para>Connects the output of an <see cref="T:Godot.AnimationNode"/> as input for another <see cref="T:Godot.AnimationNode"/>, at the input port specified by <c>input_index</c>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AnimationNodeBlendTree.DisconnectNode(System.String,System.Int32)">
+            <summary>
+            <para>Disconnects the node connected to the specified input.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AnimationNodeBlendTree.SetNodePosition(System.String,Godot.Vector2)">
+            <summary>
+            <para>Modifies the position of a sub-node.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AnimationNodeBlendTree.GetNodePosition(System.String)">
+            <summary>
+            <para>Returns the position of the sub-node with the specified <c>name</c>.</para>
+            </summary>
+        </member>
+        <member name="T:Godot.AnimationNodeOneShot">
+            <summary>
+            <para>A resource to add to an <see cref="T:Godot.AnimationNodeBlendTree"/>. This node will execute a sub-animation and return once it finishes. Blend times for fading in and out can be customized, as well as filters.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AnimationNodeOneShot.Autorestart">
+            <summary>
+            <para>If <c>true</c>, the sub-animation will restart automatically after finishing.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AnimationNodeOneShot.AutorestartDelay">
+            <summary>
+            <para>The delay after which the automatic restart is triggered, in seconds.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AnimationNodeOneShot.AutorestartRandomDelay">
+            <summary>
+            <para>If <see cref="P:Godot.AnimationNodeOneShot.Autorestart"/> is <c>true</c>, a random additional delay (in seconds) between 0 and this value will be added to <see cref="P:Godot.AnimationNodeOneShot.AutorestartDelay"/>.</para>
+            </summary>
         </member>
         <member name="T:Godot.AnimationNodeStateMachine">
             <summary>
@@ -5534,6 +5754,11 @@
             <para>Adds a new node to the graph. The <c>position</c> is used for display in the editor.</para>
             </summary>
             <param name="position">If the parameter is null, then the default value is new Vector2(0, 0)</param>
+        </member>
+        <member name="M:Godot.AnimationNodeStateMachine.ReplaceNode(System.String,Godot.AnimationNode)">
+            <summary>
+            <para>Replaces the node and keeps its transitions unchanged.</para>
+            </summary>
         </member>
         <member name="M:Godot.AnimationNodeStateMachine.GetNode(System.String)">
             <summary>
@@ -5726,6 +5951,31 @@
         <member name="P:Godot.AnimationNodeStateMachineTransition.Disabled">
             <summary>
             <para>Don't use this transition during <see cref="M:Godot.AnimationNodeStateMachinePlayback.Travel(System.String)"/> or <see cref="P:Godot.AnimationNodeStateMachineTransition.AutoAdvance"/>.</para>
+            </summary>
+        </member>
+        <member name="T:Godot.AnimationNodeTimeScale">
+            <summary>
+            <para>Allows scaling the speed of the animation (or reversing it) in any children nodes. Setting it to 0 will pause the animation.</para>
+            </summary>
+        </member>
+        <member name="T:Godot.AnimationNodeTimeSeek">
+            <summary>
+            <para>This node can be used to cause a seek command to happen to any sub-children of the graph. After setting the time, this value returns to -1.</para>
+            </summary>
+        </member>
+        <member name="T:Godot.AnimationNodeTransition">
+            <summary>
+            <para>Simple state machine for cases which don't require a more advanced <see cref="T:Godot.AnimationNodeStateMachine"/>. Animations can be connected to the inputs and transition times can be specified.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AnimationNodeTransition.InputCount">
+            <summary>
+            <para>The number of available input ports for this node.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AnimationNodeTransition.XfadeTime">
+            <summary>
+            <para>Cross-fading time (in seconds) between each animation connected to the inputs.</para>
             </summary>
         </member>
         <member name="T:Godot.AnimationPlayer">
@@ -5928,6 +6178,46 @@
         <member name="M:Godot.AnimationPlayer.Advance(System.Single)">
             <summary>
             <para>Shifts position in the animation timeline and immediately updates the animation. <c>delta</c> is the time in seconds to shift. Events between the current frame and <c>delta</c> are handled.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.AnimationTree.AnimationProcessMode.Physics">
+            <summary>
+            <para>The animations will progress during the physics frame (i.e. <see cref="M:Godot.Node._PhysicsProcess(System.Single)"/>).</para>
+            </summary>
+        </member>
+        <member name="F:Godot.AnimationTree.AnimationProcessMode.Idle">
+            <summary>
+            <para>The animations will progress during the idle frame (i.e. <see cref="M:Godot.Node._Process(System.Single)"/>).</para>
+            </summary>
+        </member>
+        <member name="F:Godot.AnimationTree.AnimationProcessMode.Manual">
+            <summary>
+            <para>The animations will only progress manually (see <see cref="M:Godot.AnimationTree.Advance(System.Single)"/>).</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AnimationTree.TreeRoot">
+            <summary>
+            <para>The root animation node of this <see cref="T:Godot.AnimationTree"/>. See <see cref="T:Godot.AnimationNode"/>.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AnimationTree.AnimPlayer">
+            <summary>
+            <para>The path to the <see cref="T:Godot.AnimationPlayer"/> used for animating.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AnimationTree.Active">
+            <summary>
+            <para>If <c>true</c>, the <see cref="T:Godot.AnimationTree"/> will be processing.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AnimationTree.ProcessMode">
+            <summary>
+            <para>The process mode of this <see cref="T:Godot.AnimationTree"/>. See <see cref="T:Godot.AnimationTree.AnimationProcessMode"/> for available modes.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AnimationTree.Advance(System.Single)">
+            <summary>
+            <para>Manually advance the animations by the specified time (in seconds).</para>
             </summary>
         </member>
         <member name="T:Godot.AnimationTreePlayer">
@@ -7388,6 +7678,26 @@
         <member name="P:Godot.AudioEffectPitchShift.PitchScale">
             <summary>
             <para>Pitch value. Can range from 0 (-1 octave) to 16 (+16 octaves).</para>
+            </summary>
+        </member>
+        <member name="P:Godot.AudioEffectRecord.Format">
+            <summary>
+            <para>Specifies the format in which the sample will be recorded. See <see cref="T:Godot.AudioStreamSample.FormatEnum"/> for available formats.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AudioEffectRecord.SetRecordingActive(System.Boolean)">
+            <summary>
+            <para>If <c>true</c>, the sound will be recorded. Note that restarting the recording will remove the previously recorded sample.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AudioEffectRecord.IsRecordingActive">
+            <summary>
+            <para>Returns whether the recording is active or not.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.AudioEffectRecord.GetRecording">
+            <summary>
+            <para>Returns the recorded sample.</para>
             </summary>
         </member>
         <member name="T:Godot.AudioEffectReverb">
@@ -11534,6 +11844,11 @@
             <para>If <c>true</c>, only edges that face up, relative to <see cref="T:Godot.CollisionPolygon2D"/>'s rotation, will collide with other objects.</para>
             </summary>
         </member>
+        <member name="P:Godot.CollisionPolygon2D.OneWayCollisionMargin">
+            <summary>
+            <para>The margin used for one-way collision (in pixels). Higher values will make the shape thicker, and work better for colliders that enter the polygon at a high velocity.</para>
+            </summary>
+        </member>
         <member name="T:Godot.CollisionShape">
             <summary>
             <para>Editor facility for creating and editing collision shapes in 3D space. You can use this node to represent all sorts of collision shapes, for example, add this to an <see cref="T:Godot.Area"/> to give it a detection shape, or add it to a <see cref="T:Godot.PhysicsBody"/> to create a solid object. IMPORTANT: this is an Editor-only helper to create shapes, use <see cref="M:Godot.CollisionObject.ShapeOwnerGetShape(System.UInt32,System.Int32)"/> to get the actual shape.</para>
@@ -11581,7 +11896,7 @@
         </member>
         <member name="P:Godot.CollisionShape2D.OneWayCollisionMargin">
             <summary>
-            <para>The margin used for one-way collision (in pixels).</para>
+            <para>The margin used for one-way collision (in pixels). Higher values will make the shape thicker, and work better for colliders that enter the shape at a high velocity.</para>
             </summary>
         </member>
         <member name="T:Godot.ColorPicker">
@@ -14410,6 +14725,16 @@
             <para>Returns the error text if <see cref="M:Godot.Expression.Parse(System.String,System.String[])"/> has failed.</para>
             </summary>
         </member>
+        <member name="P:Godot.ExternalTexture.Size">
+            <summary>
+            <para>External texture size.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.ExternalTexture.GetExternalTextureId">
+            <summary>
+            <para>Returns the external texture name.</para>
+            </summary>
+        </member>
         <member name="T:Godot.FileDialog">
             <summary>
             <para>FileDialog is a preset dialog used to choose files and directories in the filesystem. It supports filter masks.</para>
@@ -14555,6 +14880,11 @@
         <member name="M:Godot.Font.GetStringSize(System.String)">
             <summary>
             <para>Returns the size of a string, taking kerning and advance into account.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Font.GetWordwrapStringSize(System.String,System.Single)">
+            <summary>
+            <para>Returns the size that the string would have with word wrapping enabled with a fixed <c>width</c>.</para>
             </summary>
         </member>
         <member name="M:Godot.Font.HasOutline">
@@ -16679,6 +17009,26 @@
             <para>Maximum acceleration for the motor.</para>
             </summary>
         </member>
+        <member name="M:Godot.HingeJoint.SetParam(Godot.HingeJoint.Param,System.Single)">
+            <summary>
+            <para>Sets the value of the specified parameter.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.HingeJoint.GetParam(Godot.HingeJoint.Param)">
+            <summary>
+            <para>Returns the value of the specified parameter.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.HingeJoint.SetFlag(Godot.HingeJoint.Flag,System.Boolean)">
+            <summary>
+            <para>If <c>true</c>, enables the specified flag.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.HingeJoint.GetFlag(Godot.HingeJoint.Flag)">
+            <summary>
+            <para>Returns the value of the specified flag.</para>
+            </summary>
+        </member>
         <member name="T:Godot.IP">
             <summary>
             <para>IP contains support functions for the Internet Protocol (IP). TCP/IP support is in different classes (see <see cref="T:Godot.StreamPeerTCP"/> and <see cref="T:Godot.TCP_Server"/>). IP provides DNS hostname resolution support, both blocking and threaded.</para>
@@ -17803,7 +18153,8 @@
         </member>
         <member name="M:Godot.Input.SetUseAccumulatedInput(System.Boolean)">
             <summary>
-            <para>Whether to accumulate similar input events sent by the operating system. Enabled by default.</para>
+            <para>Enables or disables the accumulation of similar input events sent by the operating system. When input accumulation is enabled, all input events generated during a frame will be merged and emitted when the frame is done rendering. Therefore, this limits the number of input method calls per second to the rendering FPS.</para>
+            <para>Input accumulation is enabled by default. It can be disabled to get slightly more precise/reactive input at the cost of increased CPU usage. In applications where drawing freehand lines is required, input accumulation should generally be disabled while the user is drawing the line to get results that closely follow the actual input.</para>
             </summary>
         </member>
         <member name="T:Godot.InputEvent">
@@ -17892,6 +18243,11 @@
         <member name="P:Godot.InputEventAction.Strength">
             <summary>
             <para>The action's strength between 0 and 1. This value is considered as equal to 0 if pressed is <c>false</c>. The event strength allows faking analog joypad motion events, by precising how strongly is the joypad axis bent or pressed.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.InputEventGesture.Position">
+            <summary>
+            <para>The local gesture position relative to the <see cref="T:Godot.Viewport"/>. If used in <see cref="M:Godot.Control._GuiInput(Godot.InputEvent)"/>, the position is relative to the current <see cref="T:Godot.Control"/> that received this gesture.</para>
             </summary>
         </member>
         <member name="T:Godot.InputEventJoypadButton">
@@ -18023,7 +18379,8 @@
         </member>
         <member name="P:Godot.InputEventMouseMotion.Relative">
             <summary>
-            <para>The mouse position relative to the previous position (position at the last frame).</para>
+            <para>The mouse position relative to the previous position (position at the last frame). </para>
+            <para>Note: Since <see cref="T:Godot.InputEventMouseMotion"/> is only emitted when the mouse moves, the last event won't have a relative position of <c>Vector2(0, 0)</c> when the user stops moving the mouse.</para>
             </summary>
         </member>
         <member name="P:Godot.InputEventMouseMotion.Speed">
@@ -25903,6 +26260,16 @@
             <para>If above 0, this value is the maximum value for an impulse that this Joint produces.</para>
             </summary>
         </member>
+        <member name="M:Godot.PinJoint.SetParam(Godot.PinJoint.Param,System.Single)">
+            <summary>
+            <para>Sets the value of the specified parameter.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.PinJoint.GetParam(Godot.PinJoint.Param)">
+            <summary>
+            <para>Returns the value of the specified parameter.</para>
+            </summary>
+        </member>
         <member name="T:Godot.PinJoint2D">
             <summary>
             <para>Pin Joint for 2D rigid bodies. It pins two bodies (rigid or static) together.</para>
@@ -26025,6 +26392,46 @@
         <member name="P:Godot.Polygon2D.VertexColors">
             <summary>
             <para>Color for each vertex. Colors are interpolated between vertices, resulting in smooth gradients. There should be one per polygon vertex. If there are fewer, undefined vertices will use <c>color</c>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Polygon2D.AddBone(Godot.NodePath,System.Single[])">
+            <summary>
+            <para>Adds a bone with the specified <c>path</c> and <c>weights</c>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Polygon2D.GetBoneCount">
+            <summary>
+            <para>Returns the number of bones in this <see cref="T:Godot.Polygon2D"/>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Polygon2D.GetBonePath(System.Int32)">
+            <summary>
+            <para>Returns the path to the node associated with the specified bone.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Polygon2D.GetBoneWeights(System.Int32)">
+            <summary>
+            <para>Returns the height values of the specified bone.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Polygon2D.EraseBone(System.Int32)">
+            <summary>
+            <para>Removes the specified bone from this <see cref="T:Godot.Polygon2D"/>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Polygon2D.ClearBones">
+            <summary>
+            <para>Removes all bones from this <see cref="T:Godot.Polygon2D"/>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Polygon2D.SetBonePath(System.Int32,Godot.NodePath)">
+            <summary>
+            <para>Sets the path to the node associated with the specified bone.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Polygon2D.SetBoneWeights(System.Int32,System.Single[])">
+            <summary>
+            <para>Sets the weight values for the specified bone.</para>
             </summary>
         </member>
         <member name="T:Godot.Popup">
@@ -27130,8 +27537,9 @@
         </member>
         <member name="T:Godot.ReflectionProbe">
             <summary>
-            <para>Capture its surroundings as a dual parabolid image, and stores versions of it with increasing levels of blur to simulate different material roughnesses.</para>
+            <para>Capture its surroundings as a dual paraboloid image, and stores versions of it with increasing levels of blur to simulate different material roughnesses.</para>
             <para>The <see cref="T:Godot.ReflectionProbe"/> is used to create high-quality reflections at the cost of performance. It can be combined with <see cref="T:Godot.GIProbe"/>s and Screen Space Reflections to achieve high quality reflections. <see cref="T:Godot.ReflectionProbe"/>s render all objects within their <see cref="P:Godot.ReflectionProbe.CullMask"/>, so updating them can be quite expensive. It is best to update them once with the important static objects and then leave them.</para>
+            <para>Note: By default Godot will only render 16 reflection probes. If you need more, increase the number of atlas subdivisions. This setting can be found in .</para>
             </summary>
         </member>
         <member name="F:Godot.ReflectionProbe.UpdateModeEnum.Once">
@@ -28735,6 +29143,31 @@
             <para>Returns <c>true</c> if the script, or a base class, defines a signal with the given name.</para>
             </summary>
         </member>
+        <member name="M:Godot.Script.GetScriptPropertyList">
+            <summary>
+            <para>Returns the list of properties in this <see cref="T:Godot.Script"/>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Script.GetScriptMethodList">
+            <summary>
+            <para>Returns the list of methods in this <see cref="T:Godot.Script"/>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Script.GetScriptSignalList">
+            <summary>
+            <para>Returns the list of user signals defined in this <see cref="T:Godot.Script"/>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Script.GetScriptConstantMap">
+            <summary>
+            <para>Returns a dictionary containing constant names and their values.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.Script.GetPropertyDefaultValue(System.String)">
+            <summary>
+            <para>Returns the default value of the specified property.</para>
+            </summary>
+        </member>
         <member name="M:Godot.Script.IsTool">
             <summary>
             <para>Returns <c>true</c> if the script is a tool script. A tool script can run in the editor.</para>
@@ -28833,6 +29266,12 @@
         <member name="P:Godot.Shader.Code">
             <summary>
             <para>Returns the shader's code as the user has written it, not the full generated code used internally.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.Shader.CustomDefines">
+            <summary>
+            <para>Returns the shader's custom defines. Custom defines can be used in Godot to add GLSL preprocessor directives (e.g: extensions) required for the shader logic.</para>
+            <para>Note: Custom defines are not validated by the Godot shader parser, so care should be taken when using them.</para>
             </summary>
         </member>
         <member name="M:Godot.Shader.GetMode">
@@ -30966,6 +31405,7 @@
         <member name="T:Godot.Sprite3D">
             <summary>
             <para>A node that displays a 2D texture in a 3D environment. The texture displayed can be a region from a larger atlas texture, or a frame from a sprite sheet animation.</para>
+            <para>Note: There are <a href="https://github.com/godotengine/godot/issues/20855">known performance issues</a> when using <see cref="T:Godot.Sprite3D"/>. Consider using a <see cref="T:Godot.MeshInstance"/> with a <see cref="T:Godot.QuadMesh"/> as the mesh instead. You can still have billboarding by enabling billboard properties in the QuadMesh's <see cref="T:Godot.SpatialMaterial"/>.</para>
             </summary>
         </member>
         <member name="P:Godot.Sprite3D.Texture">
@@ -31081,6 +31521,21 @@
         <member name="P:Godot.SpriteBase3D.DoubleSided">
             <summary>
             <para>If <c>true</c>, texture can be seen from the back as well, if <c>false</c>, it is invisible when looking at it from behind.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.SpriteBase3D.SetDrawFlag(Godot.SpriteBase3D.DrawFlags,System.Boolean)">
+            <summary>
+            <para>If <c>true</c>, the specified flag will be enabled.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.SpriteBase3D.GetDrawFlag(Godot.SpriteBase3D.DrawFlags)">
+            <summary>
+            <para>Returns the value of the specified flag.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.SpriteBase3D.GetItemRect">
+            <summary>
+            <para>Returns the rectangle representing this sprite.</para>
             </summary>
         </member>
         <member name="T:Godot.SpriteFrames">
@@ -31425,9 +31880,19 @@
             <para>A status representing a <see cref="T:Godot.StreamPeerSSL"/> that is disconnected.</para>
             </summary>
         </member>
+        <member name="F:Godot.StreamPeerSSL.Status.Handshaking">
+            <summary>
+            <para>A status representing a <see cref="T:Godot.StreamPeerSSL"/> during handshaking.</para>
+            </summary>
+        </member>
         <member name="F:Godot.StreamPeerSSL.Status.Connected">
             <summary>
             <para>A status representing a <see cref="T:Godot.StreamPeerSSL"/> that is connected to a host.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.StreamPeerSSL.Status.Error">
+            <summary>
+            <para>A status representing a <see cref="T:Godot.StreamPeerSSL"/> in error state.</para>
             </summary>
         </member>
         <member name="F:Godot.StreamPeerSSL.Status.ErrorHostnameMismatch">
@@ -31530,6 +31995,11 @@
         <member name="P:Godot.StreamTexture.LoadPath">
             <summary>
             <para>The StreamTexture's file path to a <c>.stex</c> file.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.StreamTexture.Load(System.String)">
+            <summary>
+            <para>Loads the texture from the given path.</para>
             </summary>
         </member>
         <member name="T:Godot.StyleBox">
@@ -36269,6 +36739,7 @@
         <member name="T:Godot.VisibilityEnabler">
             <summary>
             <para>The VisibilityEnabler will disable <see cref="T:Godot.RigidBody"/> and <see cref="T:Godot.AnimationPlayer"/> nodes when they are not visible. It will only affect other nodes within the same scene as the VisibilityEnabler itself.</para>
+            <para>Note that VisibilityEnabler will not affect nodes added after scene initialization.</para>
             </summary>
         </member>
         <member name="F:Godot.VisibilityEnabler.Enabler.PauseAnimations">
@@ -36309,6 +36780,7 @@
         <member name="T:Godot.VisibilityEnabler2D">
             <summary>
             <para>The VisibilityEnabler2D will disable <see cref="T:Godot.RigidBody2D"/>, <see cref="T:Godot.AnimationPlayer"/>, and other nodes when they are not visible. It will only affect nodes with the same root node as the VisibilityEnabler2D, and the root node itself.</para>
+            <para>Note that VisibilityEnabler2D will not affect nodes added after scene initialization.</para>
             </summary>
         </member>
         <member name="F:Godot.VisibilityEnabler2D.Enabler.PauseAnimations">
@@ -40541,9 +41013,94 @@
             <para>The visual shader editor creates the shader.</para>
             </summary>
         </member>
+        <member name="F:Godot.VisualShader.Type.Vertex">
+            <summary>
+            <para>A vertex shader, operating on vertices.</para>
+            </summary>
+        </member>
+        <member name="F:Godot.VisualShader.Type.Fragment">
+            <summary>
+            <para>A fragment shader, operating on fragments (pixels).</para>
+            </summary>
+        </member>
+        <member name="F:Godot.VisualShader.Type.Light">
+            <summary>
+            <para>A shader for light calculations.</para>
+            </summary>
+        </member>
         <member name="F:Godot.VisualShader.Type.Max">
             <summary>
             <para>Represents the size of the <see cref="T:Godot.VisualShader.Type"/> enum.</para>
+            </summary>
+        </member>
+        <member name="P:Godot.VisualShader.GraphOffset">
+            <summary>
+            <para>The offset vector of the whole graph.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.SetMode(Godot.Shader.Mode)">
+            <summary>
+            <para>Sets the mode of this shader.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.AddNode(Godot.VisualShader.Type,Godot.VisualShaderNode,Godot.Vector2,System.Int32)">
+            <summary>
+            <para>Adds the specified node to the shader.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.GetNode(Godot.VisualShader.Type,System.Int32)">
+            <summary>
+            <para>Returns the shader node instance with specified <c>type</c> and <c>id</c>.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.SetNodePosition(Godot.VisualShader.Type,System.Int32,Godot.Vector2)">
+            <summary>
+            <para>Sets the position of the specified node.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.GetNodePosition(Godot.VisualShader.Type,System.Int32)">
+            <summary>
+            <para>Returns the position of the specified node within the shader graph.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.GetNodeList(Godot.VisualShader.Type)">
+            <summary>
+            <para>Returns the list of all nodes in the shader with the specified type.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.RemoveNode(Godot.VisualShader.Type,System.Int32)">
+            <summary>
+            <para>Removes the specified node from the shader.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.IsNodeConnection(Godot.VisualShader.Type,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            <para>Returns <c>true</c> if the specified node and port connection exist.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.CanConnectNodes(Godot.VisualShader.Type,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            <para>Returns <c>true</c> if the specified nodes and ports can be connected together.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.ConnectNodes(Godot.VisualShader.Type,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            <para>Connects the specified nodes and ports.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.DisconnectNodes(Godot.VisualShader.Type,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            <para>Connects the specified nodes and ports.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.ConnectNodesForced(Godot.VisualShader.Type,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            <para>Connects the specified nodes and ports, even if they can't be connected. Such connection is invalid and will not function properly.</para>
+            </summary>
+        </member>
+        <member name="M:Godot.VisualShader.GetNodeConnections(Godot.VisualShader.Type)">
+            <summary>
+            <para>Returns the list of connected nodes with the specified type.</para>
             </summary>
         </member>
         <member name="F:Godot.VisualShaderNode.PortType.Scalar">
@@ -43829,7 +44386,7 @@
         </member>
         <member name="M:Godot.Thread.Start(Godot.Object,System.String,System.Object,Godot.Thread.Priority)">
             <summary>
-            <para>Starts a new <see cref="T:Godot.Thread"/> that runs <c>method</c> on object <c>instance</c> with <c>userdata</c> passed as an argument. The <c>priority</c> of the <see cref="T:Godot.Thread"/> can be changed by passing a value from the <see cref="T:Godot.Thread.Priority"/> enum.</para>
+            <para>Starts a new <see cref="T:Godot.Thread"/> that runs <c>method</c> on object <c>instance</c> with <c>userdata</c> passed as an argument. Even if no userdata is passed, <c>method</c> must accept one argument and it will be null. The <c>priority</c> of the <see cref="T:Godot.Thread"/> can be changed by passing a value from the <see cref="T:Godot.Thread.Priority"/> enum.</para>
             <para>Returns  on success, or  on failure.</para>
             </summary>
         </member>

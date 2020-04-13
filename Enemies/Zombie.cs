@@ -86,33 +86,47 @@ public class Zombie : KinematicMonster
             cooldown=0;
             state=STATE.ATTACK;
         }
-        else {
-            rayCast2D.CastTo=rayCast2D.CastTo*-1;
+        else if(cooldown>250) 
+        {
+            this.FlipH();
+            cooldown=0;
         }
+        cooldown++;
     }
 
     public override void attack(float delta)
     {
-        Vector2 d=new Vector2(rayCast2D.GlobalPosition.DirectionTo(player.GlobalPosition));
-        d=d*rayCast2D.GlobalPosition.DistanceTo(player.GlobalPosition);
-        rayCast2D.CastTo=d;
-        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==player.GetInstanceId())
+        float distance=rayCast2D.GlobalPosition.DistanceTo(player.GlobalPosition);
+        if(distance<101)
         {
-            if(cooldown>5)
+            Vector2 direction=new Vector2(rayCast2D.GlobalPosition.DirectionTo(player.GlobalPosition));
+            direction=direction*distance;
+            rayCast2D.CastTo=direction;
+            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==player.GetInstanceId())
             {
-                TestBullet bullet=(TestBullet)BULLET.Instance();
-                bullet.Position=getPosition();
-                bullet.direction=GlobalPosition.DirectionTo(player.GlobalPosition);
-                WorldUtils.world.level.AddChild(bullet);
+                if(cooldown<0)
+                {
+                    TestBullet bullet=(TestBullet)BULLET.Instance();
+                    bullet.Position=getPosition();
+                    bullet.direction=GlobalPosition.DirectionTo(player.GlobalPosition);
+                    WorldUtils.world.level.AddChild(bullet);
+                    cooldown=500;
+                }
+            }
+            else {
+                rayCast2D.CastTo=CASTTO;
+                state=STATE.IDLE;
+                player=null;
                 cooldown=0;
             }
-        }
-        else {
+        } else
+        {
             rayCast2D.CastTo=CASTTO;
             state=STATE.IDLE;
             player=null;
+            cooldown=0;
         }
-        cooldown++;
+        cooldown--;
     }
 
     public override void fight(float delta)
@@ -128,6 +142,13 @@ public class Zombie : KinematicMonster
     public Vector2 getPosition()
     {
         return parent!=null?parent.Position+Position:Position;
+    }
+
+
+    void FlipH()
+    {
+        animationController.FlipH^=true;
+        rayCast2D.CastTo*=-1;
     }
 
     public void _Free()
