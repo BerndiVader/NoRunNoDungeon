@@ -1,2 +1,0 @@
-﻿30065
-C:\godot\Godot.exe

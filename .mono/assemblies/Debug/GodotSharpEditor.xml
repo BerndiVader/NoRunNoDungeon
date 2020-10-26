@@ -107,7 +107,7 @@
         </member>
         <member name="M:Godot.EditorFeatureProfile.SaveToFile(System.String)">
             <summary>
-            <para>Saves the editor feature profile to a file in JSON format. It can then be imported using the feature profile manager's Import button or the <see cref="M:Godot.EditorFeatureProfile.LoadFromFile(System.String)"/> button.</para>
+            <para>Saves the editor feature profile to a file in JSON format. It can then be imported using the feature profile manager's Import button or the <see cref="M:Godot.EditorFeatureProfile.LoadFromFile(System.String)"/> button.</para>
             </summary>
         </member>
         <member name="M:Godot.EditorFeatureProfile.LoadFromFile(System.String)">
@@ -229,6 +229,7 @@
         <member name="T:Godot.EditorFileSystem">
             <summary>
             <para>This object holds information of all resources in the filesystem, their types, etc.</para>
+            <para>Note: This class shouldn't be instantiated directly. Instead, access the singleton using <see cref="M:Godot.EditorInterface.GetResourceFilesystem"/>.</para>
             </summary>
         </member>
         <member name="M:Godot.EditorFileSystem.GetFilesystem">
@@ -440,7 +441,8 @@
         </member>
         <member name="T:Godot.EditorInspector">
             <summary>
-            <para>The editor inspector is by default located on the right-hand side of the editor. It's used to edit the properties of the selected node. For example, you can select a node such as Sprite2D then edit its transform through the inspector tool. The editor inspector is an essential tool in the game development workflow.</para>
+            <para>The editor inspector is by default located on the right-hand side of the editor. It's used to edit the properties of the selected node. For example, you can select a node such as <see cref="T:Godot.Sprite"/> then edit its transform through the inspector tool. The editor inspector is an essential tool in the game development workflow.</para>
+            <para>Note: This class shouldn't be instantiated directly. Instead, access the singleton using <see cref="M:Godot.EditorInterface.GetInspector"/>.</para>
             </summary>
         </member>
         <member name="T:Godot.EditorInspectorPlugin">
@@ -497,6 +499,7 @@
         <member name="T:Godot.EditorInterface">
             <summary>
             <para>EditorInterface gives you control over Godot editor's window. It allows customizing the window, saving and (re-)loading scenes, rendering mesh previews, inspecting and editing resources and objects, and provides access to <see cref="T:Godot.EditorSettings"/>, <see cref="T:Godot.EditorFileSystem"/>, <see cref="T:Godot.EditorResourcePreview"/>, <see cref="T:Godot.ScriptEditor"/>, the editor viewport, and information about scenes.</para>
+            <para>Note: This class shouldn't be instantiated directly. Instead, access the singleton using <see cref="M:Godot.EditorPlugin.GetEditorInterface"/>.</para>
             </summary>
         </member>
         <member name="M:Godot.EditorInterface.InspectObject(Godot.Object,System.String)">
@@ -912,6 +915,7 @@
         <member name="T:Godot.EditorResourcePreview">
             <summary>
             <para>This object is used to generate previews for resources of files.</para>
+            <para>Note: This class shouldn't be instantiated directly. Instead, access the singleton using <see cref="M:Godot.EditorInterface.GetResourcePreviewer"/>.</para>
             </summary>
         </member>
         <member name="M:Godot.EditorResourcePreview.QueueResourcePreview(System.String,Godot.Object,System.String,System.Object)">
@@ -1079,6 +1083,7 @@
         <member name="T:Godot.EditorSelection">
             <summary>
             <para>This object manages the SceneTree selection in the editor.</para>
+            <para>Note: This class shouldn't be instantiated directly. Instead, access the singleton using <see cref="M:Godot.EditorInterface.GetSelection"/>.</para>
             </summary>
         </member>
         <member name="M:Godot.EditorSelection.Clear">
@@ -1115,6 +1120,7 @@
             settings.get(prop)
             list_of_settings = settings.get_property_list()
             </code></para>
+            <para>Note: This class shouldn't be instantiated directly. Instead, access the singleton using <see cref="M:Godot.EditorInterface.GetEditorSettings"/>.</para>
             </summary>
         </member>
         <member name="F:Godot.EditorSettings.NotificationEditorSettingsChanged">
@@ -1424,6 +1430,11 @@
         <member name="M:Godot.ScriptCreateDialog.Config(System.String,System.String,System.Boolean,System.Boolean)">
             <summary>
             <para>Prefills required fields to configure the ScriptCreateDialog for use.</para>
+            </summary>
+        </member>
+        <member name="T:Godot.ScriptEditor">
+            <summary>
+            <para>Note: This class shouldn't be instantiated directly. Instead, access the singleton using <see cref="M:Godot.EditorInterface.GetScriptEditor"/>.</para>
             </summary>
         </member>
         <member name="M:Godot.ScriptEditor.GotoLine(System.Int32)">

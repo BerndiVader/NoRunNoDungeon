@@ -94,9 +94,17 @@
     <Compile Include="StateMachine\STATE.cs" />
     <Compile Include="Stick.cs" />
     <Compile Include="Touch.cs" />
+    <Compile Include="weapons\Sword.cs" />
+    <Compile Include="weapons\Weapon.cs" />
     <Compile Include="World.cs" />
     <Compile Include="WorldUtils.cs" />
     <Compile Include="XButton.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies">
+      <Version>1.0.0</Version>
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

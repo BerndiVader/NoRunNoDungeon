@@ -4,7 +4,7 @@ using System;
 public class Intro : Node
 {
     static InputController input;
-
+    
     public override void _Ready()
     {
         input=ResourceUtils.getInputController(this);
