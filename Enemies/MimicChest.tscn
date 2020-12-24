@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://image/0x72/frames/chest_mimic_open_anim_f1.png" type="Texture" id=1]
+[ext_resource path="res://image/0x72/frames/chest_mimic_open_anim_f2.png" type="Texture" id=2]
+[ext_resource path="res://image/0x72/frames/chest_mimic_open_anim_f0.png" type="Texture" id=3]
+[ext_resource path="res://Enemies/MimicChest.cs" type="Script" id=4]
+[ext_resource path="res://image/0x72/frames/chest_empty_open_anim_f0.png" type="Texture" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 6.76483, 7.69311 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "attack",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "calm",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": false,
+"name": "die",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "fight",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 8.22243, 6.85897 )
+
+[node name="MimicChest" type="KinematicBody2D"]
+position = Vector2( 0, -1 )
+collision_layer = 0
+collision_mask = 6
+script = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.43042, 0.71521 )
+rotation = -1.5708
+shape = SubResource( 1 )
+one_way_collision_margin = 0.0
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "die"
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+cast_to = Vector2( 50, 0 )
+collision_mask = 3
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=[
+"Enemies",
+]]
+collision_layer = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 0, 1 )
+shape = SubResource( 3 )

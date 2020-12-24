@@ -15,6 +15,7 @@ public class IntroMap : TileMap
     public override void _Ready()
     {
         VisualServer.SetDefaultClearColor(color);
+
         tween=new Tween();
         colorTween=new Tween();
         tween.Connect("tween_all_completed",this,nameof(finishedTween));

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Renderer : Camera2D
+public class Renderer : CanvasModulate
 {
     [Export] public double ShakeMax=6d;
     public double shake;

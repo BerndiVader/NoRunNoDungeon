@@ -9,9 +9,10 @@
 [ext_resource path="res://Buttons.cs" type="Script" id=7]
 
 [node name="Buttons" type="Node2D"]
-modulate = Color( 1, 1, 1, 0.392157 )
+modulate = Color( 1, 1, 1, 0.784314 )
 position = Vector2( 458, 235 )
 scale = Vector2( 2, 2 )
+z_index = 1500
 script = ExtResource( 7 )
 
 [node name="X" type="TouchScreenButton" parent="."]

@@ -38,7 +38,8 @@ public static class WorldUtils
             }
             else
             {
-                currentScene.Free();
+                currentScene.QueueFree();
+                //free
             }
     }
 

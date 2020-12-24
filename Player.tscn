@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Player.cs" type="Script" id=1]
 [ext_resource path="res://image/0x72/frames/knight_f_hit_anim_f0.png" type="Texture" id=2]
@@ -6,24 +6,28 @@
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f1.png" type="Texture" id=4]
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f2.png" type="Texture" id=5]
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f3.png" type="Texture" id=6]
+[ext_resource path="res://image/gfx/player_light.png" type="Texture" id=7]
+[ext_resource path="res://PlayerLight2D.cs" type="Script" id=8]
+[ext_resource path="res://image/gfx/player_light_big.png" type="Texture" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 2 ) ],
-"loop": true,
-"name": "HIT",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "RUN",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "HIT",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 4.07659, 6.09739 )
 
 [node name="Player" type="KinematicBody2D"]
+position = Vector2( 0, -1 )
 collision_mask = 54
 script = ExtResource( 1 )
 GRAVITY = 700.0
@@ -31,6 +35,22 @@ WALK_FORCE = 1300.0
 WALK_MIN_SPEED = 119.0
 WALK_MAX_SPEED = 119.0
 JUMP_SPEED = 220.0
+
+[node name="Light2D" type="Light2D" parent="."]
+scale = Vector2( 2.61193, 2.61193 )
+texture = ExtResource( 9 )
+color = Color( 0.984314, 0.952941, 0.470588, 1 )
+energy = 1.24
+mode = 2
+script = ExtResource( 8 )
+MaxLight = 1.35
+
+[node name="Sprite" type="Sprite" parent="Light2D"]
+modulate = Color( 1, 1, 1, 0.278431 )
+position = Vector2( -2.38419e-06, 1.19209e-06 )
+scale = Vector2( 1.34804, 1.34804 )
+z_index = -2000
+texture = ExtResource( 7 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )

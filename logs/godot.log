@@ -1,0 +1,10 @@
+Godot Engine v3.2.3.stable.mono.official - https://godotengine.org
+OpenGL ES 3.0 Renderer: AMD Radeon (TM) R7 360 Series
+ 
+Mono: Log file is: 'C:\Users\BerndiVader\AppData\Roaming/Godot/mono/mono_logs/2020_12_18 17.19.58 (12312).txt'
+**ERROR**: Cannot instance script because the project assembly is not loaded. Script: 'res://BerndiVader.cs'.
+   At: modules/mono/csharp_script.cpp:2939:can_instance() - Method failed. Returning: __null
+**ERROR**: Cannot instance script because the project assembly is not loaded. Script: 'res://k1.cs'.
+   At: modules/mono/csharp_script.cpp:2939:can_instance() - Method failed. Returning: __null
+**ERROR**: Cannot instance script because the project assembly is not loaded. Script: 'res://k2.cs'.
+   At: modules/mono/csharp_script.cpp:2939:can_instance() - Method failed. Returning: __null

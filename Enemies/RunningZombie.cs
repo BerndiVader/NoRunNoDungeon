@@ -25,14 +25,13 @@ public class RunningZombie : KinematicMonster
     float slopeAngle=0f;
     Vector2 lastVelocity=new Vector2(0f,0f);
 
-    AnimatedSprite animationController;
     CollisionShape2D collisionController;
     VisibilityNotifier2D notifier2D;
     RayCast2D rayCast2D;
-    Placeholder parent;
 
     public override void _Ready()
     {
+        base._Ready();
         notifier2D=new VisibilityNotifier2D();
         if(GetParent().GetType().Name=="Placeholder")
         {
@@ -53,7 +52,6 @@ public class RunningZombie : KinematicMonster
         state=STATE.IDLE;
 
         collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
-
 
         direction=new Vector2(-1,0);
     }
@@ -192,14 +190,7 @@ public class RunningZombie : KinematicMonster
 
     public override void die(float delta)
     {
-        throw new NotImplementedException();
-    }
-
-
-
-    public Vector2 getPosition()
-    {
-        return parent!=null?parent.Position+Position:Position;
+        base.die(delta);
     }
 
     bool inRange()
@@ -221,21 +212,13 @@ public class RunningZombie : KinematicMonster
         collisionController.Position=position;
     }
 
-    public void _Free()
-    {
-        if(parent!=null)
-        {
-            parent.CallDeferred("queue_free");
-        }
-        else
-        {
-            CallDeferred("queue_free");
-        }
-    }
-
     void exitedScreen()
     {
         CallDeferred("queue_free");
     }
 
+    public override void calm(float delta)
+    {
+        throw new NotImplementedException();
+    }
 }

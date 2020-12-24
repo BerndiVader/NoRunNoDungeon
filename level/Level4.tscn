@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://Placeholders/SpikesUp.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Placeholders/MadTreasure.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Placeholders/ZombieRunning.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Placeholders/ChestMimic.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Placeholders/PlatformMoving2x2.tscn" type="PackedScene" id=13]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -206,6 +208,37 @@ position = Vector2( 5112, 152 )
 [node name="ZombieRunning15" parent="." instance=ExtResource( 11 )]
 position = Vector2( 5040, 168 )
 
+[node name="ChestMimic" parent="." instance=ExtResource( 12 )]
+position = Vector2( 592, 184 )
+
+[node name="PlatformMoving3x4" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1240, 152 )
+
+[node name="MovingPlatform0" parent="PlatformMoving3x4" index="0"]
+Direction = Vector2( -1, 0 )
+Speed = 40.0
+MaxSpeed = 40.0
+Length = 1
+LerpFactor = 2.0
+Linear = false
+
+[node name="ChestMimic2" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1240, 136 )
+
+[node name="PlatformMoving2x2" parent="." instance=ExtResource( 13 )]
+position = Vector2( 2920, 184 )
+
+[node name="MovingPlatform0" parent="PlatformMoving2x2" index="0"]
+Speed = 30.0
+MaxSpeed = 40.0
+Length = 2
+LerpFactor = 2.0
+Linear = false
+
 [editable path="PlatformMoving3x3"]
 
 [editable path="SpikesUp2"]
+
+[editable path="PlatformMoving3x4"]
+
+[editable path="PlatformMoving2x2"]

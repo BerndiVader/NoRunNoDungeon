@@ -6,5 +6,6 @@ public enum STATE
     IDLE,
     ATTACK,
     FIGHT,
+    CALM,
     DIE
 }

@@ -14,11 +14,10 @@ public class Zombie : KinematicMonster
 
     RayCast2D rayCast2D;
     Vector2 CASTTO;
-    AnimatedSprite animationController;
-    Placeholder parent;
 
     public override void _Ready()
     {
+        base._Ready();
         notifier2D=new VisibilityNotifier2D();
         if(GetParent().GetType().Name=="Placeholder")
         {
@@ -45,11 +44,13 @@ public class Zombie : KinematicMonster
 
         if(animationController.FlipH)
         {
-            rayCast2D.CastTo=rayCast2D.CastTo*-1;
+            rayCast2D.CastTo=CASTTO*-1;
+        } else
+        {
+            rayCast2D.CastTo=CASTTO;
         }
 
         BULLET=ResourceUtils.bullets[(int)BULLETS.TESTBULLET];
-
     }
 
     public override void _PhysicsProcess(float delta)
@@ -100,6 +101,9 @@ public class Zombie : KinematicMonster
         if(distance<101)
         {
             Vector2 direction=new Vector2(rayCast2D.GlobalPosition.DirectionTo(player.GlobalPosition));
+
+            FlipH(direction.x<0);
+
             direction=direction*distance;
             rayCast2D.CastTo=direction;
             if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==player.GetInstanceId())
@@ -110,18 +114,18 @@ public class Zombie : KinematicMonster
                     bullet.Position=getPosition();
                     bullet.direction=GlobalPosition.DirectionTo(player.GlobalPosition);
                     WorldUtils.world.level.AddChild(bullet);
-                    cooldown=500;
+                    cooldown=10;
                 }
             }
             else {
-                rayCast2D.CastTo=CASTTO;
+                rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
                 state=STATE.IDLE;
                 player=null;
                 cooldown=0;
             }
         } else
         {
-            rayCast2D.CastTo=CASTTO;
+            rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
             state=STATE.IDLE;
             player=null;
             cooldown=0;
@@ -136,35 +140,41 @@ public class Zombie : KinematicMonster
 
     public override void die(float delta)
     {
-        throw new NotImplementedException();
+        base.die(delta);
     }
-
-    public Vector2 getPosition()
-    {
-        return parent!=null?parent.Position+Position:Position;
-    }
-
 
     void FlipH()
     {
         animationController.FlipH^=true;
-        rayCast2D.CastTo*=-1;
+        if(animationController.FlipH)
+        {
+            rayCast2D.CastTo=CASTTO*-1;
+        } else
+        {
+            rayCast2D.CastTo=CASTTO;
+        }
     }
 
-    public void _Free()
+    void FlipH(bool flip=false)
     {
-        if(parent!=null)
+        animationController.FlipH=flip;
+        if(flip)
         {
-            parent.CallDeferred("queue_free");
-        }
-        else
+            rayCast2D.CastTo=CASTTO*-1;
+        } else
         {
-            CallDeferred("queue_free");
+            rayCast2D.CastTo=CASTTO;
         }
+
     }
 
     void exitedScreen()
     {
         CallDeferred("queue_free");
+    }
+
+    public override void calm(float delta)
+    {
+        throw new NotImplementedException();
     }
 }

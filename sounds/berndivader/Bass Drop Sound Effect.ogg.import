@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Bass Drop Sound Effect.ogg-310625846c8e5b0f6fb031cc90e3ff27.oggstr"
+
+[deps]
+
+source_file="res://sounds/berndivader/Bass Drop Sound Effect.ogg"
+dest_files=[ "res://.import/Bass Drop Sound Effect.ogg-310625846c8e5b0f6fb031cc90e3ff27.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="nodungeon"
-run/main_scene="res://Intro.tscn"
+run/main_scene="res://BerndiVader.tscn"
 boot_splash/image="res://image/splash.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false

@@ -24,6 +24,11 @@ public class DesktopInput : InputController
     {
         return Input.IsKeyPressed((int)KeyList.Up);
     }
+
+    public override bool getAttack()
+    {
+        return Input.IsKeyPressed((int)KeyList.Right);
+    }
     public override void _free()
     {
         return;

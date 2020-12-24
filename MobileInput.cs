@@ -43,6 +43,11 @@ public class MobileInput : InputController
         return buttons.jump.justPressed();
     }
 
+    public override bool getAttack()
+    {
+        return buttons.o.justPressed();
+    }
+
     public override void _free()
     {
         touch.QueueFree();

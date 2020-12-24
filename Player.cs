@@ -31,16 +31,19 @@ public class Player : KinematicBody2D
 
     AnimatedSprite animationController;
     CollisionShape2D collisionController;
+    Weapon weapon;
 
     public override void _Ready()
     {
         world=WorldUtils.world;
-
         Position=world.level.startingPoint.Position;
 
         animationController=(AnimatedSprite)this.GetNode("AnimatedSprite");
         collisionController=(CollisionShape2D)this.GetNode("CollisionShape2D");
         animationController.Play(ANIM_RUN);
+
+        equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.SWORD]);
+
         this.AddToGroup("Players");
         ZIndex=1;
     }
@@ -54,8 +57,14 @@ public class Player : KinematicBody2D
         bool left=world.input.getLeft();
         bool right=world.input.getRight();
         bool jump=world.input.getJump();
+        bool attack=world.input.getAttack();
 
         bool stop=true;
+
+        if(attack&&weapon!=null)
+        {
+            weapon.attack();
+        }
 
         if(left)
         {
@@ -95,8 +104,37 @@ public class Player : KinematicBody2D
         } 
         else 
         {
-            Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0f,8f);
+            Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0f,4f);
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
+        }
+
+        int collides=GetSlideCount();
+        if(collides>0&&!jumping)
+        {
+            for(int i=0;i<collides;i++)
+            {
+                KinematicCollision2D collision=GetSlideCollision(i);
+                Node2D collider=(Node2D)collision.Collider;
+                if(collider.IsInGroup("Enemies"))
+                {
+                    if(collision.Normal.AngleTo(Vector2.Up)==0)
+                    {
+                        velocity.y=-JUMP_SPEED;
+                        animationController.Play(ANIM_JUMP);
+                        justJumped=jumping=true;
+
+                        if(collider.GetParent()!=null)
+                        {
+                            collider.GetParent().EmitSignal("Die");
+                        }
+                        else
+                        {
+                            collider.EmitSignal("Die");                            
+                        }
+                    }
+                }
+
+            }
         }
 
         if(IsOnCeiling()) 
@@ -176,6 +214,21 @@ public class Player : KinematicBody2D
             return Mathf.Abs(slopeAngle)>=0.785298f;
         }
         return false;
+    }
+
+    public void equipWeapon(PackedScene packed)
+    {
+        weapon=(Weapon)packed.Instance();
+        if(weapon!=null)
+        {
+            AddChild(weapon);
+        }
+    }
+
+    public void unequipWeapon()
+    {
+        RemoveChild(weapon);
+        weapon.QueueFree();
     }
 
 }

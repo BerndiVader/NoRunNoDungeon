@@ -10,8 +10,10 @@ public static class ResourceUtils
     public static List<PackedScene> levels;
     public static List<PackedScene> enemies;
     public static List<PackedScene> bullets;
+    public static List<PackedScene> weapons;
     public static List<TileSet> tilesets;
     public static List<PackedScene> particles;
+    public static List<PackedScene> gfx;
     public static PackedScene background;
     public static List<Texture> bgTextures;
     public static PackedScene touch;
@@ -30,6 +32,8 @@ public static class ResourceUtils
         bgTextures=new List<Texture>();
         particles=new List<PackedScene>();
         bullets=new List<PackedScene>();
+        gfx=new List<PackedScene>();
+        weapons=new List<PackedScene>();
 
         if(isMobile)
         {
@@ -52,8 +56,20 @@ public static class ResourceUtils
 
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/BlockParticles.tscn"));
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/CoinTakenParticles.tscn"));
+        particles.Add((PackedScene)ResourceLoader.Load("res://Particles/EnemieDieParticles.tscn"));
 
         bullets.Add((PackedScene)ResourceLoader.Load("res://Bullets/TestBullet.tscn"));
+
+        gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx1.tscn"));
+        gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx2.tscn"));
+        gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx3.tscn"));
+        gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx4.tscn"));
+        gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx5.tscn"));
+
+        weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Sword.tscn"));
+        weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Broadsword.tscn"));
+
+        AudioStreamOGGVorbis audio=(AudioStreamOGGVorbis)ResourceLoader.Load("res://sounds/berndivader/Bass Drop Sound Effect.ogg");
 
     }
 
