@@ -12,6 +12,7 @@ public class Staff : Weapon
     }
     public void _Init()
     {
+        GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
         owner=GetParent<Zombie>();
 
         if(owner!=null)
@@ -70,9 +71,10 @@ public class Staff : Weapon
 
     public override void hitSomething(Node node)
     {
+        GD.Print(node.Name+":"+state+":"+hit);
         if(state==WEAPONSTATE.ATTACK&&!hit)
         {
-            if(node.IsInGroup("Players"))
+            if(node.Name=="Player")
             {
                 node.EmitSignal("Damage",1f);                            
                 hit=true;

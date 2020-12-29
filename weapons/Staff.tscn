@@ -115,6 +115,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 15.0, -150.0, 15.0 ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Animation" id=6]
 resource_name = "SWING_RIGHT"
@@ -144,9 +156,21 @@ tracks/1/keys = {
 "update": 0,
 "values": [ -15.0, 150.0, -15.0 ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 2.21269, 18.37 )
+extents = Vector2( 2.21269, 13.058 )
 
 [node name="Staff" type="Area2D"]
 position = Vector2( -6, -2 )
@@ -167,5 +191,6 @@ position = Vector2( 0, -8 )
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.0693507, -3.87748 )
+position = Vector2( -0.0507669, -11.1566 )
 shape = SubResource( 3 )
+disabled = true
