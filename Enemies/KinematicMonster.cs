@@ -3,7 +3,7 @@ using System;
 
 public abstract class KinematicMonster : KinematicBody2D
 {
-
+    [Export] public Vector2 ANIMATION_OFFSET=Vector2.Zero;
     [Signal]
     public delegate void Die();
     [Signal]
@@ -11,22 +11,32 @@ public abstract class KinematicMonster : KinematicBody2D
     [Signal]
     public delegate void Fight(Player player);
     [Signal]
+    public delegate void Damage(Player player,float amount);
+    [Signal]
+    public delegate void Passanger(Player player);
+    [Signal]
     public delegate void Calm();
     [Signal]
     public delegate void Idle();
     
-    public STATE state;
-    protected Player victim;
+    public STATE state,lastState;
+    protected Player victim,attacker;
+    protected float damageAmount;
     protected Placeholder parent;
-    protected AnimatedSprite animationController;
+    public AnimatedSprite animationController;
+    protected Godot.AnimationPlayer animationPlayer;
+    protected Vector2 startOffset=Vector2.Zero;
+    protected int animationDirection=1,health=1;
 
     public override void _Ready()
     {
+        Connect("Passanger",this,nameof(onPassanger));
         Connect("Die",this,nameof(onDie));
         Connect("Attack",this,nameof(onAttack));
         Connect("Fight",this,nameof(onFight));
         Connect("Calm",this,nameof(onCalm));
         Connect("Idle",this,nameof(onIdle));
+        Connect("Damage",this,nameof(onDamage));
 
         AddToGroup("Enemies",true);
 
@@ -52,6 +62,16 @@ public abstract class KinematicMonster : KinematicBody2D
                 fight(delta);
                 break;
             }
+            case STATE.DAMAGE:
+            {
+                damage(delta);
+                break;
+            }
+            case STATE.PASSANGER:
+            {
+                passanger(delta);
+                break;
+            }
             case STATE.CALM:
             {
                 calm(delta);
@@ -75,12 +95,23 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     public virtual void fight(float delta)
     {
-
+        state=lastState;
+    }
+    public virtual void passanger(float delta)
+    {
+        state=health<=0?state=STATE.DIE:state=lastState;
     }
     public virtual void calm(float delta)
     {
 
     }
+    public virtual void damage(float delta)
+    {
+        lastState=state;
+        state=STATE.DIE;
+
+    }
+
     public virtual void die(float delta)
     {
         EnemieDieParticles particles=(EnemieDieParticles)ResourceUtils.particles[(int)PARTICLES.ENEMIEDIEPARTICLES].Instance();
@@ -98,24 +129,44 @@ public abstract class KinematicMonster : KinematicBody2D
 
     public virtual void onDie()
     {
+        lastState=state;
         state=STATE.DIE;
     }
     public virtual void onAttack(Player player)
     {
+        lastState=state;
         state=STATE.ATTACK;
         victim=player;
     }
     public virtual void onFight(Player player)
     {
+        lastState=state;
         state=STATE.FIGHT;
         victim=player;
     }
+    public virtual void onDamage(Player player,int amount)
+    {
+        lastState=state;
+        state=STATE.DAMAGE;
+        attacker=player;
+        damageAmount=amount;
+        health-=amount;
+    }
+    public virtual void onPassanger(Player player)
+    {
+        lastState=state;
+        state=STATE.PASSANGER;
+        attacker=player;
+        health--;
+    }
     public virtual void onCalm()
     {
+        lastState=state;
         state=STATE.CALM;
     }
     public virtual void onIdle()
     {
+        lastState=state;
         state=STATE.IDLE;
     }
 
@@ -135,6 +186,15 @@ public abstract class KinematicMonster : KinematicBody2D
             CallDeferred("queue_free");
         }
     }
-
+    public void animationPlayerStarts(String name)
+    {
+        startOffset=Position;
+    }
+    public void animationPlayerEnded(String name)
+    {
+        startOffset=Position;
+        ANIMATION_OFFSET=Vector2.Zero;
+        animationDirection=1;
+    }
 
 }

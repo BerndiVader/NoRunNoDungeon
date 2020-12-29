@@ -36,23 +36,4 @@ public class Sword : Weapon
             state=WEAPONSTATE.ATTACK;
         }
     }
-
-    public void hitSomething(Node node)
-    {
-        if(state==WEAPONSTATE.ATTACK)
-        {
-            if(node.IsInGroup("Enemies"))
-            {
-                if(node.GetParent()!=null)
-                {
-                    node.GetParent().EmitSignal("Die");
-                }
-                else
-                {
-                    node.EmitSignal("Die");                            
-                }
-            }
-        }
-    }
-
 }

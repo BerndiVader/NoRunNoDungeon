@@ -1,0 +1,27 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://image/gfx/torch_light_klein.png" type="Texture" id=1]
+[ext_resource path="res://Gfx/LightTorch.cs" type="Script" id=2]
+[ext_resource path="res://image/gfx/torch/side_torch_3.png" type="Texture" id=3]
+[ext_resource path="res://image/gfx/torch/side_torch_4.png" type="Texture" id=4]
+[ext_resource path="res://image/gfx/torch/side_torch_1.png" type="Texture" id=5]
+[ext_resource path="res://image/gfx/torch/side_torch_2.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[node name="Light" type="Light2D"]
+texture = ExtResource( 1 )
+color = Color( 0.960784, 0.607843, 0.0470588, 1 )
+script = ExtResource( 2 )
+MinLight = 0.9
+MaxLight = 1.2
+LightDelay = 10
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )

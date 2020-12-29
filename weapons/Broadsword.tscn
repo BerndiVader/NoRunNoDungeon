@@ -6,9 +6,9 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4.04139, 11.2077 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "DOUBLE_SWING"
-length = 0.28
+length = 0.36
 step = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -17,7 +17,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.08, 0.16, 0.22, 0.28 ),
+"times": PoolRealArray( 0, 0.12, 0.24, 0.3, 0.36 ),
 "transitions": PoolRealArray( 0.0824694, 0.217638, 0.999999, 0.999999, 1 ),
 "update": 0,
 "values": [ Vector2( -17.5998, 6.73386 ), Vector2( 20.101, 6.73386 ), Vector2( -3.11471, -16.085 ), Vector2( 15.5373, 6.73386 ), Vector2( -9.46432, 16.8536 ) ]
@@ -29,7 +29,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.08, 0.16, 0.22, 0.28 ),
+"times": PoolRealArray( 0, 0.12, 0.24, 0.3, 0.36 ),
 "transitions": PoolRealArray( 1, 0.25, 1, 1.10957, 1 ),
 "update": 0,
 "values": [ 89.9999, 89.9999, -27.2881, 92.6717, 226.285 ]
@@ -41,14 +41,13 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.08, 0.16 ),
+"times": PoolRealArray( 0, 0.12, 0.24 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "SETUP"
+[sub_resource type="Animation" id=3]
 length = 0.001
 step = 0.01
 tracks/0/type = "value"
@@ -88,8 +87,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "SWING"
+[sub_resource type="Animation" id=4]
 length = 0.16
 step = 0.01
 tracks/0/type = "value"
@@ -130,8 +128,8 @@ tracks/2/keys = {
 }
 
 [node name="Broadsword" type="Area2D"]
-position = Vector2( -9.46432, 16.8536 )
-rotation = 3.94942
+position = Vector2( -8.60937, 16.759 )
+rotation = 3.92699
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 6.73386 ]
@@ -148,6 +146,6 @@ scale = Vector2( 1.2, 1.2 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/DOUBLE_SWING = SubResource( 4 )
-anims/SETUP = SubResource( 2 )
-anims/SWING = SubResource( 3 )
+anims/DOUBLE_SWING = SubResource( 2 )
+anims/SETUP = SubResource( 3 )
+anims/SWING = SubResource( 4 )

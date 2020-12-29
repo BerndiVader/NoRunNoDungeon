@@ -7,18 +7,26 @@ public class Zombie : KinematicMonster
     PackedScene BULLET;
     VisibilityNotifier2D notifier2D;
 
-    Vector2 velocity=new Vector2(0f,0f);
+    Vector2 velocity=Vector2.Zero;
     int cooldown;
 
     Player player;
 
     RayCast2D rayCast2D;
     Vector2 CASTTO;
+    Staff weapon;
 
     public override void _Ready()
     {
         base._Ready();
+        weapon=GetNode<Staff>("Staff");
+
+        animationPlayer=GetNode<Godot.AnimationPlayer>("AnimationPlayer");
+        animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
+        animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
+
         notifier2D=new VisibilityNotifier2D();
+
         if(GetParent().GetType().Name=="Placeholder")
         {
             parent=(Placeholder)GetParent();
@@ -29,6 +37,7 @@ public class Zombie : KinematicMonster
             notifier2D.Connect("screen_exited",this,"exitedScreen");
         }
         AddChild(notifier2D);
+
 
         rayCast2D=(RayCast2D)GetNode("RayCast2D");
         rayCast2D.Enabled=true;
@@ -50,33 +59,44 @@ public class Zombie : KinematicMonster
             rayCast2D.CastTo=CASTTO;
         }
 
+        if(weapon!=null)
+        {
+            weapon._Init();
+        }
+
         BULLET=ResourceUtils.bullets[(int)BULLETS.TESTBULLET];
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        Vector2 force=new Vector2(0,GRAVITY);
-
-        velocity+=GetFloorVelocity()*delta;
-        velocity+=force*delta;
-
-        KinematicCollision2D collision=MoveAndCollide(velocity*delta);
-
-        if(collision!=null)
+        if(!animationPlayer.IsPlaying())
         {
-            Node2D node=(Node2D)collision.Collider;
-            velocity=velocity.Bounce(collision.Normal)*0.01f;
+            Vector2 force=new Vector2(0,GRAVITY);
 
-            if(node.IsInGroup("Platforms"))
+            velocity+=GetFloorVelocity()*delta;
+            velocity+=force*delta;
+
+            KinematicCollision2D collision=MoveAndCollide(velocity*delta);
+
+            if(collision!=null)
             {
-                Platform collider=(Platform)node;
-                velocity.x+=collider.CurrentSpeed.x;
+                Node2D node=(Node2D)collision.Collider;
+                velocity=velocity.Bounce(collision.Normal)*0.01f;
+
+                if(node.IsInGroup("Platforms"))
+                {
+                    Platform collider=(Platform)node;
+                    velocity.x+=collider.CurrentSpeed.x;
+                }
+
             }
-
         }
-
+        else
+        {
+            Position=startOffset+(ANIMATION_OFFSET*animationDirection);
+        }
         tick(delta);
-    
+
     }
 
     public override void idle(float delta)
@@ -98,7 +118,7 @@ public class Zombie : KinematicMonster
     public override void attack(float delta)
     {
         float distance=rayCast2D.GlobalPosition.DistanceTo(player.GlobalPosition);
-        if(distance<101)
+        if(distance<41)
         {
             Vector2 direction=new Vector2(rayCast2D.GlobalPosition.DirectionTo(player.GlobalPosition));
 
@@ -108,12 +128,13 @@ public class Zombie : KinematicMonster
             rayCast2D.CastTo=direction;
             if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==player.GetInstanceId())
             {
-                if(cooldown<0)
+                if(cooldown<0&&!weapon.animationPlayer.IsPlaying())
                 {
-                    TestBullet bullet=(TestBullet)BULLET.Instance();
-                    bullet.Position=getPosition();
-                    bullet.direction=GlobalPosition.DirectionTo(player.GlobalPosition);
-                    WorldUtils.world.level.AddChild(bullet);
+                    weapon.attack();
+//                    TestBullet bullet=(TestBullet)BULLET.Instance();
+//                    bullet.Position=getPosition();
+//                    bullet.direction=GlobalPosition.DirectionTo(player.GlobalPosition);
+//                    WorldUtils.world.level.AddChild(bullet);
                     cooldown=10;
                 }
             }
@@ -138,9 +159,51 @@ public class Zombie : KinematicMonster
         throw new NotImplementedException();
     }
 
+    public override void damage(float delta)
+    {
+        if(!animationPlayer.IsPlaying())
+        {
+            if(health<=0)
+            {
+                EmitSignal("Die");
+            }
+            else
+            {
+                state=lastState;
+            }
+        }
+    }
+
+    public override void passanger(float delta)
+    {
+        if(!animationPlayer.IsPlaying())
+        {
+            base.passanger(delta);
+        }
+    }
+
     public override void die(float delta)
     {
         base.die(delta);
+    }
+
+    public override void onDamage(Player player, int amount)
+    {
+        if(state!=STATE.DAMAGE&&state!=STATE.DIE)
+        {
+            base.onDamage(player, amount);
+            if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
+            {
+                animationDirection=-1;
+            }
+            animationPlayer.Play("HIT");
+        }
+    }
+
+    public override void onPassanger(Player player)
+    {
+        base.onPassanger(player);
+        animationPlayer.Play("PASSANGER");
     }
 
     void FlipH()
@@ -165,7 +228,6 @@ public class Zombie : KinematicMonster
         {
             rayCast2D.CastTo=CASTTO;
         }
-
     }
 
     void exitedScreen()
@@ -177,4 +239,5 @@ public class Zombie : KinematicMonster
     {
         throw new NotImplementedException();
     }
+
 }

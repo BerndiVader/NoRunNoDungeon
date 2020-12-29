@@ -7,5 +7,7 @@ public enum STATE
     ATTACK,
     FIGHT,
     CALM,
+    DAMAGE,
+    PASSANGER,
     DIE
 }

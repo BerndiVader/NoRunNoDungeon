@@ -10,12 +10,13 @@ public class RunningZombie : KinematicMonster
     [Export] public float WALK_MIN_SPEED=10f;
     [Export] public float WALK_MAX_SPEED=60f;
     [Export] public float STOP_FORCE=1300f;
-    [Export] public float JUMP_SPEED=100f;
+    [Export] public float JUMP_SPEED=130f;
     [Export] public float JUMP_MAX_AIRBORNE_TIME=0.2f;
     [Export] public float SLIDE_STOP_VELOCITY=1f;
     [Export] public float SLIDE_STOP_MIN_TRAVEL=1f;
 
     Vector2 velocity=new Vector2(0f,0f);
+    Vector2 lastVelocity=new Vector2(0f,0f);
     Vector2 direction=new Vector2(0f,0f);
     float onAirTime=100f;
     bool jumping=false;
@@ -23,7 +24,6 @@ public class RunningZombie : KinematicMonster
     bool firstAttack=true;
 
     float slopeAngle=0f;
-    Vector2 lastVelocity=new Vector2(0f,0f);
 
     CollisionShape2D collisionController;
     VisibilityNotifier2D notifier2D;
@@ -32,7 +32,12 @@ public class RunningZombie : KinematicMonster
     public override void _Ready()
     {
         base._Ready();
+
         notifier2D=new VisibilityNotifier2D();
+        animationPlayer=GetNode<Godot.AnimationPlayer>("AnimationPlayer");
+        animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
+        animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
+
         if(GetParent().GetType().Name=="Placeholder")
         {
             parent=(Placeholder)GetParent();
@@ -47,17 +52,22 @@ public class RunningZombie : KinematicMonster
         rayCast2D=(RayCast2D)GetNode("RayCast2D");
         rayCast2D.Enabled=true;
 
+        collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
+
         animationController=(AnimatedSprite)GetNode("AnimatedSprite");
         animationController.Play("default");
         state=STATE.IDLE;
-
-        collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
+        lastState=state;
 
         direction=new Vector2(-1,0);
     }
 
     public override void _PhysicsProcess(float delta)
     {
+        if(animationPlayer.IsPlaying())
+        {
+            Position=startOffset+(ANIMATION_OFFSET*animationDirection);
+        }
         tick(delta);
     }
 
@@ -85,9 +95,12 @@ public class RunningZombie : KinematicMonster
 
         if(inRange())
         {
+            lastState=state;
             state=STATE.ATTACK;
             animationController.Play("run");
             animationController.SpeedScale=2;
+            velocity.y=-60f;
+            jumping=true;
         }
     }
 
@@ -98,13 +111,6 @@ public class RunningZombie : KinematicMonster
         bool left=direction.x==-1;
         bool right=direction.x==1;
         bool jump=!rayCast2D.IsColliding();
-
-        if(firstAttack)
-        {
-            velocity.y=-60f;
-            jumping=true;
-            firstAttack=false;
-        }
 
         bool stop=true;
 
@@ -151,7 +157,7 @@ public class RunningZombie : KinematicMonster
             jumping=false;
         }
 
-        if(!jump&&IsOnWall())
+        if(IsOnWall())
         {
             direction=new Vector2(direction.x*-1,0);
             FlipH();
@@ -188,10 +194,53 @@ public class RunningZombie : KinematicMonster
         throw new NotImplementedException();
     }
 
+    public override void damage(float delta)
+    {
+        if(!animationPlayer.IsPlaying())
+        {
+            if(health<=0)
+            {
+                EmitSignal("Die");
+            }
+            else
+            {
+                state=lastState;
+            }
+        }
+    }
+
+    public override void passanger(float delta)
+    {
+        if(!animationPlayer.IsPlaying())
+        {
+            base.passanger(delta);
+        }
+    }
+
     public override void die(float delta)
     {
         base.die(delta);
     }
+
+    public override void onDamage(Player player, int amount)
+    {
+        if(state!=STATE.DAMAGE&&state!=STATE.DIE)
+        {
+            base.onDamage(player, amount);
+            if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
+            {
+                animationDirection=-1;
+            }
+            animationPlayer.Play("HIT");
+        }
+    }    
+
+    public override void onPassanger(Player player)
+    {
+        base.onPassanger(player);
+        animationPlayer.Play("PASSANGER");
+    }
+
 
     bool inRange()
     {

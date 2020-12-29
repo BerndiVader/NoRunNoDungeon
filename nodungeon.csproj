@@ -68,6 +68,7 @@
     <Compile Include="Stick.cs" />
     <Compile Include="Touch.cs" />
     <Compile Include="weapons\Broadsword.cs" />
+    <Compile Include="weapons\Staff.cs" />
     <Compile Include="weapons\Sword.cs" />
     <Compile Include="weapons\Weapon.cs" />
     <Compile Include="World.cs" />

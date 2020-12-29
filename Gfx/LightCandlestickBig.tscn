@@ -1,0 +1,27 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://image/gfx/torch_light_klein.png" type="Texture" id=1]
+[ext_resource path="res://Gfx/LightTorch.cs" type="Script" id=2]
+[ext_resource path="res://image/gfx/torch/candlestick_2_1.png" type="Texture" id=3]
+[ext_resource path="res://image/gfx/torch/candlestick_2_3.png" type="Texture" id=4]
+[ext_resource path="res://image/gfx/torch/candlestick_2_2.png" type="Texture" id=5]
+[ext_resource path="res://image/gfx/torch/candlestick_2_4.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 5 ), ExtResource( 4 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[node name="Light" type="Light2D"]
+texture = ExtResource( 1 )
+texture_scale = 0.8
+color = Color( 0.952941, 0.8, 0.0941176, 1 )
+script = ExtResource( 2 )
+MinLight = 0.9
+MaxLight = 1.2
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )

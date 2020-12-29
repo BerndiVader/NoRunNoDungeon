@@ -3,18 +3,20 @@ using System;
 
 public abstract class Weapon : Area2D
 {
-    protected AnimationPlayer animationPlayer;
+    public Godot.AnimationPlayer animationPlayer;
     protected CollisionShape2D collisionController;
+    protected bool hit;
     public WEAPONSTATE state;
-    public WEAPONSTATE old_state;
+    public WEAPONSTATE oldState;
 
     public override void _Ready()
     {
         SetProcess(false);
         SetProcessInput(false);
         Visible=true;
-        state=old_state=WEAPONSTATE.IDLE;
-        animationPlayer=(AnimationPlayer)GetNode("AnimationPlayer");
+        state=WEAPONSTATE.IDLE;
+        oldState=state;
+        animationPlayer=(Godot.AnimationPlayer)GetNode("AnimationPlayer");
         collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
         animationPlayer.CurrentAnimation="SETUP";
         animationPlayer.Play();
@@ -37,5 +39,25 @@ public abstract class Weapon : Area2D
         IDLE,
         ATTACK
     }
+
+    public virtual void hitSomething(Node node)
+    {
+        if(state==WEAPONSTATE.ATTACK&&!hit)
+        {
+            if(node.IsInGroup("Enemies"))
+            {
+                if(node.GetParent()!=null)
+                {
+                    node.GetParent().EmitSignal("Damage",WorldUtils.world.player,1f);
+                }
+                else
+                {
+                    node.EmitSignal("Damage",WorldUtils.world.player,1f);                            
+                }
+                hit=true;
+            }
+        }
+    }
+
 
 }

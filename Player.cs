@@ -7,6 +7,9 @@ public class Player : KinematicBody2D
     static String ANIM_JUMP="HIT";
     static World world;
 
+    [Signal]
+    public delegate void Damage(float amount);
+
     [Export] public float GRAVITY=500f;
     [Export] public float FLOOR_ANGLE_TOLERANCE=40f;
     [Export] public float WALK_FORCE=600f;
@@ -15,7 +18,6 @@ public class Player : KinematicBody2D
     [Export] public float STOP_FORCE=1300f;
     [Export] public float JUMP_SPEED=200f;
     [Export] public float JUMP_MAX_AIRBORNE_TIME=0.2f;
-
     [Export] public float SLIDE_STOP_VELOCITY=1f;
     [Export] public float SLIDE_STOP_MIN_TRAVEL=1f;
 
@@ -42,10 +44,12 @@ public class Player : KinematicBody2D
         collisionController=(CollisionShape2D)this.GetNode("CollisionShape2D");
         animationController.Play(ANIM_RUN);
 
-        equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.SWORD]);
+        equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.BROADSWORD]);
 
         this.AddToGroup("Players");
         ZIndex=1;
+
+        Connect("Damage",this,nameof(onDamaged));
     }
 
     public override void _PhysicsProcess(float delta)
@@ -125,11 +129,11 @@ public class Player : KinematicBody2D
 
                         if(collider.GetParent()!=null)
                         {
-                            collider.GetParent().EmitSignal("Die");
+                            collider.GetParent().EmitSignal("Passanger",this);
                         }
                         else
                         {
-                            collider.EmitSignal("Die");                            
+                            collider.EmitSignal("Passanger",this);                            
                         }
                     }
                 }
@@ -229,6 +233,11 @@ public class Player : KinematicBody2D
     {
         RemoveChild(weapon);
         weapon.QueueFree();
+    }
+
+    public void onDamaged(float amount)
+    {
+        WorldUtils.world.CallDeferred("restartGame",true);
     }
 
 }

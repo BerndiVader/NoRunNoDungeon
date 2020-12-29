@@ -27,7 +27,7 @@ public class DesktopInput : InputController
 
     public override bool getAttack()
     {
-        return Input.IsKeyPressed((int)KeyList.Right);
+        return Input.IsActionJustPressed("ui_right");
     }
     public override void _free()
     {
