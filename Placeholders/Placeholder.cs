@@ -1,12 +1,13 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 public class Placeholder : Node2D
 {
     public VisibilityNotifier2D notifier2D;
-    InstancePlaceholder placeholder;
+    public InstancePlaceholder placeholder;
     public Node2D instance;
-    bool instantiated;
+    public bool instantiated;
 
     public override void _Ready()
     {
@@ -27,8 +28,8 @@ public class Placeholder : Node2D
     {
         if(instantiated)
         {
-            SetProcess(false);
             instance=(Node2D)placeholder.CreateInstance(true);
+            SetProcess(false);
         }
     }
 
@@ -38,25 +39,11 @@ public class Placeholder : Node2D
         {
             placeholder=(InstancePlaceholder)GetChild(0);
         }
-
-        System.Threading.Thread thread=new System.Threading.Thread(()=>instantiatePlaceholder(this));
-        thread.Start();
-
+        ResourceUtils.worker.placeholderQueue.Enqueue(this);
     }
 
     void exitedScreen()
     {
         CallDeferred("queue_free");
     }
-
-    public static void instantiatePlaceholder(Placeholder p)
-    {
-        String instancePath=p.placeholder.GetInstancePath();
-        if(!ResourceLoader.HasCached(instancePath))
-        {
-            ResourceLoader.Load(instancePath);
-        }
-        p.instantiated=true;
-    }
-
 }

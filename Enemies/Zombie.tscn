@@ -11,7 +11,7 @@
 [ext_resource path="res://Enemies/Zombie.cs" type="Script" id=9]
 [ext_resource path="res://weapons/Staff.tscn" type="PackedScene" id=10]
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=1]
 resource_name = "HIT"
 length = 0.33
 step = 0.01
@@ -52,7 +52,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=2]
 resource_name = "PASSANGER"
 length = 0.2
 step = 0.01
@@ -69,7 +69,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.4, 0.6 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 resource_name = "SETUP"
 length = 0.001
 step = 0.01
@@ -122,10 +122,10 @@ tracks/3/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 9.1348, 6.66912 )
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 8 ), ExtResource( 5 ), ExtResource( 4 ) ],
 "loop": true,
@@ -138,7 +138,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 6.17702, 9.13306 )
 
 [node name="Zombie" type="KinematicBody2D"]
@@ -149,19 +149,19 @@ script = ExtResource( 9 )
 ANIMATION_OFFSET = Vector2( 0, -1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/HIT = SubResource( 7 )
-anims/PASSANGER = SubResource( 8 )
-anims/SETUP = SubResource( 5 )
+anims/HIT = SubResource( 1 )
+anims/PASSANGER = SubResource( 2 )
+anims/SETUP = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.43042, -2.28479 )
 rotation = -1.5708
-shape = SubResource( 1 )
+shape = SubResource( 4 )
 one_way_collision_margin = 0.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -0.129032, -5 )
-frames = SubResource( 2 )
+frames = SubResource( 5 )
 flip_h = true
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
@@ -176,7 +176,7 @@ collision_layer = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( 0, 5 )
-shape = SubResource( 3 )
+shape = SubResource( 6 )
 
 [node name="Staff" parent="." instance=ExtResource( 10 )]
 position = Vector2( -9, -2 )

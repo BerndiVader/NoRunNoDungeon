@@ -17,7 +17,6 @@ public class Staff : Weapon
 
         if(owner!=null)
         {
-            flipped=owner.animationController.FlipH;
             animationPlayer.Play("SETUP"+getStringDirection());
         }
     }
@@ -30,7 +29,6 @@ public class Staff : Weapon
             {
                 if(owner.animationController.FlipH!=flipped&&!animationPlayer.IsPlaying())
                 {
-                    flipped=owner.animationController.FlipH;
                     animationPlayer.Play("SETUP"+getStringDirection());
                 }
                 break;
@@ -59,6 +57,8 @@ public class Staff : Weapon
 
     String getStringDirection()
     {
+        flipped=owner.animationController.FlipH;
+
         if(flipped)
         {
             return "_LEFT";
@@ -71,7 +71,6 @@ public class Staff : Weapon
 
     public override void hitSomething(Node node)
     {
-        GD.Print(node.Name+":"+state+":"+hit);
         if(state==WEAPONSTATE.ATTACK&&!hit)
         {
             if(node.Name=="Player")

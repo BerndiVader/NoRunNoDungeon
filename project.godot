@@ -17,6 +17,7 @@ _global_script_class_icons={
 
 config/name="nodungeon"
 run/main_scene="res://BerndiVader.tscn"
+run/low_processor_mode=true
 boot_splash/image="res://image/splash.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
@@ -64,9 +65,6 @@ ui_pause={
 [rendering]
 
 quality/driver/driver_name="GLES2"
-quality/intended_usage/framebuffer_allocation=0
-quality/intended_usage/framebuffer_allocation.mobile=0
 quality/2d/use_pixel_snap=true
 vram_compression/import_etc=true
 quality/shadows/filter_mode=0
-environment/default_environment="res://default_env.tres"

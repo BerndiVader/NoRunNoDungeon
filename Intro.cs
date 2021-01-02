@@ -20,4 +20,14 @@ public class Intro : Node
         }
     }
 
+    public override void _Notification(int what)
+    {
+        if(what==MainLoop.NotificationWmQuitRequest)
+        {
+            ResourceUtils.worker.stop=true;
+            ResourceUtils.worker.WaitToFinish();
+        }
+        base._Notification(what);
+    }
+
 }

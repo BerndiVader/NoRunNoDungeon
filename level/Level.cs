@@ -28,8 +28,11 @@ public class Level : TileMap
 
     public void freeLevel() 
     {
-        foreach(Node node in GetChildren()) 
+        Godot.Collections.Array childrens=GetChildren();
+        int size=childrens.Count;
+        for(int i=0;i<size;i++)
         {
+            Node node=childrens[i] as Node;
             if(node!=null&&!node.IsQueuedForDeletion()) node.CallDeferred("queue_free");
         }
         CallDeferred("queue_free");

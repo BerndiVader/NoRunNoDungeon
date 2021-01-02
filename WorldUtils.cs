@@ -46,6 +46,8 @@ public static class WorldUtils
     public static void quit() 
     {
         if(world.cachedLevel!=null) world.cachedLevel.CallDeferred("free");
+        ResourceUtils.worker.stop=true;
+        ResourceUtils.worker.WaitToFinish();
         world.GetTree().CallDeferred("quit");
     }
     

@@ -39,6 +39,7 @@
     <Compile Include="Klammer.cs" />
     <Compile Include="level\Tile.cs" />
     <Compile Include="Particles\EnemieDieParticles.cs" />
+    <Compile Include="Particles\WeaponHitParticles.cs" />
     <Compile Include="PhysicsObject.cs" />
     <Compile Include="Bonus\PhysicsCoin.cs" />
     <Compile Include="Buttons.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="weapons\Staff.cs" />
     <Compile Include="weapons\Sword.cs" />
     <Compile Include="weapons\Weapon.cs" />
+    <Compile Include="Worker.cs" />
     <Compile Include="World.cs" />
     <Compile Include="WorldUtils.cs" />
     <Compile Include="XButton.cs" />

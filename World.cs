@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Threading;
 
 public class World : Node
 {
@@ -92,6 +91,15 @@ public class World : Node
 
     }
 
+    public override void _Notification(int what)
+    {
+        if(what==MainLoop.NotificationWmQuitRequest)
+        {
+            WorldUtils.quit();
+        }
+        base._Notification(what);
+    }
+
     public override void _EnterTree()
     {
         WorldUtils.world=this;
@@ -105,13 +113,12 @@ public class World : Node
 
         Vector2 position=level.Position;
 
-        if((state==Gamestate.RUNNING)&&Mathf.Abs(position.x)>=(level.pixelLength)-528) 
+        if((state==Gamestate.RUNNING)&&Mathf.Abs(position.x)>=(level.pixelLength)-528)
         {
             state=Gamestate.SCENE_CHANGE;
             stage++;
             if(stage>=ResourceUtils.levels.Count) stage=0;
-            System.Threading.Thread thread=new System.Threading.Thread(()=>prepareLevel());
-            thread.Start();
+                ResourceUtils.worker.prepareLevel=true;
         }
     }
 
@@ -132,7 +139,7 @@ public class World : Node
         state=Gamestate.RUNNING;
     }
 
-    void prepareLevel() 
+    public void prepareLevel()
     {
         if(cachedLevel==null) cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
         newLevel=(Level)cachedLevel.Duplicate();

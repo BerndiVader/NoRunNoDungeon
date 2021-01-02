@@ -4,7 +4,6 @@ using System;
 public class Zombie : KinematicMonster
 {
     [Export] public float GRAVITY=300f;
-    PackedScene BULLET;
     VisibilityNotifier2D notifier2D;
 
     Vector2 velocity=Vector2.Zero;
@@ -64,12 +63,15 @@ public class Zombie : KinematicMonster
             weapon._Init();
         }
 
-        BULLET=ResourceUtils.bullets[(int)BULLETS.TESTBULLET];
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        if(!animationPlayer.IsPlaying())
+        if(animationPlayer.IsPlaying())
+        {
+            Position=startOffset+(ANIMATION_OFFSET*animationDirection);
+        }
+        else
         {
             Vector2 force=new Vector2(0,GRAVITY);
 
@@ -88,12 +90,7 @@ public class Zombie : KinematicMonster
                     Platform collider=(Platform)node;
                     velocity.x+=collider.CurrentSpeed.x;
                 }
-
             }
-        }
-        else
-        {
-            Position=startOffset+(ANIMATION_OFFSET*animationDirection);
         }
         tick(delta);
 
@@ -131,11 +128,7 @@ public class Zombie : KinematicMonster
                 if(cooldown<0&&!weapon.animationPlayer.IsPlaying())
                 {
                     weapon.attack();
-//                    TestBullet bullet=(TestBullet)BULLET.Instance();
-//                    bullet.Position=getPosition();
-//                    bullet.direction=GlobalPosition.DirectionTo(player.GlobalPosition);
-//                    WorldUtils.world.level.AddChild(bullet);
-                    cooldown=10;
+                    cooldown=20;
                 }
             }
             else {
@@ -173,6 +166,11 @@ public class Zombie : KinematicMonster
             }
         }
     }
+
+    public override void calm(float delta)
+    {
+        throw new NotImplementedException();
+    }    
 
     public override void passanger(float delta)
     {
@@ -233,11 +231,6 @@ public class Zombie : KinematicMonster
     void exitedScreen()
     {
         CallDeferred("queue_free");
-    }
-
-    public override void calm(float delta)
-    {
-        throw new NotImplementedException();
     }
 
 }
