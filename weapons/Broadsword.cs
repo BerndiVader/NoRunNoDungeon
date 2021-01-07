@@ -6,7 +6,6 @@ public class Broadsword : Weapon
     public override void _Ready()
     {
         base._Ready();
-        particles2D=GetNode("Sprite").GetNode("CPUParticles2D") as CPUParticles2D;
         Connect("body_entered",this,nameof(hitSomething));
     }
 

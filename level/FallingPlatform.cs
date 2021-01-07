@@ -84,7 +84,7 @@ public class FallingPlatform : Platform
     public void _on_Area2D_body_exited(Node body) 
     {
         if(!body.IsInGroup("Players")) return;
-    }    
+    }
 
     public void _exitingTree()
     {

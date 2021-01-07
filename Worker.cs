@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Worker : Godot.Thread
 {
     public Queue<Placeholder> placeholderQueue;
+    ResourceInteractiveLoader loader;
     public bool prepareLevel,stop;
 
     public Worker() : base()
@@ -18,20 +19,28 @@ public class Worker : Godot.Thread
     {
         while(!stop)
         {
-            if(prepareLevel)
+            OS.DelayMsec(5);
+            try
             {
-                WorldUtils.world.prepareLevel();
-                prepareLevel=false;
-            }
-            if(placeholderQueue.Count>0)
-            {
-                Placeholder p=placeholderQueue.Dequeue() as Placeholder;
-                String instancePath=p.placeholder.GetInstancePath();
-                if(!ResourceLoader.HasCached(instancePath))
+                if(prepareLevel)
                 {
-                    ResourceLoader.Load(instancePath);
+                    WorldUtils.world.prepareLevel();
+                    prepareLevel=false;
+                } 
+                else if(placeholderQueue.Count>0)
+                {
+                    Placeholder p=placeholderQueue.Dequeue() as Placeholder;
+                    String instancePath=p.placeholder.GetInstancePath();
+                    if(!ResourceLoader.HasCached(instancePath))
+                    {
+                        ResourceLoader.Load(instancePath);
+                    }
+                    p.instantiated=true;
                 }
-                p.instantiated=true;
+            }
+            catch (Exception e)
+            {
+                GD.Print(e.Message);
             }
         }
     }

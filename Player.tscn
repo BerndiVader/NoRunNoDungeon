@@ -11,15 +11,15 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "RUN",
-"speed": 10.0
-}, {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "HIT",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "RUN",
+"speed": 10.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -36,7 +36,6 @@ WALK_MAX_SPEED = 119.0
 JUMP_SPEED = 220.0
 
 [node name="Light2D" type="Light2D" parent="."]
-scale = Vector2( 2.61193, 2.61193 )
 texture = ExtResource( 9 )
 color = Color( 0.984314, 0.952941, 0.470588, 1 )
 mode = 2

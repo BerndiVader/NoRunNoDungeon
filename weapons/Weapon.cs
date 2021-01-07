@@ -5,7 +5,6 @@ public abstract class Weapon : Area2D
 {
     public Godot.AnimationPlayer animationPlayer;
     protected CollisionShape2D collisionController;
-    protected CPUParticles2D particles2D;
     protected bool hit;
     public WEAPONSTATE state;
     public WEAPONSTATE oldState;
@@ -47,7 +46,6 @@ public abstract class Weapon : Area2D
         {
             if(node.IsInGroup("Enemies"))
             {
-                particles2D.Emitting=true;
                 if(node.GetParent()!=null)
                 {
                     node.GetParent().EmitSignal("Damage",WorldUtils.world.player,1f);

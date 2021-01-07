@@ -49,9 +49,9 @@ public static class ResourceUtils
         background=(PackedScene)ResourceLoader.Load("res://Background.tscn");
 
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
 
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset1.tres"));
 
@@ -62,8 +62,10 @@ public static class ResourceUtils
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/BlockParticles.tscn"));
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/CoinTakenParticles.tscn"));
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/EnemieDieParticles.tscn"));
+        particles.Add((PackedScene)ResourceLoader.Load("res://Particles/DaggerMissParticles.tscn"));
 
         bullets.Add((PackedScene)ResourceLoader.Load("res://Bullets/TestBullet.tscn"));
+        bullets.Add((PackedScene)ResourceLoader.Load("res://Bullets/DaggerBullet.tscn"));
 
         gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx1.tscn"));
         gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx2.tscn"));
@@ -73,6 +75,7 @@ public static class ResourceUtils
 
         weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Sword.tscn"));
         weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Broadsword.tscn"));
+        weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Dagger.tscn"));
 
         AudioStreamOGGVorbis audio=(AudioStreamOGGVorbis)ResourceLoader.Load("res://sounds/berndivader/Bass Drop Sound Effect.ogg");
 

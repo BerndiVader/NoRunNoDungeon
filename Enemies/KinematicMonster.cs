@@ -172,7 +172,8 @@ public abstract class KinematicMonster : KinematicBody2D
 
     public virtual Vector2 getPosition()
     {
-        return parent!=null?parent.Position+Position:Position;
+        return WorldUtils.world.level.ToLocal(GlobalPosition);
+//        return parent!=null?parent.Position+Position:Position;
     }
 
     public virtual void _Free()

@@ -21,13 +21,15 @@ public class Player : KinematicBody2D
     [Export] public float SLIDE_STOP_VELOCITY=1f;
     [Export] public float SLIDE_STOP_MIN_TRAVEL=1f;
 
+    [Export] public float health=20f;
+
     Vector2 velocity=new Vector2(0f,0f);
     float onAirTime=100f;
     bool jumping=false;
     bool doubleJump=false;
     bool justJumped=false;
     bool prevJumpPressed=false;
-
+    int weaponCyle=0;
     float slopeAngle=0f;
     Vector2 lastVelocity=new Vector2(0f,0f);
 
@@ -44,7 +46,7 @@ public class Player : KinematicBody2D
         collisionController=(CollisionShape2D)this.GetNode("CollisionShape2D");
         animationController.Play(ANIM_RUN);
 
-        equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.BROADSWORD]);
+        equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.DRAGGER]);
 
         this.AddToGroup("Players");
         ZIndex=1;
@@ -62,8 +64,20 @@ public class Player : KinematicBody2D
         bool right=world.input.getRight();
         bool jump=world.input.getJump();
         bool attack=world.input.getAttack();
+        bool changeWeapon=world.input.getChange();
 
         bool stop=true;
+
+        if(changeWeapon&&!attack)
+        {
+            weaponCyle++;
+            if(weaponCyle>2) 
+            {
+                weaponCyle=0;
+            }
+            unequipWeapon();
+            equipWeapon(ResourceUtils.weapons[weaponCyle]);
+        }
 
         if(attack&&weapon!=null)
         {
@@ -237,6 +251,7 @@ public class Player : KinematicBody2D
 
     public void onDamaged(float amount)
     {
+
         WorldUtils.world.CallDeferred("restartGame",true);
     }
 

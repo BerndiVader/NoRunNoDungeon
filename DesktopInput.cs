@@ -24,10 +24,13 @@ public class DesktopInput : InputController
     {
         return Input.IsKeyPressed((int)KeyList.Up);
     }
-
     public override bool getAttack()
     {
         return Input.IsActionJustPressed("ui_right");
+    }
+    public override bool getChange()
+    {
+        return Input.IsActionJustPressed("ui_down");
     }
     public override void _free()
     {

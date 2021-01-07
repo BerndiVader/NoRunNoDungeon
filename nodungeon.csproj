@@ -23,6 +23,7 @@
     <Compile Include="BerndiVader.cs" />
     <Compile Include="Bonus\Bonus.cs" />
     <Compile Include="Bonus\Coin.cs" />
+    <Compile Include="Bullets\DaggerBullet.cs" />
     <Compile Include="Bullets\TestBullet.cs" />
     <Compile Include="Enemies\KinematicMonster.cs" />
     <Compile Include="Enemies\RunningZombie.cs" />
@@ -38,6 +39,7 @@
     <Compile Include="IntroMap.cs" />
     <Compile Include="Klammer.cs" />
     <Compile Include="level\Tile.cs" />
+    <Compile Include="Particles\DaggerMissParticles.cs" />
     <Compile Include="Particles\EnemieDieParticles.cs" />
     <Compile Include="Particles\WeaponHitParticles.cs" />
     <Compile Include="PhysicsObject.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="Particles\BlockParticles.cs" />
     <Compile Include="Particles\CoinTakenParticles.cs" />
     <Compile Include="Particles\Particles.cs" />
+    <Compile Include="PlaceholderScanner.cs" />
     <Compile Include="Placeholders\Placeholder.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Player.cs" />
@@ -69,6 +72,7 @@
     <Compile Include="Stick.cs" />
     <Compile Include="Touch.cs" />
     <Compile Include="weapons\Broadsword.cs" />
+    <Compile Include="weapons\Dagger.cs" />
     <Compile Include="weapons\Staff.cs" />
     <Compile Include="weapons\Sword.cs" />
     <Compile Include="weapons\Weapon.cs" />

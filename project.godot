@@ -17,7 +17,6 @@ _global_script_class_icons={
 
 config/name="nodungeon"
 run/main_scene="res://BerndiVader.tscn"
-run/low_processor_mode=true
 boot_splash/image="res://image/splash.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
@@ -38,6 +37,10 @@ window/size/width=512
 window/size/height=288
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[gdnative]
+
+singletons=[  ]
 
 [input]
 

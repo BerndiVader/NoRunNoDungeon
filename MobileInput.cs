@@ -42,10 +42,13 @@ public class MobileInput : InputController
     {
         return buttons.jump.justPressed();
     }
-
     public override bool getAttack()
     {
         return buttons.o.justPressed();
+    }
+    public override bool getChange()
+    {
+        return buttons.x.justPressed();
     }
 
     public override void _free()

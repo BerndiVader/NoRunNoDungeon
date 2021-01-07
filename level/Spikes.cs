@@ -48,24 +48,22 @@ public class Spikes : Area2D
 
         Movement=MoveDirection*MoveLength;
 
-
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        Player player=WorldUtils.world.player;
-        Vector2 gamePos=Position+parent.Position+WorldUtils.world.level.Position;
-        float distance=player.Position.DistanceTo(gamePos);
+        Vector2 playerPos=WorldUtils.world.player.GlobalPosition;
+        Vector2 gamePos=GlobalPosition;
+        float distance=playerPos.DistanceTo(gamePos);
 
         if(distance<ActOnDistance)
         {
-
-            Vector2 direction=(gamePos-player.Position).Normalized();
+            Vector2 direction=(gamePos-playerPos).Normalized();
             float angle=Mathf.Rad2Deg(direction.Angle());
 
             float dot=direction.Dot(MoveDirection);
             float angleToNode=Mathf.Rad2Deg(Mathf.Acos(dot));
-            if(angleToNode<90) 
+            if(angleToNode<90)
             {
                 SetPhysicsProcess(false);
                 InDelay=0;
@@ -133,7 +131,15 @@ public class Spikes : Area2D
 
     public override void _EnterTree()
     {
-        if(!StaticElement) initTween();
+        if(!StaticElement) 
+        {
+            initTween();
+        }
+        else
+        {
+            SetProcess(false);
+            SetPhysicsProcess(false);
+        }
     }
 
     public void enteredBody(Node node)

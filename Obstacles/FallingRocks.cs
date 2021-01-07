@@ -45,10 +45,10 @@ public class FallingRocks : StaticBody2D
         switch(state)
         {
             case 0:
-                Player player=WorldUtils.world.player;
-                Vector2 gamePos=Position+parent.Position+WorldUtils.world.level.Position;
-                gamePos.y=player.Position.y;
-                float distance=player.Position.DistanceTo(gamePos);
+                Vector2 playerPos=WorldUtils.world.player.GlobalPosition;
+                Vector2 gamePos=GlobalPosition;
+                gamePos.y=playerPos.y;
+                float distance=playerPos.DistanceTo(gamePos);
                 if(distance<ActivationDistance) state=1;
                 break;
             case 1:
@@ -59,14 +59,12 @@ public class FallingRocks : StaticBody2D
                     force=Vector2.Zero;
                 }
                 velocity+=force*delta;
-                GlobalTranslate(velocity*delta);
+                Translate(velocity*delta);
                 break;
             case 2:
                 break;
         }
-
         applyShake();
-
     }
 
     void onBodyEntered(Node2D body)
@@ -101,7 +99,7 @@ public class FallingRocks : StaticBody2D
     {
         if(body.IsInGroup("Players")) 
         {
-            WorldUtils.world.CallDeferred("restartGame",true);
+            WorldUtils.world.player.EmitSignal("Damage",1f);
         }
     }
 
