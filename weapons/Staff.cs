@@ -27,7 +27,7 @@ public class Staff : Weapon
         {
             case WEAPONSTATE.IDLE:
             {
-                if(owner.animationController.FlipH!=flipped&&!animationPlayer.IsPlaying())
+                if(!animationPlayer.IsPlaying())
                 {
                     animationPlayer.Play("SETUP"+getStringDirection());
                 }
@@ -55,7 +55,7 @@ public class Staff : Weapon
         }
     }
 
-    String getStringDirection()
+    protected String getStringDirection()
     {
         flipped=owner.animationController.FlipH;
 

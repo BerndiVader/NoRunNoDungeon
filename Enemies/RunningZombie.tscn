@@ -29,7 +29,7 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 4.37473, 3.72581 )
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "HIT"
 length = 0.3
 step = 0.01
@@ -70,7 +70,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "PASSANGER"
 length = 0.2
 step = 0.01
@@ -87,8 +87,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.4, 0.6 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "SETUP"
+[sub_resource type="Animation" id=6]
 length = 0.001
 step = 0.001
 tracks/0/type = "value"
@@ -171,6 +170,6 @@ position = Vector2( -0.5, 3 )
 shape = SubResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/HIT = SubResource( 5 )
-anims/PASSANGER = SubResource( 6 )
-anims/SETUP = SubResource( 4 )
+anims/HIT = SubResource( 4 )
+anims/PASSANGER = SubResource( 5 )
+anims/SETUP = SubResource( 6 )

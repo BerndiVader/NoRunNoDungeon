@@ -5,25 +5,18 @@ public class RunningZombie : KinematicMonster
 {
     [Export] public float ACTIVATION_RANGE=400f;
     [Export] public float GRAVITY=500f;
-    [Export] public float FLOOR_ANGLE_TOLERANCE=40f;
     [Export] public float WALK_FORCE=600f;
     [Export] public float WALK_MIN_SPEED=10f;
     [Export] public float WALK_MAX_SPEED=60f;
     [Export] public float STOP_FORCE=1300f;
     [Export] public float JUMP_SPEED=130f;
     [Export] public float JUMP_MAX_AIRBORNE_TIME=0.2f;
-    [Export] public float SLIDE_STOP_VELOCITY=1f;
-    [Export] public float SLIDE_STOP_MIN_TRAVEL=1f;
 
     Vector2 velocity=new Vector2(0f,0f);
-    Vector2 lastVelocity=new Vector2(0f,0f);
     Vector2 direction=new Vector2(0f,0f);
     float onAirTime=100f;
     bool jumping=false;
     bool prevJumpPressed=false;
-    bool firstAttack=true;
-
-    float slopeAngle=0f;
 
     CollisionShape2D collisionController;
     VisibilityNotifier2D notifier2D;
@@ -74,11 +67,14 @@ public class RunningZombie : KinematicMonster
     public override void idle(float delta)
     {
         Vector2 force=new Vector2(0,GRAVITY);
-
-        velocity+=GetFloorVelocity()*delta;
         velocity+=force*delta;
 
         KinematicCollision2D collision=MoveAndCollide(velocity*delta);
+
+        if(IsOnFloor())
+        {
+            velocity+=GetFloorVelocity()*delta;
+        }
 
         if(collision!=null)
         {
@@ -90,7 +86,6 @@ public class RunningZombie : KinematicMonster
                 Platform collider=(Platform)node;
                 velocity.x+=collider.CurrentSpeed.x*1.8f;
             }
-
         }
 
         if(inRange())
@@ -141,7 +136,6 @@ public class RunningZombie : KinematicMonster
             velocity.x=vLen*vSign;
         }
 
-        velocity-=GetFloorVelocity()*delta;
         velocity+=force*delta;
 
         Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0f,8f);
@@ -149,6 +143,7 @@ public class RunningZombie : KinematicMonster
 
         if(IsOnFloor())
         {
+            velocity-=GetFloorVelocity()*delta;
             onAirTime=0f;
         }
 

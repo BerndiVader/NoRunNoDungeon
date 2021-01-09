@@ -4,6 +4,7 @@ using System;
 public enum STATE 
 {
     IDLE,
+    STROLL,
     ATTACK,
     FIGHT,
     CALM,

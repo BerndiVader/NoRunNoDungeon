@@ -4,6 +4,7 @@ using System;
 public abstract class KinematicMonster : KinematicBody2D
 {
     [Export] public Vector2 ANIMATION_OFFSET=Vector2.Zero;
+
     [Signal]
     public delegate void Die();
     [Signal]
@@ -18,6 +19,8 @@ public abstract class KinematicMonster : KinematicBody2D
     public delegate void Calm();
     [Signal]
     public delegate void Idle();
+    [Signal]
+    public delegate void Stroll();
     
     public STATE state,lastState;
     protected Player victim,attacker;
@@ -37,6 +40,7 @@ public abstract class KinematicMonster : KinematicBody2D
         Connect("Calm",this,nameof(onCalm));
         Connect("Idle",this,nameof(onIdle));
         Connect("Damage",this,nameof(onDamage));
+        Connect("Stroll",this,nameof(onStroll));
 
         AddToGroup("Enemies",true);
 
@@ -50,6 +54,11 @@ public abstract class KinematicMonster : KinematicBody2D
             case STATE.IDLE:
             {
                 idle(delta);
+                break;
+            }
+            case STATE.STROLL:
+            {
+                stroll(delta);
                 break;
             }
             case STATE.ATTACK:
@@ -86,6 +95,10 @@ public abstract class KinematicMonster : KinematicBody2D
     }
 
     public virtual void idle(float delta)
+    {
+
+    }
+    public virtual void stroll(float delta)
     {
 
     }
@@ -168,12 +181,18 @@ public abstract class KinematicMonster : KinematicBody2D
     {
         lastState=state;
         state=STATE.IDLE;
+        animationController.Play("default");
+    }
+    public virtual void onStroll()
+    {
+        lastState=state;
+        state=STATE.STROLL;
+        animationController.Play("run");
     }
 
     public virtual Vector2 getPosition()
     {
         return WorldUtils.world.level.ToLocal(GlobalPosition);
-//        return parent!=null?parent.Position+Position:Position;
     }
 
     public virtual void _Free()

@@ -117,8 +117,7 @@ public class Zombie : KinematicMonster
         float distance=rayCast2D.GlobalPosition.DistanceTo(player.GlobalPosition);
         if(distance<41)
         {
-            Vector2 direction=new Vector2(rayCast2D.GlobalPosition.DirectionTo(player.GlobalPosition));
-
+            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(player.GlobalPosition);
             FlipH(direction.x<0);
 
             direction=direction*distance;

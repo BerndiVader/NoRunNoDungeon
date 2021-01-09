@@ -4,14 +4,11 @@ using System;
 public class Renderer : CanvasModulate
 {
     [Export] public double ShakeMax=6d;
-    PlaceholderScanner scanner;
     public double shake;
     
     public override void _Ready()
     {
         shake=0d;
-        scanner=new PlaceholderScanner();
-        this.AddChild(scanner);
     }
 
     public override void _Process(float delta)
