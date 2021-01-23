@@ -19,6 +19,7 @@ animations = [ {
 texture = ExtResource( 1 )
 texture_scale = 0.7
 color = Color( 0.984314, 0.321569, 0.0627451, 1 )
+mode = 2
 script = ExtResource( 2 )
 MinLight = 0.9
 MaxLight = 1.2

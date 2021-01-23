@@ -3,7 +3,7 @@ using System;
 
 public class Staff : Weapon
 {
-    protected Zombie owner;
+    protected KinematicMonster owner;
     bool flipped;
     public override void _Ready()
     {
@@ -13,7 +13,7 @@ public class Staff : Weapon
     public void _Init()
     {
         GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
-        owner=GetParent<Zombie>();
+        owner=GetParent<KinematicMonster>();
 
         if(owner!=null)
         {

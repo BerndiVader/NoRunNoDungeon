@@ -171,8 +171,8 @@ tracks/2/keys = {
 extents = Vector2( 2.21269, 13.058 )
 
 [node name="Staff" type="Area2D"]
-position = Vector2( 6, -2 )
-rotation = -0.261799
+position = Vector2( -6, -2 )
+rotation = 0.261799
 collision_layer = 32
 script = ExtResource( 2 )
 

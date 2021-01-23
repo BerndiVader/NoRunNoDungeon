@@ -18,6 +18,7 @@ animations = [ {
 [node name="Light" type="Light2D"]
 texture = ExtResource( 1 )
 color = Color( 0.960784, 0.607843, 0.0470588, 1 )
+mode = 2
 script = ExtResource( 2 )
 MinLight = 0.9
 MaxLight = 1.2

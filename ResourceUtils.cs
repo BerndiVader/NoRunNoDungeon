@@ -76,9 +76,6 @@ public static class ResourceUtils
         weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Sword.tscn"));
         weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Broadsword.tscn"));
         weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Dagger.tscn"));
-
-        AudioStreamOGGVorbis audio=(AudioStreamOGGVorbis)ResourceLoader.Load("res://sounds/berndivader/Bass Drop Sound Effect.ogg");
-
     }
 
     public static InputController getInputController(Node scene)

@@ -10,11 +10,11 @@ public class MobileInput : InputController
     public MobileInput(Node scene)
     {
             touch=(Touch)ResourceUtils.touch.Instance();
-            touch.ZIndex=2000;
+            touch.ZIndex=2500;
             scene.AddChild(touch);
 
             buttons=(Buttons)ResourceUtils.buttons.Instance();
-            buttons.ZIndex=2000;
+            buttons.ZIndex=2500;
             scene.AddChild(buttons);
 
             buttons.PauseMode=Node.PauseModeEnum.Process;

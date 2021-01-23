@@ -24,8 +24,8 @@ public class Worker : Godot.Thread
             {
                 if(prepareLevel)
                 {
-                    WorldUtils.world.prepareLevel();
                     prepareLevel=false;
+                    WorldUtils.world.prepareLevel();
                 } 
                 else if(placeholderQueue.Count>0)
                 {
