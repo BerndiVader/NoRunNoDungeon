@@ -14,8 +14,6 @@ public class Oger : KinematicMonster
     Vector2 direction,PLAYERCASTTO,CASTTO;
     float travelTime=0f;
 
-    CollisionShape2D collisionController;
-    VisibilityNotifier2D notifier2D;
     RayCast2D rayCast2D,playerCast2D;
     Staff weapon;
 
@@ -24,21 +22,9 @@ public class Oger : KinematicMonster
         base._Ready();
         weapon=GetNode<Staff>("Baton");
 
-        notifier2D=new VisibilityNotifier2D();
         animationPlayer=GetNode<Godot.AnimationPlayer>("AnimationPlayer");
         animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
         animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
-
-        if(GetParent().GetType().Name=="Placeholder")
-        {
-            parent=(Placeholder)GetParent();
-            notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        }
-        else 
-        {
-            notifier2D.Connect("screen_exited",this,"exitedScreen");
-        }
-        AddChild(notifier2D);
 
         rayCast2D=(RayCast2D)GetNode("RayCast2D");
         rayCast2D.Enabled=true;
@@ -48,9 +34,6 @@ public class Oger : KinematicMonster
         playerCast2D.Enabled=true;
         PLAYERCASTTO=playerCast2D.CastTo;
 
-        collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
-
-        animationController=(AnimatedSprite)GetNode("AnimatedSprite");
         animationController.Play("default");
         state=STATE.IDLE;
         lastState=state;
@@ -141,7 +124,7 @@ public class Oger : KinematicMonster
             {
                 FlipH();
             }
-            
+
             Vector2 force=new Vector2(0,GRAVITY);
 
             bool left=direction.x<0&&rayCast2D.IsColliding();
@@ -166,7 +149,9 @@ public class Oger : KinematicMonster
                 }
             }
 
-            if(!canSeePlayer())
+            float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
+
+            if(angle>45&&angle<165||!canSeePlayer())
             {
                 EmitSignal("Stroll");
             }
@@ -198,7 +183,15 @@ public class Oger : KinematicMonster
         }
         else
         {
-            EmitSignal("Fight",victim);
+            float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
+            if(angle>45&&angle<165)
+            {
+                EmitSignal("Stroll");
+            }
+            else
+            {
+                EmitSignal("Fight",victim);
+            }
         }
     }
 
@@ -218,10 +211,12 @@ public class Oger : KinematicMonster
             {
                 FlipH();
             }
-            
+
             Vector2 force=new Vector2(0,GRAVITY);
 
-            if(!canSeePlayer())
+            float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
+
+            if(angle>45&&angle<135||!canSeePlayer())
             {
                 EmitSignal("Stroll");
             }
@@ -245,8 +240,6 @@ public class Oger : KinematicMonster
         {
             EmitSignal("Stroll");
         }
-
-
     }
 
     public override void calm(float delta)
@@ -423,11 +416,6 @@ public class Oger : KinematicMonster
             direction=new Vector2(direction.x*-1,0);
             FlipH();
         }
-    }
-
-    void exitedScreen()
-    {
-        CallDeferred("queue_free");
     }
 
 }

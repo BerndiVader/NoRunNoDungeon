@@ -22,14 +22,17 @@ public abstract class KinematicMonster : KinematicBody2D
     [Signal]
     public delegate void Stroll();
     
-    public STATE state,lastState;
     protected Player victim,attacker;
     protected float damageAmount;
     protected Placeholder parent;
-    public AnimatedSprite animationController;
+    protected VisibilityNotifier2D notifier2D;
     protected Godot.AnimationPlayer animationPlayer;
+    protected CollisionShape2D collisionController;
     protected Vector2 startOffset=Vector2.Zero;
     protected int animationDirection=1,health=1;
+
+    public STATE state,lastState;
+    public AnimatedSprite animationController;
 
     public override void _Ready()
     {
@@ -44,7 +47,21 @@ public abstract class KinematicMonster : KinematicBody2D
 
         AddToGroup("Enemies",true);
 
+        notifier2D=new VisibilityNotifier2D();
+        if(GetParent().GetType().Name=="Placeholder")
+        {
+            parent=(Placeholder)GetParent();
+            notifier2D.Connect("screen_exited",parent,nameof(exitedScreen));
+        }
+        else 
+        {
+            notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
+        }
+        AddChild(notifier2D);
+
         victim=null;
+        collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
+        animationController=(AnimatedSprite)GetNode("AnimatedSprite");
     }
 
     public virtual void tick(float delta)
@@ -130,9 +147,8 @@ public abstract class KinematicMonster : KinematicBody2D
         EnemieDieParticles particles=(EnemieDieParticles)ResourceUtils.particles[(int)PARTICLES.ENEMIEDIEPARTICLES].Instance();
         particles.Texture=animationController.Frames.GetFrame(animationController.Animation,animationController.Frame);
 
-        CollisionShape2D collision=GetNode<CollisionShape2D>("CollisionShape2D");
-        RectangleShape2D shape2D=(RectangleShape2D)collision.Shape;
-        Vector2 position=getPosition()+collision.Position;
+        RectangleShape2D shape2D=(RectangleShape2D)collisionController.Shape;
+        Vector2 position=getPosition()+collisionController.Position;
         position.y+=shape2D.Extents.y;
         particles.Position=position;
 
@@ -159,6 +175,7 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     public virtual void onDamage(Player player,int amount)
     {
+        GetNode<StaticBody2D>("StaticBody2D").GetNode<CollisionShape2D>("CollisionShape2D").CallDeferred("set","disabled",true);
         lastState=state;
         state=STATE.DAMAGE;
         attacker=player;
@@ -193,6 +210,11 @@ public abstract class KinematicMonster : KinematicBody2D
     public virtual Vector2 getPosition()
     {
         return WorldUtils.world.level.ToLocal(GlobalPosition);
+    }
+
+    void exitedScreen()
+    {
+        CallDeferred("queue_free");
     }
 
     public virtual void _Free()

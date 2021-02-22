@@ -18,36 +18,19 @@ public class RunningZombie : KinematicMonster
     bool jumping=false;
     bool prevJumpPressed=false;
 
-    CollisionShape2D collisionController;
-    VisibilityNotifier2D notifier2D;
     RayCast2D rayCast2D;
 
     public override void _Ready()
     {
         base._Ready();
 
-        notifier2D=new VisibilityNotifier2D();
         animationPlayer=GetNode<Godot.AnimationPlayer>("AnimationPlayer");
         animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
         animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
 
-        if(GetParent().GetType().Name=="Placeholder")
-        {
-            parent=(Placeholder)GetParent();
-            notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        }
-        else 
-        {
-            notifier2D.Connect("screen_exited",this,"exitedScreen");
-        }
-        AddChild(notifier2D);
-
         rayCast2D=(RayCast2D)GetNode("RayCast2D");
         rayCast2D.Enabled=true;
 
-        collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
-
-        animationController=(AnimatedSprite)GetNode("AnimatedSprite");
         animationController.Play("default");
         state=STATE.IDLE;
         lastState=state;
@@ -254,11 +237,6 @@ public class RunningZombie : KinematicMonster
         position=collisionController.Position;
         position.x*=-1;
         collisionController.Position=position;
-    }
-
-    void exitedScreen()
-    {
-        CallDeferred("queue_free");
     }
 
     public override void calm(float delta)

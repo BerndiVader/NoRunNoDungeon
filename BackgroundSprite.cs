@@ -4,14 +4,18 @@ using System;
 public class BackgroundSprite : Sprite
 {
     BackgroundLayer layer;
-    int id;
-    Texture image;
 
     public override void _Ready()
     {
         layer=(BackgroundLayer)GetParent();
-        id=layer.Name.Substr(layer.Name.Length-1,1).ToInt();
-        image=(Texture)ResourceUtils.bgTextures[id].Duplicate();
+
+        int id=layer.Name.Substr(layer.Name.Length-1,1).ToInt();
+        
+        string name=WorldUtils.world.tileSet.ResourcePath.BaseName();
+        int tileSetId=name.Substr(name.Length-1,1).ToInt();
+        tileSetId=tileSetId*12/4-3;
+
+        Texture image=(Texture)ResourceUtils.bgTextures[id+tileSetId].Duplicate();
         this.Texture=image;
 
         Scale=new Vector2(WorldUtils.world.RESOLUTION/image.GetSize());

@@ -40,6 +40,7 @@
     <Compile Include="IntroMap.cs" />
     <Compile Include="Klammer.cs" />
     <Compile Include="level\Tile.cs" />
+    <Compile Include="Obstacles\SwingingBaton.cs" />
     <Compile Include="Particles\DaggerMissParticles.cs" />
     <Compile Include="Particles\EnemieDieParticles.cs" />
     <Compile Include="Particles\WeaponHitParticles.cs" />

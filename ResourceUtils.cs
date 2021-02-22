@@ -54,10 +54,22 @@ public static class ResourceUtils
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
 
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset1.tres"));
+        tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset2.tres"));
+        tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset3.tres"));
+        tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset4.tres"));
 
         bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_A/PNG/bg1.png"));
         bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_A/PNG/bg2.png"));
         bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_A/PNG/bg3.png"));
+        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_B/PNG/bg1.png"));
+        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_B/PNG/bg2.png"));
+        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_B/PNG/bg3.png"));
+        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_C/PNG/bg1.png"));
+        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_C/PNG/bg2.png"));
+        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_C/PNG/bg3.png"));
+        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_D/PNG/bg1.png"));
+        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_D/PNG/bg2.png"));
+        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_D/PNG/bg3.png"));
 
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/BlockParticles.tscn"));
         particles.Add((PackedScene)ResourceLoader.Load("res://Particles/CoinTakenParticles.tscn"));

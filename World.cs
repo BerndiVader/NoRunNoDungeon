@@ -23,7 +23,7 @@ public class World : Node
         stage=0;
         renderer=(Renderer)GetNode("Renderer");
 
-        tileSet=(TileSet)ResourceUtils.tilesets[0];
+        tileSet=(TileSet)ResourceUtils.tilesets[(int)MathUtils.randomRange(0,ResourceUtils.tilesets.Count)];
         currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
         level=(Level)ResourceUtils.levels[currentLevel].Instance();
         cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));

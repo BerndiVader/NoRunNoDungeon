@@ -34,7 +34,7 @@ public class Player : KinematicBody2D
     Vector2 lastVelocity=new Vector2(0f,0f);
 
     AnimatedSprite animationController;
-    CollisionShape2D collisionController;
+    public CollisionShape2D collisionController;
     Weapon weapon;
 
     public override void _Ready()
@@ -49,7 +49,7 @@ public class Player : KinematicBody2D
         equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.DRAGGER]);
 
         this.AddToGroup("Players");
-        ZIndex=1;
+        ZIndex=2;
 
         Connect("Damage",this,nameof(onDamaged));
     }

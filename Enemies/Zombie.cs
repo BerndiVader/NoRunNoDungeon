@@ -4,7 +4,6 @@ using System;
 public class Zombie : KinematicMonster
 {
     [Export] public float GRAVITY=300f;
-    VisibilityNotifier2D notifier2D;
 
     Vector2 velocity=Vector2.Zero;
     int cooldown;
@@ -23,20 +22,6 @@ public class Zombie : KinematicMonster
         animationPlayer=GetNode<Godot.AnimationPlayer>("AnimationPlayer");
         animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
         animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
-
-        notifier2D=new VisibilityNotifier2D();
-
-        if(GetParent().GetType().Name=="Placeholder")
-        {
-            parent=(Placeholder)GetParent();
-            notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        }
-        else 
-        {
-            notifier2D.Connect("screen_exited",this,"exitedScreen");
-        }
-        AddChild(notifier2D);
-
 
         rayCast2D=(RayCast2D)GetNode("RayCast2D");
         rayCast2D.Enabled=true;
@@ -225,11 +210,6 @@ public class Zombie : KinematicMonster
         {
             rayCast2D.CastTo=CASTTO;
         }
-    }
-
-    void exitedScreen()
-    {
-        CallDeferred("queue_free");
     }
 
 }

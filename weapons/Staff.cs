@@ -71,7 +71,7 @@ public class Staff : Weapon
 
     public override void hitSomething(Node node)
     {
-        if(state==WEAPONSTATE.ATTACK&&!hit)
+        if(state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.DAMAGE)
         {
             if(node.Name=="Player")
             {

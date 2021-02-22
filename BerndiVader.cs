@@ -13,7 +13,6 @@ public class BerndiVader : Node2D
     Vector2 currentRight,currentLeft;
 
     float speed=240f;
-
     public override void _Ready()
     {
         centerPosition=new Vector2(256f,149f);

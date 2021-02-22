@@ -21,6 +21,11 @@ animations = [ {
 "name": "attack",
 "speed": 8.0
 }, {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "fight",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ) ],
 "loop": false,
 "name": "calm",
@@ -29,11 +34,6 @@ animations = [ {
 "frames": [ ExtResource( 5 ) ],
 "loop": false,
 "name": "die",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 2 ) ],
-"loop": false,
-"name": "fight",
 "speed": 5.0
 } ]
 
@@ -57,7 +57,7 @@ frames = SubResource( 2 )
 animation = "die"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-cast_to = Vector2( 50, 0 )
+cast_to = Vector2( 60, 0 )
 collision_mask = 3
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." groups=[
