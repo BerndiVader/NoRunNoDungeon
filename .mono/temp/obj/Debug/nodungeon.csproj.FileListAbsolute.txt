@@ -1,12 +1,12 @@
-c:\godot\nodungeon\.mono\temp\bin\Debug\nodungeon.dll
-c:\godot\nodungeon\.mono\temp\bin\Debug\nodungeon.pdb
-c:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.csprojAssemblyReference.cache
-c:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.csproj.CoreCompileInputs.cache
-c:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.dll
-c:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.pdb
 c:\godot\nodungeon - Kopie\.mono\temp\bin\Debug\nodungeon.dll
 c:\godot\nodungeon - Kopie\.mono\temp\bin\Debug\nodungeon.pdb
 c:\godot\nodungeon - Kopie\.mono\temp\obj\Debug\nodungeon.csprojAssemblyReference.cache
 c:\godot\nodungeon - Kopie\.mono\temp\obj\Debug\nodungeon.csproj.CoreCompileInputs.cache
 c:\godot\nodungeon - Kopie\.mono\temp\obj\Debug\nodungeon.dll
 c:\godot\nodungeon - Kopie\.mono\temp\obj\Debug\nodungeon.pdb
+C:\godot\nodungeon\.mono\temp\bin\Debug\nodungeon.dll
+C:\godot\nodungeon\.mono\temp\bin\Debug\nodungeon.pdb
+C:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.csprojAssemblyReference.cache
+C:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.csproj.CoreCompileInputs.cache
+C:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.dll
+C:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.pdb

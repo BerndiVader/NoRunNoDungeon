@@ -40,7 +40,7 @@ public class Worker : Godot.Thread
             }
             catch (Exception e)
             {
-                GD.Print(e.Message);
+                GD.Print("Worker Error: "+e.Message);
             }
         }
     }

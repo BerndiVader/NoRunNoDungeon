@@ -27,7 +27,7 @@ public class DaggerBullet : Area2D
         Position=step();
 
         time+=0.023f;
-        if (time>=2f)
+        if (time>2f)
         {
             CallDeferred("queue_free");
         }
