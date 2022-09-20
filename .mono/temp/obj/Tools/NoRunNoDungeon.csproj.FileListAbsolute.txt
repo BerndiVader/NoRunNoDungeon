@@ -1,2 +1,0 @@
-c:\godot\nodungeon\.mono\temp\obj\Tools\NoRunNoDungeon.csprojAssemblyReference.cache
-c:\godot\nodungeon\.mono\temp\obj\Tools\NoRunNoDungeon.csproj.CoreCompileInputs.cache

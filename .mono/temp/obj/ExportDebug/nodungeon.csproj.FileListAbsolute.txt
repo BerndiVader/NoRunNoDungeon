@@ -1,6 +1,0 @@
-c:\godot\nodungeon\.mono\temp\bin\ExportDebug\nodungeon.dll
-c:\godot\nodungeon\.mono\temp\bin\ExportDebug\nodungeon.pdb
-c:\godot\nodungeon\.mono\temp\obj\ExportDebug\nodungeon.csprojAssemblyReference.cache
-c:\godot\nodungeon\.mono\temp\obj\ExportDebug\nodungeon.csproj.CoreCompileInputs.cache
-c:\godot\nodungeon\.mono\temp\obj\ExportDebug\nodungeon.dll
-c:\godot\nodungeon\.mono\temp\obj\ExportDebug\nodungeon.pdb

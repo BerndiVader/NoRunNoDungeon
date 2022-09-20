@@ -1,2 +1,0 @@
-﻿61854
-C:/godot/Godot_v3.5-stable_mono_win64.exe
