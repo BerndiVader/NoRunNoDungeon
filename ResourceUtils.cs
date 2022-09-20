@@ -6,6 +6,7 @@ public static class ResourceUtils
 {
     public static PackedScene world;
     public static PackedScene intro;
+    public static PackedScene pause;
     public static PackedScene player;
     public static List<PackedScene> levels;
     public static List<PackedScene> enemies;
@@ -45,6 +46,7 @@ public static class ResourceUtils
 
         world=(PackedScene)ResourceLoader.Load("res://World.tscn");
         intro=(PackedScene)ResourceLoader.Load("res://Intro.tscn");
+        pause=(PackedScene)ResourceLoader.Load("res://Pause.tscn");
         player=(PackedScene)ResourceLoader.Load("res://Player.tscn");
         background=(PackedScene)ResourceLoader.Load("res://Background.tscn");
 

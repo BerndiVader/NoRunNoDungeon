@@ -36,7 +36,6 @@ public class World : Node
         renderer.AddChild(level);
         renderer.AddChild(player);
         renderer.AddChild(background);
-
     }
 
     public override void _Process(float delta)
@@ -68,10 +67,9 @@ public class World : Node
                     {
                         oldState=state;
                         state=Gamestate.PAUSED;
-                    }
-                    else
-                    {
-                        state=oldState;
+                        Pause pause=ResourceUtils.pause.Instance() as Pause;
+                        pause.PauseMode=PauseModeEnum.Process;
+                        renderer.AddChild(pause);
                     }
                 }
 
@@ -85,8 +83,7 @@ public class World : Node
                     tick(delta);
                 }
                 break;
-            }
-            
+            }            
         }
 
     }

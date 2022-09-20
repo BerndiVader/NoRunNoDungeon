@@ -44,6 +44,7 @@
     <Compile Include="Particles\DaggerMissParticles.cs" />
     <Compile Include="Particles\EnemieDieParticles.cs" />
     <Compile Include="Particles\WeaponHitParticles.cs" />
+    <Compile Include="Pause.cs" />
     <Compile Include="PhysicsObject.cs" />
     <Compile Include="Bonus\PhysicsCoin.cs" />
     <Compile Include="Buttons.cs" />

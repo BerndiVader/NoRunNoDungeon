@@ -4,7 +4,7 @@ using System;
 
 public class Placeholder : Node2D
 {
-    public VisibilityNotifier2D notifier2D;
+    private VisibilityNotifier2D notifier2D;
     public InstancePlaceholder placeholder;
     public bool instantiated;
 
