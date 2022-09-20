@@ -10,3 +10,10 @@ C:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.csprojAssemblyReference.cache
 C:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.csproj.CoreCompileInputs.cache
 C:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.dll
 C:\godot\nodungeon\.mono\temp\obj\Debug\nodungeon.pdb
+C:\godot\projects\NoRunNoDungeon\.mono\temp\bin\Debug\nodungeon.dll
+C:\godot\projects\NoRunNoDungeon\.mono\temp\bin\Debug\nodungeon.pdb
+C:\godot\projects\NoRunNoDungeon\.mono\temp\obj\Debug\nodungeon.csproj.AssemblyReference.cache
+C:\godot\projects\NoRunNoDungeon\.mono\temp\obj\Debug\nodungeon.GeneratedMSBuildEditorConfig.editorconfig
+C:\godot\projects\NoRunNoDungeon\.mono\temp\obj\Debug\nodungeon.csproj.CoreCompileInputs.cache
+C:\godot\projects\NoRunNoDungeon\.mono\temp\obj\Debug\nodungeon.dll
+C:\godot\projects\NoRunNoDungeon\.mono\temp\obj\Debug\nodungeon.pdb
