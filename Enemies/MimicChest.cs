@@ -67,9 +67,8 @@ public class MimicChest : KinematicMonster
     {
         Player player=WorldUtils.world.player;
         bool collide=collisionBox.Collide(GetGlobalTransform(),player.collisionController.Shape,player.GetGlobalTransform());
-        if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId()))
+        if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==player.GetInstanceId()))
         {
-            player=WorldUtils.world.player;
             cooldown=0;
             animationController.Play("attack");
             state=STATE.ATTACK;
