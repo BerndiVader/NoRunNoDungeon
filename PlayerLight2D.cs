@@ -4,9 +4,9 @@ using System;
 public class PlayerLight2D : Light2D
 {
     [Export] public float MinLight=1f;
-    [Export] public float MaxLight=1.2f;
+    [Export] public float MaxLight=1.5f;
     [Export] public int LightDelay=10;
-    [Export] public Vector2 ImgScale=new Vector2(1.5f,1.5f);
+    [Export] public Vector2 ImgScale=new Vector2(2.5f,2.5f);
 
     int lightCounter;
 

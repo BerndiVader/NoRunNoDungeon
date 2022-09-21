@@ -164,17 +164,10 @@ position = Vector2( 1963, 0 )
 ACTIVATION_RANGE = 50.0
 
 [editable path="SpikesUp3"]
-
 [editable path="SpikesUp5"]
-
 [editable path="SpikesUp6"]
-
 [editable path="PlatformMoving3x3"]
-
 [editable path="ZombieRunning"]
-
 [editable path="ZombieRunning2"]
-
 [editable path="ZombieRunning3"]
-
 [editable path="ZombieRunning4"]

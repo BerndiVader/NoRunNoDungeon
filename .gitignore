@@ -3,5 +3,6 @@
 /.vscode/
 /android/
 /logs/
+/builds/
 .gitingore
 

@@ -11,20 +11,10 @@ extents = Vector2( 6.76483, 7.69311 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 3 ) ],
-"loop": false,
-"name": "idle",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 3 ), ExtResource( 1 ), ExtResource( 2 ) ],
 "loop": false,
 "name": "attack",
 "speed": 8.0
-}, {
-"frames": [ ExtResource( 2 ) ],
-"loop": false,
-"name": "fight",
-"speed": 5.0
 }, {
 "frames": [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ) ],
 "loop": false,
@@ -34,6 +24,16 @@ animations = [ {
 "frames": [ ExtResource( 5 ) ],
 "loop": false,
 "name": "die",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "fight",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "idle",
 "speed": 5.0
 } ]
 
@@ -60,9 +60,7 @@ animation = "die"
 cast_to = Vector2( 60, 0 )
 collision_mask = 3
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." groups=[
-"Enemies",
-]]
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["Enemies"]]
 collision_layer = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]

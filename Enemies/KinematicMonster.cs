@@ -175,6 +175,8 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     public virtual void onDamage(Player player,int amount)
     {
+        WorldUtils.world.renderer.shake=2d;
+
         GetNode<StaticBody2D>("StaticBody2D").GetNode<CollisionShape2D>("CollisionShape2D").CallDeferred("set","disabled",true);
         lastState=state;
         state=STATE.DAMAGE;
@@ -182,8 +184,12 @@ public abstract class KinematicMonster : KinematicBody2D
         damageAmount=amount;
         health-=amount;
     }
+
     public virtual void onPassanger(Player player)
     {
+
+        WorldUtils.world.renderer.shake=2d;
+
         lastState=state;
         state=STATE.PASSANGER;
         attacker=player;
