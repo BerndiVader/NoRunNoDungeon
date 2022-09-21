@@ -52,7 +52,6 @@ public class BerndiVader : Node2D
             currentLeft=leftPosition;
             currentRight=rightPosition;
             fadeTween.Start();
-
         }
 
         if(klammerLinks.Position.x<30&&audio.Playing&&!zoomTween.IsActive())

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Placeholders/ChestMimic.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Placeholders/CoinPhysics.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Placeholders/CoinStatic.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Placeholders/BatonSwinging.tscn" type="PackedScene" id=10]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -143,6 +144,15 @@ position = Vector2( 5440, 160 )
 
 [node name="ChestMimic" parent="." instance=ExtResource( 7 )]
 position = Vector2( 896, 208 )
+
+[node name="Placeholder" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1312, 0 )
+
+[node name="Placeholder2" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1536, 0 )
+
+[node name="Placeholder3" parent="." instance=ExtResource( 10 )]
+position = Vector2( 2360, 32 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="ZombieRunning"]

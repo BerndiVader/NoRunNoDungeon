@@ -8,7 +8,6 @@ radius = 25.933
 height = 1.21396
 
 [node name="SwingingBaton" type="Area2D"]
-rotation = 1.5708
 collision_layer = 16
 script = ExtResource( 1 )
 
