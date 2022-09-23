@@ -48,7 +48,7 @@ public class Player : KinematicBody2D
 
         equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.DRAGGER]);
 
-        this.AddToGroup("Players");
+        this.AddToGroup(GROUPS.PLAYERS.ToString());
         ZIndex=2;
 
         Connect("Damage",this,nameof(onDamaged));
@@ -133,22 +133,19 @@ public class Player : KinematicBody2D
             {
                 KinematicCollision2D collision=GetSlideCollision(i);
                 Node2D collider=(Node2D)collision.Collider;
-                if(collider.IsInGroup("Enemies"))
+                if(collider.GetParent()!=null)
+                {
+                    collider=collider.GetParent() as Node2D;
+                }
+                
+                if(collider.IsInGroup(GROUPS.ENEMIES.ToString()))
                 {
                     if(collision.Normal.AngleTo(Vector2.Up)==0)
                     {
                         velocity.y=-JUMP_SPEED;
                         animationController.Play(ANIM_JUMP);
                         justJumped=jumping=true;
-
-                        if(collider.GetParent()!=null)
-                        {
-                            collider.GetParent().EmitSignal("Passanger",this);
-                        }
-                        else
-                        {
-                            collider.EmitSignal("Passanger",this);                            
-                        }
+                        collider.EmitSignal("Passanger",this);                            
                     }
                 }
 
@@ -249,7 +246,7 @@ public class Player : KinematicBody2D
         weapon.QueueFree();
     }
 
-    public void onDamaged(float amount)
+    public void onDamaged(float amount=1f)
     {
 
         WorldUtils.world.CallDeferred("restartGame",true);

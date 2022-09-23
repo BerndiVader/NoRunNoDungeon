@@ -23,7 +23,7 @@ public class Level : TileMap
 
         Connect("tree_exiting",this,nameof(freeLevel));
         ZIndex=0;
-        AddToGroup("Level");
+        AddToGroup(GROUPS.LEVEL.ToString());
     }
 
     public void freeLevel() 

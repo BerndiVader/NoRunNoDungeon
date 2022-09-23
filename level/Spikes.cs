@@ -144,7 +144,7 @@ public class Spikes : Area2D
 
     public void enteredBody(Node node)
     {
-        if(node.IsInGroup("Players")) 
+        if(node.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
             WorldUtils.world.CallDeferred("restartGame",true);
         }

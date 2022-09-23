@@ -51,7 +51,7 @@ public class FallingPlatform : Platform
 
     public void _on_Area2D_body_entered(Node body) 
     {
-        if(!body.IsInGroup("Players")&&!body.IsInGroup("Level")) return;
+        if(!body.IsInGroup(GROUPS.PLAYERS.ToString())&&!body.IsInGroup(GROUPS.LEVEL.ToString())) return;
         if(!falling) 
         {
             Vector2 position=new Vector2(area2dShape.Position);
@@ -61,7 +61,7 @@ public class FallingPlatform : Platform
         } 
         else if(time<0) 
         {
-            if(body.IsInGroup("Level")) 
+            if(body.IsInGroup(GROUPS.LEVEL.ToString())) 
             {
                     BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCKPARTICLES].Instance();
                     blockBreakParticle.Position=getPosition();
@@ -83,7 +83,7 @@ public class FallingPlatform : Platform
 
     public void _on_Area2D_body_exited(Node body) 
     {
-        if(!body.IsInGroup("Players")) return;
+        if(!body.IsInGroup(GROUPS.LEVEL.ToString())) return;
     }
 
     public void _exitingTree()

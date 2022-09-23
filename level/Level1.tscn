@@ -146,10 +146,11 @@ position = Vector2( 5440, 160 )
 position = Vector2( 896, 208 )
 
 [node name="Placeholder" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1312, 0 )
+position = Vector2( 656, 144 )
 
-[node name="Placeholder2" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1536, 0 )
+[node name="SwingingBaton" parent="Placeholder" index="0"]
+maxSpeed = 0.03
+maxRotation = 45
 
 [node name="Placeholder3" parent="." instance=ExtResource( 10 )]
 position = Vector2( 2360, 32 )
@@ -157,3 +158,4 @@ position = Vector2( 2360, 32 )
 [editable path="PlatformMoving3x3"]
 [editable path="ZombieRunning"]
 [editable path="SpikesUp"]
+[editable path="Placeholder"]

@@ -32,6 +32,7 @@
     <Compile Include="Enemies\Zombie.cs" />
     <Compile Include="Enumerations\BULLETS.cs" />
     <Compile Include="Enumerations\ENEMIES.cs" />
+    <Compile Include="Enumerations\GROUPS.cs" />
     <Compile Include="Enumerations\PARTICLES.cs" />
     <Compile Include="Enumerations\WEAPONS.cs" />
     <Compile Include="Gfx\ExplodeGfx.cs" />

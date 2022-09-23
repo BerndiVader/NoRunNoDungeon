@@ -16,4 +16,9 @@ public static class MathUtils
         return random.Next(min,max);
     }    
 
+    public static float minMax(float min, float max, float delta)
+    {
+        return Math.Max(Math.Min(delta,max),min);
+    }
+
 }

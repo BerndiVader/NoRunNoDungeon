@@ -1,0 +1,8 @@
+/.import/
+/.mono/
+/.vscode/
+/android/
+/logs/
+/builds/
+.gitingore
+export_presets.cfg

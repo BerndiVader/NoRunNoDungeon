@@ -7,9 +7,15 @@ public class SwingingBaton : Area2D
     VisibilityNotifier2D notifier2D;
     Vector2 rotateTo,rot;
 
+    [Export] public float minSpeed=0.01f;
+    [Export] public float maxSpeed=0.09f;
+    [Export] public int maxRotation=90;
+
+
     public override void _Ready()
     {
-        rotateTo=new Vector2(90,0);
+        AddToGroup(GROUPS.OBSTACLES.ToString(),true);
+        rotateTo=new Vector2(Mathf.Deg2Rad(90),0);
         notifier2D=new VisibilityNotifier2D();
         if(GetParent().GetType().Name=="Placeholder")
         {
@@ -21,7 +27,17 @@ public class SwingingBaton : Area2D
             notifier2D.Connect("screen_exited",this,"exitedScreen");
         }
         AddChild(notifier2D);
-        rot=new Vector2(RotationDegrees,0);
+        rot=new Vector2(Rotation,0);
+        Connect("body_entered",this,nameof(onBodyEntered));
+    }
+
+    public void onBodyEntered(Node2D body)
+    {
+        if(body.IsInGroup(GROUPS.PLAYERS.ToString()))
+        {
+            Player player=body as Player;
+            player.onDamaged();
+        }
     }
 
     public void exitedScreen()
@@ -31,17 +47,21 @@ public class SwingingBaton : Area2D
 
     public override void _PhysicsProcess(float delta)
     {
-        rot=rot.LinearInterpolate(rotateTo,delta*2);
-        
-        RotationDegrees=rot.x;
-        if(RotationDegrees>=89)
+        float speed=rot.x;
+        rot=rot.LinearInterpolate(rotateTo,delta*3);
+        speed=rot.x-speed;
+        speed=MathUtils.minMax(minSpeed,maxSpeed,Math.Abs(speed))*Math.Sign(speed);
+        Rotate(speed);
+
+        if(RotationDegrees>maxRotation-1)
         {
-            rotateTo=new Vector2(-90,0);
+            rotateTo=new Vector2(Mathf.Deg2Rad(maxRotation*-1),0);
         }
-        else if(RotationDegrees<=-89)
+        else if(RotationDegrees<(maxRotation-1)*-1)
         {
-            rotateTo=new Vector2(90,0);
+            rotateTo=new Vector2(Mathf.Deg2Rad(maxRotation),0);
         }
+
     }
 
 }

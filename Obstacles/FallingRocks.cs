@@ -36,7 +36,7 @@ public class FallingRocks : StaticBody2D
         groundControl=(Area2D)GetNode("Area2D2");
         groundControl.Connect("body_entered",this,nameof(onPlayerHit));
 
-        AddToGroup("Level");
+        AddToGroup(GROUPS.LEVEL.ToString());
 
     }
 
@@ -69,14 +69,14 @@ public class FallingRocks : StaticBody2D
 
     void onBodyEntered(Node2D body)
     {
-        if(body.IsInGroup("Platforms"))
+        if(body.IsInGroup(GROUPS.PLATFORMS.ToString()))
         {
             collider=(Platform)body;
             colliding=true;
             shake=0.5f;
             WorldUtils.world.renderer.shake+=2;
         } 
-        else if(body.IsInGroup("Level")&&body!=this)
+        else if(body.IsInGroup(GROUPS.LEVEL.ToString())&&body!=this)
         {
             state=2;
             area.Disconnect("body_entered",this,nameof(onBodyEntered));
@@ -88,7 +88,7 @@ public class FallingRocks : StaticBody2D
 
     void onBodyExited(Node2D body)
     {
-        if(body.IsInGroup("Platforms"))
+        if(body.IsInGroup(GROUPS.PLATFORMS.ToString()))
         {
             collider=null;
             colliding=false;
@@ -97,7 +97,7 @@ public class FallingRocks : StaticBody2D
 
     void onPlayerHit(Node2D body)
     {
-        if(body.IsInGroup("Players")) 
+        if(body.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
             WorldUtils.world.player.EmitSignal("Damage",1f);
         }

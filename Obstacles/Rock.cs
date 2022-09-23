@@ -18,7 +18,7 @@ public class Rock : PhysicsObject
             Node2D node=(Node2D)collision.Collider;
             velocity=velocity.Bounce(collision.Normal);
 
-            if(node.IsInGroup("Platforms"))
+            if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
                 Platform collider=(Platform)node;
                 velocity.x+=collider.CurrentSpeed.x*0.5f;

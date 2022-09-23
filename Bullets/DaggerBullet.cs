@@ -18,7 +18,8 @@ public class DaggerBullet : Area2D
         collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
         packedParticles=ResourceUtils.particles[(int)PARTICLES.DAGGERMISSPARTICLES] as PackedScene;
 
-        Connect("body_entered",this,nameof(bodyEntered));
+        Connect("body_entered",this,nameof(onBodyEntered));
+        Connect("area_entered",this,nameof(onAreaEntered));
     }
 
     public override void _PhysicsProcess(float delta)
@@ -40,20 +41,29 @@ public class DaggerBullet : Area2D
         return q0.LinearInterpolate(q1,time);
     }
 
-    void bodyEntered(Node node)
+    public void onAreaEntered(Area2D area)
     {
-        if(node.IsInGroup("Enemies"))
+        destroy();
+    }
+
+    public void onBodyEntered(Node node)
+    {
+        if(node.GetParent()!=null)
         {
-            if(node.GetParent()!=null)
-            {
-                node.GetParent().EmitSignal("Damage",WorldUtils.world.player,1f);
-            }
-            else
-            {
-                node.EmitSignal("Damage",WorldUtils.world.player,1f);                            
-            }
+            node=node.GetParent();
         }
 
+        if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
+        {
+            node.EmitSignal("Damage",WorldUtils.world.player,1f);                            
+        }
+
+        destroy();
+
+    }
+
+    void destroy()
+    {
         DaggerMissParticles particles=packedParticles.Instance() as DaggerMissParticles;
         particles.Position=WorldUtils.world.level.ToLocal(GlobalPosition);
         WorldUtils.world.level.AddChild(particles);

@@ -45,7 +45,7 @@ public abstract class KinematicMonster : KinematicBody2D
         Connect("Damage",this,nameof(onDamage));
         Connect("Stroll",this,nameof(onStroll));
 
-        AddToGroup("Enemies",true);
+        AddToGroup(GROUPS.ENEMIES.ToString());
 
         notifier2D=new VisibilityNotifier2D();
         if(GetParent().GetType().Name=="Placeholder")
@@ -187,7 +187,6 @@ public abstract class KinematicMonster : KinematicBody2D
 
     public virtual void onPassanger(Player player)
     {
-
         WorldUtils.world.renderer.shake=2d;
 
         lastState=state;

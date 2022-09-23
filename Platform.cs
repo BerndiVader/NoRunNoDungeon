@@ -28,7 +28,7 @@ public class Platform : StaticBody2D
         AddChild(notifier2D);
         
         startPosition=Position;
-        AddToGroup("Platforms");
+        AddToGroup(GROUPS.PLATFORMS.ToString());
         lastPosition=Position;
     }
 
