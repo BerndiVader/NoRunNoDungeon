@@ -76,14 +76,14 @@ public class Oger : KinematicMonster
                 {
                     FlipH();
                 }
-                EmitSignal("Stroll");
+                EmitSignal(SIGNALS.Stroll.ToString());
                 travelTime=0;
             }
             navigation(delta);
         }
         else
         {
-            EmitSignal("Attack",WorldUtils.world.player);
+            EmitSignal(SIGNALS.Attack.ToString(),WorldUtils.world.player);
         }
     }
 
@@ -96,7 +96,7 @@ public class Oger : KinematicMonster
             {
                 if(MathUtils.randomRangeInt(0,2)==1)
                 {
-                    EmitSignal("Idle");
+                    EmitSignal(SIGNALS.Idle.ToString());
                 }
                 travelTime=0;
             }
@@ -104,7 +104,7 @@ public class Oger : KinematicMonster
         }
         else
         {
-            EmitSignal("Attack",WorldUtils.world.player);
+            EmitSignal(SIGNALS.Attack.ToString(),WorldUtils.world.player);
         }
     }
 
@@ -153,7 +153,7 @@ public class Oger : KinematicMonster
 
             if(angle>45&&angle<165||!canSeePlayer())
             {
-                EmitSignal("Stroll");
+                EmitSignal(SIGNALS.Stroll.ToString());
             }
 
             if(stop)
@@ -186,11 +186,11 @@ public class Oger : KinematicMonster
             float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
             if(angle>45&&angle<165)
             {
-                EmitSignal("Stroll");
+                EmitSignal(SIGNALS.Stroll.ToString());
             }
             else
             {
-                EmitSignal("Fight",victim);
+                EmitSignal(SIGNALS.Fight.ToString(),victim);
             }
         }
     }
@@ -218,7 +218,7 @@ public class Oger : KinematicMonster
 
             if(angle>45&&angle<135||!canSeePlayer())
             {
-                EmitSignal("Stroll");
+                EmitSignal(SIGNALS.Stroll.ToString());
             }
 
             float vSign=Mathf.Sign(velocity.x);
@@ -238,7 +238,7 @@ public class Oger : KinematicMonster
         }
         else
         {
-            EmitSignal("Stroll");
+            EmitSignal(SIGNALS.Stroll.ToString());
         }
     }
 
@@ -253,7 +253,7 @@ public class Oger : KinematicMonster
         {
             if(health<=0)
             {
-                EmitSignal("Die");
+                EmitSignal(SIGNALS.Die.ToString());
             }
             else
             {

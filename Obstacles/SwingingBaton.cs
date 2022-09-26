@@ -35,8 +35,7 @@ public class SwingingBaton : Area2D
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString()))
         {
-            Player player=body as Player;
-            player.onDamaged();
+            body.EmitSignal(SIGNALS.Damage.ToString(),1f,this);
         }
     }
 

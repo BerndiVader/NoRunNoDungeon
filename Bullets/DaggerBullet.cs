@@ -55,7 +55,7 @@ public class DaggerBullet : Area2D
 
         if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
         {
-            node.EmitSignal("Damage",WorldUtils.world.player,1f);                            
+            node.EmitSignal(SIGNALS.Damage.ToString(),WorldUtils.world.player,1f);                            
         }
 
         destroy();

@@ -94,6 +94,9 @@ position = Vector2( 2752, 160 )
 [node name="CoinStatic" parent="." instance=ExtResource( 9 )]
 position = Vector2( 2448, 240 )
 
+[node name="Coin" parent="CoinStatic" index="0"]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
+
 [node name="CoinStatic2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 2640, 240 )
 
@@ -158,4 +161,5 @@ position = Vector2( 2360, 32 )
 [editable path="PlatformMoving3x3"]
 [editable path="ZombieRunning"]
 [editable path="SpikesUp"]
+[editable path="CoinStatic"]
 [editable path="Placeholder"]

@@ -23,7 +23,7 @@ public abstract class KinematicMonster : KinematicBody2D
     public delegate void Stroll();
     
     protected Player victim,attacker;
-    protected float damageAmount;
+    [Export] public float damageAmount=1f;
     protected Placeholder parent;
     protected VisibilityNotifier2D notifier2D;
     protected Godot.AnimationPlayer animationPlayer;
@@ -36,14 +36,14 @@ public abstract class KinematicMonster : KinematicBody2D
 
     public override void _Ready()
     {
-        Connect("Passanger",this,nameof(onPassanger));
-        Connect("Die",this,nameof(onDie));
-        Connect("Attack",this,nameof(onAttack));
-        Connect("Fight",this,nameof(onFight));
-        Connect("Calm",this,nameof(onCalm));
-        Connect("Idle",this,nameof(onIdle));
-        Connect("Damage",this,nameof(onDamage));
-        Connect("Stroll",this,nameof(onStroll));
+        Connect(SIGNALS.Passanger.ToString(),this,nameof(onPassanger));
+        Connect(SIGNALS.Die.ToString(),this,nameof(onDie));
+        Connect(SIGNALS.Attack.ToString(),this,nameof(onAttack));
+        Connect(SIGNALS.Fight.ToString(),this,nameof(onFight));
+        Connect(SIGNALS.Calm.ToString(),this,nameof(onCalm));
+        Connect(SIGNALS.Idle.ToString(),this,nameof(onIdle));
+        Connect(SIGNALS.Damage.ToString(),this,nameof(onDamage));
+        Connect(SIGNALS.Stroll.ToString(),this,nameof(onStroll));
 
         AddToGroup(GROUPS.ENEMIES.ToString());
 

@@ -3,7 +3,6 @@ using System;
 
 public class FallingPlatform : Platform
 {
-
     [Export] public int TimeSpan=20;
     int time;
 

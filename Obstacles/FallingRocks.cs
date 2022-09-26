@@ -99,7 +99,7 @@ public class FallingRocks : StaticBody2D
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
-            WorldUtils.world.player.EmitSignal("Damage",1f);
+            WorldUtils.world.player.EmitSignal(SIGNALS.Damage.ToString(),1f,this);
         }
     }
 

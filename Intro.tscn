@@ -26,9 +26,6 @@ meta_underlined = false
 text = "Press UP to start!"
 scroll_active = false
 script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Map" parent="." instance=ExtResource( 2 )]
 z_index = -1

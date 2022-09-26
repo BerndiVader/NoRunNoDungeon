@@ -8,7 +8,7 @@ public class Player : KinematicBody2D
     static World world;
 
     [Signal]
-    public delegate void Damage(float amount);
+    public delegate void Damage(float amount=1f, Node2D attacker=null);
 
     [Export] public float GRAVITY=500f;
     [Export] public float FLOOR_ANGLE_TOLERANCE=40f;
@@ -37,6 +37,11 @@ public class Player : KinematicBody2D
     public CollisionShape2D collisionController;
     Weapon weapon;
 
+    public enum SignalType
+    {
+        
+    }
+
     public override void _Ready()
     {
         world=WorldUtils.world;
@@ -51,7 +56,7 @@ public class Player : KinematicBody2D
         this.AddToGroup(GROUPS.PLAYERS.ToString());
         ZIndex=2;
 
-        Connect("Damage",this,nameof(onDamaged));
+        Connect(SIGNALS.Damage.ToString(),this,nameof(onDamaged));
     }
 
     public override void _PhysicsProcess(float delta)
@@ -246,7 +251,7 @@ public class Player : KinematicBody2D
         weapon.QueueFree();
     }
 
-    public void onDamaged(float amount=1f)
+    public void onDamaged(float amount=1f,Node2D damager=null)
     {
 
         WorldUtils.world.CallDeferred("restartGame",true);

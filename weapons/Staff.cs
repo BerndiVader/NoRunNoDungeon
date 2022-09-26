@@ -73,9 +73,9 @@ public class Staff : Weapon
     {
         if(state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.DAMAGE)
         {
-            if(node.Name=="Player")
+            if(node.IsInGroup(GROUPS.PLAYERS.ToString()))
             {
-                node.EmitSignal("Damage",1f);                            
+                node.EmitSignal(SIGNALS.Damage.ToString(),damage,this);                           
                 hit=true;
             }
         }

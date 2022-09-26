@@ -11,15 +11,15 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
-"loop": true,
-"name": "RUN",
-"speed": 10.0
-}, {
 "frames": [ ExtResource( 2 ) ],
 "loop": true,
 "name": "HIT",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "RUN",
+"speed": 10.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -41,6 +41,9 @@ texture = ExtResource( 9 )
 color = Color( 0.984314, 0.952941, 0.470588, 1 )
 mode = 2
 script = ExtResource( 8 )
+MinLight = 0.8
+MaxLight = 1.2
+ImgScale = Vector2( 1.2, 1.2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )

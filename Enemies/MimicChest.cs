@@ -97,7 +97,7 @@ public class MimicChest : KinematicMonster
 
         if(collide)
         {
-            player.EmitSignal("Damage",1f);
+            player.EmitSignal(SIGNALS.Damage.ToString(),damageAmount,this);
         }
 
         float distance=GlobalPosition.DistanceTo(player.GlobalPosition);
@@ -153,7 +153,7 @@ public class MimicChest : KinematicMonster
         }
         else
         {
-            player.EmitSignal("Damage",1f);
+            player.EmitSignal(SIGNALS.Damage.ToString(),1f);
         }
     }
 

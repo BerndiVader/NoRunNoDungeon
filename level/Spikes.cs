@@ -12,6 +12,7 @@ public class Spikes : Area2D
     [Export] int OutDelay=1;
     [Export] float StartDelay=0.1f;
     [Export] float ActOnDistance=-1f;
+    [Export] float damage=1f;
 
     VisibilityNotifier2D notifier2D;
 
@@ -146,7 +147,7 @@ public class Spikes : Area2D
     {
         if(node.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
-            WorldUtils.world.CallDeferred("restartGame",true);
+            WorldUtils.world.player.EmitSignal(SIGNALS.Damage.ToString(),damage,this);
         }
 
     }

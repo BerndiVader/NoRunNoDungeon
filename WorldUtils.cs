@@ -39,7 +39,6 @@ public static class WorldUtils
             else
             {
                 currentScene.QueueFree();
-                //free
             }
     }
 

@@ -28,5 +28,6 @@ initial_velocity = 140.63
 angular_velocity = -720.0
 radial_accel = -28.12
 script = ExtResource( 2 )
+
 [connection signal="tree_entered" from="." to="." method="_enteredTree"]
 [connection signal="tree_entered" from="CPUParticles2D" to="CPUParticles2D" method="_enteredTree"]

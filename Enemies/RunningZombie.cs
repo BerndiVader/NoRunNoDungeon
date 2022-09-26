@@ -178,7 +178,7 @@ public class RunningZombie : KinematicMonster
         {
             if(health<=0)
             {
-                EmitSignal("Die");
+                EmitSignal(SIGNALS.Die.ToString());
             }
             else
             {

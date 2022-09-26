@@ -25,4 +25,5 @@ scale_amount = 0.5
 scale_amount_random = 0.25
 color = Color( 0.929412, 0.898039, 0.890196, 1 )
 script = ExtResource( 1 )
+
 [connection signal="tree_entered" from="." to="." method="_enteredTree" flags=3]

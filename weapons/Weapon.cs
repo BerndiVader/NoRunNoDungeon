@@ -3,11 +3,12 @@ using System;
 
 public abstract class Weapon : Area2D
 {
-    public Godot.AnimationPlayer animationPlayer;
+    public AnimationPlayer animationPlayer;
     protected CollisionShape2D collisionController;
     protected bool hit;
     public WEAPONSTATE state;
     public WEAPONSTATE oldState;
+    [Export] public float damage=1f;
 
     public override void _Ready()
     {
@@ -51,7 +52,7 @@ public abstract class Weapon : Area2D
 
             if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
             {
-                node.EmitSignal("Damage",WorldUtils.world.player,1f);                            
+                node.EmitSignal(SIGNALS.Damage.ToString(),WorldUtils.world.player,damage);                            
                 hit=true;
             }
         }
