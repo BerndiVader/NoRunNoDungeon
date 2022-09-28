@@ -18,6 +18,11 @@ public class World : Node
 	public Gamestate state, oldState;
 	public override void _Ready()
 	{
+		if(ResourceUtils.isMobile)
+		{
+			GetNode("WorldEnvironment").CallDeferred("queue_free");
+		}
+
 		input=ResourceUtils.getInputController(this);
 
 		stage=0;
@@ -29,13 +34,15 @@ public class World : Node
 		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
 		WorldUtils.mergeMaps(level,cachedLevel);
 		player=(Player)ResourceUtils.player.Instance();
+		background=ResourceUtils.background.Instance() as Background;
 
-		background=(Background)ResourceUtils.background.Instance();
 		state=Gamestate.RUNNING;
 
 		renderer.AddChild(level);
 		renderer.AddChild(player);
 		renderer.AddChild(background);
+
+
 	}
 
 	public override void _Process(float delta)
