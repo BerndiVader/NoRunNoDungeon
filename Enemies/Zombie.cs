@@ -8,8 +8,6 @@ public class Zombie : KinematicMonster
     Vector2 velocity=Vector2.Zero;
     int cooldown;
 
-    Player player;
-
     RayCast2D rayCast2D;
     Vector2 CASTTO;
     Staff weapon;
@@ -17,17 +15,18 @@ public class Zombie : KinematicMonster
     public override void _Ready()
     {
         base._Ready();
-        weapon=GetNode<Staff>("Staff");
 
-        animationPlayer=GetNode<Godot.AnimationPlayer>("AnimationPlayer");
+        weapon=GetNode("Staff") as Staff;
+
+        animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
         animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
         animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
 
-        rayCast2D=(RayCast2D)GetNode("RayCast2D");
+        rayCast2D=GetNode("RayCast2D") as RayCast2D;
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        animationController=(AnimatedSprite)GetNode("AnimatedSprite");
+        animationController=GetNode("AnimatedSprite") as AnimatedSprite;
         state=STATE.IDLE;
 
         animationController.Play("default");
@@ -67,12 +66,12 @@ public class Zombie : KinematicMonster
 
             if(collision!=null)
             {
-                Node2D node=(Node2D)collision.Collider;
+                Node2D node=collision.Collider as Node2D;
                 velocity=velocity.Bounce(collision.Normal)*0.01f;
 
                 if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
                 {
-                    Platform collider=(Platform)node;
+                    Platform collider=node as Platform;
                     velocity.x+=collider.CurrentSpeed.x;
                 }
             }
@@ -85,7 +84,6 @@ public class Zombie : KinematicMonster
     {
         if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId())
         {
-            player=WorldUtils.world.player;
             cooldown=0;
             state=STATE.ATTACK;
         }
@@ -99,15 +97,15 @@ public class Zombie : KinematicMonster
 
     public override void attack(float delta)
     {
-        float distance=rayCast2D.GlobalPosition.DistanceTo(player.GlobalPosition);
+        float distance=rayCast2D.GlobalPosition.DistanceTo(WorldUtils.world.player.GlobalPosition);
         if(distance<41)
         {
-            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(player.GlobalPosition);
+            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(WorldUtils.world.player.GlobalPosition);
             FlipH(direction.x<0);
 
             direction=direction*distance;
             rayCast2D.CastTo=direction;
-            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==player.GetInstanceId())
+            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId())
             {
                 if(cooldown<0&&!weapon.animationPlayer.IsPlaying())
                 {
@@ -118,14 +116,12 @@ public class Zombie : KinematicMonster
             else {
                 rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
                 state=STATE.IDLE;
-                player=null;
                 cooldown=0;
             }
         } else
         {
             rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
             state=STATE.IDLE;
-            player=null;
             cooldown=0;
         }
         cooldown--;

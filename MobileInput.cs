@@ -9,11 +9,11 @@ public class MobileInput : InputController
 
     public MobileInput(Node scene)
     {
-            touch=(Touch)ResourceUtils.touch.Instance();
+            touch=ResourceUtils.touch.Instance() as Touch;
             touch.ZIndex=2500;
             scene.AddChild(touch);
 
-            buttons=(Buttons)ResourceUtils.buttons.Instance();
+            buttons=ResourceUtils.buttons.Instance() as Buttons;
             buttons.ZIndex=2500;
             scene.AddChild(buttons);
 
@@ -53,8 +53,8 @@ public class MobileInput : InputController
 
     public override void _free()
     {
-        touch.QueueFree();
-        buttons.QueueFree();
+        touch.CallDeferred("queue_free");
+        buttons.CallDeferred("queue_free");
     }
 
     public override bool getPause()

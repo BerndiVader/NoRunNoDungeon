@@ -5,26 +5,22 @@ public class FallingPlatform : Platform
 {
     [Export] public int TimeSpan=20;
     int time;
-
-    Area2D area2D;
+    bool falling=false;
     CollisionShape2D area2dShape;
-
     float shake=2f,shakeMax=6f,speed=0f;
 
     public override void _Ready()
     {
         base._Ready();
         time=TimeSpan;
-        area2D=(Area2D)GetNode("Area2D");
-        area2dShape=(CollisionShape2D)area2D.GetNode("CollisionShape2D2");
-        Connect("tree_exiting",this,nameof(_exitingTree));
+        area2dShape=GetNode("Area2D/CollisionShape2D2") as CollisionShape2D;
     }
 
     public override void _PhysicsProcess(float delta)
     {
         if(falling)
         {
-            if(time<=0) 
+            if(time<0) 
             {
                 speed=Mathf.Min(speed+=10f,200f);
                 MoveLocalY(speed*delta,false);
@@ -53,31 +49,31 @@ public class FallingPlatform : Platform
         if(!body.IsInGroup(GROUPS.PLAYERS.ToString())&&!body.IsInGroup(GROUPS.LEVEL.ToString())) return;
         if(!falling) 
         {
-            Vector2 position=new Vector2(area2dShape.Position);
-            position.y=5;
-            area2dShape.Position=position;
+            area2dShape.Position=new Vector2(area2dShape.Position.x,5f);
             falling=true;
         } 
         else if(time<0) 
         {
             if(body.IsInGroup(GROUPS.LEVEL.ToString())) 
             {
-                    BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCKPARTICLES].Instance();
-                    blockBreakParticle.Position=getPosition();
-                    WorldUtils.world.level.CallDeferred("add_child",blockBreakParticle);
-                    _Free();
+                    delete();
                     return;
             }
 
             Player player=(Player)body;
-            if(player.Position.y>Position.y) 
+            if(player.GlobalPosition.y>GlobalPosition.y) 
             {
-                BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCKPARTICLES].Instance();
-                blockBreakParticle.Position=getPosition();
-                WorldUtils.world.level.CallDeferred("add_child",blockBreakParticle);
-                _Free();
+                delete();
             }
         }
+    }
+
+    void delete()
+    {
+        BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCKPARTICLES].Instance();
+        blockBreakParticle.Position=WorldUtils.world.level.ToLocal(GlobalPosition);
+        WorldUtils.world.level.CallDeferred("add_child",blockBreakParticle);
+        CallDeferred("queue_free");
     }
 
     public void _on_Area2D_body_exited(Node body) 
@@ -85,8 +81,4 @@ public class FallingPlatform : Platform
         if(!body.IsInGroup(GROUPS.LEVEL.ToString())) return;
     }
 
-    public void _exitingTree()
-    {
-        area2D.Monitoring=false;
-    }
 }

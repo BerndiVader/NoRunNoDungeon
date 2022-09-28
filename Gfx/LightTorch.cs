@@ -10,7 +10,6 @@ public class LightTorch : Light2D
     int lightCounter;
 
     protected AnimatedSprite animationController;
-    protected Placeholder parent;
     protected VisibilityNotifier2D notifier2D;
 
     public override void _Ready()
@@ -19,18 +18,10 @@ public class LightTorch : Light2D
         Scale=ImgScale;
 
         notifier2D=new VisibilityNotifier2D();
-        if(GetParent().GetType().Name=="Placeholder")
-        {
-            parent=(Placeholder)GetParent();
-            notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        }
-        else 
-        {
-            notifier2D.Connect("screen_exited",this,"exitedScreen");
-        }
+        notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
         AddChild(notifier2D);
 
-        animationController=(AnimatedSprite)GetNode("AnimatedSprite");
+        animationController=GetNode("AnimatedSprite") as AnimatedSprite;
         animationController.Play();
     }
 

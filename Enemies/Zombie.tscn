@@ -132,7 +132,7 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 6.17702, 9.13306 )
 
-[node name="Zombie" type="KinematicBody2D"]
+[node name="Zombie" type="KinematicBody2D" groups=["ENEMIES"]]
 position = Vector2( 0, -1 )
 collision_layer = 0
 collision_mask = 6

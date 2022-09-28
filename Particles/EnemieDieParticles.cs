@@ -15,7 +15,7 @@ public class EnemieDieParticles : CPUParticles2D
         if(!Emitting) 
         {
             SetProcess(false);
-            QueueFree();
+            CallDeferred("queue_free");
         }
     }
 

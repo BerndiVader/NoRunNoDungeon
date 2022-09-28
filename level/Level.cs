@@ -33,7 +33,10 @@ public class Level : TileMap
         for(int i=0;i<size;i++)
         {
             Node node=childrens[i] as Node;
-            if(node!=null&&!node.IsQueuedForDeletion()) node.CallDeferred("queue_free");
+            if(node!=null&&!node.IsQueuedForDeletion())
+            {
+                node.CallDeferred("queue_free");
+            }
         }
         CallDeferred("queue_free");
     }

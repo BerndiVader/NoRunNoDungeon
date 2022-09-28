@@ -139,7 +139,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="RunningZombie" type="KinematicBody2D"]
+[node name="RunningZombie" type="KinematicBody2D" groups=["ENEMIES"]]
 position = Vector2( 0, -1 )
 collision_layer = 0
 collision_mask = 22

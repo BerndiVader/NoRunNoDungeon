@@ -20,17 +20,17 @@ public class Oger : KinematicMonster
     public override void _Ready()
     {
         base._Ready();
-        weapon=GetNode<Staff>("Baton");
+        weapon=GetNode("Baton") as Staff;
 
-        animationPlayer=GetNode<Godot.AnimationPlayer>("AnimationPlayer");
+        animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
         animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
         animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
 
-        rayCast2D=(RayCast2D)GetNode("RayCast2D");
+        rayCast2D=GetNode("RayCast2D") as RayCast2D;
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        playerCast2D=(RayCast2D)GetNode("PlayerCast2D");
+        playerCast2D=GetNode("PlayerCast2D") as RayCast2D;
         playerCast2D.Enabled=true;
         PLAYERCASTTO=playerCast2D.CastTo;
 
@@ -330,36 +330,27 @@ public class Oger : KinematicMonster
 
     bool canSeePlayer()
     {
-        if(playerCast2D.IsColliding())
-        {
-            return playerCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId();
-        }
-        else
-        {
-            return false;
-        }
+        return playerCast2D.IsColliding()&&playerCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId();
     }
 
     void FlipH()
     {
         animationController.FlipH^=true;
 
-        int x=-1;
-
         Vector2 position=rayCast2D.Position;
-        position.x*=x;
+        position.x*=-1;
         rayCast2D.Position=position;
         
         position=playerCast2D.Position;
-        position.x*=x;
+        position.x*=-1;
         playerCast2D.Position=position;
 
         position=playerCast2D.CastTo;
-        position.x*=x;
+        position.x*=-1;
         playerCast2D.CastTo=position;
 
         position=collisionController.Position;
-        position.x*=x;
+        position.x*=-1;
         collisionController.Position=position;
     }
 

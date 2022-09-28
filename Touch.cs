@@ -7,7 +7,7 @@ public class Touch : Sprite
 
     public override void _Ready()
     {
-        stick=(Stick)GetNode("Stick");
+        stick=GetNode("Stick") as Stick;
     }
 
     public Vector2 getValue()

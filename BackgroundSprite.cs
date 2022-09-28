@@ -7,7 +7,7 @@ public class BackgroundSprite : Sprite
 
     public override void _Ready()
     {
-        layer=(BackgroundLayer)GetParent();
+        layer=GetParent() as BackgroundLayer;
 
         int id=layer.Name.Substr(layer.Name.Length-1,1).ToInt();
         

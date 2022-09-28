@@ -128,8 +128,8 @@ tracks/2/keys = {
 }
 
 [node name="Broadsword" type="Area2D"]
-position = Vector2( -17.5998, 6.73386 )
-rotation = 1.57079
+position = Vector2( -8.60937, 16.759 )
+rotation = 3.92699
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 6.73386 ]

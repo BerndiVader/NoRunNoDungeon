@@ -48,15 +48,7 @@ public abstract class KinematicMonster : KinematicBody2D
         AddToGroup(GROUPS.ENEMIES.ToString());
 
         notifier2D=new VisibilityNotifier2D();
-        if(GetParent().GetType().Name=="Placeholder")
-        {
-            parent=(Placeholder)GetParent();
-            notifier2D.Connect("screen_exited",parent,nameof(exitedScreen));
-        }
-        else 
-        {
-            notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
-        }
+        notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
         AddChild(notifier2D);
 
         victim=null;
@@ -153,7 +145,7 @@ public abstract class KinematicMonster : KinematicBody2D
         particles.Position=position;
 
         WorldUtils.world.level.CallDeferred("add_child",particles);
-        _Free();
+        CallDeferred("queue_free");
     }
 
     public virtual void onDie()
@@ -222,17 +214,6 @@ public abstract class KinematicMonster : KinematicBody2D
         CallDeferred("queue_free");
     }
 
-    public virtual void _Free()
-    {
-        if(parent!=null)
-        {
-            parent.CallDeferred("queue_free");
-        }
-        else
-        {
-            CallDeferred("queue_free");
-        }
-    }
     public void animationPlayerStarts(String name)
     {
         startOffset=Position;

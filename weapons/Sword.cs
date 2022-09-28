@@ -3,7 +3,6 @@ using System;
 
 public class Sword : Weapon
 {
-
     public override void _Ready()
     {
         base._Ready();
@@ -16,11 +15,11 @@ public class Sword : Weapon
         {
             case WEAPONSTATE.ATTACK:
             {
-
                 if(!animationPlayer.IsPlaying())
                 {
                     animationPlayer.Play("SETUP");
                     state=WEAPONSTATE.IDLE;
+                    hit=false;
                 }
                 break;
             }

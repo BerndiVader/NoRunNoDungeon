@@ -59,7 +59,6 @@ public class DaggerBullet : Area2D
         }
 
         destroy();
-
     }
 
     void destroy()

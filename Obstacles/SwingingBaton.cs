@@ -15,19 +15,14 @@ public class SwingingBaton : Area2D
     public override void _Ready()
     {
         AddToGroup(GROUPS.OBSTACLES.ToString(),true);
-        rotateTo=new Vector2(Mathf.Deg2Rad(90),0);
+
         notifier2D=new VisibilityNotifier2D();
-        if(GetParent().GetType().Name=="Placeholder")
-        {
-            parent=(Placeholder)GetParent();
-            notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        }
-        else 
-        {
-            notifier2D.Connect("screen_exited",this,"exitedScreen");
-        }
+        notifier2D.Connect("screen_exited",this,"exitedScreen");
         AddChild(notifier2D);
+
+        rotateTo=new Vector2(Mathf.Deg2Rad(90),0);
         rot=new Vector2(Rotation,0);
+        
         Connect("body_entered",this,nameof(onBodyEntered));
     }
 

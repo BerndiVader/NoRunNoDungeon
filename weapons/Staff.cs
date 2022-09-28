@@ -13,7 +13,7 @@ public class Staff : Weapon
     public void _Init()
     {
         GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
-        owner=GetParent<KinematicMonster>();
+        owner=GetParent() as KinematicMonster;
 
         if(owner!=null)
         {

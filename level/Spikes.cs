@@ -25,21 +25,11 @@ public class Spikes : Area2D
     bool reverse=false;
     bool running;
 
-    Node2D parent;
-
     public override void _Ready()
     {
-        if(GetParent().GetType().Name=="Placeholder")
-        {
-            parent=(Placeholder)GetParent();
-            notifier2D=new VisibilityNotifier2D();
-            AddChild(notifier2D);
-            notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        }
-        else
-        {
-            parent=(Node2D)GetParent();
-        }
+        notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
+        AddChild(notifier2D);
 
         tween=new Tween();
         tween.Connect("tween_all_completed",this,nameof(finishedTween));
@@ -97,7 +87,7 @@ public class Spikes : Area2D
     {
         tweenIn();
         tween.Start();
-        timer.QueueFree();
+        timer.CallDeferred("queue_free");
     }
 
     void tweening(Vector2 delta)
@@ -151,5 +141,10 @@ public class Spikes : Area2D
         }
 
     }
+
+    void exitedScreen()
+    {
+        CallDeferred("queue_free");
+    }    
 
 }

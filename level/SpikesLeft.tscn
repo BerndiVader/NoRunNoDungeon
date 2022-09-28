@@ -21,6 +21,4 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 
-[node name="Notifier" type="VisibilityNotifier2D" parent="."]
-
 [node name="Tween" type="Tween" parent="."]

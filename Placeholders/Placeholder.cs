@@ -19,16 +19,18 @@ public class Placeholder : Node2D
         notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_entered",this,nameof(enteredScreen));
         AddChild(notifier2D);
-
-        placeholder=(InstancePlaceholder)GetChild(0);
     }
 
     public override void _Process(float delta)
     {
         if(instantiated)
         {
-            placeholder.CreateInstance(true);
             SetProcess(false);
+            RemoveChild(placeholder);
+            WorldUtils.world.level.AddChild(placeholder);
+            placeholder.Set("position",WorldUtils.world.level.ToLocal(GlobalPosition));
+            placeholder.CreateInstance(false);
+            CallDeferred("queue_free");
         }
     }
 
@@ -36,13 +38,9 @@ public class Placeholder : Node2D
     {
         if(placeholder==null)
         {
-            placeholder=(InstancePlaceholder)GetChild(0);
+            placeholder=GetChild(0) as InstancePlaceholder;
         }
         ResourceUtils.worker.placeholderQueue.Enqueue(this);
     }
 
-    void exitedScreen()
-    {
-        CallDeferred("queue_free");
-    }
 }

@@ -17,8 +17,8 @@ public abstract class Weapon : Area2D
         Visible=true;
         state=WEAPONSTATE.IDLE;
         oldState=state;
-        animationPlayer=(Godot.AnimationPlayer)GetNode("AnimationPlayer");
-        collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
+        animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
+        collisionController=GetNode("CollisionShape2D") as CollisionShape2D;
         animationPlayer.CurrentAnimation="SETUP";
         animationPlayer.Play();
     }

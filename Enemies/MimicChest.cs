@@ -113,14 +113,16 @@ public class MimicChest : KinematicMonster
                     cooldown=10;
                 }
             }
-            else {
+            else
+            {
                 rayCast2D.CastTo=CASTTO;
                 animationController.Play("calm");
                 state=STATE.CALM;
                 player=null;
                 cooldown=0;
             }
-        } else
+        }
+        else
         {
             rayCast2D.CastTo=CASTTO;
             animationController.Play("calm");
@@ -153,7 +155,7 @@ public class MimicChest : KinematicMonster
         }
         else
         {
-            player.EmitSignal(SIGNALS.Damage.ToString(),1f);
+            player.EmitSignal(SIGNALS.Damage.ToString(),damageAmount);
         }
     }
 

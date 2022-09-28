@@ -28,13 +28,10 @@ public class Worker : Godot.Thread
 				{
 					Placeholder p=placeholderQueue.Dequeue() as Placeholder;
 					String instancePath=p.placeholder.GetInstancePath();
-					if(!ResourceLoader.HasCached(instancePath))
-					{
-						ResourceLoader.Load(instancePath);
-					}
+					ResourceLoader.Load(instancePath);
 					p.instantiated=true;
 				}
-				OS.DelayMsec(1);
+				OS.DelayMsec(5);
 			}
 		} catch (Exception ex) {
 			GD.Print(ex.Message);

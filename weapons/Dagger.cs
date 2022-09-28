@@ -56,7 +56,7 @@ public class Dagger : Weapon
     {
         DaggerBullet bullet=dagger.Instance() as DaggerBullet;
         bullet.Position=WorldUtils.world.renderer.ToLocal(GlobalPosition);
-        WorldUtils.world.AddChild(bullet);
+        WorldUtils.world.renderer.AddChild(bullet);
     }
 
 }

@@ -12,28 +12,19 @@ public class FallingRocks : StaticBody2D
     protected float ShakeMax=0.6f;
     bool colliding=false;
     Platform collider;
-    Placeholder parent;
     VisibilityNotifier2D notifier2D;
 
     public override void _Ready()
     {
         notifier2D=new VisibilityNotifier2D();
-        if(GetParent().GetType().Name=="Placeholder")
-        {
-            parent=(Placeholder)GetParent();
-            notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        }
-        else 
-        {
-            notifier2D.Connect("screen_exited",this,"exitedScreen");
-        }
+        notifier2D.Connect("screen_exited",this,"exitedScreen");
         AddChild(notifier2D);
 
-        area=(Area2D)GetNode("Area2D");
+        area=GetNode("Area2D") as Area2D;
         area.Connect("body_entered",this,nameof(onBodyEntered));
         area.Connect("body_exited",this,nameof(onBodyExited));
 
-        groundControl=(Area2D)GetNode("Area2D2");
+        groundControl=GetNode("Area2D2") as Area2D;
         groundControl.Connect("body_entered",this,nameof(onPlayerHit));
 
         AddToGroup(GROUPS.LEVEL.ToString());

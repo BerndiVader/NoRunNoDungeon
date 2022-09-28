@@ -9,7 +9,7 @@ public class Particles : CPUParticles2D
     {
         notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
-        CallDeferred("add_child",notifier2D);
+        AddChild(notifier2D);
     }
 
     public void exitedScreen() {

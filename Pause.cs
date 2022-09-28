@@ -16,7 +16,7 @@ public class Pause : TileMap
         if(input.getPause()) {
             WorldUtils.world.GetTree().Paused=false;
             WorldUtils.world.state=WorldUtils.world.oldState;
-            Free();
+            CallDeferred("queue_free");
         }
     }
 }

@@ -7,21 +7,12 @@ public class PhysicsObject : KinematicBody2D
     protected float friction=0f;
 
     protected Vector2 velocity=new Vector2(0f,0f);
-    protected Placeholder parent;
     protected VisibilityNotifier2D notifier2D;
 
     public override void _Ready()
     {
         notifier2D=new VisibilityNotifier2D();
-        if(GetParent().GetType().Name=="Placeholder")
-        {
-            parent=(Placeholder)GetParent();
-            notifier2D.Connect("screen_exited",parent,"exitedScreen");
-        }
-        else 
-        {
-            notifier2D.Connect("screen_exited",this,"exitedScreen");
-        }
+        notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
         AddChild(notifier2D);
     }
 
@@ -36,33 +27,16 @@ public class PhysicsObject : KinematicBody2D
 
         if(collision!=null) 
         {
-            Node2D node=(Node2D)collision.Collider;
+            Node2D node=collision.Collider as Node2D;
             friction=node.IsInGroup(GROUPS.PLATFORMS.ToString())?0.5f:0.7f;
             velocity=velocity.Bounce(collision.Normal)*friction;
 
             if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
-                Platform collider=(Platform)node;
+                Platform collider=node as Platform;
                 velocity.x+=collider.CurrentSpeed.x*0.5f;
             }
 
-        }
-    }
-
-    public Vector2 getPosition()
-    {
-        return parent!=null?parent.Position+Position:Position;
-    }
-
-    public void _Free()
-    {
-        if(parent!=null)
-        {
-            parent.CallDeferred("queue_free");
-        }
-        else
-        {
-            CallDeferred("queue_free");
         }
     }
 

@@ -47,13 +47,13 @@ public class Player : KinematicBody2D
         world=WorldUtils.world;
         Position=world.level.startingPoint.Position;
 
-        animationController=(AnimatedSprite)this.GetNode("AnimatedSprite");
-        collisionController=(CollisionShape2D)this.GetNode("CollisionShape2D");
+        animationController=GetNode("AnimatedSprite") as AnimatedSprite;
+        collisionController=GetNode("CollisionShape2D") as CollisionShape2D;
         animationController.Play(ANIM_RUN);
 
         equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.DRAGGER]);
 
-        this.AddToGroup(GROUPS.PLAYERS.ToString());
+        AddToGroup(GROUPS.PLAYERS.ToString());
         ZIndex=2;
 
         Connect(SIGNALS.Damage.ToString(),this,nameof(onDamaged));
@@ -248,7 +248,7 @@ public class Player : KinematicBody2D
     public void unequipWeapon()
     {
         RemoveChild(weapon);
-        weapon.QueueFree();
+        weapon.CallDeferred("queue_free");
     }
 
     public void onDamaged(float amount=1f,Node2D damager=null)
