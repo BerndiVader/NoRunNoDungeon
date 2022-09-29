@@ -30,7 +30,7 @@ position = Vector2( 1648, 101 )
 position = Vector2( 0, -1 )
 Speed = 40.0
 MaxSpeed = 40.0
-Length = 2
+Length = 4
 
 [node name="ZombieRunning" parent="." instance=ExtResource( 3 )]
 position = Vector2( 976, 192 )

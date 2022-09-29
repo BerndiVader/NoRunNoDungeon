@@ -19,6 +19,8 @@ public class Platform : StaticBody2D
         
         startPosition=Position;
         lastPosition=startPosition;
+        CurrentSpeed=new Vector2(0f,0f);
+        
         AddToGroup(GROUPS.PLATFORMS.ToString());
     }
 

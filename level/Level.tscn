@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
-[ext_resource path="res://Placeholders/RocksFalling.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Placeholders/PlatformMoving3x3.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Placeholders/CoinPhysics.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Placeholders/ChestMimic.tscn" type="PackedScene" id=5]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -18,5 +20,36 @@ script = ExtResource( 2 )
 [node name="StartingPoint" type="Position2D" parent="."]
 position = Vector2( 69.3553, 201.214 )
 
-[node name="RocksFalling" parent="." instance=ExtResource( 4 )]
-position = Vector2( 712, 144 )
+[node name="PlatformMoving3x3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 600, 184 )
+
+[node name="MovingPlatform0" parent="PlatformMoving3x3" index="0"]
+Direction = Vector2( 1, 0 )
+Speed = 40.0
+MaxSpeed = 40.0
+
+[node name="PlatformMoving3x4" parent="." instance=ExtResource( 3 )]
+position = Vector2( 832, 184 )
+
+[node name="MovingPlatform0" parent="PlatformMoving3x4" index="0"]
+Direction = Vector2( 1, 0 )
+Speed = 40.0
+MaxSpeed = 40.0
+
+[node name="ChestMimic" parent="." instance=ExtResource( 5 )]
+position = Vector2( 832, 168 )
+
+[node name="CoinPhysics" parent="." instance=ExtResource( 4 )]
+position = Vector2( 816, 168 )
+
+[node name="CoinPhysics2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 632, 128 )
+
+[node name="CoinPhysics3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 640, 112 )
+
+[node name="CoinPhysics4" parent="." instance=ExtResource( 4 )]
+position = Vector2( 600, 173 )
+
+[editable path="PlatformMoving3x3"]
+[editable path="PlatformMoving3x4"]

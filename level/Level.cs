@@ -18,12 +18,14 @@ public class Level : TileMap
 
         mapLength=((int)GetUsedRect().End.x)-1;
         pixelLength=mapLength*(int)this.CellSize.x;
-        startingPoint=(Position2D)GetNode("StartingPoint");
+        startingPoint=GetNode("StartingPoint") as Position2D;
         TileSet=WorldUtils.world.tileSet;
+        CellYSort=false;
 
         Connect("tree_exiting",this,nameof(freeLevel));
         ZIndex=0;
         AddToGroup(GROUPS.LEVEL.ToString());
+        CellCustomTransform=new Transform2D(256f,0f,0f,256f,0f,0f);
     }
 
     public void freeLevel() 

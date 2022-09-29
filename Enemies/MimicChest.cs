@@ -54,7 +54,7 @@ public class MimicChest : KinematicMonster
             if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
                 Platform collider=(Platform)node;
-                velocity.x+=collider.CurrentSpeed.x;
+                GlobalPosition=new Vector2(collider.GlobalPosition.x,GlobalPosition.y);
             }
 
         }

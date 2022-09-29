@@ -18,13 +18,14 @@ public class MovingPlatform0 : Platform
     public override void _Ready()
     {
         base._Ready();
-        maxLength=Length;
+        maxLength=Length*16;
         speed=Speed;
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        float currentLength=Mathf.Abs(Position.Length()-startPosition.Length());
+        lastPosition=Position;
+        float currentLength=Mathf.Abs(Position.DistanceTo(startPosition));
         if(currentLength>maxLength)
         {
             Direction*=-1;
@@ -34,7 +35,8 @@ public class MovingPlatform0 : Platform
         {
             float speed=Mathf.Lerp(currentLength,maxLength,LerpFactor);
         } 
-        Position+=Direction*(speed*delta);
+        CurrentSpeed=Direction*speed;
+        Position+=CurrentSpeed*delta;
     }
 
 }

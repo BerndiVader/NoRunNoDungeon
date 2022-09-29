@@ -72,7 +72,7 @@ public class Zombie : KinematicMonster
                 if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
                 {
                     Platform collider=node as Platform;
-                    velocity.x+=collider.CurrentSpeed.x;
+                    GlobalPosition=new Vector2(collider.GlobalPosition.x,GlobalPosition.y);
                 }
             }
         }
