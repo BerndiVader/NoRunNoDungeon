@@ -47,10 +47,14 @@ public static class WorldUtils
 
 	public static void quit() 
 	{
-		if(world.cachedLevel!=null) world.cachedLevel.CallDeferred("free");
+		if(world!=null&&world.cachedLevel!=null) world.cachedLevel.CallDeferred("queue_free");
 		ResourceUtils.worker.stop=true;
 		ResourceUtils.worker.WaitToFinish();
-		world.GetTree().CallDeferred("quit");
+		while(ResourceUtils.worker.IsActive())
+		{
+			OS.DelayMsec(1);
+		}
+		root.GetTree().Quit();
 	}
 	
 }

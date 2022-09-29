@@ -3,26 +3,24 @@
 [ext_resource path="res://World.cs" type="Script" id=1]
 [ext_resource path="res://Renderer.cs" type="Script" id=2]
 
-[sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0.306748, 0.668712, 1 )
-colors = PoolColorArray( 0.132976, 0.132976, 0.132976, 1, 0.94274, 0.94274, 0.94274, 1, 1, 1, 1, 1 )
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0.300613, 0.570552, 0.785276 )
+colors = PoolColorArray( 0.0392157, 0.0392157, 0.0392157, 0.556863, 1, 1, 1, 0.419608, 1, 1, 1, 0.768627 )
 
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
 
 [sub_resource type="Environment" id=3]
 background_mode = 4
 glow_enabled = true
 glow_levels/4 = true
 glow_levels/5 = false
-glow_intensity = 1.26
-glow_strength = 1.19
-glow_bloom = 0.04
+glow_bloom = 0.4
+glow_hdr_threshold = 1.5
 glow_bicubic_upscale = true
-glow_high_quality = true
 adjustment_enabled = true
-adjustment_saturation = 1.23
-adjustment_color_correction = SubResource( 2 )
+adjustment_saturation = 1.31
+adjustment_color_correction = SubResource( 5 )
 
 [node name="World" type="Node"]
 script = ExtResource( 1 )

@@ -18,6 +18,10 @@ public class Intro : Node
 		{
 			WorldUtils.changeScene(ResourceUtils.world);
 		}
+		else if(input.getQuit())
+		{
+			WorldUtils.quit();
+		}
 	}
 
 	public override void _Notification(int what)

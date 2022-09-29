@@ -60,6 +60,10 @@ ui_pause={
 2d_physics/layer_6="Enemie"
 2d_physics/layer_7="Bullet"
 
+[mono]
+
+project/assembly_name="nodungeon"
+
 [physics]
 
 2d/thread_model=2

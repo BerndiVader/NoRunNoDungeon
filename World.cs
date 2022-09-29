@@ -79,12 +79,11 @@ public class World : Node
 						renderer.AddChild(pause);
 					}
 				}
-
-				if(input.getQuit())
+				else if(input.getQuit())
 				{
 					WorldUtils.quit();
 				}
-
+				
 				if(state!=Gamestate.PAUSED)
 				{
 					tick(delta);
