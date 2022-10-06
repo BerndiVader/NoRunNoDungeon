@@ -8,7 +8,7 @@ public class Staff : Weapon
     public override void _Ready()
     {
         base._Ready();
-        Connect("body_entered",this,nameof(hitSomething));
+        Connect("body_entered",this,nameof(onHitSomething));
     }
     public void _Init()
     {
@@ -69,7 +69,7 @@ public class Staff : Weapon
         }
     }
 
-    public override void hitSomething(Node node)
+    public override void onHitSomething(Node node)
     {
         if(state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.DAMAGE)
         {

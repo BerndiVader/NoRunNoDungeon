@@ -20,11 +20,11 @@ public class FallingRocks : StaticBody2D
         notifier2D.Connect("screen_exited",this,"exitedScreen");
         AddChild(notifier2D);
 
-        area=GetNode("Area2D") as Area2D;
+        area=GetNode<Area2D>("Area2D");
         area.Connect("body_entered",this,nameof(onBodyEntered));
         area.Connect("body_exited",this,nameof(onBodyExited));
 
-        groundControl=GetNode("Area2D2") as Area2D;
+        groundControl=GetNode<Area2D>("Area2D2");
         groundControl.Connect("body_entered",this,nameof(onPlayerHit));
 
         AddToGroup(GROUPS.LEVEL.ToString());
@@ -112,7 +112,7 @@ public class FallingRocks : StaticBody2D
 
     void exitedScreen()
     {
-        CallDeferred("queue_free");
+        QueueFree();
     }
 
 

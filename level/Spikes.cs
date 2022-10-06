@@ -28,14 +28,14 @@ public class Spikes : Area2D
     public override void _Ready()
     {
         notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
+        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 
         tween=new Tween();
-        tween.Connect("tween_all_completed",this,nameof(finishedTween));
+        tween.Connect("tween_all_completed",this,nameof(onFinishedTween));
         AddChild(tween);
 
-        Connect("body_entered",this,nameof(enteredBody));
+        Connect("body_entered",this,nameof(onEnteredBody));
 
         Movement=MoveDirection*MoveLength;
 
@@ -87,7 +87,7 @@ public class Spikes : Area2D
     {
         tweenIn();
         tween.Start();
-        timer.CallDeferred("queue_free");
+        timer.QueueFree();
     }
 
     void tweening(Vector2 delta)
@@ -95,7 +95,7 @@ public class Spikes : Area2D
         Position=delta;
     }
 
-    void finishedTween()
+    void onFinishedTween()
     {
         reverse=!reverse;
         if(reverse) 
@@ -133,7 +133,7 @@ public class Spikes : Area2D
         }
     }
 
-    public void enteredBody(Node node)
+    public void onEnteredBody(Node node)
     {
         if(node.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
@@ -142,9 +142,9 @@ public class Spikes : Area2D
 
     }
 
-    void exitedScreen()
+    void onExitedScreen()
     {
-        CallDeferred("queue_free");
+        QueueFree();
     }    
 
 }

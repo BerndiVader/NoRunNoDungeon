@@ -17,8 +17,8 @@ public abstract class Weapon : Area2D
         Visible=true;
         state=WEAPONSTATE.IDLE;
         oldState=state;
-        animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
-        collisionController=GetNode("CollisionShape2D") as CollisionShape2D;
+        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
+        collisionController=GetNode<CollisionShape2D>("CollisionShape2D");
         animationPlayer.CurrentAnimation="SETUP";
         animationPlayer.Play();
     }
@@ -41,7 +41,7 @@ public abstract class Weapon : Area2D
         ATTACK
     }
 
-    public virtual void hitSomething(Node node)
+    public virtual void onHitSomething(Node node)
     {
         if(state==WEAPONSTATE.ATTACK&&!hit)
         {

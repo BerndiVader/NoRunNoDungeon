@@ -10,10 +10,10 @@ public class PhysicsCoin : PhysicsObject
     {
         base._Ready();
 
-        area2D=(Area2D)GetNode("Area2D");
+        area2D=GetNode<Area2D>("Area2D");
         area2D.Connect("body_entered",this,nameof(onBodyEntered));
 
-        animationController=(AnimatedSprite)GetNode("AnimatedSprite");
+        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
         animationController.Play("default");
     }
 
@@ -28,7 +28,7 @@ public class PhysicsCoin : PhysicsObject
         CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKENPARTICLES].Instance();
         particles.Position=WorldUtils.world.level.ToLocal(GlobalPosition);
         WorldUtils.world.level.AddChild(particles);
-        CallDeferred("queue_free");
+        QueueFree();
     }
 
 }

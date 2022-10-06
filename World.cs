@@ -20,7 +20,7 @@ public class World : Node
 	{
 		if(ResourceUtils.isMobile)
 		{
-			GetNode("WorldEnvironment").CallDeferred("queue_free");
+			GetNode("WorldEnvironment").QueueFree();
 		}
 
 		input=ResourceUtils.getInputController(this);
@@ -28,13 +28,13 @@ public class World : Node
 		stage=0;
 		renderer=GetNode("Renderer") as Renderer;
 
-		tileSet=ResourceUtils.tilesets[(int)MathUtils.randomRange(0,ResourceUtils.tilesets.Count)] as TileSet;
+		tileSet=(TileSet)ResourceUtils.tilesets[(int)MathUtils.randomRange(0,ResourceUtils.tilesets.Count)];
 		currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
-		level=ResourceUtils.levels[currentLevel].Instance() as Level;
+		level=(Level)ResourceUtils.levels[currentLevel].Instance();
 		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
 		WorldUtils.mergeMaps(level,cachedLevel);
 		player=(Player)ResourceUtils.player.Instance();
-		background=ResourceUtils.background.Instance() as Background;
+		background=(Background)ResourceUtils.background.Instance();
 
 		state=Gamestate.RUNNING;
 

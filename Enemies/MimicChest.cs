@@ -19,11 +19,11 @@ public class MimicChest : KinematicMonster
         base._Ready();
 
         collisionBox=(RectangleShape2D)collisionController.Shape;
-        rayCast2D=(RayCast2D)GetNode("RayCast2D");
+        rayCast2D=GetNode<RayCast2D>("RayCast2D");
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        animationController=(AnimatedSprite)GetNode("AnimatedSprite");
+        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
         state=STATE.IDLE;
 
         animationController.Play("idle");
@@ -63,7 +63,7 @@ public class MimicChest : KinematicMonster
     
     }
 
-    public override void idle(float delta)
+    protected override void idle(float delta)
     {
         Player player=WorldUtils.world.player;
         bool collide=collisionBox.Collide(GetGlobalTransform(),player.collisionController.Shape,player.GetGlobalTransform());
@@ -81,7 +81,7 @@ public class MimicChest : KinematicMonster
         cooldown++;
     }
 
-    public override void attack(float delta)
+    protected override void attack(float delta)
     {
         if(animationController.Frame==2)
         {
@@ -90,7 +90,7 @@ public class MimicChest : KinematicMonster
         }
     }
 
-    public override void fight(float delta)
+    protected override void fight(float delta)
     {
         Player player=WorldUtils.world.player;
         bool collide=collisionBox.Collide(GetGlobalTransform(),player.collisionController.Shape,player.GetGlobalTransform());
@@ -133,7 +133,7 @@ public class MimicChest : KinematicMonster
         cooldown--;
     }
 
-    public override void calm(float delta)
+    protected override void calm(float delta)
     {
         if(animationController.Frame==2)
         {
@@ -142,12 +142,12 @@ public class MimicChest : KinematicMonster
         }
     }    
 
-    public override void die(float delta)
+    protected override void die(float delta)
     {
         base.die(delta);
     }
 
-    public override void onPassanger(Player player)
+    protected override void onPassanger(Player player)
     {
         if(state!=STATE.FIGHT)
         {

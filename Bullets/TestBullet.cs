@@ -13,33 +13,32 @@ public class TestBullet : Area2D
     public override void _Ready()
     {
         notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,"exitedScreen");
+        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 
-        sprite=(Sprite)GetNode("Sprite");
+        sprite=GetNode<Sprite>("Sprite");
 
         if(direction.x>0)
         {
             sprite.FlipH=true;
         }
 
-        Connect("body_entered",this,"bodyEntered");
+        Connect("body_entered",this,nameof(onBodyEntered));
     }
 
     public override void _PhysicsProcess(float delta)
     {
-
         Position=Position+direction*(speed*delta);
     }
 
-    void bodyEntered(Node node)
+    void onBodyEntered(Node node)
     {
-        exitedScreen();
+        QueueFree();
     }
 
-    void exitedScreen()
+    void onExitedScreen()
     {
-        CallDeferred("queue_free");
+        QueueFree();;
     }
 
 }

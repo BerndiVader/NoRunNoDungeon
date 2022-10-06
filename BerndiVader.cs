@@ -63,7 +63,7 @@ public class BerndiVader : Node2D
 
 	void zoomOutFinished()
 	{
-		CallDeferred("queue_free");
+		QueueFree();
 		WorldUtils.changeScene(ResourceUtils.intro);
 	}
 

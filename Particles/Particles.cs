@@ -8,16 +8,16 @@ public class Particles : CPUParticles2D
     public override void _Ready()
     {
         notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
+        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
     }
 
-    public void exitedScreen() {
+    public void onExitedScreen() {
         if(!IsQueuedForDeletion())
         {
             SetProcess(false);
             SetPhysicsProcess(false);
-            CallDeferred("queue_free");
+            QueueFree();
         }
     }
 

@@ -25,8 +25,8 @@ public class RunningZombie : KinematicMonster
 		base._Ready();
 
 		animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
-		animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
-		animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
+		animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
+		animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
 		rayCast2D=GetNode("RayCast2D") as RayCast2D;
 		rayCast2D.Enabled=true;
@@ -47,7 +47,7 @@ public class RunningZombie : KinematicMonster
 		tick(delta);
 	}
 
-	public override void idle(float delta)
+	protected override void idle(float delta)
 	{
 		Vector2 force=new Vector2(0,GRAVITY);
 		velocity+=force*delta;
@@ -82,7 +82,7 @@ public class RunningZombie : KinematicMonster
 		}
 	}
 
-	public override void attack(float delta)
+	protected override void attack(float delta)
 	{
 		Vector2 force=new Vector2(0,GRAVITY);
 
@@ -167,12 +167,12 @@ public class RunningZombie : KinematicMonster
 		onAirTime+=delta;
 	}
 
-	public override void fight(float delta)
+	protected override void fight(float delta)
 	{
 		throw new NotImplementedException();
 	}
 
-	public override void damage(float delta)
+	protected override void damage(float delta)
 	{
 		if(!animationPlayer.IsPlaying())
 		{
@@ -187,7 +187,7 @@ public class RunningZombie : KinematicMonster
 		}
 	}
 
-	public override void passanger(float delta)
+	protected override void passanger(float delta)
 	{
 		if(!animationPlayer.IsPlaying())
 		{
@@ -195,12 +195,12 @@ public class RunningZombie : KinematicMonster
 		}
 	}
 
-	public override void die(float delta)
+	protected override void die(float delta)
 	{
 		base.die(delta);
 	}
 
-	public override void onDamage(Player player, int amount)
+	protected override void onDamage(Player player, int amount)
 	{
 		if(state!=STATE.DAMAGE&&state!=STATE.DIE)
 		{
@@ -213,7 +213,7 @@ public class RunningZombie : KinematicMonster
 		}
 	}    
 
-	public override void onPassanger(Player player)
+	protected override void onPassanger(Player player)
 	{
 		base.onPassanger(player);
 		animationPlayer.Play("PASSANGER");
@@ -236,7 +236,7 @@ public class RunningZombie : KinematicMonster
 		collisionController.Position=position;
 	}
 
-	public override void calm(float delta)
+	protected override void calm(float delta)
 	{
 		throw new NotImplementedException();
 	}

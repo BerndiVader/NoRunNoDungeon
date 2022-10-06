@@ -30,7 +30,7 @@ public class DaggerBullet : Area2D
         time+=0.023f;
         if (time>2f)
         {
-            CallDeferred("queue_free");
+            QueueFree();
         }
     }
 
@@ -66,8 +66,7 @@ public class DaggerBullet : Area2D
         DaggerMissParticles particles=packedParticles.Instance() as DaggerMissParticles;
         particles.Position=WorldUtils.world.level.ToLocal(GlobalPosition);
         WorldUtils.world.level.AddChild(particles);
-
-        CallDeferred("queue_free");
+        QueueFree();
     }
 
 }

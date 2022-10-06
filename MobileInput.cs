@@ -53,8 +53,8 @@ public class MobileInput : InputController
 
     public override void _free()
     {
-        touch.CallDeferred("queue_free");
-        buttons.CallDeferred("queue_free");
+        touch.QueueFree();
+        buttons.QueueFree();
     }
 
     public override bool getPause()

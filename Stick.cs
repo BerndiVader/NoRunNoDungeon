@@ -12,7 +12,7 @@ public class Stick : TouchScreenButton
 
     public override void _Ready()
     {
-        touch=GetParent() as Touch;
+        touch=GetParent<Touch>();
         touch.Position=new Vector2(-100,-100);
 
     }

@@ -17,7 +17,7 @@ public class Placeholder : Node2D
         SetProcess(true);
 
         notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_entered",this,nameof(enteredScreen));
+        notifier2D.Connect("screen_entered",this,nameof(onEnteredScreen));
         AddChild(notifier2D);
     }
 
@@ -30,11 +30,11 @@ public class Placeholder : Node2D
             WorldUtils.world.level.AddChild(placeholder);
             placeholder.Set("position",WorldUtils.world.level.ToLocal(GlobalPosition));
             placeholder.CreateInstance(false);
-            CallDeferred("queue_free");
+            QueueFree();
         }
     }
 
-    public void enteredScreen()
+    public void onEnteredScreen()
     {
         if(placeholder==null)
         {

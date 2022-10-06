@@ -12,7 +12,7 @@ public class CoinTakenParticles : Particles
         if(!Emitting) 
         {
             SetProcess(false);
-            CallDeferred("queue_free");
+            QueueFree();
         }
 
         Vector2 position=Position;

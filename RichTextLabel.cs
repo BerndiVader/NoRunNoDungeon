@@ -14,7 +14,7 @@ public class RichTextLabel : Godot.RichTextLabel
         diff=-20;
 
         tween=new Tween();
-        tween.Connect("tween_all_completed",this,nameof(tweenComplete));
+        tween.Connect("tween_all_completed",this,nameof(onTweenComplete));
         tween.InterpolateMethod(this,nameof(tweening),RectPosition,new Vector2(position.x,position.y+diff),1,Tween.TransitionType.Back,Tween.EaseType.InOut,0);
 
         AddChild(tween);
@@ -32,7 +32,7 @@ public class RichTextLabel : Godot.RichTextLabel
         RectPosition=delta;
     }
 
-    void tweenComplete()
+    void onTweenComplete()
     {
         diff=diff*-1;
         tween.InterpolateMethod(this,nameof(tweening),RectPosition,new Vector2(position.x,position.y+diff),1,Tween.TransitionType.Back,Tween.EaseType.InOut,0);

@@ -18,8 +18,8 @@ public class IntroMap : TileMap
 
         tween=new Tween();
         colorTween=new Tween();
-        tween.Connect("tween_all_completed",this,nameof(finishedTween));
-        colorTween.Connect("tween_all_completed",this,nameof(finishedColorTween));
+        tween.Connect("tween_all_completed",this,nameof(onFinishedTween));
+        colorTween.Connect("tween_all_completed",this,nameof(onFinishedColorTween));
         AddChild(tween);
         AddChild(colorTween);
         tweenIn();
@@ -59,14 +59,14 @@ public class IntroMap : TileMap
         VisualServer.SetDefaultClearColor(color);
     }
 
-    void finishedTween()
+    void onFinishedTween()
     {
         Position=Vector2.Zero;
         tweenOut();
         tween.Start();
     }
 
-    void finishedColorTween()
+    void onFinishedColorTween()
     {
         reverse=!reverse;
         if(reverse) 

@@ -13,7 +13,7 @@ public class FallingPlatform : Platform
     {
         base._Ready();
         time=TimeSpan;
-        area2dShape=GetNode("Area2D/CollisionShape2D2") as CollisionShape2D;
+        area2dShape=GetNode<CollisionShape2D>("Area2D/CollisionShape2D2");
     }
 
     public override void _PhysicsProcess(float delta)
@@ -72,8 +72,8 @@ public class FallingPlatform : Platform
     {
         BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCKPARTICLES].Instance();
         blockBreakParticle.Position=WorldUtils.world.level.ToLocal(GlobalPosition);
-        WorldUtils.world.level.CallDeferred("add_child",blockBreakParticle);
-        CallDeferred("queue_free");
+        WorldUtils.world.level.AddChild(blockBreakParticle);
+        QueueFree();
     }
 
     public void _on_Area2D_body_exited(Node body) 

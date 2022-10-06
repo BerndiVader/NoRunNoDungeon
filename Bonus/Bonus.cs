@@ -10,18 +10,18 @@ public class Bonus : Area2D
     public override void _Ready()
     {
         notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,"exitedScreen");
+        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
         
-        animationController=(AnimatedSprite)this.GetNode("AnimatedSprite");
-        collisionController=(CollisionShape2D)this.GetNode("CollisionShape2D");
+        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
+        collisionController=GetNode<CollisionShape2D>("CollisionShape2D");
         animationController.Play("default");
 
     }
 
-    void exitedScreen()
+    void onExitedScreen()
     {
-        CallDeferred("queue_free");
+        QueueFree();
     }
 
 }

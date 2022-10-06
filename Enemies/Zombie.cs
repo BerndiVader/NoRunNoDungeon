@@ -19,8 +19,8 @@ public class Zombie : KinematicMonster
         weapon=GetNode("Staff") as Staff;
 
         animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
-        animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
-        animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
+        animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
+        animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
         rayCast2D=GetNode("RayCast2D") as RayCast2D;
         rayCast2D.Enabled=true;
@@ -80,7 +80,7 @@ public class Zombie : KinematicMonster
 
     }
 
-    public override void idle(float delta)
+    protected override void idle(float delta)
     {
         if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId())
         {
@@ -95,7 +95,7 @@ public class Zombie : KinematicMonster
         cooldown++;
     }
 
-    public override void attack(float delta)
+    protected override void attack(float delta)
     {
         float distance=rayCast2D.GlobalPosition.DistanceTo(WorldUtils.world.player.GlobalPosition);
         if(distance<41)
@@ -127,12 +127,12 @@ public class Zombie : KinematicMonster
         cooldown--;
     }
 
-    public override void fight(float delta)
+    protected override void fight(float delta)
     {
         throw new NotImplementedException();
     }
 
-    public override void damage(float delta)
+    protected override void damage(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
@@ -147,12 +147,12 @@ public class Zombie : KinematicMonster
         }
     }
 
-    public override void calm(float delta)
+    protected override void calm(float delta)
     {
         throw new NotImplementedException();
     }    
 
-    public override void passanger(float delta)
+    protected override void passanger(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
@@ -160,12 +160,12 @@ public class Zombie : KinematicMonster
         }
     }
 
-    public override void die(float delta)
+    protected override void die(float delta)
     {
         base.die(delta);
     }
 
-    public override void onDamage(Player player, int amount)
+    protected override void onDamage(Player player, int amount)
     {
         if(state!=STATE.DAMAGE&&state!=STATE.DIE)
         {
@@ -178,7 +178,7 @@ public class Zombie : KinematicMonster
         }
     }
 
-    public override void onPassanger(Player player)
+    protected override void onPassanger(Player player)
     {
         base.onPassanger(player);
         animationPlayer.Play("PASSANGER");

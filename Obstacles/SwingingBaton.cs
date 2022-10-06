@@ -17,7 +17,7 @@ public class SwingingBaton : Area2D
         AddToGroup(GROUPS.OBSTACLES.ToString(),true);
 
         notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,"exitedScreen");
+        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 
         rotateTo=new Vector2(Mathf.Deg2Rad(90),0);
@@ -34,9 +34,9 @@ public class SwingingBaton : Area2D
         }
     }
 
-    public void exitedScreen()
+    public void onExitedScreen()
     {
-        CallDeferred("queue_free");
+        QueueFree();
     }
 
     public override void _PhysicsProcess(float delta)

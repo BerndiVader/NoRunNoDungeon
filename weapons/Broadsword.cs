@@ -6,7 +6,7 @@ public class Broadsword : Weapon
     public override void _Ready()
     {
         base._Ready();
-        Connect("body_entered",this,nameof(hitSomething));
+        Connect("body_entered",this,nameof(onHitSomething));
     }
 
     public override void _PhysicsProcess(float delta)

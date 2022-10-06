@@ -8,7 +8,7 @@ public class Dagger : Weapon
     public override void _Ready()
     {
         base._Ready();
-        Connect("body_entered",this,nameof(hitSomething));
+        Connect("body_entered",this,nameof(onHitSomething));
         dagger=ResourceUtils.bullets[(int)BULLETS.DAGGERBULLET] as PackedScene;
         cooldown=5;
     }

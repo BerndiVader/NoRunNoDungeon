@@ -22,15 +22,15 @@ public class Oger : KinematicMonster
         base._Ready();
         weapon=GetNode("Baton") as Staff;
 
-        animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
-        animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
-        animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
+        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
+        animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
+        animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
-        rayCast2D=GetNode("RayCast2D") as RayCast2D;
+        rayCast2D=GetNode<RayCast2D>("RayCast2D");
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        playerCast2D=GetNode("PlayerCast2D") as RayCast2D;
+        playerCast2D=GetNode<RayCast2D>("PlayerCast2D");
         playerCast2D.Enabled=true;
         PLAYERCASTTO=playerCast2D.CastTo;
 
@@ -56,7 +56,7 @@ public class Oger : KinematicMonster
         tick(delta);
     }
 
-    public override void idle(float delta)
+    protected override void idle(float delta)
     {
         if(!canSeePlayer())
         {
@@ -87,7 +87,7 @@ public class Oger : KinematicMonster
         }
     }
 
-    public override void stroll(float delta)
+    protected override void stroll(float delta)
     {
         if(!canSeePlayer())
         {
@@ -108,7 +108,7 @@ public class Oger : KinematicMonster
         }
     }
 
-    public override void attack(float delta)
+    protected override void attack(float delta)
     {
         float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
         direction=GlobalPosition.DirectionTo(victim.GlobalPosition);
@@ -195,7 +195,7 @@ public class Oger : KinematicMonster
         }
     }
 
-    public override void fight(float delta)
+    protected override void fight(float delta)
     {
         float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
         direction=GlobalPosition.DirectionTo(victim.GlobalPosition);
@@ -242,12 +242,12 @@ public class Oger : KinematicMonster
         }
     }
 
-    public override void calm(float delta)
+    protected override void calm(float delta)
     {
         throw new NotImplementedException();
     }
 
-    public override void damage(float delta)
+    protected override void damage(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
@@ -262,7 +262,7 @@ public class Oger : KinematicMonster
         }
     }
 
-    public override void passanger(float delta)
+    protected override void passanger(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
@@ -270,12 +270,12 @@ public class Oger : KinematicMonster
         }
     }
 
-    public override void die(float delta)
+    protected override void die(float delta)
     {
         base.die(delta);
     }
 
-    public override void onDamage(Player player, int amount)
+    protected override void onDamage(Player player, int amount)
     {
         if(state!=STATE.DAMAGE&&state!=STATE.DIE)
         {
@@ -288,14 +288,14 @@ public class Oger : KinematicMonster
         }
     }
 
-    public override void onAttack(Player player)
+    protected override void onAttack(Player player)
     {
         base.onAttack(player);
         animationController.Play("run");
         WALK_MAX_SPEED=80f;
     }
 
-    public override void onFight(Player player)
+    protected override void onFight(Player player)
     {
         base.onFight(player);
         animationController.Play("default");
@@ -303,14 +303,14 @@ public class Oger : KinematicMonster
         WALK_MAX_SPEED=0f;
     }
 
-    public override void onPassanger(Player player)
+    protected override void onPassanger(Player player)
     {
         base.onPassanger(player);
         animationController.Play("default");
         animationPlayer.Play("PASSANGER");
     }
 
-    public override void onStroll()
+    protected override void onStroll()
     {
         base.onStroll();
         animationController.Play("run");
@@ -320,7 +320,7 @@ public class Oger : KinematicMonster
     }
 
 
-    public override void onIdle()
+    protected override void onIdle()
     {
         base.onIdle();
         animationController.Play("default");
