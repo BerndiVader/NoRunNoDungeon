@@ -18,8 +18,8 @@ public class Level : TileMap
 
         mapLength=((int)GetUsedRect().End.x)-1;
         pixelLength=mapLength*(int)this.CellSize.x;
-        startingPoint=GetNode("StartingPoint") as Position2D;
-        TileSet=WorldUtils.world.tileSet;
+        startingPoint=GetNode<Position2D>("StartingPoint");
+        TileSet=World.instance.tileSet;
         CellYSort=false;
 
         Connect("tree_exiting",this,nameof(freeLevel));

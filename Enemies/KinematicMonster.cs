@@ -27,7 +27,7 @@ public abstract class KinematicMonster : KinematicBody2D
     protected Placeholder parent;
     protected VisibilityNotifier2D notifier2D;
     protected Godot.AnimationPlayer animationPlayer;
-    protected CollisionShape2D collisionController;
+    protected CollisionShape2D collisionController, statCollShape;
     protected Vector2 startOffset=Vector2.Zero;
     protected int animationDirection=1,health=1;
 
@@ -53,10 +53,11 @@ public abstract class KinematicMonster : KinematicBody2D
 
         victim=null;
         collisionController=GetNode<CollisionShape2D>("CollisionShape2D");
+        statCollShape=GetNode<CollisionShape2D>("StaticBody2D/CollisionShape2D");
         animationController=GetNode<AnimatedSprite>("AnimatedSprite");
     }
 
-    public virtual void tick(float delta)
+    protected virtual void tick(float delta)
     {
         switch(state)
         {
@@ -144,7 +145,7 @@ public abstract class KinematicMonster : KinematicBody2D
         position.y+=shape2D.Extents.y;
         particles.Position=position;
 
-        WorldUtils.world.level.AddChild(particles);
+        World.instance.level.AddChild(particles);
         QueueFree();
     }
 
@@ -167,9 +168,9 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void onDamage(Player player,int amount)
     {
-        WorldUtils.world.renderer.shake=2d;
+        World.instance.renderer.shake=2d;
 
-        GetNode<StaticBody2D>("StaticBody2D").GetNode<CollisionShape2D>("CollisionShape2D").CallDeferred("set","disabled",true);
+        statCollShape.SetDeferred("disabled",true);
         lastState=state;
         state=STATE.DAMAGE;
         attacker=player;
@@ -179,7 +180,7 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void onPassanger(Player player)
     {
-        WorldUtils.world.renderer.shake=2d;
+        World.instance.renderer.shake=2d;
 
         lastState=state;
         state=STATE.PASSANGER;
@@ -206,7 +207,7 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual Vector2 getPosition()
     {
-        return WorldUtils.world.level.ToLocal(GlobalPosition);
+        return World.instance.level.ToLocal(GlobalPosition);
     }
 
     protected void onExitedScreen()

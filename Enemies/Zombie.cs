@@ -16,17 +16,17 @@ public class Zombie : KinematicMonster
     {
         base._Ready();
 
-        weapon=GetNode("Staff") as Staff;
+        weapon=GetNode<Staff>("Staff");
 
-        animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
+        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
         animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
         animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
-        rayCast2D=GetNode("RayCast2D") as RayCast2D;
+        rayCast2D=GetNode<RayCast2D>("RayCast2D");
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        animationController=GetNode("AnimatedSprite") as AnimatedSprite;
+        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
         state=STATE.IDLE;
 
         animationController.Play("default");
@@ -82,7 +82,7 @@ public class Zombie : KinematicMonster
 
     protected override void idle(float delta)
     {
-        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId())
+        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId())
         {
             cooldown=0;
             state=STATE.ATTACK;
@@ -97,15 +97,15 @@ public class Zombie : KinematicMonster
 
     protected override void attack(float delta)
     {
-        float distance=rayCast2D.GlobalPosition.DistanceTo(WorldUtils.world.player.GlobalPosition);
+        float distance=rayCast2D.GlobalPosition.DistanceTo(World.instance.player.GlobalPosition);
         if(distance<41)
         {
-            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(WorldUtils.world.player.GlobalPosition);
+            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(World.instance.player.GlobalPosition);
             FlipH(direction.x<0);
 
             direction=direction*distance;
             rayCast2D.CastTo=direction;
-            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId())
+            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId())
             {
                 if(cooldown<0&&!weapon.animationPlayer.IsPlaying())
                 {

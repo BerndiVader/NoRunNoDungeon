@@ -16,11 +16,11 @@ public class Intro : Node
 	{
 		if(input.getJump())
 		{
-			WorldUtils.changeScene(ResourceUtils.world);
+			World.changeScene(ResourceUtils.world);
 		}
 		else if(input.getQuit())
 		{
-			WorldUtils.quit();
+			World.quit();
 		}
 	}
 

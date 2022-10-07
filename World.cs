@@ -3,6 +3,59 @@ using System;
 
 public class World : Node
 {
+	public static World instance;
+	public static Viewport root;
+
+	public static void Init(Viewport viewPort)
+	{
+		root=viewPort;
+	}	
+
+	public static void mergeMaps(Level newLevel, Level nextLevel) 
+	{
+		int x=33,y=18;
+		int lx=((int)newLevel.GetUsedRect().End.x);
+
+		for(int xx=0;xx<x;xx++) 
+		{
+			for(int yy=0;yy<y;yy++)
+			{
+				Vector2 autoTile=nextLevel.GetCellAutotileCoord(xx,yy);
+				newLevel.SetCell(lx+xx,yy,nextLevel.GetCell(xx,yy),false,false,false,autoTile);
+			}
+		}
+	}
+
+	public static void changeScene(PackedScene newScene)
+	{
+			var currentScene=root.GetTree().CurrentScene;
+			root.AddChild(newScene.Instance());
+			root.RemoveChild(currentScene);
+			if(currentScene.GetType().Name.Equals("World"))
+			{
+				((World)currentScene)._Free();
+			}
+			else
+			{
+				if(!currentScene.IsQueuedForDeletion())
+				{
+					currentScene.CallDeferred("queue_free");
+				}
+			}
+	}
+
+	public static void quit() 
+	{
+		if(instance!=null&&instance.cachedLevel!=null) instance.cachedLevel.CallDeferred("queue_free");
+		ResourceUtils.worker.stop=true;
+		ResourceUtils.worker.WaitToFinish();
+		while(ResourceUtils.worker.IsActive())
+		{
+			OS.DelayMsec(1);
+		}
+		root.GetTree().Quit();
+	}
+
 	 
 	public Vector2 RESOLUTION=new Vector2(512f,288f);
 	public int stage;
@@ -26,13 +79,13 @@ public class World : Node
 		input=ResourceUtils.getInputController(this);
 
 		stage=0;
-		renderer=GetNode("Renderer") as Renderer;
+		renderer=GetNode<Renderer>("Renderer");
 
 		tileSet=(TileSet)ResourceUtils.tilesets[(int)MathUtils.randomRange(0,ResourceUtils.tilesets.Count)];
 		currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
 		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
-		WorldUtils.mergeMaps(level,cachedLevel);
+		mergeMaps(level,cachedLevel);
 		player=(Player)ResourceUtils.player.Instance();
 		background=(Background)ResourceUtils.background.Instance();
 
@@ -74,14 +127,14 @@ public class World : Node
 					{
 						oldState=state;
 						state=Gamestate.PAUSED;
-						Pause pause=ResourceUtils.pause.Instance() as Pause;
+						Pause pause=(Pause)ResourceUtils.pause.Instance();
 						pause.PauseMode=PauseModeEnum.Process;
 						renderer.AddChild(pause);
 					}
 				}
 				else if(input.getQuit())
 				{
-					WorldUtils.quit();
+					quit();
 				}
 				
 				if(state!=Gamestate.PAUSED)
@@ -98,14 +151,14 @@ public class World : Node
 	{
 		if(what==MainLoop.NotificationWmQuitRequest)
 		{
-			WorldUtils.quit();
+			quit();
 		}
 		base._Notification(what);
 	}
 
 	public override void _EnterTree()
 	{
-		WorldUtils.world=this;
+		instance=this;
 		GetTree().CurrentScene=this;
 	}
 
@@ -133,7 +186,7 @@ public class World : Node
 		if(!lvl) currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
 		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
-		WorldUtils.mergeMaps(level,cachedLevel);
+		mergeMaps(level,cachedLevel);
 		renderer.AddChild(level);
 		renderer.RemoveChild(player);
 		player.CallDeferred("queue_free");
@@ -148,7 +201,7 @@ public class World : Node
 		newLevel=(Level)cachedLevel.Duplicate();
 		currentLevel=nextLevel;
 		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
-		WorldUtils.mergeMaps(newLevel,cachedLevel);
+		mergeMaps(newLevel,cachedLevel);
 		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
 		renderer.AddChild(newLevel);
 		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);

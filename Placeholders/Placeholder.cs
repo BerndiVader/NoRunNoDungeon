@@ -27,8 +27,8 @@ public class Placeholder : Node2D
         {
             SetProcess(false);
             RemoveChild(placeholder);
-            WorldUtils.world.level.AddChild(placeholder);
-            placeholder.Set("position",WorldUtils.world.level.ToLocal(GlobalPosition));
+            World.instance.level.AddChild(placeholder);
+            placeholder.Set("position",World.instance.level.ToLocal(GlobalPosition));
             placeholder.CreateInstance(false);
             QueueFree();
         }
@@ -38,7 +38,7 @@ public class Placeholder : Node2D
     {
         if(placeholder==null)
         {
-            placeholder=GetChild(0) as InstancePlaceholder;
+            placeholder=GetChild<InstancePlaceholder>(0);
         }
         ResourceUtils.worker.placeholderQueue.Enqueue(this);
     }

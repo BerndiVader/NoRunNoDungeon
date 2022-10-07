@@ -65,7 +65,7 @@ public class MimicChest : KinematicMonster
 
     protected override void idle(float delta)
     {
-        Player player=WorldUtils.world.player;
+        Player player=World.instance.player;
         bool collide=collisionBox.Collide(GetGlobalTransform(),player.collisionController.Shape,player.GetGlobalTransform());
         if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==player.GetInstanceId()))
         {
@@ -92,7 +92,7 @@ public class MimicChest : KinematicMonster
 
     protected override void fight(float delta)
     {
-        Player player=WorldUtils.world.player;
+        Player player=World.instance.player;
         bool collide=collisionBox.Collide(GetGlobalTransform(),player.collisionController.Shape,player.GetGlobalTransform());
 
         if(collide)

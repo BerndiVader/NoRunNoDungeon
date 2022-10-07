@@ -7,15 +7,15 @@ public class Pause : TileMap
 
     public override void _Ready()
     {
-        input=WorldUtils.world.input;
+        input=World.instance.input;
         ZIndex=1000;
     }
 
     public override void _Process(float delta)
     {
         if(input.getPause()) {
-            WorldUtils.world.GetTree().Paused=false;
-            WorldUtils.world.state=WorldUtils.world.oldState;
+            World.instance.GetTree().Paused=false;
+            World.instance.state=World.instance.oldState;
             QueueFree();
         }
     }

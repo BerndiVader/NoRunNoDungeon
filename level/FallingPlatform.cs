@@ -71,8 +71,8 @@ public class FallingPlatform : Platform
     void delete()
     {
         BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCKPARTICLES].Instance();
-        blockBreakParticle.Position=WorldUtils.world.level.ToLocal(GlobalPosition);
-        WorldUtils.world.level.AddChild(blockBreakParticle);
+        blockBreakParticle.Position=World.instance.level.ToLocal(GlobalPosition);
+        World.instance.level.AddChild(blockBreakParticle);
         QueueFree();
     }
 

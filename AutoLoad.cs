@@ -7,7 +7,7 @@ public class AutoLoad : Node
     {
         OS.WindowSize=new Vector2(1024,576);
         ResourceUtils.Init();
-        WorldUtils.Init(GetTree().Root);
+        World.Init(GetTree().Root);
     }
 
 }

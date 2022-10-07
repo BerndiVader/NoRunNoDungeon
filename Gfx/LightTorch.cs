@@ -18,10 +18,10 @@ public class LightTorch : Light2D
         Scale=ImgScale;
 
         notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
+        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 
-        animationController=GetNode("AnimatedSprite") as AnimatedSprite;
+        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
         animationController.Play();
     }
 
@@ -35,8 +35,8 @@ public class LightTorch : Light2D
         lightCounter++;
     }
 
-    public void exitedScreen()
+    public void onExitedScreen()
     {
-        CallDeferred("queue_free");
+        QueueFree();
     }
 }

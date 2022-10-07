@@ -24,9 +24,9 @@ public class BerndiVader : Node2D
 
 		logo=GetNode("logo") as Sprite;
 		logo.SelfModulate=new Color(0,0,0);
-		klammerLinks=GetNode("k1") as Klammer;
-		klammerRechts=GetNode("k2") as Klammer;
-		audio=GetNode("Audio") as AudioStreamPlayer2D;
+		klammerLinks=GetNode<Klammer>("k1");
+		klammerRechts=GetNode<Klammer>("k2");
+		audio=GetNode<AudioStreamPlayer2D>("Audio");
 
 		zoomTween=new Tween();
 		zoomTween.Connect("tween_all_completed",this,nameof(zoomOutFinished));
@@ -64,7 +64,7 @@ public class BerndiVader : Node2D
 	void zoomOutFinished()
 	{
 		QueueFree();
-		WorldUtils.changeScene(ResourceUtils.intro);
+		World.changeScene(ResourceUtils.intro);
 	}
 
 	void zoomOutTweening(float delta)

@@ -16,7 +16,7 @@ public class DaggerBullet : Area2D
         time=0f;
 
         collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
-        packedParticles=ResourceUtils.particles[(int)PARTICLES.DAGGERMISSPARTICLES] as PackedScene;
+        packedParticles=(PackedScene)ResourceUtils.particles[(int)PARTICLES.DAGGERMISSPARTICLES];
 
         Connect("body_entered",this,nameof(onBodyEntered));
         Connect("area_entered",this,nameof(onAreaEntered));
@@ -55,7 +55,7 @@ public class DaggerBullet : Area2D
 
         if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
         {
-            node.EmitSignal(SIGNALS.Damage.ToString(),WorldUtils.world.player,1f);                            
+            node.EmitSignal(SIGNALS.Damage.ToString(),World.instance.player,1f);                            
         }
 
         destroy();
@@ -63,9 +63,9 @@ public class DaggerBullet : Area2D
 
     void destroy()
     {
-        DaggerMissParticles particles=packedParticles.Instance() as DaggerMissParticles;
-        particles.Position=WorldUtils.world.level.ToLocal(GlobalPosition);
-        WorldUtils.world.level.AddChild(particles);
+        DaggerMissParticles particles=(DaggerMissParticles)packedParticles.Instance();
+        particles.Position=World.instance.level.ToLocal(GlobalPosition);
+        World.instance.level.AddChild(particles);
         QueueFree();
     }
 

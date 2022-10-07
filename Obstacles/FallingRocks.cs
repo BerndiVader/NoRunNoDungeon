@@ -36,7 +36,7 @@ public class FallingRocks : StaticBody2D
         switch(state)
         {
             case 0:
-                Vector2 playerPos=WorldUtils.world.player.GlobalPosition;
+                Vector2 playerPos=World.instance.player.GlobalPosition;
                 Vector2 gamePos=GlobalPosition;
                 gamePos.y=playerPos.y;
                 float distance=playerPos.DistanceTo(gamePos);
@@ -65,14 +65,14 @@ public class FallingRocks : StaticBody2D
             collider=(Platform)body;
             colliding=true;
             shake=0.5f;
-            WorldUtils.world.renderer.shake+=2;
+            World.instance.renderer.shake+=2;
         } 
         else if(body.IsInGroup(GROUPS.LEVEL.ToString())&&body!=this)
         {
             state=2;
             area.Disconnect("body_entered",this,nameof(onBodyEntered));
             shake=0.5f;
-            WorldUtils.world.renderer.shake+=2;
+            World.instance.renderer.shake+=2;
         }
 
     }
@@ -90,7 +90,7 @@ public class FallingRocks : StaticBody2D
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
-            WorldUtils.world.player.EmitSignal(SIGNALS.Damage.ToString(),1f,this);
+            World.instance.player.EmitSignal(SIGNALS.Damage.ToString(),1f,this);
         }
     }
 

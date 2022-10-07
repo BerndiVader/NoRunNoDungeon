@@ -52,7 +52,7 @@ public abstract class Weapon : Area2D
 
             if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
             {
-                node.EmitSignal(SIGNALS.Damage.ToString(),WorldUtils.world.player,damage);                            
+                node.EmitSignal(SIGNALS.Damage.ToString(),World.instance.player,damage);                            
                 hit=true;
             }
         }

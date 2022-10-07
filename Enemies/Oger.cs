@@ -20,7 +20,6 @@ public class Oger : KinematicMonster
     public override void _Ready()
     {
         base._Ready();
-        weapon=GetNode("Baton") as Staff;
 
         animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
         animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
@@ -40,6 +39,7 @@ public class Oger : KinematicMonster
 
         direction=new Vector2(0,0);
 
+        weapon=GetNode<Staff>("Baton");
         if(weapon!=null)
         {
             weapon._Init();
@@ -83,7 +83,7 @@ public class Oger : KinematicMonster
         }
         else
         {
-            EmitSignal(SIGNALS.Attack.ToString(),WorldUtils.world.player);
+            EmitSignal(SIGNALS.Attack.ToString(),World.instance.player);
         }
     }
 
@@ -104,7 +104,7 @@ public class Oger : KinematicMonster
         }
         else
         {
-            EmitSignal(SIGNALS.Attack.ToString(),WorldUtils.world.player);
+            EmitSignal(SIGNALS.Attack.ToString(),World.instance.player);
         }
     }
 
@@ -330,7 +330,7 @@ public class Oger : KinematicMonster
 
     bool canSeePlayer()
     {
-        return playerCast2D.IsColliding()&&playerCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId();
+        return playerCast2D.IsColliding()&&playerCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId();
     }
 
     void FlipH()

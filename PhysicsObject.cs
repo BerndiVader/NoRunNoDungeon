@@ -27,10 +27,10 @@ public class PhysicsObject : KinematicBody2D
 
         if(collision!=null) 
         {
-            Node2D node=collision.Collider as Node2D;
+            Node node=(Node)collision.Collider;
             if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
-                Platform collider=node as Platform;
+                Platform collider=(Platform)node;
                 velocity.x+=collider.CurrentSpeed.x*0.5f;
             }
             velocity=velocity.Bounce(collision.Normal)*friction;

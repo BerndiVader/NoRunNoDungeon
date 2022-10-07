@@ -13,7 +13,7 @@ public class RunningZombie : KinematicMonster
 	[Export] public float JUMP_MAX_AIRBORNE_TIME=0.2f;
 
 	Vector2 velocity=new Vector2(0f,0f);
-	Vector2 direction=new Vector2(0f,0f);
+	Vector2 direction=new Vector2(-1f,0f);
 	float onAirTime=100f;
 	bool jumping=false;
 	bool prevJumpPressed=false;
@@ -24,18 +24,16 @@ public class RunningZombie : KinematicMonster
 	{
 		base._Ready();
 
-		animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
+		animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
 		animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
 		animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
-		rayCast2D=GetNode("RayCast2D") as RayCast2D;
+		rayCast2D=GetNode<RayCast2D>("RayCast2D");
 		rayCast2D.Enabled=true;
 
 		animationController.Play("default");
 		state=STATE.IDLE;
 		lastState=state;
-
-		direction=new Vector2(-1,0);
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -222,7 +220,7 @@ public class RunningZombie : KinematicMonster
 
 	bool inRange()
 	{
-		return Mathf.Abs(WorldUtils.world.player.GlobalPosition.DistanceTo(GlobalPosition))<ACTIVATION_RANGE;
+		return Mathf.Abs(World.instance.player.GlobalPosition.DistanceTo(GlobalPosition))<ACTIVATION_RANGE;
 	}
 
 	void FlipH()

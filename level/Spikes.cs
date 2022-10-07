@@ -43,7 +43,7 @@ public class Spikes : Area2D
 
     public override void _PhysicsProcess(float delta)
     {
-        Vector2 playerPos=WorldUtils.world.player.GlobalPosition;
+        Vector2 playerPos=World.instance.player.GlobalPosition;
         Vector2 gamePos=GlobalPosition;
         float distance=playerPos.DistanceTo(gamePos);
 
@@ -61,7 +61,7 @@ public class Spikes : Area2D
                 timer=new Timer();
                 timer.OneShot=true;
                 AddChild(timer);
-                timer.Connect("timeout",this,nameof(timedOut));
+                timer.Connect("timeout",this,nameof(onTimedOut));
                 timer.Start(StartDelay);
             }
         }
@@ -74,7 +74,7 @@ public class Spikes : Area2D
             timer=new Timer();
             timer.OneShot=true;
             AddChild(timer);
-            timer.Connect("timeout",this,nameof(timedOut));
+            timer.Connect("timeout",this,nameof(onTimedOut));
             timer.Start(StartDelay);
         }
         else
@@ -83,7 +83,7 @@ public class Spikes : Area2D
         }
     }
 
-    void timedOut() 
+    void onTimedOut() 
     {
         tweenIn();
         tween.Start();
@@ -137,7 +137,7 @@ public class Spikes : Area2D
     {
         if(node.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
-            WorldUtils.world.player.EmitSignal(SIGNALS.Damage.ToString(),damage,this);
+            node.EmitSignal(SIGNALS.Damage.ToString(),damage,this);
         }
 
     }
