@@ -40,7 +40,7 @@ public class Placeholder : Node2D
         {
             placeholder=GetChild<InstancePlaceholder>(0);
         }
-        ResourceUtils.worker.placeholderQueue.Enqueue(this);
+        Worker.placeholderQueue.Enqueue(this);
     }
 
 }

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class RichTextLabel : Godot.RichTextLabel
+public class IntroText : Godot.RichTextLabel
 {
     Tween tween;
     Vector2 position;

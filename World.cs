@@ -46,13 +46,21 @@ public class World : Node
 
 	public static void quit() 
 	{
-		if(instance!=null&&instance.cachedLevel!=null) instance.cachedLevel.CallDeferred("queue_free");
-		ResourceUtils.worker.stop=true;
-		ResourceUtils.worker.WaitToFinish();
-		while(ResourceUtils.worker.IsActive())
+		Console.Write("Wait for worker to finish...");
+		Worker.stop=true;
+		Worker.instance.WaitToFinish();
+		while(Worker.instance.IsActive())
 		{
+			Console.Write(".");
 			OS.DelayMsec(1);
 		}
+		Console.WriteLine(" done!");
+
+		if(instance!=null)
+		{
+			instance._Free();
+		}
+
 		root.GetTree().Quit();
 	}
 
@@ -94,8 +102,6 @@ public class World : Node
 		renderer.AddChild(level);
 		renderer.AddChild(player);
 		renderer.AddChild(background);
-
-
 	}
 
 	public override void _Process(float delta)
@@ -135,6 +141,7 @@ public class World : Node
 				else if(input.getQuit())
 				{
 					quit();
+					return;
 				}
 				
 				if(state!=Gamestate.PAUSED)
@@ -164,8 +171,8 @@ public class World : Node
 
 	void tick(float delta) 
 	{
-		level.MoveLocalX((level.direction.x*level.Speed)*delta,true); 
-		level.MoveLocalY((level.direction.y*level.Speed)*delta,true); 
+		level.MoveLocalX((level.direction.x*level.Speed)*delta,true);
+		level.MoveLocalY((level.direction.y*level.Speed)*delta,true);
 
 		Vector2 position=level.Position;
 
@@ -174,7 +181,7 @@ public class World : Node
 			state=Gamestate.SCENE_CHANGE;
 			stage++;
 			if(stage>=ResourceUtils.levels.Count) stage=0;
-				ResourceUtils.worker.prepareLevel=true;
+				Worker.prepareLevel=true;
 		}
 	}
 
@@ -227,5 +234,6 @@ public class World : Node
 			}
 		}
 		CallDeferred("queue_free");
+		World.instance=null;
 	}
 }

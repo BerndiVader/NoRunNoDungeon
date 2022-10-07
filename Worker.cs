@@ -4,11 +4,13 @@ using System.Collections.Generic;
 
 public class Worker : Godot.Thread
 {
-	public Queue<Placeholder> placeholderQueue;
-	public bool prepareLevel,stop;
+	public static Worker instance;
+	public static Queue<Placeholder>placeholderQueue;
+	public static bool prepareLevel,stop;
 
 	public Worker() : base()
 	{
+		instance=this;
 		placeholderQueue=new Queue<Placeholder>();
 		prepareLevel=false;
 		Start(this,nameof(Runner));

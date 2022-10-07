@@ -19,14 +19,11 @@ public static class ResourceUtils
     public static List<Texture> bgTextures;
     public static PackedScene touch;
     public static PackedScene buttons;
-    public static Worker worker;
 
     public static bool isMobile;
 
     public static void Init() 
     {
-        worker=new Worker();
-
         isMobile=OS.GetName().ToLower().Equals("android");
 
         levels=new List<PackedScene>();

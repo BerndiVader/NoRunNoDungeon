@@ -70,7 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="ResourceUtils.cs" />
-    <Compile Include="RichTextLabel.cs" />
+    <Compile Include="IntroText.cs" />
     <Compile Include="StateMachine\STATE.cs" />
     <Compile Include="Stick.cs" />
     <Compile Include="Touch.cs" />
@@ -81,7 +81,6 @@
     <Compile Include="weapons\Weapon.cs" />
     <Compile Include="Worker.cs" />
     <Compile Include="World.cs" />
-    <Compile Include="WorldUtils.cs" />
     <Compile Include="XButton.cs" />
   </ItemGroup>
   <ItemGroup />
