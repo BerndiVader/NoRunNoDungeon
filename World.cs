@@ -42,6 +42,7 @@ public class World : Node
 					currentScene.QueueFree();
 				}
 			}
+			Worker.status=Worker.Status.GC;
 	}
 
 	public static void quit() 
@@ -112,19 +113,24 @@ public class World : Node
 			{
 				break;
 			}
-			case Gamestate.SCENE_CHANGED:
+			case Gamestate.SCENE_CHANGE:
 			{
-				renderer.RemoveChild(level);
-				Level oldLevel=level;
-				level=newLevel;
-				newLevel=null;
-				level.Position=new Vector2(-(Mathf.Abs(oldLevel.Position.x)-(oldLevel.pixelLength-512)),0);
-				oldLevel.freeLevel();
-				state=Gamestate.RUNNING;
-				tick(delta);
+				if(level!=null&&level.IsInsideTree())
+				{
+					tick(delta);
+				}
 				break;
 			}
-			default:
+			case Gamestate.SCENE_CHANGED:
+			{
+				if(level.IsInsideTree())
+				{
+					state=Gamestate.RUNNING;				
+					tick(delta);
+				}
+				break;
+			}
+			case Gamestate.RUNNING:
 			{
 				if(input.getPause())
 				{
@@ -149,7 +155,7 @@ public class World : Node
 					tick(delta);
 				}
 				break;
-			}            
+			}
 		}
 
 	}
@@ -174,17 +180,15 @@ public class World : Node
 		level.MoveLocalX((level.direction.x*level.Speed)*delta,true);
 		level.MoveLocalY((level.direction.y*level.Speed)*delta,true);
 
-		Vector2 position=level.Position;
-
-		if((state==Gamestate.RUNNING)&&Mathf.Abs(position.x)>=(level.pixelLength)-528)
+		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=(level.pixelLength)-528)
 		{
-			state=Gamestate.SCENE_CHANGE;
 			stage++;
 			if(stage>=ResourceUtils.levels.Count) 
 			{
 				stage=0;
 			}
-			Worker.prepareLevel=true;
+			state=Gamestate.SCENE_CHANGE;
+			Worker.status=Worker.Status.PREPARELEVEL;
 		}
 	}
 
@@ -218,17 +222,22 @@ public class World : Node
 		currentLevel=nextLevel;
 		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
 		mergeMaps(newLevel,cachedLevel);
-		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
 		renderer.CallDeferred("add_child",newLevel);
+		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
 		while(!newLevel.IsInsideTree())
 		{
 			OS.DelayMsec(1);
 		}
 		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
+		renderer.CallDeferred("remove_child",level);
+		Level oldLevel=level;
+		level=newLevel;
+		newLevel=null;
+		oldLevel.freeLevel();
 		state=Gamestate.SCENE_CHANGED;
 	}
 
-	public void cacheLevel(int nextStage) 
+	private void cacheLevel(int nextStage) 
 	{
 		nextLevel=nextStage;
 		if(cachedLevel!=null&&!cachedLevel.IsQueuedForDeletion()) 

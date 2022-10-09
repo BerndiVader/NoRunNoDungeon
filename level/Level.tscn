@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
 [ext_resource path="res://Placeholders/PlatformMoving3x3.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Placeholders/CoinPhysics.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Placeholders/ChestMimic.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Obstacles/Rock.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Bonus/Coin.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Obstacles/FallingRocks.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Bonus/PhysicsCoin.tscn" type="PackedScene" id=9]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -50,6 +54,90 @@ position = Vector2( 600, 216 )
 
 [node name="CoinPhysics4" parent="." instance=ExtResource( 4 )]
 position = Vector2( 600, 173 )
+
+[node name="Rock" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1152, 40 )
+
+[node name="Rock2" parent="." instance=ExtResource( 6 )]
+position = Vector2( 1016, 160 )
+
+[node name="Rock3" parent="." instance=ExtResource( 6 )]
+position = Vector2( 1096, 184 )
+
+[node name="Coin" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1248, 248 )
+
+[node name="Coin2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1264, 240 )
+
+[node name="Coin3" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1288, 232 )
+
+[node name="Coin4" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1304, 240 )
+
+[node name="Coin5" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1328, 248 )
+
+[node name="Coin6" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1408, 184 )
+
+[node name="Coin7" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1424, 176 )
+
+[node name="Coin8" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1416, 168 )
+
+[node name="Coin9" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1416, 192 )
+
+[node name="Coin10" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1408, 168 )
+
+[node name="Coin11" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1424, 160 )
+
+[node name="Coin12" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1416, 152 )
+
+[node name="Coin13" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1400, 152 )
+
+[node name="Coin14" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1408, 152 )
+
+[node name="Coin15" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1408, 136 )
+
+[node name="Coin16" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1504, 248 )
+
+[node name="Coin17" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1560, 248 )
+
+[node name="Coin18" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1608, 248 )
+
+[node name="Coin19" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1664, 248 )
+
+[node name="Coin20" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1552, 168 )
+
+[node name="Coin21" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1528, 184 )
+
+[node name="Coin22" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1544, 184 )
+
+[node name="Coin23" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1536, 176 )
+
+[node name="Coin24" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1536, 160 )
+
+[node name="Coin25" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1548, 152 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]

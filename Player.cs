@@ -234,7 +234,7 @@ public class Player : KinematicBody2D
 
     private void onDamaged(float amount=1f,Node2D damager=null)
     {
-        World.instance.CallDeferred("restartGame",true);
+        World.instance.CallDeferred(nameof(World.instance.restartGame),true);
     }
 
 }
