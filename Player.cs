@@ -3,50 +3,45 @@ using System;
 
 public class Player : KinematicBody2D
 {
-    static String ANIM_RUN="RUN";
-    static String ANIM_JUMP="HIT";
+    private static String ANIM_RUN="RUN";
+    private static String ANIM_JUMP="HIT";
 
     [Signal]
     public delegate void Damage(float amount=1f, Node2D attacker=null);
 
-    [Export] public float GRAVITY=500f;
-    [Export] public float FLOOR_ANGLE_TOLERANCE=40f;
-    [Export] public float WALK_FORCE=600f;
-    [Export] public float WALK_MIN_SPEED=10f;
-    [Export] public float WALK_MAX_SPEED=200f;
-    [Export] public float STOP_FORCE=1300f;
-    [Export] public float JUMP_SPEED=200f;
-    [Export] public float JUMP_MAX_AIRBORNE_TIME=0.2f;
-    [Export] public float SLIDE_STOP_VELOCITY=1f;
-    [Export] public float SLIDE_STOP_MIN_TRAVEL=1f;
+    [Export] private float GRAVITY=500f;
+    [Export] private float FLOOR_ANGLE_TOLERANCE=40f;
+    [Export] private float WALK_FORCE=600f;
+    [Export] private float WALK_MIN_SPEED=10f;
+    [Export] private float WALK_MAX_SPEED=200f;
+    [Export] private float STOP_FORCE=1300f;
+    [Export] private float JUMP_SPEED=200f;
+    [Export] private float JUMP_MAX_AIRBORNE_TIME=0.2f;
+    [Export] private float SLIDE_STOP_VELOCITY=1f;
+    [Export] private float SLIDE_STOP_MIN_TRAVEL=1f;
+    [Export] private float health=20f;
 
-    [Export] public float health=20f;
+    private Vector2 velocity=new Vector2(0f,0f);
+    private float onAirTime=100f;
+    private bool jumping=false;
+    private bool doubleJump=false;
+    private bool justJumped=false;
+    private bool prevJumpPressed=false;
+    private int weaponCyle=0;
+    private float slopeAngle=0f;
+    private Vector2 lastVelocity=new Vector2(0f,0f);
 
-    Vector2 velocity=new Vector2(0f,0f);
-    float onAirTime=100f;
-    bool jumping=false;
-    bool doubleJump=false;
-    bool justJumped=false;
-    bool prevJumpPressed=false;
-    int weaponCyle=0;
-    float slopeAngle=0f;
-    Vector2 lastVelocity=new Vector2(0f,0f);
+    private AnimatedSprite animationController;
+    public CollisionShape2D collisionShape;
 
-    AnimatedSprite animationController;
-    public CollisionShape2D collisionController;
-    Weapon weapon;
-
-    public enum SignalType
-    {
-        
-    }
+    private Weapon weapon;
 
     public override void _Ready()
     {
-        Position=World.instance.level.startingPoint.Position;
+        Position=World.instance.renderer.ToLocal(World.instance.level.startingPoint.GlobalPosition);
 
+        collisionShape=GetNode<CollisionShape2D>("CollisionShape2D");
         animationController=GetNode<AnimatedSprite>("AnimatedSprite");
-        collisionController=GetNode<CollisionShape2D>("CollisionShape2D");
         animationController.Play(ANIM_RUN);
 
         equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.DRAGGER]);
@@ -55,11 +50,11 @@ public class Player : KinematicBody2D
         ZIndex=2;
 
         Connect(SIGNALS.Damage.ToString(),this,nameof(onDamaged));
+
     }
 
     public override void _PhysicsProcess(float delta)
     {
-
         if(World.instance.state==Gamestate.SCENE_CHANGED||World.instance.state==Gamestate.RESTART) return;
         Vector2 force=new Vector2(0,GRAVITY);
 
@@ -208,19 +203,7 @@ public class Player : KinematicBody2D
         lastVelocity=velocity;
     }
 
-    public void reset() 
-    {
-        Vector2 velocity=new Vector2(0f,0f);
-        onAirTime=100f;
-        jumping=false;
-        doubleJump=false;
-        justJumped=false;
-        prevJumpPressed=false;
-        slopeAngle=0f;
-        lastVelocity=new Vector2(0f,0f);        
-    }
-
-    public bool isOnSlope()
+    private bool isOnSlope()
     {
         int count=GetSlideCount();
         ulong id=World.instance.level.GetInstanceId();
@@ -249,7 +232,7 @@ public class Player : KinematicBody2D
         weapon.QueueFree();
     }
 
-    public void onDamaged(float amount=1f,Node2D damager=null)
+    private void onDamaged(float amount=1f,Node2D damager=null)
     {
         World.instance.CallDeferred("restartGame",true);
     }

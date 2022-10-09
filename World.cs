@@ -28,7 +28,7 @@ public class World : Node
 
 	public static void changeScene(PackedScene newScene)
 	{
-			var currentScene=root.GetTree().CurrentScene;
+			Node currentScene=root.GetTree().CurrentScene;
 			root.AddChild(newScene.Instance());
 			root.RemoveChild(currentScene);
 			if(currentScene.GetType().Name.Equals("World"))
@@ -39,7 +39,7 @@ public class World : Node
 			{
 				if(!currentScene.IsQueuedForDeletion())
 				{
-					currentScene.CallDeferred("queue_free");
+					currentScene.QueueFree();
 				}
 			}
 	}
@@ -66,17 +66,17 @@ public class World : Node
 
 	 
 	public Vector2 RESOLUTION=new Vector2(512f,288f);
-	public int stage;
-	public Level level,newLevel,cachedLevel;
+	private int stage;
+	public Level level;
+	private Level newLevel,cachedLevel;
 	public TileSet tileSet;
-	public Background background;
+	private Background background;
 	public Player player;
 	public Renderer renderer;
 	public InputController input;
+	private int currentLevel,nextLevel;
+	public Gamestate state,oldState;
 
-	int currentLevel,nextLevel;
-
-	public Gamestate state, oldState;
 	public override void _Ready()
 	{
 		if(ResourceUtils.isMobile)
@@ -169,7 +169,7 @@ public class World : Node
 		GetTree().CurrentScene=this;
 	}
 
-	void tick(float delta) 
+	private void tick(float delta) 
 	{
 		level.MoveLocalX((level.direction.x*level.Speed)*delta,true);
 		level.MoveLocalY((level.direction.y*level.Speed)*delta,true);
@@ -180,8 +180,11 @@ public class World : Node
 		{
 			state=Gamestate.SCENE_CHANGE;
 			stage++;
-			if(stage>=ResourceUtils.levels.Count) stage=0;
-				Worker.prepareLevel=true;
+			if(stage>=ResourceUtils.levels.Count) 
+			{
+				stage=0;
+			}
+			Worker.prepareLevel=true;
 		}
 	}
 
@@ -189,14 +192,17 @@ public class World : Node
 	{
 		state=Gamestate.RESTART;
 		renderer.RemoveChild(level);
-		level.Free();
-		if(!lvl) currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
+		level.freeLevel();
+		if(!lvl) 
+		{
+			currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
+		}
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
 		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
 		mergeMaps(level,cachedLevel);
 		renderer.AddChild(level);
 		renderer.RemoveChild(player);
-		player.CallDeferred("queue_free");
+		player.QueueFree();
 		player=(Player)ResourceUtils.player.Instance();
 		renderer.AddChild(player);
 		state=Gamestate.RUNNING;
@@ -204,21 +210,31 @@ public class World : Node
 
 	public void prepareLevel()
 	{
-		if(cachedLevel==null) cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
+		if(cachedLevel==null) 
+		{
+			cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
+		}
 		newLevel=(Level)cachedLevel.Duplicate();
 		currentLevel=nextLevel;
 		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
 		mergeMaps(newLevel,cachedLevel);
 		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
-		renderer.AddChild(newLevel);
+		renderer.CallDeferred("add_child",newLevel);
+		while(!newLevel.IsInsideTree())
+		{
+			OS.DelayMsec(1);
+		}
 		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
 		state=Gamestate.SCENE_CHANGED;
 	}
 
-	void cacheLevel(int nextStage) 
+	public void cacheLevel(int nextStage) 
 	{
 		nextLevel=nextStage;
-		if(cachedLevel!=null&&!cachedLevel.IsQueuedForDeletion()) cachedLevel.CallDeferred("freeLevel");
+		if(cachedLevel!=null&&!cachedLevel.IsQueuedForDeletion()) 
+		{
+			cachedLevel.CallDeferred("freeLevel");
+		}
 		cachedLevel=(Level)ResourceUtils.levels[nextStage].Instance();
 	}
 
@@ -233,6 +249,7 @@ public class World : Node
 				newLevel.CallDeferred("freeLevel");
 			}
 		}
+		input._free();
 		CallDeferred("queue_free");
 		World.instance=null;
 	}

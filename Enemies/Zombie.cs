@@ -3,14 +3,14 @@ using System;
 
 public class Zombie : KinematicMonster
 {
-    [Export] public float GRAVITY=300f;
+    [Export] private float GRAVITY=300f;
 
-    Vector2 velocity=Vector2.Zero;
-    int cooldown;
+    private Vector2 velocity=Vector2.Zero;
+    private int cooldown;
 
-    RayCast2D rayCast2D;
-    Vector2 CASTTO;
-    Staff weapon;
+    private RayCast2D rayCast2D;
+    private Vector2 CASTTO;
+    private Staff weapon;
 
     public override void _Ready()
     {
@@ -107,7 +107,7 @@ public class Zombie : KinematicMonster
             rayCast2D.CastTo=direction;
             if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId())
             {
-                if(cooldown<0&&!weapon.animationPlayer.IsPlaying())
+                if(cooldown<0&&!weapon.isPlaying())
                 {
                     weapon.attack();
                     cooldown=20;
@@ -184,7 +184,7 @@ public class Zombie : KinematicMonster
         animationPlayer.Play("PASSANGER");
     }
 
-    void FlipH()
+    private void FlipH()
     {
         animationController.FlipH^=true;
         if(animationController.FlipH)
@@ -196,7 +196,7 @@ public class Zombie : KinematicMonster
         }
     }
 
-    void FlipH(bool flip=false)
+    private void FlipH(bool flip=false)
     {
         animationController.FlipH=flip;
         if(flip)

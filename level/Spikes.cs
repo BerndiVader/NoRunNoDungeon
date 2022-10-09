@@ -4,30 +4,24 @@ using System;
 public class Spikes : Area2D
 {
 
-    [Export] bool StaticElement=true;
-    [Export] Vector2 MoveDirection=new Vector2(0,1);
-    [Export] float MoveLength=16f;
-    [Export] float Speed=0.5f;
-    [Export] int InDelay=1;
-    [Export] int OutDelay=1;
-    [Export] float StartDelay=0.1f;
-    [Export] float ActOnDistance=-1f;
-    [Export] float damage=1f;
+    [Export] private bool StaticElement=true;
+    [Export] private Vector2 MoveDirection=new Vector2(0,1);
+    [Export] private float MoveLength=16f;
+    [Export] private float Speed=0.5f;
+    [Export] private int InDelay=1;
+    [Export] private int OutDelay=1;
+    [Export] private float StartDelay=0.1f;
+    [Export] private float ActOnDistance=-1f;
+    [Export] private float damage=1f;
 
-    VisibilityNotifier2D notifier2D;
-
-    Tween tween;
-    Timer timer;
-
-    Vector2 Movement;
-
-    Vector2 follow=new Vector2(0f,0f);
-    bool reverse=false;
-    bool running;
+    private Tween tween;
+    private Timer timer;
+    private Vector2 Movement;
+    private bool reverse=false;
 
     public override void _Ready()
     {
-        notifier2D=new VisibilityNotifier2D();
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 
@@ -67,7 +61,7 @@ public class Spikes : Area2D
         }
     }
 
-    void initTween()
+    private void initTween()
     {
         if(ActOnDistance<0f)
         {
@@ -83,19 +77,19 @@ public class Spikes : Area2D
         }
     }
 
-    void onTimedOut() 
+    private void onTimedOut() 
     {
         tweenIn();
         tween.Start();
         timer.QueueFree();
     }
 
-    void tweening(Vector2 delta)
+    private void tweening(Vector2 delta)
     {
         Position=delta;
     }
 
-    void onFinishedTween()
+    private void onFinishedTween()
     {
         reverse=!reverse;
         if(reverse) 
@@ -110,14 +104,14 @@ public class Spikes : Area2D
         tween.Start();
     }
 
-    void tweenIn()
+    private void tweenIn()
     {
-        tween.InterpolateMethod(this,"tweening",Position,Position-Movement,Speed,Tween.TransitionType.Bounce,Tween.EaseType.Out,InDelay);
+        tween.InterpolateMethod(this,nameof(tweening),Position,Position-Movement,Speed,Tween.TransitionType.Bounce,Tween.EaseType.Out,InDelay);
     }
 
-    void tweenOut()
+    private void tweenOut()
     {
-        tween.InterpolateMethod(this,"tweening",Position,Position+Movement,Speed,Tween.TransitionType.Linear,Tween.EaseType.Out,OutDelay);
+        tween.InterpolateMethod(this,nameof(tweening),Position,Position+Movement,Speed,Tween.TransitionType.Linear,Tween.EaseType.Out,OutDelay);
     }
 
     public override void _EnterTree()
@@ -133,7 +127,7 @@ public class Spikes : Area2D
         }
     }
 
-    public void onEnteredBody(Node node)
+    private void onEnteredBody(Node node)
     {
         if(node.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
@@ -142,7 +136,7 @@ public class Spikes : Area2D
 
     }
 
-    void onExitedScreen()
+    private void onExitedScreen()
     {
         QueueFree();
     }    

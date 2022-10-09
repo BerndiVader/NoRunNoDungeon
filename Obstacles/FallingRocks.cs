@@ -3,29 +3,27 @@ using System;
 
 public class FallingRocks : StaticBody2D
 {
-    [Export] public float ActivationDistance=100f;
-    protected Area2D area,groundControl;
-    protected int state=0;
-    protected float GRAVITY=600f;
-    protected Vector2 velocity=new Vector2(0f,0f);
-    protected float shake;
-    protected float ShakeMax=0.6f;
-    bool colliding=false;
-    Platform collider;
-    VisibilityNotifier2D notifier2D;
+    [Export] private float ActivationDistance=100f;
+    private Area2D area;
+    private int state=0;
+    private float GRAVITY=600f;
+    private Vector2 velocity=new Vector2(0f,0f);
+    private float shake;
+    private float ShakeMax=0.6f;
+    private bool colliding=false;
+    private Platform collider;
 
     public override void _Ready()
     {
-        notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,"exitedScreen");
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 
         area=GetNode<Area2D>("Area2D");
         area.Connect("body_entered",this,nameof(onBodyEntered));
         area.Connect("body_exited",this,nameof(onBodyExited));
 
-        groundControl=GetNode<Area2D>("Area2D2");
-        groundControl.Connect("body_entered",this,nameof(onPlayerHit));
+        GetNode<Area2D>("Area2D2").Connect("body_entered",this,nameof(onPlayerHit));
 
         AddToGroup(GROUPS.LEVEL.ToString());
 
@@ -58,7 +56,7 @@ public class FallingRocks : StaticBody2D
         applyShake();
     }
 
-    void onBodyEntered(Node2D body)
+    private void onBodyEntered(Node2D body)
     {
         if(body.IsInGroup(GROUPS.PLATFORMS.ToString()))
         {
@@ -77,7 +75,7 @@ public class FallingRocks : StaticBody2D
 
     }
 
-    void onBodyExited(Node2D body)
+    private void onBodyExited(Node2D body)
     {
         if(body.IsInGroup(GROUPS.PLATFORMS.ToString()))
         {
@@ -86,7 +84,7 @@ public class FallingRocks : StaticBody2D
         }
     }
 
-    void onPlayerHit(Node2D body)
+    private void onPlayerHit(Node2D body)
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
@@ -94,7 +92,7 @@ public class FallingRocks : StaticBody2D
         }
     }
 
-    void applyShake()
+    private void applyShake()
     {
         shake=Math.Min(shake,ShakeMax);
         if(shake>=0.02f)
@@ -110,7 +108,7 @@ public class FallingRocks : StaticBody2D
         }
     }
 
-    void exitedScreen()
+    private void onExitedScreen()
     {
         QueueFree();
     }

@@ -3,7 +3,6 @@ using System;
 
 public class Rock : PhysicsObject
 {
-
     public override void _PhysicsProcess(float delta)
     {
         Vector2 force=new Vector2(0,GRAVITY);

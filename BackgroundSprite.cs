@@ -3,11 +3,10 @@ using System;
 
 public class BackgroundSprite : Sprite
 {
-    BackgroundLayer layer;
 
     public override void _Ready()
     {
-        layer=GetParent() as BackgroundLayer;
+        BackgroundLayer layer=GetParent<BackgroundLayer>();
 
         int id=layer.Name.Substr(layer.Name.Length-1,1).ToInt();
         

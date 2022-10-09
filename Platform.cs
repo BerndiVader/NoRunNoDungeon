@@ -6,14 +6,11 @@ public class Platform : StaticBody2D
     protected float damage=1f;
     protected float health=1f;
     protected Vector2 startPosition,lastPosition;
-    protected VisibilityNotifier2D notifier2D;
-
     public Vector2 CurrentSpeed;
-
 
     public override void _Ready()
     {
-        notifier2D=new VisibilityNotifier2D();
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
         
@@ -24,7 +21,7 @@ public class Platform : StaticBody2D
         AddToGroup(GROUPS.PLATFORMS.ToString());
     }
 
-    public float collide(float damage) 
+    private float collide(float damage) 
     {
         health-=damage;
         if(health<=0f)
@@ -34,7 +31,7 @@ public class Platform : StaticBody2D
         return this.damage;
     }
 
-    void onExitedScreen()
+    private void onExitedScreen()
     {
         QueueFree();
     }

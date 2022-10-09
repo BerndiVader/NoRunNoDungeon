@@ -4,7 +4,6 @@ using System;
 public class Staff : Weapon
 {
     protected KinematicMonster owner;
-    bool flipped;
     public override void _Ready()
     {
         base._Ready();
@@ -13,12 +12,9 @@ public class Staff : Weapon
     public void _Init()
     {
         GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
-        owner=GetParent() as KinematicMonster;
+        owner=GetParent<KinematicMonster>();
 
-        if(owner!=null)
-        {
-            animationPlayer.Play("SETUP"+getStringDirection());
-        }
+        animationPlayer.Play("SETUP"+getStringDirection());
     }
 
     public override void _PhysicsProcess(float delta)
@@ -57,9 +53,7 @@ public class Staff : Weapon
 
     protected String getStringDirection()
     {
-        flipped=owner.animationController.FlipH;
-
-        if(flipped)
+        if(owner.animationController.FlipH)
         {
             return "_LEFT";
         }
@@ -69,7 +63,7 @@ public class Staff : Weapon
         }
     }
 
-    public override void onHitSomething(Node node)
+    protected override void onHitSomething(Node node)
     {
         if(state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.DAMAGE)
         {

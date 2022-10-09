@@ -3,11 +3,11 @@ using System;
 
 public class FallingPlatform : Platform
 {
-    [Export] public int TimeSpan=20;
-    int time;
-    bool falling=false;
-    CollisionShape2D area2dShape;
-    float shake=2f,shakeMax=6f,speed=0f;
+    [Export] private int TimeSpan=20;
+    private int time;
+    private bool falling=false;
+    private CollisionShape2D area2dShape;
+    private float shake=2f,shakeMax=6f,speed=0f;
 
     public override void _Ready()
     {
@@ -34,7 +34,7 @@ public class FallingPlatform : Platform
         
     }
 
-    void applyShake() 
+    private void applyShake() 
     {
         shake=Math.Min(shake,shakeMax);
         Vector2 offset=new Vector2(0,0);
@@ -44,7 +44,7 @@ public class FallingPlatform : Platform
         shake*=0.9f;
     }
 
-    public void _on_Area2D_body_entered(Node body) 
+    private void _on_Area2D_body_entered(Node body) 
     {
         if(!body.IsInGroup(GROUPS.PLAYERS.ToString())&&!body.IsInGroup(GROUPS.LEVEL.ToString())) return;
         if(!falling) 
@@ -68,7 +68,7 @@ public class FallingPlatform : Platform
         }
     }
 
-    void delete()
+    private void delete()
     {
         BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCKPARTICLES].Instance();
         blockBreakParticle.Position=World.instance.level.ToLocal(GlobalPosition);
@@ -76,7 +76,7 @@ public class FallingPlatform : Platform
         QueueFree();
     }
 
-    public void _on_Area2D_body_exited(Node body) 
+    private void _on_Area2D_body_exited(Node body) 
     {
         if(!body.IsInGroup(GROUPS.LEVEL.ToString())) return;
     }

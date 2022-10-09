@@ -3,13 +3,11 @@ using System;
 
 public class Dagger : Weapon
 {
-    PackedScene dagger;
-    byte cooldown;
+    private int cooldown;
     public override void _Ready()
     {
         base._Ready();
         Connect("body_entered",this,nameof(onHitSomething));
-        dagger=ResourceUtils.bullets[(int)BULLETS.DAGGERBULLET] as PackedScene;
         cooldown=5;
     }
 
@@ -52,9 +50,9 @@ public class Dagger : Weapon
             state=WEAPONSTATE.ATTACK;
         }
     }
-    public void throwDagger()
+    private void throwDagger()
     {
-        DaggerBullet bullet=(DaggerBullet)dagger.Instance();
+        DaggerBullet bullet=(DaggerBullet)((PackedScene)ResourceUtils.bullets[(int)BULLETS.DAGGERBULLET]).Instance();
         bullet.Position=World.instance.renderer.ToLocal(GlobalPosition);
         World.instance.renderer.AddChild(bullet);
     }

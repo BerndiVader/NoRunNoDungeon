@@ -3,16 +3,14 @@ using System;
 
 public class MimicChest : KinematicMonster
 {
-    [Export] public float GRAVITY=300f;
+    [Export] private float GRAVITY=300f;
 
-    Vector2 velocity=new Vector2(0f,0f);
-    int cooldown;
+    private Vector2 velocity=new Vector2(0f,0f);
+    private int cooldown;
 
-    Player player;
-
-    RayCast2D rayCast2D;
-    RectangleShape2D collisionBox;
-    Vector2 CASTTO;
+    private RayCast2D rayCast2D;
+    private RectangleShape2D collisionBox;
+    private Vector2 CASTTO;
 
     public override void _Ready()
     {
@@ -65,9 +63,8 @@ public class MimicChest : KinematicMonster
 
     protected override void idle(float delta)
     {
-        Player player=World.instance.player;
-        bool collide=collisionBox.Collide(GetGlobalTransform(),player.collisionController.Shape,player.GetGlobalTransform());
-        if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==player.GetInstanceId()))
+        bool collide=collisionBox.Collide(GetGlobalTransform(),World.instance.player.collisionShape.Shape,World.instance.player.GetGlobalTransform());
+        if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId()))
         {
             cooldown=0;
             animationController.Play("attack");
@@ -93,7 +90,7 @@ public class MimicChest : KinematicMonster
     protected override void fight(float delta)
     {
         Player player=World.instance.player;
-        bool collide=collisionBox.Collide(GetGlobalTransform(),player.collisionController.Shape,player.GetGlobalTransform());
+        bool collide=collisionBox.Collide(GetGlobalTransform(),player.collisionShape.Shape,player.GetGlobalTransform());
 
         if(collide)
         {
@@ -159,7 +156,7 @@ public class MimicChest : KinematicMonster
         }
     }
 
-    void FlipH()
+    private void FlipH()
     {
         animationController.FlipH^=true;
         rayCast2D.CastTo*=-1;

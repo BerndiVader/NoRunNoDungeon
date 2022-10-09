@@ -3,20 +3,17 @@ using System;
 
 public class SwingingBaton : Area2D
 {
-    Placeholder parent;
-    VisibilityNotifier2D notifier2D;
-    Vector2 rotateTo,rot;
-
-    [Export] public float minSpeed=0.01f;
-    [Export] public float maxSpeed=0.09f;
-    [Export] public int maxRotation=90;
-
+    [Export] private float minSpeed=0.01f;
+    [Export] private float maxSpeed=0.09f;
+    [Export] private int maxRotation=90;
+    
+    private Vector2 rotateTo,rot;
 
     public override void _Ready()
     {
         AddToGroup(GROUPS.OBSTACLES.ToString(),true);
 
-        notifier2D=new VisibilityNotifier2D();
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 
@@ -26,7 +23,7 @@ public class SwingingBaton : Area2D
         Connect("body_entered",this,nameof(onBodyEntered));
     }
 
-    public void onBodyEntered(Node2D body)
+    private void onBodyEntered(Node2D body)
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString()))
         {
@@ -34,7 +31,7 @@ public class SwingingBaton : Area2D
         }
     }
 
-    public void onExitedScreen()
+    private void onExitedScreen()
     {
         QueueFree();
     }

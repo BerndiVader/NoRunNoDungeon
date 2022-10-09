@@ -3,12 +3,12 @@ using System;
 
 public class Stick : TouchScreenButton
 {
-    Touch touch;
-    Vector2 rad=new Vector2(16f,16f);
-    float boundary=32f;
-    int ongoing=-1;
-    float returnAccel=20f;
-    float threshold=10f;
+    private Touch touch;
+    private Vector2 rad=new Vector2(16f,16f);
+    private float boundary=32f;
+    private int onGoing=-1;
+    private float returnAccel=20f;
+    private float threshold=10f;
 
     public override void _Ready()
     {
@@ -19,11 +19,14 @@ public class Stick : TouchScreenButton
 
     public override void _Process(float delta)
     {
-        if(ongoing==-1)
+        if(onGoing==-1)
         {
             Vector2 diffPos=Vector2.Zero-rad-Position;
             Position+=diffPos*returnAccel*delta;
-            if((Position.IsEqualApprox(new Vector2(-16f,-16f)))) touch.Position=new Vector2(-100,-100);
+            if((Position.IsEqualApprox(new Vector2(-16f,-16f)))) 
+            {
+                touch.Position=new Vector2(-100,-100);
+            }
         }
     }
 
@@ -57,14 +60,14 @@ public class Stick : TouchScreenButton
             }
             float distCenter=(position-touch.GlobalPosition).Length();
 
-            if(distCenter<=boundary*GlobalScale.x||index==ongoing)
+            if(distCenter<=boundary*GlobalScale.x||index==onGoing)
             {
                 GlobalPosition=position-rad*GlobalScale;
                 if(getButtonPosition().Length()>boundary)
                 {
                     Position=getButtonPosition().Normalized()*boundary-rad;
                 }
-                ongoing=index;
+                onGoing=index;
             }
 
         }
@@ -72,14 +75,14 @@ public class Stick : TouchScreenButton
         if(@event is InputEventScreenTouch && !@event.IsPressed())
         {
             InputEventScreenTouch eventScreenTouch=@event as InputEventScreenTouch;
-            if(eventScreenTouch.Index==ongoing)
+            if(eventScreenTouch.Index==onGoing)
             {
-                ongoing=-1;
+                onGoing=-1;
             }
         }
     }
 
-    Vector2 getButtonPosition()
+    private Vector2 getButtonPosition()
     {
         return Position+rad;
     }

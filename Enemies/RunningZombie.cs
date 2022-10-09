@@ -3,22 +3,22 @@ using System;
 
 public class RunningZombie : KinematicMonster
 {
-	[Export] public float ACTIVATION_RANGE=400f;
-	[Export] public float GRAVITY=500f;
-	[Export] public float WALK_FORCE=600f;
-	[Export] public float WALK_MIN_SPEED=10f;
-	[Export] public float WALK_MAX_SPEED=60f;
-	[Export] public float STOP_FORCE=1300f;
-	[Export] public float JUMP_SPEED=130f;
-	[Export] public float JUMP_MAX_AIRBORNE_TIME=0.2f;
+	[Export] private float ACTIVATION_RANGE=400f;
+	[Export] private float GRAVITY=500f;
+	[Export] private float WALK_FORCE=600f;
+	[Export] private float WALK_MIN_SPEED=10f;
+	[Export] private float WALK_MAX_SPEED=60f;
+	[Export] private float STOP_FORCE=1300f;
+	[Export] private float JUMP_SPEED=130f;
+	[Export] private float JUMP_MAX_AIRBORNE_TIME=0.2f;
 
-	Vector2 velocity=new Vector2(0f,0f);
-	Vector2 direction=new Vector2(-1f,0f);
-	float onAirTime=100f;
-	bool jumping=false;
-	bool prevJumpPressed=false;
+	private Vector2 velocity=new Vector2(0f,0f);
+	private Vector2 direction=new Vector2(-1f,0f);
+	private float onAirTime=100f;
+	private bool jumping=false;
+	private bool prevJumpPressed=false;
 
-	RayCast2D rayCast2D;
+	private RayCast2D rayCast2D;
 
 	public override void _Ready()
 	{
@@ -198,6 +198,11 @@ public class RunningZombie : KinematicMonster
 		base.die(delta);
 	}
 
+	protected override void calm(float delta)
+	{
+		throw new NotImplementedException();
+	}	
+
 	protected override void onDamage(Player player, int amount)
 	{
 		if(state!=STATE.DAMAGE&&state!=STATE.DIE)
@@ -218,12 +223,12 @@ public class RunningZombie : KinematicMonster
 	}
 
 
-	bool inRange()
+	private bool inRange()
 	{
 		return Mathf.Abs(World.instance.player.GlobalPosition.DistanceTo(GlobalPosition))<ACTIVATION_RANGE;
 	}
 
-	void FlipH()
+	private void FlipH()
 	{
 		animationController.FlipH^=true;
 		Vector2 position=rayCast2D.Position;
@@ -234,8 +239,4 @@ public class RunningZombie : KinematicMonster
 		collisionController.Position=position;
 	}
 
-	protected override void calm(float delta)
-	{
-		throw new NotImplementedException();
-	}
 }

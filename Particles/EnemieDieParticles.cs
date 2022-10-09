@@ -19,7 +19,7 @@ public class EnemieDieParticles : CPUParticles2D
         }
     }
 
-    public void _enteredTree()
+    private void _enteredTree()
     {
         this.Emitting=true;
         SetProcess(true);

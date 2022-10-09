@@ -3,35 +3,26 @@ using System;
 
 public abstract class KinematicMonster : KinematicBody2D
 {
-    [Export] public Vector2 ANIMATION_OFFSET=Vector2.Zero;
+    [Export] protected Vector2 ANIMATION_OFFSET=Vector2.Zero;
+    [Export] protected float damageAmount=1f;
 
-    [Signal]
-    public delegate void Die();
-    [Signal]
-    public delegate void Attack(Player player);
-    [Signal]
-    public delegate void Fight(Player player);
-    [Signal]
-    public delegate void Damage(Player player,float amount);
-    [Signal]
-    public delegate void Passanger(Player player);
-    [Signal]
-    public delegate void Calm();
-    [Signal]
-    public delegate void Idle();
-    [Signal]
-    public delegate void Stroll();
+    [Signal] public delegate void Die();
+    [Signal] public delegate void Attack(Player player);
+    [Signal] public delegate void Fight(Player player);
+    [Signal] public delegate void Damage(Player player,float amount);
+    [Signal] public delegate void Passanger(Player player);
+    [Signal] public delegate void Calm();
+    [Signal] public delegate void Idle();
+    [Signal] public delegate void Stroll();
     
     protected Player victim,attacker;
-    [Export] public float damageAmount=1f;
-    protected Placeholder parent;
-    protected VisibilityNotifier2D notifier2D;
     protected Godot.AnimationPlayer animationPlayer;
     protected CollisionShape2D collisionController, statCollShape;
     protected Vector2 startOffset=Vector2.Zero;
     protected int animationDirection=1,health=1;
 
-    public STATE state,lastState;
+    public STATE state;
+    protected STATE lastState;
     public AnimatedSprite animationController;
 
     public override void _Ready()
@@ -47,7 +38,7 @@ public abstract class KinematicMonster : KinematicBody2D
 
         AddToGroup(GROUPS.ENEMIES.ToString());
 
-        notifier2D=new VisibilityNotifier2D();
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 

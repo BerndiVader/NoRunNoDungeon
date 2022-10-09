@@ -5,13 +5,11 @@ public class PhysicsObject : KinematicBody2D
 {
     protected float GRAVITY=300f;
     protected float friction=0.7f;
-
     protected Vector2 velocity=new Vector2(0f,0f);
-    protected VisibilityNotifier2D notifier2D;
 
     public override void _Ready()
     {
-        notifier2D=new VisibilityNotifier2D();
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
     }
@@ -37,7 +35,7 @@ public class PhysicsObject : KinematicBody2D
         }
     }
 
-    void onExitedScreen()
+    private void onExitedScreen()
     {
         QueueFree();
     }

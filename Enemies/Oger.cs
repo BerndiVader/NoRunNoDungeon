@@ -3,19 +3,18 @@ using System;
 
 public class Oger : KinematicMonster
 {
-    [Export] public new Vector2 ANIMATION_OFFSET=new Vector2(0f,0f);
-    [Export] public float GRAVITY=500f;
-    [Export] public float WALK_FORCE=600f;
-    [Export] public float WALK_MIN_SPEED=10f;
-    [Export] public float WALK_MAX_SPEED=30f;
-    [Export] public float STOP_FORCE=1300f;
+    [Export] private new Vector2 ANIMATION_OFFSET=new Vector2(0f,0f);
+    [Export] private float GRAVITY=500f;
+    [Export] private float WALK_FORCE=600f;
+    [Export] private float WALK_MIN_SPEED=10f;
+    [Export] private float WALK_MAX_SPEED=30f;
+    [Export] private float STOP_FORCE=1300f;
 
-    Vector2 velocity=new Vector2(0f,0f);
-    Vector2 direction,PLAYERCASTTO,CASTTO;
-    float travelTime=0f;
-
-    RayCast2D rayCast2D,playerCast2D;
-    Staff weapon;
+    private Vector2 velocity=new Vector2(0f,0f);
+    private Vector2 direction,PLAYERCASTTO,CASTTO;
+    private float travelTime=0f;
+    private RayCast2D rayCast2D,playerCast2D;
+    private Staff weapon;
 
     public override void _Ready()
     {
@@ -328,12 +327,12 @@ public class Oger : KinematicMonster
         playerCast2D.CastTo=direction*150f;
     }
 
-    bool canSeePlayer()
+    private bool canSeePlayer()
     {
         return playerCast2D.IsColliding()&&playerCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId();
     }
 
-    void FlipH()
+    private void FlipH()
     {
         animationController.FlipH^=true;
 

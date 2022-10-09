@@ -4,16 +4,16 @@ using System;
 public class MobileInput : InputController
 {
 
-    Touch touch;
-    Buttons buttons;
+    private Touch touch;
+    private Buttons buttons;
 
     public MobileInput(Node scene)
     {
-            touch=ResourceUtils.touch.Instance() as Touch;
+            touch=(Touch)ResourceUtils.touch.Instance();
             touch.ZIndex=2500;
             scene.AddChild(touch);
 
-            buttons=ResourceUtils.buttons.Instance() as Buttons;
+            buttons=(Buttons)ResourceUtils.buttons.Instance();
             buttons.ZIndex=2500;
             scene.AddChild(buttons);
 

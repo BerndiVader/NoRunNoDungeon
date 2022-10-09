@@ -3,9 +3,9 @@ using System;
 
 public class IntroText : Godot.RichTextLabel
 {
-    Tween tween;
-    Vector2 position;
-    float diff;
+    private Tween tween;
+    private Vector2 position;
+    private float diff;
 
     public override void _Ready()
     {
@@ -27,12 +27,12 @@ public class IntroText : Godot.RichTextLabel
         
     }
 
-    void tweening(Vector2 delta)
+    private void tweening(Vector2 delta)
     {
         RectPosition=delta;
     }
 
-    void onTweenComplete()
+    private void onTweenComplete()
     {
         diff=diff*-1;
         tween.InterpolateMethod(this,nameof(tweening),RectPosition,new Vector2(position.x,position.y+diff),1,Tween.TransitionType.Back,Tween.EaseType.InOut,0);

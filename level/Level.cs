@@ -25,7 +25,7 @@ public class Level : TileMap
         Connect("tree_exiting",this,nameof(freeLevel));
         ZIndex=0;
         AddToGroup(GROUPS.LEVEL.ToString());
-        CellCustomTransform=new Transform2D(256f,0f,0f,256f,0f,0f);
+        CellCustomTransform=new Transform2D(128f,0f,0f,128f,0f,0f);
     }
 
     public void freeLevel() 

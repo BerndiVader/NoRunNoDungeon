@@ -3,12 +3,12 @@ using System;
 
 public abstract class Weapon : Area2D
 {
-    public AnimationPlayer animationPlayer;
-    protected CollisionShape2D collisionController;
+    [Export] protected float damage=1f;
+
+    protected AnimationPlayer animationPlayer;
     protected bool hit;
-    public WEAPONSTATE state;
-    public WEAPONSTATE oldState;
-    [Export] public float damage=1f;
+    protected WEAPONSTATE state;
+    protected WEAPONSTATE oldState;
 
     public override void _Ready()
     {
@@ -18,7 +18,6 @@ public abstract class Weapon : Area2D
         state=WEAPONSTATE.IDLE;
         oldState=state;
         animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
-        collisionController=GetNode<CollisionShape2D>("CollisionShape2D");
         animationPlayer.CurrentAnimation="SETUP";
         animationPlayer.Play();
     }
@@ -35,13 +34,13 @@ public abstract class Weapon : Area2D
 
     public abstract void attack();
 
-    public enum WEAPONSTATE
+    protected enum WEAPONSTATE
     {
         IDLE,
         ATTACK
     }
 
-    public virtual void onHitSomething(Node node)
+    protected virtual void onHitSomething(Node node)
     {
         if(state==WEAPONSTATE.ATTACK&&!hit)
         {
@@ -56,6 +55,11 @@ public abstract class Weapon : Area2D
                 hit=true;
             }
         }
+    }
+
+    public virtual bool isPlaying()
+    {
+        return animationPlayer.IsPlaying();
     }
 
 }

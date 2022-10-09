@@ -3,10 +3,8 @@ using System;
 
 public class DaggerBullet : Area2D
 {
-    Vector2 start,end,height;
-    float time;
-    PackedScene packedParticles;
-    CollisionShape2D collisionShape2D;
+    private Vector2 start,end,height;
+    private float time;
 
     public override void _Ready()
     {
@@ -14,9 +12,6 @@ public class DaggerBullet : Area2D
         end=new Vector2(start.x+75f,start.y+50f);
         height=new Vector2(start.x+((end.x-start.x)*0.5f),start.y-30f);
         time=0f;
-
-        collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
-        packedParticles=(PackedScene)ResourceUtils.particles[(int)PARTICLES.DAGGERMISSPARTICLES];
 
         Connect("body_entered",this,nameof(onBodyEntered));
         Connect("area_entered",this,nameof(onAreaEntered));
@@ -63,7 +58,7 @@ public class DaggerBullet : Area2D
 
     void destroy()
     {
-        DaggerMissParticles particles=(DaggerMissParticles)packedParticles.Instance();
+        DaggerMissParticles particles=(DaggerMissParticles)((PackedScene)ResourceUtils.particles[(int)PARTICLES.DAGGERMISSPARTICLES]).Instance();
         particles.Position=World.instance.level.ToLocal(GlobalPosition);
         World.instance.level.AddChild(particles);
         QueueFree();

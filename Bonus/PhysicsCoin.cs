@@ -3,18 +3,12 @@ using System;
 
 public class PhysicsCoin : PhysicsObject
 {
-    AnimatedSprite animationController;
-    Area2D area2D;
-
     public override void _Ready()
     {
         base._Ready();
 
-        area2D=GetNode<Area2D>("Area2D");
-        area2D.Connect("body_entered",this,nameof(onBodyEntered));
-
-        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
-        animationController.Play("default");
+        GetNode<Area2D>("Area2D").Connect("body_entered",this,nameof(onBodyEntered));
+        GetNode<AnimatedSprite>("AnimatedSprite").Play("default");
     }
 
     public override void _PhysicsProcess(float delta)

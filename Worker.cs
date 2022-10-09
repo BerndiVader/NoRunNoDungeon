@@ -1,42 +1,56 @@
 using Godot;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 public class Worker : Godot.Thread
 {
 	public static Worker instance;
-	public static Queue<Placeholder>placeholderQueue;
+	public static ConcurrentStack<WeakReference>placeholders;
 	public static bool prepareLevel,stop;
 
 	public Worker() : base()
 	{
 		instance=this;
-		placeholderQueue=new Queue<Placeholder>();
+		placeholders=new ConcurrentStack<WeakReference>();
 		prepareLevel=false;
 		Start(this,nameof(Runner));
 	}
 
-	void Runner(bool run)
+	private void Runner(bool run)
 	{
-		try {
-			while(!stop)
+		while(!stop)
+		{
+			if(prepareLevel)
 			{
-				if(prepareLevel)
-				{
-					prepareLevel=false;
-					World.instance.prepareLevel();
-				}
-				else if(placeholderQueue.Count>0)
-				{
-					Placeholder p=placeholderQueue.Dequeue() as Placeholder;
-					String instancePath=p.placeholder.GetInstancePath();
-					ResourceLoader.Load(instancePath);
-					p.instantiated=true;
-				}
-				OS.DelayMsec(5);
+				placeholders.Clear();
+				World.instance.prepareLevel();
+				prepareLevel=false;
 			}
-		} catch (Exception ex) {
-			GD.Print(ex.Message);
+			else if(placeholders.Count>0)
+			{
+				if(placeholders.TryPop(out WeakReference result))
+				{
+					Placeholder p=(Placeholder)result.Target;
+					InstancePlaceholder placeholder=p.GetChild<InstancePlaceholder>(0);
+					String instancePath=placeholder.GetInstancePath();
+					if(!ResourceLoader.HasCached(instancePath))
+					{
+						ResourceLoader.Load(instancePath);
+					}
+					instantiatePlaceholder(p,placeholder);
+				}
+			}
+			OS.DelayMsec(5);
 		}
+	}
+
+	private void instantiatePlaceholder(Placeholder p,InstancePlaceholder placeholder)
+	{
+		p.CallDeferred("remove_child",placeholder);
+		World.instance.level.CallDeferred("add_child",placeholder);
+		placeholder.Set("position",World.instance.level.ToLocal(p.GlobalPosition));
+		placeholder.CallDeferred("create_instance",false);
+		placeholder.CallDeferred("queue_free");
+		p.CallDeferred("queue_free");
 	}
 }

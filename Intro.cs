@@ -3,7 +3,7 @@ using System;
 
 public class Intro : Node
 {
-	static InputController input;
+	private static InputController input;
 	
 	public override void _Ready()
 	{
@@ -16,10 +16,13 @@ public class Intro : Node
 	{
 		if(input.getJump())
 		{
+			input._free();
 			World.changeScene(ResourceUtils.world);
 		}
 		else if(input.getQuit())
 		{
+			input._free();
+			input=null;
 			World.quit();
 		}
 	}

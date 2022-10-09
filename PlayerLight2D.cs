@@ -3,12 +3,12 @@ using System;
 
 public class PlayerLight2D : Light2D
 {
-    [Export] public float MinLight=1f;
-    [Export] public float MaxLight=1.5f;
-    [Export] public int LightDelay=10;
-    [Export] public Vector2 ImgScale=new Vector2(2.5f,2.5f);
+    [Export] private float MinLight=1f;
+    [Export] private float MaxLight=1.5f;
+    [Export] private int LightDelay=10;
+    [Export] private Vector2 ImgScale=new Vector2(2.5f,2.5f);
 
-    int lightCounter;
+    private int lightCounter;
 
     public override void _Ready()
     {
