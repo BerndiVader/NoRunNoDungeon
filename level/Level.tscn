@@ -29,7 +29,7 @@ position = Vector2( 69.3553, 201.214 )
 position = Vector2( 600, 184 )
 
 [node name="MovingPlatform0" parent="PlatformMoving3x3" index="0"]
-Direction = Vector2( 1, 0 )
+Direction = Vector2( -1, 0 )
 Speed = 40.0
 MaxSpeed = 40.0
 Length = 4
