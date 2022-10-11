@@ -20,9 +20,4 @@ public class Placeholder : Node2D
         Worker.placeholders.Push(new WeakReference(this));
     }
 
-    public override void _ExitTree()
-    {
-        base._ExitTree();
-    }
-
 }

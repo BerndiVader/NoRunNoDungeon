@@ -72,10 +72,9 @@ public class Worker : Godot.Thread
 	private void instantiatePlaceholder(Placeholder p,InstancePlaceholder placeholder)
 	{
 		p.CallDeferred("remove_child",placeholder);
-		World.instance.level.CallDeferred("add_child",placeholder);
 		placeholder.Set("position",World.instance.level.ToLocal(p.GlobalPosition));
-		placeholder.CallDeferred("create_instance",false);
-		placeholder.CallDeferred("queue_free");
+		World.instance.level.CallDeferred("add_child",placeholder);
+		placeholder.CallDeferred("replace_by_instance");
 		p.CallDeferred("queue_free");
 	}
 }

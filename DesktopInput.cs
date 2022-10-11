@@ -43,6 +43,6 @@ public class DesktopInput : InputController
 
     public override bool getQuit()
     {
-        return Input.IsKeyPressed((int)KeyList.Escape);
+        return Input.IsActionJustPressed("ui_cancel");
     }
 }

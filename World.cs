@@ -28,21 +28,21 @@ public class World : Node
 
 	public static void changeScene(PackedScene newScene)
 	{
-			Node currentScene=root.GetTree().CurrentScene;
-			root.AddChild(newScene.Instance());
-			root.RemoveChild(currentScene);
-			if(currentScene.GetType().Name.Equals("World"))
+		Node currentScene=root.GetTree().CurrentScene;
+		root.AddChild(newScene.Instance());
+		root.RemoveChild(currentScene);		
+		if(currentScene.GetType().Name.Equals("World"))
+		{
+			((World)currentScene)._Free();
+		}
+		else
+		{
+			if(!currentScene.IsQueuedForDeletion())
 			{
-				((World)currentScene)._Free();
+				currentScene.QueueFree();
 			}
-			else
-			{
-				if(!currentScene.IsQueuedForDeletion())
-				{
-					currentScene.QueueFree();
-				}
-			}
-			Worker.status=Worker.Status.GC;
+		}
+		Worker.status=Worker.Status.GC;
 	}
 
 	public static void quit() 
@@ -67,9 +67,8 @@ public class World : Node
 
 	 
 	public Vector2 RESOLUTION=new Vector2(512f,288f);
-	private int stage;
 	public Level level;
-	private Level newLevel,cachedLevel;
+	private Level cachedLevel;
 	public TileSet tileSet;
 	private Background background;
 	public Player player;
@@ -86,14 +85,13 @@ public class World : Node
 		}
 
 		input=ResourceUtils.getInputController(this);
-
-		stage=0;
 		renderer=GetNode<Renderer>("Renderer");
 
 		tileSet=(TileSet)ResourceUtils.tilesets[(int)MathUtils.randomRange(0,ResourceUtils.tilesets.Count)];
 		currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
-		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
+		nextLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
+		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 		mergeMaps(level,cachedLevel);
 		player=(Player)ResourceUtils.player.Instance();
 		background=(Background)ResourceUtils.background.Instance();
@@ -146,7 +144,7 @@ public class World : Node
 				}
 				else if(input.getQuit())
 				{
-					quit();
+					CallDeferred(nameof(restartGame),false);
 					return;
 				}
 				
@@ -182,11 +180,6 @@ public class World : Node
 
 		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=(level.pixelLength)-528)
 		{
-			stage++;
-			if(stage>=ResourceUtils.levels.Count) 
-			{
-				stage=0;
-			}
 			state=Gamestate.SCENE_CHANGE;
 			Worker.status=Worker.Status.PREPARELEVEL;
 		}
@@ -202,7 +195,6 @@ public class World : Node
 			currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
 		}
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
-		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
 		mergeMaps(level,cachedLevel);
 		renderer.AddChild(level);
 		renderer.RemoveChild(player);
@@ -214,13 +206,18 @@ public class World : Node
 
 	public void prepareLevel()
 	{
-		if(cachedLevel==null) 
-		{
-			cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
-		}
-		newLevel=(Level)cachedLevel.Duplicate();
+		Level newLevel;
 		currentLevel=nextLevel;
-		cacheLevel((int)MathUtils.randomRange(0,ResourceUtils.levels.Count));
+		nextLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
+		if(cachedLevel!=null)
+		{
+			newLevel=cachedLevel;
+		}
+		else
+		{
+			newLevel=(Level)ResourceUtils.levels[currentLevel].Instance();
+		}
+		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 		mergeMaps(newLevel,cachedLevel);
 		renderer.CallDeferred("add_child",newLevel);
 		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
@@ -237,26 +234,13 @@ public class World : Node
 		state=Gamestate.SCENE_CHANGED;
 	}
 
-	private void cacheLevel(int nextStage) 
-	{
-		nextLevel=nextStage;
-		if(cachedLevel!=null&&!cachedLevel.IsQueuedForDeletion()) 
-		{
-			cachedLevel.CallDeferred("freeLevel");
-		}
-		cachedLevel=(Level)ResourceUtils.levels[nextStage].Instance();
-	}
 
 	public void _Free()
 	{
 		state=Gamestate.RESTART;
 		if(cachedLevel!=null)
 		{
-			cachedLevel.CallDeferred("freeLevel");
-			if(newLevel!=null)
-			{
-				newLevel.CallDeferred("freeLevel");
-			}
+			cachedLevel.freeLevel();
 		}
 		input._free();
 		CallDeferred("queue_free");

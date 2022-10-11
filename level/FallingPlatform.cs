@@ -14,6 +14,10 @@ public class FallingPlatform : Platform
         base._Ready();
         time=TimeSpan;
         area2dShape=GetNode<CollisionShape2D>("Area2D/CollisionShape2D2");
+        Area2D area2D=GetNode<Area2D>("Area2D");
+
+        area2D.Connect("body_entered",this,nameof(onBodyEntered));
+        area2D.Connect("body_exited",this,nameof(onBodyExited));
     }
 
     public override void _PhysicsProcess(float delta)
@@ -31,7 +35,6 @@ public class FallingPlatform : Platform
             }
             time--;
         }
-        
     }
 
     private void applyShake() 
@@ -44,27 +47,17 @@ public class FallingPlatform : Platform
         shake*=0.9f;
     }
 
-    private void _on_Area2D_body_entered(Node body) 
+    private void onBodyEntered(Node body) 
     {
         if(!body.IsInGroup(GROUPS.PLAYERS.ToString())&&!body.IsInGroup(GROUPS.LEVEL.ToString())) return;
-        if(!falling) 
+        if(!falling)
         {
             area2dShape.Position=new Vector2(area2dShape.Position.x,5f);
             falling=true;
         } 
         else if(time<0) 
         {
-            if(body.IsInGroup(GROUPS.LEVEL.ToString())) 
-            {
-                    delete();
-                    return;
-            }
-
-            Player player=(Player)body;
-            if(player.GlobalPosition.y>GlobalPosition.y) 
-            {
-                delete();
-            }
+            delete();
         }
     }
 
@@ -76,7 +69,7 @@ public class FallingPlatform : Platform
         QueueFree();
     }
 
-    private void _on_Area2D_body_exited(Node body) 
+    private void onBodyExited(Node body) 
     {
         if(!body.IsInGroup(GROUPS.LEVEL.ToString())) return;
     }

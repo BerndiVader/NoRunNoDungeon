@@ -50,7 +50,6 @@ public class Player : KinematicBody2D
         ZIndex=2;
 
         Connect(SIGNALS.Damage.ToString(),this,nameof(onDamaged));
-
     }
 
     public override void _PhysicsProcess(float delta)
@@ -125,11 +124,25 @@ public class Player : KinematicBody2D
         }
 
         int collides=GetSlideCount();
+        bool onSlope=false;
+
         if(collides>0&&!jumping)
         {
             for(int i=0;i<collides;i++)
             {
                 KinematicCollision2D collision=GetSlideCollision(i);
+
+                if(!onSlope)
+                {
+                    ulong id=World.instance.level.GetInstanceId();
+                    if(collision.ColliderId==id)
+                    {
+                        slopeAngle=collision.Normal.AngleTo(Vector2.Up);
+                        onSlope=Mathf.Abs(slopeAngle)>=0.785298f;
+                    }
+                }
+
+
                 Node2D collider=(Node2D)collision.Collider;
                 if(collider.GetParent()!=null)
                 {
@@ -146,7 +159,6 @@ public class Player : KinematicBody2D
                         collider.EmitSignal("Passanger",this);                            
                     }
                 }
-
             }
         }
 
@@ -176,7 +188,7 @@ public class Player : KinematicBody2D
 
         if(onAirTime<JUMP_MAX_AIRBORNE_TIME&&jump&&!prevJumpPressed&&!jumping) 
         {
-            if(isOnSlope()) 
+            if(onSlope) 
             {
                 if(slopeAngle<0f) 
                 {
@@ -197,24 +209,10 @@ public class Player : KinematicBody2D
 
         if(Position.y>320f||Position.x<-20f||Position.x>520f) 
         {
-            World.changeScene(ResourceUtils.intro);
+            World.instance.CallDeferred(nameof(World.instance.restartGame),true);
         }
 
         lastVelocity=velocity;
-    }
-
-    private bool isOnSlope()
-    {
-        int count=GetSlideCount();
-        ulong id=World.instance.level.GetInstanceId();
-        for(int i=0;i<count;i++)
-        {
-            KinematicCollision2D collision=GetSlideCollision(i);
-            if(collision.Collider==null||collision.ColliderId!=id) continue;
-            slopeAngle=collision.Normal.AngleTo(Vector2.Up);
-            return Mathf.Abs(slopeAngle)>=0.785298f;
-        }
-        return false;
     }
 
     public void equipWeapon(PackedScene packed)

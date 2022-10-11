@@ -14,21 +14,10 @@ public class Platform : StaticBody2D
         notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
         
-        startPosition=Position;
-        lastPosition=startPosition;
+        startPosition=lastPosition=Position;
         CurrentSpeed=new Vector2(0f,0f);
         
         AddToGroup(GROUPS.PLATFORMS.ToString());
-    }
-
-    private float collide(float damage) 
-    {
-        health-=damage;
-        if(health<=0f)
-        {
-            QueueFree();
-        }
-        return this.damage;
     }
 
     private void onExitedScreen()

@@ -12,29 +12,32 @@ public class MovingPlatform0 : Platform
     [Export] private bool Linear=true;
     [Export] private float Shrink=0f;
 
-    private int maxLength;
+    private int maxDistance;
     private float speed;
+    private Vector2 maxPosition;
 
     public override void _Ready()
     {
         base._Ready();
-        maxLength=Length*16;
+        maxDistance=Length*16;
         speed=Speed;
     }
 
     public override void _PhysicsProcess(float delta)
     {
         lastPosition=Position;
-        float currentLength=Mathf.Abs(Position.DistanceTo(startPosition));
-        if(currentLength>maxLength)
+        float distance=Mathf.Abs(Position.DistanceTo(startPosition));
+
+        if(distance>=maxDistance)
         {
             Direction*=-1;
         }
 
         if(!Linear)
         {
-            float speed=Mathf.Lerp(currentLength,maxLength,LerpFactor);
-        } 
+            //
+        }
+
         CurrentSpeed=Direction*speed;
         Position+=CurrentSpeed*delta;
     }
