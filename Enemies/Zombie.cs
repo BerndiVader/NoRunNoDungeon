@@ -3,33 +3,32 @@ using System;
 
 public class Zombie : KinematicMonster
 {
-    [Export] public float GRAVITY=300f;
 
-    Vector2 velocity=Vector2.Zero;
-    int cooldown;
+    private Vector2 velocity=Vector2.Zero;
+    private int cooldown;
 
-    RayCast2D rayCast2D;
-    Vector2 CASTTO;
-    Staff weapon;
+    private RayCast2D rayCast2D;
+    private Vector2 CASTTO;
+    private Staff weapon;
 
     public override void _Ready()
     {
         base._Ready();
 
-        weapon=GetNode("Staff") as Staff;
+        weapon=GetNode<Staff>("Staff");
 
-        animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
-        animationPlayer.Connect("animation_started",this,nameof(animationPlayerStarts));
-        animationPlayer.Connect("animation_finished",this,nameof(animationPlayerEnded));
+        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
+        animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
+        animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
-        rayCast2D=GetNode("RayCast2D") as RayCast2D;
+        rayCast2D=GetNode<RayCast2D>("RayCast2D");
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        animationController=GetNode("AnimatedSprite") as AnimatedSprite;
-        state=STATE.IDLE;
+        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
+        state=STATE.idle;
 
-        animationController.Play("default");
+        animationController.Play("idle");
         animationController.FlipH=MathUtils.randomRangeInt(0,2)!=0;
 
         cooldown=0;
@@ -67,7 +66,7 @@ public class Zombie : KinematicMonster
             if(collision!=null)
             {
                 Node2D node=collision.Collider as Node2D;
-                velocity=velocity.Bounce(collision.Normal)*0.01f;
+                velocity=velocity.Bounce(collision.Normal)*friction;
 
                 if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
                 {
@@ -80,12 +79,12 @@ public class Zombie : KinematicMonster
 
     }
 
-    public override void idle(float delta)
+    protected override void idle(float delta)
     {
-        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId())
+        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId())
         {
             cooldown=0;
-            state=STATE.ATTACK;
+            state=STATE.attack;
         }
         else if(cooldown>250) 
         {
@@ -95,19 +94,19 @@ public class Zombie : KinematicMonster
         cooldown++;
     }
 
-    public override void attack(float delta)
+    protected override void attack(float delta)
     {
-        float distance=rayCast2D.GlobalPosition.DistanceTo(WorldUtils.world.player.GlobalPosition);
+        float distance=rayCast2D.GlobalPosition.DistanceTo(World.instance.player.GlobalPosition);
         if(distance<41)
         {
-            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(WorldUtils.world.player.GlobalPosition);
+            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(World.instance.player.GlobalPosition);
             FlipH(direction.x<0);
 
             direction=direction*distance;
             rayCast2D.CastTo=direction;
-            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==WorldUtils.world.player.GetInstanceId())
+            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId())
             {
-                if(cooldown<0&&!weapon.animationPlayer.IsPlaying())
+                if(cooldown<0&&!weapon.isPlaying())
                 {
                     weapon.attack();
                     cooldown=20;
@@ -115,30 +114,30 @@ public class Zombie : KinematicMonster
             }
             else {
                 rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
-                state=STATE.IDLE;
+                state=STATE.idle;
                 cooldown=0;
             }
         } else
         {
             rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
-            state=STATE.IDLE;
+            state=STATE.idle;
             cooldown=0;
         }
         cooldown--;
     }
 
-    public override void fight(float delta)
+    protected override void fight(float delta)
     {
         throw new NotImplementedException();
     }
 
-    public override void damage(float delta)
+    protected override void damage(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
             if(health<=0)
             {
-                EmitSignal(SIGNALS.Die.ToString());
+                EmitSignal(STATE.die.ToString());
             }
             else
             {
@@ -147,12 +146,12 @@ public class Zombie : KinematicMonster
         }
     }
 
-    public override void calm(float delta)
+    protected override void calm(float delta)
     {
         throw new NotImplementedException();
     }    
 
-    public override void passanger(float delta)
+    protected override void passanger(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
@@ -160,14 +159,14 @@ public class Zombie : KinematicMonster
         }
     }
 
-    public override void die(float delta)
+    protected override void die(float delta)
     {
         base.die(delta);
     }
 
-    public override void onDamage(Player player, int amount)
+    protected override void onDamage(Player player, int amount)
     {
-        if(state!=STATE.DAMAGE&&state!=STATE.DIE)
+        if(state!=STATE.damage&&state!=STATE.die)
         {
             base.onDamage(player, amount);
             if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
@@ -184,7 +183,7 @@ public class Zombie : KinematicMonster
         animationPlayer.Play("PASSANGER");
     }
 
-    void FlipH()
+    private void FlipH()
     {
         animationController.FlipH^=true;
         if(animationController.FlipH)
@@ -196,7 +195,7 @@ public class Zombie : KinematicMonster
         }
     }
 
-    void FlipH(bool flip=false)
+    private void FlipH(bool flip=false)
     {
         animationController.FlipH=flip;
         if(flip)

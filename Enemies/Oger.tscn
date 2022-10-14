@@ -18,12 +18,12 @@ extents = Vector2( 9.45767, 11.885 )
 animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 2 ) ],
 "loop": true,
-"name": "default",
+"name": "idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 7 ) ],
 "loop": true,
-"name": "run",
+"name": "stroll",
 "speed": 5.0
 } ]
 
@@ -140,6 +140,7 @@ tracks/3/keys = {
 }
 
 [node name="Oger" type="KinematicBody2D" groups=["ENEMIES"]]
+position = Vector2( 0, -1 )
 z_index = 1
 collision_layer = 0
 collision_mask = 22
@@ -152,6 +153,7 @@ shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
+animation = "idle"
 flip_h = true
 
 [node name="RayCast2D" type="RayCast2D" parent="."]

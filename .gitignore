@@ -4,5 +4,6 @@
 /android/
 /logs/
 /builds/
+/.tmp.driveupload/
 .gitingore
 export_presets.cfg

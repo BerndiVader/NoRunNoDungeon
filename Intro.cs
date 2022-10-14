@@ -3,7 +3,7 @@ using System;
 
 public class Intro : Node
 {
-	static InputController input;
+	private static InputController input;
 	
 	public override void _Ready()
 	{
@@ -16,11 +16,14 @@ public class Intro : Node
 	{
 		if(input.getJump())
 		{
-			WorldUtils.changeScene(ResourceUtils.world);
+			input._free();
+			World.changeScene(ResourceUtils.world);
 		}
 		else if(input.getQuit())
 		{
-			WorldUtils.quit();
+			input._free();
+			input=null;
+			World.quit();
 		}
 	}
 
@@ -28,8 +31,8 @@ public class Intro : Node
 	{
 		if(what==MainLoop.NotificationWmQuitRequest)
 		{
-			ResourceUtils.worker.stop=true;
-			ResourceUtils.worker.WaitToFinish();
+			Worker.stop=true;
+			Worker.instance.WaitToFinish();
 		}
 		base._Notification(what);
 	}

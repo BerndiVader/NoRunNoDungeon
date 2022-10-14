@@ -13,7 +13,7 @@ public class BlockParticles : Particles
         if(!Emitting) 
         {
             SetProcess(false);
-            CallDeferred("queue_free");
+            QueueFree();
         }
     }
 

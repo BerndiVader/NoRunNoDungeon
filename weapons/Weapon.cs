@@ -3,12 +3,12 @@ using System;
 
 public abstract class Weapon : Area2D
 {
-    public AnimationPlayer animationPlayer;
-    protected CollisionShape2D collisionController;
+    [Export] protected float damage=1f;
+
+    protected AnimationPlayer animationPlayer;
     protected bool hit;
-    public WEAPONSTATE state;
-    public WEAPONSTATE oldState;
-    [Export] public float damage=1f;
+    protected WEAPONSTATE state;
+    protected WEAPONSTATE oldState;
 
     public override void _Ready()
     {
@@ -17,8 +17,7 @@ public abstract class Weapon : Area2D
         Visible=true;
         state=WEAPONSTATE.IDLE;
         oldState=state;
-        animationPlayer=GetNode("AnimationPlayer") as AnimationPlayer;
-        collisionController=GetNode("CollisionShape2D") as CollisionShape2D;
+        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
         animationPlayer.CurrentAnimation="SETUP";
         animationPlayer.Play();
     }
@@ -35,27 +34,27 @@ public abstract class Weapon : Area2D
 
     public abstract void attack();
 
-    public enum WEAPONSTATE
+    protected enum WEAPONSTATE
     {
         IDLE,
         ATTACK
     }
 
-    public virtual void hitSomething(Node node)
+    protected virtual void onHitSomething(Node node)
     {
         if(state==WEAPONSTATE.ATTACK&&!hit)
         {
-            if(node.GetParent()!=null)
+            if(node.HasUserSignal(STATE.damage.ToString()))
             {
-                node=node.GetParent();
-            }
-
-            if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
-            {
-                node.EmitSignal(SIGNALS.Damage.ToString(),WorldUtils.world.player,damage);                            
+                node.EmitSignal(STATE.damage.ToString(),World.instance.player,damage);                            
                 hit=true;
             }
         }
+    }
+
+    public virtual bool isPlaying()
+    {
+        return animationPlayer.IsPlaying();
     }
 
 }

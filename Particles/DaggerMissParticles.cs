@@ -13,7 +13,7 @@ public class DaggerMissParticles : CPUParticles2D
         if(!Emitting) 
         {
             SetProcess(false);
-            CallDeferred("queue_free");
+            QueueFree();
         }
     }
 

@@ -3,138 +3,105 @@ using System;
 
 public abstract class KinematicMonster : KinematicBody2D
 {
-    [Export] public Vector2 ANIMATION_OFFSET=Vector2.Zero;
-
-    [Signal]
-    public delegate void Die();
-    [Signal]
-    public delegate void Attack(Player player);
-    [Signal]
-    public delegate void Fight(Player player);
-    [Signal]
-    public delegate void Damage(Player player,float amount);
-    [Signal]
-    public delegate void Passanger(Player player);
-    [Signal]
-    public delegate void Calm();
-    [Signal]
-    public delegate void Idle();
-    [Signal]
-    public delegate void Stroll();
+    [Export] protected Vector2 ANIMATION_OFFSET=Vector2.Zero;
+    [Export] protected float damageAmount=1f;
+    [Export] protected float health=1f;
+    [Export] protected float GRAVITY=500f;
+    [Export] protected float friction=0.01f;
     
     protected Player victim,attacker;
-    [Export] public float damageAmount=1f;
-    protected Placeholder parent;
-    protected VisibilityNotifier2D notifier2D;
     protected Godot.AnimationPlayer animationPlayer;
     protected CollisionShape2D collisionController;
-    protected Vector2 startOffset=Vector2.Zero;
-    protected int animationDirection=1,health=1;
+    protected StaticBody2D staticBody;
+    protected Vector2 startOffset=Vector2.Zero,force;
+    protected int animationDirection=1;
 
-    public STATE state,lastState;
+    public STATE state;
+    protected STATE lastState;
     public AnimatedSprite animationController;
 
     public override void _Ready()
     {
-        Connect(SIGNALS.Passanger.ToString(),this,nameof(onPassanger));
-        Connect(SIGNALS.Die.ToString(),this,nameof(onDie));
-        Connect(SIGNALS.Attack.ToString(),this,nameof(onAttack));
-        Connect(SIGNALS.Fight.ToString(),this,nameof(onFight));
-        Connect(SIGNALS.Calm.ToString(),this,nameof(onCalm));
-        Connect(SIGNALS.Idle.ToString(),this,nameof(onIdle));
-        Connect(SIGNALS.Damage.ToString(),this,nameof(onDamage));
-        Connect(SIGNALS.Stroll.ToString(),this,nameof(onStroll));
-
-        AddToGroup(GROUPS.ENEMIES.ToString());
-
-        notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 
+        collisionController=GetNode<CollisionShape2D>("CollisionShape2D");
+        staticBody=GetNode<StaticBody2D>("StaticBody2D");
+        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
+
+        staticBody.AddUserSignal(STATE.passanger.ToString());
+        staticBody.AddUserSignal(STATE.damage.ToString());
+        staticBody.Connect(STATE.passanger.ToString(),this,nameof(onPassanger));
+        staticBody.Connect(STATE.damage.ToString(),this,nameof(onDamage));
+
+        AddUserSignal(STATE.die.ToString());
+        AddUserSignal(STATE.attack.ToString());
+        AddUserSignal(STATE.fight.ToString());
+        AddUserSignal(STATE.calm.ToString());
+        AddUserSignal(STATE.idle.ToString());
+        AddUserSignal(STATE.stroll.ToString());                
+
+        Connect(STATE.die.ToString(),this,nameof(onDie));
+        Connect(STATE.attack.ToString(),this,nameof(onAttack));
+        Connect(STATE.fight.ToString(),this,nameof(onFight));
+        Connect(STATE.calm.ToString(),this,nameof(onCalm));
+        Connect(STATE.idle.ToString(),this,nameof(onIdle));
+        Connect(STATE.stroll.ToString(),this,nameof(onStroll));
+
+        AddToGroup(GROUPS.ENEMIES.ToString());
+        staticBody.AddToGroup(GROUPS.ENEMIES.ToString());
+
         victim=null;
-        collisionController=(CollisionShape2D)GetNode("CollisionShape2D");
-        animationController=(AnimatedSprite)GetNode("AnimatedSprite");
+        force=new Vector2(0f,GRAVITY);
     }
 
-    public virtual void tick(float delta)
+    protected virtual void tick(float delta)
     {
-        switch(state)
-        {
-            case STATE.IDLE:
-            {
-                idle(delta);
-                break;
-            }
-            case STATE.STROLL:
-            {
-                stroll(delta);
-                break;
-            }
-            case STATE.ATTACK:
-            {
-                attack(delta);
-                break;
-            }
-            case STATE.FIGHT:
-            {
-                fight(delta);
-                break;
-            }
-            case STATE.DAMAGE:
-            {
-                damage(delta);
-                break;
-            }
-            case STATE.PASSANGER:
-            {
-                passanger(delta);
-                break;
-            }
-            case STATE.CALM:
-            {
-                calm(delta);
-                break;
-            }
-            case STATE.DIE:
-            {
-                die(delta);
-                break;
-            }
-        }
+        Call(state.ToString(),delta);
     }
 
-    public virtual void idle(float delta)
+    protected virtual void idle(float delta)
     {
 
     }
-    public virtual void stroll(float delta)
+    protected virtual void stroll(float delta)
     {
 
     }
-    public virtual void attack(float delta)
+    protected virtual void attack(float delta)
     {
 
     }
-    public virtual void fight(float delta)
+    protected virtual void fight(float delta)
     {
         state=lastState;
     }
-    public virtual void passanger(float delta)
+    protected virtual void passanger(float delta)
     {
-        state=health<=0?state=STATE.DIE:state=lastState;
+        if(health<=0)
+        {
+            onDie();
+        }
+        else if(state!=lastState)
+        {
+            EmitSignal(lastState.ToString());
+        }
+        else
+        {
+            onIdle();
+        }
     }
-    public virtual void calm(float delta)
+    protected virtual void calm(float delta)
     {
 
     }
-    public virtual void damage(float delta)
+    protected virtual void damage(float delta)
     {
-        lastState=state;
-        state=STATE.DIE;
-
+        onDie();
     }
 
-    public virtual void die(float delta)
+    protected virtual void die(float delta)
     {
         EnemieDieParticles particles=(EnemieDieParticles)ResourceUtils.particles[(int)PARTICLES.ENEMIEDIEPARTICLES].Instance();
         particles.Texture=animationController.Frames.GetFrame(animationController.Animation,animationController.Frame);
@@ -144,81 +111,103 @@ public abstract class KinematicMonster : KinematicBody2D
         position.y+=shape2D.Extents.y;
         particles.Position=position;
 
-        WorldUtils.world.level.CallDeferred("add_child",particles);
-        CallDeferred("queue_free");
+        World.instance.level.AddChild(particles);
+        QueueFree();
     }
 
-    public virtual void onDie()
+    protected virtual void onDie()
     {
-        lastState=state;
-        state=STATE.DIE;
+        if(state!=STATE.die)
+        {
+            lastState=state;
+            state=STATE.die;
+        }
     }
-    public virtual void onAttack(Player player)
+    protected virtual void onAttack(Player player)
     {
-        lastState=state;
-        state=STATE.ATTACK;
-        victim=player;
+        if(state!=STATE.attack)
+        {
+            lastState=state;
+            state=STATE.attack;
+            victim=player;
+        }
     }
-    public virtual void onFight(Player player)
+    protected virtual void onFight(Player player)
     {
-        lastState=state;
-        state=STATE.FIGHT;
-        victim=player;
+        if(state!=STATE.fight)
+        {
+            lastState=state;
+            state=STATE.fight;
+            victim=player;
+        }
     }
-    public virtual void onDamage(Player player,int amount)
+    protected virtual void onDamage(Player player,int amount)
     {
-        WorldUtils.world.renderer.shake=2d;
-
-        GetNode<StaticBody2D>("StaticBody2D").GetNode<CollisionShape2D>("CollisionShape2D").CallDeferred("set","disabled",true);
-        lastState=state;
-        state=STATE.DAMAGE;
-        attacker=player;
-        damageAmount=amount;
-        health-=amount;
+        if(state!=STATE.damage&&state!=STATE.die)
+        {
+            World.instance.renderer.shake=2d;
+            staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
+            lastState=state;
+            state=STATE.damage;
+            attacker=player;
+            damageAmount=amount;
+            health-=amount;
+        }
     }
 
     public virtual void onPassanger(Player player)
     {
-        WorldUtils.world.renderer.shake=2d;
+        if(state!=STATE.passanger)
+        {
+            World.instance.renderer.shake=2d;
+            lastState=state;
+            state=STATE.passanger;
+            attacker=player;
+            health--;
+        }
+    }
+    protected virtual void onCalm()
+    {
+        if(state!=STATE.calm)
+        {
+            lastState=state;
+            state=STATE.calm;
+        }
+    }
+    protected virtual void onIdle()
+    {
+        if(state!=STATE.idle)
+        {
+            lastState=state;
+            state=STATE.idle;
+            animationController.Play("idle");
+        }
+    }
+    protected virtual void onStroll()
+    {
+        if(state!=STATE.stroll)
+        {
+            lastState=state;
+            state=STATE.stroll;
+            animationController.Play("stroll");
+        }
+    }
 
-        lastState=state;
-        state=STATE.PASSANGER;
-        attacker=player;
-        health--;
-    }
-    public virtual void onCalm()
+    protected virtual Vector2 getPosition()
     {
-        lastState=state;
-        state=STATE.CALM;
-    }
-    public virtual void onIdle()
-    {
-        lastState=state;
-        state=STATE.IDLE;
-        animationController.Play("default");
-    }
-    public virtual void onStroll()
-    {
-        lastState=state;
-        state=STATE.STROLL;
-        animationController.Play("run");
+        return World.instance.level.ToLocal(GlobalPosition);
     }
 
-    public virtual Vector2 getPosition()
+    protected void onExitedScreen()
     {
-        return WorldUtils.world.level.ToLocal(GlobalPosition);
+        QueueFree();
     }
 
-    void exitedScreen()
-    {
-        CallDeferred("queue_free");
-    }
-
-    public void animationPlayerStarts(String name)
+    protected void onAnimationPlayerStarts(String name)
     {
         startOffset=Position;
     }
-    public void animationPlayerEnded(String name)
+    protected void onAnimationPlayerEnded(String name)
     {
         startOffset=Position;
         ANIMATION_OFFSET=Vector2.Zero;

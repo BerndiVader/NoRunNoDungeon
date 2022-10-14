@@ -3,16 +3,16 @@ using System;
 
 public class BerndiVader : Node2D
 {
-	Sprite logo;
-	Klammer klammerLinks;
-	Klammer klammerRechts;
-	AudioStreamPlayer2D audio;
-	Tween zoomTween,fadeTween;
-	Vector2 centerPosition;
-	Vector2 leftPosition,rightPosition;
-	Vector2 currentRight,currentLeft;
+	private Sprite logo;
+	private Klammer klammerLinks;
+	private Klammer klammerRechts;
+	private AudioStreamPlayer2D audio;
+	private Tween zoomTween,fadeTween;
+	private Vector2 centerPosition;
+	private Vector2 leftPosition,rightPosition;
+	private Vector2 currentRight,currentLeft;
+	private float speed=240f;
 
-	float speed=240f;
 	public override void _Ready()
 	{
 		centerPosition=new Vector2(256f,149f);
@@ -22,11 +22,11 @@ public class BerndiVader : Node2D
 		currentRight=new Vector2(centerPosition);
 		currentLeft=new Vector2(centerPosition);
 
-		logo=GetNode("logo") as Sprite;
+		logo=GetNode<Sprite>("logo");
 		logo.SelfModulate=new Color(0,0,0);
-		klammerLinks=GetNode("k1") as Klammer;
-		klammerRechts=GetNode("k2") as Klammer;
-		audio=GetNode("Audio") as AudioStreamPlayer2D;
+		klammerLinks=GetNode<Klammer>("k1");
+		klammerRechts=GetNode<Klammer>("k2");
+		audio=GetNode<AudioStreamPlayer2D>("Audio");
 
 		zoomTween=new Tween();
 		zoomTween.Connect("tween_all_completed",this,nameof(zoomOutFinished));
@@ -61,18 +61,18 @@ public class BerndiVader : Node2D
 
 	}
 
-	void zoomOutFinished()
+	private void zoomOutFinished()
 	{
-		CallDeferred("queue_free");
-		WorldUtils.changeScene(ResourceUtils.intro);
+		QueueFree();
+		World.changeScene(ResourceUtils.intro);
 	}
 
-	void zoomOutTweening(float delta)
+	private void zoomOutTweening(float delta)
 	{
 		logo.Scale=new Vector2(delta,1);
 	}
 
-	void fadeTweening(Color delta)
+	private void fadeTweening(Color delta)
 	{
 		logo.Modulate=delta;
 	}

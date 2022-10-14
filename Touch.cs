@@ -3,11 +3,11 @@ using System;
 
 public class Touch : Sprite
 {
-    Stick stick;
+    private Stick stick;
 
     public override void _Ready()
     {
-        stick=GetNode("Stick") as Stick;
+        stick=GetNode<Stick>("Stick");
     }
 
     public Vector2 getValue()

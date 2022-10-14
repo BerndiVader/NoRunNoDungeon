@@ -3,21 +3,19 @@ using System;
 
 public class Particles : CPUParticles2D
 {
-    VisibilityNotifier2D notifier2D;
-
     public override void _Ready()
     {
-        notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(exitedScreen));
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
     }
 
-    public void exitedScreen() {
+    private void onExitedScreen() {
         if(!IsQueuedForDeletion())
         {
             SetProcess(false);
             SetPhysicsProcess(false);
-            CallDeferred("queue_free");
+            QueueFree();
         }
     }
 

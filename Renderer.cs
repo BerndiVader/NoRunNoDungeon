@@ -3,7 +3,7 @@ using System;
 
 public class Renderer : CanvasModulate
 {
-    [Export] public double ShakeMax=6d;
+    [Export] private double ShakeMax=6d;
     public double shake;
     
     public override void _Ready()

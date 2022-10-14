@@ -1,40 +1,78 @@
 using Godot;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 public class Worker : Godot.Thread
 {
-	public Queue<Placeholder> placeholderQueue;
-	public bool prepareLevel,stop;
+	public static Worker instance;
+	public static ConcurrentStack<WeakReference>placeholders;
+	public static bool stop;
+	public enum Status
+	{
+		IDLE=0,
+		PREPARELEVEL=1,
+	}
+	public static Status status;
 
 	public Worker() : base()
 	{
-		placeholderQueue=new Queue<Placeholder>();
-		prepareLevel=false;
+		instance=this;
+		stop=false;
+		status=Status.IDLE;
+		placeholders=new ConcurrentStack<WeakReference>();
 		Start(this,nameof(Runner));
 	}
 
-	void Runner(bool run)
+	private void Runner(bool run)
 	{
-		try {
-			while(!stop)
+		while(!stop)
+		{
+			switch(status)
 			{
-				if(prepareLevel)
+				case Status.PREPARELEVEL:
 				{
-					prepareLevel=false;
-					WorldUtils.world.prepareLevel();
+					placeholders.Clear();
+					World.instance.prepareLevel();
+					status=Status.IDLE;
+					gc();
+					break;
 				}
-				else if(placeholderQueue.Count>0)
+				case Status.IDLE:
 				{
-					Placeholder p=placeholderQueue.Dequeue() as Placeholder;
-					String instancePath=p.placeholder.GetInstancePath();
-					ResourceLoader.Load(instancePath);
-					p.instantiated=true;
+					if(placeholders.TryPop(out WeakReference result))
+					{
+						Placeholder p=(Placeholder)result.Target;
+						InstancePlaceholder placeholder=p.GetChild<InstancePlaceholder>(0);
+						String instancePath=placeholder.GetInstancePath();
+						if(!ResourceLoader.HasCached(instancePath))
+						{
+							ResourceLoader.Load(instancePath);
+						}
+						instantiatePlaceholder(p,placeholder);
+					}
+					break;
 				}
-				OS.DelayMsec(5);
 			}
-		} catch (Exception ex) {
-			GD.Print(ex.Message);
+			OS.DelayMsec(5);
 		}
 	}
+
+	private void instantiatePlaceholder(Placeholder p,InstancePlaceholder placeholder)
+	{
+		p.CallDeferred("remove_child",placeholder);
+		placeholder.Set("position",World.instance.level.ToLocal(p.GlobalPosition));
+		World.instance.level.CallDeferred("add_child",placeholder);
+		placeholder.CallDeferred("replace_by_instance");
+		p.CallDeferred("queue_free");
+	}
+
+	public async void gc()
+	{
+		await Task.Run(() => 
+		{
+			GC.Collect();
+			GC.WaitForPendingFinalizers();			
+		});
+	}	
 }

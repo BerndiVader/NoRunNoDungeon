@@ -3,10 +3,8 @@ using System;
 
 public class DaggerBullet : Area2D
 {
-    Vector2 start,end,height;
-    float time;
-    PackedScene packedParticles;
-    CollisionShape2D collisionShape2D;
+    private Vector2 start,end,height;
+    private float time;
 
     public override void _Ready()
     {
@@ -14,9 +12,6 @@ public class DaggerBullet : Area2D
         end=new Vector2(start.x+75f,start.y+50f);
         height=new Vector2(start.x+((end.x-start.x)*0.5f),start.y-30f);
         time=0f;
-
-        collisionShape2D=GetNode<CollisionShape2D>("CollisionShape2D");
-        packedParticles=ResourceUtils.particles[(int)PARTICLES.DAGGERMISSPARTICLES] as PackedScene;
 
         Connect("body_entered",this,nameof(onBodyEntered));
         Connect("area_entered",this,nameof(onAreaEntered));
@@ -30,7 +25,7 @@ public class DaggerBullet : Area2D
         time+=0.023f;
         if (time>2f)
         {
-            CallDeferred("queue_free");
+            QueueFree();
         }
     }
 
@@ -48,26 +43,19 @@ public class DaggerBullet : Area2D
 
     public void onBodyEntered(Node node)
     {
-        if(node.GetParent()!=null)
+        if(node.HasUserSignal(STATE.damage.ToString()))
         {
-            node=node.GetParent();
+            node.EmitSignal(STATE.damage.ToString(),World.instance.player,1f);
         }
-
-        if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
-        {
-            node.EmitSignal(SIGNALS.Damage.ToString(),WorldUtils.world.player,1f);                            
-        }
-
         destroy();
     }
 
     void destroy()
     {
-        DaggerMissParticles particles=packedParticles.Instance() as DaggerMissParticles;
-        particles.Position=WorldUtils.world.level.ToLocal(GlobalPosition);
-        WorldUtils.world.level.AddChild(particles);
-
-        CallDeferred("queue_free");
+        DaggerMissParticles particles=(DaggerMissParticles)((PackedScene)ResourceUtils.particles[(int)PARTICLES.DAGGERMISSPARTICLES]).Instance();
+        particles.Position=World.instance.level.ToLocal(GlobalPosition);
+        World.instance.level.AddChild(particles);
+        QueueFree();
     }
 
 }

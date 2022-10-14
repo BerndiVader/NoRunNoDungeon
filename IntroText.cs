@@ -1,11 +1,11 @@
 using Godot;
 using System;
 
-public class RichTextLabel : Godot.RichTextLabel
+public class IntroText : Godot.RichTextLabel
 {
-    Tween tween;
-    Vector2 position;
-    float diff;
+    private Tween tween;
+    private Vector2 position;
+    private float diff;
 
     public override void _Ready()
     {
@@ -14,7 +14,7 @@ public class RichTextLabel : Godot.RichTextLabel
         diff=-20;
 
         tween=new Tween();
-        tween.Connect("tween_all_completed",this,nameof(tweenComplete));
+        tween.Connect("tween_all_completed",this,nameof(onTweenComplete));
         tween.InterpolateMethod(this,nameof(tweening),RectPosition,new Vector2(position.x,position.y+diff),1,Tween.TransitionType.Back,Tween.EaseType.InOut,0);
 
         AddChild(tween);
@@ -27,12 +27,12 @@ public class RichTextLabel : Godot.RichTextLabel
         
     }
 
-    void tweening(Vector2 delta)
+    private void tweening(Vector2 delta)
     {
         RectPosition=delta;
     }
 
-    void tweenComplete()
+    private void onTweenComplete()
     {
         diff=diff*-1;
         tween.InterpolateMethod(this,nameof(tweening),RectPosition,new Vector2(position.x,position.y+diff),1,Tween.TransitionType.Back,Tween.EaseType.InOut,0);

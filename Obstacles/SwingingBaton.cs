@@ -3,21 +3,18 @@ using System;
 
 public class SwingingBaton : Area2D
 {
-    Placeholder parent;
-    VisibilityNotifier2D notifier2D;
-    Vector2 rotateTo,rot;
-
-    [Export] public float minSpeed=0.01f;
-    [Export] public float maxSpeed=0.09f;
-    [Export] public int maxRotation=90;
-
+    [Export] private float minSpeed=0.01f;
+    [Export] private float maxSpeed=0.09f;
+    [Export] private int maxRotation=90;
+    
+    private Vector2 rotateTo,rot;
 
     public override void _Ready()
     {
         AddToGroup(GROUPS.OBSTACLES.ToString(),true);
 
-        notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,"exitedScreen");
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 
         rotateTo=new Vector2(Mathf.Deg2Rad(90),0);
@@ -26,17 +23,17 @@ public class SwingingBaton : Area2D
         Connect("body_entered",this,nameof(onBodyEntered));
     }
 
-    public void onBodyEntered(Node2D body)
+    private void onBodyEntered(Node2D body)
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString()))
         {
-            body.EmitSignal(SIGNALS.Damage.ToString(),1f,this);
+            body.EmitSignal(STATE.damage.ToString(),1f,this);
         }
     }
 
-    public void exitedScreen()
+    private void onExitedScreen()
     {
-        CallDeferred("queue_free");
+        QueueFree();
     }
 
     public override void _PhysicsProcess(float delta)

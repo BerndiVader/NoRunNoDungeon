@@ -3,13 +3,9 @@ using System;
 
 public class Rock : PhysicsObject
 {
-
     public override void _PhysicsProcess(float delta)
     {
-        Vector2 force=new Vector2(0,GRAVITY);
-
-        velocity+=GetFloorVelocity()*delta;
-        velocity+=force*delta;
+        velocity+=GRAVITY*delta;
 
         KinematicCollision2D collision=MoveAndCollide(velocity*delta);
 

@@ -15,7 +15,7 @@ public class ExplodeGfx : AnimatedSprite
     {
         if(Frame==animationLength)
         {
-            CallDeferred("queue_free");
+            QueueFree();
         }
     }
 }

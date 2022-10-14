@@ -4,7 +4,7 @@ using System;
 public static class MathUtils 
 {
 
-    static Random random=new Random();
+    private static Random random=new Random();
 
     public static double randomRange(double min,double max)
     { 
