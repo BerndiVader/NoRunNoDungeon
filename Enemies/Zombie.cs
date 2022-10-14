@@ -3,7 +3,6 @@ using System;
 
 public class Zombie : KinematicMonster
 {
-    [Export] private float GRAVITY=300f;
 
     private Vector2 velocity=Vector2.Zero;
     private int cooldown;
@@ -27,9 +26,9 @@ public class Zombie : KinematicMonster
         CASTTO=rayCast2D.CastTo;
 
         animationController=GetNode<AnimatedSprite>("AnimatedSprite");
-        state=STATE.IDLE;
+        state=STATE.idle;
 
-        animationController.Play("default");
+        animationController.Play("idle");
         animationController.FlipH=MathUtils.randomRangeInt(0,2)!=0;
 
         cooldown=0;
@@ -67,7 +66,7 @@ public class Zombie : KinematicMonster
             if(collision!=null)
             {
                 Node2D node=collision.Collider as Node2D;
-                velocity=velocity.Bounce(collision.Normal)*0.01f;
+                velocity=velocity.Bounce(collision.Normal)*friction;
 
                 if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
                 {
@@ -85,7 +84,7 @@ public class Zombie : KinematicMonster
         if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId())
         {
             cooldown=0;
-            state=STATE.ATTACK;
+            state=STATE.attack;
         }
         else if(cooldown>250) 
         {
@@ -115,13 +114,13 @@ public class Zombie : KinematicMonster
             }
             else {
                 rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
-                state=STATE.IDLE;
+                state=STATE.idle;
                 cooldown=0;
             }
         } else
         {
             rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
-            state=STATE.IDLE;
+            state=STATE.idle;
             cooldown=0;
         }
         cooldown--;
@@ -138,7 +137,7 @@ public class Zombie : KinematicMonster
         {
             if(health<=0)
             {
-                EmitSignal(SIGNALS.Die.ToString());
+                EmitSignal(STATE.die.ToString());
             }
             else
             {
@@ -167,7 +166,7 @@ public class Zombie : KinematicMonster
 
     protected override void onDamage(Player player, int amount)
     {
-        if(state!=STATE.DAMAGE&&state!=STATE.DIE)
+        if(state!=STATE.damage&&state!=STATE.die)
         {
             base.onDamage(player, amount);
             if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
@@ -178,7 +177,7 @@ public class Zombie : KinematicMonster
         }
     }
 
-    protected override void onPassanger(Player player)
+    public override void onPassanger(Player player)
     {
         base.onPassanger(player);
         animationPlayer.Play("PASSANGER");

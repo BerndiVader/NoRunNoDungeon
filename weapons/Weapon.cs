@@ -44,14 +44,9 @@ public abstract class Weapon : Area2D
     {
         if(state==WEAPONSTATE.ATTACK&&!hit)
         {
-            if(node.GetParent()!=null)
+            if(node.HasUserSignal(STATE.damage.ToString()))
             {
-                node=node.GetParent();
-            }
-
-            if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
-            {
-                node.EmitSignal(SIGNALS.Damage.ToString(),World.instance.player,damage);                            
+                node.EmitSignal(STATE.damage.ToString(),World.instance.player,damage);                            
                 hit=true;
             }
         }

@@ -3,15 +3,23 @@ using System;
 
 public class FallingRocks : StaticBody2D
 {
-    [Export] private float ActivationDistance=100f;
+    [Export] private float ActivationDistance=10f;
     private Area2D area;
-    private int state=0;
     private float GRAVITY=600f;
     private Vector2 velocity=new Vector2(0f,0f);
     private float shake;
     private float ShakeMax=0.6f;
     private bool colliding=false;
     private Platform collider;
+    private Vector2 force;
+    private State state;
+
+    private enum State
+    {
+        IDLE=0,
+        FALLING=1,
+        FALLEN=2
+    }
 
     public override void _Ready()
     {
@@ -27,30 +35,33 @@ public class FallingRocks : StaticBody2D
 
         AddToGroup(GROUPS.LEVEL.ToString());
 
+        force=new Vector2(0f,GRAVITY);
+
+        state=State.IDLE;
     }
 
     public override void _PhysicsProcess(float delta)
     {
         switch(state)
         {
-            case 0:
+            case State.IDLE:
                 Vector2 playerPos=World.instance.player.GlobalPosition;
                 Vector2 gamePos=GlobalPosition;
                 gamePos.y=playerPos.y;
                 float distance=playerPos.DistanceTo(gamePos);
-                if(distance<ActivationDistance) state=1;
+                if(distance<ActivationDistance) 
+                {
+                    state=State.FALLING;
+                }
                 break;
-            case 1:
-                Vector2 force=new Vector2(0,GRAVITY);
+            case State.FALLING:
                 if(colliding)
                 {
-                    velocity=collider.CurrentSpeed;
+                    velocity+=collider.CurrentSpeed;
                     force=Vector2.Zero;
                 }
                 velocity+=force*delta;
                 Translate(velocity*delta);
-                break;
-            case 2:
                 break;
         }
         applyShake();
@@ -67,7 +78,7 @@ public class FallingRocks : StaticBody2D
         } 
         else if(body.IsInGroup(GROUPS.LEVEL.ToString())&&body!=this)
         {
-            state=2;
+            state=State.FALLEN;
             area.Disconnect("body_entered",this,nameof(onBodyEntered));
             shake=0.5f;
             World.instance.renderer.shake+=2;
@@ -88,7 +99,7 @@ public class FallingRocks : StaticBody2D
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
-            World.instance.player.EmitSignal(SIGNALS.Damage.ToString(),1f,this);
+            World.instance.player.EmitSignal(STATE.damage.ToString(),1f,this);
         }
     }
 

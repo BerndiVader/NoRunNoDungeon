@@ -3,12 +3,12 @@ using System;
 
 public enum STATE 
 {
-    IDLE,
-    STROLL,
-    ATTACK,
-    FIGHT,
-    CALM,
-    DAMAGE,
-    PASSANGER,
-    DIE
+    idle,
+    stroll,
+    attack,
+    fight,
+    calm,
+    damage,
+    passanger,
+    die
 }

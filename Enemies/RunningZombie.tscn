@@ -17,12 +17,12 @@ extents = Vector2( 4.44314, 3.56314 )
 animations = [ {
 "frames": [ ExtResource( 5 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 8 ) ],
 "loop": true,
-"name": "default",
+"name": "idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 2 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 1 ) ],
 "loop": true,
-"name": "run",
+"name": "stroll",
 "speed": 5.0
 } ]
 
@@ -152,7 +152,7 @@ shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-frame = 1
+animation = "idle"
 flip_h = true
 
 [node name="RayCast2D" type="RayCast2D" parent="."]

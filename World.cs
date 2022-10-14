@@ -42,7 +42,7 @@ public class World : Node
 				currentScene.QueueFree();
 			}
 		}
-		Worker.status=Worker.Status.GC;
+		Worker.instance.gc();
 	}
 
 	public static void quit() 
@@ -94,6 +94,7 @@ public class World : Node
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 		mergeMaps(level,cachedLevel);
 		player=(Player)ResourceUtils.player.Instance();
+		Player.LIVES=3;
 		background=(Background)ResourceUtils.background.Instance();
 
 		state=Gamestate.RUNNING;
@@ -185,12 +186,13 @@ public class World : Node
 		}
 	}
 
-	public void restartGame(bool lvl=false)
+	public void restartGame(bool keepLevel=false)
 	{
+		Worker.instance.gc();
 		state=Gamestate.RESTART;
 		renderer.RemoveChild(level);
 		level.freeLevel();
-		if(!lvl) 
+		if(!keepLevel)
 		{
 			currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
 		}
@@ -234,16 +236,15 @@ public class World : Node
 		state=Gamestate.SCENE_CHANGED;
 	}
 
-
 	public void _Free()
 	{
 		state=Gamestate.RESTART;
+		CallDeferred("queue_free");
 		if(cachedLevel!=null)
 		{
 			cachedLevel.freeLevel();
 		}
 		input._free();
-		CallDeferred("queue_free");
 		World.instance=null;
 	}
 }

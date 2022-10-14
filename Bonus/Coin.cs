@@ -11,10 +11,13 @@ public class Coin : Bonus
 
     public void onEnteredBody(Node body) 
     {
-        CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKENPARTICLES].Instance();
-        particles.Position=World.instance.level.ToLocal(GlobalPosition);
-        World.instance.level.AddChild(particles);
-        QueueFree();
+        if(body.Name.Equals("Player"))
+        {
+            CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKENPARTICLES].Instance();
+            particles.Position=World.instance.level.ToLocal(GlobalPosition);
+            World.instance.level.AddChild(particles);
+            QueueFree();
+        }
     }
 
 }

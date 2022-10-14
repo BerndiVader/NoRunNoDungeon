@@ -43,16 +43,10 @@ public class DaggerBullet : Area2D
 
     public void onBodyEntered(Node node)
     {
-        if(node.GetParent()!=null)
+        if(node.HasUserSignal(STATE.damage.ToString()))
         {
-            node=node.GetParent();
+            node.EmitSignal(STATE.damage.ToString(),World.instance.player,1f);
         }
-
-        if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
-        {
-            node.EmitSignal(SIGNALS.Damage.ToString(),World.instance.player,1f);                            
-        }
-
         destroy();
     }
 

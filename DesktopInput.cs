@@ -22,7 +22,7 @@ public class DesktopInput : InputController
     }
     public override bool getJump()
     {
-        return Input.IsKeyPressed((int)KeyList.Up);
+        return Input.IsActionJustPressed("ui_up");
     }
     public override bool getAttack()
     {
@@ -32,17 +32,16 @@ public class DesktopInput : InputController
     {
         return Input.IsActionJustPressed("ui_down");
     }
-    public override void _free()
-    {
-        return;
-    }
     public override bool getPause()
     {
         return Input.IsActionJustPressed("ui_pause");
     }
-
     public override bool getQuit()
     {
         return Input.IsActionJustPressed("ui_cancel");
+    }
+    public override void _free()
+    {
+        return;
     }
 }

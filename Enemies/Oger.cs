@@ -4,7 +4,6 @@ using System;
 public class Oger : KinematicMonster
 {
     [Export] private new Vector2 ANIMATION_OFFSET=new Vector2(0f,0f);
-    [Export] private float GRAVITY=500f;
     [Export] private float WALK_FORCE=600f;
     [Export] private float WALK_MIN_SPEED=10f;
     [Export] private float WALK_MAX_SPEED=30f;
@@ -32,8 +31,8 @@ public class Oger : KinematicMonster
         playerCast2D.Enabled=true;
         PLAYERCASTTO=playerCast2D.CastTo;
 
-        animationController.Play("default");
-        state=STATE.IDLE;
+        animationController.Play("idle");
+        state=STATE.idle;
         lastState=state;
 
         direction=new Vector2(0,0);
@@ -75,14 +74,14 @@ public class Oger : KinematicMonster
                 {
                     FlipH();
                 }
-                EmitSignal(SIGNALS.Stroll.ToString());
-                travelTime=0;
+                onStroll();
+                return;
             }
             navigation(delta);
         }
         else
         {
-            EmitSignal(SIGNALS.Attack.ToString(),World.instance.player);
+            onAttack(World.instance.player);
         }
     }
 
@@ -93,9 +92,10 @@ public class Oger : KinematicMonster
             travelTime++;
             if(travelTime>300)
             {
-                if(MathUtils.randomRangeInt(0,2)==1)
+                if(MathUtils.randomRangeInt(0,5)==1)
                 {
-                    EmitSignal(SIGNALS.Idle.ToString());
+                    onIdle();
+                    return;
                 }
                 travelTime=0;
             }
@@ -103,7 +103,7 @@ public class Oger : KinematicMonster
         }
         else
         {
-            EmitSignal(SIGNALS.Attack.ToString(),World.instance.player);
+            onAttack(World.instance.player);
         }
     }
 
@@ -115,6 +115,13 @@ public class Oger : KinematicMonster
 
         if(distance>40)
         {
+            float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
+            if(angle>45&&angle<165||!canSeePlayer())
+            {
+                EmitSignal(lastState.ToString());
+                return;
+            }
+           
             if(animationController.FlipH&&direction.x>=0)
             {
                 FlipH();
@@ -128,40 +135,23 @@ public class Oger : KinematicMonster
 
             bool left=direction.x<0&&rayCast2D.IsColliding();
             bool right=direction.x>0&&rayCast2D.IsColliding();
-            bool jump=false;
-            bool stop=true;
+            bool jump=false;          
 
-            if(left)
+            if(left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
             {
-                if(velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED) 
-                {
-                    force.x-=WALK_FORCE;
-                    stop=false;
+                force.x-=WALK_FORCE;
+            }
+            else if(right&&velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED)
+            {
+                force.x+=WALK_FORCE;
+            }
+            else
+            {
+                float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
+                if(xLength<0f) {
+                    xLength=0f;
                 }
-            }
-            else if(right)
-            {
-                if(velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED) 
-                {
-                    force.x+=WALK_FORCE;
-                    stop=false;
-                }
-            }
-
-            float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
-
-            if(angle>45&&angle<165||!canSeePlayer())
-            {
-                EmitSignal(SIGNALS.Stroll.ToString());
-            }
-
-            if(stop)
-            {
-                float vSign=Mathf.Sign(velocity.x);
-                float vLen=Mathf.Abs(velocity.x);
-                vLen-=STOP_FORCE*delta;
-                if(vLen<0f) vLen=0f;
-                velocity.x=vLen*vSign;
+                velocity.x=xLength*Mathf.Sign(velocity.x);
             }
 
             velocity+=force*delta;
@@ -174,7 +164,7 @@ public class Oger : KinematicMonster
                 velocity-=GetFloorVelocity()*delta;
             }
 
-            if(IsOnWall()||jump)
+            if(jump||IsOnWall())
             {
                 direction=new Vector2(direction.x*-1,0);
                 FlipH();
@@ -185,11 +175,11 @@ public class Oger : KinematicMonster
             float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
             if(angle>45&&angle<165)
             {
-                EmitSignal(SIGNALS.Stroll.ToString());
+                EmitSignal(lastState.ToString());
             }
             else
             {
-                EmitSignal(SIGNALS.Fight.ToString(),victim);
+                onFight(victim);
             }
         }
     }
@@ -202,6 +192,13 @@ public class Oger : KinematicMonster
 
         if(distance<40)
         {
+            float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
+            if(angle>45&&angle<135||!canSeePlayer())
+            {
+                onStroll();
+                return;
+            }
+
             if(animationController.FlipH&&direction.x>=0)
             {
                 FlipH();
@@ -213,18 +210,12 @@ public class Oger : KinematicMonster
 
             Vector2 force=new Vector2(0,GRAVITY);
 
-            float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
-
-            if(angle>45&&angle<135||!canSeePlayer())
-            {
-                EmitSignal(SIGNALS.Stroll.ToString());
+            float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
+            if(xLength<0f) {
+                xLength=0f;
             }
+            velocity.x=xLength*Mathf.Sign(velocity.x);
 
-            float vSign=Mathf.Sign(velocity.x);
-            float vLen=Mathf.Abs(velocity.x);
-            vLen-=STOP_FORCE*delta;
-            if(vLen<0f) vLen=0f;
-            velocity.x=vLen*vSign;
             velocity+=force*delta;
 
             Vector2 snap=new Vector2(0f,8f);
@@ -237,7 +228,7 @@ public class Oger : KinematicMonster
         }
         else
         {
-            EmitSignal(SIGNALS.Stroll.ToString());
+            onStroll();
         }
     }
 
@@ -252,11 +243,11 @@ public class Oger : KinematicMonster
         {
             if(health<=0)
             {
-                EmitSignal(SIGNALS.Die.ToString());
+                onDie();
             }
             else
             {
-                state=lastState;
+                EmitSignal(lastState.ToString());
             }
         }
     }
@@ -276,7 +267,7 @@ public class Oger : KinematicMonster
 
     protected override void onDamage(Player player, int amount)
     {
-        if(state!=STATE.DAMAGE&&state!=STATE.DIE)
+        if(state!=STATE.damage&&state!=STATE.die)
         {
             base.onDamage(player, amount);
             if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
@@ -290,41 +281,48 @@ public class Oger : KinematicMonster
     protected override void onAttack(Player player)
     {
         base.onAttack(player);
-        animationController.Play("run");
+        animationController.Play("stroll");
         WALK_MAX_SPEED=80f;
     }
 
     protected override void onFight(Player player)
     {
         base.onFight(player);
-        animationController.Play("default");
+        animationController.Play("idle");
         weapon.attack();
         WALK_MAX_SPEED=0f;
     }
 
-    protected override void onPassanger(Player player)
+    public override void onPassanger(Player player)
     {
-        base.onPassanger(player);
-        animationController.Play("default");
-        animationPlayer.Play("PASSANGER");
+        if(state!=STATE.passanger)
+        {
+            base.onPassanger(player);
+            animationController.Play("idle");
+            animationPlayer.Play("PASSANGER");
+        }
     }
 
     protected override void onStroll()
     {
-        base.onStroll();
-        animationController.Play("run");
-        WALK_MAX_SPEED=30f;
-        travelTime=0;
-        playerCast2D.CastTo=direction*150f;
+        if(state!=STATE.stroll)
+        {
+            base.onStroll();
+            WALK_MAX_SPEED=30f;
+            travelTime=0;
+            playerCast2D.CastTo=new Vector2(direction.x,0f)*150f;
+        }
     }
 
 
     protected override void onIdle()
     {
-        base.onIdle();
-        animationController.Play("default");
-        WALK_MAX_SPEED=30f;
-        playerCast2D.CastTo=direction*150f;
+        if(state!=STATE.idle)
+        {
+            base.onIdle();
+            WALK_MAX_SPEED=30f;
+            playerCast2D.CastTo=new Vector2(direction.x,0f)*150f;
+        }
     }
 
     private bool canSeePlayer()
@@ -361,34 +359,24 @@ public class Oger : KinematicMonster
         }
         Vector2 force=new Vector2(0,GRAVITY);
 
-        bool left=direction.x==-1&&state!=STATE.IDLE;
-        bool right=direction.x==1&&state!=STATE.IDLE;
-        bool stop=true;
+        bool left=direction.x<0f&&state!=STATE.idle;
+        bool right=direction.x>0f&&state!=STATE.idle;
 
-        if(left)
+        if(left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
         {
-            if(velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED) 
-            {
-                force.x-=WALK_FORCE;
-                stop=false;
-            }
+            force.x-=WALK_FORCE;
         }
-        else if(right)
+        else if(right&&velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED)
         {
-            if(velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED) 
-            {
-                force.x+=WALK_FORCE;
-                stop=false;
-            }
+            force.x+=WALK_FORCE;
         }
-
-        if(stop)
+        else
         {
-            float vSign=Mathf.Sign(velocity.x);
-            float vLen=Mathf.Abs(velocity.x);
-            vLen-=STOP_FORCE*delta;
-            if(vLen<0f) vLen=0f;
-            velocity.x=vLen*vSign;
+            float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
+            if(xLength<0f) {
+                xLength=0f;
+            }
+            velocity.x=xLength*Mathf.Sign(velocity.x);
         }
 
         velocity+=force*delta;
@@ -403,7 +391,7 @@ public class Oger : KinematicMonster
 
         if(IsOnWall()||!rayCast2D.IsColliding())
         {
-            direction=new Vector2(direction.x*-1,0);
+            direction*=-1f;
             FlipH();
         }
     }

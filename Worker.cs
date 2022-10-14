@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 public class Worker : Godot.Thread
 {
@@ -11,7 +12,6 @@ public class Worker : Godot.Thread
 	{
 		IDLE=0,
 		PREPARELEVEL=1,
-		GC=2
 	}
 	public static Status status;
 
@@ -35,15 +35,7 @@ public class Worker : Godot.Thread
 					placeholders.Clear();
 					World.instance.prepareLevel();
 					status=Status.IDLE;
-					System.GC.Collect();
-					System.GC.WaitForPendingFinalizers();
-					break;
-				}
-				case Status.GC:
-				{
-					System.GC.Collect();
-					System.GC.WaitForPendingFinalizers();
-					status=Status.IDLE;
+					gc();
 					break;
 				}
 				case Status.IDLE:
@@ -59,13 +51,10 @@ public class Worker : Godot.Thread
 						}
 						instantiatePlaceholder(p,placeholder);
 					}
-					else
-					{
-						OS.DelayMsec(5);
-					}
 					break;
 				}
 			}
+			OS.DelayMsec(5);
 		}
 	}
 
@@ -77,4 +66,13 @@ public class Worker : Godot.Thread
 		placeholder.CallDeferred("replace_by_instance");
 		p.CallDeferred("queue_free");
 	}
+
+	public async void gc()
+	{
+		await Task.Run(() => 
+		{
+			GC.Collect();
+			GC.WaitForPendingFinalizers();			
+		});
+	}	
 }

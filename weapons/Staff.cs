@@ -65,11 +65,11 @@ public class Staff : Weapon
 
     protected override void onHitSomething(Node node)
     {
-        if(state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.DAMAGE)
+        if(state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.damage)
         {
             if(node.IsInGroup(GROUPS.PLAYERS.ToString()))
             {
-                node.EmitSignal(SIGNALS.Damage.ToString(),damage,this);                           
+                node.EmitSignal(STATE.damage.ToString(),damage,this);                           
                 hit=true;
             }
         }

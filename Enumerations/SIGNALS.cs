@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public enum SIGNALS
+public enum SIGNALSs
 {
         Damage,
         Passanger,

@@ -8,7 +8,7 @@ public class Spikes : Area2D
     [Export] private Vector2 MoveDirection=new Vector2(0,1);
     [Export] private float MoveLength=12f;
     [Export] private float Speed=0.5f;
-    [Export] private int InDelay=1;
+    [Export] private int InDelay=0;
     [Export] private int OutDelay=1;
     [Export] private float ActOnDistance=-1f;
     [Export] private float damage=1f;
@@ -30,7 +30,6 @@ public class Spikes : Area2D
             AddChild(tween);
             movement=MoveDirection*MoveLength;
             startPosition=Position;
-
             init();
         }
         else
@@ -55,7 +54,6 @@ public class Spikes : Area2D
 
     private void init()
     {
-
         if(ActOnDistance<0f)
         {
             tweenIn();
@@ -109,7 +107,7 @@ public class Spikes : Area2D
     {
         if(node.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
-            node.EmitSignal(SIGNALS.Damage.ToString(),damage,this);
+            node.EmitSignal(STATE.damage.ToString(),damage,this);
         }
 
     }

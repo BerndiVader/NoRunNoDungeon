@@ -4,7 +4,6 @@ using System;
 public class RunningZombie : KinematicMonster
 {
 	[Export] private float ACTIVATION_RANGE=400f;
-	[Export] private float GRAVITY=500f;
 	[Export] private float WALK_FORCE=600f;
 	[Export] private float WALK_MIN_SPEED=10f;
 	[Export] private float WALK_MAX_SPEED=60f;
@@ -31,8 +30,8 @@ public class RunningZombie : KinematicMonster
 		rayCast2D=GetNode<RayCast2D>("RayCast2D");
 		rayCast2D.Enabled=true;
 
-		animationController.Play("default");
-		state=STATE.IDLE;
+		animationController.Play("idle");
+		state=STATE.idle;
 		lastState=state;
 	}
 
@@ -47,21 +46,15 @@ public class RunningZombie : KinematicMonster
 
 	protected override void idle(float delta)
 	{
-		Vector2 force=new Vector2(0,GRAVITY);
 		velocity+=force*delta;
 
 		KinematicCollision2D collision=MoveAndCollide(velocity*delta);
 
-		if(IsOnFloor())
-		{
-			velocity+=GetFloorVelocity()*delta;
-		}
-
 		if(collision!=null)
 		{
-			Node2D node=(Node2D)collision.Collider;
-			velocity=velocity.Bounce(collision.Normal)*0.01f;
+			velocity=velocity.Bounce(collision.Normal)*friction;
 
+			Node2D node=(Node2D)collision.Collider;
 			if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
 			{
 				Platform collider=(Platform)node;
@@ -72,8 +65,8 @@ public class RunningZombie : KinematicMonster
 		if(inRange())
 		{
 			lastState=state;
-			state=STATE.ATTACK;
-			animationController.Play("run");
+			state=STATE.attack;
+			animationController.Play("stroll");
 			animationController.SpeedScale=2;
 			velocity.y=-60f;
 			jumping=true;
@@ -176,7 +169,7 @@ public class RunningZombie : KinematicMonster
 		{
 			if(health<=0)
 			{
-				EmitSignal(SIGNALS.Die.ToString());
+				EmitSignal(STATE.die.ToString());
 			}
 			else
 			{
@@ -205,7 +198,7 @@ public class RunningZombie : KinematicMonster
 
 	protected override void onDamage(Player player, int amount)
 	{
-		if(state!=STATE.DAMAGE&&state!=STATE.DIE)
+		if(state!=STATE.damage&&state!=STATE.die)
 		{
 			base.onDamage(player, amount);
 			if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
@@ -216,10 +209,13 @@ public class RunningZombie : KinematicMonster
 		}
 	}    
 
-	protected override void onPassanger(Player player)
+	public override void onPassanger(Player player)
 	{
-		base.onPassanger(player);
-		animationPlayer.Play("PASSANGER");
+		if(state!=STATE.passanger)
+		{
+			base.onPassanger(player);
+			animationPlayer.Play("PASSANGER");
+		}
 	}
 
 

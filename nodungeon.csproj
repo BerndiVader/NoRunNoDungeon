@@ -31,7 +31,6 @@
     <Compile Include="Enemies\MimicChest.cs" />
     <Compile Include="Enemies\Zombie.cs" />
     <Compile Include="Enumerations\BULLETS.cs" />
-    <Compile Include="Enumerations\ENEMIES.cs" />
     <Compile Include="Enumerations\GROUPS.cs" />
     <Compile Include="Enumerations\PARTICLES.cs" />
     <Compile Include="Enumerations\SIGNALS.cs" />

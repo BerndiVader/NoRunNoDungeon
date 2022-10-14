@@ -5,21 +5,16 @@ public abstract class KinematicMonster : KinematicBody2D
 {
     [Export] protected Vector2 ANIMATION_OFFSET=Vector2.Zero;
     [Export] protected float damageAmount=1f;
-
-    [Signal] public delegate void Die();
-    [Signal] public delegate void Attack(Player player);
-    [Signal] public delegate void Fight(Player player);
-    [Signal] public delegate void Damage(Player player,float amount);
-    [Signal] public delegate void Passanger(Player player);
-    [Signal] public delegate void Calm();
-    [Signal] public delegate void Idle();
-    [Signal] public delegate void Stroll();
+    [Export] protected float health=1f;
+    [Export] protected float GRAVITY=500f;
+    [Export] protected float friction=0.01f;
     
     protected Player victim,attacker;
     protected Godot.AnimationPlayer animationPlayer;
-    protected CollisionShape2D collisionController, statCollShape;
-    protected Vector2 startOffset=Vector2.Zero;
-    protected int animationDirection=1,health=1;
+    protected CollisionShape2D collisionController;
+    protected StaticBody2D staticBody;
+    protected Vector2 startOffset=Vector2.Zero,force;
+    protected int animationDirection=1;
 
     public STATE state;
     protected STATE lastState;
@@ -27,72 +22,43 @@ public abstract class KinematicMonster : KinematicBody2D
 
     public override void _Ready()
     {
-        Connect(SIGNALS.Passanger.ToString(),this,nameof(onPassanger));
-        Connect(SIGNALS.Die.ToString(),this,nameof(onDie));
-        Connect(SIGNALS.Attack.ToString(),this,nameof(onAttack));
-        Connect(SIGNALS.Fight.ToString(),this,nameof(onFight));
-        Connect(SIGNALS.Calm.ToString(),this,nameof(onCalm));
-        Connect(SIGNALS.Idle.ToString(),this,nameof(onIdle));
-        Connect(SIGNALS.Damage.ToString(),this,nameof(onDamage));
-        Connect(SIGNALS.Stroll.ToString(),this,nameof(onStroll));
-
-        AddToGroup(GROUPS.ENEMIES.ToString());
-
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
         AddChild(notifier2D);
 
-        victim=null;
         collisionController=GetNode<CollisionShape2D>("CollisionShape2D");
-        statCollShape=GetNode<CollisionShape2D>("StaticBody2D/CollisionShape2D");
+        staticBody=GetNode<StaticBody2D>("StaticBody2D");
         animationController=GetNode<AnimatedSprite>("AnimatedSprite");
+
+        staticBody.AddUserSignal(STATE.passanger.ToString());
+        staticBody.AddUserSignal(STATE.damage.ToString());
+        staticBody.Connect(STATE.passanger.ToString(),this,nameof(onPassanger));
+        staticBody.Connect(STATE.damage.ToString(),this,nameof(onDamage));
+
+        AddUserSignal(STATE.die.ToString());
+        AddUserSignal(STATE.attack.ToString());
+        AddUserSignal(STATE.fight.ToString());
+        AddUserSignal(STATE.calm.ToString());
+        AddUserSignal(STATE.idle.ToString());
+        AddUserSignal(STATE.stroll.ToString());                
+
+        Connect(STATE.die.ToString(),this,nameof(onDie));
+        Connect(STATE.attack.ToString(),this,nameof(onAttack));
+        Connect(STATE.fight.ToString(),this,nameof(onFight));
+        Connect(STATE.calm.ToString(),this,nameof(onCalm));
+        Connect(STATE.idle.ToString(),this,nameof(onIdle));
+        Connect(STATE.stroll.ToString(),this,nameof(onStroll));
+
+        AddToGroup(GROUPS.ENEMIES.ToString());
+        staticBody.AddToGroup(GROUPS.ENEMIES.ToString());
+
+        victim=null;
+        force=new Vector2(0f,GRAVITY);
     }
 
     protected virtual void tick(float delta)
     {
-        switch(state)
-        {
-            case STATE.IDLE:
-            {
-                idle(delta);
-                break;
-            }
-            case STATE.STROLL:
-            {
-                stroll(delta);
-                break;
-            }
-            case STATE.ATTACK:
-            {
-                attack(delta);
-                break;
-            }
-            case STATE.FIGHT:
-            {
-                fight(delta);
-                break;
-            }
-            case STATE.DAMAGE:
-            {
-                damage(delta);
-                break;
-            }
-            case STATE.PASSANGER:
-            {
-                passanger(delta);
-                break;
-            }
-            case STATE.CALM:
-            {
-                calm(delta);
-                break;
-            }
-            case STATE.DIE:
-            {
-                die(delta);
-                break;
-            }
-        }
+        Call(state.ToString(),delta);
     }
 
     protected virtual void idle(float delta)
@@ -113,7 +79,18 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void passanger(float delta)
     {
-        state=health<=0?state=STATE.DIE:state=lastState;
+        if(health<=0)
+        {
+            onDie();
+        }
+        else if(state!=lastState)
+        {
+            EmitSignal(lastState.ToString());
+        }
+        else
+        {
+            onIdle();
+        }
     }
     protected virtual void calm(float delta)
     {
@@ -121,9 +98,7 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void damage(float delta)
     {
-        lastState=state;
-        state=STATE.DIE;
-
+        onDie();
     }
 
     protected virtual void die(float delta)
@@ -142,58 +117,80 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void onDie()
     {
-        lastState=state;
-        state=STATE.DIE;
+        if(state!=STATE.die)
+        {
+            lastState=state;
+            state=STATE.die;
+        }
     }
     protected virtual void onAttack(Player player)
     {
-        lastState=state;
-        state=STATE.ATTACK;
-        victim=player;
+        if(state!=STATE.attack)
+        {
+            lastState=state;
+            state=STATE.attack;
+            victim=player;
+        }
     }
     protected virtual void onFight(Player player)
     {
-        lastState=state;
-        state=STATE.FIGHT;
-        victim=player;
+        if(state!=STATE.fight)
+        {
+            lastState=state;
+            state=STATE.fight;
+            victim=player;
+        }
     }
     protected virtual void onDamage(Player player,int amount)
     {
-        World.instance.renderer.shake=2d;
-
-        statCollShape.SetDeferred("disabled",true);
-        lastState=state;
-        state=STATE.DAMAGE;
-        attacker=player;
-        damageAmount=amount;
-        health-=amount;
+        if(state!=STATE.damage&&state!=STATE.die)
+        {
+            World.instance.renderer.shake=2d;
+            staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
+            lastState=state;
+            state=STATE.damage;
+            attacker=player;
+            damageAmount=amount;
+            health-=amount;
+        }
     }
 
-    protected virtual void onPassanger(Player player)
+    public virtual void onPassanger(Player player)
     {
-        World.instance.renderer.shake=2d;
-
-        lastState=state;
-        state=STATE.PASSANGER;
-        attacker=player;
-        health--;
+        if(state!=STATE.passanger)
+        {
+            World.instance.renderer.shake=2d;
+            lastState=state;
+            state=STATE.passanger;
+            attacker=player;
+            health--;
+        }
     }
     protected virtual void onCalm()
     {
-        lastState=state;
-        state=STATE.CALM;
+        if(state!=STATE.calm)
+        {
+            lastState=state;
+            state=STATE.calm;
+        }
     }
     protected virtual void onIdle()
     {
-        lastState=state;
-        state=STATE.IDLE;
-        animationController.Play("default");
+        if(state!=STATE.idle)
+        {
+            lastState=state;
+            state=STATE.idle;
+            animationController.Play("idle");
+        }
     }
     protected virtual void onStroll()
     {
-        lastState=state;
-        state=STATE.STROLL;
-        animationController.Play("run");
+        if(state!=STATE.stroll)
+        {
+            lastState=state;
+            state=STATE.stroll;
+            animationController.Play("stroll");
+        }
     }
 
     protected virtual Vector2 getPosition()

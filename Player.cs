@@ -5,9 +5,10 @@ public class Player : KinematicBody2D
 {
     private static String ANIM_RUN="RUN";
     private static String ANIM_JUMP="HIT";
+    public static int LIVES;
 
     [Signal]
-    public delegate void Damage(float amount=1f, Node2D attacker=null);
+    public delegate void damage(float amount=1f, Node2D attacker=null);
 
     [Export] private float GRAVITY=500f;
     [Export] private float FLOOR_ANGLE_TOLERANCE=40f;
@@ -19,17 +20,16 @@ public class Player : KinematicBody2D
     [Export] private float JUMP_MAX_AIRBORNE_TIME=0.2f;
     [Export] private float SLIDE_STOP_VELOCITY=1f;
     [Export] private float SLIDE_STOP_MIN_TRAVEL=1f;
-    [Export] private float health=20f;
 
     private Vector2 velocity=new Vector2(0f,0f);
     private float onAirTime=100f;
     private bool jumping=false;
     private bool doubleJump=false;
     private bool justJumped=false;
-    private bool prevJumpPressed=false;
     private int weaponCyle=0;
     private float slopeAngle=0f;
     private Vector2 lastVelocity=new Vector2(0f,0f);
+    private Vector2 FORCE;
 
     private AnimatedSprite animationController;
     public CollisionShape2D collisionShape;
@@ -49,20 +49,22 @@ public class Player : KinematicBody2D
         AddToGroup(GROUPS.PLAYERS.ToString());
         ZIndex=2;
 
-        Connect(SIGNALS.Damage.ToString(),this,nameof(onDamaged));
+        Connect(STATE.damage.ToString(),this,nameof(onDamaged));
+
+        FORCE=new Vector2(0f,GRAVITY);
     }
 
     public override void _PhysicsProcess(float delta)
     {
         if(World.instance.state==Gamestate.SCENE_CHANGED||World.instance.state==Gamestate.RESTART) return;
-        Vector2 force=new Vector2(0,GRAVITY);
+
+        Vector2 force=FORCE;
 
         bool left=World.instance.input.getLeft();
         bool right=World.instance.input.getRight();
         bool jump=World.instance.input.getJump();
         bool attack=World.instance.input.getAttack();
         bool changeWeapon=World.instance.input.getChange();
-
         bool stop=true;
 
         if(changeWeapon&&!attack)
@@ -83,7 +85,7 @@ public class Player : KinematicBody2D
 
         if(left)
         {
-            if(velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED) 
+            if(velocity.x<WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED) 
             {
                 force.x-=WALK_FORCE;
                 stop=false;
@@ -100,15 +102,19 @@ public class Player : KinematicBody2D
 
         if(stop)
         {
-            float vSign=Mathf.Sign(velocity.x);
-            float vLen=Mathf.Abs(velocity.x);
+            float xlength=Mathf.Abs(velocity.x);
 
-            vLen-=STOP_FORCE*delta;
-            if(vLen<0f) vLen=0f;
-            velocity.x=vLen*vSign;
+            xlength-=STOP_FORCE*delta;
+            if(xlength<0f) 
+            {
+                xlength=0f;
+            }
+            else
+            {
+                velocity.x=xlength*Mathf.Sign(velocity.x);
+            }
         }
 
-        velocity-=GetFloorVelocity()*delta;
         velocity+=force*delta;
 
         if(justJumped)
@@ -117,9 +123,9 @@ public class Player : KinematicBody2D
             MoveLocalY(velocity.y*delta);
             justJumped=false;
         } 
-        else 
+        else
         {
-            Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0f,4f);
+            Vector2 snap=jumping?Vector2.Zero:new Vector2(0f,4f);
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
         }
 
@@ -131,32 +137,18 @@ public class Player : KinematicBody2D
             for(int i=0;i<collides;i++)
             {
                 KinematicCollision2D collision=GetSlideCollision(i);
-
-                if(!onSlope)
+                if(collision.ColliderId==World.instance.level.GetInstanceId())
                 {
-                    ulong id=World.instance.level.GetInstanceId();
-                    if(collision.ColliderId==id)
-                    {
-                        slopeAngle=collision.Normal.AngleTo(Vector2.Up);
-                        onSlope=Mathf.Abs(slopeAngle)>=0.785298f;
-                    }
+                    slopeAngle=collision.Normal.AngleTo(Vector2.Up);
+                    onSlope=Mathf.Abs(slopeAngle)>=0.785298f;
                 }
-
-
-                Node2D collider=(Node2D)collision.Collider;
-                if(collider.GetParent()!=null)
-                {
-                    collider=(Node2D)collider.GetParent();
-                }
-                
-                if(collider.IsInGroup(GROUPS.ENEMIES.ToString()))
-                {
-                    if(collision.Normal.AngleTo(Vector2.Up)==0)
+                else {
+                    if(collision.Collider.HasSignal(STATE.passanger.ToString())&&collision.Normal.AngleTo(Vector2.Up)==0)
                     {
                         velocity.y=-JUMP_SPEED;
                         animationController.Play(ANIM_JUMP);
                         justJumped=jumping=true;
-                        collider.EmitSignal("Passanger",this);                            
+                        collision.Collider.EmitSignal(STATE.passanger.ToString(),this);
                     }
                 }
             }
@@ -179,14 +171,14 @@ public class Player : KinematicBody2D
             doubleJump=jumping=false;
         }
 
-        if(jump&&jumping&&!prevJumpPressed&&!doubleJump) 
+        if(jump&&jumping&&!doubleJump) 
         {
             doubleJump=true;
             velocity.y=-JUMP_SPEED;
             animationController.Play(ANIM_JUMP);
         }
 
-        if(onAirTime<JUMP_MAX_AIRBORNE_TIME&&jump&&!prevJumpPressed&&!jumping) 
+        if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME) 
         {
             if(onSlope) 
             {
@@ -205,11 +197,10 @@ public class Player : KinematicBody2D
         }
 
         onAirTime+=delta;
-        prevJumpPressed=jump;
 
         if(Position.y>320f||Position.x<-20f||Position.x>520f) 
         {
-            World.instance.CallDeferred(nameof(World.instance.restartGame),true);
+            onDamaged();
         }
 
         lastVelocity=velocity;
@@ -232,7 +223,15 @@ public class Player : KinematicBody2D
 
     private void onDamaged(float amount=1f,Node2D damager=null)
     {
-        World.instance.CallDeferred(nameof(World.instance.restartGame),true);
+        LIVES--;
+        if(LIVES>0)
+        {
+            World.instance.CallDeferred(nameof(World.instance.restartGame),true);
+        }
+        else
+        {
+            World.instance.CallDeferred(nameof(World.changeScene),ResourceUtils.intro);
+        }
     }
 
 }

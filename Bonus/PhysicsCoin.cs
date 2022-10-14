@@ -11,18 +11,15 @@ public class PhysicsCoin : PhysicsObject
         GetNode<AnimatedSprite>("AnimatedSprite").Play("default");
     }
 
-    public override void _PhysicsProcess(float delta)
-    {
-        base._PhysicsProcess(delta);
-
-    }
-
     public void onBodyEntered(Node body) 
     {
-        CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKENPARTICLES].Instance();
-        particles.Position=World.instance.level.ToLocal(GlobalPosition);
-        World.instance.level.AddChild(particles);
-        QueueFree();
+        if(body.Name.Equals("Player"))
+        {
+            CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKENPARTICLES].Instance();
+            particles.Position=World.instance.level.ToLocal(GlobalPosition);
+            World.instance.level.AddChild(particles);
+            QueueFree();
+        }
     }
 
 }

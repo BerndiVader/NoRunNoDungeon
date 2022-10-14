@@ -17,7 +17,6 @@ public class FallingPlatform : Platform
         Area2D area2D=GetNode<Area2D>("Area2D");
 
         area2D.Connect("body_entered",this,nameof(onBodyEntered));
-        area2D.Connect("body_exited",this,nameof(onBodyExited));
     }
 
     public override void _PhysicsProcess(float delta)
@@ -67,11 +66,6 @@ public class FallingPlatform : Platform
         blockBreakParticle.Position=World.instance.level.ToLocal(GlobalPosition);
         World.instance.level.AddChild(blockBreakParticle);
         QueueFree();
-    }
-
-    private void onBodyExited(Node body) 
-    {
-        if(!body.IsInGroup(GROUPS.LEVEL.ToString())) return;
     }
 
 }
