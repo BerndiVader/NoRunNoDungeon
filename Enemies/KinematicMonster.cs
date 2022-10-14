@@ -58,7 +58,33 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void tick(float delta)
     {
-        Call(state.ToString(),delta);
+        switch(state)
+        {
+            case(STATE.attack):
+                attack(delta);
+                break;
+            case(STATE.calm):
+                calm(delta);
+                break;
+            case(STATE.damage):
+                damage(delta);
+                break;
+            case(STATE.die):
+                die(delta);
+                break;
+            case(STATE.fight):
+                fight(delta);
+                break;
+            case(STATE.idle):
+                idle(delta);
+                break;
+            case(STATE.passanger):
+                passanger(delta);
+                break;
+            case(STATE.stroll):
+                stroll(delta);
+                break;
+        }
     }
 
     protected virtual void idle(float delta)
@@ -89,6 +115,7 @@ public abstract class KinematicMonster : KinematicBody2D
         }
         else
         {
+            animationController.SpeedScale=1;
             onIdle();
         }
     }

@@ -15,7 +15,6 @@ public class RunningZombie : KinematicMonster
 	private Vector2 direction=new Vector2(-1f,0f);
 	private float onAirTime=100f;
 	private bool jumping=false;
-	private bool prevJumpPressed=false;
 
 	private RayCast2D rayCast2D;
 
@@ -31,8 +30,7 @@ public class RunningZombie : KinematicMonster
 		rayCast2D.Enabled=true;
 
 		animationController.Play("idle");
-		state=STATE.idle;
-		lastState=state;
+		lastState=state=STATE.idle;
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -41,13 +39,13 @@ public class RunningZombie : KinematicMonster
 		{
 			Position=startOffset+(ANIMATION_OFFSET*animationDirection);
 		}
+
 		tick(delta);
 	}
 
 	protected override void idle(float delta)
 	{
 		velocity+=force*delta;
-
 		KinematicCollision2D collision=MoveAndCollide(velocity*delta);
 
 		if(collision!=null)
@@ -64,50 +62,47 @@ public class RunningZombie : KinematicMonster
 
 		if(inRange())
 		{
-			lastState=state;
-			state=STATE.attack;
-			animationController.Play("stroll");
 			animationController.SpeedScale=2;
 			velocity.y=-60f;
 			jumping=true;
+			onStroll();
+		}
+		else
+		{
+			if(MathUtils.randomRangeInt(0,1)==1)
+			{
+				direction*=-1;
+				FlipH();
+			}
+
 		}
 	}
 
-	protected override void attack(float delta)
+	protected override void stroll(float delta)
 	{
 		Vector2 force=new Vector2(0,GRAVITY);
 
+		bool isOnFloor=IsOnFloor();
+
 		bool left=direction.x==-1;
 		bool right=direction.x==1;
-		bool jump=!rayCast2D.IsColliding();
+		bool jump=!rayCast2D.IsColliding()&&isOnFloor;
 
-		bool stop=true;
-
-		if(left)
+		if(left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
 		{
-			if(velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED) 
-			{
-				force.x-=WALK_FORCE;
-				stop=false;
-			}
+			force.x-=WALK_FORCE;
 		} 
-		else if(right)
+		else if(right&&velocity.x>=-(WALK_MIN_SPEED)&&velocity.x<(WALK_MAX_SPEED))
 		{
-			if(velocity.x>=-(WALK_MIN_SPEED)&&velocity.x<(WALK_MAX_SPEED)) 
-			{
-				force.x+=WALK_FORCE;
-				stop=false;
-			}
+			force.x+=WALK_FORCE;
 		}
-
-		if(stop)
+		else
 		{
-			float vSign=Mathf.Sign(velocity.x);
-			float vLen=Mathf.Abs(velocity.x);
-
-			vLen-=STOP_FORCE*delta;
-			if(vLen<0f) vLen=0f;
-			velocity.x=vLen*vSign;
+			float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
+			if(xLength<0f) {
+				xLength=0f;
+			}
+			velocity.x=xLength*Mathf.Sign(velocity.x);
 		}
 
 		velocity+=force*delta;
@@ -115,46 +110,48 @@ public class RunningZombie : KinematicMonster
 		Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0f,8f);
 		velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
-		if(IsOnFloor())
+		if(isOnFloor)
 		{
-			velocity-=GetFloorVelocity()*delta;
+			Vector2 floorVelocity=GetFloorVelocity();
+			if(floorVelocity!=Vector2.Zero)
+			{
+				MoveAndCollide(-floorVelocity*delta);
+			}
 			onAirTime=0f;
-		}
-
-		if(jumping&&velocity.y>0f) 
-		{
 			jumping=false;
 		}
 
 		if(IsOnWall())
 		{
-			direction=new Vector2(direction.x*-1,0);
+			direction*=-1;
 			FlipH();
 		}
 
-		if(onAirTime<JUMP_MAX_AIRBORNE_TIME&&jump&&!prevJumpPressed&&!jumping) 
+		if(jump&&!jumping) 
 		{
-			int decide=MathUtils.randomRangeInt(1,3);
-			switch(decide)
+			switch(MathUtils.randomRangeInt(1,5))
 			{
 				case 1:
+				case 2:
 				{
 					velocity.y=-JUMP_SPEED;
 					jumping=true;
 					break;
 				}
-				case 2:
+				case 3:
+				case 4:
 				{
-					direction=new Vector2(direction.x*-1,0);
+					direction*=-1;
 					FlipH();
+					break;
+				}
+				case 5:
+				{
+					onIdle();
 					break;
 				}
 			}
 		}
-
-		onAirTime+=delta;
-		prevJumpPressed=jump;
-
 		onAirTime+=delta;
 	}
 
@@ -169,11 +166,12 @@ public class RunningZombie : KinematicMonster
 		{
 			if(health<=0)
 			{
-				EmitSignal(STATE.die.ToString());
+				onDie();
 			}
 			else
 			{
-				state=lastState;
+				animationController.SpeedScale=1;
+				onIdle();
 			}
 		}
 	}
@@ -201,7 +199,7 @@ public class RunningZombie : KinematicMonster
 		if(state!=STATE.damage&&state!=STATE.die)
 		{
 			base.onDamage(player, amount);
-			if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
+			if(GlobalPosition.x-player.GlobalPosition.x<0)
 			{
 				animationDirection=-1;
 			}

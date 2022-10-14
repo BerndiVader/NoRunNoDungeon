@@ -40,6 +40,11 @@ public class Player : KinematicBody2D
     {
         Position=World.instance.renderer.ToLocal(World.instance.level.startingPoint.GlobalPosition);
 
+        if(ResourceUtils.isMobile)
+        {
+            GetNode<Light2D>("Light2D").QueueFree();
+        }
+
         collisionShape=GetNode<CollisionShape2D>("CollisionShape2D");
         animationController=GetNode<AnimatedSprite>("AnimatedSprite");
         animationController.Play(ANIM_RUN);
@@ -65,7 +70,6 @@ public class Player : KinematicBody2D
         bool jump=World.instance.input.getJump();
         bool attack=World.instance.input.getAttack();
         bool changeWeapon=World.instance.input.getChange();
-        bool stop=true;
 
         if(changeWeapon&&!attack)
         {
@@ -83,24 +87,15 @@ public class Player : KinematicBody2D
             weapon.attack();
         }
 
-        if(left)
+        if(left&&velocity.x<WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
         {
-            if(velocity.x<WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED) 
-            {
-                force.x-=WALK_FORCE;
-                stop=false;
-            }
+            force.x-=WALK_FORCE;
         } 
-        else if(right)
+        else if(right&&velocity.x>=-(WALK_MIN_SPEED*0.3f)&&velocity.x<(WALK_MAX_SPEED*0.3f))
         {
-            if(velocity.x>=-(WALK_MIN_SPEED*0.3f)&&velocity.x<(WALK_MAX_SPEED*0.3f)) 
-            {
-                force.x+=WALK_FORCE;
-                stop=false;
-            }
+            force.x+=WALK_FORCE;
         }
-
-        if(stop)
+        else
         {
             float xlength=Mathf.Abs(velocity.x);
 
@@ -161,8 +156,17 @@ public class Player : KinematicBody2D
 
         if(IsOnFloor())
         {
+            Vector2 floorVelocity=GetFloorVelocity();
+            if(floorVelocity!=Vector2.Zero)
+            {
+                MoveAndCollide(-floorVelocity*delta);
+            }
+
             onAirTime=0f;
-            if(lastVelocity.y>300f) World.instance.renderer.shake+=lastVelocity.y*0.004f;
+            if(lastVelocity.y>300f) 
+            {
+                World.instance.renderer.shake+=lastVelocity.y*0.004f;
+            }
         }
         
         if(jumping&&velocity.y>0f) 

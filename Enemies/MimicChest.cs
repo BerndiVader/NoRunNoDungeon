@@ -51,6 +51,11 @@ public class MimicChest : KinematicMonster
 				velocity.x+=collider.CurrentSpeed.x*1.8f;
 			}
 
+            if(shake!=0f)
+            {
+                applyShake();
+            }
+
         }
 
         tick(delta);
@@ -100,11 +105,7 @@ public class MimicChest : KinematicMonster
             rayCast2D.CastTo=direction*distance;
             if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
             {
-                if(shake==0)
-                {
-                    shake=0.5f;
-                }
-                applyShake();
+                shake=0.3f;
             }
             else
             {
