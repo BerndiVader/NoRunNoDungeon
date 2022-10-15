@@ -26,6 +26,7 @@ public class Level : TileMap
         ZIndex=0;
         AddToGroup(GROUPS.LEVEL.ToString());
         CellCustomTransform=new Transform2D(128f,0f,0f,128f,0f,0f);
+        CellQuadrantSize=8;
     }
 
     public void freeLevel() 

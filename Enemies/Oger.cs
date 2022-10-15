@@ -135,7 +135,6 @@ public class Oger : KinematicMonster
 
             bool left=direction.x<0&&rayCast2D.IsColliding();
             bool right=direction.x>0&&rayCast2D.IsColliding();
-            bool jump=false;          
 
             if(left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
             {
@@ -164,7 +163,7 @@ public class Oger : KinematicMonster
                 velocity-=GetFloorVelocity()*delta;
             }
 
-            if(jump||IsOnWall())
+            if(IsOnWall())
             {
                 direction=new Vector2(direction.x*-1,0);
                 FlipH();
@@ -260,11 +259,6 @@ public class Oger : KinematicMonster
         }
     }
 
-    protected override void die(float delta)
-    {
-        base.die(delta);
-    }
-
     protected override void onDamage(Player player, int amount)
     {
         if(state!=STATE.damage&&state!=STATE.die)
@@ -280,17 +274,23 @@ public class Oger : KinematicMonster
 
     protected override void onAttack(Player player)
     {
-        base.onAttack(player);
-        animationController.Play("stroll");
-        WALK_MAX_SPEED=80f;
+        if(state!=STATE.attack)
+        {
+            base.onAttack(player);
+            animationController.Play("stroll");
+            WALK_MAX_SPEED=80f;
+        }
     }
 
     protected override void onFight(Player player)
     {
-        base.onFight(player);
-        animationController.Play("idle");
-        weapon.attack();
-        WALK_MAX_SPEED=0f;
+        if(state!=STATE.fight)
+        {
+            base.onFight(player);
+            animationController.Play("idle");
+            weapon.attack();
+            WALK_MAX_SPEED=0f;
+        }
     }
 
     public override void onPassanger(Player player)

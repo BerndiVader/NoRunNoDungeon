@@ -171,8 +171,11 @@ public class Zombie : KinematicMonster
 
     public override void onPassanger(Player player)
     {
-        base.onPassanger(player);
-        animationPlayer.Play("PASSANGER");
+        if(state!=STATE.passanger)
+        {
+            base.onPassanger(player);
+            animationPlayer.Play("PASSANGER");
+        }
     }
 
     private void FlipH()
