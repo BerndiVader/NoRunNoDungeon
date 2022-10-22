@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://image/spikes.png" type="Texture" id=1]
-[ext_resource path="res://level/Spikes.cs" type="Script" id=2]
+[ext_resource path="res://obstacles/Spikes.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6.95751, 5.26152 )
@@ -10,7 +10,7 @@ extents = Vector2( 6.95751, 5.26152 )
 rotation = 1.5708
 scale = Vector2( -1, 1 )
 z_index = -1
-collision_layer = 16
+collision_layer = 0
 script = ExtResource( 2 )
 StaticElement = false
 MoveDirection = Vector2( 1, 0 )

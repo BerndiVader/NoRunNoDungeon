@@ -1,10 +1,11 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Intro.cs" type="Script" id=1]
-[ext_resource path="res://IntroBackground.tscn" type="PackedScene" id=2]
-[ext_resource path="res://IntroMap.cs" type="Script" id=3]
+[ext_resource path="res://intro/Intro.cs" type="Script" id=1]
+[ext_resource path="res://intro/IntroBackground.tscn" type="PackedScene" id=2]
+[ext_resource path="res://intro/IntroMap.cs" type="Script" id=3]
 [ext_resource path="res://fonts/intro_font.tres" type="DynamicFont" id=4]
-[ext_resource path="res://IntroText.cs" type="Script" id=5]
+[ext_resource path="res://intro/IntroText.cs" type="Script" id=5]
+
 
 [node name="Intro" type="Node"]
 script = ExtResource( 1 )

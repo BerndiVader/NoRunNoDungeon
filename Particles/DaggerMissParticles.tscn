@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://image/0x72/frames/weapon_knife.png" type="Texture" id=1]
-[ext_resource path="res://Particles/DaggerMissParticles.cs" type="Script" id=2]
+[ext_resource path="res://particles/DaggerMissParticles.cs" type="Script" id=2]
 
 [node name="CPUParticles2D" type="CPUParticles2D"]
 emitting = false

@@ -17,8 +17,7 @@ public class XButton : TouchScreenButton
         {
             if(!jPressed)
             {
-                jPressed=true;
-                return IsPressed();
+                return jPressed=true;
             }
             return false;
         }

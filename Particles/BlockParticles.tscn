@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Particles/BlockParticles.cs" type="Script" id=1]
+[ext_resource path="res://particles/BlockParticles.cs" type="Script" id=1]
 [ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_platform_center.png" type="Texture" id=2]
 
 [node name="CPUParticles2D" type="CPUParticles2D"]

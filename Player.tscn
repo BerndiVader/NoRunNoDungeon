@@ -6,7 +6,7 @@
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f1.png" type="Texture" id=4]
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f2.png" type="Texture" id=5]
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f3.png" type="Texture" id=6]
-[ext_resource path="res://PlayerLight2D.cs" type="Script" id=8]
+[ext_resource path="res://gfx/PlayerLight2D.cs" type="Script" id=8]
 [ext_resource path="res://image/gfx/player_light_big.png" type="Texture" id=9]
 
 [sub_resource type="SpriteFrames" id=1]

@@ -31,14 +31,17 @@ public class Level : TileMap
 
     public void freeLevel() 
     {
-        foreach(Node node in GetChildren())
+        if(!IsQueuedForDeletion())
         {
-            if(node!=null&&!node.IsQueuedForDeletion())
+            foreach(Node node in GetChildren())
             {
-                node.CallDeferred("queue_free");
+                if(node!=null&&!node.IsQueuedForDeletion())
+                {
+                    node.CallDeferred("queue_free");
+                }
             }
+            CallDeferred("queue_free");
         }
-        CallDeferred("queue_free");
     }
 
     new public void SetCell(int x,int y,int tile,bool flipX=false,bool flipY=false,bool transpose=false,Vector2? autotileCoord=null) 

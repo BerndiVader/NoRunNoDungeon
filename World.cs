@@ -191,7 +191,6 @@ public class World : Node
 		Worker.instance.gc();
 		state=Gamestate.RESTART;
 		renderer.RemoveChild(level);
-		level.freeLevel();
 		if(!keepLevel)
 		{
 			currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
@@ -229,10 +228,8 @@ public class World : Node
 		}
 		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
 		renderer.CallDeferred("remove_child",level);
-		Level oldLevel=level;
 		level=newLevel;
 		newLevel=null;
-		oldLevel.freeLevel();
 		state=Gamestate.SCENE_CHANGED;
 	}
 

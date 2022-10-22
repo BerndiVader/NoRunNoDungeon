@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://BerndiVader.cs" type="Script" id=1]
+[ext_resource path="res://intro/BerndiVader.cs" type="Script" id=1]
 [ext_resource path="res://image/berndivader/berndivader.png" type="Texture" id=2]
 [ext_resource path="res://image/berndivader/klammer.png" type="Texture" id=3]
-[ext_resource path="res://Klammer.cs" type="Script" id=4]
+[ext_resource path="res://intro/Klammer.cs" type="Script" id=4]
 [ext_resource path="res://sounds/berndivader/Bass Drop Sound Effect.ogg" type="AudioStream" id=6]
 
 [node name="Root" type="Node2D"]

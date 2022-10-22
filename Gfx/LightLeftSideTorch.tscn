@@ -4,8 +4,9 @@
 [ext_resource path="res://image/gfx/torch/side_torch_4.png" type="Texture" id=2]
 [ext_resource path="res://image/gfx/torch/side_torch_1.png" type="Texture" id=3]
 [ext_resource path="res://image/gfx/torch/side_torch_2.png" type="Texture" id=4]
-[ext_resource path="res://Gfx/LightTorch.cs" type="Script" id=5]
+[ext_resource path="res://gfx/LightTorch.cs" type="Script" id=5]
 [ext_resource path="res://image/gfx/torch_light_klein.png" type="Texture" id=6]
+
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;

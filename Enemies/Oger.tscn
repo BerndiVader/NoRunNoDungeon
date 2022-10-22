@@ -8,7 +8,7 @@
 [ext_resource path="res://image/0x72/frames/ogre_run_anim_f1.png" type="Texture" id=6]
 [ext_resource path="res://image/0x72/frames/ogre_run_anim_f3.png" type="Texture" id=7]
 [ext_resource path="res://image/0x72/frames/ogre_run_anim_f2.png" type="Texture" id=8]
-[ext_resource path="res://Enemies/Oger.cs" type="Script" id=9]
+[ext_resource path="res://enemies/Oger.cs" type="Script" id=9]
 [ext_resource path="res://weapons/Baton.tscn" type="PackedScene" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
