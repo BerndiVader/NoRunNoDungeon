@@ -66,4 +66,29 @@ public class MobileInput : InputController
     {
         return false;
     }
+
+    public override bool getJustLeft()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool getJustRight()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool getJustUp()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool getJustDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override bool getJustAccept()
+    {
+        throw new NotImplementedException();
+    }
 }

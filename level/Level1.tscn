@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://placeholders/CoinPhysics.tscn" type="PackedScene" id=8]
 [ext_resource path="res://placeholders/CoinStatic.tscn" type="PackedScene" id=9]
 [ext_resource path="res://placeholders/BatonSwinging.tscn" type="PackedScene" id=10]
+[ext_resource path="res://placeholders/MadRockPlaceholder.tscn" type="PackedScene" id=11]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -157,6 +158,15 @@ maxRotation = 45
 
 [node name="Placeholder3" parent="." instance=ExtResource( 10 )]
 position = Vector2( 2360, 32 )
+
+[node name="MadRockPlaceholder" parent="." instance=ExtResource( 11 )]
+position = Vector2( 840, 63 )
+
+[node name="MadRockPlaceholder2" parent="." instance=ExtResource( 11 )]
+position = Vector2( 952, 64 )
+
+[node name="MadRockPlaceholder3" parent="." instance=ExtResource( 11 )]
+position = Vector2( 1048, 64 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="ZombieRunning"]

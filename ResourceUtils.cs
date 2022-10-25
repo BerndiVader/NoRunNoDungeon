@@ -43,7 +43,7 @@ public static class ResourceUtils
 
         world=(PackedScene)ResourceLoader.Load("res://World.tscn");
         intro=(PackedScene)ResourceLoader.Load("res://intro/Intro.tscn");
-        pause=(PackedScene)ResourceLoader.Load("res://level/Pause.tscn");
+        pause=(PackedScene)ResourceLoader.Load("res://ui/PauseUI.tscn");
         player=(PackedScene)ResourceLoader.Load("res://Player.tscn");
         background=(PackedScene)ResourceLoader.Load("res://level/Background.tscn");
 
@@ -75,6 +75,7 @@ public static class ResourceUtils
         particles.Add((PackedScene)ResourceLoader.Load("res://particles/CoinTakenParticles.tscn"));
         particles.Add((PackedScene)ResourceLoader.Load("res://particles/EnemieDieParticles.tscn"));
         particles.Add((PackedScene)ResourceLoader.Load("res://particles/DaggerMissParticles.tscn"));
+        particles.Add((PackedScene)ResourceLoader.Load("res://particles/MadRockParticles.tscn"));
 
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/TestBullet.tscn"));
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/DaggerBullet.tscn"));

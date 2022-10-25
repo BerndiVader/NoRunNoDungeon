@@ -3,9 +3,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
-public class Worker : Godot.Thread
+public class Worker : Thread
 {
-	public static Worker instance;
+    public static Worker instance;
 	public static ConcurrentStack<WeakReference>placeholders;
 	public static bool stop;
 	public enum Status
@@ -58,18 +58,19 @@ public class Worker : Godot.Thread
 		}
 	}
 
-	private void instantiatePlaceholder(Placeholder p,InstancePlaceholder placeholder)
+	private void instantiatePlaceholder(Placeholder placeholder,InstancePlaceholder iPlaceholder)
 	{
-		p.CallDeferred("remove_child",placeholder);
-		placeholder.Set("position",World.instance.level.ToLocal(p.GlobalPosition));
-		World.instance.level.CallDeferred("add_child",placeholder);
-		placeholder.CallDeferred("replace_by_instance");
-		p.CallDeferred("queue_free");
+		placeholder.CallDeferred("remove_child",iPlaceholder);
+		iPlaceholder.Set("position",World.instance.level.ToLocal(placeholder.GlobalPosition));
+		World.instance.level.CallDeferred("add_child",iPlaceholder);
+		iPlaceholder.CallDeferred("create_instance",true);
+		iPlaceholder.CallDeferred("queue_free");
+		placeholder.CallDeferred("queue_free");
 	}
 
 	public async void gc()
 	{
-		await Task.Run(() => 
+		await Task.Run(delegate()
 		{
 			GC.Collect();
 			GC.WaitForPendingFinalizers();			

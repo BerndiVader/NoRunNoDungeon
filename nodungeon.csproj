@@ -40,11 +40,12 @@
     <Compile Include="intro\Intro.cs" />
     <Compile Include="intro\IntroMap.cs" />
     <Compile Include="intro\Klammer.cs" />
+    <Compile Include="obstacles\MadRock.cs" />
     <Compile Include="obstacles\SwingingBaton.cs" />
     <Compile Include="particles\DaggerMissParticles.cs" />
     <Compile Include="particles\EnemieDieParticles.cs" />
+    <Compile Include="particles\MadRockParticles.cs" />
     <Compile Include="particles\WeaponHitParticles.cs" />
-    <Compile Include="level\Pause.cs" />
     <Compile Include="bonus\PhysicsObject.cs" />
     <Compile Include="bonus\PhysicsCoin.cs" />
     <Compile Include="io\Buttons.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="enemies\STATE.cs" />
     <Compile Include="io\Stick.cs" />
     <Compile Include="io\Touch.cs" />
+    <Compile Include="ui\PauseUI.cs" />
     <Compile Include="weapons\Broadsword.cs" />
     <Compile Include="weapons\Dagger.cs" />
     <Compile Include="weapons\Staff.cs" />
