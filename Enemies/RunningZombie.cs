@@ -11,8 +11,7 @@ public class RunningZombie : KinematicMonster
 	[Export] private float JUMP_SPEED=130f;
 	[Export] private float JUMP_MAX_AIRBORNE_TIME=0.2f;
 
-	private Vector2 velocity=new Vector2(0f,0f);
-	private Vector2 direction=new Vector2(-1f,0f);
+	private Vector2 direction=Vector2.Left;
 	private float onAirTime=100f;
 	private bool jumping=false;
 

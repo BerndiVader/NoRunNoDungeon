@@ -4,7 +4,6 @@ using System;
 public class Zombie : KinematicMonster
 {
 
-    private Vector2 velocity=Vector2.Zero;
     private int cooldown;
 
     private RayCast2D rayCast2D;
@@ -25,7 +24,6 @@ public class Zombie : KinematicMonster
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
         state=STATE.idle;
 
         animationController.Play("idle");

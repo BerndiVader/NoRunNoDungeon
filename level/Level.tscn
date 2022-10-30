@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://placeholders/OgerPlaceholder.tscn" type="PackedScene" id=5]
 [ext_resource path="res://placeholders/RocksFalling.tscn" type="PackedScene" id=6]
 [ext_resource path="res://bonus/Coin.tscn" type="PackedScene" id=7]
+[ext_resource path="res://placeholders/BearPlaceholder.tscn" type="PackedScene" id=8]
 [ext_resource path="res://bonus/PhysicsCoin.tscn" type="PackedScene" id=9]
 
 [node name="TileMap" type="TileMap"]
@@ -139,5 +140,29 @@ position = Vector2( 592, 240 )
 [node name="OgerPlaceholder2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 1448, 240 )
 
+[node name="BearPlaceholder" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1016, 144 )
+
+[node name="BearPlaceholder2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1152, 136 )
+
+[node name="BearPlaceholder3" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1584, 224 )
+
+[node name="BearPlaceholder4" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1384, 136 )
+
+[node name="BearPlaceholder5" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1096, 184 )
+
+[node name="PlatformMoving3x5" parent="." instance=ExtResource( 3 )]
+position = Vector2( 1384, 160 )
+
+[node name="MovingPlatform0" parent="PlatformMoving3x5" index="0"]
+Direction = Vector2( 1, 0 )
+Length = 4
+Linear = false
+
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
+[editable path="PlatformMoving3x5"]

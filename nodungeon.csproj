@@ -17,6 +17,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoLoad.cs" />
+    <Compile Include="Camera2D.cs" />
+    <Compile Include="enemies\Bear.cs" />
     <Compile Include="level\Background.cs" />
     <Compile Include="level\BackgroundLayer.cs" />
     <Compile Include="level\BackgroundSprite.cs" />
@@ -40,6 +42,7 @@
     <Compile Include="intro\Intro.cs" />
     <Compile Include="intro\IntroMap.cs" />
     <Compile Include="intro\Klammer.cs" />
+    <Compile Include="level\LevelControl.cs" />
     <Compile Include="obstacles\MadRock.cs" />
     <Compile Include="obstacles\SwingingBaton.cs" />
     <Compile Include="particles\DaggerMissParticles.cs" />

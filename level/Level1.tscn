@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://placeholders/CoinStatic.tscn" type="PackedScene" id=9]
 [ext_resource path="res://placeholders/BatonSwinging.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/MadRockPlaceholder.tscn" type="PackedScene" id=11]
+[ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=12]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -91,6 +92,10 @@ position = Vector2( 2640, 176 )
 
 [node name="CoinPhysics7" parent="." instance=ExtResource( 8 )]
 position = Vector2( 2752, 160 )
+
+[node name="LevelControl" parent="." instance=ExtResource( 12 )]
+position = Vector2( 768, 130 )
+EnableSpeed = true
 
 [node name="CoinStatic" parent="." instance=ExtResource( 9 )]
 position = Vector2( 2448, 240 )

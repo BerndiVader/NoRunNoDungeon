@@ -60,10 +60,13 @@ public class Worker : Thread
 
 	private void instantiatePlaceholder(Placeholder placeholder,InstancePlaceholder iPlaceholder)
 	{
-		placeholder.CallDeferred("remove_child",iPlaceholder);
-		iPlaceholder.Set("position",World.instance.level.ToLocal(placeholder.GlobalPosition));
-		World.instance.level.CallDeferred("add_child",iPlaceholder);
-		iPlaceholder.CallDeferred("create_instance",true);
+		if(placeholder.IsInsideTree())
+		{
+			placeholder.CallDeferred("remove_child",iPlaceholder);
+			iPlaceholder.Set("position",World.instance.level.ToLocal(placeholder.GlobalPosition));
+			World.instance.level.CallDeferred("add_child",iPlaceholder);
+			iPlaceholder.CallDeferred("create_instance",true);
+		}
 		iPlaceholder.CallDeferred("queue_free");
 		placeholder.CallDeferred("queue_free");
 	}

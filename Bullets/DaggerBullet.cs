@@ -14,7 +14,7 @@ public class DaggerBullet : Area2D
         time=0f;
 
         Connect("body_entered",this,nameof(onBodyEntered));
-        Connect("area_entered",this,nameof(onAreaEntered));
+        Connect("area_entered",this,nameof(onBodyEntered));
     }
 
     public override void _PhysicsProcess(float delta)

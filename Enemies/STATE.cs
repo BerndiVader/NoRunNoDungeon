@@ -10,5 +10,6 @@ public enum STATE
     calm,
     damage,
     passanger,
-    die
+    die,
+    unknown
 }

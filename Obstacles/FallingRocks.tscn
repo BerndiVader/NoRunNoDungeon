@@ -16,7 +16,7 @@ extents = Vector2( 13.6747, 16 )
 extents = Vector2( 10.1343, 1.39079 )
 
 [node name="Rock" type="StaticBody2D" groups=["OBSTACLES"]]
-collision_layer = 16
+collision_layer = 4
 collision_mask = 0
 script = ExtResource( 5 )
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://World.cs" type="Script" id=1]
 [ext_resource path="res://Renderer.cs" type="Script" id=2]
+[ext_resource path="res://Camera2D.cs" type="Script" id=3]
 
 [sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0.300613, 0.570552, 0.785276 )
@@ -24,6 +25,12 @@ adjustment_color_correction = SubResource( 5 )
 
 [node name="World" type="Node"]
 script = ExtResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 256, 144 )
+rotating = true
+current = true
+script = ExtResource( 3 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 3 )

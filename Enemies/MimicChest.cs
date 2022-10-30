@@ -3,19 +3,18 @@ using System;
 
 public class MimicChest : KinematicMonster
 {
-    private Vector2 velocity=new Vector2(0f,0f);
     private int cooldown;
     private float shake;
     private float ShakeMax=0.6f;
     private RayCast2D rayCast2D;
-    private RectangleShape2D collisionBox;
+    private Shape2D collisionBox;
     private Vector2 CASTTO;
 
     public override void _Ready()
     {
         base._Ready();
 
-        collisionBox=(RectangleShape2D)collisionController.Shape;
+        collisionBox=collisionController.Shape;
         rayCast2D=GetNode<RayCast2D>("RayCast2D");
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
@@ -57,14 +56,13 @@ public class MimicChest : KinematicMonster
             }
 
         }
-
         tick(delta);
     
     }
 
     protected override void idle(float delta)
     {
-        bool collide=collisionBox.Collide(GetGlobalTransform(),World.instance.player.collisionShape.Shape,World.instance.player.GetGlobalTransform());
+        bool collide=collisionBox.Collide(collisionController.GlobalTransform,World.instance.player.collisionShape.Shape,World.instance.player.GlobalTransform);
         if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId()))
         {
             cooldown=0;

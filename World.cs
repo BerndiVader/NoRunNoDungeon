@@ -152,10 +152,7 @@ public class World : Node
 					return;
 				}
 				
-				if(state!=Gamestate.PAUSED)
-				{
-					tick(delta);
-				}
+				tick(delta);
 				break;
 			}
 		}
