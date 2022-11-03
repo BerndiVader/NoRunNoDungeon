@@ -34,7 +34,7 @@ public class Bear : KinematicMonster
 
     public override void _PhysicsProcess(float delta)
     {   
-        tick(delta);
+        goal(delta);
     }
 
     protected override void idle(float delta)

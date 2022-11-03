@@ -15,8 +15,12 @@ public class MadRock : KinematicBody2D
         onIdle,
         onFalling,
         onLift,
-        onWaiting
+        onWaiting,
+        unkown
     }
+
+    protected delegate void Goal(float delta);
+    protected Goal goal;
 
     public override void _Ready()
     {
@@ -30,33 +34,13 @@ public class MadRock : KinematicBody2D
         velocity=Vector2.Zero;
         startPosition=Position;
 
+        state=State.unkown;
         onIdle();
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        switch(state)
-        {
-            case State.onIdle:
-            {
-                idle(delta);
-                break;
-            }
-            case State.onFalling:
-            {
-                falling(delta);
-                break;
-            }
-            case State.onLift:
-            {
-                lift(delta);
-                break;
-            }
-            case State.onWaiting:
-                waiting(delta);
-                break;
-        }
-
+        goal(delta);
     }
 
     private void idle(float delta)
@@ -65,7 +49,6 @@ public class MadRock : KinematicBody2D
         {
             onFalling();
         }
-
     }
 
     private void falling(float delta)
@@ -77,7 +60,6 @@ public class MadRock : KinematicBody2D
             createParticles();
             onWaiting(State.onLift);
         }
-
     }
 
     private void lift(float delta)
@@ -89,8 +71,6 @@ public class MadRock : KinematicBody2D
             Position=startPosition;
             onWaiting(State.onIdle);
         }
-
-
     }
 
     private void waiting(float delta)
@@ -100,8 +80,6 @@ public class MadRock : KinematicBody2D
         {
             Call(nextState.ToString());
         }
-
-
     }
 
     private void onIdle()
@@ -109,8 +87,8 @@ public class MadRock : KinematicBody2D
         if(state!=State.onIdle)
         {
             state=State.onIdle;
+            goal=idle;
         }
-
     }
 
     private void onFalling()
@@ -119,8 +97,8 @@ public class MadRock : KinematicBody2D
         {
             state=State.onFalling;
             velocity=Vector2.Zero;
+            goal=falling;
         }
-
     }
 
     private void onLift()
@@ -128,8 +106,8 @@ public class MadRock : KinematicBody2D
         if(state!=State.onLift)
         {
             state=State.onLift;
+            goal=lift;
         }
-
     }
 
     private void onWaiting(State next)
@@ -139,6 +117,7 @@ public class MadRock : KinematicBody2D
             nextState=next;
             state=State.onWaiting;
             time=(int)OS.GetTicksMsec()/1000;
+            goal=waiting;
         }
     }
 

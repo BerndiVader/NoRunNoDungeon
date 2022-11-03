@@ -1,14 +1,15 @@
 using Godot;
 using System;
 
-public class Camera2D : Godot.Camera2D
+public class PlayerCamera : Camera2D
 {
-    private float rotation;
+    public static PlayerCamera instance;
     private float rot=0.001f;
     public int direction;
-    public override void _Ready()
+
+    public PlayerCamera() : base()
     {
-        rotation=Rotation;
+        instance=this;
         direction=0;
     }
 

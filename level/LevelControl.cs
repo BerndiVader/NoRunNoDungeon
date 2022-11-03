@@ -11,7 +11,6 @@ public class LevelControl : Node2D
 
     public override void _Ready()
     {
-        Visible=false;
         notifier=new VisibilityNotifier2D();
         notifier.Connect("screen_entered",this,nameof(onScreenEntered));
         notifier.Connect("screen_exited",this,nameof(onScreenExited));
@@ -29,12 +28,11 @@ public class LevelControl : Node2D
         if(x<=0f)
         {
             SetProcess(false);
-            Level level=World.instance.level;
 
             if(EnableSpeed)
             {
-                float oSpeed=level.Speed;
-                level.Speed=Speed;
+                float oSpeed=World.instance.level.Speed;
+                World.instance.level.Speed=Speed;
                 GetTree().CreateTimer(10,false).Connect("timeout",this,nameof(onTimeout),new Godot.Collections.Array(oSpeed));
             }
             else

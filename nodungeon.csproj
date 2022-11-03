@@ -17,7 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoLoad.cs" />
-    <Compile Include="Camera2D.cs" />
+    <Compile Include="PlayerCamera.cs" />
     <Compile Include="enemies\Bear.cs" />
     <Compile Include="level\Background.cs" />
     <Compile Include="level\BackgroundLayer.cs" />

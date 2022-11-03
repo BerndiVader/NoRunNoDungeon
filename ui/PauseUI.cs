@@ -68,7 +68,7 @@ public class PauseUI : Panel
             {
                 case 0:
                     sprite.QueueFree();
-                    World.instance.state=World.instance.oldState;
+                    World.instance.resetGamestate();
                     GetTree().Paused=false;
                     GetParent().QueueFree();
                     break;

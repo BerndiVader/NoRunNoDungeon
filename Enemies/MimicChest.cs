@@ -20,10 +20,10 @@ public class MimicChest : KinematicMonster
         CASTTO=rayCast2D.CastTo;
 
         animationController=GetNode<AnimatedSprite>("AnimatedSprite");
-        state=STATE.idle;
 
         animationController.Play("idle");
         animationController.FlipH=MathUtils.randomRangeInt(0,1)!=0;
+        EmitSignal(STATE.idle.ToString());
 
         cooldown=0;
 
@@ -56,7 +56,7 @@ public class MimicChest : KinematicMonster
             }
 
         }
-        tick(delta);
+        goal(delta);
     
     }
 

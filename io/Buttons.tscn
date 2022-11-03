@@ -16,7 +16,7 @@ z_index = 1500
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 237.0 ],
-"_edit_vertical_guides_": [ 462.0 ]
+"_edit_vertical_guides_": [ 480.0 ]
 }
 
 [node name="X" type="TouchScreenButton" parent="."]

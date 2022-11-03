@@ -9,12 +9,22 @@ public class Stick : TouchScreenButton
     private int onGoing=-1;
     private float returnAccel=20f;
     private float threshold=10f;
+    public bool useAccelerometer;
+
+    private Label label;
 
     public override void _Ready()
     {
         touch=GetParent<Touch>();
         touch.Position=new Vector2(-100,-100);
 
+        useAccelerometer=false;
+
+        if(useAccelerometer)
+        {
+            SetProcess(false);
+            SetProcessInput(false);
+        }
     }
 
     public override void _Process(float delta)
@@ -32,7 +42,6 @@ public class Stick : TouchScreenButton
 
     public override void _Input(InputEvent @event)
     {
-
         if(@event is InputEventScreenDrag || (@event is InputEventScreenTouch && @event.IsPressed()))
         {
             InputEventScreenDrag d=@event as InputEventScreenDrag;
@@ -89,13 +98,22 @@ public class Stick : TouchScreenButton
 
     public Vector2 getValue()
     {
-        if(getButtonPosition().Length()>threshold)
+        if(!useAccelerometer)
         {
-            return getButtonPosition().Normalized();
+            if(getButtonPosition().Length()>threshold)
+            {
+                return getButtonPosition().Normalized();
+            }
+            else
+            {
+                return Vector2.Zero;
+            }
         }
         else
         {
-            return Vector2.Zero;
+            Vector3 acc=Input.GetAccelerometer();
+            Vector2 accel=new Vector2((int)acc.x,(int)acc.y);
+            return accel;
         }
     }
 

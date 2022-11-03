@@ -18,9 +18,10 @@ public abstract class KinematicMonster : KinematicBody2D
 
     public STATE state;
     protected STATE lastState;
+    protected delegate void Goal(float delta);
+    protected Goal goal;
     protected bool onDelay=false;
     public AnimatedSprite animationController;
-
 
     public override void _Ready()
     {
@@ -62,55 +63,14 @@ public abstract class KinematicMonster : KinematicBody2D
         force=new Vector2(0f,GRAVITY);
 
         state=STATE.unknown;
+        goal=unknown;
     }
 
-    protected virtual void tick(float delta)
-    {
-        switch(state)
-        {
-            case STATE.attack:
-                attack(delta);
-                break;
-            case STATE.calm:
-                calm(delta);
-                break;
-            case STATE.damage:
-                damage(delta);
-                break;
-            case STATE.die:
-                die(delta);
-                break;
-            case STATE.fight:
-                fight(delta);
-                break;
-            case STATE.idle:
-                idle(delta);
-                break;
-            case STATE.passanger:
-                passanger(delta);
-                break;
-            case STATE.stroll:
-                stroll(delta);
-                break;
-        }
-    }
-
-    protected virtual void idle(float delta)
-    {
-
-    }
-    protected virtual void stroll(float delta)
-    {
-
-    }
-    protected virtual void attack(float delta)
-    {
-
-    }
-    protected virtual void fight(float delta)
-    {
-        state=lastState;
-    }
+    protected virtual void unknown(float delta) {}
+    protected virtual void idle(float delta) {}
+    protected virtual void stroll(float delta) {}
+    protected virtual void attack(float delta) {}
+    protected virtual void fight(float delta) {}
     protected virtual void passanger(float delta)
     {
         if(health<=0)
@@ -127,10 +87,7 @@ public abstract class KinematicMonster : KinematicBody2D
             onIdle();
         }
     }
-    protected virtual void calm(float delta)
-    {
-
-    }
+    protected virtual void calm(float delta) {}
     protected virtual void damage(float delta)
     {
         if(health<=0)
@@ -143,7 +100,6 @@ public abstract class KinematicMonster : KinematicBody2D
             EmitSignal(STATE.idle.ToString());
         }
     }
-
     protected virtual void die(float delta)
     {
         EnemieDieParticles particles=(EnemieDieParticles)ResourceUtils.particles[(int)PARTICLES.ENEMIEDIEPARTICLES].Instance();
@@ -164,6 +120,7 @@ public abstract class KinematicMonster : KinematicBody2D
         {
             lastState=state;
             state=STATE.die;
+            goal=die;
         }
     }
     protected virtual void onAttack(Player player)
@@ -174,6 +131,7 @@ public abstract class KinematicMonster : KinematicBody2D
             lastState=state;
             state=STATE.attack;
             victim=player;
+            goal=attack;
         }
     }
     protected virtual void onFight(Player player)
@@ -184,6 +142,7 @@ public abstract class KinematicMonster : KinematicBody2D
             lastState=state;
             state=STATE.fight;
             victim=player;
+            goal=fight;
         }
     }
     protected virtual void onDamage(Player player,int amount)
@@ -198,9 +157,9 @@ public abstract class KinematicMonster : KinematicBody2D
             attacker=player;
             damageAmount=amount;
             health-=amount;
+            goal=damage;
         }
     }
-
     public virtual void onPassanger(Player player)
     {
         onDelay=false;
@@ -211,6 +170,7 @@ public abstract class KinematicMonster : KinematicBody2D
             state=STATE.passanger;
             attacker=player;
             health--;
+            goal=passanger;
         }
     }
     protected virtual void onCalm()
@@ -220,6 +180,7 @@ public abstract class KinematicMonster : KinematicBody2D
         {
             lastState=state;
             state=STATE.calm;
+            goal=calm;
         }
     }
     protected virtual void onIdle()
@@ -230,6 +191,7 @@ public abstract class KinematicMonster : KinematicBody2D
             lastState=state;
             state=STATE.idle;
             animationController.Play("idle");
+            goal=idle;
         }
     }
     protected virtual void onStroll()
@@ -240,6 +202,7 @@ public abstract class KinematicMonster : KinematicBody2D
             lastState=state;
             state=STATE.stroll;
             animationController.Play("stroll");
+            goal=stroll;
         }
     }
 

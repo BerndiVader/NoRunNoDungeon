@@ -42,7 +42,7 @@ public class World : Node
 				currentScene.QueueFree();
 			}
 		}
-		Worker.instance.gc();
+		Worker.gc();
 	}
 
 	public static void quit() 
@@ -75,7 +75,10 @@ public class World : Node
 	public Renderer renderer;
 	public InputController input;
 	private int currentLevel,nextLevel;
-	public Gamestate state,oldState;
+	private Gamestate state,oldState;
+
+	private delegate void Goal(float delta);
+	private Goal goal;
 
 	public override void _Ready()
 	{
@@ -97,7 +100,7 @@ public class World : Node
 		Player.LIVES=3;
 		background=(Background)ResourceUtils.background.Instance();
 
-		state=Gamestate.RUNNING;
+		setGamestate(Gamestate.RUNNING);
 
 		renderer.AddChild(level);
 		renderer.AddChild(player);
@@ -106,72 +109,7 @@ public class World : Node
 
 	public override void _Process(float delta)
 	{
-		switch(state) 
-		{
-			case Gamestate.RESTART:
-			{
-				break;
-			}
-			case Gamestate.SCENE_CHANGE:
-			{
-				if(level!=null&&level.IsInsideTree())
-				{
-					tick(delta);
-				}
-				break;
-			}
-			case Gamestate.SCENE_CHANGED:
-			{
-				if(level.IsInsideTree())
-				{
-					state=Gamestate.RUNNING;				
-					tick(delta);
-				}
-				break;
-			}
-			case Gamestate.RUNNING:
-			{
-				if(input.getPause())
-				{
-					GetTree().Paused^=true;
-					if(GetTree().Paused)
-					{
-						oldState=state;
-						state=Gamestate.PAUSED;
-						PauseUI pause=(PauseUI)ResourceUtils.pause.Instance();
-						pause.PauseMode=PauseModeEnum.Process;
-						Node2D node=new Node2D();
-						node.ZIndex=VisualServer.CanvasItemZMax;
-						node.AddChild(pause);
-						World.instance.AddChild(node);
-					}
-				}
-				else if(input.getQuit())
-				{
-					CallDeferred(nameof(restartGame),false);
-					return;
-				}
-				
-				tick(delta);
-				break;
-			}
-		}
-
-	}
-
-	public override void _Notification(int what)
-	{
-		if(what==MainLoop.NotificationWmQuitRequest)
-		{
-			quit();
-		}
-		base._Notification(what);
-	}
-
-	public override void _EnterTree()
-	{
-		instance=this;
-		GetTree().CurrentScene=this;
+		goal(delta);
 	}
 
 	private void tick(float delta) 
@@ -181,15 +119,89 @@ public class World : Node
 
 		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=(level.pixelLength)-528)
 		{
-			state=Gamestate.SCENE_CHANGE;
-			Worker.status=Worker.Status.PREPARELEVEL;
+			setGamestate(Gamestate.SCENE_CHANGE);
+			Worker.setStatus(Worker.Status.PREPARELEVEL);
 		}
+	}
+
+	private void sceneRunning(float delta)
+	{
+		if(input.getPause())
+		{
+			GetTree().Paused^=true;
+			if(GetTree().Paused)
+			{
+				oldState=state;
+				setGamestate(Gamestate.PAUSED);
+				PauseUI pause=(PauseUI)ResourceUtils.pause.Instance();
+				pause.PauseMode=PauseModeEnum.Process;
+				Node2D node=new Node2D();
+				node.ZIndex=VisualServer.CanvasItemZMax;
+				node.AddChild(pause);
+				World.instance.AddChild(node);
+			}
+		}
+		else if(input.getQuit())
+		{
+			CallDeferred(nameof(restartGame),false);
+			return;
+		}
+		tick(delta);
+	}
+
+	private void sceneChanged(float delta)
+	{
+		if(level.IsInsideTree())
+		{
+			setGamestate(Gamestate.RUNNING);
+			tick(delta);
+		}
+	}
+
+	public void resetGamestate()
+	{
+		setGamestate(oldState);
+	}
+
+	private void sceneChange(float delta)
+	{
+		if(level!=null&&level.IsInsideTree())
+		{
+			tick(delta);
+		}
+	}
+
+	private void sceneIdle(float delta) {}
+
+	public void setGamestate(Gamestate s)
+	{
+		state=s;
+		switch(state)
+		{
+			case Gamestate.SCENE_CHANGED:
+				goal=sceneChanged;
+				break;
+			case Gamestate.SCENE_CHANGE:
+				goal=sceneChange;
+				break;
+			case Gamestate.RUNNING:
+				goal=sceneRunning;
+				break;
+			default:
+				goal=sceneIdle;
+				break;
+		}
+	}
+
+	public Gamestate getGamestate()
+	{
+		return state;
 	}
 
 	public void restartGame(bool keepLevel=false)
 	{
-		Worker.instance.gc();
-		state=Gamestate.RESTART;
+		Worker.gc();
+		setGamestate(Gamestate.RESTART);
 		renderer.RemoveChild(level);
 		if(!keepLevel)
 		{
@@ -202,7 +214,7 @@ public class World : Node
 		player.QueueFree();
 		player=(Player)ResourceUtils.player.Instance();
 		renderer.AddChild(player);
-		state=Gamestate.RUNNING;
+		setGamestate(Gamestate.RUNNING);
 	}
 
 	public void prepareLevel()
@@ -230,12 +242,12 @@ public class World : Node
 		renderer.CallDeferred("remove_child",level);
 		level=newLevel;
 		newLevel=null;
-		state=Gamestate.SCENE_CHANGED;
+		setGamestate(Gamestate.SCENE_CHANGED);
 	}
 
 	public void _Free()
 	{
-		state=Gamestate.RESTART;
+		setGamestate(Gamestate.RESTART);
 		CallDeferred("queue_free");
 		if(cachedLevel!=null)
 		{
@@ -244,4 +256,17 @@ public class World : Node
 		input._free();
 		World.instance=null;
 	}
+	public override void _Notification(int what)
+	{
+		if(what==MainLoop.NotificationWmQuitRequest)
+		{
+			quit();
+		}
+		base._Notification(what);
+	}
+	public override void _EnterTree()
+	{
+		instance=this;
+		GetTree().CurrentScene=this;
+	}	
 }

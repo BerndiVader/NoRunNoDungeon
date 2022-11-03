@@ -13,13 +13,15 @@ public class Worker : Thread
 		IDLE=0,
 		PREPARELEVEL=1,
 	}
-	public static Status status;
+	private static Status status;
+	private delegate void Goal();
+	private static Goal goal;
 
 	public Worker() : base()
 	{
 		instance=this;
 		stop=false;
-		status=Status.IDLE;
+		setStatus(Status.IDLE);
 		placeholders=new ConcurrentStack<WeakReference>();
 		Start(this,nameof(Runner));
 	}
@@ -28,37 +30,12 @@ public class Worker : Thread
 	{
 		while(!stop)
 		{
-			switch(status)
-			{
-				case Status.PREPARELEVEL:
-				{
-					placeholders.Clear();
-					World.instance.prepareLevel();
-					status=Status.IDLE;
-					gc();
-					break;
-				}
-				case Status.IDLE:
-				{
-					if(placeholders.TryPop(out WeakReference result))
-					{
-						Placeholder p=(Placeholder)result.Target;
-						InstancePlaceholder placeholder=p.GetChild<InstancePlaceholder>(0);
-						String instancePath=placeholder.GetInstancePath();
-						if(!ResourceLoader.HasCached(instancePath))
-						{
-							ResourceLoader.Load(instancePath);
-						}
-						instantiatePlaceholder(p,placeholder);
-					}
-					break;
-				}
-			}
+			goal();
 			OS.DelayMsec(5);
 		}
 	}
 
-	private void instantiatePlaceholder(Placeholder placeholder,InstancePlaceholder iPlaceholder)
+	private static void instantiatePlaceholder(Placeholder placeholder,InstancePlaceholder iPlaceholder)
 	{
 		if(placeholder.IsInsideTree())
 		{
@@ -71,7 +48,44 @@ public class Worker : Thread
 		placeholder.CallDeferred("queue_free");
 	}
 
-	public async void gc()
+	private static void prepareLevel()
+	{
+		placeholders.Clear();
+		World.instance.prepareLevel();
+		setStatus(Status.IDLE);
+		gc();
+	}
+
+	private static void idle()
+	{
+		if(placeholders.TryPop(out WeakReference result))
+		{
+			Placeholder p=(Placeholder)result.Target;
+			InstancePlaceholder placeholder=p.GetChild<InstancePlaceholder>(0);
+			String instancePath=placeholder.GetInstancePath();
+			if(!ResourceLoader.HasCached(instancePath))
+			{
+				ResourceLoader.Load(instancePath);
+			}
+			instantiatePlaceholder(p,placeholder);
+		}
+	}
+
+	public static void setStatus(Status s)
+	{
+		Worker.status=s;
+		switch(status)
+		{
+			case Status.PREPARELEVEL:
+				goal=prepareLevel;
+				break;
+			case Status.IDLE:
+				goal=idle;
+				break;
+		}
+	}
+
+	public static async void gc()
 	{
 		await Task.Run(delegate()
 		{

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://World.cs" type="Script" id=1]
 [ext_resource path="res://Renderer.cs" type="Script" id=2]
-[ext_resource path="res://Camera2D.cs" type="Script" id=3]
+[ext_resource path="res://PlayerCamera.cs" type="Script" id=3]
 
 [sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0.300613, 0.570552, 0.785276 )

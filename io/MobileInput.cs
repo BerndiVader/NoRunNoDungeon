@@ -69,22 +69,22 @@ public class MobileInput : InputController
 
     public override bool getJustLeft()
     {
-        throw new NotImplementedException();
+        return buttons.c.justPressed();
     }
 
     public override bool getJustRight()
     {
-        throw new NotImplementedException();
+        return buttons.o.justPressed();
     }
 
     public override bool getJustUp()
     {
-        throw new NotImplementedException();
+        return buttons.jump.justPressed();
     }
 
     public override bool getJustDown()
     {
-        throw new NotImplementedException();
+        return buttons.x.justPressed();
     }
 
     public override bool getJustAccept()

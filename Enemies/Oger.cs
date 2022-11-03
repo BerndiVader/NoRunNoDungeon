@@ -31,8 +31,7 @@ public class Oger : KinematicMonster
         PLAYERCASTTO=playerCast2D.CastTo;
 
         animationController.Play("idle");
-        state=STATE.idle;
-        lastState=state;
+        EmitSignal(STATE.idle.ToString());
 
         direction=new Vector2(0,0);
 
@@ -50,7 +49,7 @@ public class Oger : KinematicMonster
         {
             Position=startOffset+(ANIMATION_OFFSET*animationDirection);
         }
-        tick(delta);
+        goal(delta);
     }
 
     protected override void idle(float delta)

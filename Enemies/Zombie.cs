@@ -24,10 +24,9 @@ public class Zombie : KinematicMonster
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        state=STATE.idle;
-
         animationController.Play("idle");
-        animationController.FlipH=MathUtils.randomRangeInt(1,2)!=1;
+        animationController.FlipH=MathUtils.randomRangeInt(1,3)==2;
+        EmitSignal(STATE.idle.ToString());
 
         cooldown=0;
 
@@ -67,7 +66,7 @@ public class Zombie : KinematicMonster
             }
         }
 
-        tick(delta);
+        goal(delta);
     }
 
     protected override void idle(float delta)

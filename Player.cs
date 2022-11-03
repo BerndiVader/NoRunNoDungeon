@@ -24,7 +24,7 @@ public class Player : KinematicBody2D
 
     private AnimatedSprite animationController;
     public CollisionShape2D collisionShape;
-    private Camera2D camera;
+    private CPUParticles2D jumpParticles;
 
     private Weapon weapon;
 
@@ -37,11 +37,12 @@ public class Player : KinematicBody2D
             GetNode<Light2D>("Light2D").QueueFree();
         }
 
-        camera=World.instance.GetNode<Camera2D>("Camera2D");
-
         collisionShape=GetNode<CollisionShape2D>("CollisionShape2D");
         animationController=GetNode<AnimatedSprite>("AnimatedSprite");
         animationController.Play(ANIM_RUN);
+
+        jumpParticles=GetNode<CPUParticles2D>("JumpParticles");
+        jumpParticles.Emitting=false;
 
         equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.DRAGGER]);
 
@@ -55,10 +56,13 @@ public class Player : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
-        if(World.instance.state==Gamestate.SCENE_CHANGED||World.instance.state==Gamestate.RESTART)
+        Gamestate gamestate=World.instance.getGamestate();
+        if(gamestate==Gamestate.SCENE_CHANGED||gamestate==Gamestate.RESTART)
         {
             return;
         }
+
+        jumpParticles.InitialVelocity=World.instance.level.Speed;
 
         float friction=1f;
         if(World.instance.level.Speed!=0f)
@@ -75,15 +79,15 @@ public class Player : KinematicBody2D
 
         if(left)
         {
-            camera.direction=1;
+            PlayerCamera.instance.direction=1;
         }
         else if(right)
         {
-            camera.direction=-1;
+            PlayerCamera.instance.direction=-1;
         }
         else
         {
-            camera.direction=0;
+            PlayerCamera.instance.direction=0;
         }
 
         if(changeWeapon&&!attack)
@@ -167,17 +171,24 @@ public class Player : KinematicBody2D
 
         if(IsOnFloor())
         {
+            if(jumpParticles.Emitting)
+            {
+                jumpParticles.Emitting=false;
+            };
             Vector2 floorVelocity=GetFloorVelocity();
             if(floorVelocity!=Vector2.Zero)
             {
                 MoveAndCollide(-floorVelocity*delta);
             }
-
             onAirTime=0f;
             if(lastVelocity.y>300f) 
             {
                 World.instance.renderer.shake+=lastVelocity.y*0.004f;
             }
+        }
+        else if(!jumpParticles.Emitting)
+        {
+            jumpParticles.Emitting=true;
         }
         
         if(jumping&&velocity.y>0f) 

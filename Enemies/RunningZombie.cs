@@ -29,7 +29,7 @@ public class RunningZombie : KinematicMonster
 		rayCast2D.Enabled=true;
 
 		animationController.Play("idle");
-		lastState=state=STATE.idle;
+        EmitSignal(STATE.idle.ToString());
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -39,7 +39,7 @@ public class RunningZombie : KinematicMonster
 			Position=startOffset+(ANIMATION_OFFSET*animationDirection);
 		}
 
-		tick(delta);
+		goal(delta);
 	}
 
 	protected override void idle(float delta)

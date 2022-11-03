@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Player.cs" type="Script" id=1]
 [ext_resource path="res://image/0x72/frames/knight_f_hit_anim_f0.png" type="Texture" id=2]
@@ -25,6 +25,10 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 4.07659, 6.09739 )
 
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.185022, 0.45815, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.835294, 0.803922, 0.803922, 0.803922, 0.458824, 0.631373, 0.631373, 0.631373, 0 )
+
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 0, -1 )
 z_index = 2
@@ -48,3 +52,21 @@ frame = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 4.80524 )
 shape = SubResource( 2 )
+
+[node name="JumpParticles" type="CPUParticles2D" parent="."]
+position = Vector2( 0, 11 )
+z_index = -2000
+z_as_relative = false
+emitting = false
+amount = 32
+local_coords = false
+direction = Vector2( -1, 0 )
+spread = 6.47
+gravity = Vector2( 0, -11 )
+initial_velocity = 50.0
+initial_velocity_random = 0.13
+angle = 352.2
+angle_random = 1.0
+scale_amount = 5.0
+scale_amount_random = 1.0
+color_ramp = SubResource( 3 )
