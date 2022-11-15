@@ -67,8 +67,8 @@ public class World : Node
 
 	 
 	public Vector2 RESOLUTION=new Vector2(512f,288f);
-	public Level level;
-	private Level cachedLevel;
+	public static Level level;
+	private static Level cachedLevel;
 	public TileSet tileSet;
 	private Background background;
 	public Player player;

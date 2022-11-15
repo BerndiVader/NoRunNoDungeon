@@ -15,9 +15,9 @@ public class PhysicsCoin : PhysicsObject
     {
         if(body.Name.Equals("Player"))
         {
-            CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKENPARTICLES].Instance();
-            particles.Position=World.instance.level.ToLocal(GlobalPosition);
-            World.instance.level.AddChild(particles);
+            CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKEN].Instance();
+            particles.Position=World.level.ToLocal(GlobalPosition);
+            World.level.AddChild(particles);
             QueueFree();
         }
     }

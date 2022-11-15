@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://particles/MadRockParticles.cs" type="Script" id=1]
+[ext_resource path="res://image/gfx/explode5/explode-1.png" type="Texture" id=2]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -15,6 +16,7 @@ material = SubResource( 1 )
 rotation = 1.5708
 amount = 16
 explosiveness = 1.0
+texture = ExtResource( 2 )
 emission_shape = 2
 emission_rect_extents = Vector2( 5, 16 )
 direction = Vector2( -1, 0 )
@@ -22,14 +24,12 @@ spread = 21.0
 gravity = Vector2( 0, 2 )
 initial_velocity = 60.0
 initial_velocity_random = 0.51
-angular_velocity = 244.89
-angular_velocity_random = 1.0
 linear_accel = -11.58
 radial_accel = 53.38
 radial_accel_random = 0.44
 damping = 60.83
-scale_amount = 5.0
-scale_amount_random = 0.56
+scale_amount = 0.1
+scale_amount_random = 0.29
 color = Color( 1, 1, 1, 0.662745 )
 color_ramp = SubResource( 2 )
 color_initial_ramp = SubResource( 3 )

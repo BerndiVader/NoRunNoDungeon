@@ -76,6 +76,8 @@ public static class ResourceUtils
         particles.Add((PackedScene)ResourceLoader.Load("res://particles/EnemieDieParticles.tscn"));
         particles.Add((PackedScene)ResourceLoader.Load("res://particles/DaggerMissParticles.tscn"));
         particles.Add((PackedScene)ResourceLoader.Load("res://particles/MadRockParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/WeaponChangeParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/JumpParticles.tscn"));
 
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/TestBullet.tscn"));
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/DaggerBullet.tscn"));

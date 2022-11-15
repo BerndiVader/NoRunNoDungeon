@@ -7,7 +7,9 @@ public class LevelControl : Node2D
     [Export] private bool EnableSpeed=false;
     [Export] private float Speed=0f;
     [Export] private bool EnableZoom=false;
-    [Export] private float Zoom=0f;
+    [Export] private float Zoom=1f;
+
+    private Settings pSettings;
 
     public override void _Ready()
     {
@@ -19,21 +21,26 @@ public class LevelControl : Node2D
         SetProcess(false);
         SetPhysicsProcess(false);
         SetProcessInput(false);
+
     }
 
     public override void _Process(float delta)
     {
-        float x=(Position+World.instance.level.GlobalPosition).x;
+        float x=(Position+World.level.GlobalPosition).x;
         x-=GetViewportRect().Size.x/2;
         if(x<=0f)
         {
             SetProcess(false);
+            pSettings=new Settings(World.level);
 
             if(EnableSpeed)
             {
-                float oSpeed=World.instance.level.Speed;
-                World.instance.level.Speed=Speed;
-                GetTree().CreateTimer(10,false).Connect("timeout",this,nameof(onTimeout),new Godot.Collections.Array(oSpeed));
+                float oSpeed=World.level.Speed;
+                Vector2 oZoom=PlayerCamera.instance.Zoom;
+                World.level.Speed=Speed;
+                PlayerCamera.instance.Zoom=new Vector2(Zoom,Zoom);
+                PlayerCamera.instance.GlobalPosition=World.instance.player.GlobalPosition;
+                GetTree().CreateTimer(10,false).Connect("timeout",this,nameof(onTimeout));
             }
             else
             {
@@ -43,9 +50,9 @@ public class LevelControl : Node2D
 
     }
 
-    private void onTimeout(float speed)
+    private void onTimeout()
     {
-        World.instance.level.Speed=speed;
+        pSettings.restore();
         CallDeferred("queue_free");
     }
 

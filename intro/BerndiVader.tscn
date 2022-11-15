@@ -7,7 +7,6 @@
 [ext_resource path="res://sounds/berndivader/Bass Drop Sound Effect.ogg" type="AudioStream" id=6]
 
 [node name="Root" type="Node2D"]
-position = Vector2( 0, -8 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_vertical_guides_": [ 256.0 ]

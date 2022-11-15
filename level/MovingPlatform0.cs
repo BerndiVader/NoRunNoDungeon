@@ -38,7 +38,7 @@ public class MovingPlatform0 : Platform
             speed=Mathf.Clamp(Mathf.Ease(1-(distance/maxDistance),0.5f)*1000,10,MaxSpeed);
         }
 
-        speed=Mathf.Min(speed,World.instance.level.Speed);
+        speed=Mathf.Min(speed,World.level.Speed);
         CurrentSpeed=Direction*speed;
         Translate(CurrentSpeed*delta);
     }

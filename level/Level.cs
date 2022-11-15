@@ -7,7 +7,6 @@ public class Level : TileMap
     [Export] public Vector2 direction=new Vector2(-1f,0f);
     public int mapLength;
     public int pixelLength;
-
     public Position2D startingPoint;
 
     public override void _Ready()
@@ -15,6 +14,8 @@ public class Level : TileMap
         SetProcess(false);
         SetPhysicsProcess(false);
         SetProcessInput(false);
+
+        PlayerCamera.instance.Zoom=new Vector2(1f,1f);
 
         mapLength=((int)GetUsedRect().End.x)-1;
         pixelLength=mapLength*(int)this.CellSize.x;
@@ -26,7 +27,7 @@ public class Level : TileMap
 
         startingPoint=GetNode<Position2D>("StartingPoint");
         startingPoint.Visible=false;
-
+        
         Connect("tree_exiting",this,nameof(freeLevel));
         AddToGroup(GROUPS.LEVEL.ToString());
 

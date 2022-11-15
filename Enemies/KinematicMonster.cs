@@ -102,14 +102,14 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void die(float delta)
     {
-        EnemieDieParticles particles=(EnemieDieParticles)ResourceUtils.particles[(int)PARTICLES.ENEMIEDIEPARTICLES].Instance();
+        EnemieDieParticles particles=(EnemieDieParticles)ResourceUtils.particles[(int)PARTICLES.ENEMIEDIE].Instance();
         particles.Texture=animationController.Frames.GetFrame(animationController.Animation,animationController.Frame);
 
         Vector2 position=GlobalPosition;
         position.y+=particles.Texture.GetWidth()/2;
-        particles.Position=World.instance.level.ToLocal(position);
+        particles.Position=World.level.ToLocal(position);
 
-        World.instance.level.AddChild(particles);
+        World.level.AddChild(particles);
         QueueFree();
     }
 

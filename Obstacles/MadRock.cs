@@ -124,8 +124,8 @@ public class MadRock : KinematicBody2D
     private void createParticles()
     {
         MadRockParticles particle=(MadRockParticles)particles.Instance();
-        particle.Position=World.instance.level.ToLocal(GlobalPosition+new Vector2(0f,16f));
-        World.instance.level.AddChild(particle);
+        particle.Position=World.level.ToLocal(GlobalPosition+new Vector2(0f,16f));
+        World.level.AddChild(particle);
     }
 
     private void onExitedScreen()

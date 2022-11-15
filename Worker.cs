@@ -40,8 +40,8 @@ public class Worker : Thread
 		if(placeholder.IsInsideTree())
 		{
 			placeholder.CallDeferred("remove_child",iPlaceholder);
-			iPlaceholder.Set("position",World.instance.level.ToLocal(placeholder.GlobalPosition));
-			World.instance.level.CallDeferred("add_child",iPlaceholder);
+			iPlaceholder.Set("position",World.level.ToLocal(placeholder.GlobalPosition));
+			World.level.CallDeferred("add_child",iPlaceholder);
 			iPlaceholder.CallDeferred("create_instance",true);
 		}
 		iPlaceholder.CallDeferred("queue_free");

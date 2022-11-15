@@ -24,25 +24,29 @@ public class Player : KinematicBody2D
 
     private AnimatedSprite animationController;
     public CollisionShape2D collisionShape;
-    private CPUParticles2D jumpParticles;
+    private CPUParticles2D airParticles,jumpParticles;
 
     private Weapon weapon;
 
     public override void _Ready()
     {
-        Position=World.instance.renderer.ToLocal(World.instance.level.startingPoint.GlobalPosition);
+        Position=World.instance.renderer.ToLocal(World.level.startingPoint.GlobalPosition);
 
         if(ResourceUtils.isMobile)
         {
             GetNode<Light2D>("Light2D").QueueFree();
         }
 
-        collisionShape=GetNode<CollisionShape2D>("CollisionShape2D");
-        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
+        collisionShape=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
+        animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         animationController.Play(ANIM_RUN);
 
-        jumpParticles=GetNode<CPUParticles2D>("JumpParticles");
+        airParticles=GetNode<CPUParticles2D>(nameof(airParticles));
+        airParticles.Emitting=false;
+        jumpParticles=ResourceUtils.particles[(int)PARTICLES.JUMP].Instance<CPUParticles2D>();
+        AddChild(jumpParticles);
         jumpParticles.Emitting=false;
+
 
         equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.DRAGGER]);
 
@@ -62,12 +66,12 @@ public class Player : KinematicBody2D
             return;
         }
 
-        jumpParticles.InitialVelocity=World.instance.level.Speed;
+        airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.Speed;
 
         float friction=1f;
-        if(World.instance.level.Speed!=0f)
+        if(World.level.Speed!=0f)
         {
-            friction=36/World.instance.level.Speed;
+            friction=36/World.level.Speed;
         }
         Vector2 force=FORCE;
 
@@ -149,7 +153,7 @@ public class Player : KinematicBody2D
             for(int i=0;i<collides;i++)
             {
                 KinematicCollision2D collision=GetSlideCollision(i);
-                if(collision.ColliderId==World.instance.level.GetInstanceId())
+                if(collision.ColliderId==World.level.GetInstanceId())
                 {
                     slopeAngle=collision.Normal.AngleTo(Vector2.Up);
                     onSlope=Mathf.Abs(slopeAngle)>=0.785298f;
@@ -171,30 +175,32 @@ public class Player : KinematicBody2D
 
         if(IsOnFloor())
         {
-            if(jumpParticles.Emitting)
+            if(airParticles.Emitting)
             {
-                jumpParticles.Emitting=false;
-            };
+                airParticles.Emitting=false;
+            }
+
             Vector2 floorVelocity=GetFloorVelocity();
             if(floorVelocity!=Vector2.Zero)
             {
                 MoveAndCollide(-floorVelocity*delta);
             }
-            onAirTime=0f;
+            onAirTime=0.0f;
             if(lastVelocity.y>300f) 
             {
                 World.instance.renderer.shake+=lastVelocity.y*0.004f;
             }
         }
-        else if(!jumpParticles.Emitting)
+        else if(!airParticles.Emitting)
         {
-            jumpParticles.Emitting=true;
+            airParticles.Emitting=true;
         }
         
         if(jumping&&velocity.y>0f) 
         {
             animationController.Play(ANIM_RUN);
             doubleJump=jumping=false;
+            jumpParticles.Emitting=false;
         }
 
         if(jump&&jumping&&!doubleJump) 
@@ -202,6 +208,7 @@ public class Player : KinematicBody2D
             doubleJump=true;
             velocity.y=-JUMP_SPEED;
             animationController.Play(ANIM_JUMP);
+            jumpParticles.Emitting=true;
         }
 
         if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME) 

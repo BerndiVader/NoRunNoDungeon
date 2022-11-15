@@ -96,6 +96,7 @@ position = Vector2( 2752, 160 )
 [node name="LevelControl" parent="." instance=ExtResource( 12 )]
 position = Vector2( 952, 24 )
 EnableSpeed = true
+Zoom = 0.8
 
 [node name="CoinStatic" parent="." instance=ExtResource( 9 )]
 position = Vector2( 2448, 240 )
