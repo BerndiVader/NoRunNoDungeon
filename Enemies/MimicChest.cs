@@ -62,12 +62,12 @@ public class MimicChest : KinematicMonster
 
     protected override void idle(float delta)
     {
-        bool collide=collisionBox.Collide(collisionController.GlobalTransform,World.instance.player.collisionShape.Shape,World.instance.player.GlobalTransform);
-        if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId()))
+        bool collide=collisionBox.Collide(collisionController.GlobalTransform,Player.instance.collisionShape.Shape,Player.instance.GlobalTransform);
+        if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId()))
         {
             cooldown=0;
             animationController.Play("attack");
-            onAttack(World.instance.player);
+            onAttack(Player.instance);
             return;
         }
         else if(cooldown>99) 

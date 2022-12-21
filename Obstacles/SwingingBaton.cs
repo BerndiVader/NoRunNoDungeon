@@ -14,7 +14,7 @@ public class SwingingBaton : Area2D
         AddToGroup(GROUPS.OBSTACLES.ToString(),true);
 
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         rotateTo=new Vector2(Mathf.Deg2Rad(90),0);
@@ -29,11 +29,6 @@ public class SwingingBaton : Area2D
         {
             body.EmitSignal(STATE.damage.ToString(),1f,this);
         }
-    }
-
-    private void onExitedScreen()
-    {
-        QueueFree();
     }
 
     public override void _PhysicsProcess(float delta)

@@ -8,6 +8,7 @@ public class Level : TileMap
     public int mapLength;
     public int pixelLength;
     public Position2D startingPoint;
+    public Settings settings;
 
     public override void _Ready()
     {
@@ -31,6 +32,7 @@ public class Level : TileMap
         Connect("tree_exiting",this,nameof(freeLevel));
         AddToGroup(GROUPS.LEVEL.ToString());
 
+        settings=new Settings(this);
     }
 
     public void freeLevel() 

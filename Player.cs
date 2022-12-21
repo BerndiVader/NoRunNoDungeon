@@ -3,6 +3,7 @@ using System;
 
 public class Player : KinematicBody2D
 {
+    public static Player instance;
     private static String ANIM_RUN="RUN";
     private static String ANIM_JUMP="HIT";
     public static int LIVES;
@@ -27,6 +28,11 @@ public class Player : KinematicBody2D
     private CPUParticles2D airParticles,jumpParticles;
 
     private Weapon weapon;
+
+    public Player() : base()
+    {
+        instance=this;
+    }
 
     public override void _Ready()
     {

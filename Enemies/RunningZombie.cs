@@ -218,7 +218,7 @@ public class RunningZombie : KinematicMonster
 
 	private bool inRange()
 	{
-		return Mathf.Abs(World.instance.player.GlobalPosition.DistanceTo(GlobalPosition))<ACTIVATION_RANGE;
+		return Mathf.Abs(Player.instance.GlobalPosition.DistanceTo(GlobalPosition))<ACTIVATION_RANGE;
 	}
 
 	private void FlipH()

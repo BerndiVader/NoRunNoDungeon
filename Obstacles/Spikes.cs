@@ -20,7 +20,7 @@ public class Spikes : Area2D
     public override void _Ready()
     {
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         if(!StaticElement)
@@ -43,7 +43,7 @@ public class Spikes : Area2D
 
     public override void _PhysicsProcess(float delta)
     {
-        float distance=GlobalPosition.DistanceTo(World.instance.player.GlobalPosition);
+        float distance=GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
 
         if(distance<ActOnDistance)
         {
@@ -110,11 +110,6 @@ public class Spikes : Area2D
             node.EmitSignal(STATE.damage.ToString(),damage,this);
         }
 
-    }
-
-    private void onExitedScreen()
-    {
-        QueueFree();
-    }    
+    }  
 
 }

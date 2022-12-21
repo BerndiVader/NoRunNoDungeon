@@ -11,18 +11,13 @@ public class Platform : StaticBody2D
     public override void _Ready()
     {
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
         
         startPosition=lastPosition=Position;
         CurrentSpeed=new Vector2(0f,0f);
         
         AddToGroup(GROUPS.PLATFORMS.ToString());
-    }
-
-    private void onExitedScreen()
-    {
-        QueueFree();
     }
 
 }

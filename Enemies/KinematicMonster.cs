@@ -26,7 +26,7 @@ public abstract class KinematicMonster : KinematicBody2D
     public override void _Ready()
     {
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         collisionController=GetNode<CollisionShape2D>("CollisionShape2D");
@@ -218,11 +218,6 @@ public abstract class KinematicMonster : KinematicBody2D
             SceneTreeTimer timer=GetTree().CreateTimer(seconds,false);
             timer.Connect("timeout",this,method,new Godot.Collections.Array(args));
         }
-    }
-
-    protected void onExitedScreen()
-    {
-        QueueFree();
     }
 
     protected void onAnimationPlayerStarts(String name)

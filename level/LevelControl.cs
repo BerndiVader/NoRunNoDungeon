@@ -3,67 +3,56 @@ using System;
 
 public class LevelControl : Node2D
 {
-    VisibilityNotifier2D notifier;
-    [Export] private bool EnableSpeed=false;
-    [Export] private float Speed=0f;
-    [Export] private bool EnableZoom=false;
-    [Export] private float Zoom=1f;
+    [Export] private float Speed=-1f;
+    [Export] private float Zoom=-1f;
+    [Export] private int Timeout=-1;
+    [Export] private bool Restore=false;
+    private VisibilityNotifier2D notifier;
+    private float xSize;
 
-    private Settings pSettings;
+    private Settings settings; 
 
     public override void _Ready()
     {
         notifier=new VisibilityNotifier2D();
         notifier.Connect("screen_entered",this,nameof(onScreenEntered));
-        notifier.Connect("screen_exited",this,nameof(onScreenExited));
+        notifier.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier);
 
         SetProcess(false);
         SetPhysicsProcess(false);
         SetProcessInput(false);
 
+        xSize=GetViewportRect().Size.x;
     }
 
     public override void _Process(float delta)
     {
         float x=(Position+World.level.GlobalPosition).x;
-        x-=GetViewportRect().Size.x/2;
-        if(x<=0f)
+        if(x<=xSize*0.5)
         {
             SetProcess(false);
-            pSettings=new Settings(World.level);
-
-            if(EnableSpeed)
+            if(!Restore)
             {
-                float oSpeed=World.level.Speed;
-                Vector2 oZoom=PlayerCamera.instance.Zoom;
-                World.level.Speed=Speed;
-                PlayerCamera.instance.Zoom=new Vector2(Zoom,Zoom);
-                PlayerCamera.instance.GlobalPosition=World.instance.player.GlobalPosition;
-                GetTree().CreateTimer(10,false).Connect("timeout",this,nameof(onTimeout));
+                settings=new Settings(World.level,Speed,Zoom);
+                settings.set();
+                if(Timeout!=-1)
+                {
+                    World.level.AddChild(new LevelControlTimer(Timeout,settings));
+                    QueueFree();
+                }
             }
             else
             {
-                CallDeferred("queue_free");
+                World.level.settings.restore();
             }
         }
 
     }
 
-    private void onTimeout()
-    {
-        pSettings.restore();
-        CallDeferred("queue_free");
-    }
-
     private void onScreenEntered()
     {
         SetProcess(true);
-    }
-    private void onScreenExited()
-    {
-        SetProcess(false);
-        CallDeferred("queue_free");
     }
 
 }

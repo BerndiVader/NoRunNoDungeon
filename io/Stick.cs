@@ -9,6 +9,8 @@ public class Stick : TouchScreenButton
     private int onGoing=-1;
     private float returnAccel=20f;
     private float threshold=10f;
+    private Vector2 hidePosition=new Vector2(-200f,-200f);
+    private Vector2 approxPosition=new Vector2(-16f,-16f);
     public bool useAccelerometer;
 
     private Label label;
@@ -16,7 +18,8 @@ public class Stick : TouchScreenButton
     public override void _Ready()
     {
         touch=GetParent<Touch>();
-        touch.Position=new Vector2(-100,-100);
+        touch.Position=hidePosition;
+        touch.oPosition=Position;
 
         useAccelerometer=false;
 
@@ -33,9 +36,10 @@ public class Stick : TouchScreenButton
         {
             Vector2 diffPos=Vector2.Zero-rad-Position;
             Position+=diffPos*returnAccel*delta;
-            if((Position.IsEqualApprox(new Vector2(-16f,-16f)))) 
+            if(Position.IsEqualApprox(approxPosition)) 
             {
-                touch.Position=new Vector2(-100,-100);
+                touch.Position=hidePosition;
+                touch.oPosition=Position;
             }
         }
     }
@@ -66,8 +70,10 @@ public class Stick : TouchScreenButton
             if(@event.IsPressed()&&position.x<512*0.5) 
             {
                 touch.GlobalPosition=position;
+                touch.oPosition=touch.Position;
             }
-            float distCenter=(position-touch.GlobalPosition).Length();
+
+            float distCenter=(position-GlobalPosition).Length();
 
             if(distCenter<=boundary*GlobalScale.x||index==onGoing)
             {

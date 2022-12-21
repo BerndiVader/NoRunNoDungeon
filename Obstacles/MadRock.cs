@@ -27,7 +27,7 @@ public class MadRock : KinematicBody2D
         AddToGroup(GROUPS.OBSTACLES.ToString());
 
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         force=new Vector2(0f,GRAVITY);
@@ -45,7 +45,7 @@ public class MadRock : KinematicBody2D
 
     private void idle(float delta)
     {
-        if(GlobalPosition.DistanceSquaredTo(World.instance.player.GlobalPosition)<distance)
+        if(GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<distance)
         {
             onFalling();
         }
@@ -126,11 +126,6 @@ public class MadRock : KinematicBody2D
         MadRockParticles particle=(MadRockParticles)particles.Instance();
         particle.Position=World.level.ToLocal(GlobalPosition+new Vector2(0f,16f));
         World.level.AddChild(particle);
-    }
-
-    private void onExitedScreen()
-    {
-        QueueFree();
     }
 
 }

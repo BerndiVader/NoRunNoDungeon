@@ -3,16 +3,21 @@ using System;
 
 public class Touch : Sprite
 {
-    private Stick stick;
+    public Stick stick;
+    public Vector2 oPosition;
 
     public override void _Ready()
     {
         stick=GetNode<Stick>("Stick");
+        SetProcess(true);
+        SetPhysicsProcess(false);
+        SetProcessInput(false);
     }
 
-    public Vector2 getValue()
+    public override void _Process(float delta)
     {
-        return stick.getValue();
+        Scale=PlayerCamera.instance.Zoom;
+        Position=PlayerCamera.instance.relativePosition()+oPosition*Scale;
     }
 
 }

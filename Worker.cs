@@ -60,20 +60,23 @@ public class Worker : Thread
 	{
 		if(placeholders.TryPop(out WeakReference result))
 		{
-			Placeholder p=(Placeholder)result.Target;
-			InstancePlaceholder placeholder=p.GetChild<InstancePlaceholder>(0);
-			String instancePath=placeholder.GetInstancePath();
-			if(!ResourceLoader.HasCached(instancePath))
+			if(result.IsAlive)
 			{
-				ResourceLoader.Load(instancePath);
+				Placeholder p=(Placeholder)result.Target;
+				InstancePlaceholder placeholder=p.GetChild<InstancePlaceholder>(0);
+				String instancePath=placeholder.GetInstancePath();
+				if(!ResourceLoader.HasCached(instancePath))
+				{
+					ResourceLoader.Load(instancePath);
+				}
+				instantiatePlaceholder(p,placeholder);
 			}
-			instantiatePlaceholder(p,placeholder);
 		}
 	}
 
 	public static void setStatus(Status s)
 	{
-		Worker.status=s;
+		status=s;
 		switch(status)
 		{
 			case Status.PREPARELEVEL:

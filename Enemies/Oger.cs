@@ -79,7 +79,7 @@ public class Oger : KinematicMonster
         }
         else
         {
-            onAttack(World.instance.player);
+            onAttack(Player.instance);
         }
     }
 
@@ -101,7 +101,7 @@ public class Oger : KinematicMonster
         }
         else
         {
-            onAttack(World.instance.player);
+            onAttack(Player.instance);
         }
     }
 
@@ -325,7 +325,7 @@ public class Oger : KinematicMonster
 
     private bool canSeePlayer()
     {
-        return playerCast2D.IsColliding()&&playerCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId();
+        return playerCast2D.IsColliding()&&playerCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId();
     }
 
     private void FlipH()

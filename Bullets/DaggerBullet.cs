@@ -45,7 +45,7 @@ public class DaggerBullet : Area2D
     {
         if(node.HasUserSignal(STATE.damage.ToString()))
         {
-            node.EmitSignal(STATE.damage.ToString(),World.instance.player,1f);
+            node.EmitSignal(STATE.damage.ToString(),Player.instance,1f);
         }
         destroy();
     }

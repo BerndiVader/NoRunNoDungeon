@@ -5,37 +5,40 @@ public class MobileInput : InputController
 {
 
     private Touch touch;
+    private Stick stick;
     private Buttons buttons;
 
     public MobileInput(Node scene)
     {
-            touch=(Touch)ResourceUtils.touch.Instance();
-            touch.ZIndex=2500;
-            scene.AddChild(touch);
+        touch=ResourceUtils.touch.Instance<Touch>();
+        touch.ZIndex=2500;
+        scene.AddChild(touch);
+        stick=touch.GetNode<Stick>(nameof(Stick));
 
-            buttons=(Buttons)ResourceUtils.buttons.Instance();
-            buttons.ZIndex=2500;
-            scene.AddChild(buttons);
+        buttons=ResourceUtils.buttons.Instance<Buttons>();
+        buttons.ZIndex=2500;
+        buttons.Position=new Vector2(445,225);
+        scene.AddChild(buttons);
 
-            buttons.PauseMode=Node.PauseModeEnum.Process;
-            scene.PauseMode=Node.PauseModeEnum.Process;
+        buttons.PauseMode=Node.PauseModeEnum.Process;
+        scene.PauseMode=Node.PauseModeEnum.Process;
     }
 
     public override bool getLeft()
     {
-        return touch.getValue().x<0f;
+        return stick.getValue().x<0f;
     }
     public override bool getRight()
     {
-        return touch.getValue().x>0f;
+        return stick.getValue().x>0f;
     }
     public override bool getUp()
     {
-        return touch.getValue().y<0f;
+        return stick.getValue().y<0f;
     }
     public override bool getDown()
     {
-        return touch.getValue().y>0f;
+        return stick.getValue().y>0f;
     }
 
     public override bool getJump()

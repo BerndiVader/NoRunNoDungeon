@@ -45,6 +45,14 @@ public class World : Node
 		Worker.gc();
 	}
 
+	public static void onObjectExitedScreen(Node node)
+	{
+        if(PlayerCamera.instance.Zoom.x==1f)
+        {
+            node.QueueFree();
+        }		
+	}
+
 	public static void quit() 
 	{
 		Console.Write("Wait for worker to finish...");
@@ -71,7 +79,6 @@ public class World : Node
 	private static Level cachedLevel;
 	public TileSet tileSet;
 	private Background background;
-	public Player player;
 	public Renderer renderer;
 	public InputController input;
 	private int currentLevel,nextLevel;
@@ -82,11 +89,11 @@ public class World : Node
 
 	public override void _Ready()
 	{
+		ResourceUtils.camera.Instance<PlayerCamera>();
 		if(ResourceUtils.isMobile)
 		{
 			GetNode("WorldEnvironment").QueueFree();
 		}
-
 		input=ResourceUtils.getInputController(this);
 		renderer=GetNode<Renderer>("Renderer");
 
@@ -96,14 +103,16 @@ public class World : Node
 		nextLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 		mergeMaps(level,cachedLevel);
-		player=(Player)ResourceUtils.player.Instance();
+		ResourceUtils.player.Instance();
 		Player.LIVES=3;
 		background=(Background)ResourceUtils.background.Instance();
+
+		Player.instance.AddChild(PlayerCamera.instance);
 
 		setGamestate(Gamestate.RUNNING);
 
 		renderer.AddChild(level);
-		renderer.AddChild(player);
+		renderer.AddChild(Player.instance);
 		renderer.AddChild(background);
 	}
 
@@ -210,10 +219,12 @@ public class World : Node
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
 		mergeMaps(level,cachedLevel);
 		renderer.AddChild(level);
-		renderer.RemoveChild(player);
-		player.QueueFree();
-		player=(Player)ResourceUtils.player.Instance();
-		renderer.AddChild(player);
+		renderer.RemoveChild(Player.instance);
+		Player.instance.RemoveChild(PlayerCamera.instance);
+		Player.instance.QueueFree();
+		ResourceUtils.player.Instance();
+		Player.instance.AddChild(PlayerCamera.instance);
+		renderer.AddChild(Player.instance);
 		setGamestate(Gamestate.RUNNING);
 	}
 

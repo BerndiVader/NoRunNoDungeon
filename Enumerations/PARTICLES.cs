@@ -10,4 +10,5 @@ public enum PARTICLES
     MADROCK,
     WEAPONCHANGE,
     JUMP,
+    DAGGERSHOOT
 }

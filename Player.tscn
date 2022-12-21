@@ -57,7 +57,7 @@ shape = SubResource( 2 )
 [node name="airParticles" type="CPUParticles2D" parent="."]
 position = Vector2( 0, 11 )
 z_index = -10
-amount = 32
+amount = 16
 local_coords = false
 texture = ExtResource( 7 )
 direction = Vector2( -1, 0 )

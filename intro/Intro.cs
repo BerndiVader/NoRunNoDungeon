@@ -7,6 +7,7 @@ public class Intro : Node
 	
 	public override void _Ready()
 	{
+		AddChild(ResourceUtils.camera.Instance<PlayerCamera>());		
 		input=ResourceUtils.getInputController(this);
 		GetTree().CurrentScene=this;
 		GetTree().Paused=false;

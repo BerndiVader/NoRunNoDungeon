@@ -8,6 +8,7 @@ public static class ResourceUtils
     public static PackedScene intro;
     public static PackedScene pause;
     public static PackedScene player;
+    public static PackedScene camera;
     public static List<PackedScene> levels;
     public static List<PackedScene> enemies;
     public static List<PackedScene> bullets;
@@ -46,12 +47,13 @@ public static class ResourceUtils
         pause=(PackedScene)ResourceLoader.Load("res://ui/PauseUI.tscn");
         player=(PackedScene)ResourceLoader.Load("res://Player.tscn");
         background=(PackedScene)ResourceLoader.Load("res://level/Background.tscn");
+        camera=ResourceLoader.Load<PackedScene>("res://PlayerCamera.tscn");
 
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
+//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
+//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
+//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
+//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
 
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset1.tres"));
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset2.tres"));
@@ -78,6 +80,8 @@ public static class ResourceUtils
         particles.Add((PackedScene)ResourceLoader.Load("res://particles/MadRockParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/WeaponChangeParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/JumpParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/DaggerShoot.tscn"));
+
 
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/TestBullet.tscn"));
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/DaggerBullet.tscn"));

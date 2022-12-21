@@ -94,9 +94,10 @@ position = Vector2( 2640, 176 )
 position = Vector2( 2752, 160 )
 
 [node name="LevelControl" parent="." instance=ExtResource( 12 )]
-position = Vector2( 952, 24 )
-EnableSpeed = true
-Zoom = 0.8
+position = Vector2( 952, 151 )
+Speed = 0.0
+Zoom = 0.5
+Timeout = 10
 
 [node name="CoinStatic" parent="." instance=ExtResource( 9 )]
 position = Vector2( 2448, 240 )
@@ -173,6 +174,10 @@ position = Vector2( 952, 64 )
 
 [node name="MadRockPlaceholder3" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1048, 64 )
+
+[node name="LevelControl2" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1648, 32 )
+Restore = true
 
 [editable path="PlatformMoving3x3"]
 [editable path="ZombieRunning"]

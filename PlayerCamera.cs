@@ -6,11 +6,18 @@ public class PlayerCamera : Camera2D
     public static PlayerCamera instance;
     private float rot=0.001f;
     public int direction;
+    private Vector2 size;
 
     public PlayerCamera() : base()
     {
         instance=this;
         direction=0;
+    }
+
+    public override void _Ready()
+    {
+
+        size=GetViewportRect().Size;
     }
 
     public override void _Process(float delta)
@@ -26,6 +33,11 @@ public class PlayerCamera : Camera2D
         {
             Rotation-=rot*Mathf.Sign(Rotation);
         }
+    }
+
+    public Vector2 relativePosition()
+    {
+        return GetCameraScreenCenter()-(size*Zoom*0.5f);
     }
 
 }

@@ -71,10 +71,10 @@ public class Zombie : KinematicMonster
 
     protected override void idle(float delta)
     {
-        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId())
+        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId())
         {
             cooldown=0;
-            onAttack(World.instance.player);
+            onAttack(Player.instance);
         }
         else if(cooldown>250)
         {

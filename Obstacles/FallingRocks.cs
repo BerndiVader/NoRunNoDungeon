@@ -24,7 +24,7 @@ public class FallingRocks : StaticBody2D
     public override void _Ready()
     {
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         area=GetNode<Area2D>("Area2D");
@@ -45,7 +45,7 @@ public class FallingRocks : StaticBody2D
         switch(state)
         {
             case State.IDLE:
-                float distance=Mathf.Abs(GlobalPosition.x-World.instance.player.GlobalPosition.x);
+                float distance=Mathf.Abs(GlobalPosition.x-Player.instance.GlobalPosition.x);
                 if(distance<ActivationDistance) 
                 {
                     state=State.FALLING;
@@ -125,9 +125,4 @@ public class FallingRocks : StaticBody2D
         }
     }
 
-    private void onExitedScreen()
-    {
-        QueueFree();
-    }
-    
 }
