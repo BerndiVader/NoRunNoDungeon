@@ -4,7 +4,7 @@
 [ext_resource path="res://image/super_pixel_cave/style_D/PNG/terrain_top_left.png" type="Texture" id=2]
 [ext_resource path="res://image/super_pixel_cave/style_D/PNG/terrain_bottom_right.png" type="Texture" id=3]
 [ext_resource path="res://image/super_pixel_cave/style_D/PNG/terrain_top_right.png" type="Texture" id=4]
-[ext_resource path="res://Obstacles/FallingRocks.cs" type="Script" id=5]
+[ext_resource path="res://obstacles/FallingRocks.cs" type="Script" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -16,7 +16,7 @@ extents = Vector2( 13.6747, 16 )
 extents = Vector2( 10.1343, 1.39079 )
 
 [node name="Rock" type="StaticBody2D" groups=["OBSTACLES"]]
-collision_layer = 16
+collision_layer = 4
 collision_mask = 0
 script = ExtResource( 5 )
 
@@ -41,7 +41,7 @@ texture = ExtResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 16
-collision_mask = 7
+collision_mask = 23
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 2 )

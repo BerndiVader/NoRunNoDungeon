@@ -6,6 +6,7 @@ public class Placeholder : Node2D
 {
     public override void _Ready()
     {        
+        Visible=false;
         SetPhysicsProcess(false);
         SetProcessInput(false);
         SetProcess(false);

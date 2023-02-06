@@ -7,8 +7,9 @@
 [ext_resource path="res://image/gfx/explode5/explode-5.png" type="Texture" id=5]
 [ext_resource path="res://image/gfx/explode5/explode-6.png" type="Texture" id=6]
 [ext_resource path="res://image/gfx/explode5/explode-7.png" type="Texture" id=7]
-[ext_resource path="res://Gfx/ExplodeGfx.cs" type="Script" id=8]
+[ext_resource path="res://gfx/ExplodeGfx.cs" type="Script" id=8]
 [ext_resource path="res://image/gfx/explode5/explode-8.png" type="Texture" id=9]
+
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {

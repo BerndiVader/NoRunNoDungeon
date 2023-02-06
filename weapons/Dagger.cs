@@ -4,6 +4,7 @@ using System;
 public class Dagger : Weapon
 {
     private int cooldown;
+    private PackedScene shootParticles=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT];
     public override void _Ready()
     {
         base._Ready();
@@ -52,6 +53,10 @@ public class Dagger : Weapon
     }
     private void throwDagger()
     {
+        DaggerShoot shoot=shootParticles.Instance<DaggerShoot>();
+        shoot.Position=World.level.ToLocal(GetNode<Position2D>(nameof(Position2D)).GlobalPosition);
+        shoot.Emitting=true;
+        World.level.AddChild(shoot);
         DaggerBullet bullet=(DaggerBullet)((PackedScene)ResourceUtils.bullets[(int)BULLETS.DAGGERBULLET]).Instance();
         bullet.Position=World.instance.renderer.ToLocal(GlobalPosition);
         World.instance.renderer.AddChild(bullet);

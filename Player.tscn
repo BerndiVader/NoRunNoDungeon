@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Player.cs" type="Script" id=1]
 [ext_resource path="res://image/0x72/frames/knight_f_hit_anim_f0.png" type="Texture" id=2]
@@ -6,7 +6,8 @@
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f1.png" type="Texture" id=4]
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f2.png" type="Texture" id=5]
 [ext_resource path="res://image/0x72/frames/knight_f_run_anim_f3.png" type="Texture" id=6]
-[ext_resource path="res://PlayerLight2D.cs" type="Script" id=8]
+[ext_resource path="res://image/gfx/explode4/explosion-2.png" type="Texture" id=7]
+[ext_resource path="res://gfx/PlayerLight2D.cs" type="Script" id=8]
 [ext_resource path="res://image/gfx/player_light_big.png" type="Texture" id=9]
 
 [sub_resource type="SpriteFrames" id=1]
@@ -25,16 +26,15 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 4.07659, 6.09739 )
 
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.185022, 0.45815, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.835294, 0.803922, 0.803922, 0.803922, 0.458824, 0.631373, 0.631373, 0.631373, 0 )
+
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 0, -1 )
 z_index = 2
 collision_mask = 54
 script = ExtResource( 1 )
-GRAVITY = 700.0
-WALK_FORCE = 1300.0
-WALK_MIN_SPEED = 119.0
-WALK_MAX_SPEED = 119.0
-JUMP_SPEED = 220.0
 
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 9 )
@@ -53,3 +53,22 @@ frame = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 4.80524 )
 shape = SubResource( 2 )
+
+[node name="airParticles" type="CPUParticles2D" parent="."]
+position = Vector2( 0, 11 )
+z_index = -10
+amount = 16
+local_coords = false
+texture = ExtResource( 7 )
+direction = Vector2( -1, 0 )
+spread = 0.0
+gravity = Vector2( 0, -5 )
+initial_velocity = 50.0
+angle = -86.6
+angle_random = 0.38
+scale_amount = 0.01
+scale_amount_random = 0.09
+color = Color( 0.784314, 0.784314, 0.784314, 0.513726 )
+color_ramp = SubResource( 3 )
+hue_variation = -0.09
+hue_variation_random = 0.31

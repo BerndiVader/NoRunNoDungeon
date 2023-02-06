@@ -24,7 +24,7 @@ public class FallingRocks : StaticBody2D
     public override void _Ready()
     {
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",this,nameof(onExitedScreen));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         area=GetNode<Area2D>("Area2D");
@@ -45,10 +45,7 @@ public class FallingRocks : StaticBody2D
         switch(state)
         {
             case State.IDLE:
-                Vector2 playerPos=World.instance.player.GlobalPosition;
-                Vector2 gamePos=GlobalPosition;
-                gamePos.y=playerPos.y;
-                float distance=playerPos.DistanceTo(gamePos);
+                float distance=Mathf.Abs(GlobalPosition.x-Player.instance.GlobalPosition.x);
                 if(distance<ActivationDistance) 
                 {
                     state=State.FALLING;
@@ -57,11 +54,20 @@ public class FallingRocks : StaticBody2D
             case State.FALLING:
                 if(colliding)
                 {
-                    velocity+=collider.CurrentSpeed;
-                    force=Vector2.Zero;
+                    velocity=collider.CurrentSpeed;
                 }
-                velocity+=force*delta;
+                else
+                {
+                    velocity+=force*delta;
+                }
                 Translate(velocity*delta);
+                break;
+            case State.FALLEN:
+                if(colliding)
+                {
+                    velocity=collider.CurrentSpeed;
+                    Translate(velocity*delta);
+                }
                 break;
         }
         applyShake();
@@ -97,9 +103,9 @@ public class FallingRocks : StaticBody2D
 
     private void onPlayerHit(Node2D body)
     {
-        if(body.IsInGroup(GROUPS.PLAYERS.ToString())) 
+        if(body.IsInGroup(GROUPS.PLAYERS.ToString())&&state==State.FALLING) 
         {
-            World.instance.player.EmitSignal(STATE.damage.ToString(),1f,this);
+            body.EmitSignal(STATE.damage.ToString(),1f,this);
         }
     }
 
@@ -118,11 +124,5 @@ public class FallingRocks : StaticBody2D
             Rotation=0;
         }
     }
-
-    private void onExitedScreen()
-    {
-        QueueFree();
-    }
-
 
 }

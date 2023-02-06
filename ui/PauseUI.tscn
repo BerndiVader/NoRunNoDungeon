@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/ui.tres" type="Theme" id=1]
+[ext_resource path="res://ui/GUI/GUI_2x.png" type="Texture" id=2]
+[ext_resource path="res://ui/PauseUI.cs" type="Script" id=3]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 2, 2, 44, 44 )
+
+[node name="Panel" type="Panel"]
+margin_left = -80.0
+margin_top = -60.0
+margin_right = 80.0
+margin_bottom = 92.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+
+[node name="Node2D" type="Sprite" parent="."]
+position = Vector2( 80, 76 )
+scale = Vector2( 3.36364, 3.18182 )
+texture = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 32.0
+margin_top = -48.0
+margin_right = 128.0
+margin_bottom = -11.0
+text = "Pause"
+align = 1
+valign = 1
+
+[node name="Continue" type="Button" parent="."]
+margin_left = 32.0
+margin_top = 27.0
+margin_right = 128.0
+margin_bottom = 56.0
+focus_mode = 0
+toggle_mode = true
+text = "Continue"
+
+[node name="Main" type="Button" parent="."]
+margin_left = 32.0
+margin_top = 61.0
+margin_right = 128.0
+margin_bottom = 90.0
+focus_mode = 0
+toggle_mode = true
+text = "Main"
+
+[node name="Quit" type="Button" parent="."]
+margin_left = 32.0
+margin_top = 95.0
+margin_right = 128.0
+margin_bottom = 124.0
+focus_mode = 0
+toggle_mode = true
+text = "Quit"

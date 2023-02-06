@@ -13,7 +13,6 @@ public class Staff : Weapon
     {
         GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
         owner=GetParent<KinematicMonster>();
-
         animationPlayer.Play("SETUP"+getStringDirection());
     }
 

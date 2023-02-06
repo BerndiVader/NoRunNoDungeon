@@ -237,6 +237,7 @@ position = Vector2( -6, 7 )
 rotation = 1.74533
 scale = Vector2( 2, 2 )
 z_index = -1
+collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

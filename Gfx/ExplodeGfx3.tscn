@@ -7,10 +7,11 @@
 [ext_resource path="res://image/gfx/explode3/explosion-6.png" type="Texture" id=5]
 [ext_resource path="res://image/gfx/explode3/explosion-7.png" type="Texture" id=6]
 [ext_resource path="res://image/gfx/explode3/explosion-3.png" type="Texture" id=7]
-[ext_resource path="res://Gfx/ExplodeGfx3.cs" type="Script" id=8]
+[ext_resource path="res://gfx/ExplodeGfx3.cs" type="Script" id=8]
 [ext_resource path="res://image/gfx/explode3/explosion-9.png" type="Texture" id=9]
 [ext_resource path="res://image/gfx/explode3/explosion-2.png" type="Texture" id=10]
 [ext_resource path="res://image/gfx/explode3/explosion-8.png" type="Texture" id=11]
+
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {

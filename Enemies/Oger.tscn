@@ -8,8 +8,11 @@
 [ext_resource path="res://image/0x72/frames/ogre_run_anim_f1.png" type="Texture" id=6]
 [ext_resource path="res://image/0x72/frames/ogre_run_anim_f3.png" type="Texture" id=7]
 [ext_resource path="res://image/0x72/frames/ogre_run_anim_f2.png" type="Texture" id=8]
-[ext_resource path="res://Enemies/Oger.cs" type="Script" id=9]
+[ext_resource path="res://enemies/Oger.cs" type="Script" id=9]
 [ext_resource path="res://weapons/Baton.tscn" type="PackedScene" id=10]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 9.45767, 12.0337 )
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 9.45767, 11.885 )
@@ -26,9 +29,6 @@ animations = [ {
 "name": "stroll",
 "speed": 5.0
 } ]
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 9.45767, 12.0337 )
 
 [sub_resource type="Animation" id=4]
 resource_name = "HIT"
@@ -147,6 +147,13 @@ collision_mask = 22
 script = ExtResource( 9 )
 WALK_MAX_SPEED = 40.0
 
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["ENEMIES"]]
+collision_layer = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 0, 3 )
+shape = SubResource( 3 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 3 )
 shape = SubResource( 1 )
@@ -160,13 +167,6 @@ flip_h = true
 position = Vector2( -10, 13 )
 cast_to = Vector2( 0, 20 )
 collision_mask = 6
-
-[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["ENEMIES"]]
-collision_layer = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 0, 3 )
-shape = SubResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/HIT = SubResource( 4 )
