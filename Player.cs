@@ -79,6 +79,7 @@ public class Player : KinematicBody2D
         {
             friction=36/World.level.Speed;
         }
+        
         Vector2 force=FORCE;
 
         bool left=World.instance.input.getLeft();
@@ -138,6 +139,7 @@ public class Player : KinematicBody2D
         }
 
         velocity+=force*delta;
+        velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED)*Mathf.Sign(velocity.x);
 
         if(justJumped)
         {

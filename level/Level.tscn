@@ -166,7 +166,9 @@ Linear = false
 
 [node name="LevelControl" parent="." instance=ExtResource( 10 )]
 position = Vector2( 704, 176 )
-Zoom = 0.5
+Speed = 0.0
+Zoom = 0.8
+Timeout = 5
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
