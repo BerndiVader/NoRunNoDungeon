@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Obstacles/SwingingBaton.cs" type="Script" id=1]
+[ext_resource path="res://obstacles/SwingingBaton.cs" type="Script" id=1]
 [ext_resource path="res://image/0x72/frames/weapon_mace.png" type="Texture" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]

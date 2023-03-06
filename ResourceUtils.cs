@@ -8,6 +8,7 @@ public static class ResourceUtils
     public static PackedScene intro;
     public static PackedScene pause;
     public static PackedScene player;
+    public static PackedScene camera;
     public static List<PackedScene> levels;
     public static List<PackedScene> enemies;
     public static List<PackedScene> bullets;
@@ -37,21 +38,22 @@ public static class ResourceUtils
 
         if(isMobile)
         {
-            touch=(PackedScene)ResourceLoader.Load("res://Touch.tscn");
-            buttons=(PackedScene)ResourceLoader.Load("res://Buttons.tscn");
+            touch=(PackedScene)ResourceLoader.Load("res://io/Touch.tscn");
+            buttons=(PackedScene)ResourceLoader.Load("res://io/Buttons.tscn");
         }
 
         world=(PackedScene)ResourceLoader.Load("res://World.tscn");
-        intro=(PackedScene)ResourceLoader.Load("res://Intro.tscn");
-        pause=(PackedScene)ResourceLoader.Load("res://Pause.tscn");
+        intro=(PackedScene)ResourceLoader.Load("res://intro/Intro.tscn");
+        pause=(PackedScene)ResourceLoader.Load("res://ui/PauseUI.tscn");
         player=(PackedScene)ResourceLoader.Load("res://Player.tscn");
-        background=(PackedScene)ResourceLoader.Load("res://Background.tscn");
+        background=(PackedScene)ResourceLoader.Load("res://level/Background.tscn");
+        camera=ResourceLoader.Load<PackedScene>("res://PlayerCamera.tscn");
 
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
+//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
+//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
+//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
+//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
 
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset1.tres"));
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset2.tres"));
@@ -71,19 +73,24 @@ public static class ResourceUtils
         bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_D/PNG/bg2.png"));
         bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_D/PNG/bg3.png"));
 
-        particles.Add((PackedScene)ResourceLoader.Load("res://Particles/BlockParticles.tscn"));
-        particles.Add((PackedScene)ResourceLoader.Load("res://Particles/CoinTakenParticles.tscn"));
-        particles.Add((PackedScene)ResourceLoader.Load("res://Particles/EnemieDieParticles.tscn"));
-        particles.Add((PackedScene)ResourceLoader.Load("res://Particles/DaggerMissParticles.tscn"));
+        particles.Add((PackedScene)ResourceLoader.Load("res://particles/BlockParticles.tscn"));
+        particles.Add((PackedScene)ResourceLoader.Load("res://particles/CoinTakenParticles.tscn"));
+        particles.Add((PackedScene)ResourceLoader.Load("res://particles/EnemieDieParticles.tscn"));
+        particles.Add((PackedScene)ResourceLoader.Load("res://particles/DaggerMissParticles.tscn"));
+        particles.Add((PackedScene)ResourceLoader.Load("res://particles/MadRockParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/WeaponChangeParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/JumpParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/DaggerShoot.tscn"));
 
-        bullets.Add((PackedScene)ResourceLoader.Load("res://Bullets/TestBullet.tscn"));
-        bullets.Add((PackedScene)ResourceLoader.Load("res://Bullets/DaggerBullet.tscn"));
 
-        gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx1.tscn"));
-        gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx2.tscn"));
-        gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx3.tscn"));
-        gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx4.tscn"));
-        gfx.Add((PackedScene)ResourceLoader.Load("res://Gfx/ExplodeGfx5.tscn"));
+        bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/TestBullet.tscn"));
+        bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/DaggerBullet.tscn"));
+
+        gfx.Add((PackedScene)ResourceLoader.Load("res://gfx/ExplodeGfx1.tscn"));
+        gfx.Add((PackedScene)ResourceLoader.Load("res://gfx/ExplodeGfx2.tscn"));
+        gfx.Add((PackedScene)ResourceLoader.Load("res://gfx/ExplodeGfx3.tscn"));
+        gfx.Add((PackedScene)ResourceLoader.Load("res://gfx/ExplodeGfx4.tscn"));
+        gfx.Add((PackedScene)ResourceLoader.Load("res://gfx/ExplodeGfx5.tscn"));
 
         weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Sword.tscn"));
         weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Broadsword.tscn"));

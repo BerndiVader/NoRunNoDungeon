@@ -1,14 +1,17 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Particles/WeaponHitParticles.cs" type="Script" id=1]
+[ext_resource path="res://particles/WeaponHitParticles.cs" type="Script" id=1]
 
 [node name="CPUParticles2D" type="CPUParticles2D"]
-amount = 5
-spread = 180.0
-gravity = Vector2( 0, 10 )
-initial_velocity = 5.0
-angle = -45.0
-angle_random = 1.0
+emitting = false
+amount = 20
+local_coords = false
+emission_shape = 2
+emission_rect_extents = Vector2( 1, 20 )
+direction = Vector2( 0, 0 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 50.0
 scale_amount = 3.0
 scale_amount_random = 1.0
 color = Color( 1, 0.00392157, 0.00392157, 1 )

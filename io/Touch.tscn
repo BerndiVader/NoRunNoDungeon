@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://io/Stick.cs" type="Script" id=1]
+[ext_resource path="res://image/Touchstick/TouchFireButton_1.png" type="Texture" id=2]
+[ext_resource path="res://image/Touchstick/TouchMoveButtonSprite_0.png" type="Texture" id=3]
+[ext_resource path="res://image/Touchstick/TouchFireButton_0.png" type="Texture" id=4]
+[ext_resource path="res://io/Touch.cs" type="Script" id=5]
+
+[node name="Touch" type="Sprite"]
+modulate = Color( 1, 1, 1, 0.784314 )
+position = Vector2( 172.689, 80.0418 )
+z_index = 1500
+texture = ExtResource( 3 )
+script = ExtResource( 5 )
+
+[node name="Stick" type="TouchScreenButton" parent="."]
+position = Vector2( -13.8655, -16.3865 )
+normal = ExtResource( 4 )
+pressed = ExtResource( 2 )
+script = ExtResource( 1 )

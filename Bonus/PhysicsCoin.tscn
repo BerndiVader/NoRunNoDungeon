@@ -4,7 +4,8 @@
 [ext_resource path="res://image/0x72/frames/coin_anim_f1.png" type="Texture" id=2]
 [ext_resource path="res://image/0x72/frames/coin_anim_f0.png" type="Texture" id=3]
 [ext_resource path="res://image/0x72/frames/coin_anim_f3.png" type="Texture" id=4]
-[ext_resource path="res://Bonus/PhysicsCoin.cs" type="Script" id=5]
+[ext_resource path="res://bonus/PhysicsCoin.cs" type="Script" id=5]
+
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {

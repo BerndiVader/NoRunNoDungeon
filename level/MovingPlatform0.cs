@@ -26,7 +26,7 @@ public class MovingPlatform0 : Platform
     public override void _PhysicsProcess(float delta)
     {
         lastPosition=Position;
-        float distance=Mathf.Abs(Position.DistanceTo(startPosition));
+        float distance=Position.DistanceTo(startPosition);
 
         if(distance>=maxDistance)
         {
@@ -38,9 +38,9 @@ public class MovingPlatform0 : Platform
             speed=Mathf.Clamp(Mathf.Ease(1-(distance/maxDistance),0.5f)*1000,10,MaxSpeed);
         }
 
-        speed=Mathf.Min(speed,World.instance.level.Speed);
+        speed=Mathf.Min(speed,MaxSpeed);
         CurrentSpeed=Direction*speed;
-        Position+=CurrentSpeed*delta;
+        Translate(CurrentSpeed*delta);
     }
 
 }

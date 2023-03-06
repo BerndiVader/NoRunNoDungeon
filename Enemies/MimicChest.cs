@@ -3,28 +3,27 @@ using System;
 
 public class MimicChest : KinematicMonster
 {
-    private Vector2 velocity=new Vector2(0f,0f);
     private int cooldown;
     private float shake;
     private float ShakeMax=0.6f;
     private RayCast2D rayCast2D;
-    private RectangleShape2D collisionBox;
+    private Shape2D collisionBox;
     private Vector2 CASTTO;
 
     public override void _Ready()
     {
         base._Ready();
 
-        collisionBox=(RectangleShape2D)collisionController.Shape;
+        collisionBox=collisionController.Shape;
         rayCast2D=GetNode<RayCast2D>("RayCast2D");
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
         animationController=GetNode<AnimatedSprite>("AnimatedSprite");
-        state=STATE.idle;
 
         animationController.Play("idle");
         animationController.FlipH=MathUtils.randomRangeInt(0,1)!=0;
+        EmitSignal(STATE.idle.ToString());
 
         cooldown=0;
 
@@ -51,20 +50,24 @@ public class MimicChest : KinematicMonster
 				velocity.x+=collider.CurrentSpeed.x*1.8f;
 			}
 
-        }
+            if(shake!=0f)
+            {
+                applyShake();
+            }
 
-        tick(delta);
+        }
+        goal(delta);
     
     }
 
     protected override void idle(float delta)
     {
-        bool collide=collisionBox.Collide(GetGlobalTransform(),World.instance.player.collisionShape.Shape,World.instance.player.GetGlobalTransform());
-        if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId()))
+        bool collide=collisionBox.Collide(collisionController.GlobalTransform,Player.instance.collisionShape.Shape,Player.instance.GlobalTransform);
+        if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId()))
         {
             cooldown=0;
             animationController.Play("attack");
-            onAttack(World.instance.player);
+            onAttack(Player.instance);
             return;
         }
         else if(cooldown>99) 
@@ -100,11 +103,7 @@ public class MimicChest : KinematicMonster
             rayCast2D.CastTo=direction*distance;
             if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
             {
-                if(shake==0)
-                {
-                    shake=0.5f;
-                }
-                applyShake();
+                shake=0.3f;
             }
             else
             {

@@ -14,7 +14,7 @@ public class DaggerBullet : Area2D
         time=0f;
 
         Connect("body_entered",this,nameof(onBodyEntered));
-        Connect("area_entered",this,nameof(onAreaEntered));
+        Connect("area_entered",this,nameof(onBodyEntered));
     }
 
     public override void _PhysicsProcess(float delta)
@@ -45,16 +45,16 @@ public class DaggerBullet : Area2D
     {
         if(node.HasUserSignal(STATE.damage.ToString()))
         {
-            node.EmitSignal(STATE.damage.ToString(),World.instance.player,1f);
+            node.EmitSignal(STATE.damage.ToString(),Player.instance,1f);
         }
         destroy();
     }
 
     void destroy()
     {
-        DaggerMissParticles particles=(DaggerMissParticles)((PackedScene)ResourceUtils.particles[(int)PARTICLES.DAGGERMISSPARTICLES]).Instance();
-        particles.Position=World.instance.level.ToLocal(GlobalPosition);
-        World.instance.level.AddChild(particles);
+        DaggerMissParticles particles=(DaggerMissParticles)((PackedScene)ResourceUtils.particles[(int)PARTICLES.DAGGERMISS]).Instance();
+        particles.Position=World.level.ToLocal(GlobalPosition);
+        World.level.AddChild(particles);
         QueueFree();
     }
 

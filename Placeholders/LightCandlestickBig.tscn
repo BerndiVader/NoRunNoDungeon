@@ -1,10 +1,11 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Placeholders/Placeholder.cs" type="Script" id=1]
+[ext_resource path="res://placeholders/Placeholder.cs" type="Script" id=1]
+
 
 [node name="CandlestickBig" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="Light" parent="." instance_placeholder="res://Gfx/LightCandlestickBig.tscn"]
+[node name="Light" parent="." instance_placeholder="res://gfx/LightCandlestickBig.tscn"]
 position = Vector2( -0.453377, 0.0220146 )
 mode = 2

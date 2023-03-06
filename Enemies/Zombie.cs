@@ -4,7 +4,6 @@ using System;
 public class Zombie : KinematicMonster
 {
 
-    private Vector2 velocity=Vector2.Zero;
     private int cooldown;
 
     private RayCast2D rayCast2D;
@@ -25,11 +24,9 @@ public class Zombie : KinematicMonster
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
-        state=STATE.idle;
-
         animationController.Play("idle");
-        animationController.FlipH=MathUtils.randomRangeInt(0,2)!=0;
+        animationController.FlipH=MathUtils.randomRangeInt(1,3)==2;
+        EmitSignal(STATE.idle.ToString());
 
         cooldown=0;
 
@@ -54,39 +51,32 @@ public class Zombie : KinematicMonster
         {
             Position=startOffset+(ANIMATION_OFFSET*animationDirection);
         }
-        else
+
+        velocity+=force*delta;
+        KinematicCollision2D collision=MoveAndCollide(velocity*delta);
+        if(collision!=null)
         {
-            Vector2 force=new Vector2(0,GRAVITY);
+            velocity=velocity.Bounce(collision.Normal)*friction;
 
-            velocity+=GetFloorVelocity()*delta;
-            velocity+=force*delta;
-
-            KinematicCollision2D collision=MoveAndCollide(velocity*delta);
-
-            if(collision!=null)
+            Node2D node=(Node2D)collision.Collider;
+            if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
-                Node2D node=collision.Collider as Node2D;
-                velocity=velocity.Bounce(collision.Normal)*friction;
-
-                if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
-                {
-                    Platform collider=node as Platform;
-                    GlobalPosition=new Vector2(collider.GlobalPosition.x,GlobalPosition.y);
-                }
+                Platform collider=(Platform)node;
+                velocity.x+=collider.CurrentSpeed.x*1.8f;
             }
         }
-        tick(delta);
 
+        goal(delta);
     }
 
     protected override void idle(float delta)
     {
-        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId())
+        if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId())
         {
             cooldown=0;
-            state=STATE.attack;
+            onAttack(Player.instance);
         }
-        else if(cooldown>250) 
+        else if(cooldown>250)
         {
             this.FlipH();
             cooldown=0;
@@ -96,15 +86,14 @@ public class Zombie : KinematicMonster
 
     protected override void attack(float delta)
     {
-        float distance=rayCast2D.GlobalPosition.DistanceTo(World.instance.player.GlobalPosition);
+        float distance=rayCast2D.GlobalPosition.DistanceTo(victim.GlobalPosition);
         if(distance<41)
         {
-            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(World.instance.player.GlobalPosition);
+            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(victim.GlobalPosition);
             FlipH(direction.x<0);
 
-            direction=direction*distance;
-            rayCast2D.CastTo=direction;
-            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==World.instance.player.GetInstanceId())
+            rayCast2D.CastTo=direction*distance;
+            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
             {
                 if(cooldown<0&&!weapon.isPlaying())
                 {
@@ -120,7 +109,7 @@ public class Zombie : KinematicMonster
         } else
         {
             rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
-            state=STATE.idle;
+            onIdle();
             cooldown=0;
         }
         cooldown--;
@@ -169,7 +158,7 @@ public class Zombie : KinematicMonster
         if(state!=STATE.damage&&state!=STATE.die)
         {
             base.onDamage(player, amount);
-            if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
+            if(GlobalPosition.x-player.GlobalPosition.x<0)
             {
                 animationDirection=-1;
             }
@@ -179,8 +168,11 @@ public class Zombie : KinematicMonster
 
     public override void onPassanger(Player player)
     {
-        base.onPassanger(player);
-        animationPlayer.Play("PASSANGER");
+        if(state!=STATE.passanger)
+        {
+            base.onPassanger(player);
+            animationPlayer.Play("PASSANGER");
+        }
     }
 
     private void FlipH()
