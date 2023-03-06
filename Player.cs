@@ -65,8 +65,8 @@ public class Player : KinematicBody2D
     }
 
     public override void _PhysicsProcess(float delta)
-    {
-        Gamestate gamestate=World.instance.getGamestate();
+        {
+        Gamestate gamestate=World.instance!=null?World.instance.state:Gamestate.RESTART;
         if(gamestate==Gamestate.SCENE_CHANGED||gamestate==Gamestate.RESTART)
         {
             return;

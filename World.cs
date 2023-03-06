@@ -82,7 +82,8 @@ public class World : Node
 	public Renderer renderer;
 	public InputController input;
 	private int currentLevel,nextLevel;
-	private Gamestate state,oldState;
+	private Gamestate oldState;
+	public Gamestate state;
 
 	private delegate void Goal(float delta);
 	private Goal goal;
@@ -200,11 +201,6 @@ public class World : Node
 				goal=sceneIdle;
 				break;
 		}
-	}
-
-	public Gamestate getGamestate()
-	{
-		return state;
 	}
 
 	public void restartGame(bool keepLevel=false)
