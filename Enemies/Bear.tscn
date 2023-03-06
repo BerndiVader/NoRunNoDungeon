@@ -1,0 +1,117 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://image/0x72/frames/Bear_Idle_3.png" type="Texture" id=1]
+[ext_resource path="res://image/0x72/frames/Bear_Idle_4.png" type="Texture" id=2]
+[ext_resource path="res://image/0x72/frames/Bear_Idle_1.png" type="Texture" id=3]
+[ext_resource path="res://image/0x72/frames/Bear_Walk_3.png" type="Texture" id=4]
+[ext_resource path="res://image/0x72/frames/Bear_Walk_1.png" type="Texture" id=5]
+[ext_resource path="res://image/0x72/frames/Bear_Walk_2.png" type="Texture" id=6]
+[ext_resource path="res://image/0x72/frames/Bear_Idle_2.png" type="Texture" id=7]
+[ext_resource path="res://image/0x72/frames/Bear_Walk_4.png" type="Texture" id=8]
+[ext_resource path="res://enemies/Bear.cs" type="Script" id=9]
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 8.5, 10.25 )
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 7.07107
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "stroll",
+"speed": 5.0
+} ]
+
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0.277533, 0.594714 )
+colors = PoolColorArray( 0.988281, 0.00386047, 0.00386047, 1, 1, 0.914063, 0, 1 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 8.5, 11.5 )
+
+[node name="Bear" type="KinematicBody2D"]
+collision_layer = 0
+collision_mask = 22
+script = ExtResource( 9 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -1.75, 6.5 )
+rotation = 1.5708
+shape = SubResource( 6 )
+
+[node name="Damager" type="Area2D" parent="."]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Damager"]
+position = Vector2( 8, 6 )
+shape = SubResource( 5 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "idle"
+frame = 2
+
+[node name="Particles1" type="CPUParticles2D" parent="."]
+position = Vector2( 11, 6 )
+emitting = false
+amount = 12
+lifetime = 2.0
+explosiveness = 0.11
+randomness = 1.0
+direction = Vector2( 0, -1 )
+spread = 12.52
+gravity = Vector2( -8, -9 )
+initial_velocity = 5.0
+angular_velocity = 134.68
+angular_velocity_random = 0.26
+damping = 15.11
+damping_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+color = Color( 1, 0.607843, 0, 1 )
+color_ramp = SubResource( 7 )
+hue_variation = -1.0
+hue_variation_random = 0.07
+
+[node name="Particles2" type="CPUParticles2D" parent="."]
+position = Vector2( 7, 6 )
+emitting = false
+amount = 12
+lifetime = 2.0
+explosiveness = 0.11
+randomness = 1.0
+direction = Vector2( 0, -1 )
+spread = 12.52
+gravity = Vector2( -8, -9 )
+initial_velocity = 5.0
+angular_velocity = 134.68
+angular_velocity_random = 0.26
+damping = 15.11
+damping_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+color = Color( 1, 0.607843, 0, 1 )
+color_ramp = SubResource( 7 )
+hue_variation = -1.0
+hue_variation_random = 0.07
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 10, 14 )
+cast_to = Vector2( 0, 20 )
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -1.49999, 4.5 )
+rotation = 1.5708
+shape = SubResource( 4 )
