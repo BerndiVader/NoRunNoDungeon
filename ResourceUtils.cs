@@ -50,10 +50,10 @@ public static class ResourceUtils
         camera=ResourceLoader.Load<PackedScene>("res://PlayerCamera.tscn");
 
         levels.Add((PackedScene)ResourceLoader.Load("res://level/Level.tscn"));
-//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
-//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
-//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
-//        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level1.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level2.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level3.tscn"));
+        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level4.tscn"));
 
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset1.tres"));
         tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset2.tres"));
