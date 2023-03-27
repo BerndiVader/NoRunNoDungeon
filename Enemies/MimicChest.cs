@@ -62,8 +62,8 @@ public class MimicChest : KinematicMonster
 
     protected override void idle(float delta)
     {
-        bool collide=collisionBox.Collide(collisionController.GlobalTransform,Player.instance.collisionShape.Shape,Player.instance.GlobalTransform);
-        if(collide||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId()))
+        float distance=GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
+        if(distance<12f||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId()))
         {
             cooldown=0;
             animationController.Play("attack");
@@ -89,15 +89,13 @@ public class MimicChest : KinematicMonster
 
     protected override void fight(float delta)
     {
-        bool collide=collisionBox.Collide(GetGlobalTransform(),victim.collisionShape.Shape,victim.GetGlobalTransform());
+        float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
 
-        if(collide)
+        if(distance<12f)
         {
             victim.EmitSignal(STATE.damage.ToString(),damageAmount,this);
         }
-
-        float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
-        if(distance<100)
+        else if(distance<100f)
         {
             Vector2 direction=new Vector2(GlobalPosition.DirectionTo(victim.GlobalPosition));
             rayCast2D.CastTo=direction*distance;

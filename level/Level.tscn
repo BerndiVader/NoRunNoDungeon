@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://placeholders/BearPlaceholder.tscn" type="PackedScene" id=8]
 [ext_resource path="res://bonus/PhysicsCoin.tscn" type="PackedScene" id=9]
 [ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=10]
+[ext_resource path="res://placeholders/ChestMimic.tscn" type="PackedScene" id=11]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -169,6 +170,9 @@ position = Vector2( 704, 176 )
 Speed = 0.0
 Zoom = 0.8
 Timeout = 5
+
+[node name="ChestMimic" parent="." instance=ExtResource( 11 )]
+position = Vector2( 936, 248 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
