@@ -8,13 +8,13 @@ public class Zombie : KinematicMonster
 
     private RayCast2D rayCast2D;
     private Vector2 CASTTO;
-    private Staff weapon;
+    private Mace weapon;
 
     public override void _Ready()
     {
         base._Ready();
 
-        weapon=GetNode<Staff>("Staff");
+        weapon=GetNode<Mace>("Mace");
 
         animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
         animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));

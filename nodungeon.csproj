@@ -87,6 +87,8 @@
     <Compile Include="weapons\Staff.cs" />
     <Compile Include="weapons\Sword.cs" />
     <Compile Include="weapons\Weapon.cs" />
+    <Compile Include="weapons\Mace.cs" />
+    
     <Compile Include="Worker.cs" />
     <Compile Include="World.cs" />
     <Compile Include="io\XButton.cs" />
