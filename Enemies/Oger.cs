@@ -12,7 +12,7 @@ public class Oger : KinematicMonster
     private Vector2 direction,PLAYERCASTTO,CASTTO;
     private float travelTime=0f;
     private RayCast2D rayCast2D,playerCast2D;
-    private Staff weapon;
+    private MonsterWeapon weapon;
 
     public override void _Ready()
     {
@@ -35,7 +35,7 @@ public class Oger : KinematicMonster
 
         direction=new Vector2(0,0);
 
-        weapon=GetNode<Staff>("Baton");
+        weapon=GetNode<MonsterWeapon>("Baton");
         if(weapon!=null)
         {
             weapon._Init();

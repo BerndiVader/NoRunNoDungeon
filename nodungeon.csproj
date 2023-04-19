@@ -20,6 +20,7 @@
     <Compile Include="level\LevelControlTimer.cs" />
     <Compile Include="level\Settings.cs" />
     <Compile Include="particles\DaggerShoot.cs" />
+    <Compile Include="particles\LevelTimerCount.cs" />
     <Compile Include="particles\WeaponChangeParticles.cs" />
     <Compile Include="PlayerCamera.cs" />
     <Compile Include="enemies\Bear.cs" />
@@ -84,11 +85,9 @@
     <Compile Include="ui\PauseUI.cs" />
     <Compile Include="weapons\Broadsword.cs" />
     <Compile Include="weapons\Dagger.cs" />
-    <Compile Include="weapons\Staff.cs" />
+    <Compile Include="weapons\MonsterWeapon.cs" />
     <Compile Include="weapons\Sword.cs" />
     <Compile Include="weapons\Weapon.cs" />
-    <Compile Include="weapons\Mace.cs" />
-    
     <Compile Include="Worker.cs" />
     <Compile Include="World.cs" />
     <Compile Include="io\XButton.cs" />

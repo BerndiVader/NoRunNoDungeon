@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Mace : Weapon
+public class MonsterWeapon : Weapon
 {
     protected KinematicMonster owner;
     public override void _Ready()

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://particles/LevelTimerCount.cs" type="Script" id=1]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.144531, 1 ), 23.1825, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0.00440529, 0.180617, 0.361233 )
+colors = PoolColorArray( 0.0156863, 0.0156863, 0.0156863, 0, 0.915174, 0.915174, 0.915174, 1, 0.933333, 0.933333, 0.933333, 0 )
+
+[node name="initParticles" type="CPUParticles2D"]
+emitting = false
+amount = 1
+one_shot = true
+local_coords = false
+gravity = Vector2( 0, 0 )
+scale_amount = 5.0
+scale_amount_curve = SubResource( 2 )
+color_ramp = SubResource( 3 )
+script = ExtResource( 1 )

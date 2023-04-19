@@ -3,10 +3,20 @@ using System;
 
 public class LevelControlTimer : Node
 {
+    static PackedScene countEffect;
+
+    static LevelControlTimer()
+    {
+        countEffect=ResourceLoader.Load<PackedScene>("res://particles/LevelTimerCount.tscn");
+    }
+
     private SceneTreeTimer timer;
     private float time;
     private int current,last;
     private Settings settings;
+
+    public LevelControlTimer():base() {}
+
     public LevelControlTimer(float time, Settings settings):base()
     {
         this.time=time;
@@ -29,13 +39,18 @@ public class LevelControlTimer : Node
             last=current;
             if(current<5)
             {
-                GD.Print(current+1);
+                LevelTimerCount count=countEffect.Instance<LevelTimerCount>();
+                count.chr=current+1;
+                World.instance.AddChild(count);
             }
         }
     }
 
     private void timeout()
     {
+        LevelTimerCount count=countEffect.Instance<LevelTimerCount>();
+        count.chr=0;        
+        World.instance.AddChild(count);
         settings.restore();
         QueueFree();
     }

@@ -39,7 +39,7 @@ public class PauseUI : Panel
 
         RectScale=PlayerCamera.instance.Zoom;
         RectPosition*=RectScale;
-        RectPosition+=PlayerCamera.instance.GetCameraScreenCenter();;        
+        RectPosition+=PlayerCamera.instance.GetCameraScreenCenter();    
 
         input=ResourceUtils.getInputController(this);
     }
