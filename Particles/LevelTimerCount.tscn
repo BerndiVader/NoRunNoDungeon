@@ -10,6 +10,7 @@ offsets = PoolRealArray( 0.00440529, 0.180617, 0.361233 )
 colors = PoolColorArray( 0.0156863, 0.0156863, 0.0156863, 0, 0.915174, 0.915174, 0.915174, 1, 0.933333, 0.933333, 0.933333, 0 )
 
 [node name="initParticles" type="CPUParticles2D"]
+modulate = Color( 1, 1, 1, 0.447059 )
 emitting = false
 amount = 1
 one_shot = true
@@ -18,4 +19,6 @@ gravity = Vector2( 0, 0 )
 scale_amount = 5.0
 scale_amount_curve = SubResource( 2 )
 color_ramp = SubResource( 3 )
+hue_variation = 0.33
+hue_variation_random = 1.0
 script = ExtResource( 1 )

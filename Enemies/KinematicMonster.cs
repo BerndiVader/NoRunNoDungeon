@@ -3,11 +3,26 @@ using System;
 
 public abstract class KinematicMonster : KinematicBody2D
 {
+    private static PackedScene levelControlPack;
+
+    static KinematicMonster()
+    {
+        levelControlPack=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
+    }
+
     [Export] protected Vector2 ANIMATION_OFFSET=Vector2.Zero,velocity=Vector2.Zero;
     [Export] protected float damageAmount=1f;
     [Export] protected float health=1f;
     [Export] protected float GRAVITY=500f;
     [Export] protected float friction=0.01f;
+    [Export] protected Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
+    {
+        {"Use",false},
+        {"Speed",-1.0f},
+        {"Zoom",-1.0f},
+    };
+
+    private Settings levelSettings;
     
     protected Player victim,attacker;
     protected Godot.AnimationPlayer animationPlayer;
@@ -229,6 +244,28 @@ public abstract class KinematicMonster : KinematicBody2D
         startOffset=Position;
         ANIMATION_OFFSET=Vector2.Zero;
         animationDirection=1;
+    }
+
+    public override void _EnterTree()
+    {
+        if((bool)LEVEL_SETTINGS["Use"])
+        {
+            levelSettings=new Settings(World.level,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
+            LevelControl control=levelControlPack.Instance<LevelControl>();
+            control.setMonsterControlled(levelSettings);
+            control.Position=Position;
+            World.level.AddChild(control);
+        }
+        base._EnterTree();
+    }
+
+    public override void _ExitTree()
+    {
+        if((bool)LEVEL_SETTINGS["Use"])
+        {
+            levelSettings.restore();
+        }
+        base._ExitTree();
     }
 
 }

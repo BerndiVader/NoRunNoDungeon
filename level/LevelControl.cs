@@ -39,15 +39,21 @@ public class LevelControl : Node2D
                 if(Timeout!=-1)
                 {
                     World.level.AddChild(new LevelControlTimer(Timeout,settings));
-                    QueueFree();
                 }
             }
             else
             {
                 World.level.settings.restore();
             }
+            QueueFree();
         }
 
+    }
+
+    public void setMonsterControlled(Settings settings)
+    {
+        this.Speed=settings.speed;
+        this.Zoom=settings.zoom.x;
     }
 
     private void onScreenEntered()

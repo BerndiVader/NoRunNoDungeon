@@ -3,8 +3,8 @@ using System;
 
 public class Settings
 {
-    private float speed,oSpeed;
-    private  Vector2 zoom,oZoom,oPosition;
+    public float speed,oSpeed;
+    public  Vector2 zoom,oZoom,oPosition;
 
     private WeakReference<Level> levelRef;
 

@@ -129,6 +129,13 @@ position = Vector2( 1504, 151 )
 [node name="OgerPlaceholder3" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1888, 64 )
 
+[node name="Oger" parent="OgerPlaceholder3" index="0"]
+LEVEL_SETTINGS = {
+"Speed": 0.0,
+"Use": true,
+"Zoom": -1.0
+}
+
 [node name="OgerPlaceholder4" parent="." instance=ExtResource( 6 )]
 position = Vector2( 2256, 112 )
 
@@ -175,12 +182,9 @@ position = Vector2( 952, 64 )
 [node name="MadRockPlaceholder3" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1048, 64 )
 
-[node name="LevelControl2" parent="." instance=ExtResource( 12 )]
-position = Vector2( 1648, 32 )
-Restore = true
-
 [editable path="PlatformMoving3x3"]
 [editable path="ZombieRunning"]
 [editable path="SpikesUp"]
 [editable path="CoinStatic"]
+[editable path="OgerPlaceholder3"]
 [editable path="Placeholder"]
