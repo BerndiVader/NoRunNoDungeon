@@ -9,7 +9,6 @@ public class LevelControl : Node2D
     [Export] private bool Restore=false;
     private VisibilityNotifier2D notifier;
     private float xSize;
-
     private Settings settings; 
 
     public override void _Ready()
@@ -58,6 +57,11 @@ public class LevelControl : Node2D
 
     private void onScreenEntered()
     {
+        SettingsEffect effect=LevelControlTimer.countEffect.Instance<SettingsEffect>();
+        effect.chr=(int)"!"[0];
+        effect.scale=15f;
+        World.instance.AddChild(effect);
+        
         SetProcess(true);
     }
 

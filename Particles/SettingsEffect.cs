@@ -1,13 +1,14 @@
 using Godot;
 using System;
 
-public class LevelTimerCount : CPUParticles2D
+public class SettingsEffect : CPUParticles2D
 {
     public int chr;
+    public float scale=5f;
     static Image fontTex;
     static BitmapFont font;
 
-    static LevelTimerCount()
+    static SettingsEffect()
     {
         font=new BitmapFont();
         font.CreateFromFnt("res://fonts/m6x11.fnt");
@@ -16,9 +17,11 @@ public class LevelTimerCount : CPUParticles2D
 
     public override void _Ready()
     {
+        ScaleAmount=scale;
         OneShot=true;
         ImageTexture tex=new ImageTexture();
-        tex.CreateFromImage(fontTex.GetRect(font.GetCharTxUvRect(48+chr)),1);
+
+        tex.CreateFromImage(fontTex.GetRect(font.GetCharTxUvRect(chr)),1);
         Texture=tex;
         this.Emitting=true;
         Scale=PlayerCamera.instance.Zoom;

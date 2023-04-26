@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://particles/LevelTimerCount.cs" type="Script" id=1]
+[ext_resource path="res://particles/SettingsEffect.cs" type="Script" id=1]
 
 [sub_resource type="Curve" id=2]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.144531, 1 ), 23.1825, 0.0, 0, 0 ]
@@ -16,7 +16,7 @@ amount = 1
 one_shot = true
 local_coords = false
 gravity = Vector2( 0, 0 )
-scale_amount = 5.0
+scale_amount = 7.0
 scale_amount_curve = SubResource( 2 )
 color_ramp = SubResource( 3 )
 hue_variation = 0.33
