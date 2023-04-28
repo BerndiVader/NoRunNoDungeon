@@ -3,7 +3,6 @@ using System;
 
 public class MadRock : KinematicBody2D
 {
-    private VisibilityNotifier2D notifier;
     private float GRAVITY=1200f,distance=1000f*1000f;
     private int time;
     private Vector2 force,velocity,startPosition;

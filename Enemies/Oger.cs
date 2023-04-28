@@ -10,6 +10,8 @@ public class Oger : KinematicMonster
     [Export] private float STOP_FORCE=1300f;
 
     private Vector2 direction,PLAYERCASTTO,CASTTO;
+    private Vector2 snap=new Vector2(0f,8f);
+
     private float travelTime=0f;
     private RayCast2D rayCast2D,playerCast2D;
     private MonsterWeapon weapon;
@@ -59,14 +61,14 @@ public class Oger : KinematicMonster
             travelTime++;
             if(travelTime==50)
             {
-                if(MathUtils.randomRangeInt(0,5)>2)
+                if(MathUtils.randomRangeInt(0,5)>4)
                 {
                     FlipH();
                 }
-            }
-            if(travelTime>100)
+            } 
+            else if(travelTime>100)
             {
-                direction=MathUtils.randomRangeInt(0,2)==1?Vector2.Left:Vector2.Right;
+                direction=MathUtils.randomRangeInt(0,4)==1?Vector2.Right:Vector2.Left;
 
                 if((animationController.FlipH&&direction!=Vector2.Left)||(!animationController.FlipH&&direction!=Vector2.Right))
                 {
@@ -114,7 +116,8 @@ public class Oger : KinematicMonster
         if(distance>40)
         {
             float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
-            if(angle>45&&angle<165||!canSeePlayer())
+//            if(angle>45&&angle<165||!canSeePlayer())
+            if(!canSeePlayer())
             {
                 EmitSignal(lastState.ToString());
                 return;
@@ -152,8 +155,6 @@ public class Oger : KinematicMonster
             }
 
             velocity+=force*delta;
-
-            Vector2 snap=new Vector2(0f,8f);
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
             if(IsOnFloor())
@@ -190,7 +191,8 @@ public class Oger : KinematicMonster
         if(distance<40)
         {
             float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
-            if(angle>45&&angle<135||!canSeePlayer())
+//            if(angle>45&&angle<135||!canSeePlayer())
+            if(!canSeePlayer())
             {
                 onStroll();
                 return;
@@ -215,7 +217,6 @@ public class Oger : KinematicMonster
 
             velocity+=force*delta;
 
-            Vector2 snap=new Vector2(0f,8f);
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
             if(IsOnFloor())
@@ -317,6 +318,7 @@ public class Oger : KinematicMonster
     {
         if(state!=STATE.idle)
         {
+            travelTime=0;
             base.onIdle();
             WALK_MAX_SPEED=30f;
             playerCast2D.CastTo=new Vector2(direction.x,0f)*150f;
@@ -379,7 +381,6 @@ public class Oger : KinematicMonster
 
         velocity+=force*delta;
 
-        Vector2 snap=new Vector2(0f,8f);
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
         if(IsOnFloor())
