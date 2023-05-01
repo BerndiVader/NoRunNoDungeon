@@ -20,6 +20,7 @@
     <Compile Include="level\LevelControlTimer.cs" />
     <Compile Include="level\Settings.cs" />
     <Compile Include="particles\DaggerShoot.cs" />
+    <Compile Include="particles\PlayerDieEffect.cs" />
     <Compile Include="particles\SettingsEffect.cs" />
     <Compile Include="particles\WeaponChangeParticles.cs" />
     <Compile Include="PlayerCamera.cs" />

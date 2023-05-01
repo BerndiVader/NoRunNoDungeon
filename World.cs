@@ -195,6 +195,7 @@ public class World : Node
 				goal=sceneChange;
 				break;
 			case Gamestate.RUNNING:
+			case Gamestate.DIEING:
 				goal=sceneRunning;
 				break;
 			default:

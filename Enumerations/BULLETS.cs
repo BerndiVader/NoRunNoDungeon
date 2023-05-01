@@ -3,6 +3,6 @@ using System;
 
 public enum BULLETS
 {
-    TESTBULLET=0,
-    DAGGERBULLET=1
+    TESTBULLET,
+    DAGGERBULLET
 }

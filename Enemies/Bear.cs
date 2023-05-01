@@ -98,8 +98,6 @@ public class Bear : KinematicMonster
         }
     }
 
-
-
     protected override void onDamage(Player player, int amount)
     {
         base.onDamage(player, amount);

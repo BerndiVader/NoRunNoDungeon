@@ -65,9 +65,9 @@ public class Player : KinematicBody2D
     }
 
     public override void _PhysicsProcess(float delta)
-        {
+    {
         Gamestate gamestate=World.instance!=null?World.instance.state:Gamestate.RESTART;
-        if(gamestate==Gamestate.SCENE_CHANGED||gamestate==Gamestate.RESTART)
+        if((int)gamestate<3)
         {
             return;
         }
@@ -264,7 +264,14 @@ public class Player : KinematicBody2D
 
     private void onDamaged(float amount=1f,Node2D damager=null)
     {
+        World.instance.setGamestate(Gamestate.DIEING);
+        Position=new Vector2(0,-100);
         LIVES--;
+        PlayerDieEffect.create();
+    }
+
+    public void die()
+    {
         if(LIVES>0)
         {
             World.instance.CallDeferred(nameof(World.instance.restartGame),true);

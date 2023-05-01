@@ -7,6 +7,7 @@ colors = PoolColorArray( 0.775391, 0.375, 1, 1, 0, 0, 0, 0 )
 
 [node name="jumpParticles" type="CPUParticles2D"]
 z_index = -10
+emitting = false
 amount = 5
 lifetime = 0.5
 explosiveness = 0.35
