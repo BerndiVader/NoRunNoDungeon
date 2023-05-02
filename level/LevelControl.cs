@@ -60,7 +60,7 @@ public class LevelControl : Node2D
         SettingsEffect effect=LevelControlTimer.countEffect.Instance<SettingsEffect>();
         effect.chr=(int)"!"[0];
         effect.scale=15f;
-        World.instance.AddChild(effect);
+        World.instance.renderer.AddChild(effect);
         
         SetProcess(true);
     }

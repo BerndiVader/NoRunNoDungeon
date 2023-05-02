@@ -148,7 +148,7 @@ public class World : Node
 				Node2D node=new Node2D();
 				node.ZIndex=VisualServer.CanvasItemZMax;
 				node.AddChild(pause);
-				World.instance.AddChild(node);
+				World.instance.renderer.AddChild(node);
 			}
 		}
 		else if(input.getQuit())

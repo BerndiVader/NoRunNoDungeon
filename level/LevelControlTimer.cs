@@ -41,7 +41,7 @@ public class LevelControlTimer : Node
             {
                 SettingsEffect count=countEffect.Instance<SettingsEffect>();
                 count.chr=(int)(current+1).ToString()[0];
-                World.instance.AddChild(count);
+                World.instance.renderer.AddChild(count);
             }
         }
     }
@@ -50,7 +50,7 @@ public class LevelControlTimer : Node
     {
         SettingsEffect count=countEffect.Instance<SettingsEffect>();
         count.chr=(int)(0).ToString()[0];        
-        World.instance.AddChild(count);
+        World.instance.renderer.AddChild(count);
         settings.restore();
         QueueFree();
     }

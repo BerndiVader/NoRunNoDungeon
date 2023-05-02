@@ -37,7 +37,7 @@ public class Player : KinematicBody2D
 
     public override void _Ready()
     {
-        Position=World.instance.renderer.ToLocal(World.level.startingPoint.GlobalPosition);
+        Position=World.instance.renderer.ToLocal(World.level.startingPoint);
 
         if(ResourceUtils.isMobile)
         {

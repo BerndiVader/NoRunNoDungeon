@@ -7,7 +7,7 @@ public class Level : TileMap
     [Export] public Vector2 direction=new Vector2(-1f,0f);
     public int mapLength;
     public int pixelLength;
-    public Position2D startingPoint;
+    public Vector2 startingPoint;
     public Settings settings;
 
     public override void _Ready()
@@ -26,8 +26,9 @@ public class Level : TileMap
         CellQuadrantSize=8;
         ZIndex=0;
 
-        startingPoint=GetNode<Position2D>("StartingPoint");
-        startingPoint.Visible=false;
+        Position2D pos=GetNode<Position2D>("StartingPoint");
+        startingPoint=pos.GlobalPosition;
+        pos.QueueFree();
         
         Connect("tree_exiting",this,nameof(freeLevel));
         AddToGroup(GROUPS.LEVEL.ToString());

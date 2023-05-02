@@ -8,7 +8,7 @@ public class PlayerDieEffect : CPUParticles2D
         PlayerDieEffect effect=ResourceUtils.particles[(int)PARTICLES.PLAYERDIE].Instance<PlayerDieEffect>();
         effect.ScaleAmount*=PlayerCamera.instance.Scale.x;
         effect.Position=PlayerCamera.instance.GetCameraScreenCenter();
-        World.instance.AddChild(effect);
+        World.instance.renderer.AddChild(effect);
     }
 
     public PlayerDieEffect():base() {}
