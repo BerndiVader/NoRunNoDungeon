@@ -6,6 +6,9 @@ public class ExplodeGfx : AnimatedSprite
     protected int animationLength;
     public override void _Ready()
     {
+        ExplodeParticles particles=ResourceUtils.particles[(int)PARTICLES.EXPLODE].Instance<ExplodeParticles>();
+        particles.Position=Position;
+        World.level.AddChild(particles);
         ZIndex=4;
         animationLength=this.Frames.GetFrameCount(this.Animation)-1;
         Play();

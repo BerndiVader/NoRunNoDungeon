@@ -82,6 +82,7 @@ public static class ResourceUtils
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/JumpParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/DaggerShoot.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/PlayerDieEffect.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/ExplodeParticles.tscn"));
 
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/TestBullet.tscn"));
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/DaggerBullet.tscn"));

@@ -22,6 +22,7 @@ public class Player : KinematicBody2D
     private float slopeAngle=0f;
     private Vector2 lastVelocity=new Vector2(0f,0f);
     private Vector2 FORCE;
+    private float smoothingSpeed;
 
     private AnimatedSprite animationController;
     public CollisionShape2D collisionShape;
@@ -62,6 +63,8 @@ public class Player : KinematicBody2D
         Connect(STATE.damage.ToString(),this,nameof(onDamaged));
 
         FORCE=new Vector2(0f,GRAVITY);
+
+        smoothingSpeed=PlayerCamera.instance.SmoothingSpeed;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -264,6 +267,7 @@ public class Player : KinematicBody2D
 
     private void onDamaged(float amount=1f,Node2D damager=null)
     {
+        PlayerCamera.instance.SmoothingSpeed=0f;
         World.instance.setGamestate(Gamestate.DIEING);
         Position=new Vector2(0,-100);
         LIVES--;
@@ -275,6 +279,7 @@ public class Player : KinematicBody2D
         if(LIVES>0)
         {
             World.instance.CallDeferred(nameof(World.instance.restartGame),true);
+            PlayerCamera.instance.SmoothingSpeed=smoothingSpeed;
         }
         else
         {

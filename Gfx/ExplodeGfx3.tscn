@@ -12,7 +12,6 @@
 [ext_resource path="res://image/gfx/explode3/explosion-2.png" type="Texture" id=10]
 [ext_resource path="res://image/gfx/explode3/explosion-8.png" type="Texture" id=11]
 
-
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 10 ), ExtResource( 7 ), ExtResource( 1 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 11 ), ExtResource( 9 ), ExtResource( 3 ) ],

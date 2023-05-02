@@ -11,5 +11,6 @@ public enum PARTICLES
     WEAPONCHANGE,
     JUMP,
     DAGGERSHOOT,
-    PLAYERDIE
+    PLAYERDIE,
+    EXPLODE
 }
