@@ -57,8 +57,9 @@ frames = SubResource( 2 )
 animation = "die"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 0, 4 )
 cast_to = Vector2( 60, 0 )
-collision_mask = 3
+collision_mask = 23
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." groups=["ENEMIES"]]
 collision_layer = 32

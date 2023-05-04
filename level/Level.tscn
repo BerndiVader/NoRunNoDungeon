@@ -169,7 +169,7 @@ Linear = false
 position = Vector2( 704, 176 )
 Speed = 0.0
 Zoom = 0.8
-Timeout = 5
+Timeout = 30
 
 [node name="ChestMimic" parent="." instance=ExtResource( 11 )]
 position = Vector2( 936, 248 )

@@ -49,13 +49,13 @@ public class MimicChest : KinematicMonster
 				Platform collider=(Platform)node;
 				velocity.x+=collider.CurrentSpeed.x*1.8f;
 			}
-
-            if(shake!=0f)
-            {
-                applyShake();
-            }
-
         }
+
+        if(shake!=0f)
+        {
+            applyShake();
+        }
+
         goal(delta);
     
     }
@@ -63,14 +63,14 @@ public class MimicChest : KinematicMonster
     protected override void idle(float delta)
     {
         float distance=GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
-        if(distance<12f||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId()))
+
+        if(distance<14f||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId()))
         {
             cooldown=0;
             animationController.Play("attack");
             onAttack(Player.instance);
-            return;
         }
-        else if(cooldown>99) 
+        else if(cooldown>100) 
         {
             this.FlipH();
             cooldown=0;
@@ -91,7 +91,7 @@ public class MimicChest : KinematicMonster
     {
         float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
 
-        if(distance<12f)
+        if(distance<14f)
         {
             victim.EmitSignal(STATE.damage.ToString(),damageAmount,this);
         }
@@ -101,7 +101,7 @@ public class MimicChest : KinematicMonster
             rayCast2D.CastTo=direction*distance;
             if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
             {
-                shake=0.3f;
+                shake=0.1f;
             }
             else
             {
