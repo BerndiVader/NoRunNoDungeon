@@ -36,11 +36,6 @@ public class DaggerBullet : Area2D
         return q0.LinearInterpolate(q1,time);
     }
 
-    public void onAreaEntered(Area2D area)
-    {
-        destroy();
-    }
-
     public void onBodyEntered(Node node)
     {
         if(node.HasUserSignal(STATE.damage.ToString()))

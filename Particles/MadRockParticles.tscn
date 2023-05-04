@@ -14,7 +14,9 @@ colors = PoolColorArray( 1, 1, 1, 0.996078, 1, 1, 1, 0 )
 [node name="Particles2D" type="CPUParticles2D"]
 material = SubResource( 1 )
 rotation = 1.5708
+emitting = false
 amount = 16
+one_shot = true
 explosiveness = 1.0
 texture = ExtResource( 2 )
 emission_shape = 2

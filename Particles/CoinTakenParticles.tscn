@@ -6,7 +6,6 @@
 [ext_resource path="res://image/0x72/frames/coin_anim_f0.png" type="Texture" id=4]
 [ext_resource path="res://particles/CoinTakenParticles.cs" type="Script" id=5]
 
-
 [sub_resource type="AnimatedTexture" id=1]
 frames = 4
 fps = 10.0
@@ -30,4 +29,3 @@ linear_accel = -49.68
 scale_amount = 0.2
 scale_amount_random = 1.0
 script = ExtResource( 5 )
-[connection signal="tree_entered" from="." to="." method="_enteredTree"]

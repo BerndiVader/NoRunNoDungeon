@@ -1,8 +1,14 @@
 using Godot;
 using System;
 
-public class DaggerShoot : Particles
+public class DaggerShoot : CPUParticles2D
 {
+    public override void _Ready()
+    {
+        OneShot=true;
+        Emitting=true;
+    }
+
     public override void _Process(float delta)
     {
         if(!Emitting)

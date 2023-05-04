@@ -25,8 +25,8 @@ public class PlayerDieEffect : CPUParticles2D
     {
         if(!Emitting)
         {
-            QueueFree();
             Player.instance.die();
+            QueueFree();
         }
     }
 

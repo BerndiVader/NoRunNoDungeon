@@ -1,29 +1,23 @@
 using Godot;
 using System;
 
-public class CoinTakenParticles : Particles
+public class CoinTakenParticles : CPUParticles2D
 {
+    static Vector2 offset=new Vector2(0f,0.5f);
+
     public override void _Ready()
     {
+        Emitting=true;
     }
 
     public override void _Process(float delta) 
     {
         if(!Emitting) 
         {
-            SetProcess(false);
             QueueFree();
         }
 
-        Vector2 position=Position;
-        position.y-=0.5f;
-        Position=position;
-    }
-
-    public void _enteredTree()
-    {
-        this.Emitting=true;
-        SetProcess(true);
+        Position-=offset;
     }
 
 }

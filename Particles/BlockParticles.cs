@@ -1,25 +1,21 @@
 using Godot;
 using System;
 
-public class BlockParticles : Particles
+public class BlockParticles : CPUParticles2D
 {
 
     public override void _Ready()
     {
+        OneShot=true;
+        Emitting=true;
     }
 
     public override void _Process(float delta) 
     {
         if(!Emitting) 
         {
-            SetProcess(false);
             QueueFree();
         }
     }
 
-    public void _enteredTree()
-    {
-        this.Emitting=true;
-        SetProcess(true);
-    }
 }

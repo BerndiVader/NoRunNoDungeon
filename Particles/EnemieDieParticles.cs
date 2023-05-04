@@ -14,14 +14,7 @@ public class EnemieDieParticles : CPUParticles2D
     {
         if(!Emitting) 
         {
-            SetProcess(false);
             QueueFree();
         }
-    }
-
-    private void _enteredTree()
-    {
-        this.Emitting=true;
-        SetProcess(true);
     }
 }
