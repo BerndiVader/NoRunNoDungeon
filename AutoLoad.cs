@@ -13,6 +13,7 @@ public class AutoLoad : Node
         new Worker();
         ResourceUtils.Init();
         World.Init(GetTree().Root);
+        QueueFree();
     }
 
 }
