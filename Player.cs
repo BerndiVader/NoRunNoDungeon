@@ -269,7 +269,11 @@ public class Player : KinematicBody2D
     {
         PlayerCamera.instance.SmoothingSpeed=0f;
         World.instance.setGamestate(Gamestate.DIEING);
+
+        PlayerDie effect=PlayerDie.create();
+        effect.Position=World.level.ToLocal(GlobalPosition);
         Position=new Vector2(0,-100);
+        World.level.AddChild(effect);
         LIVES--;
         PlayerDieEffect.create();
     }

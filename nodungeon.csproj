@@ -84,6 +84,7 @@
     <Compile Include="enemies\STATE.cs" />
     <Compile Include="io\Stick.cs" />
     <Compile Include="io\Touch.cs" />
+    <Compile Include="shaders\PlayerDie.cs" />
     <Compile Include="ui\PauseUI.cs" />
     <Compile Include="weapons\Broadsword.cs" />
     <Compile Include="weapons\Dagger.cs" />
