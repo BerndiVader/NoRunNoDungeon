@@ -9,7 +9,7 @@ void fragment() {
 	vec2 norm=normalize(direction);
 	vec2 pixels=SCREEN_UV/SCREEN_PIXEL_SIZE;
 	vec2 pdir=vec2(norm.y,-norm.x);
-	vec2 corrected_uv=UV+((float(int(dot(pdir,pixels)/strip)&0x1)*2.0f)-1.0f)*offset*pdir;
+	vec2 corrected_uv=UV+(float(int(mod(dot(pdir,pixels)/strip,2)))*2.0f-1.0f)*offset*pdir;
 	vec4 color=texture(TEXTURE,corrected_uv);
 	color.a*=clamp(1.0f-offset/fade,0.0f,1.0f);
 	COLOR=color;
