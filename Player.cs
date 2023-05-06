@@ -27,6 +27,7 @@ public class Player : KinematicBody2D
     private AnimatedSprite animationController;
     public CollisionShape2D collisionShape;
     private CPUParticles2D airParticles,jumpParticles;
+    private ShaderMaterial motionTrails;
 
     private Weapon weapon;
 
@@ -65,6 +66,8 @@ public class Player : KinematicBody2D
         FORCE=new Vector2(0f,GRAVITY);
 
         smoothingSpeed=PlayerCamera.instance.SmoothingSpeed;
+
+        motionTrails=(ShaderMaterial)animationController.Material;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -76,6 +79,8 @@ public class Player : KinematicBody2D
         }
 
         airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.Speed;
+        motionTrails.SetShaderParam("velocity",velocity);
+
 
         float friction=1f;
         if(World.level.Speed!=0f)

@@ -4,7 +4,7 @@ using System;
 public class PlayerDie : Sprite
 {
 
-    static PackedScene scene=ResourceLoader.Load<PackedScene>("res://shaders/PlayerDie.tscn");
+    static PackedScene scene=ResourceLoader.Load<PackedScene>("res://gfx/PlayerDie.tscn");
 
     public static PlayerDie create()
     {
@@ -26,8 +26,7 @@ public class PlayerDie : Sprite
         speed+=0.03f;
         speed=Mathf.Min(speed,1f);
 
-        float offset=(float)shader.GetShaderParam("offset");
-        if(offset>=1f)
+        if(speed>=1f)
         {
             QueueFree();
         }

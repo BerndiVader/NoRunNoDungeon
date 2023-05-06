@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Player.cs" type="Script" id=1]
 [ext_resource path="res://image/0x72/frames/knight_f_hit_anim_f0.png" type="Texture" id=2]
@@ -9,6 +9,30 @@
 [ext_resource path="res://image/gfx/explode4/explosion-2.png" type="Texture" id=7]
 [ext_resource path="res://gfx/PlayerLight2D.cs" type="Script" id=8]
 [ext_resource path="res://image/gfx/player_light_big.png" type="Texture" id=9]
+[ext_resource path="res://shaders/MotionTrail.gdshader" type="Shader" id=10]
+
+[sub_resource type="OpenSimplexNoise" id=5]
+seed = 234234234
+octaves = 1
+period = 5.0
+
+[sub_resource type="NoiseTexture" id=6]
+width = 64
+height = 64
+noise = SubResource( 5 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 10 )
+shader_param/frame_coords = Vector2( 0, 0 )
+shader_param/nb_frames = Vector2( 1, 1 )
+shader_param/velocity = Vector2( 0, 0 )
+shader_param/velocity_max = 150.0
+shader_param/trail_size = 8.0
+shader_param/alpha_start = 0.9
+shader_param/alpha_tail = 0.1
+shader_param/alpha_factor = 1.1
+shader_param/noise_margin = 0.4
+shader_param/noise = SubResource( 6 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -46,9 +70,9 @@ MaxLight = 1.2
 ImgScale = Vector2( 1.2, 1.2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 4 )
 frames = SubResource( 1 )
 animation = "RUN"
-frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 4.80524 )
@@ -57,6 +81,7 @@ shape = SubResource( 2 )
 [node name="airParticles" type="CPUParticles2D" parent="."]
 position = Vector2( 0, 11 )
 z_index = -10
+emitting = false
 amount = 16
 local_coords = false
 texture = ExtResource( 7 )
