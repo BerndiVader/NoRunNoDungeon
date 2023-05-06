@@ -32,11 +32,9 @@ public class FallingRocks : StaticBody2D
         area.Connect("body_exited",this,nameof(onBodyExited));
 
         GetNode<Area2D>("Area2D2").Connect("body_entered",this,nameof(onPlayerHit));
-
         AddToGroup(GROUPS.LEVEL.ToString());
 
         force=new Vector2(0f,GRAVITY);
-
         state=State.IDLE;
     }
 
@@ -81,13 +79,14 @@ public class FallingRocks : StaticBody2D
             colliding=true;
             shake=0.5f;
             World.instance.renderer.shake+=2;
+            state=State.FALLEN;
         } 
         else if(body.IsInGroup(GROUPS.LEVEL.ToString())&&body!=this)
         {
-            state=State.FALLEN;
             area.Disconnect("body_entered",this,nameof(onBodyEntered));
             shake=0.5f;
             World.instance.renderer.shake+=2;
+            state=State.FALLEN;
         }
 
     }
@@ -111,7 +110,7 @@ public class FallingRocks : StaticBody2D
 
     private void applyShake()
     {
-        shake=Math.Min(shake,ShakeMax);
+        shake=Mathf.Min(shake,ShakeMax);
         if(shake>=0.02f)
         {
             float offset=(float)MathUtils.randomRange(-shake,shake);
