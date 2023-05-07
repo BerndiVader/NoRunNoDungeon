@@ -31,7 +31,7 @@ public class Worker : Thread
 		while(!stop)
 		{
 			goal();
-			OS.DelayMsec(5);
+			OS.DelayMsec(3);
 		}
 	}
 
@@ -40,7 +40,7 @@ public class Worker : Thread
 		if(placeholder.IsInsideTree())
 		{
 			placeholder.CallDeferred("remove_child",iPlaceholder);
-			iPlaceholder.Set("position",World.level.ToLocal(placeholder.GlobalPosition));
+			iPlaceholder.Set("position",placeholder.Position);
 			World.level.CallDeferred("add_child",iPlaceholder);
 			iPlaceholder.CallDeferred("create_instance",true);
 		}
