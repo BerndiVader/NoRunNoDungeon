@@ -3,10 +3,11 @@ using System;
 
 public class Background : ParallaxBackground
 {
-    [Export] private Vector2 Movement=new Vector2(-10,0);
+    private Vector2 speed=Vector2.Zero;
 
     public override void _Process(float delta) 
     {
-        ScrollBaseOffset+=(Movement*delta);
+        speed.x=World.level!=null?-World.level.Speed*0.1f:-10f;
+        ScrollBaseOffset+=(speed*delta);
     }
 }
