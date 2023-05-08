@@ -64,7 +64,7 @@
     <Compile Include="io\InputController.cs" />
     <Compile Include="level\FallingPlatform.cs" />
     <Compile Include="level\Level.cs" />
-    <Compile Include="level\MovingPlatform0.cs" />
+    <Compile Include="level\MovingPlatform.cs" />
     <Compile Include="obstacles\Spikes.cs" />
     <Compile Include="MathUtils.cs" />
     <Compile Include="io\MobileInput.cs" />

@@ -13,15 +13,16 @@ public class Player : KinematicBody2D
 
     [Export] public float GRAVITY=700f, WALK_FORCE=1600f, WALK_MIN_SPEED=119f, WALK_MAX_SPEED=119f, STOP_FORCE=1600f, JUMP_SPEED=220f, JUMP_MAX_AIRBORNE_TIME=0.2f;
 
-    private Vector2 velocity=new Vector2(0f,0f);
+    private Vector2 velocity=Vector2.Zero;
     private float onAirTime=100f;
     private bool jumping=false;
     private bool doubleJump=false;
     private bool justJumped=false;
     private int weaponCyle=0;
     private float slopeAngle=0f;
-    private Vector2 lastVelocity=new Vector2(0f,0f);
+    private Vector2 lastVelocity=Vector2.Zero;
     private Vector2 FORCE;
+    private Vector2 platformSpeed=Vector2.Zero;
     private float smoothingSpeed;
 
     private AnimatedSprite animationController;
@@ -149,6 +150,12 @@ public class Player : KinematicBody2D
         velocity+=force*delta;
         velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED)*Mathf.Sign(velocity.x);
 
+        if(platformSpeed!=Vector2.Zero&&velocity.x==0.0f)
+        {
+            velocity.x=platformSpeed.x*1.65f*friction;
+        }
+        platformSpeed=Vector2.Zero;        
+
         if(justJumped)
         {
             MoveLocalX(velocity.x*delta);
@@ -180,6 +187,11 @@ public class Player : KinematicBody2D
                     animationController.Play(ANIM_JUMP);
                     justJumped=jumping=true;
                     collision.Collider.EmitSignal(STATE.passanger.ToString(),this);
+                }
+                else if(collision.Collider is MovingPlatform)
+                {
+                    MovingPlatform platform=(MovingPlatform)collision.Collider;
+                    platformSpeed=platform.CurrentSpeed;
                 }
             }
         }

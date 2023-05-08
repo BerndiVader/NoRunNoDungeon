@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class MovingPlatform0 : Platform
+public class MovingPlatform : Platform
 {
 
     [Export] private Vector2 Direction=new Vector2(0f,-1f);
