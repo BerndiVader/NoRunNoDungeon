@@ -109,12 +109,11 @@ public class World : Node
 		background=(Background)ResourceUtils.background.Instance();
 
 		Player.instance.AddChild(PlayerCamera.instance);
-
-		setGamestate(Gamestate.RUNNING);
-
 		renderer.AddChild(level);
 		renderer.AddChild(Player.instance);
 		renderer.AddChild(background);
+		
+		setGamestate(Gamestate.RUNNING);
 	}
 
 	public override void _Process(float delta)
@@ -153,7 +152,7 @@ public class World : Node
 		}
 		else if(input.getQuit())
 		{
-			CallDeferred(nameof(restartGame),false);
+			CallDeferred(nameof(restartLevel),false);
 			return;
 		}
 		tick(delta);
@@ -204,7 +203,7 @@ public class World : Node
 		}
 	}
 
-	public void restartGame(bool keepLevel=false)
+	public void restartLevel(bool keepLevel=false)
 	{
 		Worker.gc();
 		setGamestate(Gamestate.RESTART);

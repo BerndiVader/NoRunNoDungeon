@@ -287,7 +287,7 @@ public class Player : KinematicBody2D
     {
         if(LIVES>0)
         {
-            World.instance.CallDeferred(nameof(World.instance.restartGame),true);
+            World.instance.CallDeferred(nameof(World.instance.restartLevel),true);
             PlayerCamera.instance.SmoothingSpeed=smoothingSpeed;
         }
         else
