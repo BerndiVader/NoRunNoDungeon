@@ -31,7 +31,6 @@ public class Worker : Thread
 		while(!stop)
 		{
 			goal();
-			OS.DelayMsec(3);
 		}
 	}
 
@@ -71,6 +70,11 @@ public class Worker : Thread
 				}
 				instantiatePlaceholder(p,placeholder);
 			}
+			OS.DelayMsec(3);
+		}
+		else
+		{
+			OS.DelayMsec(10);
 		}
 	}
 
