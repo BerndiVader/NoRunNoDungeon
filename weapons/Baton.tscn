@@ -152,7 +152,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 100.0, -15.0, -105.0 ]
+"values": [ 100.0, 0.0, -105.0 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:z_index")

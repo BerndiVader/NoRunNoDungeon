@@ -28,15 +28,9 @@ public abstract class Weapon : Area2D
         animationPlayer.Play();
     }
 
-    public override void _PhysicsProcess(float delta)
-    {
+    public override void _PhysicsProcess(float delta) {}
 
-    }
-
-    public virtual void _Free()
-    {
-
-    }
+    public virtual void _Free() {}
 
     public abstract void attack();
 
@@ -45,6 +39,8 @@ public abstract class Weapon : Area2D
         IDLE,
         ATTACK
     }
+
+    protected string[]directionNames=new string[]{"_RIGHT","_LEFT"};
 
     protected virtual void onHitSomething(Node node)
     {

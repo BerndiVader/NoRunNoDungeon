@@ -52,14 +52,7 @@ public class MonsterWeapon : Weapon
 
     protected String getStringDirection()
     {
-        if(owner.animationController.FlipH)
-        {
-            return "_LEFT";
-        }
-        else
-        {
-            return "_RIGHT";
-        }
+        return directionNames[owner.animationController.FlipH==true?1:0];
     }
 
     protected override void onHitSomething(Node node)

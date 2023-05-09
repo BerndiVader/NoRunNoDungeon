@@ -170,4 +170,4 @@ position = Vector2( 0.91149, 5.56653 )
 shape = SubResource( 6 )
 
 [node name="Mace" parent="." instance=ExtResource( 3 )]
-position = Vector2( -44, -9 )
+position = Vector2( -8, 1 )
