@@ -25,7 +25,7 @@ public class Player : KinematicBody2D
     private Vector2 platformSpeed=Vector2.Zero;
     private float smoothingSpeed;
 
-    private AnimatedSprite animationController;
+    public AnimatedSprite animationController;
     public CollisionShape2D collisionShape;
     private CPUParticles2D airParticles,jumpParticles;
     private ShaderMaterial motionTrails;
@@ -80,7 +80,6 @@ public class Player : KinematicBody2D
         }
 
         airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.Speed;
-        motionTrails.SetShaderParam("velocity",velocity);
 
 
         float friction=1f;
@@ -97,19 +96,6 @@ public class Player : KinematicBody2D
         bool attack=World.instance.input.getAttack();
         bool changeWeapon=World.instance.input.getChange();
 
-        if(left)
-        {
-            PlayerCamera.instance.direction=1;
-        }
-        else if(right)
-        {
-            PlayerCamera.instance.direction=-1;
-        }
-        else
-        {
-            PlayerCamera.instance.direction=0;
-        }
-
         if(changeWeapon&&!attack)
         {
             weaponCyle++;
@@ -124,7 +110,31 @@ public class Player : KinematicBody2D
         if(attack&&weapon!=null)
         {
             weapon.attack();
+        }        
+
+        if(left)
+        {
+            PlayerCamera.instance.direction=1;
+            if(friction==1f)
+            {
+                animationController.FlipH=true;
+            }
+            else
+            {
+                animationController.FlipH=false;
+            }
         }
+        else if(right)
+        {
+            PlayerCamera.instance.direction=-1;
+            animationController.FlipH=false;
+        }
+        else
+        {
+            PlayerCamera.instance.direction=0;
+        }
+
+        motionTrails.SetShaderParam("velocity",friction==1f?Vector2.Zero:velocity);
 
         if(left&&velocity.x<WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
         {
