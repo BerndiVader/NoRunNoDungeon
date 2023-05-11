@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://image/0x72/frames/weapon_anime_sword.png" type="Texture" id=1]
 [ext_resource path="res://weapons/Broadsword.cs" type="Script" id=2]
@@ -9,6 +9,112 @@ extents = Vector2( 4.04139, 11.2077 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "DOUBLE_SWING"
+length = 0.36
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.24, 0.3, 0.36 ),
+"transitions": PoolRealArray( 0.0824694, 0.217638, 0.999999, 0.999999, 1 ),
+"update": 0,
+"values": [ Vector2( -17.5998, 6.73386 ), Vector2( 20.101, 6.73386 ), Vector2( -3.11471, -16.085 ), Vector2( 15.5373, 6.73386 ), Vector2( -9.46432, 16.8536 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.12, 0.24, 0.3, 0.36 ),
+"transitions": PoolRealArray( 1, 0.25, 1, 1.10957, 1 ),
+"update": 0,
+"values": [ 89.9999, 89.9999, -27.2881, 92.6717, 226.285 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.12, 0.24 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("CPUParticles2D:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.36 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "DOUBLE_SWING_LEFT"
+length = 0.36
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.12, 0.24, 0.3, 0.36 ),
+"transitions": PoolRealArray( 0.0824694, 0.217638, 0.999999, 0.999999, 1 ),
+"update": 0,
+"values": [ Vector2( 17.6, 6.734 ), Vector2( -20.101, 6.734 ), Vector2( 3.115, -16.085 ), Vector2( -15.537, 6.734 ), Vector2( 9.464, 16.854 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.12, 0.24, 0.3, 0.36 ),
+"transitions": PoolRealArray( 1, 0.25, 1, 1.10957, 1 ),
+"update": 0,
+"values": [ -90.0, -90.0, 27.3, -92.7, -226.3 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.12, 0.24 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1, 1 ), Vector2( -1, 1 ), Vector2( -1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("CPUParticles2D:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.36 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "DOUBLE_SWING_RIGHT"
 length = 0.36
 step = 0.01
 tracks/0/type = "value"
@@ -100,7 +206,171 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=6]
+resource_name = "SETUP_LEFT"
+length = 0.001
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 8.609, 16.759 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -225.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "SETUP_RIGHT"
+length = 0.001
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -8.60937, 16.759 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 225.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
 [sub_resource type="Animation" id=4]
+length = 0.16
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.04, 0.08, 0.12, 0.16 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -9.46432, -8.84442 ), Vector2( 9.40672, -7.06065 ), Vector2( 18.3764, 3.06764 ), Vector2( 12.7072, 19.2251 ), Vector2( -8.60937, 16.759 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.08, 0.16 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ -44.9999, 74.9999, 225.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.08, 0.16 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "SWING_LEFT"
+length = 0.16
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.04, 0.08, 0.12, 0.16 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 9.464, -8.844 ), Vector2( -9.407, -7.061 ), Vector2( -18.376, 3.068 ), Vector2( -12.707, 19.225 ), Vector2( 8.609, 16.759 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.08, 0.16 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 45.0, -75.0, -225.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.08, 0.16 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1, 1 ), Vector2( -1.2, 1.2 ), Vector2( -1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "SWING_RIGHT"
 length = 0.16
 step = 0.01
 tracks/0/type = "value"
@@ -145,8 +415,8 @@ offsets = PoolRealArray( 0, 9.64289e-39, 0.85022 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1 )
 
 [node name="Broadsword" type="Area2D"]
-position = Vector2( -9.46432, 16.8536 )
-rotation = 3.94942
+position = Vector2( -8.60937, 16.759 )
+rotation = 3.92699
 collision_layer = 0
 collision_mask = 32
 script = ExtResource( 2 )
@@ -166,12 +436,19 @@ shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/DOUBLE_SWING = SubResource( 2 )
+anims/DOUBLE_SWING_LEFT = SubResource( 8 )
+anims/DOUBLE_SWING_RIGHT = SubResource( 9 )
 anims/SETUP = SubResource( 3 )
+anims/SETUP_LEFT = SubResource( 6 )
+anims/SETUP_RIGHT = SubResource( 7 )
 anims/SWING = SubResource( 4 )
+anims/SWING_LEFT = SubResource( 10 )
+anims/SWING_RIGHT = SubResource( 11 )
 
 [node name="CPUParticles2D" parent="." instance=ExtResource( 3 )]
 position = Vector2( -0.0129013, -13.0318 )
 z_index = -1
+emitting = true
 lifetime = 0.1
 emission_rect_extents = Vector2( 5, 5 )
 direction = Vector2( 1, 0 )

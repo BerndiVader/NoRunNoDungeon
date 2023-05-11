@@ -18,11 +18,16 @@ public class Broadsword : Weapon
     {
         switch(state)
         {
+            case WEAPONSTATE.IDLE:
+                if(!animationPlayer.IsPlaying()&&AnimationNames.SETUP+getStringDirection()!=animationPlayer.CurrentAnimation)
+                {
+                    animationPlayer.Play(AnimationNames.SETUP+getStringDirection());
+                }
+                break;
             case WEAPONSTATE.ATTACK:
             {
                 if(!animationPlayer.IsPlaying())
                 {
-                    animationPlayer.Play("SETUP");
                     state=WEAPONSTATE.IDLE;
                     hit=false;
                 }
@@ -35,7 +40,7 @@ public class Broadsword : Weapon
     {
         if(state==WEAPONSTATE.IDLE)
         {
-            animationPlayer.Play("DOUBLE_SWING");
+            animationPlayer.Play(AnimationNames.DOUBLE_SWING+getStringDirection());
             state=WEAPONSTATE.ATTACK;
         }
     }

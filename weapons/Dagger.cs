@@ -25,15 +25,18 @@ public class Dagger : Weapon
                         throwDagger();
                     }
 
-                    animationPlayer.Play("SETUP");
-                    state=WEAPONSTATE.IDLE;
                     hit=false;
                     cooldown=0;
+                    state=WEAPONSTATE.IDLE;
                 }
                 break;
             }
             case WEAPONSTATE.IDLE:
             {
+                if(!animationPlayer.IsPlaying()&&AnimationNames.SETUP+getStringDirection()!=animationPlayer.CurrentAnimation)
+                {
+                    animationPlayer.Play(AnimationNames.SETUP+getStringDirection());
+                }
                 if(cooldown<5) 
                 {
                     cooldown++;
@@ -47,7 +50,7 @@ public class Dagger : Weapon
     {
         if(state==WEAPONSTATE.IDLE&&cooldown==5)
         {
-            animationPlayer.Play("SWING");
+            animationPlayer.Play(AnimationNames.SWING+getStringDirection());
             state=WEAPONSTATE.ATTACK;
         }
     }
@@ -57,7 +60,7 @@ public class Dagger : Weapon
         shoot.Position=World.level.ToLocal(GetNode<Position2D>(nameof(Position2D)).GlobalPosition);
         shoot.Emitting=true;
         World.level.AddChild(shoot);
-        DaggerBullet bullet=(DaggerBullet)((PackedScene)ResourceUtils.bullets[(int)BULLETS.DAGGERBULLET]).Instance();
+        DaggerBullet bullet=ResourceUtils.bullets[(int)BULLETS.DAGGERBULLET].Instance<DaggerBullet>();
         bullet.Position=World.instance.renderer.ToLocal(GlobalPosition);
         World.instance.renderer.AddChild(bullet);
     }

@@ -13,7 +13,7 @@ public class MonsterWeapon : Weapon
     {
         GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
         owner=GetParent<KinematicMonster>();
-        animationPlayer.Play("SETUP"+getStringDirection());
+        animationPlayer.Play(AnimationNames.SETUP+getStringDirection());
     }
 
     public override void _PhysicsProcess(float delta)
@@ -22,9 +22,9 @@ public class MonsterWeapon : Weapon
         {
             case WEAPONSTATE.IDLE:
             {
-                if(!animationPlayer.IsPlaying())
+                if(!animationPlayer.IsPlaying()&&(AnimationNames.SETUP+getStringDirection()!=animationPlayer.CurrentAnimation))
                 {
-                    animationPlayer.Play("SETUP"+getStringDirection());
+                    animationPlayer.Play(AnimationNames.SETUP+getStringDirection());
                 }
                 break;
             }
@@ -32,7 +32,7 @@ public class MonsterWeapon : Weapon
             {
                 if(!animationPlayer.IsPlaying())
                 {
-                    animationPlayer.Play("SETUP"+getStringDirection());
+                    animationPlayer.Play(AnimationNames.SETUP+getStringDirection());
                     state=WEAPONSTATE.IDLE;
                     hit=false;
                 }
@@ -45,12 +45,12 @@ public class MonsterWeapon : Weapon
     {
         if(state==WEAPONSTATE.IDLE)
         {
-            animationPlayer.Play("SWING"+getStringDirection());
+            animationPlayer.Play(AnimationNames.SWING+getStringDirection());
             state=WEAPONSTATE.ATTACK;
         }
     }
 
-    protected String getStringDirection()
+    protected override String getStringDirection()
     {
         return directionNames[owner.animationController.FlipH==true?1:0];
     }

@@ -9,26 +9,36 @@ public abstract class Weapon : Area2D
     protected bool hit;
     protected WEAPONSTATE state;
     protected WEAPONSTATE oldState;
+    protected static string[]directionNames=new string[]{"_RIGHT","_LEFT"};
+    protected enum AnimationNames
+    {
+        SETUP,
+        SWING,
+        DOUBLE_SWING
+    }
+
     PackedScene weaponInitPartPacked=ResourceUtils.particles[(int)PARTICLES.WEAPONCHANGE];
 
     public override void _Ready()
     {
+        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
+        animationPlayer.CurrentAnimation=AnimationNames.SETUP.ToString();
+        animationPlayer.Play();
+
         CPUParticles2D initParticles=weaponInitPartPacked.Instance<CPUParticles2D>();
         initParticles.Position=World.level.ToLocal(GlobalPosition);
         initParticles.Texture=GetNode<Sprite>(nameof(Sprite)).Texture;
         initParticles.Rotation=Rotation;
         World.level.AddChild(initParticles);
+        
         SetProcess(false);
         SetProcessInput(false);
         Visible=true;
         state=WEAPONSTATE.IDLE;
         oldState=state;
-        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
-        animationPlayer.CurrentAnimation="SETUP";
-        animationPlayer.Play();
     }
 
-    public override void _PhysicsProcess(float delta) {}
+    public override void _Process(float delta) {}
 
     public virtual void _Free() {}
 
@@ -39,8 +49,6 @@ public abstract class Weapon : Area2D
         IDLE,
         ATTACK
     }
-
-    protected string[]directionNames=new string[]{"_RIGHT","_LEFT"};
 
     protected virtual void onHitSomething(Node node)
     {
@@ -58,5 +66,10 @@ public abstract class Weapon : Area2D
     {
         return animationPlayer.IsPlaying();
     }
+
+    protected virtual String getStringDirection()
+    {
+        return directionNames[Player.instance.animationController.FlipH==true?1:0];
+    }    
 
 }

@@ -3,13 +3,15 @@ using System;
 
 public class DaggerBullet : Area2D
 {
-    private Vector2 start,end,height;
+    private Vector2 start,end,height,offset=new Vector2(75f,50f);
     private float time;
+    private int xDir;
 
     public override void _Ready()
     {
+        xDir=PlayerCamera.instance.direction==0?1:PlayerCamera.instance.direction;
         start=Position;
-        end=new Vector2(start.x+75f,start.y+50f);
+        end=new Vector2(start.x+offset.x*xDir,start.y+offset.y);
         height=new Vector2(start.x+((end.x-start.x)*0.5f),start.y-30f);
         time=0f;
 
