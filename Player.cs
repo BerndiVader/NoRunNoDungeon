@@ -115,14 +115,7 @@ public class Player : KinematicBody2D
         if(left)
         {
             PlayerCamera.instance.direction=1;
-            if(friction==1f)
-            {
-                animationController.FlipH=true;
-            }
-            else
-            {
-                animationController.FlipH=false;
-            }
+            animationController.FlipH=friction==1f?true:false;
         }
         else if(right)
         {
@@ -132,6 +125,10 @@ public class Player : KinematicBody2D
         else
         {
             PlayerCamera.instance.direction=0;
+            if(friction!=1f)
+            {
+                animationController.FlipH=false;
+            }
         }
 
         motionTrails.SetShaderParam("velocity",friction==1f?Vector2.Zero:velocity);
