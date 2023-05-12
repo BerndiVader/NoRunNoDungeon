@@ -4,7 +4,7 @@ using System;
 public class Fairy : KinematicMonster
 {
     private float passedTime;
-    private Vector2 defaultPos;
+    private Vector2 defaultPos,lastPos;
     [Export]private Vector2 SinCosSpeed=new Vector2(5f,3.5f);
     [Export]private Vector2 FloatRange=new Vector2(5f,5f);
 
@@ -21,12 +21,14 @@ public class Fairy : KinematicMonster
 
     public override void _Process(float delta)
     {
+        lastPos=new Vector2(Position);
         goal(delta);
     }
 
     protected override void idle(float delta)
     {
         fly(delta);
+        animationController.FlipH=Position.x>lastPos.x;
     }
 
     protected override void onIdle()
