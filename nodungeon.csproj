@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoLoad.cs" />
+    <Compile Include="enemies\Fairy.cs" />
     <Compile Include="level\LevelControlTimer.cs" />
     <Compile Include="level\Settings.cs" />
     <Compile Include="particles\DaggerShoot.cs" />
