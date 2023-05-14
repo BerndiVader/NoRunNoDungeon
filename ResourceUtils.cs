@@ -38,7 +38,7 @@ public static class ResourceUtils
 
         if(isMobile)
         {
-            Console.WriteLine("Found Mobile, loading Touchinput");
+            Console.WriteLine("Found Mobile, loading touch input");
             touch=(PackedScene)ResourceLoader.Load("res://io/Touch.tscn");
             buttons=(PackedScene)ResourceLoader.Load("res://io/Buttons.tscn");
         }

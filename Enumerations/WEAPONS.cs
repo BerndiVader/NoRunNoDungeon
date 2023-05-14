@@ -5,5 +5,5 @@ public enum WEAPONS
 {
     SWORD,
     BROADSWORD,
-    DRAGGER,
+    DAGGER,
 }

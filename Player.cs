@@ -57,7 +57,7 @@ public class Player : KinematicBody2D
         jumpParticles.Emitting=false;
 
 
-        equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.DRAGGER]);
+        equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.DAGGER]);
 
         AddToGroup(GROUPS.PLAYERS.ToString());
         ZIndex=2;

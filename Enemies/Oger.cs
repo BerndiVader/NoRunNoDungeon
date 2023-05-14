@@ -9,7 +9,7 @@ public class Oger : KinematicMonster
     [Export] private float WALK_MAX_SPEED=40f;
     [Export] private float STOP_FORCE=1300f;
 
-    private Vector2 direction,PLAYERCASTTO,CASTTO;
+    private Vector2 direction,CASTTO;
     private Vector2 snap=new Vector2(0f,8f);
 
     private float travelTime=0f;
@@ -30,12 +30,11 @@ public class Oger : KinematicMonster
 
         playerCast2D=GetNode<RayCast2D>("PlayerCast2D");
         playerCast2D.Enabled=true;
-        PLAYERCASTTO=playerCast2D.CastTo;
+
+        direction=new Vector2(animationController.FlipH?-1f:1f,0f);
 
         animationController.Play("idle");
         EmitSignal(STATE.idle.ToString());
-
-        direction=new Vector2(0,0);
 
         weapon=GetNode<MonsterWeapon>("Baton");
         if(weapon!=null)
@@ -115,8 +114,6 @@ public class Oger : KinematicMonster
 
         if(distance>40)
         {
-            float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
-//            if(angle>45&&angle<165||!canSeePlayer())
             if(!canSeePlayer())
             {
                 EmitSignal(lastState.ToString());
@@ -164,7 +161,7 @@ public class Oger : KinematicMonster
 
             if(IsOnWall())
             {
-                direction=new Vector2(direction.x*-1,0);
+                direction=new Vector2(Mathf.Sign(direction.x)*-1f,0f);
                 FlipH();
             }        
         }
@@ -191,7 +188,6 @@ public class Oger : KinematicMonster
         if(distance<40)
         {
             float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
-//            if(angle>45&&angle<135||!canSeePlayer())
             if(!canSeePlayer())
             {
                 onStroll();
@@ -306,10 +302,10 @@ public class Oger : KinematicMonster
     {
         if(state!=STATE.stroll)
         {
-            base.onStroll();
             WALK_MAX_SPEED=30f;
             travelTime=0;
-            playerCast2D.CastTo=new Vector2(direction.x,0f)*150f;
+            playerCast2D.CastTo=new Vector2(Mathf.Sign(direction.x),0f)*150f;
+            base.onStroll();
         }
     }
 
@@ -319,9 +315,9 @@ public class Oger : KinematicMonster
         if(state!=STATE.idle)
         {
             travelTime=0;
-            base.onIdle();
             WALK_MAX_SPEED=30f;
-            playerCast2D.CastTo=new Vector2(direction.x,0f)*150f;
+            playerCast2D.CastTo=new Vector2(Mathf.Sign(direction.x),0f)*150f;
+            base.onIdle();
         }
     }
 
@@ -390,7 +386,7 @@ public class Oger : KinematicMonster
 
         if(IsOnWall()||!rayCast2D.IsColliding())
         {
-            direction*=-1f;
+            direction=new Vector2(Mathf.Sign(direction.x)*-1f,0f);
             FlipH();
         }
     }
