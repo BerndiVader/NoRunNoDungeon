@@ -5,8 +5,8 @@ public class Fairy : KinematicMonster
 {
     private float passedTime;
     private Vector2 offsetPos,lastPos;
-    [Export]private Vector2 SinCosSpeed=new Vector2(5f,3.5f);
-    [Export]private Vector2 FloatRange=new Vector2(15f,5f);
+    [Export]private Vector2 SinCosSpeed=new Vector2(3f,1.5f);
+    [Export]private Vector2 FloatRange=new Vector2(5f,5f);
 
     public override void _Ready()
     {

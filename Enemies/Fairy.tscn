@@ -9,6 +9,9 @@
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 8.5, 10.25 )
 
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 8.5, 11.5 )
+
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
@@ -22,14 +25,12 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 8.5, 11.5 )
-
 [node name="Fairy" type="KinematicBody2D"]
 scale = Vector2( -1, 1 )
 collision_layer = 0
 collision_mask = 22
 script = ExtResource( 5 )
+GRAVITY = 0.0
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 32
@@ -39,17 +40,17 @@ position = Vector2( -1.75, 6.5 )
 rotation = 1.5708
 shape = SubResource( 6 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 1 )
-animation = "stroll"
-speed_scale = 2.0
-
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2( 10, 14 )
-cast_to = Vector2( 0, 20 )
-collision_mask = 6
+cast_to = Vector2( 0, 0 )
+collision_mask = 23
+collide_with_areas = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1.49999, 4.5 )
 rotation = 1.5708
 shape = SubResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "stroll"
+speed_scale = 2.0

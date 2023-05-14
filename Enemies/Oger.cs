@@ -34,7 +34,7 @@ public class Oger : KinematicMonster
         direction=new Vector2(animationController.FlipH?-1f:1f,0f);
 
         animationController.Play("idle");
-        EmitSignal(STATE.idle.ToString());
+        onIdle();
 
         weapon=GetNode<MonsterWeapon>("Baton");
         if(weapon!=null)
@@ -120,14 +120,11 @@ public class Oger : KinematicMonster
                 return;
             }
            
-            if(animationController.FlipH&&direction.x>=0)
+            if(animationController.FlipH&&direction.x>=0||!animationController.FlipH&&direction.x<0)
             {
                 FlipH();
             }
-            else if(!animationController.FlipH&&direction.x<0)
-            {
-                FlipH();
-            }
+
 
             Vector2 force=new Vector2(0,GRAVITY);
 
@@ -163,6 +160,7 @@ public class Oger : KinematicMonster
             {
                 direction=new Vector2(Mathf.Sign(direction.x)*-1f,0f);
                 FlipH();
+                onIdle();
             }        
         }
         else
@@ -190,15 +188,11 @@ public class Oger : KinematicMonster
             float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
             if(!canSeePlayer())
             {
-                onStroll();
+                onIdle();
                 return;
             }
 
-            if(animationController.FlipH&&direction.x>=0)
-            {
-                FlipH();
-            }
-            else if(!animationController.FlipH&&direction.x<0)
+            if(animationController.FlipH&&direction.x>=0||!animationController.FlipH&&direction.x<0)
             {
                 FlipH();
             }
@@ -210,14 +204,18 @@ public class Oger : KinematicMonster
                 xLength=0f;
             }
             velocity.x=xLength*Mathf.Sign(velocity.x);
-
             velocity+=force*delta;
-
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
             if(IsOnFloor())
             {
                 velocity-=GetFloorVelocity()*delta;
+            }
+            if(IsOnWall())
+            {
+                direction=new Vector2(Mathf.Sign(direction.x)*-1f,0f);
+                FlipH();
+                onIdle();
             }
         }
         else
