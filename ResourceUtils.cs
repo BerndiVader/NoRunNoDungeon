@@ -52,13 +52,33 @@ public static class ResourceUtils
         camera=ResourceLoader.Load<PackedScene>("res://PlayerCamera.tscn");
 
         Console.WriteLine("Loading levels...");
-        levels.Add((PackedScene)ResourceLoader.Load("res://level/Level5.tscn"));
+        bool useAutotile=Array.IndexOf(OS.GetCmdlineArgs(),"--use-autotile")>-1;
+        if(!useAutotile)
+        {
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level1.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level2.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level3.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level4.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level5.tscn"));
+        }
+        else
+        {
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/auto_level.tscn"));
+        }
 
         Console.WriteLine("Loading tilesets...");
-        tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset1.tres"));
-        tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset2.tres"));
-        tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset3.tres"));
-        tilesets.Add((TileSet)ResourceLoader.Load("res://level/tileset4.tres"));
+        if(!useAutotile)
+        {
+            tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset1.tres"));
+            tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset2.tres"));
+            tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset3.tres"));
+            tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset4.tres"));
+        }
+        else
+        {
+            tilesets.Add(ResourceLoader.Load<TileSet>("res://level/auto_tileset1.tres"));
+        }
 
         Console.WriteLine("Loading textures...");
         bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_A/PNG/bg1.png"));
