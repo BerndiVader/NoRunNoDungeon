@@ -78,6 +78,9 @@ public static class ResourceUtils
         else
         {
             tilesets.Add(ResourceLoader.Load<TileSet>("res://level/auto_tileset1.tres"));
+            tilesets.Add(ResourceLoader.Load<TileSet>("res://level/auto_tileset2.tres"));
+            tilesets.Add(ResourceLoader.Load<TileSet>("res://level/auto_tileset3.tres"));
+            tilesets.Add(ResourceLoader.Load<TileSet>("res://level/auto_tileset4.tres"));
         }
 
         Console.WriteLine("Loading textures...");

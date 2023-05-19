@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://level/auto_tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
 [ext_resource path="res://obstacles/Spikes.tscn" type="PackedScene" id=3]
 [ext_resource path="res://placeholders/ZombieRunning.tscn" type="PackedScene" id=4]
 [ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=5]
-[ext_resource path="res://placeholders/CoinPhysics.tscn" type="PackedScene" id=6]
 
 [node name="TileMap" type="TileMap"]
 position = Vector2( 1, 1 )
@@ -35,50 +34,5 @@ position = Vector2( 959, 23 )
 [node name="LevelControl" parent="." instance=ExtResource( 5 )]
 position = Vector2( 1087, 7 )
 Speed = 0.0
-Zoom = 0.78
+Zoom = 0.5
 Timeout = 15
-
-[node name="CoinPhysics" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1151, 135 )
-
-[node name="CoinPhysics2" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1167, 127 )
-
-[node name="CoinPhysics3" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1151, 87 )
-
-[node name="CoinPhysics4" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1167, 95 )
-
-[node name="CoinPhysics5" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1148, 105 )
-
-[node name="CoinPhysics6" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1160, 100 )
-
-[node name="CoinPhysics7" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1147, 94 )
-
-[node name="CoinPhysics8" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1161, 84 )
-
-[node name="CoinPhysics9" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1154, 76 )
-
-[node name="CoinPhysics10" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1158, 90 )
-
-[node name="CoinPhysics11" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1155, 113 )
-
-[node name="CoinPhysics12" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1141, 118 )
-
-[node name="CoinPhysics13" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1059, 126 )
-
-[node name="CoinPhysics14" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1063, 134 )
-
-[node name="CoinPhysics15" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1061, 138 )
