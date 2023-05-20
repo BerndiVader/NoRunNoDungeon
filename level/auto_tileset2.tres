@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=45 format=2]
 
-[ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_style_a.png" type="Texture" id=1]
+[ext_resource path="res://image/super_pixel_cave/style_B/PNG/terrain_style_b.png" type="Texture" id=1]
 [ext_resource path="res://level/AutoTile.cs" type="Script" id=2]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
