@@ -5,6 +5,7 @@ public class Level : TileMap
 {
     [Export] public float Speed=120f;
     [Export] public Vector2 direction=new Vector2(-1f,0f);
+    [Export] public bool KeepTileset=false;
     public int mapLength;
     public int pixelLength;
     public Vector2 startingPoint;
@@ -18,9 +19,13 @@ public class Level : TileMap
 
         PlayerCamera.instance.Zoom=new Vector2(1f,1f);
 
+        if(!KeepTileset)
+        {
+            TileSet=World.instance.tileSet;
+        }
+
         mapLength=((int)GetUsedRect().End.x)-1;
         pixelLength=mapLength*(int)this.CellSize.x;
-        TileSet=World.instance.tileSet;
         CellYSort=false;
         CellCustomTransform=new Transform2D(128f,0f,0f,128f,0f,0f);
         CellQuadrantSize=8;

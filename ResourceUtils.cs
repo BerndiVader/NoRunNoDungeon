@@ -52,19 +52,19 @@ public static class ResourceUtils
         camera=ResourceLoader.Load<PackedScene>("res://PlayerCamera.tscn");
 
         Console.WriteLine("Loading levels...");
-        levels.Add(ResourceLoader.Load<PackedScene>("res://level/auto_level.tscn"));
         levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
         levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level1.tscn"));
         levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level2.tscn"));
         levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level3.tscn"));
         levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level4.tscn"));
         levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level5.tscn"));
+        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level6.tscn"));
 
         Console.WriteLine("Loading tilesets...");
-        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/auto_tileset1.tres"));
-        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/auto_tileset2.tres"));
-        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/auto_tileset3.tres"));
-        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/auto_tileset4.tres"));
+        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset1.tres"));
+        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset2.tres"));
+        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset3.tres"));
+        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset4.tres"));
 
         Console.WriteLine("Loading textures...");
         bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_A/PNG/bg1.png"));

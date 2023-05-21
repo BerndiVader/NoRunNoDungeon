@@ -1,9 +1,9 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://image/super_pixel_cave/style_D/PNG/terrain_bottom_left.png" type="Texture" id=1]
-[ext_resource path="res://image/super_pixel_cave/style_D/PNG/terrain_top_left.png" type="Texture" id=2]
-[ext_resource path="res://image/super_pixel_cave/style_D/PNG/terrain_bottom_right.png" type="Texture" id=3]
-[ext_resource path="res://image/super_pixel_cave/style_D/PNG/terrain_top_right.png" type="Texture" id=4]
+[ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_bottom_left.png" type="Texture" id=1]
+[ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_top_left.png" type="Texture" id=2]
+[ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_bottom_right.png" type="Texture" id=3]
+[ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_top_right.png" type="Texture" id=4]
 [ext_resource path="res://obstacles/SpikesDown.tscn" type="PackedScene" id=5]
 [ext_resource path="res://obstacles/MadRock.cs" type="Script" id=6]
 
