@@ -10,8 +10,8 @@ public class Worker : Thread
 	public static bool stop;
 	public enum Status
 	{
-		IDLE=0,
-		PREPARELEVEL=1,
+		IDLE,
+		PREPARELEVEL,
 	}
 	private static Status status;
 	private delegate void Goal();
@@ -80,8 +80,7 @@ public class Worker : Thread
 
 	public static void setStatus(Status s)
 	{
-		status=s;
-		switch(status)
+		switch(s)
 		{
 			case Status.PREPARELEVEL:
 				goal=prepareLevel;
@@ -90,6 +89,7 @@ public class Worker : Thread
 				goal=idle;
 				break;
 		}
+		status=s;
 	}
 
 	public static async void gc()
@@ -99,5 +99,5 @@ public class Worker : Thread
 			GC.Collect();
 			GC.WaitForPendingFinalizers();			
 		});
-	}	
+	}
 }

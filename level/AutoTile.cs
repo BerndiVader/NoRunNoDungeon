@@ -1,3 +1,5 @@
+#if TOOLS
+
 using Godot;
 using System;
 
@@ -9,3 +11,5 @@ public class AutoTile : TileSet
         return GetTilesIds().Contains(neighborId);
     }
 }
+
+#endif
