@@ -1,8 +1,7 @@
-#if TOOLS
-
 using Godot;
 using System;
 
+#if TOOLS
 [Tool]
 public class AutoTile : TileSet
 {
@@ -10,6 +9,10 @@ public class AutoTile : TileSet
     {
         return GetTilesIds().Contains(neighborId);
     }
+
 }
+#else
+
+public class AutoTile : TileSet {}
 
 #endif
