@@ -100,8 +100,8 @@ public class Bear : KinematicMonster
 
     protected override void onDamage(Player player, int amount)
     {
-        base.onDamage(player, amount);
-        damager.SetDeferred("Monitoring",false);
+       damager.SetDeferred("Monitoring",false);
+       base.onDamage(player, amount);
     }
 
     private void onPlayerEntered(Node body)
