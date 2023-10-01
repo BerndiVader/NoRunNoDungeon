@@ -55,16 +55,7 @@ public class World : Node
 
 	public static void quit() 
 	{
-		Console.Write("Wait for worker to finish...");
-		Worker.stop=true;
-		Worker.instance.WaitToFinish();
-		while(Worker.instance.IsActive())
-		{
-			Console.Write(".");
-			OS.DelayMsec(1);
-		}
-		Console.WriteLine(" done!");
-
+		Worker.stop();
 		if(instance!=null)
 		{
 			instance._Free();

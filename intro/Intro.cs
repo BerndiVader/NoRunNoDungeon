@@ -32,8 +32,7 @@ public class Intro : Node
 	{
 		if(what==MainLoop.NotificationWmQuitRequest)
 		{
-			Worker.stop=true;
-			Worker.instance.WaitToFinish();
+			Worker.stop();
 		}
 		base._Notification(what);
 	}

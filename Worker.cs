@@ -7,7 +7,6 @@ public class Worker : Thread
 {
     public static Worker instance;
 	public static ConcurrentStack<WeakReference>placeholders;
-	public static bool stop;
 	public enum Status
 	{
 		IDLE,
@@ -16,34 +15,42 @@ public class Worker : Thread
 	private static Status status;
 	private delegate void Goal();
 	private static Goal goal;
+	private static int delay;
+	private static bool quit;
 
 	public Worker() : base()
 	{
 		instance=this;
-		stop=false;
 		setStatus(Status.IDLE);
 		placeholders=new ConcurrentStack<WeakReference>();
+		quit=false;
 		Start(this,nameof(Runner));
 	}
 
-	private void Runner(bool run)
+	private void Runner()
 	{
-		while(!stop)
+		while(!quit)
 		{
 			goal();
 		}
 	}
 
-	private static void instantiatePlaceholder(Placeholder placeholder,InstancePlaceholder iPlaceholder)
+	private static void instantiatePlaceholder(Placeholder placeholder)
 	{
 		if(placeholder.IsInsideTree())
 		{
+			InstancePlaceholder iPlaceholder=placeholder.GetChild<InstancePlaceholder>(0);
+			string instancePath=iPlaceholder.GetInstancePath();
+			if(!ResourceLoader.HasCached(instancePath))
+			{
+				ResourceLoader.Load(instancePath);
+			}
 			placeholder.CallDeferred("remove_child",iPlaceholder);
 			iPlaceholder.Set("position",placeholder.Position);
 			World.level.CallDeferred("add_child",iPlaceholder);
 			iPlaceholder.CallDeferred("create_instance",true);
+			iPlaceholder.CallDeferred("queue_free");
 		}
-		iPlaceholder.CallDeferred("queue_free");
 		placeholder.CallDeferred("queue_free");
 	}
 
@@ -57,25 +64,30 @@ public class Worker : Thread
 
 	private static void idle()
 	{
+		delay=10;
 		if(placeholders.TryPop(out WeakReference result))
 		{
 			if(result.IsAlive)
 			{
 				Placeholder p=(Placeholder)result.Target;
-				InstancePlaceholder placeholder=p.GetChild<InstancePlaceholder>(0);
-				String instancePath=placeholder.GetInstancePath();
-				if(!ResourceLoader.HasCached(instancePath))
-				{
-					ResourceLoader.Load(instancePath);
-				}
-				instantiatePlaceholder(p,placeholder);
+				instantiatePlaceholder(p);
+				delay=3;
 			}
-			OS.DelayMsec(3);
 		}
-		else
+		OS.DelayMsec(delay);
+	}
+
+	public static void stop()
+	{
+		Console.Write("Wait for worker to finish...");
+		Worker.quit=true;
+		Worker.instance.WaitToFinish();
+		while(Worker.instance.IsActive())
 		{
-			OS.DelayMsec(10);
+			Console.Write(".");
+			OS.DelayMsec(1);
 		}
+		Console.WriteLine(" done!");		
 	}
 
 	public static void setStatus(Status s)
@@ -97,7 +109,7 @@ public class Worker : Thread
 		await Task.Run(delegate()
 		{
 			GC.Collect();
-			GC.WaitForPendingFinalizers();			
+			GC.WaitForPendingFinalizers();
 		});
 	}
 }
