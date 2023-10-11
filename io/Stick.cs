@@ -34,7 +34,7 @@ public class Stick : TouchScreenButton
     {
         if(onGoing==-1)
         {
-            Vector2 diffPos=Vector2.Zero-rad-Position;
+            Vector2 diffPos=(Vector2.Zero-rad-Position)*PlayerCamera.instance.Zoom;
             Position+=diffPos*returnAccel*delta;
             if(Position.IsEqualApprox(approxPosition)) 
             {
@@ -67,7 +67,7 @@ public class Stick : TouchScreenButton
                 index=t.Index;
             }
             
-            if(@event.IsPressed()&&position.x<512*0.5) 
+            if(@event.IsPressed()&&position.x<256)
             {
                 touch.GlobalPosition=position;
                 touch.oPosition=touch.Position;
