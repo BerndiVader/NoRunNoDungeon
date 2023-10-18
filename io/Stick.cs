@@ -13,8 +13,6 @@ public class Stick : TouchScreenButton
     private Vector2 approxPosition=new Vector2(-16f,-16f);
     public bool useAccelerometer;
 
-    private Label label;
-
     public override void _Ready()
     {
         touch=GetParent<Touch>();
@@ -34,12 +32,13 @@ public class Stick : TouchScreenButton
     {
         if(onGoing==-1)
         {
-            Vector2 diffPos=(Vector2.Zero-rad-Position)*PlayerCamera.instance.Zoom;
+            Vector2 diffPos=(Vector2.Zero-rad-Position)*touch.Scale;
             Position+=diffPos*returnAccel*delta;
             if(Position.IsEqualApprox(approxPosition)) 
             {
                 touch.Position=hidePosition;
-                touch.oPosition=Position;
+                touch.oPosition=hidePosition;
+                onGoing--;
             }
         }
     }
@@ -53,31 +52,29 @@ public class Stick : TouchScreenButton
 
             int index=-1;
             Vector2 position=Vector2.Zero;
-            Vector2 speed=Vector2.Zero;
 
             if(d!=null)
             {
                 position=d.Position;
                 index=d.Index;
-                speed=d.Speed;
             }
             else
             {
                 position=t.Position;
                 index=t.Index;
+                
+                if(@t.IsPressed()&&position.x<256)
+                {
+                    touch.GlobalPosition=position;
+                    touch.oPosition=touch.Position;
+                }
             }
             
-            if(@event.IsPressed()&&position.x<256)
-            {
-                touch.GlobalPosition=position;
-                touch.oPosition=touch.Position;
-            }
-
             float distCenter=(position-GlobalPosition).Length();
 
-            if(distCenter<=boundary*GlobalScale.x||index==onGoing)
+            if(distCenter<=boundary||index==onGoing)
             {
-                GlobalPosition=position-rad*GlobalScale;
+                GlobalPosition=position-rad;
                 if(getButtonPosition().Length()>boundary)
                 {
                     Position=getButtonPosition().Normalized()*boundary-rad;

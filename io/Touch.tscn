@@ -14,7 +14,7 @@ texture = ExtResource( 3 )
 script = ExtResource( 5 )
 
 [node name="Stick" type="TouchScreenButton" parent="."]
-position = Vector2( -13.8655, -16.3865 )
+position = Vector2( -16, -16 )
 normal = ExtResource( 4 )
 pressed = ExtResource( 2 )
 script = ExtResource( 1 )

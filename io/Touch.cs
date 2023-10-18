@@ -8,7 +8,7 @@ public class Touch : Sprite
 
     public override void _Ready()
     {
-        stick=GetNode<Stick>("Stick");
+        stick=GetNode<Stick>(nameof(Stick));
         SetProcess(true);
         SetPhysicsProcess(false);
         SetProcessInput(false);
