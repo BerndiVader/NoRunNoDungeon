@@ -16,7 +16,7 @@ public class PlayerLight2D : Light2D
         Scale=ImgScale;
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(lightCounter==LightDelay)
         {

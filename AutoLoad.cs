@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Reflection;
 
 public class AutoLoad : Node
 {
@@ -7,9 +8,13 @@ public class AutoLoad : Node
     {
         if(!OS.IsDebugBuild())
         {
+            OS.VsyncEnabled=true;
             OS.WindowFullscreen=true;
         }
-        OS.WindowSize=new Vector2(1024,576);
+        else
+        {
+    	    OS.WindowSize=new Vector2(1024,576);
+        }
         new Worker();
         ResourceUtils.Init();
         World.Init(GetTree().Root);

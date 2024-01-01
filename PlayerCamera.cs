@@ -20,7 +20,7 @@ public class PlayerCamera : Camera2D
         size=GetViewportRect().Size;
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(direction!=0)
         {

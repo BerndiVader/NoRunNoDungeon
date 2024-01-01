@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class ResourceUtils
 {
@@ -35,6 +36,16 @@ public static class ResourceUtils
         bullets=new List<PackedScene>();
         gfx=new List<PackedScene>();
         weapons=new List<PackedScene>();
+
+        bool pck=ProjectSettings.LoadResourcePack("nodungeon.pck");
+        if(pck)
+        {
+            Console.WriteLine("Found dcl, using it.");
+        }
+        else
+        {
+            Console.WriteLine("No dcl found.");
+        }
 
         if(isMobile)
         {
