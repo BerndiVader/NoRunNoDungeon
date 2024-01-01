@@ -12,13 +12,11 @@ public class Fairy : KinematicMonster
     {
         base._Ready();
         passedTime=0f;
-        SetProcess(true);
-        SetPhysicsProcess(false);
         state=STATE.unknown;
         EmitSignal(STATE.idle.ToString());
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         float lastX=Position.x;
         goal(delta);
