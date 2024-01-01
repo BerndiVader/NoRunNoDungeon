@@ -5,11 +5,10 @@ public class DaggerBullet : Area2D
 {
     private Vector2 start,end,height,offset=new Vector2(75f,50f);
     private float time;
-    private int xDir;
 
     public override void _Ready()
     {
-        xDir=Player.instance.animationController.FlipH?-1:1;
+        int xDir=Player.instance.animationController.FlipH?-1:1;
         start=Position;
         end=new Vector2(start.x+(offset.x*xDir),start.y+offset.y);
         height=new Vector2(start.x+((end.x-start.x)*0.5f),start.y-30f);

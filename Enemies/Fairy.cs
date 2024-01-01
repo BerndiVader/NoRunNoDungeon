@@ -4,9 +4,12 @@ using System;
 public class Fairy : KinematicMonster
 {
     private float passedTime;
+    private int projectileCooldown;
     private Vector2 offsetPos;
     [Export]private Vector2 SinCosSpeed=new Vector2(3f,1.5f);
     [Export]private Vector2 FloatRange=new Vector2(5f,5f);
+
+    private static PackedScene bulletScene=ResourceUtils.bullets[(int)BULLETS.TESTBULLET];
 
     public override void _Ready()
     {
@@ -14,6 +17,7 @@ public class Fairy : KinematicMonster
         passedTime=0f;
         state=STATE.unknown;
         EmitSignal(STATE.idle.ToString());
+        projectileCooldown=0;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -45,6 +49,34 @@ public class Fairy : KinematicMonster
     {
         passedTime+=delta;
         Position=new Vector2(offsetPos.x+(FloatRange.x*Mathf.Sin(passedTime*SinCosSpeed.x)),offsetPos.y+(FloatRange.y*Mathf.Cos(passedTime*SinCosSpeed.y)));
+
+        projectileCooldown--;
+        projectileCooldown=Mathf.Clamp(projectileCooldown,0,100);
+
+        shootProjectile();
+    }
+
+    private bool shootProjectile()
+    {
+        Vector2 playerPos=Player.instance.GlobalPosition;
+        Vector2 pos=GlobalPosition;
+
+        bool canSeePlayer=animationController.FlipH&&playerPos.x>pos.x||!animationController.FlipH&&playerPos.x<pos.x;
+
+        if(canSeePlayer&&projectileCooldown==0)
+        {
+            if(playerPos.DistanceSquaredTo(pos)<8000f)
+            {
+                projectileCooldown=100;
+                TestBullet bullet=bulletScene.Instance<TestBullet>();
+                
+                bullet.Position=World.level.ToLocal(GlobalPosition);
+                bullet.direction=animationController.FlipH?Vector2.Right:Vector2.Left;
+                World.level.AddChild(bullet);
+            }
+        }        
+
+        return true;
     }
 
 }
