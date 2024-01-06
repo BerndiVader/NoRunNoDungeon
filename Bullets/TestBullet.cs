@@ -21,7 +21,6 @@ public class TestBullet : Area2D
         Position+=direction*(speed*delta);
         if(liveSpan<0f)
         {
-            GD.Print("eol");
             QueueFree();
         }
     }

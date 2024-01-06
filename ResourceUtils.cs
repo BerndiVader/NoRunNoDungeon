@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 
 public static class ResourceUtils
 {
@@ -45,6 +45,35 @@ public static class ResourceUtils
         else
         {
             Console.WriteLine("No dcl found.");
+        }
+
+        Console.WriteLine("Check for addons...");
+        string[]files=null;
+        if(System.IO.Directory.Exists("./dlcs"))
+        {
+            files=System.IO.Directory.GetFiles("./dlcs","*.pck");
+        }
+        else
+        {
+            System.IO.Directory.CreateDirectory("./dlcs");
+        }
+        if(files!=null)
+        {
+            for(int a=0;a<files.Length;a++)
+            {
+                if(ProjectSettings.LoadResourcePack(files[a],false))
+                {
+                    Console.WriteLine("Loaded "+files[a]);
+                }
+                else
+                {
+                    Console.WriteLine("Failed to load "+files[a]);
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("No addons found.");
         }
 
         if(isMobile)
