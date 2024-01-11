@@ -17,15 +17,13 @@ public abstract class Weapon : Area2D
         DOUBLE_SWING
     }
 
-    PackedScene weaponInitPartPacked=ResourceUtils.particles[(int)PARTICLES.WEAPONCHANGE];
-
     public override void _Ready()
     {
         animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
         animationPlayer.CurrentAnimation=AnimationNames.SETUP.ToString();
         animationPlayer.Play();
 
-        CPUParticles2D initParticles=weaponInitPartPacked.Instance<CPUParticles2D>();
+        CPUParticles2D initParticles=ResourceUtils.particles[(int)PARTICLES.WEAPONCHANGE].Instance<CPUParticles2D>();
         initParticles.Position=World.level.ToLocal(GlobalPosition);
         initParticles.Texture=GetNode<Sprite>(nameof(Sprite)).Texture;
         initParticles.Rotation=Rotation;

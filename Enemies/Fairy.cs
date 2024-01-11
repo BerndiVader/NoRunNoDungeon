@@ -9,8 +9,6 @@ public class Fairy : KinematicMonster
     [Export]private Vector2 SinCosSpeed=new Vector2(3f,1.5f);
     [Export]private Vector2 FloatRange=new Vector2(5f,5f);
 
-    private static PackedScene bulletScene=ResourceUtils.bullets[(int)BULLETS.TESTBULLET];
-
     public override void _Ready()
     {
         base._Ready();
@@ -68,7 +66,7 @@ public class Fairy : KinematicMonster
             if(playerPos.DistanceSquaredTo(pos)<8000f)
             {
                 projectileCooldown=100;
-                TestBullet bullet=bulletScene.Instance<TestBullet>();
+                TestBullet bullet=ResourceUtils.bullets[(int)BULLETS.TESTBULLET].Instance<TestBullet>();
                 
                 bullet.Position=World.level.ToLocal(GlobalPosition);
                 bullet.direction=animationController.FlipH?Vector2.Right:Vector2.Left;

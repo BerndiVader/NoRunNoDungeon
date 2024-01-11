@@ -180,16 +180,16 @@ maxRotation = 45
 position = Vector2( 2360, 32 )
 
 [node name="MadRockPlaceholder" parent="." instance=ExtResource( 11 )]
-position = Vector2( 840, 63 )
+position = Vector2( 800, 193 )
 
 [node name="MadRockPlaceholder2" parent="." instance=ExtResource( 11 )]
-position = Vector2( 952, 64 )
+position = Vector2( 952, 134 )
 
 [node name="MadRockPlaceholder3" parent="." instance=ExtResource( 11 )]
-position = Vector2( 1048, 64 )
+position = Vector2( 1048, 134 )
 
 [node name="FairyPlaceholder" parent="." instance=ExtResource( 13 )]
-position = Vector2( 992, 163 )
+position = Vector2( 1176, 177 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="ZombieRunning"]

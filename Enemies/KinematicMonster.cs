@@ -3,12 +3,7 @@ using System;
 
 public abstract class KinematicMonster : KinematicBody2D
 {
-    private static PackedScene levelControlPack;
-
-    static KinematicMonster()
-    {
-        levelControlPack=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
-    }
+    private static PackedScene levelControlPack=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
 
     [Export] protected Vector2 ANIMATION_OFFSET=Vector2.Zero,velocity=Vector2.Zero;
     [Export] protected float damageAmount=1f;

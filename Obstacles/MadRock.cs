@@ -7,7 +7,6 @@ public class MadRock : KinematicBody2D
     private int time;
     private Vector2 force,velocity,startPosition;
     private State state,nextState;
-    private PackedScene particles=ResourceUtils.particles[(int)PARTICLES.MADROCK];
 
     private enum State
     {
@@ -122,7 +121,7 @@ public class MadRock : KinematicBody2D
 
     private void createParticles()
     {
-        MadRockParticles particle=(MadRockParticles)particles.Instance();
+        MadRockParticles particle=ResourceUtils.particles[(int)PARTICLES.MADROCK].Instance<MadRockParticles>();
         particle.Position=Position+new Vector2(0f,16f);
         World.level.AddChild(particle);
     }
