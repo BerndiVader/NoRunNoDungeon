@@ -13,15 +13,14 @@ public class World : Node
 
 	public static void mergeMaps(Level newLevel, Level nextLevel) 
 	{
-		int x=33,y=18;
-		int lx=((int)newLevel.GetUsedRect().End.x);
+		int lx=(int)newLevel.GetUsedRect().End.x;
 
-		for(int xx=0;xx<x;xx++) 
+		for(int x=0;x<33;x++) 
 		{
-			for(int yy=0;yy<y;yy++)
+			for(int y=0;y<18;y++)
 			{
-				Vector2 autoTile=nextLevel.GetCellAutotileCoord(xx,yy);
-				newLevel.SetCell(lx+xx,yy,nextLevel.GetCell(xx,yy),false,false,false,autoTile);
+				Vector2 autoTile=nextLevel.GetCellAutotileCoord(x,y);
+				newLevel.SetCell(lx+x,y,nextLevel.GetCell(x,y),false,false,false,autoTile);
 			}
 		}
 	}
@@ -107,17 +106,17 @@ public class World : Node
 		setGamestate(Gamestate.RUNNING);
 	}
 
-	public override void _Process(float delta)
-	{
+    public override void _Process(float delta)
+    {
 		goal(delta);
-	}
+    }
 
 	private void tick(float delta) 
 	{
-		level.MoveLocalX((level.direction.x*level.Speed)*delta,true);
-		level.MoveLocalY((level.direction.y*level.Speed)*delta,true);
+		level.MoveLocalX(level.direction.x*level.Speed*delta);
+		level.MoveLocalY(level.direction.y*level.Speed*delta);
 
-		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=(level.pixelLength)-528)
+		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=level.pixelLength-528)
 		{
 			setGamestate(Gamestate.SCENE_CHANGE);
 			Worker.setStatus(Worker.Status.PREPARELEVEL);
