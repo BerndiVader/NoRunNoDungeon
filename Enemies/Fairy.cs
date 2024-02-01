@@ -66,9 +66,9 @@ public class Fairy : KinematicMonster
             if(playerPos.DistanceSquaredTo(pos)<8000f)
             {
                 projectileCooldown=100;
-                TestBullet bullet=ResourceUtils.bullets[(int)BULLETS.TESTBULLET].Instance<TestBullet>();
+                SkullBullet bullet=ResourceUtils.bullets[(int)BULLETS.TESTBULLET].Instance<SkullBullet>();
                 
-                bullet.Position=World.level.ToLocal(GlobalPosition);
+                bullet.Position=World.level.ToLocal(GlobalPosition)-new Vector2(0,-5f);
                 bullet.direction=animationController.FlipH?Vector2.Right:Vector2.Left;
                 World.level.AddChild(bullet);
             }

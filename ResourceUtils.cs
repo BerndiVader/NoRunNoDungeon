@@ -133,7 +133,7 @@ public static class ResourceUtils
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/ExplodeParticles.tscn"));
 
         Console.WriteLine("Loading bullets...");
-        bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/TestBullet.tscn"));
+        bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/SkullBullet.tscn"));
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/DaggerBullet.tscn"));
 
         Console.WriteLine("Loading visual effects...");

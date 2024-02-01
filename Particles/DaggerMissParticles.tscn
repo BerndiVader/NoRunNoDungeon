@@ -29,7 +29,7 @@ scale_amount_curve = SubResource( 1 )
 color_ramp = SubResource( 2 )
 script = ExtResource( 2 )
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="Second" type="CPUParticles2D" parent="."]
 scale = Vector2( 0.5, 0.5 )
 emitting = false
 amount = 1

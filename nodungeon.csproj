@@ -37,7 +37,7 @@
     <Compile Include="bonus\Bonus.cs" />
     <Compile Include="bonus\Coin.cs" />
     <Compile Include="bullets\DaggerBullet.cs" />
-    <Compile Include="bullets\TestBullet.cs" />
+    <Compile Include="bullets\SkullBullet.cs" />
     <Compile Include="enemies\KinematicMonster.cs" />
     <Compile Include="enemies\Oger.cs" />
     <Compile Include="enemies\RunningZombie.cs" />

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://bonus/PhysicsCoin.tscn" type="PackedScene" id=9]
 [ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/ChestMimic.tscn" type="PackedScene" id=11]
+[ext_resource path="res://placeholders/FairyPlaceholder.tscn" type="PackedScene" id=12]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -177,6 +178,42 @@ Timeout = 30
 
 [node name="ChestMimic" parent="." instance=ExtResource( 11 )]
 position = Vector2( 936, 248 )
+
+[node name="FairyPlaceholder" parent="." instance=ExtResource( 12 )]
+position = Vector2( 867, 221 )
+
+[node name="FairyPlaceholder2" parent="." instance=ExtResource( 12 )]
+position = Vector2( 961, 215 )
+
+[node name="FairyPlaceholder3" parent="." instance=ExtResource( 12 )]
+position = Vector2( 769, 230 )
+
+[node name="FairyPlaceholder4" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1062, 227 )
+
+[node name="FairyPlaceholder5" parent="." instance=ExtResource( 12 )]
+position = Vector2( 909, 179 )
+
+[node name="FairyPlaceholder6" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1007, 192 )
+
+[node name="FairyPlaceholder7" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1072, 147 )
+
+[node name="FairyPlaceholder8" parent="." instance=ExtResource( 12 )]
+position = Vector2( 728, 213 )
+
+[node name="FairyPlaceholder9" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1195, 222 )
+
+[node name="FairyPlaceholder10" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1379, 228 )
+
+[node name="FairyPlaceholder11" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1300, 192 )
+
+[node name="FairyPlaceholder12" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1465, 176 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
