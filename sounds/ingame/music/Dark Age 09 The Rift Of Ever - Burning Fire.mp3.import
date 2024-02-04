@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age 09 The Rift Of Ever - Burning Fire.mp3-bf2aab0e7b52dfc94d1023cd4fcb1abb.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age 09 The Rift Of Ever - Burning Fire.mp3"
+dest_files=[ "res://.import/Dark Age 09 The Rift Of Ever - Burning Fire.mp3-bf2aab0e7b52dfc94d1023cd4fcb1abb.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -6,6 +6,8 @@ public class World : Node
 	public static World instance;
 	public static Viewport root;
 
+	public AudioStreamPlayer2D musicPlayer=new AudioStreamPlayer2D();
+
 	public static void Init(Viewport viewPort)
 	{
 		root=viewPort;
@@ -80,6 +82,13 @@ public class World : Node
 
 	public override void _Ready()
 	{
+		onMusicFinishedPlaying();
+		musicPlayer.Position=new Vector2(256f,146f);
+		musicPlayer.Connect("finished",this,nameof(onMusicFinishedPlaying));
+		AddChild(musicPlayer);
+		musicPlayer.Play();
+		musicPlayer.VolumeDb=-10;
+
 		ResourceUtils.camera.Instance<PlayerCamera>();
 		if(ResourceUtils.isMobile)
 		{
@@ -265,5 +274,10 @@ public class World : Node
 	{
 		instance=this;
 		GetTree().CurrentScene=this;
+	}
+
+	private void onMusicFinishedPlaying()
+	{
+		musicPlayer.Stream=ResourceUtils.ingameMusic[MathUtils.randomRangeInt(0,ResourceUtils.ingameMusic.Count)];
 	}	
 }

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age 03 Orcs And Goblins Emerge From The Bogswamps.mp3-f9e74f3fca11e155dc798c1dee77351c.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age 03 Orcs And Goblins Emerge From The Bogswamps.mp3"
+dest_files=[ "res://.import/Dark Age 03 Orcs And Goblins Emerge From The Bogswamps.mp3-f9e74f3fca11e155dc798c1dee77351c.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

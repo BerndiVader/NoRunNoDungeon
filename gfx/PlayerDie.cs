@@ -11,22 +11,22 @@ public class PlayerDie : Sprite
         return scene.Instance<PlayerDie>();
     }
 
-    float speed;
+    float offset;
     ShaderMaterial shader;
 
     public override void _Ready()
     {
-        speed=0f;
+        offset=0f;
         shader=(ShaderMaterial)Material;
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
-        shader.SetShaderParam("offset",speed);
-        speed+=0.03f;
-        speed=Mathf.Min(speed,1f);
+        shader.SetShaderParam("offset",offset);
+        offset+=0.03f;
+        offset=Mathf.Min(offset,1f);
 
-        if(speed>=1f)
+        if(offset==1f)
         {
             QueueFree();
         }

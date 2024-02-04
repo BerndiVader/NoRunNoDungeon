@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age 05 Battle Theme I.mp3-4127c71e2d9328ec7c91d4450219b259.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age 05 Battle Theme I.mp3"
+dest_files=[ "res://.import/Dark Age 05 Battle Theme I.mp3-4127c71e2d9328ec7c91d4450219b259.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

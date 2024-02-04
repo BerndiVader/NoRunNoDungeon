@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age 01 Stronghold Of The Barbarians.mp3-fa3c2c8ff5741f45f75d1815202ec74d.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age 01 Stronghold Of The Barbarians.mp3"
+dest_files=[ "res://.import/Dark Age 01 Stronghold Of The Barbarians.mp3-fa3c2c8ff5741f45f75d1815202ec74d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

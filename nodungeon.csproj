@@ -89,6 +89,7 @@
     <Compile Include="io\Stick.cs" />
     <Compile Include="io\Touch.cs" />
     <Compile Include="gfx\PlayerDie.cs" />
+    <Compile Include="sounds\SfxPlayer.cs" />
     <Compile Include="ui\PauseUI.cs" />
     <Compile Include="weapons\Broadsword.cs" />
     <Compile Include="weapons\Dagger.cs" />

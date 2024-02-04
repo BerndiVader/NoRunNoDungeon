@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Player : KinematicBody2D
 {
@@ -7,6 +8,10 @@ public class Player : KinematicBody2D
     private static String ANIM_RUN="RUN";
     private static String ANIM_JUMP="HIT";
     public static int LIVES;
+
+    static AudioStream sfxJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/30_Jump_03.wav");
+    static AudioStream sfxDoubleJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
+    static AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
 
     [Signal]
     public delegate void damage(float amount=1f, Node2D attacker=null);
@@ -115,7 +120,7 @@ public class Player : KinematicBody2D
         if(left)
         {
             PlayerCamera.instance.direction=1;
-            animationController.FlipH=friction==1f?true:false;
+            animationController.FlipH=friction==1f;
         }
         else if(right)
         {
@@ -212,6 +217,10 @@ public class Player : KinematicBody2D
         {
             if(airParticles.Emitting)
             {
+                SfxPlayer sfx=new SfxPlayer();
+                sfx.Stream=sfxLanding;
+                sfx.Position=World.level.ToLocal(GlobalPosition);
+                World.level.AddChild(sfx);
                 airParticles.Emitting=false;
             }
 
@@ -244,6 +253,10 @@ public class Player : KinematicBody2D
             velocity.y=-JUMP_SPEED;
             animationController.Play(ANIM_JUMP);
             jumpParticles.Emitting=true;
+            SfxPlayer sfx=new SfxPlayer();
+            sfx.Stream=sfxDoubleJump;
+            sfx.Position=World.level.ToLocal(GlobalPosition);
+            World.level.AddChild(sfx);
         }
 
         if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME) 
@@ -262,6 +275,10 @@ public class Player : KinematicBody2D
             velocity.y=-JUMP_SPEED;
             animationController.Play(ANIM_JUMP);
             justJumped=jumping=true;
+            SfxPlayer sfx=new SfxPlayer();
+            sfx.Stream=sfxJump;
+            sfx.Position=World.level.ToLocal(GlobalPosition);
+            World.level.AddChild(sfx);
         }
 
         onAirTime+=delta;

@@ -19,6 +19,7 @@ public static class ResourceUtils
     public static List<PackedScene> gfx;
     public static PackedScene background;
     public static List<Texture> bgTextures;
+    public static List<AudioStreamMP3>ingameMusic;
     public static PackedScene touch;
     public static PackedScene buttons;
 
@@ -36,6 +37,7 @@ public static class ResourceUtils
         bullets=new List<PackedScene>();
         gfx=new List<PackedScene>();
         weapons=new List<PackedScene>();
+        ingameMusic=new List<AudioStreamMP3>();
 
         bool pck=ProjectSettings.LoadResourcePack("nodungeon.pck");
         if(pck)
@@ -147,6 +149,15 @@ public static class ResourceUtils
         weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Sword.tscn"));
         weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Broadsword.tscn"));
         weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Dagger.tscn"));
+
+        Console.WriteLine("Loading ingame musics...");
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 01 Stronghold Of The Barbarians.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 02 The Lightning - Riven Crag Of Lord Doom.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 03 Orcs And Goblins Emerge From The Bogswamps.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 05 Battle Theme I.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 09 The Rift Of Ever - Burning Fire.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 10 Battle Theme II - 1.mp3"));
+
 
         Console.WriteLine("Done!");
     }
