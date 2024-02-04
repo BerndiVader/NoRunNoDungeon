@@ -50,6 +50,7 @@ public class Dagger : Weapon
     {
         if(state==WEAPONSTATE.IDLE&&cooldown==5)
         {
+            playSfx(sfxSwing);
             animationPlayer.Play(AnimationNames.SWING+getStringDirection());
             state=WEAPONSTATE.ATTACK;
         }

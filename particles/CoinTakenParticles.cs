@@ -5,13 +5,15 @@ public class CoinTakenParticles : CPUParticles2D
 {
     static Vector2 offset=new Vector2(0f,0.5f);
 
-    static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/001_Hover_01.wav");
+    public static AudioStream sfxSmall=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PickUp/Retro PickUp Coin 04.wav");
+    public static AudioStream sfxBig=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PickUp/Retro PickUp Coin 07.wav");
+
+    public SfxPlayer audio=new SfxPlayer();
 
     public override void _Ready()
     {
-        SfxPlayer audio=new SfxPlayer();
-        audio.Stream=sfx;
         audio.Position=Position;
+        audio.VolumeDb=-10;
         World.level.AddChild(audio);
 
         Emitting=true;

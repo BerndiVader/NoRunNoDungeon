@@ -17,6 +17,10 @@ public abstract class Weapon : Area2D
         DOUBLE_SWING
     }
 
+    protected static AudioStream sfxSwing=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/56_Attack_03.wav");
+    protected static AudioStream sfxHit=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/61_Hit_03.wav");
+    protected static AudioStream sfxMiss=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/08_Step_rock_02.wav");
+
     public override void _Ready()
     {
         animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
@@ -54,8 +58,13 @@ public abstract class Weapon : Area2D
         {
             if(node.HasUserSignal(STATE.damage.ToString()))
             {
+                playSfx(sfxHit);
                 node.EmitSignal(STATE.damage.ToString(),Player.instance,damage);                            
                 hit=true;
+            }
+            else
+            {
+                playSfx(sfxMiss);
             }
         }
     }
@@ -68,6 +77,15 @@ public abstract class Weapon : Area2D
     protected virtual String getStringDirection()
     {
         return directionNames[Player.instance.animationController.FlipH==true?1:0];
-    }    
+    }
+
+    protected void playSfx(AudioStream stream)
+    {
+        SfxPlayer sfx=new SfxPlayer();
+        sfx.Position=World.level.ToLocal(GlobalPosition);
+        sfx.Stream=stream;
+        World.level.AddChild(sfx);
+        sfx.Play();      
+    }
 
 }

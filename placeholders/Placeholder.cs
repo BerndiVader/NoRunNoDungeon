@@ -4,6 +4,7 @@ using System;
 
 public class Placeholder : Node2D
 {
+    public Boolean isDisposed=false;
     public override void _Ready()
     {        
         Visible=false;
@@ -19,6 +20,12 @@ public class Placeholder : Node2D
     public void onEnteredScreen()
     {
         Worker.placeholders.Push(new WeakReference(this));
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        isDisposed=true;
+        base.Dispose(disposing);
     }
 
 }

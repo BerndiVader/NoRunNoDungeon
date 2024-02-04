@@ -29,11 +29,11 @@ public class Sword : Weapon
         }
     }
 
-
     public override void attack()
     {
         if(state==WEAPONSTATE.IDLE)
         {
+            playSfx(sfxSwing);
             animationPlayer.Play(AnimationNames.SWING+getStringDirection());
             state=WEAPONSTATE.ATTACK;
         }

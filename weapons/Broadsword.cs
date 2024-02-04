@@ -40,6 +40,7 @@ public class Broadsword : Weapon
     {
         if(state==WEAPONSTATE.IDLE)
         {
+            playSfx(sfxSwing);
             animationPlayer.Play(AnimationNames.DOUBLE_SWING+getStringDirection());
             state=WEAPONSTATE.ATTACK;
         }

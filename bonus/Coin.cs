@@ -15,6 +15,7 @@ public class Coin : Bonus
         {
             CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKEN].Instance();
             particles.Position=World.level.ToLocal(GlobalPosition);
+            particles.audio.Stream=CoinTakenParticles.sfxBig;
             World.level.AddChild(particles);
             QueueFree();
         }

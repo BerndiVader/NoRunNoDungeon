@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.PerformanceData;
 using System.Threading.Tasks;
 
 public class Worker : Thread
@@ -37,21 +38,28 @@ public class Worker : Thread
 
 	private static void instantiatePlaceholder(Placeholder placeholder)
 	{
-		if(placeholder.IsInsideTree())
+		try
 		{
-			InstancePlaceholder iPlaceholder=placeholder.GetChild<InstancePlaceholder>(0);
-			string instancePath=iPlaceholder.GetInstancePath();
-			if(!ResourceLoader.HasCached(instancePath))
+			if(!placeholder.isDisposed&&placeholder.IsInsideTree())
 			{
-				ResourceLoader.Load(instancePath);
+				InstancePlaceholder iPlaceholder=placeholder.GetChild<InstancePlaceholder>(0);
+				string instancePath=iPlaceholder.GetInstancePath();
+				if(!ResourceLoader.HasCached(instancePath))
+				{
+					ResourceLoader.Load(instancePath);
+				}
+				placeholder.CallDeferred("remove_child",iPlaceholder);
+				iPlaceholder.Set("position",placeholder.Position);
+				World.level.CallDeferred("add_child",iPlaceholder);
+				iPlaceholder.CallDeferred("create_instance",false);
+				iPlaceholder.CallDeferred("queue_free");
 			}
-			placeholder.CallDeferred("remove_child",iPlaceholder);
-			iPlaceholder.Set("position",placeholder.Position);
-			World.level.CallDeferred("add_child",iPlaceholder);
-			iPlaceholder.CallDeferred("create_instance",true);
-			iPlaceholder.CallDeferred("queue_free");
+			placeholder.CallDeferred("queue_free");
 		}
-		placeholder.CallDeferred("queue_free");
+		catch(Exception e)
+		{
+			Console.WriteLine(e.GetType().Name);
+		}
 	}
 
 	private static void prepareLevel()
