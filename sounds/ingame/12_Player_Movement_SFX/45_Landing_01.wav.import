@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/45_Landing_01.wav-bd81db00b4f7153370b93423183d45f7.sample"
+
+[deps]
+
+source_file="res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav"
+dest_files=[ "res://.import/45_Landing_01.wav-bd81db00b4f7153370b93423183d45f7.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/051_use_item_01.wav-b1bd31707d6bfee3d78c935359b3ea2d.sample"
+
+[deps]
+
+source_file="res://sounds/ingame/10_UI_Menu_SFX/051_use_item_01.wav"
+dest_files=[ "res://.import/051_use_item_01.wav-b1bd31707d6bfee3d78c935359b3ea2d.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

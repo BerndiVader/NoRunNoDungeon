@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/35_Miss_Evade_02.wav-8b3d466059777c0d46a6cd5c9dc6e2d2.sample"
+
+[deps]
+
+source_file="res://sounds/ingame/10_Battle_SFX/35_Miss_Evade_02.wav"
+dest_files=[ "res://.import/35_Miss_Evade_02.wav-8b3d466059777c0d46a6cd5c9dc6e2d2.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

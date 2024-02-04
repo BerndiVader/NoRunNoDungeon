@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/26_Swim_Submerged_02.wav-9b5c21f57016fb7e0d1314c3bf3e2f58.sample"
+
+[deps]
+
+source_file="res://sounds/ingame/12_Player_Movement_SFX/26_Swim_Submerged_02.wav"
+dest_files=[ "res://.import/26_Swim_Submerged_02.wav-9b5c21f57016fb7e0d1314c3bf3e2f58.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
