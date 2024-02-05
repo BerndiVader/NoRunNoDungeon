@@ -9,6 +9,7 @@ public class Intro : Node
 	
 	public override void _Ready()
 	{
+		musicPlayer.Bus="Master";
 		musicPlayer.Stream=music;
 		musicPlayer.Position=new Vector2(256f,146f);
 		AddChild(musicPlayer);

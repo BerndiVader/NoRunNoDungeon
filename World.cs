@@ -82,12 +82,12 @@ public class World : Node
 
 	public override void _Ready()
 	{
+		musicPlayer.Bus="Background";
 		onMusicFinishedPlaying();
 		musicPlayer.Position=new Vector2(256f,146f);
 		musicPlayer.Connect("finished",this,nameof(onMusicFinishedPlaying));
 		AddChild(musicPlayer);
 		musicPlayer.Play();
-		musicPlayer.VolumeDb=-10;
 
 		ResourceUtils.camera.Instance<PlayerCamera>();
 		if(ResourceUtils.isMobile)
