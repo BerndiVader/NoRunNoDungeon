@@ -100,7 +100,7 @@ position = Vector2( 2640, 176 )
 position = Vector2( 2752, 160 )
 
 [node name="LevelControl" parent="." instance=ExtResource( 12 )]
-position = Vector2( 952, 151 )
+position = Vector2( 952, 144 )
 Speed = 0.0
 Zoom = 0.5
 Timeout = 10

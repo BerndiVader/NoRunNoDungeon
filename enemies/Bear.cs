@@ -3,6 +3,7 @@ using System;
 
 public class Bear : KinematicMonster
 {
+    [Export] private new Vector2 ANIMATION_OFFSET=new Vector2(0f,0f);
     [Export] private float WALK_FORCE=100f;
     [Export] private float WALK_MIN_SPEED=2f;
     [Export] private float WALK_MAX_SPEED=50f;
@@ -14,6 +15,10 @@ public class Bear : KinematicMonster
     public override void _Ready()
     {
         base._Ready();
+
+        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
+        animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
+        animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
         damager=GetNode<Area2D>("Damager");
         damager.Connect("body_entered",this,nameof(onPlayerEntered));
@@ -34,6 +39,10 @@ public class Bear : KinematicMonster
 
     public override void _PhysicsProcess(float delta)
     {   
+        if(animationPlayer.IsPlaying())
+        {
+            //Position=startOffset+(ANIMATION_OFFSET*animationDirection);
+        }
         goal(delta);
     }
 
@@ -100,9 +109,51 @@ public class Bear : KinematicMonster
 
     protected override void onDamage(Player player, int amount)
     {
-       damager.SetDeferred("Monitoring",false);
-       base.onDamage(player, amount);
+        if(state!=STATE.damage&&state!=STATE.die)
+        {
+            damager.Monitoring=false;
+            base.onDamage(player, amount);
+            if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
+            {
+                animationDirection=-1;
+            }
+            animationPlayer.Play("HIT");
+        }
     }
+    
+    public override void onPassanger(Player player)
+    {
+        if(state!=STATE.passanger)
+        {
+            damager.Monitoring=false;
+            base.onPassanger(player);
+            animationController.Play("idle");
+            animationPlayer.Play("PASSANGER");
+        }
+    }
+
+    protected override void passanger(float delta)
+    {
+        if(!animationPlayer.IsPlaying())
+        {
+            base.passanger(delta);
+        }
+    } 
+
+    protected override void damage(float delta)
+    {
+        if(!animationPlayer.IsPlaying())
+        {
+            if(health<=0)
+            {
+                onDie();
+            }
+            else
+            {
+                EmitSignal(lastState.ToString());
+            }
+        }
+    }     
 
     private void onPlayerEntered(Node body)
     {

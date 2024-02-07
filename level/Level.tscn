@@ -171,7 +171,7 @@ Length = 4
 Linear = false
 
 [node name="LevelControl" parent="." instance=ExtResource( 10 )]
-position = Vector2( 704, 176 )
+position = Vector2( 739, 148 )
 Speed = 0.0
 Zoom = 0.8
 Timeout = 30

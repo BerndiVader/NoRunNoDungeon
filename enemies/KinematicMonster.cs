@@ -13,6 +13,7 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
     {
         {"Use",false},
+        {"Dir",Vector2.Zero},
         {"Speed",-1.0f},
         {"Zoom",-1.0f},
     };
@@ -248,7 +249,7 @@ public abstract class KinematicMonster : KinematicBody2D
     {
         if((bool)LEVEL_SETTINGS["Use"])
         {
-            levelSettings=new Settings(World.level,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
+            levelSettings=new Settings(World.level,Vector2.Zero,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
             LevelControl control=levelControlPack.Instance<LevelControl>();
             control.setMonsterControlled(levelSettings);
             control.Position=Position;

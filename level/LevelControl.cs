@@ -1,14 +1,14 @@
 using Godot;
-using System;
 
 public class LevelControl : Node2D
 {
     [Export] private float Speed=-1f;
+    [Export] private Vector2 Direction=Vector2.Zero;
     [Export] private float Zoom=-1f;
     [Export] private int Timeout=-1;
     [Export] private bool Restore=false;
     private VisibilityNotifier2D notifier;
-    private float xSize;
+    private Vector2 size;
     private Settings settings; 
 
     public override void _Ready()
@@ -22,18 +22,29 @@ public class LevelControl : Node2D
         SetPhysicsProcess(false);
         SetProcessInput(false);
 
-        xSize=GetViewportRect().Size.x;
+        size=GetViewportRect().Size*0.5f;
     }
 
     public override void _Process(float delta)
     {
-        float x=(Position+World.level.GlobalPosition).x;
-        if(x<=xSize*0.5)
+        /*
+            float dist=0f;
+            if (World.level.direction.x!=0f)
+            {
+                dist=Mathf.Abs(size.x-GlobalPosition.x);
+            }
+            else if (World.level.direction.y!=0f)
+            {
+                dist=Mathf.Abs(size.y-GlobalPosition.y);
+            }
+        */
+
+        if(GlobalPosition.x<size.x)
         {
             SetProcess(false);
             if(!Restore)
             {
-                settings=new Settings(World.level,Speed,Zoom);
+                settings=new Settings(World.level,Direction,Speed,Zoom);
                 settings.set();
                 if(Timeout!=-1)
                 {
@@ -51,8 +62,8 @@ public class LevelControl : Node2D
 
     public void setMonsterControlled(Settings settings)
     {
-        this.Speed=settings.speed;
-        this.Zoom=settings.zoom.x;
+        Speed=settings.speed;
+        Zoom=settings.zoom.x;
     }
 
     private void onScreenEntered()

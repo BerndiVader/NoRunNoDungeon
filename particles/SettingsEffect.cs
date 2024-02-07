@@ -23,10 +23,9 @@ public class SettingsEffect : CPUParticles2D
 
         tex.CreateFromImage(fontTex.GetRect(font.GetCharTxUvRect(chr)),1);
         Texture=tex;
-        this.Emitting=true;
+        Emitting=true;
         Scale=PlayerCamera.instance.Zoom;
-        Position*=Scale;
-        Position+=PlayerCamera.instance.GetCameraScreenCenter();         
+        Position=PlayerCamera.instance.GetCameraScreenCenter();         
     }
 
     public override void _Process(float delta)

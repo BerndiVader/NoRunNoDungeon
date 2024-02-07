@@ -7,8 +7,7 @@ public class SfxPlayer : AudioStreamPlayer2D
     {
         Bus="Sfx";
         Connect("finished",this,nameof(onFinished));
-        Play();
-        
+        Play(); 
     }
 
     private void onFinished()

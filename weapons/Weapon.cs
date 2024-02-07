@@ -85,7 +85,6 @@ public abstract class Weapon : Area2D
         sfx.Position=World.level.ToLocal(GlobalPosition);
         sfx.Stream=stream;
         World.level.AddChild(sfx);
-        sfx.Play();      
     }
 
 }

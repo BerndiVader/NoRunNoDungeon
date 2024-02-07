@@ -22,8 +22,8 @@ public class Worker : Thread
 	public Worker() : base()
 	{
 		instance=this;
-		setStatus(Status.IDLE);
 		placeholders=new ConcurrentStack<WeakReference>();
+		setStatus(Status.IDLE);
 		quit=false;
 		Start(this,nameof(Runner));
 	}
@@ -117,7 +117,6 @@ public class Worker : Thread
 		await Task.Run(delegate()
 		{
 			GC.Collect();
-			GC.WaitForPendingFinalizers();
 		});
 	}
 }
