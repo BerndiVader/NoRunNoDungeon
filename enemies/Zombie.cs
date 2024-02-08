@@ -175,7 +175,7 @@ public class Zombie : KinematicMonster
         }
     }
 
-    private void FlipH()
+    protected override void FlipH()
     {
         animationController.FlipH^=true;
         if(animationController.FlipH)

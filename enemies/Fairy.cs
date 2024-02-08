@@ -6,12 +6,16 @@ public class Fairy : KinematicMonster
     private float passedTime;
     private int projectileCooldown;
     private Vector2 offsetPos;
+    private RayCast2D raycast;
     [Export]private Vector2 SinCosSpeed=new Vector2(3f,1.5f);
     [Export]private Vector2 FloatRange=new Vector2(5f,5f);
 
     public override void _Ready()
     {
         base._Ready();
+
+        raycast=GetNode<RayCast2D>("RayCast2D");
+
         passedTime=0f;
         state=STATE.unknown;
         EmitSignal(STATE.idle.ToString());
@@ -22,7 +26,11 @@ public class Fairy : KinematicMonster
     {
         float lastX=Position.x;
         goal(delta);
-        animationController.FlipH=Position.x>lastX;
+        bool direction=Position.x>lastX;
+        if(direction!=animationController.FlipH)
+        {
+            FlipH();
+        }
     }
 
     protected override void idle(float delta)
@@ -68,13 +76,19 @@ public class Fairy : KinematicMonster
                 projectileCooldown=100;
                 SkullBullet bullet=ResourceUtils.bullets[(int)BULLETS.TESTBULLET].Instance<SkullBullet>();
                 
-                bullet.Position=World.level.ToLocal(GlobalPosition)-new Vector2(0,-5f);
+                bullet.Position=Position-new Vector2(0,-5f);
                 bullet.direction=animationController.FlipH?Vector2.Right:Vector2.Left;
                 World.level.AddChild(bullet);
             }
         }        
 
         return true;
+    }
+
+    protected override void FlipH()
+    {
+        animationController.FlipH^=true;
+        raycast.CastTo*=-1;
     }
 
 }

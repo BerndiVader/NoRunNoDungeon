@@ -32,7 +32,7 @@ public class Bear : KinematicMonster
 
         if(MathUtils.randomRangeInt(1,3)==2)
         {
-            flipH();
+            FlipH();
         }
 
     }
@@ -103,7 +103,7 @@ public class Bear : KinematicMonster
 
         if(IsOnWall()||!raycast.IsColliding())
         {
-            flipH();
+            FlipH();
         }
     }
 
@@ -161,7 +161,7 @@ public class Bear : KinematicMonster
         body.EmitSignal(STATE.damage.ToString(),1f,this);
     }
 
-    private void flipH()
+    protected override void FlipH()
     {
         if(Scale.y<0)
         {

@@ -324,7 +324,7 @@ public class Oger : KinematicMonster
         return playerCast2D.IsColliding()&&playerCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId();
     }
 
-    private void FlipH()
+    protected override void FlipH()
     {
         animationController.FlipH^=true;
 

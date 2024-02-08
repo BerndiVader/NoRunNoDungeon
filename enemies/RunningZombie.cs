@@ -221,7 +221,7 @@ public class RunningZombie : KinematicMonster
 		return Mathf.Abs(Player.instance.GlobalPosition.DistanceTo(GlobalPosition))<ACTIVATION_RANGE;
 	}
 
-	private void FlipH()
+	protected override void FlipH()
 	{
 		animationController.FlipH^=true;
 		Vector2 position=rayCast2D.Position;

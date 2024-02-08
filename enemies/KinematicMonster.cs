@@ -21,7 +21,7 @@ public abstract class KinematicMonster : KinematicBody2D
     private Settings levelSettings;
     
     protected Player victim,attacker;
-    protected Godot.AnimationPlayer animationPlayer;
+    protected AnimationPlayer animationPlayer;
     protected CollisionShape2D collisionController;
     protected StaticBody2D staticBody;
     protected Vector2 startOffset=Vector2.Zero,force;
@@ -244,6 +244,8 @@ public abstract class KinematicMonster : KinematicBody2D
         ANIMATION_OFFSET=Vector2.Zero;
         animationDirection=1;
     }
+
+    protected abstract void FlipH();
 
     public override void _EnterTree()
     {

@@ -146,7 +146,7 @@ public class MimicChest : KinematicMonster
         }
     }
 
-    private void FlipH()
+    protected override void FlipH()
     {
         animationController.FlipH^=true;
         rayCast2D.CastTo*=-1;
