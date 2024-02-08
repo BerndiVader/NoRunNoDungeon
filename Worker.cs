@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Concurrent;
-using System.Diagnostics.PerformanceData;
 using System.Threading.Tasks;
 
 public class Worker : Thread
@@ -62,10 +61,10 @@ public class Worker : Thread
 		}
 	}
 
-	private static void prepareLevel()
+	private static void prepareAndChangeLevel()
 	{
 		placeholders.Clear();
-		World.instance.prepareLevel();
+		World.instance.prepareAndChangeLevel();
 		setStatus(Status.IDLE);
 		gc();
 	}
@@ -103,7 +102,7 @@ public class Worker : Thread
 		switch(s)
 		{
 			case Status.PREPARELEVEL:
-				goal=prepareLevel;
+				goal=prepareAndChangeLevel;
 				break;
 			case Status.IDLE:
 				goal=idle;

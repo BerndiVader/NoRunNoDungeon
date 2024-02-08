@@ -21,8 +21,7 @@ public class World : Node
 		{
 			for(int y=0;y<18;y++)
 			{
-				Vector2 autoTile=nextLevel.GetCellAutotileCoord(x,y);
-				newLevel.SetCell(lx+x,y,nextLevel.GetCell(x,y),false,false,false,autoTile);
+				newLevel.SetCell(lx+x,y,nextLevel.GetCell(x,y),false,false,false,nextLevel.GetCellAutotileCoord(x,y));
 			}
 		}
 	}
@@ -51,7 +50,7 @@ public class World : Node
         if(PlayerCamera.instance.Zoom.x==1f)
         {
             node.QueueFree();
-        }		
+        }
 	}
 
 	public static void quit() 
@@ -125,7 +124,7 @@ public class World : Node
 		level.MoveLocalX(level.direction.x*level.Speed*delta);
 		level.MoveLocalY(level.direction.y*level.Speed*delta);
 
-		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=level.pixelLength-528)
+		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=level.pixelLength-512)
 		{
 			setGamestate(Gamestate.SCENE_CHANGE);
 			Worker.setStatus(Worker.Status.PREPARELEVEL);
@@ -223,7 +222,7 @@ public class World : Node
 		setGamestate(Gamestate.RUNNING);
 	}
 
-	public void prepareLevel()
+	public void prepareAndChangeLevel()
 	{
 		Level newLevel;
 		currentLevel=nextLevel;
@@ -247,7 +246,6 @@ public class World : Node
 		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
 		renderer.CallDeferred("remove_child",level);
 		level=newLevel;
-		newLevel=null;
 		setGamestate(Gamestate.SCENE_CHANGED);
 	}
 

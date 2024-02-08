@@ -24,8 +24,8 @@ public class Level : TileMap
             TileSet=World.instance.tileSet;
         }
 
-        mapLength=((int)GetUsedRect().End.x)-1;
-        pixelLength=mapLength*(int)this.CellSize.x;
+        mapLength=(int)GetUsedRect().End.x;
+        pixelLength=mapLength*16;
         CellYSort=false;
         CellCustomTransform=new Transform2D(128f,0f,0f,128f,0f,0f);
         CellQuadrantSize=8;

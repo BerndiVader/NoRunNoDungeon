@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://level/tileset4.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://placeholders/MadRockPlaceholder.tscn" type="PackedScene" id=11]
 [ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=12]
 [ext_resource path="res://placeholders/FairyPlaceholder.tscn" type="PackedScene" id=13]
+[ext_resource path="res://placeholders/TorchPlaceholder.tscn" type="PackedScene" id=14]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -190,6 +191,9 @@ position = Vector2( 1048, 134 )
 
 [node name="FairyPlaceholder" parent="." instance=ExtResource( 13 )]
 position = Vector2( 1176, 177 )
+
+[node name="Torch" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1000, 236 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="ZombieRunning"]

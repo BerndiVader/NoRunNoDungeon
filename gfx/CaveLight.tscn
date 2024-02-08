@@ -46,8 +46,8 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/radius = 5.0
-shader_param/amount = 1.0
+shader_param/radius = 0.5
+shader_param/amount = 0.25
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
@@ -62,5 +62,5 @@ animations = [ {
 [node name="AnimatedSprite2" type="AnimatedSprite" parent="."]
 material = SubResource( 2 )
 frames = SubResource( 3 )
-frame = 1
+frame = 3
 playing = true

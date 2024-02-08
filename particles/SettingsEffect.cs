@@ -5,8 +5,9 @@ public class SettingsEffect : CPUParticles2D
 {
     public int chr;
     public float scale=5f;
-    static Image fontTex;
-    static BitmapFont font;
+    private static Image fontTex;
+    private static BitmapFont font;
+    private ImageTexture tex=new ImageTexture();
 
     static SettingsEffect()
     {
@@ -19,7 +20,6 @@ public class SettingsEffect : CPUParticles2D
     {
         ScaleAmount=scale;
         OneShot=true;
-        ImageTexture tex=new ImageTexture();
 
         tex.CreateFromImage(fontTex.GetRect(font.GetCharTxUvRect(chr)),1);
         Texture=tex;
