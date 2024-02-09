@@ -21,4 +21,8 @@ public class Coin : Bonus
         }
     }
 
+    public override void apply(Player player)
+    {
+        throw new NotImplementedException();
+    }
 }

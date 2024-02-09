@@ -23,4 +23,8 @@ public class PhysicsCoin : PhysicsObject
         }
     }
 
+    public override void apply(Player player)
+    {
+        throw new NotImplementedException();
+    }
 }

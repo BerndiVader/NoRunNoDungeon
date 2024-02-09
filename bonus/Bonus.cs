@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Bonus : Area2D
+public abstract class Bonus : Area2D
 {
     public override void _Ready()
     {
@@ -11,5 +11,7 @@ public class Bonus : Area2D
         
         GetNode<AnimatedSprite>("AnimatedSprite").Play("default");
     }
+
+    public abstract void apply(Player player);
 
 }

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class PhysicsObject : KinematicBody2D
+public abstract class PhysicsObject : KinematicBody2D
 {
     protected float friction=0.7f;
     protected Vector2 velocity=new Vector2(0f,0f);
@@ -33,5 +33,7 @@ public class PhysicsObject : KinematicBody2D
 
         }
     }
+
+    public abstract void apply(Player player);
 
 }
