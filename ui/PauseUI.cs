@@ -3,7 +3,7 @@ using System;
 
 public class PauseUI : Panel
 {
-    private Button cont, quit, main, selectedButton;
+    private Button cont, quit, main, options, selectedButton;
     private int selected;
     private InputController input;
     private Sprite sprite;
@@ -33,6 +33,7 @@ public class PauseUI : Panel
         cont=GetNode<Button>("Continue");
         quit=GetNode<Button>("Quit");
         main=GetNode<Button>("Main");
+        options=GetNode<Button>("Options");
 
         selected=0;
         changeState();
@@ -49,7 +50,7 @@ public class PauseUI : Panel
         if(input.getJustDown())
         {
             selected++;
-            if(selected>2)
+            if(selected>3)
             {
                 selected=0;
             }
@@ -59,7 +60,7 @@ public class PauseUI : Panel
             selected--;
             if(selected<0)
             {
-                selected=2;
+                selected=3;
             }
             changeState();
         } else if(input.getJustAccept())
@@ -82,7 +83,7 @@ public class PauseUI : Panel
                     World.changeScene(ResourceUtils.intro);
                     GetParent().QueueFree();
                     break;
-                case 2:
+                case 3:
                     World.quit();
                     break;
             }
@@ -96,18 +97,28 @@ public class PauseUI : Panel
             case 0:
                 cont.Pressed=true;
                 main.Pressed=false;
+                options.Pressed=false;
                 quit.Pressed=false;
                 selectedButton=cont;
                 break;
             case 1:
                 cont.Pressed=false;
                 main.Pressed=true;
+                options.Pressed=false;
                 quit.Pressed=false;
                 selectedButton=main;
                 break;
             case 2:
                 cont.Pressed=false;
                 main.Pressed=false;
+                options.Pressed=true;
+                quit.Pressed=false;
+                selectedButton=options;
+                break;
+            case 3:
+                cont.Pressed=false;
+                main.Pressed=false;
+                options.Pressed=false;
                 quit.Pressed=true;
                 selectedButton=quit;
                 break;

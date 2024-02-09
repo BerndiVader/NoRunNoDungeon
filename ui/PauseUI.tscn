@@ -9,16 +9,17 @@ atlas = ExtResource( 2 )
 region = Rect2( 2, 2, 44, 44 )
 
 [node name="Panel" type="Panel"]
-margin_left = -80.0
-margin_top = -60.0
-margin_right = 80.0
-margin_bottom = 92.0
+margin_left = -79.0
+margin_top = -92.0
+margin_right = 81.0
+margin_bottom = 77.0
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
 
 [node name="Node2D" type="Sprite" parent="."]
-position = Vector2( 80, 76 )
-scale = Vector2( 3.36364, 3.18182 )
+position = Vector2( 80, 84.5 )
+scale = Vector2( 3.36364, 3.56818 )
+z_index = -1
 texture = SubResource( 1 )
 
 [node name="Label" type="Label" parent="."]
@@ -32,27 +33,35 @@ valign = 1
 
 [node name="Continue" type="Button" parent="."]
 margin_left = 32.0
-margin_top = 27.0
+margin_top = 17.0
 margin_right = 128.0
-margin_bottom = 56.0
+margin_bottom = 46.0
 focus_mode = 0
 toggle_mode = true
 text = "Continue"
 
 [node name="Main" type="Button" parent="."]
 margin_left = 32.0
-margin_top = 61.0
+margin_top = 51.0
 margin_right = 128.0
-margin_bottom = 90.0
+margin_bottom = 80.0
 focus_mode = 0
 toggle_mode = true
 text = "Main"
 
+[node name="Options" type="Button" parent="."]
+margin_left = 32.0
+margin_top = 85.0
+margin_right = 128.0
+margin_bottom = 114.0
+focus_mode = 0
+toggle_mode = true
+text = "Options"
+
 [node name="Quit" type="Button" parent="."]
 margin_left = 32.0
-margin_top = 95.0
+margin_top = 120.0
 margin_right = 128.0
-margin_bottom = 124.0
-focus_mode = 0
+margin_bottom = 149.0
 toggle_mode = true
 text = "Quit"
