@@ -39,10 +39,6 @@ public class Bear : KinematicMonster
 
     public override void _PhysicsProcess(float delta)
     {   
-        if(animationPlayer.IsPlaying())
-        {
-            //Position=startOffset+(ANIMATION_OFFSET*animationDirection);
-        }
         goal(delta);
     }
 
