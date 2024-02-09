@@ -32,7 +32,7 @@ public class FallingRocks : StaticBody2D
         area.Connect("body_exited",this,nameof(onBodyExited));
 
         GetNode<Area2D>("Area2D2").Connect("body_entered",this,nameof(onPlayerHit));
-        AddToGroup(GROUPS.LEVEL.ToString());
+        AddToGroup(GROUPS.OBSTACLES.ToString());
 
         force=new Vector2(0f,GRAVITY);
         state=State.IDLE;

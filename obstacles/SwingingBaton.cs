@@ -11,7 +11,7 @@ public class SwingingBaton : Area2D
 
     public override void _Ready()
     {
-        AddToGroup(GROUPS.OBSTACLES.ToString(),true);
+        AddToGroup(GROUPS.OBSTACLES.ToString());
 
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));

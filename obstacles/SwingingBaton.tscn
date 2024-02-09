@@ -7,7 +7,7 @@
 radius = 27.0
 height = 12.0
 
-[node name="SwingingBaton" type="Area2D" groups=["OBSTACLES"]]
+[node name="SwingingBaton" type="Area2D"]
 collision_layer = 32
 script = ExtResource( 1 )
 

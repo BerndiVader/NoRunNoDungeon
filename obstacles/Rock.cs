@@ -3,6 +3,15 @@ using System;
 
 public class Rock : PhysicsObject
 {
+    private StaticBody2D collider;
+    public override void _Ready()
+    {
+        base._Ready();
+        collider=GetNode<StaticBody2D>("StaticBody2D");
+        AddToGroup(GROUPS.OBSTACLES.ToString());
+        collider.AddToGroup(GROUPS.OBSTACLES.ToString());
+
+    }
     public override void _PhysicsProcess(float delta)
     {
         velocity+=GRAVITY*delta;

@@ -29,7 +29,7 @@ public class MimicChest : KinematicMonster
 
         if(animationController.FlipH)
         {
-            rayCast2D.CastTo=rayCast2D.CastTo*-1;
+            rayCast2D.CastTo*=-1;
         }
     }
 

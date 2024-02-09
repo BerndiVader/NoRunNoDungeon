@@ -139,14 +139,14 @@ tracks/3/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 
-[node name="Oger" type="KinematicBody2D" groups=["ENEMIES"]]
+[node name="Oger" type="KinematicBody2D"]
 position = Vector2( 0, -1 )
 z_index = 1
 collision_layer = 0
 collision_mask = 22
 script = ExtResource( 9 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["ENEMIES"]]
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]

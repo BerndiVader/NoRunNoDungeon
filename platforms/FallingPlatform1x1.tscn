@@ -1,7 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://level/FallingPlatform.cs" type="Script" id=1]
+[ext_resource path="res://platforms/FallingPlatform.cs" type="Script" id=1]
 [ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_platform_center.png" type="Texture" id=2]
+
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8.02843, 6.0266 )

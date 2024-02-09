@@ -7,4 +7,4 @@
 [node name="PlatformMoving2x2" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="MovingPlatform0" parent="." instance_placeholder="res://level/MovingPlatform2x2.tscn"]
+[node name="MovingPlatform0" parent="." instance_placeholder="res://platforms/MovingPlatform2x2.tscn"]
