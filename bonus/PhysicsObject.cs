@@ -33,7 +33,4 @@ public abstract class PhysicsObject : KinematicBody2D
 
         }
     }
-
-    public abstract void apply(Player player);
-
 }

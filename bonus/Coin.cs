@@ -6,10 +6,9 @@ public class Coin : Bonus
     public override void _Ready()
     {
         base._Ready();
-        Connect("body_entered",this,nameof(onEnteredBody));
     }
 
-    public void onEnteredBody(Node body) 
+    protected override void onEnteredBody(Node body) 
     {
         if(body.Name.Equals("Player"))
         {

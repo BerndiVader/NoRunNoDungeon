@@ -11,7 +11,7 @@ public class PhysicsCoin : PhysicsObject
         GetNode<AnimatedSprite>("AnimatedSprite").Play("default");
     }
 
-    public void onBodyEntered(Node body) 
+    private void onBodyEntered(Node body) 
     {
         if(body.Name.Equals("Player"))
         {
@@ -23,7 +23,7 @@ public class PhysicsCoin : PhysicsObject
         }
     }
 
-    public override void apply(Player player)
+    public void apply(Player player)
     {
         throw new NotImplementedException();
     }

@@ -10,7 +10,10 @@ public abstract class Bonus : Area2D
         AddChild(notifier2D);
         
         GetNode<AnimatedSprite>("AnimatedSprite").Play("default");
+        Connect("body_entered",this,nameof(onEnteredBody));
     }
+
+    protected abstract void onEnteredBody(Node body);
 
     public abstract void apply(Player player);
 
