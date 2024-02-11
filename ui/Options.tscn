@@ -1,0 +1,121 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/ui.tres" type="Theme" id=1]
+[ext_resource path="res://ui/GUI/GUI_2x.png" type="Texture" id=2]
+[ext_resource path="res://ui/OptionsUI.cs" type="Script" id=3]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 2, 2, 44, 44 )
+
+[node name="Panel" type="Panel"]
+margin_left = -178.0
+margin_top = -128.0
+margin_right = 182.0
+margin_bottom = 136.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+SCALE_SIZE = 0.5
+
+[node name="Label" type="Label" parent="."]
+margin_left = 132.0
+margin_top = -48.0
+margin_right = 228.0
+margin_bottom = -11.0
+text = "Options"
+align = 1
+valign = 1
+
+[node name="Node2D" type="Sprite" parent="."]
+position = Vector2( 183, 135 )
+scale = Vector2( 8.04546, 5.86364 )
+z_index = -1
+texture = SubResource( 1 )
+
+[node name="Sound" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 14.0
+margin_right = 344.0
+margin_bottom = 110.0
+text = "Overall Volume
+Sound FX
+Background"
+
+[node name="Overall" type="HSlider" parent="Sound"]
+margin_left = 144.0
+margin_top = 15.0
+margin_right = 318.0
+margin_bottom = 27.0
+min_value = -60.0
+max_value = 0.0
+value = -12.0
+rounded = true
+
+[node name="Sfx" type="HSlider" parent="Sound"]
+margin_left = 144.0
+margin_top = 41.0
+margin_right = 318.0
+margin_bottom = 53.0
+min_value = -60.0
+max_value = 0.0
+rounded = true
+
+[node name="Background" type="HSlider" parent="Sound"]
+margin_left = 144.0
+margin_top = 66.0
+margin_right = 318.0
+margin_bottom = 78.0
+min_value = -60.0
+max_value = 0.0
+value = -8.0
+rounded = true
+
+[node name="Accept" type="Button" parent="."]
+margin_left = 20.0
+margin_top = 215.0
+margin_right = 116.0
+margin_bottom = 244.0
+text = "Accept"
+
+[node name="Cancel" type="Button" parent="."]
+margin_left = 246.0
+margin_top = 215.0
+margin_right = 342.0
+margin_bottom = 244.0
+text = "Cancel"
+
+[node name="Default" type="Button" parent="."]
+margin_left = 132.0
+margin_top = 215.0
+margin_right = 228.0
+margin_bottom = 244.0
+text = "Default"
+
+[node name="Screen" type="Label" parent="."]
+margin_left = 16.0
+margin_top = 120.0
+margin_right = 344.0
+margin_bottom = 193.0
+text = "Fullscreen           No Effects
+Vertical Sync"
+
+[node name="Fullscreen" type="CheckBox" parent="Screen"]
+margin_left = 139.0
+margin_top = 9.0
+margin_right = 171.0
+margin_bottom = 49.0
+rect_scale = Vector2( 0.5, 0.5 )
+
+[node name="FX" type="CheckBox" parent="Screen"]
+margin_left = 300.0
+margin_top = 9.0
+margin_right = 332.0
+margin_bottom = 49.0
+rect_scale = Vector2( 0.5, 0.5 )
+
+[node name="VSync" type="CheckBox" parent="Screen"]
+margin_left = 139.0
+margin_top = 37.0
+margin_right = 171.0
+margin_bottom = 77.0
+rect_scale = Vector2( 0.5, 0.5 )

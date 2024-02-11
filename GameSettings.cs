@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 public static class GameSettings
@@ -11,8 +11,10 @@ public static class GameSettings
         public float sfxVolume {get;set;}
         public float BackgroundVolume {get;set;}
         public bool fullscreen {get;set;}
-        public KeyValuePair<float,float>windowSize {get;set;}
-        public KeyValuePair<float,float>windowPosition {get;set;}
+        public bool vsync {get;set;}
+        public Viewport.UsageEnum usage {get;set;}
+        public Tuple<float,float> windowSize {get;set;}
+        public Tuple<float,float> windowPosition {get;set;}
 
         [JsonIgnore]
         public int masterBus;
@@ -28,23 +30,44 @@ public static class GameSettings
             sfxBus=AudioServer.GetBusIndex("Sfx");
             backgroundBus=AudioServer.GetBusIndex("Background");
 
-            masterVolume=0f;
+            masterVolume=-12f;
             sfxVolume=0f;
             BackgroundVolume=-8f;
+
             fullscreen=false;
-            windowSize=new KeyValuePair<float, float>(1024f,576f);
-            windowPosition=new KeyValuePair<float, float>(0f,0f);
+            windowSize=new Tuple<float, float>(1024f,576f);
+            windowPosition=new Tuple<float,float>(0f,0f);
+            vsync=false;
+            usage=Viewport.UsageEnum.Usage3d;
         }
 
-        public void setAll()
+        public void setAll(Node node)
+        {
+            setAll();
+            node.GetTree().Root.Usage=usage;
+        }
+
+        private void setAll()
         {
             AudioServer.SetBusVolumeDb(masterBus,masterVolume);
             AudioServer.SetBusVolumeDb(sfxBus,sfxVolume);
             AudioServer.SetBusVolumeDb(backgroundBus,BackgroundVolume);
             OS.WindowFullscreen=fullscreen;
-            OS.WindowPosition=new Vector2(windowPosition.Key,windowPosition.Value);
-            OS.WindowSize=new Vector2(windowSize.Key,windowSize.Value);
+            if(!fullscreen)
+            {
+                OS.WindowPosition=new Vector2(windowPosition.Item1,windowPosition.Item2);
+                OS.WindowSize=new Vector2(windowSize.Item1,windowSize.Item2);
+            }
+            OS.VsyncEnabled=vsync;
+            
         }
+
+        public Config clone()
+        {
+            string json=JsonSerializer.Serialize<Config>(this);
+            Config config=JsonSerializer.Deserialize<Config>(json);
+            return config;
+        }        
 
     }
 
@@ -69,17 +92,21 @@ public static class GameSettings
 
     public static void saveConfig(Config config)
     {
-        string json=System.Text.Json.JsonSerializer.Serialize<Config>(config);
+        string json=JsonSerializer.Serialize<Config>(config);
         System.IO.File.WriteAllText(PATH_NAME+FILE_NAME,json);
     }
 
     public static Config loadConfig()
     {
         string json=System.IO.File.ReadAllText(PATH_NAME+FILE_NAME);
-        Config config=System.Text.Json.JsonSerializer.Deserialize<Config>(json);
+        Config config=JsonSerializer.Deserialize<Config>(json);
         return config;
         
     }
 
+    public static void defaultConfig()
+    {
+        current=new Config();
+    }
 
 }

@@ -4,12 +4,8 @@ public class AutoLoad : Node
 {
     public override void _Ready()
     {
-        if(!OS.IsDebugBuild())
-        {
-            GameSettings.init();
-            GameSettings.current.setAll();
-            OS.VsyncEnabled=true;
-        }
+        GameSettings.init();
+        GameSettings.current.setAll(this);
 
         new Worker();
         ResourceUtils.Init();

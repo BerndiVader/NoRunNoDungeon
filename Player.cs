@@ -46,7 +46,7 @@ public class Player : KinematicBody2D
     {
         Position=World.instance.renderer.ToLocal(World.level.startingPoint);
 
-        if(ResourceUtils.isMobile)
+        if(GameSettings.current.usage!=Viewport.UsageEnum.Usage3d)
         {
             GetNode<Light2D>("Light2D").QueueFree();
         }

@@ -89,14 +89,14 @@ public class World : Node
 		musicPlayer.Play();
 
 		ResourceUtils.camera.Instance<PlayerCamera>();
-		if(ResourceUtils.isMobile)
+		if(GameSettings.current.usage==Viewport.UsageEnum.Usage2d)
 		{
 			GetNode("WorldEnvironment").QueueFree();
 		}
 		input=ResourceUtils.getInputController(this);
 		renderer=GetNode<Renderer>("Renderer");
 
-		tileSet=(TileSet)ResourceUtils.tilesets[(int)MathUtils.randomRange(0,ResourceUtils.tilesets.Count)];
+		tileSet=ResourceUtils.tilesets[(int)MathUtils.randomRange(0,ResourceUtils.tilesets.Count)];
 		currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
 		nextLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
