@@ -9,7 +9,10 @@ uniform float trail_length=1000.0f;
 uniform float angle:hint_range(0.0f,360.0f)=0.0f;
 
 void fragment() {
-	vec2 uv=vec2(UV.x*cos(radians(angle))-UV.y*sin(radians(angle)),UV.x*sin(radians(angle))+UV.y*cos(radians(angle)));
+	float rad=radians(angle);
+	float cos_rad=cos(rad);
+	float sin_rad=sin(rad);
+	vec2 uv=vec2(UV.x*cos_rad-UV.y*sin_rad,UV.x*sin_rad+UV.y*cos_rad);
 	vec4 noise_trail=texture(noise,vec2(uv.x/trail_length+TIME/speed,uv.y));
 	vec4 color;
 	if(noise_trail.r<trail_threshold){
