@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://shaders/SpeedTrails.gdshader" type="Shader" id=1]
+
+[sub_resource type="OpenSimplexNoise" id=3]
+seed = 12
+period = 58.5
+
+[sub_resource type="NoiseTexture" id=4]
+bump_strength = 15.5
+noise = SubResource( 3 )
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 1 )
+shader_param/color_a = Color( 0.823529, 0.556863, 0, 0 )
+shader_param/color_b = Color( 1, 0.607843, 0, 1 )
+shader_param/trail_threshold = 0.65
+shader_param/speed = 10.0
+shader_param/trail_length = 50.0
+shader_param/angle = 0.0
+shader_param/noise = SubResource( 4 )
+
+[sub_resource type="ImageTexture" id=5]
+size = Vector2( 512, 200 )
+
+[node name="SpeedTrailsTop" type="Sprite"]
+material = SubResource( 2 )
+position = Vector2( 256, 18.1979 )
+scale = Vector2( 1.0625, 0.218021 )
+texture = SubResource( 5 )

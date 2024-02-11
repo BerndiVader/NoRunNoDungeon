@@ -9,10 +9,13 @@ public class IntroMap : TileMap
     private Tween colorTween;
     private Color color=new Color(0,0,0,0);
     private Vector2 Movement=Vector2.Right*2080f;
+    private Intro intro;
 
     public override void _Ready()
     {
         VisualServer.SetDefaultClearColor(color);
+
+        intro=GetParent<Intro>();
 
         tween=new Tween();
         colorTween=new Tween();
@@ -48,6 +51,11 @@ public class IntroMap : TileMap
 
     private void tweening(Vector2 delta)
     {
+        float speed=Position.x-delta.x;
+        speed=Mathf.Round(200-speed*20);
+        
+        ((ShaderMaterial)intro.speedTrailsTop.Material).SetShaderParam("Speed",speed);
+        ((ShaderMaterial)intro.speedTrailsBottom.Material).SetShaderParam("Speed",speed);
         Position=delta;
     }
 
