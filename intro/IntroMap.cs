@@ -7,15 +7,19 @@ public class IntroMap : TileMap
     private bool reverse=true;
     private Tween tween;
     private Tween colorTween;
-    private Color color=new Color(0,0,0,0);
+    private Color color=new Color(0,0,0,0), shaderColor=new Color(1f,0.74902f,0f,1f);
     private Vector2 Movement=Vector2.Right*2080f;
     private Intro intro;
+	private ShaderMaterial speedTrailsTop,speedTrailsBottom;
+
 
     public override void _Ready()
     {
         VisualServer.SetDefaultClearColor(color);
 
         intro=GetParent<Intro>();
+		speedTrailsTop=(ShaderMaterial)intro.GetNode<Sprite>("SpeedTrailsTop").Material;
+		speedTrailsBottom=(ShaderMaterial)intro.GetNode<Sprite>("SpeedTrailsBottom").Material;        
 
         tween=new Tween();
         colorTween=new Tween();
@@ -51,11 +55,12 @@ public class IntroMap : TileMap
 
     private void tweening(Vector2 delta)
     {
-        float speed=Position.x-delta.x;
-        speed=Mathf.Round(200-speed*20);
+        float alpha=Mathf.InverseLerp(1,0,1/(1+(Position.x-delta.x)));
+        shaderColor.a=alpha;
+
+        speedTrailsTop.SetShaderParam("color_b",shaderColor);
+        speedTrailsBottom.SetShaderParam("color_b",shaderColor);
         
-        ((ShaderMaterial)intro.speedTrailsTop.Material).SetShaderParam("Speed",speed);
-        ((ShaderMaterial)intro.speedTrailsBottom.Material).SetShaderParam("Speed",speed);
         Position=delta;
     }
 

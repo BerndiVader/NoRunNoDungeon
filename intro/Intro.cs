@@ -6,8 +6,6 @@ public class Intro : Node
 	private static InputController input;
 	static AudioStreamMP3 music=ResourceLoader.Load<AudioStreamMP3>("res://sounds/title/Dark Age 11 Heroic Victory - 1.mp3");
 	AudioStreamPlayer2D musicPlayer=new AudioStreamPlayer2D();
-
-	public Sprite speedTrailsTop,speedTrailsBottom;
 	
 	public override void _Ready()
 	{
@@ -22,8 +20,6 @@ public class Intro : Node
 		GetTree().CurrentScene=this;
 		GetTree().Paused=false;
 
-		speedTrailsTop=GetNode<Sprite>("SpeedTrailsTop");
-		speedTrailsBottom=GetNode<Sprite>("SpeedTrailsBottom");
 	}
 
 	public override void _Process(float delta)

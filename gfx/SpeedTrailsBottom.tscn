@@ -15,11 +15,11 @@ noise = SubResource( 3 )
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
-shader_param/color_a = Color( 1, 0.67451, 0, 0 )
-shader_param/color_b = Color( 1, 0.607843, 0, 1 )
+shader_param/color_a = Color( 1, 1, 1, 0.0745098 )
+shader_param/color_b = Color( 1, 0.843137, 0, 1 )
 shader_param/trail_threshold = 0.65
 shader_param/speed = 10.0
-shader_param/trail_length = 50.0
+shader_param/trail_length = 100.0
 shader_param/angle = 0.0
 shader_param/noise = SubResource( 4 )
 
@@ -28,6 +28,6 @@ size = Vector2( 512, 200 )
 
 [node name="SpeedTrailsBottom" type="Sprite"]
 material = SubResource( 2 )
-position = Vector2( 256, 18.1979 )
-scale = Vector2( 1.0625, 0.218021 )
+position = Vector2( 256, 22.1979 )
+scale = Vector2( 1.0625, 0.258021 )
 texture = SubResource( 5 )

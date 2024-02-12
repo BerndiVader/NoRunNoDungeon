@@ -12,11 +12,11 @@ noise = SubResource( 3 )
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
-shader_param/color_a = Color( 0.823529, 0.556863, 0, 0 )
-shader_param/color_b = Color( 1, 0.607843, 0, 1 )
+shader_param/color_a = Color( 1, 1, 1, 0.0352941 )
+shader_param/color_b = Color( 1, 0.74902, 0, 1 )
 shader_param/trail_threshold = 0.65
 shader_param/speed = 10.0
-shader_param/trail_length = 50.0
+shader_param/trail_length = 100.0
 shader_param/angle = 0.0
 shader_param/noise = SubResource( 4 )
 
