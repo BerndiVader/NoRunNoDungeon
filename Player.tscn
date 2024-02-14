@@ -26,11 +26,11 @@ shader_param/frame_coords = Vector2( 0, 0 )
 shader_param/nb_frames = Vector2( 1, 1 )
 shader_param/velocity = Vector2( 0, 0 )
 shader_param/velocity_max = 150.0
-shader_param/trail_size = 8.0
+shader_param/trail_size = 10.0
 shader_param/alpha_start = 0.9
 shader_param/alpha_tail = 0.1
-shader_param/alpha_factor = 1.1
-shader_param/noise_margin = 0.4
+shader_param/alpha_factor = 1.2
+shader_param/noise_margin = 0.68
 shader_param/noise = SubResource( 6 )
 
 [sub_resource type="SpriteFrames" id=1]
