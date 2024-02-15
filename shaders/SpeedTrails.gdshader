@@ -6,18 +6,12 @@ uniform vec4 color_b:hint_color=vec4(0.0f,1.0f,1.0f,1.0f);
 uniform float trail_threshold=0.6f;
 uniform float speed=10.0f;
 uniform float trail_length=1000.0f;
-uniform float rad=0.0f;
-uniform float cos_rad=1.0f;
-uniform float sin_rad=0.0f;
 
 void fragment() {
-	vec2 uv=vec2(UV.x*cos_rad-UV.y*sin_rad,UV.x*sin_rad+UV.y*cos_rad);
-	vec4 noise_trail=texture(noise,vec2(uv.x/trail_length+TIME/speed,uv.y));
-	vec4 color;
+	vec4 noise_trail=texture(noise,vec2(UV.x/trail_length+TIME/speed,UV.y));
 	if(noise_trail.r<trail_threshold){
-		color=vec4(0.0f);
+		COLOR=vec4(0.0f);
 	} else {
-		color=mix(color_a,color_b,1.0f-noise_trail.r);
+		COLOR=mix(color_a,color_b,1.0f-noise_trail.r);
 	}
-	COLOR=color;
 }
