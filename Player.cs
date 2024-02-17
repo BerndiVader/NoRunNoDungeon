@@ -23,6 +23,7 @@ public class Player : KinematicBody2D
     private bool jumping=false;
     private bool doubleJump=false;
     private bool justJumped=false;
+    private bool onSlope=false;
     private int weaponCyle=0;
     private float slopeAngle=0f;
     private Vector2 lastVelocity=Vector2.Zero;
@@ -104,7 +105,7 @@ public class Player : KinematicBody2D
         if(changeWeapon&&!attack)
         {
             weaponCyle++;
-            if(weaponCyle>2) 
+            if(weaponCyle==ResourceUtils.weapons.Count) 
             {
                 weaponCyle=0;
             }
@@ -150,9 +151,7 @@ public class Player : KinematicBody2D
         else
         {
             float xlength=Mathf.Abs(velocity.x);
-
             xlength-=STOP_FORCE*delta;
-
             if(xlength<0f) 
             {
                 xlength=0f;
@@ -182,7 +181,7 @@ public class Player : KinematicBody2D
         }
 
         int collides=GetSlideCount();
-        bool onSlope=false;
+        onSlope=false;
 
         if(collides>0&&!jumping)
         {
@@ -266,11 +265,11 @@ public class Player : KinematicBody2D
             {
                 if(slopeAngle<0f) 
                 {
-                    velocity.x+=100;
+                    velocity.x+=50f;
                 } 
                 else if(slopeAngle<1f) 
                 {
-                    velocity.x-=100;
+                    velocity.x-=50f;
                 }
             }
             velocity.y=-JUMP_SPEED;
