@@ -5,8 +5,7 @@ public class World : Node
 {
 	public static World instance;
 	public static Viewport root;
-
-	public AudioStreamPlayer2D musicPlayer=new AudioStreamPlayer2D();
+	public static Vector2 RESOLUTION=new Vector2(512f,288f);
 
 	public static void Init(Viewport viewPort)
 	{
@@ -63,9 +62,7 @@ public class World : Node
 
 		root.GetTree().Quit();
 	}
-
 	 
-	public Vector2 RESOLUTION=new Vector2(512f,288f);
 	public static Level level;
 	private static Level cachedLevel;
 	public TileSet tileSet;
@@ -73,17 +70,20 @@ public class World : Node
 	public Renderer renderer;
 	public InputController input;
 	private int currentLevel,nextLevel;
-	private Gamestate oldState;
-	public Gamestate state;
+	private static Gamestate oldState;
+	public static Gamestate state;
 
 	private delegate void Goal(float delta);
 	private Goal goal;
 
+	private AudioStreamPlayer2D musicPlayer;
+
 	public override void _Ready()
 	{
+		musicPlayer=new AudioStreamPlayer2D();
 		musicPlayer.Bus="Background";
 		onMusicFinishedPlaying();
-		musicPlayer.Position=new Vector2(256f,146f);
+		musicPlayer.Position=new Vector2(RESOLUTION.x*0.5f,RESOLUTION.y*0.5f);
 		musicPlayer.Connect("finished",this,nameof(onMusicFinishedPlaying));
 		AddChild(musicPlayer);
 		musicPlayer.Play();
@@ -124,7 +124,7 @@ public class World : Node
 		level.MoveLocalX(level.direction.x*level.Speed*delta);
 		level.MoveLocalY(level.direction.y*level.Speed*delta);
 
-		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=level.pixelLength-512)
+		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=level.pixelLength-RESOLUTION.x)
 		{
 			setGamestate(Gamestate.SCENE_CHANGE);
 			Worker.setStatus(Worker.Status.PREPARELEVEL);
@@ -238,12 +238,12 @@ public class World : Node
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 		mergeMaps(newLevel,cachedLevel);
 		renderer.CallDeferred("add_child",newLevel);
-		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
+		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-RESOLUTION.x)),0);
 		while(!newLevel.IsInsideTree())
 		{
 			OS.DelayMsec(1);
 		}
-		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-512)),0);
+		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-RESOLUTION.x)),0);
 		renderer.CallDeferred("remove_child",level);
 		level=newLevel;
 		setGamestate(Gamestate.SCENE_CHANGED);

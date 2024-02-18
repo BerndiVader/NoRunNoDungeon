@@ -15,9 +15,10 @@ public class BackgroundSprite : Sprite
         tileSetId=tileSetId*12/4-3;
 
         Texture image=(Texture)ResourceUtils.bgTextures[id+tileSetId].Duplicate();
-        this.Texture=image;
+        Texture=image;
 
-        Scale=new Vector2(World.instance.RESOLUTION/image.GetSize());
+
+        Scale=new Vector2(World.RESOLUTION/image.GetSize());
     }
 
 }

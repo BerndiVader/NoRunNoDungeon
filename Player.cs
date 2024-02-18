@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Collections.Generic;
 
 public class Player : KinematicBody2D
 {
@@ -71,15 +70,13 @@ public class Player : KinematicBody2D
         Connect(STATE.damage.ToString(),this,nameof(onDamaged));
 
         FORCE=new Vector2(0f,GRAVITY);
-
         smoothingSpeed=PlayerCamera.instance.SmoothingSpeed;
-
         motionTrails=(ShaderMaterial)animationController.Material;
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        Gamestate gamestate=World.instance!=null?World.instance.state:Gamestate.RESTART;
+        Gamestate gamestate=World.state;
         if((int)gamestate<3)
         {
             return;
@@ -217,10 +214,7 @@ public class Player : KinematicBody2D
         {
             if(airParticles.Emitting)
             {
-                SfxPlayer sfx=new SfxPlayer();
-                sfx.Stream=sfxLanding;
-                sfx.Position=World.level.ToLocal(GlobalPosition);
-                World.level.AddChild(sfx);
+                playSfx(sfxLanding);
                 airParticles.Emitting=false;
             }
 
@@ -253,10 +247,7 @@ public class Player : KinematicBody2D
             velocity.y=-JUMP_SPEED;
             animationController.Play(ANIM_JUMP);
             jumpParticles.Emitting=true;
-            SfxPlayer sfx=new SfxPlayer();
-            sfx.Stream=sfxDoubleJump;
-            sfx.Position=World.level.ToLocal(GlobalPosition);
-            World.level.AddChild(sfx);
+            playSfx(sfxDoubleJump);
         }
 
         if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME) 
@@ -275,15 +266,11 @@ public class Player : KinematicBody2D
             velocity.y=-JUMP_SPEED;
             animationController.Play(ANIM_JUMP);
             justJumped=jumping=true;
-            SfxPlayer sfx=new SfxPlayer();
-            sfx.Stream=sfxJump;
-            sfx.Position=World.level.ToLocal(GlobalPosition);
-            World.level.AddChild(sfx);
+            playSfx(sfxJump);
         }
-
         onAirTime+=delta;
 
-        if(Position.y>320f||Position.x<-20f||Position.x>520f) 
+        if(Position.x<-20f||Position.y<-20f||Position.x>World.RESOLUTION.x+20f||Position.y>World.RESOLUTION.y+20f)
         {
             onDamaged();
         }
@@ -330,6 +317,14 @@ public class Player : KinematicBody2D
         {
             World.instance.CallDeferred(nameof(World.changeScene),ResourceUtils.intro);
         }
+    }
+
+    private void playSfx(AudioStream stream)
+    {
+        SfxPlayer sfx=new SfxPlayer();
+        sfx.Stream=stream;
+        sfx.Position=Position;
+        World.instance.renderer.AddChild(sfx);
     }
 
 }

@@ -81,16 +81,16 @@ public static class ResourceUtils
         if(isMobile)
         {
             Console.WriteLine("Found Mobile, loading touch input");
-            touch=(PackedScene)ResourceLoader.Load("res://io/Touch.tscn");
-            buttons=(PackedScene)ResourceLoader.Load("res://io/Buttons.tscn");
+            touch=ResourceLoader.Load<PackedScene>("res://io/Touch.tscn");
+            buttons=ResourceLoader.Load<PackedScene>("res://io/Buttons.tscn");
         }
 
         Console.WriteLine("Loading Resources...");
-        world=(PackedScene)ResourceLoader.Load("res://World.tscn");
-        intro=(PackedScene)ResourceLoader.Load("res://intro/Intro.tscn");
-        pause=(PackedScene)ResourceLoader.Load("res://ui/PauseUI.tscn");
-        player=(PackedScene)ResourceLoader.Load("res://Player.tscn");
-        background=(PackedScene)ResourceLoader.Load("res://level/Background.tscn");
+        world=ResourceLoader.Load<PackedScene>("res://World.tscn");
+        intro=ResourceLoader.Load<PackedScene>("res://intro/Intro.tscn");
+        pause=ResourceLoader.Load<PackedScene>("res://ui/PauseUI.tscn");
+        player=ResourceLoader.Load<PackedScene>("res://Player.tscn");
+        background=ResourceLoader.Load<PackedScene>("res://level/Background.tscn");
         camera=ResourceLoader.Load<PackedScene>("res://PlayerCamera.tscn");
 
         Console.WriteLine("Loading levels...");
@@ -108,26 +108,26 @@ public static class ResourceUtils
         tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset3.tres"));
         tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset4.tres"));
 
-        Console.WriteLine("Loading textures...");
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_A/PNG/bg1.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_A/PNG/bg2.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_A/PNG/bg3.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_B/PNG/bg1.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_B/PNG/bg2.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_B/PNG/bg3.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_C/PNG/bg1.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_C/PNG/bg2.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_C/PNG/bg3.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_D/PNG/bg1.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_D/PNG/bg2.png"));
-        bgTextures.Add((Texture)ResourceLoader.Load("res://image/super_pixel_cave/style_D/PNG/bg3.png"));
+        Console.WriteLine("Loading background textures...");
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_A/PNG/bg1.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_A/PNG/bg2.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_A/PNG/bg3.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_B/PNG/bg1.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_B/PNG/bg2.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_B/PNG/bg3.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_C/PNG/bg1.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_C/PNG/bg2.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_C/PNG/bg3.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_D/PNG/bg1.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_D/PNG/bg2.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_D/PNG/bg3.png"));
 
         Console.WriteLine("Loading particles...");
-        particles.Add((PackedScene)ResourceLoader.Load("res://particles/BlockParticles.tscn"));
-        particles.Add((PackedScene)ResourceLoader.Load("res://particles/CoinTakenParticles.tscn"));
-        particles.Add((PackedScene)ResourceLoader.Load("res://particles/EnemieDieParticles.tscn"));
-        particles.Add((PackedScene)ResourceLoader.Load("res://particles/DaggerMissParticles.tscn"));
-        particles.Add((PackedScene)ResourceLoader.Load("res://particles/MadRockParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/BlockParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/CoinTakenParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/EnemieDieParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/DaggerMissParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/MadRockParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/WeaponChangeParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/JumpParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/DaggerShoot.tscn"));
@@ -139,16 +139,16 @@ public static class ResourceUtils
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/DaggerBullet.tscn"));
 
         Console.WriteLine("Loading visual effects...");
-        gfx.Add((PackedScene)ResourceLoader.Load("res://gfx/ExplodeGfx1.tscn"));
-        gfx.Add((PackedScene)ResourceLoader.Load("res://gfx/ExplodeGfx2.tscn"));
-        gfx.Add((PackedScene)ResourceLoader.Load("res://gfx/ExplodeGfx3.tscn"));
-        gfx.Add((PackedScene)ResourceLoader.Load("res://gfx/ExplodeGfx4.tscn"));
-        gfx.Add((PackedScene)ResourceLoader.Load("res://gfx/ExplodeGfx5.tscn"));
+        gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx1.tscn"));
+        gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx2.tscn"));
+        gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx3.tscn"));
+        gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx4.tscn"));
+        gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx5.tscn"));
 
         Console.WriteLine("Loading weapons...");
-        weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Sword.tscn"));
-        weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Broadsword.tscn"));
-        weapons.Add((PackedScene)ResourceLoader.Load("res://weapons/Dagger.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Sword.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Broadsword.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Dagger.tscn"));
 
         Console.WriteLine("Loading ingame musics...");
         ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 01 Stronghold Of The Barbarians.mp3"));

@@ -14,7 +14,7 @@ public abstract class BaseUI : Panel
     {
         ImageTexture tex=new ImageTexture();
         Image image=new Image();
-        image.Create(680,440,false,Image.Format.Rgba8);
+        image.Create((int)World.RESOLUTION.x,(int)World.RESOLUTION.y,false,Image.Format.Rgba8);
         image.Fill(new Color(0.5f,0.5f,0.5f,0.5f));
         tex.CreateFromImage(image);
         sprite = new Sprite
@@ -35,8 +35,7 @@ public abstract class BaseUI : Panel
 
         RectScale=PlayerCamera.instance.Zoom*SCALE_SIZE;
         RectPosition*=RectScale;
-        RectPosition+=PlayerCamera.instance.GetCameraScreenCenter();              
-    
+        RectPosition+=PlayerCamera.instance.GetCameraScreenCenter();    
     }
 
 }

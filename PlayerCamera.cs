@@ -16,7 +16,6 @@ public class PlayerCamera : Camera2D
 
     public override void _Ready()
     {
-
         size=GetViewportRect().Size;
     }
 
