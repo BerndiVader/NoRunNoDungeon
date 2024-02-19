@@ -7,12 +7,12 @@ public class Worker : Thread
 {
     public static Worker instance;
 	public static ConcurrentStack<WeakReference>placeholders;
-	public enum Status
+	public enum State
 	{
 		IDLE,
 		PREPARELEVEL,
 	}
-	private static Status status;
+	private static State state;
 	private delegate void Goal();
 	private static Goal goal;
 	private static int delay;
@@ -22,7 +22,7 @@ public class Worker : Thread
 	{
 		instance=this;
 		placeholders=new ConcurrentStack<WeakReference>();
-		setStatus(Status.IDLE);
+		setStatus(State.IDLE);
 		quit=false;
 		Start(this,nameof(Runner));
 	}
@@ -65,7 +65,7 @@ public class Worker : Thread
 	{
 		placeholders.Clear();
 		World.instance.prepareAndChangeLevel();
-		setStatus(Status.IDLE);
+		setStatus(State.IDLE);
 		gc();
 	}
 
@@ -87,9 +87,9 @@ public class Worker : Thread
 	public static void stop()
 	{
 		Console.Write("Wait for worker to finish...");
-		Worker.quit=true;
-		Worker.instance.WaitToFinish();
-		while(Worker.instance.IsActive())
+		quit=true;
+		instance.WaitToFinish();
+		while(instance.IsActive())
 		{
 			Console.Write(".");
 			OS.DelayMsec(1);
@@ -97,18 +97,18 @@ public class Worker : Thread
 		Console.WriteLine(" done!");		
 	}
 
-	public static void setStatus(Status s)
+	public static void setStatus(State s)
 	{
 		switch(s)
 		{
-			case Status.PREPARELEVEL:
+			case State.PREPARELEVEL:
 				goal=prepareAndChangeLevel;
 				break;
-			case Status.IDLE:
+			case State.IDLE:
 				goal=idle;
 				break;
 		}
-		status=s;
+		state=s;
 	}
 
 	public static async void gc()

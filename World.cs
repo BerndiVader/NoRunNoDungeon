@@ -70,7 +70,7 @@ public class World : Node
 	public Renderer renderer;
 	public InputController input;
 	private int currentLevel,nextLevel;
-	private static Gamestate oldState;
+	private static Gamestate lastState;
 	public static Gamestate state;
 
 	private delegate void Goal(float delta);
@@ -127,7 +127,7 @@ public class World : Node
 		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=level.pixelLength-RESOLUTION.x)
 		{
 			setGamestate(Gamestate.SCENE_CHANGE);
-			Worker.setStatus(Worker.Status.PREPARELEVEL);
+			Worker.setStatus(Worker.State.PREPARELEVEL);
 		}
 	}
 
@@ -138,7 +138,7 @@ public class World : Node
 			GetTree().Paused^=true;
 			if(GetTree().Paused)
 			{
-				oldState=state;
+				lastState=state;
 				setGamestate(Gamestate.PAUSED);
 				PauseUI pause=(PauseUI)ResourceUtils.pause.Instance();
 				pause.PauseMode=PauseModeEnum.Process;
@@ -167,7 +167,7 @@ public class World : Node
 
 	public void resetGamestate()
 	{
-		setGamestate(oldState);
+		setGamestate(lastState);
 	}
 
 	private void sceneChange(float delta)
@@ -224,27 +224,18 @@ public class World : Node
 
 	public void prepareAndChangeLevel()
 	{
-		Level newLevel;
 		currentLevel=nextLevel;
 		nextLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
-		if(cachedLevel!=null)
-		{
-			newLevel=cachedLevel;
-		}
-		else
-		{
-			newLevel=(Level)ResourceUtils.levels[currentLevel].Instance();
-		}
+		Level newLevel=cachedLevel!=null?cachedLevel:(Level)ResourceUtils.levels[currentLevel].Instance();
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 		mergeMaps(newLevel,cachedLevel);
 		renderer.CallDeferred("add_child",newLevel);
-		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-RESOLUTION.x)),0);
 		while(!newLevel.IsInsideTree())
 		{
 			OS.DelayMsec(1);
 		}
-		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-RESOLUTION.x)),0);
 		renderer.CallDeferred("remove_child",level);
+		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-RESOLUTION.x)),level.Position.y);
 		level=newLevel;
 		setGamestate(Gamestate.SCENE_CHANGED);
 	}
