@@ -3,7 +3,7 @@ using System;
 
 public class OptionsUI : BaseUI
 {
-    private AudioStream exampleSfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/001_Hover_01.wav");
+    private AudioStream sfxTest=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/051_use_item_01.wav");
     private AudioStreamPlayer2D player;
     
     private Button acceptBtn, defaultBtn, cancelBtn;
@@ -27,12 +27,17 @@ public class OptionsUI : BaseUI
         vSync=GetNode<CheckBox>("Screen/VSync");
         fx=GetNode<CheckBox>("Screen/FX");
         
-
         acceptBtn.Connect("button_up",this,nameof(onButtonUp),new Godot.Collections.Array(acceptBtn));
         defaultBtn.Connect("button_up",this,nameof(onButtonUp),new Godot.Collections.Array(defaultBtn));
         cancelBtn.Connect("button_up",this,nameof(onButtonUp),new Godot.Collections.Array(cancelBtn));
         fx.Connect("button_up",this,nameof(onButtonUp),new Godot.Collections.Array(fx));
-        
+
+        acceptBtn.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
+        defaultBtn.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
+        cancelBtn.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
+        acceptBtn.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
+        defaultBtn.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
+        cancelBtn.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
 
         volume.Connect("drag_ended",this,nameof(changeVolume));
         sfx.Connect("drag_ended",this,nameof(changeSfx));
@@ -44,7 +49,7 @@ public class OptionsUI : BaseUI
         updateButtons();
 
         player=new AudioStreamPlayer2D();
-        player.Stream=exampleSfx;
+        player.Stream=sfxTest;
         AddChild(player);
     }
 
@@ -95,6 +100,7 @@ public class OptionsUI : BaseUI
                 back();
                 break;
             case "Fullscreen":
+                playSfx(sfxClick);
                 OS.WindowFullscreen=fullScreen.Pressed;
                 if(!OS.WindowFullscreen)
                 {
@@ -103,9 +109,11 @@ public class OptionsUI : BaseUI
                 }
                 break;
             case "VSync":
+                playSfx(sfxClick);
                 OS.VsyncEnabled=vSync.Pressed;
                 break;
             case "FX":
+                playSfx(sfxClick);
                 GetViewport().Usage=fx.Pressed?Viewport.UsageEnum.Usage2d:Viewport.UsageEnum.Usage3d;
                 break;
         }

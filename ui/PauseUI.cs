@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Threading.Tasks;
 
 public class PauseUI : BaseUI
 {
@@ -12,10 +12,21 @@ public class PauseUI : BaseUI
         main=GetNode<Button>("Main");
         options=GetNode<Button>("Options");
 
+        cont.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
+        quit.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
+        main.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
+        options.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
+
+        cont.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
+        quit.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
+        main.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
+        options.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
+
         cont.Connect("button_up",this,nameof(onMouseSelected),new Godot.Collections.Array(0));
         quit.Connect("button_up",this,nameof(onMouseSelected),new Godot.Collections.Array(3));
         main.Connect("button_up",this,nameof(onMouseSelected),new Godot.Collections.Array(1));
         options.Connect("button_up",this,nameof(onMouseSelected),new Godot.Collections.Array(2));
+
 
         selected=0;
         base._Ready();
@@ -37,9 +48,9 @@ public class PauseUI : BaseUI
                 GetParent().QueueFree();
                 break;
             case 2:
-                OptionsUI pause=OptionsPack.Instance<OptionsUI>();
-                pause.PauseMode=PauseModeEnum.Process;
-                GetParent().AddChild(pause);
+                OptionsUI options=OptionsPack.Instance<OptionsUI>();
+                options.PauseMode=PauseModeEnum.Process;
+                GetParent().AddChild(options);
                 sprite.QueueFree();
                 QueueFree();
                 break;

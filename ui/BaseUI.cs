@@ -1,10 +1,14 @@
 using Godot;
 using System;
+using System.IO;
 
 public abstract class BaseUI : Panel
 {
     protected static PackedScene OptionsPack=ResourceLoader.Load<PackedScene>("res://ui/Options.tscn");
     protected static PackedScene PausePack=ResourceLoader.Load<PackedScene>("res://ui/PauseUI.tscn");
+    protected static AudioStream sfxHover=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/001_Hover_01.wav");
+    protected static AudioStream sfxClick=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/013_Confirm_03.wav");
+    protected static AudioStream sfxButtons=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/029_Decline_09.wav");
     protected int selected;
     protected Sprite sprite;
     protected Color color, colorSelected;
@@ -36,6 +40,15 @@ public abstract class BaseUI : Panel
         RectScale=PlayerCamera.instance.Zoom*SCALE_SIZE;
         RectPosition*=RectScale;
         RectPosition+=PlayerCamera.instance.GetCameraScreenCenter();    
+    }
+
+    protected void playSfx(AudioStream effect)
+    {
+        SfxPlayer sfx=new SfxPlayer();
+        sfx.Stream=effect;
+        sfx.Position=RectPosition;
+        AddChild(sfx);
+        sfx.Play();
     }
 
 }
