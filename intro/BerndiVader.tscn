@@ -1,10 +1,35 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://intro/BerndiVader.cs" type="Script" id=1]
 [ext_resource path="res://image/berndivader/berndivader.png" type="Texture" id=2]
 [ext_resource path="res://image/berndivader/klammer.png" type="Texture" id=3]
 [ext_resource path="res://intro/Klammer.cs" type="Script" id=4]
+[ext_resource path="res://shaders/CRT.gdshader" type="Shader" id=5]
 [ext_resource path="res://sounds/berndivader/Bass Drop Sound Effect.ogg" type="AudioStream" id=6]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 5 )
+shader_param/overlay = true
+shader_param/scanlines_opacity = 0.41
+shader_param/scanlines_width = 0.25
+shader_param/grille_opacity = 0.637
+shader_param/resolution = Vector2( 640, 480 )
+shader_param/pixelate = true
+shader_param/roll = true
+shader_param/roll_speed = 2.0
+shader_param/roll_size = 46.535
+shader_param/roll_variation = 1.458
+shader_param/distort_intensity = 0.0
+shader_param/noise_opacity = 0.281
+shader_param/noise_speed = 0.0
+shader_param/static_noise_intensity = 0.535
+shader_param/aberration = -0.05
+shader_param/brightness = 1.4
+shader_param/discolor = true
+shader_param/warp_amount = 0.0
+shader_param/clip_warp = false
+shader_param/vignette_intensity = 1.0
+shader_param/vignette_opacity = 0.342
 
 [node name="Root" type="Node2D"]
 script = ExtResource( 1 )
@@ -34,3 +59,8 @@ script = ExtResource( 4 )
 [node name="Audio" type="AudioStreamPlayer2D" parent="."]
 position = Vector2( 256, 149 )
 stream = ExtResource( 6 )
+
+[node name="CanvasModulate" type="ColorRect" parent="."]
+material = SubResource( 2 )
+margin_right = 509.0
+margin_bottom = 288.0
