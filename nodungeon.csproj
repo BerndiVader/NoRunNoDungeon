@@ -18,6 +18,7 @@
   <ItemGroup>
     <Compile Include="AutoLoad.cs" />
     <Compile Include="enemies\Fairy.cs" />
+    <Compile Include="gfx\CrtShader.cs" />
     <Compile Include="level\AutoTile.cs" />
     <Compile Include="level\LevelControlTimer.cs" />
     <Compile Include="level\Settings.cs" />

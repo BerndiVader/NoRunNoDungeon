@@ -1,31 +1,36 @@
 shader_type canvas_item;
 
-uniform bool overlay=false;
 uniform float scanlines_opacity:hint_range(0.0f,1.0f)=0.4f;
-uniform float scanlines_width:hint_range(0.0f,0.5f)=0.25f;
-uniform float grille_opacity:hint_range(0.0f,1.0f)=0.3f;
-uniform vec2 resolution=vec2(640.0f,480.0f);
-uniform bool pixelate=true;
-uniform bool roll=true;
-uniform float roll_speed=8.0f;
-uniform float roll_size:hint_range(0.0f,100.0f)=15.0f;
-uniform float roll_variation:hint_range(0.1f,5.0f)=1.8f;
-uniform float distort_intensity:hint_range(0.0f,0.2f)=0.05f;
+uniform float scanlines_width:hint_range(0.0f,0.5f)=0.2f;
+uniform float grille_opacity:hint_range(0.0f,1.0f)=0.7f;
+uniform vec2 resolution=vec2(512.0f,288.0f);
+uniform float roll_speed=2.0f;
+uniform float roll_size:hint_range(0.0f,100.0f)=45.0f;
+uniform float roll_variation:hint_range(0.1f,5.0f)=1.5f;
+uniform float distort_intensity:hint_range(0.0f,0.2f)=0.002f;
 
-uniform float noise_opacity:hint_range(0.0f,1.0f)=0.4f;
-uniform float noise_speed=5.0f;
+uniform float noise_opacity:hint_range(0.0f,1.0f)=0.7f;
+uniform float noise_speed=0.0f;
 
-uniform float static_noise_intensity:hint_range(0.0f,1.0f)=0.06f;
+uniform float static_noise_intensity:hint_range(0.0f,1.0f)=0.5f;
 
 uniform float aberration:hint_range(-1.0f,1.0f)=0.03f;
 uniform float brightness=1.4f;
-uniform bool discolor=true;
+uniform bool discolor=false;
 
 uniform float warp_amount:hint_range(0.0f, 5.0f)=1.0f;
 uniform bool clip_warp=false;
 
-uniform float vignette_intensity=0.4f;
-uniform float vignette_opacity:hint_range(0.0f,1.0f)=0.5f;
+uniform float vignette_intensity=3.0f;
+uniform float vignette_opacity:hint_range(0.0f,1.0f)=0.8f;
+
+const int k_correct=int(0x5f3759df);
+
+float fast_sqrt(float n) {
+	float rep_float=n;
+	int int_rep=k_correct-(int(n)>>1);
+	return n*(rep_float*(1.5f-(n*0.5f)*(rep_float*rep_float)));
+}
 
 vec2 random(vec2 uv) {
     uv=vec2(dot(uv,vec2(127.1f,311.7f)),dot(uv,vec2(269.5f,183.3f)));
@@ -70,31 +75,22 @@ float vignette(vec2 uv) {
 }
 
 void fragment() {
-	vec2 uv=overlay?warp(SCREEN_UV):warp(UV);
-	vec2 tex_uv=pixelate?ceil(uv*resolution)/resolution:uv;
+	vec2 uv=warp(SCREEN_UV);
+	vec2 tex_uv=ceil(uv*resolution)/resolution;
 
 	vec2 roll_uv=vec2(0.0f);
-	float time=roll?TIME:0.0f;
+	float time=TIME;
 	float roll_line=0.0f;
 	
-	if(roll||noise_opacity>0.0f) {
-		roll_line=smoothstep(0.3f,0.9f,sin(uv.y*roll_size-(time*roll_speed)));
-		roll_line*=roll_line*smoothstep(0.3f,0.9f,sin(uv.y*roll_size*roll_variation-(time*roll_speed*roll_variation)));
-		roll_uv=vec2((roll_line*distort_intensity*(1.0f-UV.x)),0.0f);
-	}
+	roll_line=smoothstep(0.3f,0.9f,sin(uv.y*roll_size-(time*roll_speed)));
+	roll_line*=roll_line*smoothstep(0.3f,0.9f,sin(uv.y*roll_size*roll_variation-(time*roll_speed*roll_variation)));
+	roll_uv=vec2((roll_line*distort_intensity*(1.0f-UV.x)),0.0f);
 	
 	vec4 tex;
-	if(roll) {
-		tex.r=texture(SCREEN_TEXTURE,tex_uv+roll_uv*0.8f+vec2(aberration,0.0f)*0.1f).r;
-		tex.g=texture(SCREEN_TEXTURE,tex_uv+roll_uv*1.2f-vec2(aberration,0.0f)*0.1f).g;
-		tex.b=texture(SCREEN_TEXTURE,tex_uv+roll_uv).b;
-		tex.a=1.0f;
-	} else {
-		tex.r=texture(SCREEN_TEXTURE,tex_uv+vec2(aberration,0.0f)*0.1f).r;
-		tex.g=texture(SCREEN_TEXTURE,tex_uv-vec2(aberration,0.0f)*0.1f).g;
-		tex.b=texture(SCREEN_TEXTURE,tex_uv).b;
-		tex.a=1.0f;
-	}
+	tex.r=texture(SCREEN_TEXTURE,tex_uv+roll_uv*0.8f+vec2(aberration,0.0f)*0.1f).r;
+	tex.g=texture(SCREEN_TEXTURE,tex_uv+roll_uv*1.2f-vec2(aberration,0.0f)*0.1f).g;
+	tex.b=texture(SCREEN_TEXTURE,tex_uv+roll_uv).b;
+	tex.a=1.0f;
 	
 	float r=tex.r;
 	float g=tex.g;
