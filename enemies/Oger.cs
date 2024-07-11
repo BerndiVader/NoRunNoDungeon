@@ -328,21 +328,10 @@ public class Oger : KinematicMonster
     {
         animationController.FlipH^=true;
 
-        Vector2 position=rayCast2D.Position;
-        position.x*=-1;
-        rayCast2D.Position=position;
-        
-        position=playerCast2D.Position;
-        position.x*=-1;
-        playerCast2D.Position=position;
-
-        position=playerCast2D.CastTo;
-        position.x*=-1;
-        playerCast2D.CastTo=position;
-
-        position=collisionController.Position;
-        position.x*=-1;
-        collisionController.Position=position;
+        rayCast2D.Position=FlipX(rayCast2D.Position);
+        playerCast2D.Position=FlipX(playerCast2D.Position);
+        playerCast2D.CastTo=FlipX(playerCast2D.CastTo);
+        collisionController.Position=FlipX(collisionController.Position);
     }
 
     void navigation(float delta)

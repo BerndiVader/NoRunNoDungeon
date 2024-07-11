@@ -224,12 +224,8 @@ public class RunningZombie : KinematicMonster
 	protected override void FlipH()
 	{
 		animationController.FlipH^=true;
-		Vector2 position=rayCast2D.Position;
-		position.x*=-1;
-		rayCast2D.Position=position;
-		position=collisionController.Position;
-		position.x*=-1;
-		collisionController.Position=position;
+		rayCast2D.Position=FlipX(rayCast2D.Position);
+		collisionController.Position=FlipX(collisionController.Position);
 	}
 
 }

@@ -247,6 +247,12 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected abstract void FlipH();
 
+    protected Vector2 FlipX(Vector2 vector)
+    {
+        vector.x*=-1f;
+        return vector;
+    }
+
     public override void _EnterTree()
     {
         if((bool)LEVEL_SETTINGS["Use"])
