@@ -62,7 +62,7 @@ public class Fairy : KinematicMonster
         shootProjectile();
     }
 
-    private bool shootProjectile()
+    private void shootProjectile()
     {
         Vector2 playerPos=Player.instance.GlobalPosition;
         Vector2 pos=GlobalPosition;
@@ -81,8 +81,6 @@ public class Fairy : KinematicMonster
                 World.level.AddChild(bullet);
             }
         }        
-
-        return true;
     }
 
     protected override void FlipH()

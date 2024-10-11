@@ -107,4 +107,5 @@ batching/options/single_rect_fallback=true
 batching/precision/uv_contract=true
 gles3/shaders/shader_compilation_mode=1
 quality/spatial_partitioning/use_bvh=false
+viewport/transparent_background=true
 quality/2d/use_pixel_snap=true

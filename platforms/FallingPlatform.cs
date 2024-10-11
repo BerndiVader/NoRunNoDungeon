@@ -39,9 +39,7 @@ public class FallingPlatform : Platform
     private void applyShake() 
     {
         shake=Math.Min(shake,shakeMax);
-        Vector2 offset=new Vector2(0,0);
-        offset.x=(float)MathUtils.randomRange(-shake,shake);
-        offset.y=(float)MathUtils.randomRange(-shake,shake);
+        Vector2 offset=new Vector2((float)MathUtils.randomRange(-shake,shake),(float)MathUtils.randomRange(-shake,shake));
         Position=startPosition+offset;
         shake*=0.9f;
     }
