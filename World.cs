@@ -20,7 +20,9 @@ public class World : Node
 		{
 			for(int y=0;y<18;y++)
 			{
-				newLevel.SetCell(lx+x,y,nextLevel.GetCell(x,y),false,false,false,nextLevel.GetCellAutotileCoord(x,y));
+				int cellValue=nextLevel.GetCell(x,y);
+				Vector2 tileCoord=nextLevel.GetCellAutotileCoord(x,y);
+				newLevel.SetCell(lx+x,y,cellValue,false,false,false,tileCoord);
 			}
 		}
 	}
@@ -121,10 +123,13 @@ public class World : Node
 
 	private void tick(float delta) 
 	{
-		level.MoveLocalX(level.direction.x*level.Speed*delta);
-		level.MoveLocalY(level.direction.y*level.Speed*delta);
+		float speedDelta=level.Speed*delta;
+		level.MoveLocalX(level.direction.x*speedDelta);
+		level.MoveLocalY(level.direction.y*speedDelta);
 
-		if((state==Gamestate.RUNNING)&&Mathf.Abs(level.Position.x)>=level.pixelLength-RESOLUTION.x)
+		if(state!=Gamestate.RUNNING) return;
+
+		if(Mathf.Abs(level.Position.x)>=level.pixelLength-RESOLUTION.x)
 		{
 			setGamestate(Gamestate.SCENE_CHANGE);
 			Worker.setStatus(Worker.State.PREPARELEVEL);
@@ -235,7 +240,8 @@ public class World : Node
 			OS.DelayMsec(1);
 		}
 		renderer.CallDeferred("remove_child",level);
-		newLevel.Position=new Vector2(-(Mathf.Abs(level.Position.x)-(level.pixelLength-RESOLUTION.x)),level.Position.y);
+		Vector2 position=level.Position;
+		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x)),position.y);
 		level=newLevel;
 		setGamestate(Gamestate.SCENE_CHANGED);
 	}

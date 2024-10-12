@@ -72,22 +72,18 @@ public class Worker : Thread
 	private static void idle()
 	{
 		delay=10;
-		if(placeholders.TryPop(out WeakReference result))
+		if(placeholders.TryPop(out WeakReference result)&&result.IsAlive&&result.Target is Placeholder p)
 		{
-			if(result.IsAlive)
-			{
-				Placeholder p=(Placeholder)result.Target;
-				instantiatePlaceholder(p);
-				delay=3;
-			}
+			instantiatePlaceholder(p);
+			delay=3;
 		}
 		OS.DelayMsec(delay);
 	}
 
 	public static void stop()
 	{
-		Console.Write("Wait for worker to finish...");
 		quit=true;
+		Console.Write("Wait for worker to finish...");
 		instance.WaitToFinish();
 		while(instance.IsActive())
 		{
