@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 public static class ResourceUtils
 {
@@ -23,12 +22,8 @@ public static class ResourceUtils
     public static PackedScene touch;
     public static PackedScene buttons;
 
-    public static bool isMobile;
-
     public static void Init() 
     {
-        isMobile=OS.GetName().ToLower().Equals("android");
-
         levels=new List<PackedScene>();
         enemies=new List<PackedScene>();
         tilesets=new List<TileSet>();
@@ -39,46 +34,60 @@ public static class ResourceUtils
         weapons=new List<PackedScene>();
         ingameMusic=new List<AudioStreamMP3>();
 
-        bool pck=ProjectSettings.LoadResourcePack("nodungeon.pck");
+        bool pck=ProjectSettings.LoadResourcePack("res://nodungeon.pck");
         if(pck)
         {
-            Console.WriteLine("Found dcl, using it.");
+            Console.WriteLine("Found external main dlc, using it.");
         }
         else
         {
-            Console.WriteLine("No dcl found.");
+            Console.WriteLine("No external main dlc found.");
         }
 
         Console.WriteLine("Check for addons...");
-        string[]files=null;
-        if(System.IO.Directory.Exists("./dlcs"))
+        Directory dir=new Directory();
+        List<string>files=new List<string>();
+
+        if(dir.DirExists("res://dlcs"))
         {
-            files=System.IO.Directory.GetFiles("./dlcs","*.pck");
+            dir.Open("res://dlcs");
+            dir.ListDirBegin();
+
+            string file=dir.GetNext();
+            while(file!="")
+            {
+                if(file.EndsWith(".pck"))
+                {
+                    files.Add("res://dlcs/"+file);
+                }
+                file=dir.GetNext();
+            }
+            dir.ListDirEnd();
         }
         else
         {
-            System.IO.Directory.CreateDirectory("./dlcs");
+            dir.MakeDir("res://dlcs");
         }
-        if(files!=null)
+        if(files.Count>0)
         {
-            for(int a=0;a<files.Length;a++)
+            files.ForEach(file=>
             {
-                if(ProjectSettings.LoadResourcePack(files[a],false))
+                if(ProjectSettings.LoadResourcePack(file,false))
                 {
-                    Console.WriteLine("Loaded "+files[a]);
+                    Console.WriteLine("Loaded "+file);
                 }
                 else
                 {
-                    Console.WriteLine("Failed to load "+files[a]);
+                    Console.WriteLine("Failed to load "+file);
                 }
-            }
+            });
         }
         else
         {
             Console.WriteLine("No addons found.");
         }
 
-        if(isMobile)
+        if(GameSettings.isMobile)
         {
             Console.WriteLine("Found Mobile, loading touch input");
             touch=ResourceLoader.Load<PackedScene>("res://io/Touch.tscn");
@@ -164,7 +173,7 @@ public static class ResourceUtils
 
     public static InputController getInputController(Node scene)
     {
-        if(isMobile)
+        if(GameSettings.isMobile)
         {
             return new MobileInput(scene);
         }

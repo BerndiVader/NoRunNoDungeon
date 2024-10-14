@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.ComponentModel.Design.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -71,37 +72,51 @@ public static class GameSettings
 
     }
 
+    public static Boolean isMobile;
+
     public static Config current;
-    private static readonly string PATH_NAME="./gamesettings/";
-    private static readonly string FILE_NAME="config.json";
+    private static string ROOT_NAME;
+    private static readonly string CONFIG_DIR=ROOT_NAME+"gamesettings/";
+    private static readonly string CONFIG_NAME="config.json";
 
     public static void init()
     {
+        isMobile=OS.GetName().Equals("android",StringComparison.OrdinalIgnoreCase);
+        ROOT_NAME=isMobile?"user://":"res://";
+
         current=new Config();
-        if(!System.IO.Directory.Exists(PATH_NAME))
+        Directory dir=new Directory();
+        if(!dir.DirExists(CONFIG_DIR))
         {
-            System.IO.Directory.CreateDirectory(PATH_NAME);
+            dir.MakeDir(CONFIG_DIR);
             saveConfig(current);
         }
-        else if(!System.IO.File.Exists(PATH_NAME+FILE_NAME))
+        else if(!dir.FileExists(CONFIG_DIR+CONFIG_NAME))
         {
-            saveConfig(current);
+           saveConfig(current);
         }
         current=loadConfig();
     }
 
     public static void saveConfig(Config config)
     {
-        string json=JsonSerializer.Serialize<Config>(config);
-        System.IO.File.WriteAllText(PATH_NAME+FILE_NAME,json);
+        File file=new File();
+        file.Open(CONFIG_DIR+CONFIG_NAME,File.ModeFlags.Write);
+        file.StoreString(JsonSerializer.Serialize<Config>(config));
+        file.Close();
     }
 
     public static Config loadConfig()
     {
-        string json=System.IO.File.ReadAllText(PATH_NAME+FILE_NAME);
-        Config config=JsonSerializer.Deserialize<Config>(json);
-        return config;
-        
+        File file=new File();
+        if(file.FileExists(CONFIG_DIR+CONFIG_NAME))
+        {
+            file.Open(CONFIG_DIR+CONFIG_NAME,File.ModeFlags.Read);
+            Config config=JsonSerializer.Deserialize<Config>(file.GetAsText());
+            file.Close();
+            return config;
+        }
+        return new Config();
     }
 
     public static void defaultConfig()

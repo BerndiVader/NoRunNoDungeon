@@ -24,7 +24,7 @@ config/icon="res://image/icon_mdpi.png"
 
 [autoload]
 
-AutoLoad="*res://AutoLoad.cs"
+AutoLoad="res://AutoLoad.cs"
 
 [debug]
 
