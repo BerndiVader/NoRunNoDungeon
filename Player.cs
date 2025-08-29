@@ -270,7 +270,7 @@ public class Player : KinematicBody2D
         }
         onAirTime+=delta;
 
-        if(Position.x<-20f||Position.y<-20f||Position.x>World.RESOLUTION.x+20f||Position.y>World.RESOLUTION.y+20f)
+        if(Position.x<-20f||Position.y<-60f||Position.x>World.RESOLUTION.x+20f||Position.y>World.RESOLUTION.y+20f)
         {
             onDamaged();
         }
