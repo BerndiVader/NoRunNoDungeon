@@ -12,7 +12,6 @@ public class RunningZombie : KinematicMonster
 	[Export] private float JUMP_MAX_AIRBORNE_TIME=0.2f;
 
 	private Vector2 direction=Vector2.Left;
-	private float onAirTime=100f;
 	private bool jumping=false;
 
 	private RayCast2D rayCast2D;
@@ -116,7 +115,6 @@ public class RunningZombie : KinematicMonster
 			{
 				MoveAndCollide(-floorVelocity*delta);
 			}
-			onAirTime=0f;
 			jumping=false;
 		}
 
@@ -151,7 +149,6 @@ public class RunningZombie : KinematicMonster
 				}
 			}
 		}
-		onAirTime+=delta;
 	}
 
 	protected override void fight(float delta)

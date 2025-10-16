@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoLoad.cs" />
+    <Compile Include="enemies\WalkingTree.cs" />
     <Compile Include="enemies\Fairy.cs" />
     <Compile Include="gfx\CrtShader.cs" />
     <Compile Include="level\AutoTile.cs" />
