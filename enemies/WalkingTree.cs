@@ -4,9 +4,9 @@ using System;
 public class WalkingTree : KinematicMonster
 {
     [Export] private float WALK_FORCE=100f;
-    [Export] private float WALK_MIN_SPEED=2f;
-    [Export] private float WALK_MAX_SPEED=50f;
-    [Export] private float STOP_FORCE = 1300f;    
+    [Export] private float WALK_MIN_SPEED=0f;
+    [Export] private float WALK_MAX_SPEED=0f;
+    [Export] private float STOP_FORCE=1300f;    
     
     private Vector2 snap=new Vector2(0f,8f);
     private RayCast2D rayCast2D;
@@ -22,14 +22,36 @@ public class WalkingTree : KinematicMonster
         rayCast2D = GetNode<RayCast2D>("RayCast2D");
         rayCast2D.Enabled = true;
 
-        animationController.Play("stroll");
-        EmitSignal(STATE.stroll.ToString());
+        EmitSignal(STATE.idle.ToString());
+
+        if(MathUtils.randBool())
+        {
+            FlipH();
+        }
 
     }
 
     public override void _PhysicsProcess(float delta)
     {
         goal(delta);
+    }
+
+    protected override void idle(float delta)
+    {
+		velocity+=force*delta;
+		KinematicCollision2D collision=MoveAndCollide(velocity*delta);
+
+		if(collision!=null)
+		{
+			velocity=velocity.Bounce(collision.Normal)*friction;
+
+			Node2D node=(Node2D)collision.Collider;
+			if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
+			{
+				Platform collider=(Platform)node;
+				velocity.x+=collider.CurrentSpeed.x*1.8f;
+			}
+		}
     }
 
     protected override void stroll(float delta)
@@ -42,7 +64,7 @@ public class WalkingTree : KinematicMonster
 
         if (left && velocity.x <= WALK_MIN_SPEED && velocity.x > -WALK_MAX_SPEED)
         {
-            force.x -= WALK_FORCE;
+            force.x-=WALK_FORCE;
         }
         else if (right && velocity.x >= -WALK_MIN_SPEED && velocity.x < WALK_MAX_SPEED)
         {
@@ -80,7 +102,7 @@ public class WalkingTree : KinematicMonster
             {
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
                 animationController.SpeedScale = 1;
-                onStroll();
+                onIdle();
             }
         }
 
@@ -99,30 +121,31 @@ public class WalkingTree : KinematicMonster
 		if(state!=STATE.damage&&state!=STATE.die)
 		{
 			base.onDamage(player, 0);
-			if(GlobalPosition.x-player.GlobalPosition.x<0)
-			{
-				animationDirection=-1;
-			}
-			animationPlayer.Play("PASSANGER");
+            animationPlayer.Play("PASSANGER");
 		}
-	}    
+	}
 
-	public override void onPassanger(Player player)
-	{
-		if(state!=STATE.passanger)
-		{
-			base.onPassanger(player);
-			animationPlayer.Play("PASSANGER");
-		}
-	}       
-        
+    public override void onPassanger(Player player)
+    {
+        if (state != STATE.passanger)
+        {
+			base.onDamage(player, 0);
+            animationPlayer.Play("PASSANGER");
+
+        }
+    }   
+
     private Vector2 getDirection()
     {
+        if(Scale.y>0)
+        {
+            return Vector2.Right;
+        }
         return Vector2.Left;
-    }
-
+    }        
+        
     protected override void FlipH()
     {
-        throw new NotImplementedException();
+        animationController.FlipH = !animationController.FlipH;
     }
 }

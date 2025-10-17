@@ -11,6 +11,7 @@ public class Worker : Thread
 	{
 		IDLE,
 		PREPARELEVEL,
+		QUITTING,
 	}
 	private static State state;
 	private delegate void Goal();
@@ -71,17 +72,23 @@ public class Worker : Thread
 
 	private static void idle()
 	{
-		delay=10;
-		if(placeholders.TryPop(out WeakReference result)&&result.IsAlive&&result.Target is Placeholder p)
+		delay = 10;
+		if (placeholders.TryPop(out WeakReference result) && result.IsAlive && result.Target is Placeholder p)
 		{
 			instantiatePlaceholder(p);
-			delay=3;
+			delay = 3;
 		}
 		OS.DelayMsec(delay);
 	}
+	
+	private static void quitting()
+    {
+		OS.DelayMsec(1);
+    }
 
 	public static void stop()
 	{
+        setStatus(State.QUITTING);
 		quit=true;
 		Console.Write("Wait for worker to finish...");
 		instance.WaitToFinish();
@@ -102,6 +109,9 @@ public class Worker : Thread
 				break;
 			case State.IDLE:
 				goal=idle;
+				break;
+			case State.QUITTING:
+				goal = quitting;
 				break;
 		}
 		state=s;

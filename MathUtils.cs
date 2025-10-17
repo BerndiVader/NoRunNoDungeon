@@ -14,11 +14,21 @@ public static class MathUtils
     public static int randomRangeInt(int min,int max)
     {
         return random.Next(min,max);
-    }    
+    }
 
     public static float minMax(float min, float max, float delta)
     {
-        return Math.Max(Math.Min(delta,max),min);
+        return Math.Max(Math.Min(delta, max), min);
+    }
+
+    public static int randSign()
+    {
+        return random.Next() % 2 == 0 ? 1 : -1;
+    }
+    
+    public static bool randBool()
+    {
+        return random.Next() % 2 == 0;
     }
 
 }

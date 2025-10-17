@@ -73,20 +73,22 @@ public class FallingRocks : StaticBody2D
 
     private void onBodyEntered(Node2D body)
     {
-        if(body.IsInGroup(GROUPS.PLATFORMS.ToString()))
+        if(body.IsInGroup(GROUPS.PLATFORMS.ToString())&&body!=this)
         {
             collider=(Platform)body;
             colliding=true;
-            shake=0.5f;
+            shake = ShakeMax;
             World.instance.renderer.shake+=2;
-            state=State.FALLEN;
+            state = State.FALLEN;
+            AddToGroup(GROUPS.PLATFORMS.ToString());
         } 
         else if(body.IsInGroup(GROUPS.LEVEL.ToString())&&body!=this)
         {
             area.Disconnect("body_entered",this,nameof(onBodyEntered));
-            shake=0.5f;
+            shake = ShakeMax;
             World.instance.renderer.shake+=2;
             state=State.FALLEN;
+            AddToGroup(GROUPS.LEVEL.ToString());
         }
 
     }
@@ -111,7 +113,7 @@ public class FallingRocks : StaticBody2D
     private void applyShake()
     {
         shake=Mathf.Min(shake,ShakeMax);
-        if(shake>=0.02f)
+        if(shake>=ShakeMax*0.5f)
         {
             float offset=(float)MathUtils.randomRange(-shake,shake);
             Rotation=offset;
@@ -119,8 +121,10 @@ public class FallingRocks : StaticBody2D
         } 
         else if(shake>0f)
         {
+            float offset = (float)MathUtils.randomRange(-ShakeMax * shake, ShakeMax * shake);
+            offset *= MathUtils.randSign();
             shake=0f;
-            Rotation=0;
+            Rotation = offset;
         }
     }
 
