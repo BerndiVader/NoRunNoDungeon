@@ -56,7 +56,6 @@ public class WalkingTree : KinematicMonster
 
     protected override void stroll(float delta)
     {
-        Vector2 direction = getDirection();
         Vector2 force = new Vector2(0, GRAVITY);
 
         bool left = direction.x < 0f;
@@ -134,16 +133,7 @@ public class WalkingTree : KinematicMonster
 
         }
     }   
-
-    private Vector2 getDirection()
-    {
-        if(Scale.y>0)
-        {
-            return Vector2.Right;
-        }
-        return Vector2.Left;
-    }        
-        
+            
     protected override void FlipH()
     {
         animationController.FlipH = !animationController.FlipH;

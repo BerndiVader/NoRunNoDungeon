@@ -11,7 +11,6 @@ public class RunningZombie : KinematicMonster
 	[Export] private float JUMP_SPEED=130f;
 	[Export] private float JUMP_MAX_AIRBORNE_TIME=0.2f;
 
-	private Vector2 direction=Vector2.Left;
 	private bool jumping=false;
 
 	private RayCast2D rayCast2D;
@@ -69,7 +68,6 @@ public class RunningZombie : KinematicMonster
 		{
 			if(MathUtils.randomRangeInt(0,1)==1)
 			{
-				direction*=-1;
 				FlipH();
 			}
 
@@ -78,19 +76,17 @@ public class RunningZombie : KinematicMonster
 
 	protected override void stroll(float delta)
 	{
-		Vector2 force=new Vector2(0,GRAVITY);
+		Vector2 force = new Vector2(0, GRAVITY);
+		
+		bool isOnFloor = IsOnFloor();
 
-		bool isOnFloor=IsOnFloor();
-
-		bool left=direction.x==-1;
-		bool right=direction.x==1;
 		bool jump=!rayCast2D.IsColliding()&&isOnFloor;
 
-		if(left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
+		if(direction==Vector2.Left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
 		{
 			force.x-=WALK_FORCE;
 		} 
-		else if(right&&velocity.x>=-(WALK_MIN_SPEED)&&velocity.x<(WALK_MAX_SPEED))
+		else if(direction==Vector2.Right&&velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED)
 		{
 			force.x+=WALK_FORCE;
 		}
@@ -120,7 +116,6 @@ public class RunningZombie : KinematicMonster
 
 		if(IsOnWall())
 		{
-			direction*=-1;
 			FlipH();
 		}
 
@@ -138,7 +133,6 @@ public class RunningZombie : KinematicMonster
 				case 3:
 				case 4:
 				{
-					direction*=-1;
 					FlipH();
 					break;
 				}
@@ -195,10 +189,7 @@ public class RunningZombie : KinematicMonster
 		if(state!=STATE.damage&&state!=STATE.die)
 		{
 			base.onDamage(player, amount);
-			if(GlobalPosition.x-player.GlobalPosition.x<0)
-			{
-				animationDirection=-1;
-			}
+			animationDirection = Mathf.Sign(GlobalPosition.x - player.GlobalPosition.x);
 			animationPlayer.Play("HIT");
 		}
 	}    
@@ -220,7 +211,8 @@ public class RunningZombie : KinematicMonster
 
 	protected override void FlipH()
 	{
-		animationController.FlipH^=true;
+		animationController.FlipH ^= true;
+		direction.x = animationController.FlipH ? -1f : 1f;
 		rayCast2D.Position=FlipX(rayCast2D.Position);
 		collisionController.Position=FlipX(collisionController.Position);
 	}

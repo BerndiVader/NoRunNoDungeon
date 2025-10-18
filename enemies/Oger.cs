@@ -9,7 +9,6 @@ public class Oger : KinematicMonster
     [Export] private float WALK_MAX_SPEED=40f;
     [Export] private float STOP_FORCE=1300f;
 
-    private Vector2 direction,CASTTO;
     private Vector2 snap=new Vector2(0f,8f);
 
     private float travelTime=0f;
@@ -26,7 +25,6 @@ public class Oger : KinematicMonster
 
         rayCast2D=GetNode<RayCast2D>("RayCast2D");
         rayCast2D.Enabled=true;
-        CASTTO=rayCast2D.CastTo;
 
         playerCast2D=GetNode<RayCast2D>("PlayerCast2D");
         playerCast2D.Enabled=true;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -7,9 +7,12 @@
 [ext_resource path="res://placeholders/TreeWalking.tscn" type="PackedScene" id=5]
 [ext_resource path="res://placeholders/RocksFalling.tscn" type="PackedScene" id=6]
 [ext_resource path="res://bonus/Coin.tscn" type="PackedScene" id=7]
+[ext_resource path="res://placeholders/ZombieRunning.tscn" type="PackedScene" id=8]
 [ext_resource path="res://bonus/PhysicsCoin.tscn" type="PackedScene" id=9]
 [ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/ChestMimic.tscn" type="PackedScene" id=11]
+[ext_resource path="res://placeholders/SpikesUp.tscn" type="PackedScene" id=12]
+[ext_resource path="res://placeholders/OgerPlaceholder.tscn" type="PackedScene" id=13]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -50,16 +53,16 @@ Length = 4
 Linear = false
 
 [node name="CoinPhysics" parent="." instance=ExtResource( 4 )]
-position = Vector2( 816, 104 )
+position = Vector2( 784, 233 )
 
 [node name="CoinPhysics2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 600, 97 )
+position = Vector2( 604, 128 )
 
 [node name="CoinPhysics3" parent="." instance=ExtResource( 4 )]
-position = Vector2( 696, 88 )
+position = Vector2( 560, 226 )
 
 [node name="CoinPhysics4" parent="." instance=ExtResource( 4 )]
-position = Vector2( 688, 134 )
+position = Vector2( 600, 234 )
 
 [node name="Coin" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1248, 248 )
@@ -203,6 +206,24 @@ position = Vector2( 656, 234 )
 [node name="WalkingTree" parent="TreeWalking" index="0"]
 WALK_FORCE = 0.0
 
+[node name="ZombieRunning" parent="." instance=ExtResource( 8 )]
+position = Vector2( 680, 231 )
+
+[node name="ZombieRunning2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 856, 238 )
+
+[node name="SpikesUp" parent="." instance=ExtResource( 12 )]
+position = Vector2( 528, 264 )
+
+[node name="Spikes" parent="SpikesUp" index="0"]
+StaticElement = false
+Speed = 0.8
+InDelay = 3
+OutDelay = 2
+
+[node name="OgerPlaceholder" parent="." instance=ExtResource( 13 )]
+position = Vector2( 808, 232 )
+
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
 [editable path="RocksFalling3"]
@@ -214,3 +235,4 @@ WALK_FORCE = 0.0
 [editable path="RocksFalling6"]
 [editable path="TreeWalking2"]
 [editable path="TreeWalking"]
+[editable path="SpikesUp"]

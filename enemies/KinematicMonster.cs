@@ -25,7 +25,9 @@ public abstract class KinematicMonster : KinematicBody2D
     protected CollisionShape2D collisionController;
     protected StaticBody2D staticBody;
     protected Vector2 startOffset=Vector2.Zero,force;
-    protected int animationDirection=1;
+    protected int animationDirection = 1;
+	protected Vector2 direction=Vector2.Left;
+    
 
     public STATE state;
     protected STATE lastState;
