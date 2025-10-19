@@ -122,7 +122,7 @@ public class MimicChest : KinematicMonster
         }
     }    
 
-    public override void onPassanger(Player player)
+    public override void onPassanger(Player player=null)
     {
         if(state!=STATE.fight)
         {

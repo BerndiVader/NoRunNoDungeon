@@ -139,8 +139,12 @@ public abstract class KinematicMonster : KinematicBody2D
             goal=die;
         }
     }
-    protected virtual void onAttack(Player player)
+    protected virtual void onAttack(Player player=null)
     {
+        if(player==null)
+        {
+            player = Player.instance;
+        }
         onDelay=false;
         if(state!=STATE.attack)
         {
@@ -150,8 +154,12 @@ public abstract class KinematicMonster : KinematicBody2D
             goal=attack;
         }
     }
-    protected virtual void onFight(Player player)
+    protected virtual void onFight(Player player=null)
     {
+        if(player==null)
+        {
+            player = Player.instance;
+        }        
         onDelay=false;
         if(state!=STATE.fight)
         {
@@ -161,13 +169,17 @@ public abstract class KinematicMonster : KinematicBody2D
             goal=fight;
         }
     }
-    protected virtual void onDamage(Player player,int amount)
+    protected virtual void onDamage(Player player=null,int amount=0)
     {
+        if(player==null)
+        {
+            player = Player.instance;
+        }
         onDelay=false;
         if(state!=STATE.damage&&state!=STATE.die)
         {
             World.instance.renderer.shake=2d;
-            staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
+            //staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
             lastState=state;
             state=STATE.damage;
             attacker=player;
@@ -176,8 +188,12 @@ public abstract class KinematicMonster : KinematicBody2D
             goal=damage;
         }
     }
-    public virtual void onPassanger(Player player)
+    public virtual void onPassanger(Player player=null)
     {
+        if(player==null)
+        {
+            player = Player.instance;
+        }        
         onDelay=false;
         if(state!=STATE.passanger)
         {
@@ -236,11 +252,11 @@ public abstract class KinematicMonster : KinematicBody2D
         }
     }
 
-    protected void onAnimationPlayerStarts(String name)
+    protected void onAnimationPlayerStarts(string name)
     {
         startOffset=Position;
     }
-    protected void onAnimationPlayerEnded(String name)
+    protected void onAnimationPlayerEnded(string name)
     {
         startOffset=Position;
         ANIMATION_OFFSET=Vector2.Zero;

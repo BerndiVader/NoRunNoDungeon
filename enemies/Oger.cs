@@ -250,7 +250,7 @@ public class Oger : KinematicMonster
         }
     }
 
-    protected override void onDamage(Player player, int amount)
+    protected override void onDamage(Player player=null, int amount=0)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {
@@ -263,8 +263,8 @@ public class Oger : KinematicMonster
         }
     }
 
-    protected override void onAttack(Player player)
-    {
+    protected override void onAttack(Player player=null)
+    {      
         if(state!=STATE.attack)
         {
             base.onAttack(player);
@@ -273,7 +273,7 @@ public class Oger : KinematicMonster
         }
     }
 
-    protected override void onFight(Player player)
+    protected override void onFight(Player player=null)
     {
         if(state!=STATE.fight)
         {
@@ -284,10 +284,10 @@ public class Oger : KinematicMonster
         }
     }
 
-    public override void onPassanger(Player player)
+    public override void onPassanger(Player player=null)
     {
         if(state!=STATE.passanger)
-        {
+        {         
             base.onPassanger(player);
             animationController.Play("idle");
             animationPlayer.Play("PASSANGER");

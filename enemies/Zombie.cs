@@ -153,7 +153,7 @@ public class Zombie : KinematicMonster
         base.die(delta);
     }
 
-    protected override void onDamage(Player player, int amount)
+    protected override void onDamage(Player player=null, int amount=0)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {
@@ -166,7 +166,7 @@ public class Zombie : KinematicMonster
         }
     }
 
-    public override void onPassanger(Player player)
+    public override void onPassanger(Player player=null)
     {
         if(state!=STATE.passanger)
         {
