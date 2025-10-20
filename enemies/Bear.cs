@@ -146,7 +146,8 @@ public class Bear : KinematicMonster
             }
             else
             {
-                EmitSignal(lastState.ToString());
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
+                onIdle();
             }
         }
     }     

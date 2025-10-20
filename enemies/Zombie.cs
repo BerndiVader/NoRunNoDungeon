@@ -130,7 +130,8 @@ public class Zombie : KinematicMonster
             }
             else
             {
-                state=lastState;
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
+                onIdle();
             }
         }
     }

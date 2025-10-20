@@ -9,14 +9,15 @@ public class RunningZombie : KinematicMonster
 	[Export] private float WALK_MAX_SPEED=60f;
 	[Export] private float STOP_FORCE=1300f;
 	[Export] private float JUMP_SPEED=130f;
-	[Export] private float JUMP_MAX_AIRBORNE_TIME=0.2f;
+	[Export] protected float HEALTH=1f;
 
 	private bool jumping=false;
 
 	private RayCast2D rayCast2D;
 
-	public override void _Ready()
+    public override void _Ready()
 	{
+		health = HEALTH;
 		base._Ready();
 
 		animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
@@ -160,6 +161,7 @@ public class RunningZombie : KinematicMonster
 			}
 			else
 			{
+            	staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
 				animationController.SpeedScale=1;
 				onIdle();
 			}

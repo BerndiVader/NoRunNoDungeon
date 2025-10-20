@@ -8,6 +8,7 @@ public class Oger : KinematicMonster
     [Export] private float WALK_MIN_SPEED=10f;
     [Export] private float WALK_MAX_SPEED=40f;
     [Export] private float STOP_FORCE=1300f;
+	[Export] protected float HEALTH=3f;
 
     private Vector2 snap=new Vector2(0f,8f);
 
@@ -17,6 +18,7 @@ public class Oger : KinematicMonster
 
     public override void _Ready()
     {
+        health = HEALTH;
         base._Ready();
 
         animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
@@ -114,7 +116,14 @@ public class Oger : KinematicMonster
         {
             if(!canSeePlayer())
             {
-                EmitSignal(lastState.ToString());
+                if (MathUtils.randBool())
+                {
+                    onIdle();
+                }
+                else
+                {
+                    onStroll();
+                }
                 return;
             }
            
@@ -166,7 +175,14 @@ public class Oger : KinematicMonster
             float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
             if(angle>45&&angle<165)
             {
-                EmitSignal(lastState.ToString());
+                if (MathUtils.randBool())
+                {
+                    onStroll();
+                }
+                else
+                {
+                    onIdle();
+                }
             }
             else
             {
@@ -181,9 +197,8 @@ public class Oger : KinematicMonster
         direction=GlobalPosition.DirectionTo(victim.GlobalPosition);
         playerCast2D.CastTo=direction*40f;
 
-        if(distance<40)
+        if(distance<40f)
         {
-            float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
             if(!canSeePlayer())
             {
                 onIdle();
@@ -237,7 +252,8 @@ public class Oger : KinematicMonster
             }
             else
             {
-                EmitSignal(lastState.ToString());
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
+                onIdle();
             }
         }
     }
@@ -246,7 +262,22 @@ public class Oger : KinematicMonster
     {
         if(!animationPlayer.IsPlaying())
         {
-            base.passanger(delta);
+            if(health<=0)
+            {
+                onDie();
+            }
+            else
+            {
+                animationController.SpeedScale = 1;
+                if (MathUtils.randBool())
+                {
+                    onAttack(Player.instance);
+                }
+                else
+                {
+                    onStroll();
+                }
+            }            
         }
     }
 
@@ -299,7 +330,7 @@ public class Oger : KinematicMonster
         if(state!=STATE.stroll)
         {
             WALK_MAX_SPEED=30f;
-            travelTime=0;
+            travelTime=0f;
             playerCast2D.CastTo=new Vector2(Mathf.Sign(direction.x),0f)*150f;
             base.onStroll();
         }
@@ -310,7 +341,7 @@ public class Oger : KinematicMonster
     {
         if(state!=STATE.idle)
         {
-            travelTime=0;
+            travelTime=0f;
             WALK_MAX_SPEED=30f;
             playerCast2D.CastTo=new Vector2(Mathf.Sign(direction.x),0f)*150f;
             base.onIdle();
