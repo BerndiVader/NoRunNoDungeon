@@ -3,7 +3,6 @@ using System;
 
 public class Dagger : Weapon
 {
-    private int cooldown;
     private PackedScene shootParticles=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT];
     public override void _Ready()
     {
@@ -46,14 +45,17 @@ public class Dagger : Weapon
         }        
     }
 
-    public override void attack()
+    public override bool attack()
     {
-        if(state==WEAPONSTATE.IDLE&&cooldown==5)
+        if (state == WEAPONSTATE.IDLE && cooldown == 5)
         {
             playSfx(sfxSwing);
-            animationPlayer.Play(AnimationNames.SWING+getStringDirection());
-            state=WEAPONSTATE.ATTACK;
+            animationPlayer.Play(AnimationNames.SWING + getStringDirection());
+            state = WEAPONSTATE.ATTACK;
+            return true;
         }
+        return false;
+
     }
     private void throwDagger()
     {

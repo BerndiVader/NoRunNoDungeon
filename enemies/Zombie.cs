@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Xml.Serialization;
 
 public class Zombie : KinematicMonster
 {
@@ -26,7 +27,7 @@ public class Zombie : KinematicMonster
 
         animationController.Play("idle");
         animationController.FlipH=MathUtils.randomRangeInt(1,3)==2;
-        EmitSignal(STATE.idle.ToString());
+        onIdle();
 
         cooldown=0;
 
@@ -52,17 +53,16 @@ public class Zombie : KinematicMonster
             Position=startOffset+(ANIMATION_OFFSET*animationDirection);
         }
 
-        velocity+=force*delta;
-        KinematicCollision2D collision=MoveAndCollide(velocity*delta);
-        if(collision!=null)
-        {
-            velocity=velocity.Bounce(collision.Normal)*friction;
+        velocity += FORCE * delta;
+        velocity = MoveAndSlideWithSnap(velocity, new Vector2(0f, 8f), Vector2.Up, false, 4, 0.785398f, true);
 
-            Node2D node=(Node2D)collision.Collider;
-            if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
+        int slides = GetSlideCount();
+        for (int i = 0; i < slides; i++)
+        {
+            if (GetSlideCollision(i).Collider is Node2D node && node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
-                Platform collider=(Platform)node;
-                velocity.x+=collider.CurrentSpeed.x*1.8f;
+                Platform platform = node as Platform;
+                velocity.x += platform.CurrentSpeed.x * 1.8f;
             }
         }
 
@@ -78,39 +78,42 @@ public class Zombie : KinematicMonster
         }
         else if(cooldown>250)
         {
-            this.FlipH();
+            FlipH();
             cooldown=0;
         }
         cooldown++;
+
     }
 
     protected override void attack(float delta)
     {
         float distance=rayCast2D.GlobalPosition.DistanceTo(victim.GlobalPosition);
-        if(distance<41)
+        if (distance < 41)
         {
-            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(victim.GlobalPosition);
-            FlipH(direction.x<0);
+            Vector2 direction = rayCast2D.GlobalPosition.DirectionTo(victim.GlobalPosition);
+            SetFlipH(direction.x < 0);
 
-            rayCast2D.CastTo=direction*distance;
-            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
+            rayCast2D.CastTo = direction * distance;
+            if (rayCast2D.IsColliding() && rayCast2D.GetCollider().GetInstanceId() == victim.GetInstanceId())
             {
-                if(cooldown<0&&!weapon.isPlaying())
+                if (cooldown < 0 && !weapon.isPlaying())
                 {
                     weapon.attack();
-                    cooldown=20;
+                    cooldown = 20;
                 }
             }
-            else {
-                rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
-                state=STATE.idle;
-                cooldown=0;
+            else
+            {
+                rayCast2D.CastTo = animationController.FlipH == true ? CASTTO * -1 : CASTTO;
+                cooldown = 0;
+                onIdle();
             }
-        } else
+        }
+        else
         {
-            rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
+            rayCast2D.CastTo = animationController.FlipH == true ? CASTTO * -1 : CASTTO;
+            cooldown = 0;
             onIdle();
-            cooldown=0;
         }
         cooldown--;
     }
@@ -188,7 +191,7 @@ public class Zombie : KinematicMonster
         }
     }
 
-    private void FlipH(bool flip=false)
+    private void SetFlipH(bool flip=false)
     {
         animationController.FlipH=flip;
         if(flip)

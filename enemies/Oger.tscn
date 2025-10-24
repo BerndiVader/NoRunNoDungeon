@@ -145,6 +145,7 @@ z_index = 1
 collision_layer = 0
 collision_mask = 22
 script = ExtResource( 9 )
+ANIMATION_OFFSET = Vector2( 0, -1 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 32
@@ -178,4 +179,7 @@ cast_to = Vector2( -150, 0 )
 collision_mask = 23
 
 [node name="Baton" parent="." instance=ExtResource( 10 )]
-position = Vector2( -6, 6 )
+position = Vector2( -8, 5 )
+scale = Vector2( 1.6, 1.6 )
+cooldown = 5000
+warmup = 1000

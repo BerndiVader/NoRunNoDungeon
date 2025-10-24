@@ -133,7 +133,6 @@ extents = Vector2( 7.42499, 7.11936 )
 extents = Vector2( 7.08851, 8.56653 )
 
 [node name="Zombie" type="KinematicBody2D"]
-position = Vector2( 0, -1 )
 collision_layer = 0
 collision_mask = 6
 script = ExtResource( 9 )
@@ -144,7 +143,6 @@ position = Vector2( 1, -2 )
 frames = SubResource( 7 )
 animation = "idle"
 frame = 1
-flip_h = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/HIT = SubResource( 1 )
@@ -158,7 +156,7 @@ shape = SubResource( 4 )
 one_way_collision_margin = 0.0
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-cast_to = Vector2( 40, 0 )
+cast_to = Vector2( 200, 0 )
 collision_mask = 2147483651
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -170,4 +168,4 @@ position = Vector2( 0.91149, 5.56653 )
 shape = SubResource( 6 )
 
 [node name="Mace" parent="." instance=ExtResource( 3 )]
-position = Vector2( -8, 1 )
+position = Vector2( 3, 1 )

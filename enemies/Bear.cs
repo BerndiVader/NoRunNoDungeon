@@ -44,12 +44,12 @@ public class Bear : KinematicMonster
 
     protected override void idle(float delta)
     {
-		velocity+=force*delta;
+		velocity+=FORCE*delta;
 		KinematicCollision2D collision=MoveAndCollide(velocity*delta);
 
 		if(collision!=null)
 		{
-			velocity=velocity.Bounce(collision.Normal)*friction;
+			velocity=velocity.Bounce(collision.Normal)*FRICTION;
 
 			Node2D node=(Node2D)collision.Collider;
 			if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))

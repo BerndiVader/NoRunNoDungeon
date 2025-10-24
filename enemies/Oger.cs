@@ -8,7 +8,6 @@ public class Oger : KinematicMonster
     [Export] private float WALK_MIN_SPEED=10f;
     [Export] private float WALK_MAX_SPEED=40f;
     [Export] private float STOP_FORCE=1300f;
-	[Export] protected float HEALTH=3f;
 
     private Vector2 snap=new Vector2(0f,8f);
 
@@ -18,7 +17,6 @@ public class Oger : KinematicMonster
 
     public override void _Ready()
     {
-        health = HEALTH;
         base._Ready();
 
         animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
@@ -31,7 +29,7 @@ public class Oger : KinematicMonster
         playerCast2D=GetNode<RayCast2D>("PlayerCast2D");
         playerCast2D.Enabled=true;
 
-        direction=new Vector2(animationController.FlipH?-1f:1f,0f);
+        direction =new Vector2(animationController.FlipH?-1f:1f,0f);
 
         animationController.Play("idle");
         onIdle();
@@ -46,9 +44,9 @@ public class Oger : KinematicMonster
 
     public override void _PhysicsProcess(float delta)
     {
-        if(animationPlayer.IsPlaying())
+        if (animationPlayer.IsPlaying())
         {
-            Position=startOffset+(ANIMATION_OFFSET*animationDirection);
+            Position = startOffset + (ANIMATION_OFFSET * animationDirection);
         }
         goal(delta);
     }
@@ -133,7 +131,7 @@ public class Oger : KinematicMonster
             }
 
 
-            Vector2 force=new Vector2(0,GRAVITY);
+            Vector2 force=new Vector2(FORCE);
 
             bool left=direction.x<0&&rayCast2D.IsColliding();
             bool right=direction.x>0&&rayCast2D.IsColliding();
@@ -210,7 +208,7 @@ public class Oger : KinematicMonster
                 FlipH();
             }
 
-            Vector2 force=new Vector2(0,GRAVITY);
+            Vector2 force=new Vector2(FORCE);
 
             float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
             if(xLength<0f) {
@@ -286,9 +284,13 @@ public class Oger : KinematicMonster
         if(state!=STATE.damage&&state!=STATE.die)
         {
             base.onDamage(player, amount);
-            if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
+            if (player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x < 0)
             {
-                animationDirection=-1;
+                animationDirection = -1;
+            }
+            else
+            {
+                animationDirection = 1;
             }
             animationPlayer.Play("HIT");
         }
@@ -369,7 +371,7 @@ public class Oger : KinematicMonster
         {
             travelTime++;
         }
-        Vector2 force=new Vector2(0,GRAVITY);
+        Vector2 force=new Vector2(FORCE);
 
         bool left=direction.x<0f&&state!=STATE.idle;
         bool right=direction.x>0f&&state!=STATE.idle;

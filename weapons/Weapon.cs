@@ -3,7 +3,10 @@ using System;
 
 public abstract class Weapon : Area2D
 {
-    [Export] protected float damage=1f;
+    [Export] protected float damage = 1f;
+    [Export] protected int cooldown = 0;
+    [Export] protected int warmup = 0;
+    protected int cooldownCount,warmupCount;
 
     protected AnimationPlayer animationPlayer;
     protected bool hit;
@@ -33,18 +36,31 @@ public abstract class Weapon : Area2D
         initParticles.Rotation=Rotation;
         World.level.AddChild(initParticles);
         
-        SetProcess(false);
+        SetProcess(true);
         SetProcessInput(false);
         Visible=true;
         state=WEAPONSTATE.IDLE;
-        oldState=state;
+        oldState = state;
+
+        warmupCount = warmup;
     }
 
-    public override void _Process(float delta) {}
+    public override void _Process(float delta)
+    {
+        if (warmupCount > 0)
+        {
+            warmupCount--;
+        }
+        if (cooldownCount > 0)
+        {
+            cooldownCount--;
+        }
+
+    }
 
     public virtual void _Free() {}
 
-    public abstract void attack();
+    public abstract bool attack();
 
     protected enum WEAPONSTATE
     {
@@ -59,12 +75,14 @@ public abstract class Weapon : Area2D
             if(node.HasUserSignal(STATE.damage.ToString()))
             {
                 playSfx(sfxHit);
-                node.EmitSignal(STATE.damage.ToString(),Player.instance,damage);                            
-                hit=true;
+                node.EmitSignal(STATE.damage.ToString(),Player.instance,damage);
+                hit = true;
+                cooldownCount = cooldown;
             }
             else
             {
                 playSfx(sfxMiss);
+                warmupCount = warmup;
             }
         }
     }

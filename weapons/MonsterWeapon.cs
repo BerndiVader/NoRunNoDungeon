@@ -7,6 +7,7 @@ public class MonsterWeapon : Weapon
     public override void _Ready()
     {
         base._Ready();
+        warmupCount = 0;
         Connect("body_entered",this,nameof(onHitSomething));
     }
     public void _Init()
@@ -41,29 +42,40 @@ public class MonsterWeapon : Weapon
         }        
     }
 
-    public override void attack()
+    public override bool attack()
     {
-        if(state==WEAPONSTATE.IDLE)
+        if (state == WEAPONSTATE.IDLE && cooldownCount == 0 && warmupCount == 0)
         {
-            animationPlayer.Play(AnimationNames.SWING+getStringDirection());
-            state=WEAPONSTATE.ATTACK;
+            animationPlayer.Play(AnimationNames.SWING + getStringDirection());
+            state = WEAPONSTATE.ATTACK;
+            return true;
         }
+        return false;
     }
 
-    protected override String getStringDirection()
+    protected override string getStringDirection()
     {
         return directionNames[owner.animationController.FlipH==true?1:0];
     }
 
     protected override void onHitSomething(Node node)
     {
-        if(state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.damage)
+        if (state == WEAPONSTATE.ATTACK && !hit && owner.state != STATE.damage)
         {
-            if(node.IsInGroup(GROUPS.PLAYERS.ToString()))
+            if (node.IsInGroup(GROUPS.PLAYERS.ToString()))
             {
-                node.EmitSignal(STATE.damage.ToString(),damage,this);                           
-                hit=true;
+                cooldownCount = cooldown;
+                node.EmitSignal(STATE.damage.ToString(), damage, this);
+                hit = true;
             }
+            else
+            {
+                warmupCount = warmup;
+            }
+        }
+        else
+        {
+            warmupCount = warmup;
         }
     }
 

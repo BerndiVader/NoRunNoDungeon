@@ -36,13 +36,15 @@ public class Broadsword : Weapon
         }        
     }
 
-    public override void attack()
+    public override bool attack()
     {
-        if(state==WEAPONSTATE.IDLE)
+        if (state == WEAPONSTATE.IDLE)
         {
             playSfx(sfxSwing);
-            animationPlayer.Play(AnimationNames.DOUBLE_SWING+getStringDirection());
-            state=WEAPONSTATE.ATTACK;
+            animationPlayer.Play(AnimationNames.DOUBLE_SWING + getStringDirection());
+            state = WEAPONSTATE.ATTACK;
+            return true;
         }
+        return false;
     }
 }

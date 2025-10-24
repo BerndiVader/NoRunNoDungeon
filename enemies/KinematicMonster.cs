@@ -5,11 +5,12 @@ public abstract class KinematicMonster : KinematicBody2D
 {
     private static PackedScene levelControlPack=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
 
-    [Export] protected Vector2 ANIMATION_OFFSET=Vector2.Zero,velocity=Vector2.Zero;
-    [Export] protected float damageAmount=1f;
-    [Export] protected float health=1f;
+    [Export] protected Vector2 ANIMATION_OFFSET = Vector2.Zero;
+    [Export] protected Vector2 VELOCITY=Vector2.Zero;
+    [Export] protected float DAMAGE_AMOUNT=1f;
+    [Export] protected float HEALTH=1f;
     [Export] protected float GRAVITY=500f;
-    [Export] protected float friction=0.01f;
+    [Export] protected float FRICTION=0.01f;
     [Export] protected Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
     {
         {"Use",false},
@@ -24,20 +25,23 @@ public abstract class KinematicMonster : KinematicBody2D
     protected AnimationPlayer animationPlayer;
     protected CollisionShape2D collisionController;
     protected StaticBody2D staticBody;
-    protected Vector2 startOffset=Vector2.Zero,force;
-    protected int animationDirection = 1;
-	protected Vector2 direction=Vector2.Left;
-    
+    public AnimatedSprite animationController;
 
-    public STATE state;
-    protected STATE lastState;
+    protected float health;
+    protected Vector2 startOffset = Vector2.Zero;
+    protected int animationDirection = 1;
+    protected Vector2 FORCE;
+    protected Vector2 velocity,direction,lastDirection,facing;
+    public STATE state,lastState;
     protected delegate void Goal(float delta);
     protected Goal goal;
     protected bool onDelay=false;
-    public AnimatedSprite animationController;
 
     public override void _Ready()
     {
+        FORCE = new Vector2(0f, GRAVITY);
+        health = HEALTH;
+        velocity = VELOCITY;
         SetProcess(false);
         SetPhysicsProcess(true);
 
@@ -80,10 +84,13 @@ public abstract class KinematicMonster : KinematicBody2D
         staticBody.AddToGroup(GROUPS.ENEMIES.ToString());
 
         attacker=victim=null;
-        force=new Vector2(0f,GRAVITY);
+        FORCE=new Vector2(0f,GRAVITY);
 
         state=STATE.unknown;
-        goal=unknown;
+        goal = unknown;
+
+        facing = animationController.FlipH ? Vector2.Left : Vector2.Right;
+        direction = new Vector2(facing);
     }
 
     protected virtual void unknown(float delta) {}
@@ -186,7 +193,7 @@ public abstract class KinematicMonster : KinematicBody2D
             lastState=state;
             state=STATE.damage;
             attacker=player;
-            damageAmount = amount;
+            DAMAGE_AMOUNT = amount;
             
             health-=amount;
             goal = damage;
@@ -288,14 +295,28 @@ public abstract class KinematicMonster : KinematicBody2D
         animationDirection=1;
     }
 
-    protected abstract void FlipH();
+    protected virtual void FlipH()
+    {
+        facing = animationController.FlipH ? Vector2.Left : Vector2.Right;
+    }
 
     protected Vector2 FlipX(Vector2 vector)
     {
-        vector.x*=-1f;
+        vector.x *= -1f;
         return vector;
     }
 
+    protected Vector2 FlipY(Vector2 vector)
+    {
+        vector.y *= -1f;
+        return vector;
+    }
+
+    protected virtual Vector2 Facing()
+    {
+        return animationController.FlipH ? Vector2.Left : Vector2.Right;
+    }
+    
     public override void _EnterTree()
     {
         if((bool)LEVEL_SETTINGS["Use"])

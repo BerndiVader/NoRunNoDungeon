@@ -6,7 +6,7 @@ public class Sword : Weapon
     public override void _Ready()
     {
         base._Ready();
-        Connect("body_entered",this,nameof(onHitSomething));
+        Connect("body_entered", this, nameof(onHitSomething));
     }
 
     public override void _PhysicsProcess(float delta)
@@ -29,13 +29,15 @@ public class Sword : Weapon
         }
     }
 
-    public override void attack()
+    public override bool attack()
     {
-        if(state==WEAPONSTATE.IDLE)
+        if (state == WEAPONSTATE.IDLE)
         {
             playSfx(sfxSwing);
-            animationPlayer.Play(AnimationNames.SWING+getStringDirection());
-            state=WEAPONSTATE.ATTACK;
+            animationPlayer.Play(AnimationNames.SWING + getStringDirection());
+            state = WEAPONSTATE.ATTACK;
+            return true;
         }
+        return false;
     }
 }

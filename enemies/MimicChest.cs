@@ -35,13 +35,13 @@ public class MimicChest : KinematicMonster
 
     public override void _PhysicsProcess(float delta)
     {
-        velocity+=force*delta;
+        velocity+=FORCE*delta;
 
         KinematicCollision2D collision=MoveAndCollide(velocity*delta);  
 
         if(collision!=null)
         {
-			velocity=velocity.Bounce(collision.Normal)*friction;
+			velocity=velocity.Bounce(collision.Normal)*FRICTION;
 
 			Node2D node=(Node2D)collision.Collider;
 			if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
@@ -72,7 +72,7 @@ public class MimicChest : KinematicMonster
         }
         else if(cooldown>100) 
         {
-            this.FlipH();
+            FlipH();
             cooldown=0;
         }
         cooldown++;
@@ -93,7 +93,7 @@ public class MimicChest : KinematicMonster
 
         if(distance<14f)
         {
-            victim.EmitSignal(STATE.damage.ToString(),damageAmount,this);
+            victim.EmitSignal(STATE.damage.ToString(),DAMAGE_AMOUNT,this);
         }
         else if(distance<100f)
         {
@@ -130,7 +130,7 @@ public class MimicChest : KinematicMonster
         }
         else
         {
-            player.EmitSignal(STATE.damage.ToString(),damageAmount,this);
+            player.EmitSignal(STATE.damage.ToString(),DAMAGE_AMOUNT,this);
         }
     }
 

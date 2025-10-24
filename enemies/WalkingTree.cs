@@ -38,12 +38,12 @@ public class WalkingTree : KinematicMonster
 
     protected override void idle(float delta)
     {
-		velocity+=force*delta;
+		velocity+=FORCE*delta;
 		KinematicCollision2D collision=MoveAndCollide(velocity*delta);
 
 		if(collision!=null)
 		{
-			velocity=velocity.Bounce(collision.Normal)*friction;
+			velocity=velocity.Bounce(collision.Normal)*FRICTION;
 
 			Node2D node=(Node2D)collision.Collider;
 			if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
@@ -56,7 +56,7 @@ public class WalkingTree : KinematicMonster
 
     protected override void stroll(float delta)
     {
-        Vector2 force = new Vector2(0, GRAVITY);
+        Vector2 force = new Vector2(FORCE);
 
         bool left = direction.x < 0f;
         bool right = direction.x > 0f;

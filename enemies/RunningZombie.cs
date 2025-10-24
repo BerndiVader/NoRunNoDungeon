@@ -9,7 +9,6 @@ public class RunningZombie : KinematicMonster
 	[Export] private float WALK_MAX_SPEED=60f;
 	[Export] private float STOP_FORCE=1300f;
 	[Export] private float JUMP_SPEED=130f;
-	[Export] protected float HEALTH=1f;
 
 	private bool jumping=false;
 
@@ -17,7 +16,6 @@ public class RunningZombie : KinematicMonster
 
     public override void _Ready()
 	{
-		health = HEALTH;
 		base._Ready();
 
 		animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
@@ -33,9 +31,9 @@ public class RunningZombie : KinematicMonster
 
 	public override void _PhysicsProcess(float delta)
 	{
-		if(animationPlayer.IsPlaying())
+		if (animationPlayer.IsPlaying())
 		{
-			Position=startOffset+(ANIMATION_OFFSET*animationDirection);
+			Position = startOffset + (ANIMATION_OFFSET * animationDirection);
 		}
 
 		goal(delta);
@@ -43,12 +41,13 @@ public class RunningZombie : KinematicMonster
 
 	protected override void idle(float delta)
 	{
-		velocity+=force*delta;
-		KinematicCollision2D collision=MoveAndCollide(velocity*delta);
+		velocity += FORCE * delta;
+		velocity=MoveAndSlideWithSnap(velocity,new Vector2(0f,8f),Vector2.Up,false,4,0.785398f,true);
+		KinematicCollision2D collision=MoveAndCollide(velocity*delta,true,true,true);
 
 		if(collision!=null)
 		{
-			velocity=velocity.Bounce(collision.Normal)*friction;
+			velocity=velocity.Bounce(collision.Normal)*FRICTION;
 
 			Node2D node=(Node2D)collision.Collider;
 			if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
@@ -77,7 +76,7 @@ public class RunningZombie : KinematicMonster
 
 	protected override void stroll(float delta)
 	{
-		Vector2 force = new Vector2(0, GRAVITY);
+		Vector2 force = new Vector2(FORCE);
 		
 		bool isOnFloor = IsOnFloor();
 
@@ -214,7 +213,7 @@ public class RunningZombie : KinematicMonster
 	protected override void FlipH()
 	{
 		animationController.FlipH ^= true;
-		direction.x = animationController.FlipH ? -1f : 1f;
+		direction = animationController.FlipH ? Vector2.Left : Vector2.Right;
 		rayCast2D.Position=FlipX(rayCast2D.Position);
 		collisionController.Position=FlipX(collisionController.Position);
 	}
