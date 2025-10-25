@@ -61,12 +61,12 @@ script = ExtResource( 1 )
 
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 9 )
-color = Color( 1, 0.945098, 0, 1 )
-mode = 2
+texture_scale = 0.37
+color = Color( 1, 0.972549, 0.478431, 0.301961 )
 script = ExtResource( 8 )
+MinLight = 0.6
 MaxLight = 1.1
 LightDelay = 5
-ImgScale = Vector2( 1.5, 1.5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 4 )

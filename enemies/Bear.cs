@@ -132,7 +132,7 @@ public class Bear : KinematicMonster
     {
         if(!animationPlayer.IsPlaying())
         {
-            base.passanger(delta);
+            onStroll();
         }
     } 
 

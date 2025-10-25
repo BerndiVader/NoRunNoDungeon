@@ -34,7 +34,7 @@ offsets = PoolRealArray( 0.277533, 0.594714 )
 colors = PoolColorArray( 0.988281, 0.00386047, 0.00386047, 1, 1, 0.914063, 0, 1 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 8.5, 11.5 )
+extents = Vector2( 4.99998, 8 )
 
 [sub_resource type="Animation" id=8]
 resource_name = "HIT"
@@ -219,7 +219,7 @@ cast_to = Vector2( 0, 20 )
 collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1.49999, 4.5 )
+position = Vector2( 2, 9.00003 )
 rotation = 1.5708
 shape = SubResource( 4 )
 

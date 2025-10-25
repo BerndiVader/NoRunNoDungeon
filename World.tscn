@@ -4,24 +4,25 @@
 [ext_resource path="res://Renderer.cs" type="Script" id=2]
 
 [sub_resource type="Gradient" id=4]
-offsets = PoolRealArray( 0, 0.613497, 1 )
-colors = PoolColorArray( 0.0392157, 0.0392157, 0.0392157, 0.556863, 1, 1, 1, 0.419608, 1, 1, 1, 0.768627 )
+offsets = PoolRealArray( 0, 0.6, 1 )
+colors = PoolColorArray( 0.15, 0.12, 0.18, 0.7, 0.6, 0.5, 0.7, 0.5, 1, 0.95, 0.85, 0.8 )
 
 [sub_resource type="GradientTexture" id=5]
 gradient = SubResource( 4 )
 
 [sub_resource type="Environment" id=3]
 background_mode = 4
-dof_blur_far_amount = 0.47
+dof_blur_far_enabled = true
+dof_blur_far_amount = 0.6
 glow_enabled = true
 glow_levels/1 = true
-glow_intensity = 2.5
-glow_strength = 1.12
+glow_intensity = 2.0
+glow_strength = 1.25
 glow_blend_mode = 0
-glow_hdr_threshold = 0.8
+glow_hdr_threshold = 0.9
 adjustment_enabled = true
-adjustment_contrast = 1.31
-adjustment_saturation = 1.23
+adjustment_contrast = 1.5
+adjustment_saturation = 1.35
 adjustment_color_correction = SubResource( 5 )
 
 [node name="World" type="Node"]
