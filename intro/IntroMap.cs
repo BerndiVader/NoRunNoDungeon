@@ -3,7 +3,7 @@ using System;
 
 public class IntroMap : TileMap
 {
-    private float Speed=7f;
+    private float Speed=4f;
     private bool reverse=true;
     private Tween tween;
     private Tween colorTween;

@@ -165,8 +165,8 @@ animation = "idle"
 flip_h = true
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2( -6, 9 )
-cast_to = Vector2( 0, 40 )
+position = Vector2( -7, 9 )
+cast_to = Vector2( 0, 20 )
 collision_mask = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
