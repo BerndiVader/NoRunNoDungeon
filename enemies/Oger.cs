@@ -44,11 +44,12 @@ public class Oger : KinematicMonster
 
     public override void _PhysicsProcess(float delta)
     {
+        goal(delta);
+        
         if (animationPlayer.IsPlaying())
         {
             Position = startOffset + (ANIMATION_OFFSET * animationDirection);
         }
-        goal(delta);
     }
 
     protected override void idle(float delta)
@@ -333,7 +334,7 @@ public class Oger : KinematicMonster
         {
             WALK_MAX_SPEED=30f;
             travelTime=0f;
-            playerCast2D.CastTo=new Vector2(Mathf.Sign(direction.x),0f)*150f;
+            playerCast2D.CastTo=Facing()*150f;
             base.onStroll();
         }
     }
@@ -345,7 +346,7 @@ public class Oger : KinematicMonster
         {
             travelTime=0f;
             WALK_MAX_SPEED=30f;
-            playerCast2D.CastTo=new Vector2(Mathf.Sign(direction.x),0f)*150f;
+            playerCast2D.CastTo=Facing()*150f;
             base.onIdle();
         }
     }
