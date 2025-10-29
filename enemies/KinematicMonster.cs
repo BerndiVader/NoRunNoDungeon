@@ -46,18 +46,18 @@ public abstract class KinematicMonster : KinematicBody2D
         SetProcess(false);
         SetPhysicsProcess(true);
 
-        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
+        VisibilityNotifier2D notifier2D = new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited", World.instance, nameof(World.onObjectExitedScreen), new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
-        collisionController=GetNode<CollisionShape2D>("CollisionShape2D");
-        staticBody=GetNode<StaticBody2D>("StaticBody2D");
-        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
+        collisionController = GetNode<CollisionShape2D>("CollisionShape2D");
+        staticBody = GetNode<StaticBody2D>("StaticBody2D");
+        animationController = GetNode<AnimatedSprite>("AnimatedSprite");
 
         staticBody.AddUserSignal(STATE.passanger.ToString());
         staticBody.AddUserSignal(STATE.damage.ToString());
-        staticBody.Connect(STATE.passanger.ToString(),this,nameof(onPassanger));
-        staticBody.Connect(STATE.damage.ToString(),this,nameof(onDamage));
+        staticBody.Connect(STATE.passanger.ToString(), this, nameof(onPassanger));
+        staticBody.Connect(STATE.damage.ToString(), this, nameof(onDamage));
 
         AddUserSignal(STATE.passanger.ToString());
         AddUserSignal(STATE.damage.ToString());
@@ -70,31 +70,39 @@ public abstract class KinematicMonster : KinematicBody2D
         AddUserSignal(STATE.panic.ToString());
         AddUserSignal(STATE.alert.ToString());
 
-        Connect(STATE.die.ToString(),this,nameof(onDie));
-        Connect(STATE.attack.ToString(),this,nameof(onAttack));
-        Connect(STATE.fight.ToString(),this,nameof(onFight));
-        Connect(STATE.calm.ToString(),this,nameof(onCalm));
-        Connect(STATE.idle.ToString(),this,nameof(onIdle));
-        Connect(STATE.stroll.ToString(),this,nameof(onStroll));
-        Connect(STATE.passanger.ToString(),this,nameof(onPassanger));
-        Connect(STATE.damage.ToString(),this,nameof(onDamage));
-        Connect(STATE.panic.ToString(),this,nameof(onPanic));
-        Connect(STATE.alert.ToString(),this,nameof(onAlert));
+        Connect(STATE.die.ToString(), this, nameof(onDie));
+        Connect(STATE.attack.ToString(), this, nameof(onAttack));
+        Connect(STATE.fight.ToString(), this, nameof(onFight));
+        Connect(STATE.calm.ToString(), this, nameof(onCalm));
+        Connect(STATE.idle.ToString(), this, nameof(onIdle));
+        Connect(STATE.stroll.ToString(), this, nameof(onStroll));
+        Connect(STATE.passanger.ToString(), this, nameof(onPassanger));
+        Connect(STATE.damage.ToString(), this, nameof(onDamage));
+        Connect(STATE.panic.ToString(), this, nameof(onPanic));
+        Connect(STATE.alert.ToString(), this, nameof(onAlert));
 
         AddToGroup(GROUPS.ENEMIES.ToString());
         staticBody.AddToGroup(GROUPS.ENEMIES.ToString());
 
-        attacker=victim=null;
-        FORCE=new Vector2(0f,GRAVITY);
+        attacker = victim = null;
+        FORCE = new Vector2(0f, GRAVITY);
 
-        state=STATE.unknown;
+        state = STATE.unknown;
         goal = unknown;
 
         facing = animationController.FlipH ? Vector2.Left : Vector2.Right;
         direction = new Vector2(facing);
     }
 
-    protected virtual void unknown(float delta) {}
+    public override void _PhysicsProcess(float delta)
+    {
+        direction = GetDirection();
+        facing = Facing();
+        
+        lastPosition = GlobalPosition;
+    }
+
+    protected virtual void unknown(float delta) { }
     protected virtual void idle(float delta) {}
     protected virtual void stroll(float delta) {}
     protected virtual void attack(float delta) {}
@@ -318,11 +326,13 @@ public abstract class KinematicMonster : KinematicBody2D
         return animationController.FlipH ? Vector2.Left : Vector2.Right;
     }
 
-    protected virtual void GetDirection()
+    protected virtual Vector2 GetDirection()
     {
-        direction = lastPosition.DirectionTo(GlobalPosition);
-        direction.x = Mathf.Sign(direction.x);
-        direction.y = 0f;
+        Vector2 d = lastPosition.DirectionTo(GlobalPosition);
+        d.x = Mathf.Sign(direction.x);
+        d.y = 0f;
+
+        return direction;
     }
     
     public override void _EnterTree()
