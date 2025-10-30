@@ -234,14 +234,16 @@ public class World : Node
 		Level newLevel=cachedLevel!=null?cachedLevel:(Level)ResourceUtils.levels[currentLevel].Instance();
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 		mergeMaps(newLevel,cachedLevel);
-		renderer.CallDeferred("add_child",newLevel);
-		while(!newLevel.IsInsideTree())
+		renderer.CallDeferred("add_child", newLevel);
+
+		while (!newLevel.IsInsideTree())
 		{
 			OS.DelayMsec(1);
 		}
-		renderer.CallDeferred("remove_child",level);
+
 		Vector2 position=level.Position;
-		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x)),position.y);
+		renderer.CallDeferred("remove_child",level);
+		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x)+16),position.y);
 		level=newLevel;
 		setGamestate(Gamestate.SCENE_CHANGED);
 	}
