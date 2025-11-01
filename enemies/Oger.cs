@@ -131,7 +131,6 @@ public class Oger : KinematicMonster
                 FlipH();
             }
 
-
             Vector2 force=new Vector2(FORCE);
 
             bool left=direction.x<0&&rayCast2D.IsColliding();
@@ -243,18 +242,24 @@ public class Oger : KinematicMonster
 
     protected override void damage(float delta)
     {
-        if(!animationPlayer.IsPlaying())
+        if (!animationPlayer.IsPlaying())
         {
-            if(health<=0)
+            if (health <= 0)
             {
                 onDie();
             }
             else
             {
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
-                onIdle();
+                onPanic();
             }
         }
+    }
+
+    protected override void panic(float delta)
+    {
+        fight(delta);
+        
     }
 
     protected override void passanger(float delta)
@@ -342,12 +347,40 @@ public class Oger : KinematicMonster
 
     protected override void onIdle()
     {
-        if(state!=STATE.idle)
+        if (state != STATE.idle)
         {
-            travelTime=0f;
-            WALK_MAX_SPEED=30f;
-            playerCast2D.CastTo=Facing()*150f;
+            travelTime = 0f;
+            WALK_MAX_SPEED = 30f;
+            playerCast2D.CastTo = Facing() * 150f;
             base.onIdle();
+        }
+    }
+
+    protected override void onPanic()
+    {
+        if(state!=STATE.panic)
+        {
+            base.onPanic();
+
+            victim = Player.instance;
+            float distance = GlobalPosition.DistanceTo(victim.GlobalPosition);
+            direction = GlobalPosition.DirectionTo(victim.GlobalPosition);
+            playerCast2D.CastTo = direction * 150f;
+
+            if (animationController.FlipH && direction.x >= 0 || !animationController.FlipH && direction.x < 0)
+            {
+                FlipH();
+            }
+
+            if (distance > 40f)
+            {
+                onAttack(victim);
+            }
+            else
+            {
+                onFight(victim);
+            }
+            
         }
     }
 
