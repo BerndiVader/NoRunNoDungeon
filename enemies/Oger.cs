@@ -7,7 +7,8 @@ public class Oger : KinematicMonster
     [Export] private float WALK_FORCE=600f;
     [Export] private float WALK_MIN_SPEED=10f;
     [Export] private float WALK_MAX_SPEED=40f;
-    [Export] private float STOP_FORCE=1300f;
+    [Export] private float STOP_FORCE = 1300f;
+    [Export] private float FIGHT_DISTANCE = 30f;
 
     private Vector2 snap=new Vector2(0f,8f);
 
@@ -111,7 +112,7 @@ public class Oger : KinematicMonster
         direction=GlobalPosition.DirectionTo(victim.GlobalPosition);
         playerCast2D.CastTo=direction*150f;
 
-        if(distance>40)
+        if(distance>FIGHT_DISTANCE)
         {
             if(!canSeePlayer())
             {
@@ -195,7 +196,7 @@ public class Oger : KinematicMonster
         direction=GlobalPosition.DirectionTo(victim.GlobalPosition);
         playerCast2D.CastTo=direction*40f;
 
-        if(distance<40f)
+        if(distance<FIGHT_DISTANCE)
         {
             if(!canSeePlayer())
             {
@@ -251,12 +252,12 @@ public class Oger : KinematicMonster
             else
             {
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
-                onPanic();
+                onAlert();
             }
         }
     }
 
-    protected override void panic(float delta)
+    protected override void alert(float delta)
     {
         fight(delta);
         
@@ -356,11 +357,14 @@ public class Oger : KinematicMonster
         }
     }
 
-    protected override void onPanic()
+    protected override void onAlert()
     {
-        if(state!=STATE.panic)
+        onDelay = false;
+        if(state!=STATE.alert)
         {
-            base.onPanic();
+            lastState = state;
+            state = STATE.alert;
+            goal = alert;
 
             victim = Player.instance;
             float distance = GlobalPosition.DistanceTo(victim.GlobalPosition);
@@ -372,7 +376,7 @@ public class Oger : KinematicMonster
                 FlipH();
             }
 
-            if (distance > 40f)
+            if (distance > FIGHT_DISTANCE)
             {
                 onAttack(victim);
             }
@@ -380,7 +384,7 @@ public class Oger : KinematicMonster
             {
                 onFight(victim);
             }
-            
+     
         }
     }
 
