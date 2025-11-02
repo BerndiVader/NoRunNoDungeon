@@ -35,20 +35,17 @@ public class MimicChest : KinematicMonster
 
     public override void _PhysicsProcess(float delta)
     {
-        velocity+=FORCE*delta;
+        velocity += FORCE * delta;
+        velocity = MoveAndSlideWithSnap(velocity, new Vector2(0f, 8f), Vector2.Up, false, 4, 0.785398f, true);
 
-        KinematicCollision2D collision=MoveAndCollide(velocity*delta);  
-
-        if(collision!=null)
+        int slides = GetSlideCount();
+        for (int i = 0; i < slides; i++)
         {
-			velocity=velocity.Bounce(collision.Normal)*FRICTION;
-
-			Node2D node=(Node2D)collision.Collider;
-			if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
-			{
-				Platform collider=(Platform)node;
-				velocity.x+=collider.CurrentSpeed.x*1.8f;
-			}
+            if (GetSlideCollision(i).Collider is Node2D node && node.IsInGroup(GROUPS.PLATFORMS.ToString()))
+            {
+                Platform platform = node as Platform;
+                velocity.x += platform.CurrentSpeed.x * 1.8f;
+            }
         }
 
         if(shake!=0f)
