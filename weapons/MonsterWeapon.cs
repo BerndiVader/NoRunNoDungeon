@@ -8,8 +8,9 @@ public class MonsterWeapon : Weapon
     {
         base._Ready();
         warmupCount = 0;
-        Connect("body_entered",this,nameof(onHitSomething));
+        Connect("body_entered", this, nameof(onHitSomething));
     }
+    
     public void _Init()
     {
         GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
@@ -46,6 +47,7 @@ public class MonsterWeapon : Weapon
     {
         if (state == WEAPONSTATE.IDLE && cooldownCount == 0 && warmupCount == 0)
         {
+            warmupCount = warmup;
             animationPlayer.Play(AnimationNames.SWING + getStringDirection());
             state = WEAPONSTATE.ATTACK;
             return true;
