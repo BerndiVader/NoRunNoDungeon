@@ -38,9 +38,8 @@ position = Vector2( 69.3553, 201.214 )
 position = Vector2( 648, 161 )
 
 [node name="MovingPlatform0" parent="PlatformMoving3x3" index="0"]
-Speed = 40.0
 MaxSpeed = 40.0
-Length = 4
+Length = 1
 Linear = false
 
 [node name="PlatformMoving3x4" parent="." instance=ExtResource( 3 )]
@@ -94,12 +93,11 @@ position = Vector2( 496, -36 )
 ActivationDistance = 50.0
 
 [node name="PlatformMoving3x5" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1232, 142 )
+position = Vector2( 1232, 122 )
 
 [node name="MovingPlatform0" parent="PlatformMoving3x5" index="0"]
 Direction = Vector2( 0, 1 )
 Length = 1
-LerpFactor = 1.0
 Linear = false
 
 [node name="LevelControl" parent="." instance=ExtResource( 10 )]
@@ -186,10 +184,10 @@ position = Vector2( 1216, 237 )
 position = Vector2( 696, 200 )
 
 [node name="TreeWalking3" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1152, 150 )
+position = Vector2( 1128, 152 )
 
 [node name="WalkingTree" parent="TreeWalking3" index="0"]
-position = Vector2( -24, 7 )
+position = Vector2( 1, 6 )
 WALK_FORCE = 0.0
 WALK_MAX_SPEED = 0.0
 
@@ -197,28 +195,28 @@ WALK_MAX_SPEED = 0.0
 position = Vector2( 1298, 165 )
 
 [node name="CoinPhysics2" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1236, 56 )
+position = Vector2( 1222, 80 )
 
 [node name="CoinPhysics" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1236, 76 )
+position = Vector2( 1404, 122 )
 
 [node name="CoinPhysics3" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1223, 64 )
+position = Vector2( 1128, 104 )
 
 [node name="CoinPhysics4" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1242, 68 )
+position = Vector2( 1248, 72 )
 
 [node name="CoinPhysics5" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1227, 52 )
+position = Vector2( 1294, 73 )
 
 [node name="CoinPhysics6" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1232, 40 )
+position = Vector2( 1232, 96 )
 
 [node name="CoinPhysics7" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1242, 40 )
+position = Vector2( 1396, 57 )
 
 [node name="CoinPhysics8" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1236, 24 )
+position = Vector2( 1168, 128 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
