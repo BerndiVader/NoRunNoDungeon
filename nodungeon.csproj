@@ -31,6 +31,7 @@
     <Compile Include="particles\SettingsEffect.cs" />
     <Compile Include="particles\WeaponChangeParticles.cs" />
     <Compile Include="placeholders\PlaceholderTool.cs" />
+    <Compile Include="platforms\CyclingPlatform.cs" />
     <Compile Include="PlayerCamera.cs" />
     <Compile Include="enemies\Bear.cs" />
     <Compile Include="level\Background.cs" />

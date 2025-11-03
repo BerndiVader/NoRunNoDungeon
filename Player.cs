@@ -62,7 +62,7 @@ public class Player : KinematicBody2D
         jumpParticles.Emitting=false;
 
 
-        equipWeapon((PackedScene)ResourceUtils.weapons[(int)WEAPONS.DAGGER]);
+        equipWeapon(ResourceUtils.weapons[(int)WEAPONS.DAGGER]);
 
         AddToGroup(GROUPS.PLAYERS.ToString());
         ZIndex=2;
@@ -88,7 +88,7 @@ public class Player : KinematicBody2D
         float friction=1f;
         if(World.level.Speed!=0f)
         {
-            friction=36/World.level.Speed;
+            friction=36f/World.level.Speed;
         }
         
         Vector2 force=FORCE;

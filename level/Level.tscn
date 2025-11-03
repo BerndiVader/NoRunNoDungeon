@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://placeholders/monsters/OgerPlaceholder.tscn" type="PackedScene" id=13]
 [ext_resource path="res://placeholders/monsters/BearPlaceholder.tscn" type="PackedScene" id=14]
 [ext_resource path="res://placeholders/ambients/TorchPlaceholder.tscn" type="PackedScene" id=15]
+[ext_resource path="res://placeholders/platforms/PlatformCycling2x1.tscn" type="PackedScene" id=16]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -35,22 +36,21 @@ __meta__ = {
 position = Vector2( 69.3553, 201.214 )
 
 [node name="PlatformMoving3x3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 648, 161 )
+position = Vector2( 646, 161 )
 
 [node name="MovingPlatform0" parent="PlatformMoving3x3" index="0"]
-MaxSpeed = 40.0
 Length = 1
 Linear = false
 
 [node name="PlatformMoving3x4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 736, 161 )
+position = Vector2( 738, 161 )
 
 [node name="MovingPlatform0" parent="PlatformMoving3x4" index="0"]
 position = Vector2( 0, 3 )
 Direction = Vector2( 0, 1 )
 Speed = 40.0
 MaxSpeed = 40.0
-Length = 4
+Length = 3
 Linear = false
 
 [node name="Coin" parent="." instance=ExtResource( 7 )]
@@ -218,6 +218,15 @@ position = Vector2( 1396, 57 )
 [node name="CoinPhysics8" parent="." instance=ExtResource( 9 )]
 position = Vector2( 1168, 128 )
 
+[node name="PlatformCycling" parent="." instance=ExtResource( 16 )]
+position = Vector2( 693, 162 )
+
+[node name="CyclingPlatform" parent="PlatformCycling" index="0"]
+IfPlayer = true
+Delay = 100.0
+Speed = 1.0
+transType = 2
+
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
 [editable path="RocksFalling3"]
@@ -232,3 +241,4 @@ position = Vector2( 1168, 128 )
 [editable path="SpikesUp"]
 [editable path="OgerPlaceholder"]
 [editable path="TreeWalking3"]
+[editable path="PlatformCycling"]
