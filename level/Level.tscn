@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://placeholders/monsters/BearPlaceholder.tscn" type="PackedScene" id=14]
 [ext_resource path="res://placeholders/ambients/TorchPlaceholder.tscn" type="PackedScene" id=15]
 [ext_resource path="res://placeholders/platforms/PlatformCycling2x1.tscn" type="PackedScene" id=16]
+[ext_resource path="res://placeholders/platforms/PlatformCycling1x1.tscn" type="PackedScene" id=17]
+[ext_resource path="res://placeholders/platforms/PlatformCycling3x1.tscn" type="PackedScene" id=18]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -225,7 +227,49 @@ position = Vector2( 693, 162 )
 IfPlayer = true
 Delay = 100.0
 Speed = 1.0
-transType = 2
+
+[node name="PlatformCycling2" parent="." instance=ExtResource( 17 )]
+position = Vector2( 560, 160 )
+
+[node name="CyclingPlatform" parent="PlatformCycling2" index="0"]
+RandomCycling = true
+Speed = 2.0
+RotationSteps = 2.0
+TransType = 9
+
+[node name="PlatformCycling3" parent="." instance=ExtResource( 17 )]
+position = Vector2( 576, 176 )
+
+[node name="CyclingPlatform" parent="PlatformCycling3" index="0"]
+RandomCycling = true
+Speed = 1.0
+RotationSteps = 0.5
+TransType = 10
+
+[node name="PlatformCycling4" parent="." instance=ExtResource( 17 )]
+position = Vector2( 592, 192 )
+
+[node name="CyclingPlatform" parent="PlatformCycling4" index="0"]
+RandomCycling = true
+Speed = 3.0
+RotationSteps = 1.5
+TransType = 6
+
+[node name="PlatformCycling5" parent="." instance=ExtResource( 17 )]
+position = Vector2( 608, 208 )
+
+[node name="CyclingPlatform" parent="PlatformCycling5" index="0"]
+RandomCycling = true
+Speed = 3.0
+TransType = 5
+
+[node name="PlatformCycling6" parent="." instance=ExtResource( 18 )]
+position = Vector2( 808, 168 )
+
+[node name="CyclingPlatform" parent="PlatformCycling6" index="0"]
+Delay = 0.0
+Speed = 2.0
+TransType = 0
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
@@ -242,3 +286,8 @@ transType = 2
 [editable path="OgerPlaceholder"]
 [editable path="TreeWalking3"]
 [editable path="PlatformCycling"]
+[editable path="PlatformCycling2"]
+[editable path="PlatformCycling3"]
+[editable path="PlatformCycling4"]
+[editable path="PlatformCycling5"]
+[editable path="PlatformCycling6"]

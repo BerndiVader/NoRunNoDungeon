@@ -1,29 +1,26 @@
 using Godot;
+using System;
 
-public class PauseUI : BaseUI
+public class StartUI : BaseUI
 {
-    private Button cont, quit, main, options, selectedButton;
+    private Button start, quit, options;
 
     public override void _Ready()
     {
-        cont=GetNode<Button>("Continue");
+        start=GetNode<Button>("Start");
         quit=GetNode<Button>("Quit");
-        main=GetNode<Button>("Main");
         options=GetNode<Button>("Options");
 
-        cont.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
+        start.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
         quit.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
-        main.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
         options.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
 
-        cont.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
+        start.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
         quit.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
-        main.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
         options.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
 
-        cont.Connect("button_up",this,nameof(onMouseSelected),new Godot.Collections.Array(0));
+        start.Connect("button_up",this,nameof(onMouseSelected),new Godot.Collections.Array(0));
         quit.Connect("button_up",this,nameof(onMouseSelected),new Godot.Collections.Array(3));
-        main.Connect("button_up",this,nameof(onMouseSelected),new Godot.Collections.Array(1));
         options.Connect("button_up",this,nameof(onMouseSelected),new Godot.Collections.Array(2));
 
 
@@ -37,7 +34,7 @@ public class PauseUI : BaseUI
         {
             case 0:
                 sprite.QueueFree();
-                World.instance.resetGamestate();
+			    World.changeScene(ResourceUtils.world);
                 GetTree().Paused=false;
                 GetParent().QueueFree();
                 break;
@@ -58,5 +55,6 @@ public class PauseUI : BaseUI
                 break;
         }
     }
+
 
 }

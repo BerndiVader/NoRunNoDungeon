@@ -98,6 +98,7 @@
     <Compile Include="ui\BaseUI.cs" />
     <Compile Include="ui\OptionsUI.cs" />
     <Compile Include="ui\PauseUI.cs" />
+    <Compile Include="ui\StartUI.cs" />
     <Compile Include="weapons\Broadsword.cs" />
     <Compile Include="weapons\Dagger.cs" />
     <Compile Include="weapons\MonsterWeapon.cs" />

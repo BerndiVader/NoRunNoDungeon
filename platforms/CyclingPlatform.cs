@@ -10,8 +10,8 @@ public class CyclingPlatform : Platform
     [Export] private float Delay = 10f;
     [Export] private float Speed = 5f;
     [Export] private float RotationSteps = 1f;
-    [Export] private Tween.TransitionType transType = Tween.TransitionType.Quint;
-    [Export] private Tween.EaseType easyType = Tween.EaseType.InOut;
+    [Export] private Tween.TransitionType TransType = Tween.TransitionType.Quint;
+    [Export] private Tween.EaseType EaseType = Tween.EaseType.InOut;
 
     private Tween tween;
     private Area2D area;
@@ -83,8 +83,8 @@ public class CyclingPlatform : Platform
             Rotation,
             Rotation + Mathf.Pi * RotationSteps,
             Speed,
-            transType,
-            easyType
+            TransType,
+            EaseType
         );
         tween.Start();
     }
