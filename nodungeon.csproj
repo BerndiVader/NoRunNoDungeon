@@ -24,6 +24,7 @@
     <Compile Include="level\AutoTile.cs" />
     <Compile Include="level\LevelControlTimer.cs" />
     <Compile Include="level\Settings.cs" />
+    <Compile Include="obstacles\Rocks.cs" />
     <Compile Include="particles\DaggerShoot.cs" />
     <Compile Include="particles\ExplodeParticles.cs" />
     <Compile Include="particles\JumpParticles.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="MathUtils.cs" />
     <Compile Include="io\MobileInput.cs" />
     <Compile Include="obstacles\FallingRocks.cs" />
-    <Compile Include="obstacles\Rock.cs" />
+    <Compile Include="obstacles\TreasureMad.cs" />
     <Compile Include="particles\BlockParticles.cs" />
     <Compile Include="particles\CoinTakenParticles.cs" />
     <Compile Include="particles\Particles.cs" />

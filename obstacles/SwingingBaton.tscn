@@ -4,7 +4,7 @@
 [ext_resource path="res://image/0x72/frames/weapon_mace.png" type="Texture" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 27.0
+radius = 22.0
 height = 12.0
 
 [node name="SwingingBaton" type="Area2D"]
@@ -18,5 +18,5 @@ offset = Vector2( 0, 10 )
 flip_v = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 79 )
+position = Vector2( 0, 78 )
 shape = SubResource( 1 )

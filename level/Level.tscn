@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://placeholders/platforms/PlatformCycling2x1.tscn" type="PackedScene" id=16]
 [ext_resource path="res://placeholders/platforms/PlatformCycling1x1.tscn" type="PackedScene" id=17]
 [ext_resource path="res://placeholders/platforms/PlatformCycling3x1.tscn" type="PackedScene" id=18]
+[ext_resource path="res://placeholders/obstacles/MadTreasure.tscn" type="PackedScene" id=19]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -270,6 +271,9 @@ position = Vector2( 808, 168 )
 Delay = 0.0
 Speed = 2.0
 TransType = 0
+
+[node name="MadTreasure" parent="." instance=ExtResource( 19 )]
+position = Vector2( 800, 208 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]

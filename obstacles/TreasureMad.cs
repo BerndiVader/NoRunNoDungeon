@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Rock : PhysicsObject
+public class TreasureMad : PhysicsObject
 {
     private StaticBody2D collider;
     public override void _Ready()
@@ -20,8 +20,8 @@ public class Rock : PhysicsObject
 
         if(collision!=null) 
         {
-            Node2D node=(Node2D)collision.Collider;
-            velocity=velocity.Bounce(collision.Normal);
+            Node2D node = (Node2D)collision.Collider;
+            velocity=velocity.Bounce(Vector2.Up);
 
             if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
