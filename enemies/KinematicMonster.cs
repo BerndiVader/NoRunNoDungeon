@@ -96,7 +96,7 @@ public abstract class KinematicMonster : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
-        direction = GetDirection();
+        direction = Direction();
         facing = Facing();
         
         lastPosition = GlobalPosition;
@@ -326,7 +326,7 @@ public abstract class KinematicMonster : KinematicBody2D
         return animationController.FlipH ? Vector2.Left : Vector2.Right;
     }
 
-    protected virtual Vector2 GetDirection()
+    protected virtual Vector2 Direction()
     {
         Vector2 d = lastPosition.DirectionTo(GlobalPosition);
         d.x = Mathf.Sign(direction.x);
