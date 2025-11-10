@@ -10,6 +10,7 @@ public class Zombie : KinematicMonster
     private RayCast2D rayCast2D;
     private Vector2 CASTTO;
     private MonsterWeapon weapon;
+    private Vector2 snap = new Vector2(0f, 8f);
 
     public override void _Ready()
     {
@@ -17,11 +18,11 @@ public class Zombie : KinematicMonster
 
         weapon=GetNode<MonsterWeapon>("Mace");
 
-        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
+        animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
         animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
         animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
-        rayCast2D=GetNode<RayCast2D>("RayCast2D");
+        rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
@@ -54,7 +55,7 @@ public class Zombie : KinematicMonster
         }
 
         velocity += FORCE * delta;
-        velocity = MoveAndSlideWithSnap(velocity, new Vector2(0f, 8f), Vector2.Up, false, 4, 0.785398f, true);
+        velocity = MoveAndSlideWithSnap(velocity, snap, Vector2.Up, false, 4, 0.785398f, true);
 
         int slides = GetSlideCount();
         for (int i = 0; i < slides; i++)
@@ -88,10 +89,10 @@ public class Zombie : KinematicMonster
     protected override void attack(float delta)
     {
         float distance=rayCast2D.GlobalPosition.DistanceTo(victim.GlobalPosition);
-        if (distance < 41)
+        if (distance < 41f)
         {
             Vector2 direction = rayCast2D.GlobalPosition.DirectionTo(victim.GlobalPosition);
-            SetFlipH(direction.x < 0);
+            SetFlipH(direction.x < 0f);
 
             rayCast2D.CastTo = direction * distance;
             if (rayCast2D.IsColliding() && rayCast2D.GetCollider().GetInstanceId() == victim.GetInstanceId())

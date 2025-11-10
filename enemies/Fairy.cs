@@ -14,7 +14,7 @@ public class Fairy : KinematicMonster
     {
         base._Ready();
 
-        raycast=GetNode<RayCast2D>("RayCast2D");
+        raycast=GetNode<RayCast2D>(nameof(RayCast2D));
 
         passedTime=0f;
         state=STATE.unknown;

@@ -50,9 +50,9 @@ public abstract class KinematicMonster : KinematicBody2D
         notifier2D.Connect("screen_exited", World.instance, nameof(World.onObjectExitedScreen), new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
-        collisionController = GetNode<CollisionShape2D>("CollisionShape2D");
-        staticBody = GetNode<StaticBody2D>("StaticBody2D");
-        animationController = GetNode<AnimatedSprite>("AnimatedSprite");
+        collisionController = GetNode<CollisionShape2D>(nameof(CollisionShape2D));
+        staticBody = GetNode<StaticBody2D>(nameof(StaticBody2D));
+        animationController = GetNode<AnimatedSprite>(nameof(AnimatedSprite));
 
         staticBody.AddUserSignal(STATE.passanger.ToString());
         staticBody.AddUserSignal(STATE.damage.ToString());

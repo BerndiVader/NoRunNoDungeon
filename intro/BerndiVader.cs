@@ -23,7 +23,7 @@ public class BerndiVader : Node2D
 		currentLeft=new Vector2(centerPosition);
 
 		logo=GetNode<Sprite>("logo");
-		logo.SelfModulate=new Color(0,0,0);
+		logo.SelfModulate=new Color(0f,0f,0f);
 		klammerLinks=GetNode<Klammer>("k1");
 		klammerRechts=GetNode<Klammer>("k2");
 		audio=GetNode<AudioStreamPlayer2D>("Audio");
@@ -34,7 +34,7 @@ public class BerndiVader : Node2D
 		AddChild(zoomTween);
 
 		fadeTween=new Tween();
-		fadeTween.InterpolateMethod(this,nameof(fadeTweening),logo.Modulate,new Color(0,0,0),2,Tween.TransitionType.Elastic,Tween.EaseType.InOut,0.5f);
+		fadeTween.InterpolateMethod(this,nameof(fadeTweening),logo.Modulate,new Color(0f,0f,0f),2,Tween.TransitionType.Elastic,Tween.EaseType.InOut,0.5f);
 		AddChild(fadeTween);
 
 		SetProcess(false);
@@ -42,19 +42,19 @@ public class BerndiVader : Node2D
 
 	public override void _PhysicsProcess(float delta)
 	{
-		klammerLinks.Position=klammerLinks.Position.LinearInterpolate(currentLeft,delta*3);
-		klammerRechts.Position=klammerRechts.Position.LinearInterpolate(currentRight,delta*3);
+		klammerLinks.Position=klammerLinks.Position.LinearInterpolate(currentLeft,delta*3f);
+		klammerRechts.Position=klammerRechts.Position.LinearInterpolate(currentRight,delta*3f);
 
 		if(klammerLinks.Position.x>250&&speed>0&&!audio.Playing)
 		{
 			audio.Play();
-			logo.SelfModulate=new Color(1,1,1);
+			logo.SelfModulate=new Color(1f,1f,1f);
 			currentLeft=leftPosition;
 			currentRight=rightPosition;
 			fadeTween.Start();
 		}
 
-		if(klammerLinks.Position.x<30&&audio.Playing&&!zoomTween.IsActive())
+		if(klammerLinks.Position.x<30f&&audio.Playing&&!zoomTween.IsActive())
 		{
 			zoomTween.Start();
 		}
@@ -69,7 +69,7 @@ public class BerndiVader : Node2D
 
 	private void zoomOutTweening(float delta)
 	{
-		logo.Scale=new Vector2(delta,1);
+		logo.Scale=new Vector2(delta,1f);
 	}
 
 	private void fadeTweening(Color delta)

@@ -3,7 +3,8 @@ using System;
 
 public class DaggerBullet : Area2D
 {
-    private Vector2 start,end,height,offset=new Vector2(75f,50f);
+    private Vector2 start, end, height; 
+    [Export] private Vector2 offset=new Vector2(75f,50f);
     private float time;
 
     public override void _Ready()

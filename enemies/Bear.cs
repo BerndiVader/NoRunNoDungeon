@@ -16,7 +16,7 @@ public class Bear : KinematicMonster
     {
         base._Ready();
 
-        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
+        animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
         animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
         animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
@@ -46,7 +46,7 @@ public class Bear : KinematicMonster
     {
 
         velocity += FORCE * delta;
-        velocity = MoveAndSlideWithSnap(velocity, new Vector2(0f, 8f), Vector2.Up, false, 4, 0.785398f, true);
+        velocity = MoveAndSlideWithSnap(velocity, snap, Vector2.Up, false, 4, 0.785398f, true);
 
         int slides = GetSlideCount();
         if (slides == 0)

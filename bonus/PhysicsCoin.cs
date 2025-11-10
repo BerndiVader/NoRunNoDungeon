@@ -7,8 +7,8 @@ public class PhysicsCoin : PhysicsObject
     {
         base._Ready();
 
-        GetNode<Area2D>("Area2D").Connect("body_entered",this,nameof(onBodyEntered));
-        GetNode<AnimatedSprite>("AnimatedSprite").Play("default");
+        GetNode<Area2D>(nameof(Area2D)).Connect("body_entered",this,nameof(onBodyEntered));
+        GetNode<AnimatedSprite>(nameof(AnimatedSprite)).Play("default");
     }
 
     private void onBodyEntered(Node body) 

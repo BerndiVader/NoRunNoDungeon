@@ -7,7 +7,10 @@ public class TreasureMad : PhysicsObject
     public override void _Ready()
     {
         base._Ready();
-        collider=GetNode<StaticBody2D>("StaticBody2D");
+
+        GetNode<AnimatedSprite>(nameof(AnimatedSprite)).Playing = true; 
+
+        collider = GetNode<StaticBody2D>(nameof(StaticBody2D));
         AddToGroup(GROUPS.OBSTACLES.ToString());
         collider.AddToGroup(GROUPS.OBSTACLES.ToString());
 

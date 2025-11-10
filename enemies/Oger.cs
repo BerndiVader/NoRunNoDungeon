@@ -20,11 +20,11 @@ public class Oger : KinematicMonster
     {
         base._Ready();
 
-        animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
+        animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
         animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
         animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
-        rayCast2D=GetNode<RayCast2D>("RayCast2D");
+        rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
 
         playerCast2D=GetNode<RayCast2D>("PlayerCast2D");
@@ -58,14 +58,14 @@ public class Oger : KinematicMonster
         if(!canSeePlayer())
         {
             travelTime++;
-            if(travelTime==50)
+            if(travelTime==50f)
             {
                 if(MathUtils.randomRangeInt(0,5)>4)
                 {
                     FlipH();
                 }
             } 
-            else if(travelTime>100)
+            else if(travelTime>100f)
             {
                 direction=MathUtils.randomRangeInt(0,4)==1?Vector2.Right:Vector2.Left;
 
@@ -89,14 +89,14 @@ public class Oger : KinematicMonster
         if(!canSeePlayer())
         {
             travelTime++;
-            if(travelTime>300)
+            if(travelTime>300f)
             {
                 if(MathUtils.randomRangeInt(0,5)==1)
                 {
                     onIdle();
                     return;
                 }
-                travelTime=0;
+                travelTime=0f;
             }
             navigation(delta);
         }
@@ -127,15 +127,15 @@ public class Oger : KinematicMonster
                 return;
             }
            
-            if(animationController.FlipH&&direction.x>=0||!animationController.FlipH&&direction.x<0)
+            if(animationController.FlipH&&direction.x>=0f||!animationController.FlipH&&direction.x<0f)
             {
                 FlipH();
             }
 
             Vector2 force=new Vector2(FORCE);
 
-            bool left=direction.x<0&&rayCast2D.IsColliding();
-            bool right=direction.x>0&&rayCast2D.IsColliding();
+            bool left=direction.x<0f&&rayCast2D.IsColliding();
+            bool right=direction.x>0f&&rayCast2D.IsColliding();
 
             if(left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
             {
@@ -172,7 +172,7 @@ public class Oger : KinematicMonster
         else
         {
             float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
-            if(angle>45&&angle<165)
+            if(angle>45f&&angle<165f)
             {
                 if (MathUtils.randBool())
                 {
@@ -245,7 +245,7 @@ public class Oger : KinematicMonster
     {
         if (!animationPlayer.IsPlaying())
         {
-            if (health <= 0)
+            if (health <= 0f)
             {
                 onDie();
             }
@@ -273,7 +273,7 @@ public class Oger : KinematicMonster
             }
             else
             {
-                animationController.SpeedScale = 1;
+                animationController.SpeedScale = 1f;
                 if (MathUtils.randBool())
                 {
                     onAttack(Player.instance);
@@ -291,7 +291,7 @@ public class Oger : KinematicMonster
         if(state!=STATE.damage&&state!=STATE.die)
         {
             base.onDamage(player, amount);
-            if (player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x < 0)
+            if (player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x < 0f)
             {
                 animationDirection = -1;
             }
@@ -371,7 +371,7 @@ public class Oger : KinematicMonster
             direction = GlobalPosition.DirectionTo(victim.GlobalPosition);
             playerCast2D.CastTo = direction * 150f;
 
-            if (animationController.FlipH && direction.x >= 0 || !animationController.FlipH && direction.x < 0)
+            if (animationController.FlipH && direction.x >= 0f || !animationController.FlipH && direction.x < 0f)
             {
                 FlipH();
             }
@@ -405,7 +405,7 @@ public class Oger : KinematicMonster
 
     void navigation(float delta)
     {
-        if(direction.Length()>0)
+        if(direction.Length()>0f)
         {
             travelTime++;
         }

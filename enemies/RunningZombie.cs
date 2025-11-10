@@ -10,7 +10,8 @@ public class RunningZombie : KinematicMonster
 	[Export] private float STOP_FORCE=1300f;
 	[Export] private float JUMP_SPEED=130f;
 
-	private bool jumping=false;
+	private bool jumping = false;
+	private Vector2 snap = new Vector2(0f, 8f);
 
 	private RayCast2D rayCast2D;
 
@@ -18,11 +19,11 @@ public class RunningZombie : KinematicMonster
 	{
 		base._Ready();
 
-		animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
+		animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
 		animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
 		animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
 
-		rayCast2D=GetNode<RayCast2D>("RayCast2D");
+		rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
 		rayCast2D.Enabled=true;
 
 		animationController.Play("idle");
@@ -42,7 +43,7 @@ public class RunningZombie : KinematicMonster
 	protected override void idle(float delta)
 	{
         velocity += FORCE * delta;
-        velocity = MoveAndSlideWithSnap(velocity, new Vector2(0f, 8f), Vector2.Up, false, 4, 0.785398f, true);
+        velocity = MoveAndSlideWithSnap(velocity, snap, Vector2.Up, false, 4, 0.785398f, true);
 
         int slides = GetSlideCount();
         for (int i = 0; i < slides; i++)
@@ -63,7 +64,7 @@ public class RunningZombie : KinematicMonster
 		}
 		else
 		{
-			if(MathUtils.randomRangeInt(0,1)==1)
+			if(MathUtils.randBool())
 			{
 				FlipH();
 			}
@@ -97,9 +98,7 @@ public class RunningZombie : KinematicMonster
 		}
 
 		velocity+=force*delta;
-
-		Vector2 snap=jumping?new Vector2(0f,0f):new Vector2(0f,8f);
-		velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
+		velocity=MoveAndSlideWithSnap(velocity,jumping?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
 
 		if(isOnFloor)
 		{
@@ -151,7 +150,7 @@ public class RunningZombie : KinematicMonster
 	{
 		if(!animationPlayer.IsPlaying())
 		{
-			if(health<=0)
+			if(health<=0f)
 			{
 				onDie();
 			}

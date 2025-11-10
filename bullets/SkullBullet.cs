@@ -4,12 +4,12 @@ using System;
 public class SkullBullet : Area2D
 {
     public Vector2 direction=Vector2.Zero;
-    private float speed=100f,liveSpan=50f;
+    [Export] private float speed=100f,liveSpan=50f;
     private Sprite sprite;
 
     public override void _Ready()
     {
-        sprite=GetNode<Sprite>("Sprite");
+        sprite=GetNode<Sprite>(nameof(Sprite));
         if(direction==Vector2.Right)
         {
             sprite.FlipH=true;

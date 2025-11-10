@@ -9,7 +9,7 @@ public abstract class Bonus : Area2D
         notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
         
-        GetNode<AnimatedSprite>("AnimatedSprite").Play("default");
+        GetNode<AnimatedSprite>(nameof(AnimatedSprite)).Play("default");
         Connect("body_entered",this,nameof(onEnteredBody));
     }
 

@@ -45,17 +45,17 @@ public class IntroMap : TileMap
 
     private void colorTweenIn()
     {
-        colorTween.InterpolateMethod(this,nameof(colorTweening),color,new Color((float)MathUtils.randomRange(0,1),(float)MathUtils.randomRange(0,1),(float)MathUtils.randomRange(0,1),1),2,Tween.TransitionType.Sine,Tween.EaseType.InOut,0);
+        colorTween.InterpolateMethod(this,nameof(colorTweening),color,new Color((float)MathUtils.randomRange(0,1),(float)MathUtils.randomRange(0d,1d),(float)MathUtils.randomRange(0d,1d),1f),2f,Tween.TransitionType.Sine,Tween.EaseType.InOut,0f);
     }
     private void colorTweenOut()
     {
-        colorTween.InterpolateMethod(this,nameof(colorTweening),color,new Color(0,0,0,1),2,Tween.TransitionType.Sine,Tween.EaseType.InOut,0);
+        colorTween.InterpolateMethod(this,nameof(colorTweening),color,new Color(0f,0f,0f,1f),2f,Tween.TransitionType.Sine,Tween.EaseType.InOut,0f);
     }
 
 
     private void tweening(Vector2 delta)
     {
-        float alpha=Mathf.InverseLerp(1,0,1/(1+(Position.x-delta.x)));
+        float alpha=Mathf.InverseLerp(1f,0f,1f/(1f+(Position.x-delta.x)));
         shaderColor.a=alpha;
 
         speedTrailsTop.SetShaderParam("color_b",shaderColor);

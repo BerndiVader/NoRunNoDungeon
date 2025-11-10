@@ -7,19 +7,18 @@ public class MimicChest : KinematicMonster
     private float shake;
     private float ShakeMax=0.6f;
     private RayCast2D rayCast2D;
-    private Shape2D collisionBox;
     private Vector2 CASTTO;
+    private Vector2 snap = new Vector2(0f, 8f);
 
     public override void _Ready()
     {
         base._Ready();
 
-        collisionBox=collisionController.Shape;
-        rayCast2D=GetNode<RayCast2D>("RayCast2D");
+        rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        animationController=GetNode<AnimatedSprite>("AnimatedSprite");
+        animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
 
         animationController.Play("idle");
         animationController.FlipH=MathUtils.randomRangeInt(0,1)!=0;
@@ -36,7 +35,7 @@ public class MimicChest : KinematicMonster
     public override void _PhysicsProcess(float delta)
     {
         velocity += FORCE * delta;
-        velocity = MoveAndSlideWithSnap(velocity, new Vector2(0f, 8f), Vector2.Up, false, 4, 0.785398f, true);
+        velocity = MoveAndSlideWithSnap(velocity, snap, Vector2.Up, false, 4, 0.785398f, true);
 
         int slides = GetSlideCount();
         for (int i = 0; i < slides; i++)

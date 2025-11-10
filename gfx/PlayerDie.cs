@@ -23,8 +23,7 @@ public class PlayerDie : Sprite
     public override void _PhysicsProcess(float delta)
     {
         shader.SetShaderParam("offset",offset);
-        offset+=0.03f;
-        offset=Mathf.Min(offset,1f);
+        offset=Mathf.Min(offset+0.03f,1f);
 
         if(offset==1f)
         {

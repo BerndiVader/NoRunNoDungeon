@@ -48,7 +48,7 @@ public class Player : KinematicBody2D
 
         if(GameSettings.current.usage!=Viewport.UsageEnum.Usage3d)
         {
-            GetNode<Light2D>("Light2D").QueueFree();
+            GetNode<Light2D>(nameof(Light2D)).QueueFree();
         }
 
         collisionShape=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
@@ -159,7 +159,7 @@ public class Player : KinematicBody2D
         velocity+=force*delta;
         velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED)*Mathf.Sign(velocity.x);
 
-        if(platformSpeed!=Vector2.Zero&&velocity.x==0.0f)
+        if(platformSpeed!=Vector2.Zero&&velocity.x==0f)
         {
             velocity.x=platformSpeed.x*1.65f*friction;
         }

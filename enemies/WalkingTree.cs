@@ -15,11 +15,11 @@ public class WalkingTree : KinematicMonster
     {
         base._Ready();
 
-        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        animationPlayer = GetNode<AnimationPlayer>(nameof(AnimationPlayer));
         animationPlayer.Connect("animation_started", this, nameof(onAnimationPlayerStarts));
         animationPlayer.Connect("animation_finished", this, nameof(onAnimationPlayerEnded));
 
-        rayCast2D = GetNode<RayCast2D>("RayCast2D");
+        rayCast2D = GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled = true;
 
         EmitSignal(STATE.idle.ToString());
@@ -93,14 +93,14 @@ public class WalkingTree : KinematicMonster
     {
         if (!animationPlayer.IsPlaying())
         {
-            if (health <= 0)
+            if (health <= 0f)
             {
                 onDie();
             }
             else
             {
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
-                animationController.SpeedScale = 1;
+                animationController.SpeedScale = 1f;
                 onIdle();
             }
         }
