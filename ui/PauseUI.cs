@@ -2,7 +2,7 @@ using Godot;
 
 public class PauseUI : BaseUI
 {
-    private Button cont, quit, main, options, selectedButton;
+    private Button cont, quit, main, options;
 
     public override void _Ready()
     {

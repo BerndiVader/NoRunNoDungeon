@@ -1,27 +1,32 @@
 using Godot;
-using System;
 
 public class Rocks : PhysicsObject
 {
+    [Export] private float damage = 1f;
+    [Export] private float rotation_speed = 1.5f;
     private float rSpeed = 1.5f;
-    private float rot = 0f;
+    private Area2D collision;
+
     public override void _Ready()
     {
         base._Ready();
+
+        collision = GetNode<Area2D>(nameof(Area2D));
+        collision.Connect("body_entered", this, nameof(body_entered));
+        collision.Connect("body_exited", this, nameof(body_exited));
+
+        rSpeed = MathUtils.randBool() ? rotation_speed : rotation_speed*-1f;
     }
 
     public override void _PhysicsProcess(float delta)
     {
         velocity += GRAVITY * delta;
-
-        rot += rSpeed * delta;
-        Rotation = rot;
-
-        KinematicCollision2D collision=MoveAndCollide(velocity*delta);
+        Rotation += rSpeed * delta;
+        KinematicCollision2D collision = MoveAndCollide(velocity * delta);
 
         if (collision != null)
         {
-            rSpeed = GD.Randf() > 0.5f ? 1.5f : -1.5f;
+            rSpeed = MathUtils.randBool() ? rotation_speed : rotation_speed * -1f;
             velocity = velocity.Bounce(Vector2.Up);
 
             Node node = (Node)collision.Collider;
@@ -33,6 +38,23 @@ public class Rocks : PhysicsObject
 
         }
 
+    }
+
+    private void body_entered(Node node)
+    {
+        if (node.IsInGroup(GROUPS.PLAYERS.ToString()))
+        {
+            collision.SetDeferred("monitoring", false);
+            node.EmitSignal(STATE.damage.ToString(), damage, this);
+        }
+    }
+    
+    private void body_exited(Node node)
+    {
+        if (node.IsInGroup(GROUPS.PLAYERS.ToString()))
+        {
+            collision.SetDeferred("monitoring", true);
+        }
     }
 
 

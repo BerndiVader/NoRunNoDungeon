@@ -3,9 +3,9 @@ using System;
 
 public abstract class PhysicsObject : KinematicBody2D
 {
-    protected float friction=0.7f;
+    [Export] protected float friction=0.7f;
     protected Vector2 velocity=new Vector2(0f,0f);
-    protected Vector2 GRAVITY=new Vector2(0,300f);
+    [Export] protected Vector2 GRAVITY=new Vector2(0,300f);
 
     public override void _Ready()
     {

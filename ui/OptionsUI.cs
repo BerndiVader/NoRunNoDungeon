@@ -10,8 +10,6 @@ public class OptionsUI : BaseUI
     private CheckBox fullScreen, vSync, fx;
     private HSlider volume, sfx, background;
 
-    private GameSettings.Config localConfig;
-
     public override void _Ready()
     {
         base._Ready();

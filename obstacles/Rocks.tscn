@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://image/0x72/frames/Rocks.png" type="Texture" id=1]
 [ext_resource path="res://obstacles/Rocks.cs" type="Script" id=2]
@@ -10,12 +10,15 @@ radius = 6.5192
 [sub_resource type="CircleShape2D" id=2]
 radius = 7.0
 
+[sub_resource type="CircleShape2D" id=3]
+radius = 9.0
+
 [node name="Rocks" type="KinematicBody2D"]
-scale = Vector2( 0.5, 0.5 )
 collision_layer = 0
 collision_mask = 6
 moving_platform_apply_velocity_on_leave = 2
 script = ExtResource( 2 )
+GRAVITY = Vector2( 0, 600 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -86,3 +89,9 @@ rotation = 2.35619
 scale = Vector2( 0.384616, 0.384616 )
 z_index = -1
 texture = ExtResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 3 )
