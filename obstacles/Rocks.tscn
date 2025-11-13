@@ -14,6 +14,7 @@ radius = 7.0
 radius = 9.0
 
 [node name="Rocks" type="KinematicBody2D"]
+z_index = 2
 collision_layer = 0
 collision_mask = 6
 moving_platform_apply_velocity_on_leave = 2
@@ -38,56 +39,48 @@ shape = SubResource( 2 )
 [node name="Spikes" type="Sprite" parent="."]
 position = Vector2( 0, -7 )
 scale = Vector2( 0.384616, 0.384616 )
-z_index = -1
 texture = ExtResource( 3 )
 
 [node name="Spikes4" type="Sprite" parent="."]
 position = Vector2( -1, 7 )
 rotation = 3.14159
 scale = Vector2( 0.384616, 0.384616 )
-z_index = -1
 texture = ExtResource( 3 )
 
 [node name="Spikes2" type="Sprite" parent="."]
 position = Vector2( 7, -1 )
 rotation = 1.5708
 scale = Vector2( 0.384616, 0.384616 )
-z_index = -1
 texture = ExtResource( 3 )
 
 [node name="Spikes6" type="Sprite" parent="."]
 position = Vector2( 5, -5 )
 rotation = 0.785398
 scale = Vector2( 0.384616, 0.384616 )
-z_index = -1
 texture = ExtResource( 3 )
 
 [node name="Spikes3" type="Sprite" parent="."]
 position = Vector2( -8, -1 )
 rotation = -1.5708
 scale = Vector2( 0.384616, 0.384616 )
-z_index = -1
 texture = ExtResource( 3 )
 
 [node name="Spikes5" type="Sprite" parent="."]
 position = Vector2( -5, -6 )
 rotation = -0.785398
 scale = Vector2( 0.384616, 0.384616 )
-z_index = -1
 texture = ExtResource( 3 )
 
 [node name="Spikes7" type="Sprite" parent="."]
 position = Vector2( -6, 5 )
 rotation = 3.92699
 scale = Vector2( 0.384616, 0.384616 )
-z_index = -1
 texture = ExtResource( 3 )
 
 [node name="Spikes8" type="Sprite" parent="."]
 position = Vector2( 5, 5 )
 rotation = 2.35619
 scale = Vector2( 0.384616, 0.384616 )
-z_index = -1
 texture = ExtResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="."]
