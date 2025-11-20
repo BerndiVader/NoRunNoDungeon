@@ -6,6 +6,7 @@ public class Intro : Node
 	private static InputController input;
 	static AudioStreamMP3 music=ResourceLoader.Load<AudioStreamMP3>("res://sounds/title/Dark Age 11 Heroic Victory - 1.mp3");
 	AudioStreamPlayer2D musicPlayer=new AudioStreamPlayer2D();
+	private bool onOptions=false;
 	
 	public override void _Ready()
 	{
@@ -24,11 +25,31 @@ public class Intro : Node
 
 	public override void _Process(float delta)
 	{
+		if(onOptions)
+        {
+			if(GetNodeOrNull<OptionsUI>("Options")!=null)
+			{
+            	return;
+            }
+			GetNode<RichTextLabel>(nameof(RichTextLabel)).Visible=true;
+			onOptions=false;
+        }
+
 		if(input.getJump())
 		{
 			input._free();
 			World.changeScene(ResourceUtils.world);
 		}
+		else if (input.getChange())
+        {
+			input._free();
+			OptionsUI options=BaseUI.OptionsPack.Instance<OptionsUI>();
+			options.Name="Options";
+			AddChild(options);
+			options.sprite.QueueFree();
+			onOptions=true;
+			GetNode<RichTextLabel>(nameof(RichTextLabel)).Visible=false;
+        }
 		else if(input.getQuit())
 		{
 			input._free();

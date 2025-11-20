@@ -4,14 +4,13 @@ using System.IO;
 
 public abstract class BaseUI : Panel
 {
-    protected static PackedScene OptionsPack=ResourceLoader.Load<PackedScene>("res://ui/Options.tscn");
-    protected static PackedScene PausePack=ResourceLoader.Load<PackedScene>("res://ui/PauseUI.tscn");
-    protected static PackedScene StartPack=ResourceLoader.Load<PackedScene>("res://ui/StartUI.tscn");
+    public static PackedScene OptionsPack=ResourceLoader.Load<PackedScene>("res://ui/Options.tscn");
+    public static PackedScene PausePack=ResourceLoader.Load<PackedScene>("res://ui/PauseUI.tscn");
     protected static AudioStream sfxHover=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/001_Hover_01.wav");
     protected static AudioStream sfxClick=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/013_Confirm_03.wav");
     protected static AudioStream sfxButtons=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/029_Decline_09.wav");
     protected int selected;
-    protected Sprite sprite;
+    public Sprite sprite;
     protected Color color, colorSelected;
     [Export] protected float SCALE_SIZE=1f;
 

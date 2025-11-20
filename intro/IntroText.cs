@@ -11,7 +11,7 @@ public class IntroText : Godot.RichTextLabel
     {
 
         position=new Vector2(RectPosition);
-        diff=-20;
+        diff=-20f;
 
         tween=new Tween();
         tween.Connect("tween_all_completed",this,nameof(onTweenComplete));
@@ -22,11 +22,6 @@ public class IntroText : Godot.RichTextLabel
 
     }
 
-    public override void _Process(float delta)
-    {
-        
-    }
-
     private void tweening(Vector2 delta)
     {
         RectPosition=delta;
@@ -34,7 +29,7 @@ public class IntroText : Godot.RichTextLabel
 
     private void onTweenComplete()
     {
-        diff=diff*-1;
+        diff=diff*-1f;
         tween.InterpolateMethod(this,nameof(tweening),RectPosition,new Vector2(position.x,position.y+diff),1,Tween.TransitionType.Back,Tween.EaseType.InOut,0);
         tween.Start();
     }

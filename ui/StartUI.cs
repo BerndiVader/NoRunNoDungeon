@@ -7,6 +7,9 @@ public class StartUI : BaseUI
 
     public override void _Ready()
     {
+        base._Ready();
+        sprite.QueueFree();
+
         start=GetNode<Button>("Start");
         quit=GetNode<Button>("Quit");
         options=GetNode<Button>("Options");
@@ -25,7 +28,6 @@ public class StartUI : BaseUI
 
 
         selected=0;
-        base._Ready();
     }
 
     private void onMouseSelected(int selected)
@@ -33,21 +35,17 @@ public class StartUI : BaseUI
         switch(selected)
         {
             case 0:
-                sprite.QueueFree();
 			    World.changeScene(ResourceUtils.world);
-                GetTree().Paused=false;
-                GetParent().QueueFree();
+                QueueFree();
                 break;
             case 1:
-                GetTree().Paused=false;
                 World.changeScene(ResourceUtils.intro);
-                GetParent().QueueFree();
+                QueueFree();
                 break;
             case 2:
                 OptionsUI options=OptionsPack.Instance<OptionsUI>();
                 options.PauseMode=PauseModeEnum.Process;
                 GetParent().AddChild(options);
-                sprite.QueueFree();
                 QueueFree();
                 break;
             case 3:

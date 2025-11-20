@@ -48,6 +48,7 @@ public class PauseUI : BaseUI
                 break;
             case 2:
                 OptionsUI options=OptionsPack.Instance<OptionsUI>();
+                options.back=PausePack;
                 options.PauseMode=PauseModeEnum.Process;
                 GetParent().AddChild(options);
                 sprite.QueueFree();

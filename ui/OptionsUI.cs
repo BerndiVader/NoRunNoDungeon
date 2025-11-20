@@ -5,6 +5,8 @@ public class OptionsUI : BaseUI
 {
     private AudioStream sfxTest=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/051_use_item_01.wav");
     private AudioStreamPlayer2D player;
+
+    public PackedScene back;
     
     private Button acceptBtn, defaultBtn, cancelBtn;
     private CheckBox fullScreen, vSync, fx;
@@ -87,7 +89,7 @@ public class OptionsUI : BaseUI
                 GameSettings.current.usage=fx.Pressed?Viewport.UsageEnum.Usage2d:Viewport.UsageEnum.Usage3d;
                 GameSettings.saveConfig(GameSettings.current);
                 GameSettings.current.setAll(this);
-                back();
+                Back();
                 break;
             case "Default":
                 GameSettings.defaultConfig();
@@ -95,7 +97,7 @@ public class OptionsUI : BaseUI
                 updateButtons();
                 break;
             case "Cancel":
-                back();
+                Back();
                 break;
             case "Fullscreen":
                 playSfx(sfxClick);
@@ -127,14 +129,17 @@ public class OptionsUI : BaseUI
         fx.Pressed=GameSettings.current.usage==Viewport.UsageEnum.Usage2d;
     }
 
-    private void back()
+    private void Back()
     {
         GameSettings.current.setAll(this);
-        
-        PauseUI pause=PausePack.Instance<PauseUI>();
-        pause.PauseMode=PauseModeEnum.Process;
-        GetParent().AddChild(pause);
-        sprite.QueueFree();
+
+        if(back!=null)
+        {
+            PauseUI pause=PausePack.Instance<PauseUI>();
+            pause.PauseMode=PauseModeEnum.Process;
+            GetParent().AddChild(pause);
+            sprite.QueueFree();
+        }
         QueueFree();
 
     }

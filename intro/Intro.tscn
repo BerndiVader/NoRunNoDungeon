@@ -12,20 +12,26 @@
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [  ],
-"_edit_vertical_guides_": [  ]
+"_edit_vertical_guides_": [ 256.0 ]
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 process_priority = 5
-margin_left = 144.0
-margin_top = 128.0
-margin_right = 400.0
-margin_bottom = 152.0
+margin_left = 157.0
+margin_top = 104.0
+margin_right = 357.0
+margin_bottom = 191.0
 custom_fonts/normal_font = ExtResource( 4 )
 bbcode_enabled = true
-bbcode_text = "Press [color=red]UP[/color] to start!"
+bbcode_text = "[center][color=red]UP[/color] - start
+[color=green]DOWN[/color] - options
+[color=blue]ESC[/color] - exit
+[/center]"
 meta_underlined = false
-text = "Press UP to start!"
+text = "UP - start
+DOWN - options
+ESC - exit
+"
 scroll_active = false
 script = ExtResource( 5 )
 
