@@ -78,6 +78,7 @@ key_d={
 2d_physics/layer_5="Obstacle"
 2d_physics/layer_6="Enemie"
 2d_physics/layer_7="Bullet"
+2d_physics/layer_8="Weapon"
 
 [mono]
 

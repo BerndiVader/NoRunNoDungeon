@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://placeholders/platforms/PlatformCycling3x1.tscn" type="PackedScene" id=18]
 [ext_resource path="res://placeholders/obstacles/MadTreasure.tscn" type="PackedScene" id=19]
 [ext_resource path="res://placeholders/obstacles/RocksPlaceholder.tscn" type="PackedScene" id=20]
+[ext_resource path="res://obstacles/Destroyables.tscn" type="PackedScene" id=21]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -278,6 +279,9 @@ position = Vector2( 693, 108 )
 
 [node name="RocksPlaceholder" parent="." instance=ExtResource( 20 )]
 position = Vector2( 696, 229 )
+
+[node name="Destroyables" parent="." instance=ExtResource( 21 )]
+position = Vector2( 584, 264 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
