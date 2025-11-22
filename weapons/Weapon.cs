@@ -78,6 +78,7 @@ public abstract class Weapon : Area2D
                 node.EmitSignal(STATE.damage.ToString(),Player.instance,damage);
                 hit = true;
                 cooldownCount = cooldown;
+                animationPlayer.PlayBackwards();
             }
             else
             {

@@ -8,6 +8,7 @@ public class Dagger : Weapon
     {
         base._Ready();
         Connect("body_entered",this,nameof(onHitSomething));
+        Connect("area_entered", this, nameof(onHitSomething));
         cooldown=5;
     }
 

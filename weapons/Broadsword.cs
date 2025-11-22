@@ -9,6 +9,7 @@ public class Broadsword : Weapon
     {
         base._Ready();
         Connect("body_entered",this,nameof(onHitSomething));
+        Connect("area_entered", this, nameof(onHitSomething));
 
         swingParticles=GetNode<CPUParticles2D>(nameof(CPUParticles2D));
         swingParticles.Emitting=false;

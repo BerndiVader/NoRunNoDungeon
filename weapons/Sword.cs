@@ -7,6 +7,7 @@ public class Sword : Weapon
     {
         base._Ready();
         Connect("body_entered", this, nameof(onHitSomething));
+        Connect("area_entered", this, nameof(onHitSomething));
     }
 
     public override void _PhysicsProcess(float delta)
