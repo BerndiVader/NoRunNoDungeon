@@ -3,10 +3,12 @@ using System;
 
 public class TileExploder : Sprite
 {
-    Tween tween;
+    private Tween tween;
+    private static Shader shader=ResourceLoader.Load<Shader>("res://shaders/TileExploder.gdshader");
 
     public override void _Ready()
     {
+        Material=new ShaderMaterial{Shader=shader};
         tween=new Tween();
         AddChild(tween);
 

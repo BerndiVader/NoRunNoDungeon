@@ -16,6 +16,8 @@ public class EnemieDieParticles : CPUParticles2D
 
         World.level.AddChild(sfxPlayer);
         World.level.AddChild(explode);
+
+        Emitting=true;
     }
 
     public override void _Process(float delta) 

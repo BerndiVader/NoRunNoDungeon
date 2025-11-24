@@ -72,9 +72,9 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.12, 0.24, 0.3, 0.36 ),
-"transitions": PoolRealArray( 0.0824694, 0.217638, 0.999999, 0.999999, 1 ),
+"transitions": PoolRealArray( 3, 0.217638, 0.999999, 0.999999, 1 ),
 "update": 0,
-"values": [ Vector2( 17.6, 6.734 ), Vector2( -20.101, 6.734 ), Vector2( 3.115, -16.085 ), Vector2( -15.537, 6.734 ), Vector2( 9.464, 16.854 ) ]
+"values": [ Vector2( 17, 6.734 ), Vector2( -20.101, 6.734 ), Vector2( 3.115, -16.085 ), Vector2( -15.537, 6.734 ), Vector2( 9.464, 16.854 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:rotation_degrees")
@@ -112,6 +112,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.07 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=9]
 resource_name = "DOUBLE_SWING_RIGHT"
@@ -125,9 +137,9 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.12, 0.24, 0.3, 0.36 ),
-"transitions": PoolRealArray( 0.0824694, 0.217638, 0.999999, 0.999999, 1 ),
+"transitions": PoolRealArray( 3, 0.217638, 0.999999, 0.999999, 1 ),
 "update": 0,
-"values": [ Vector2( -17.5998, 6.73386 ), Vector2( 20.101, 6.73386 ), Vector2( -3.11471, -16.085 ), Vector2( 15.5373, 6.73386 ), Vector2( -9.46432, 16.8536 ) ]
+"values": [ Vector2( -17, 6.734 ), Vector2( 20.101, 6.73386 ), Vector2( -3.11471, -16.085 ), Vector2( 15.5373, 6.73386 ), Vector2( -9.46432, 16.8536 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:rotation_degrees")
@@ -161,6 +173,18 @@ tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0, 0.36 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.07 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -205,6 +229,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ) ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("CPUParticles2D:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=6]
 resource_name = "SETUP_LEFT"
@@ -246,6 +282,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Vector2( -1, 1 ) ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("CPUParticles2D:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=7]
 resource_name = "SETUP_RIGHT"
@@ -286,6 +334,18 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("CPUParticles2D:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -415,8 +475,9 @@ offsets = PoolRealArray( 0, 9.64289e-39, 0.85022 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1 )
 
 [node name="Broadsword" type="Area2D"]
-position = Vector2( -8.60937, 16.759 )
-rotation = 3.92699
+position = Vector2( 17, 6.734 )
+rotation = -1.5708
+scale = Vector2( -1, 1 )
 collision_layer = 128
 collision_mask = 32
 script = ExtResource( 2 )
@@ -433,6 +494,7 @@ texture = ExtResource( 1 )
 position = Vector2( 0, -4 )
 scale = Vector2( 1.2, 1.2 )
 shape = SubResource( 1 )
+disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/DOUBLE_SWING = SubResource( 2 )

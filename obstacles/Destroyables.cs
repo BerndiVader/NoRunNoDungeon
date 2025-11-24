@@ -19,7 +19,6 @@ public class Destroyables : Area2D
 
     private void onDamage(Player player=null, int amount=0)
     {
-        Monitoring=false;
         Vector2 local=World.level.ToLocal(GlobalPosition);
         Vector2 tile=World.level.WorldToMap(local);
         ImageTexture texture=extractTexture(tile);
