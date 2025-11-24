@@ -3,6 +3,7 @@ using System;
 
 public class Destroyables : Area2D
 {
+    [Export] private bool Terraform=true;
     private static PackedScene ExpolderPack=ResourceLoader.Load<PackedScene>("res://gfx/TileExploder.tscn");
     public override void _Ready()
     {
@@ -21,28 +22,33 @@ public class Destroyables : Area2D
     {
         Vector2 local=World.level.ToLocal(GlobalPosition);
         Vector2 tile=World.level.WorldToMap(local);
-        ImageTexture texture=extractTexture(tile);
 
-        if(texture!=null)
+        int id=World.level.GetCellv(tile);
+        if(id>-1)
         {
-            TileExploder exploder=ExpolderPack.Instance<TileExploder>();
-            exploder.Texture=texture;
-            exploder.Position=local;
-            World.level.AddChild(exploder);
+            ImageTexture texture=extractTexture(id,tile);
+
+            if(texture!=null)
+            {
+                TileExploder exploder=ExpolderPack.Instance<TileExploder>();
+                exploder.Texture=texture;
+                exploder.Position=local;
+                World.level.AddChild(exploder);
+            }
         }
+
         World.level.SetCellv(tile,-1);
+        if(Terraform)
+        {
+            terraform(tile);
+        }
+        
         CallDeferred("queue_free");
     }
 
-    private static ImageTexture extractTexture(Vector2 tile)
+    private static ImageTexture extractTexture(int id,Vector2 tile)
     {
         Vector2 subtile=World.level.GetCellAutotileCoord((int)tile.x,(int)tile.y);
-        int id=World.level.GetCellv(tile);
-        if(id<0)
-        {
-            return null;
-        }
-
         Texture tileset=World.level.TileSet.TileGetTexture(id);
         Rect2 region=new Rect2(subtile.x*16f,subtile.y*16f,16f,16f);
 
@@ -56,6 +62,30 @@ public class Destroyables : Area2D
         texture.CreateFromImage(big);
         texture.Flags=0;
         return texture;
+    }
+
+    private static void terraform(Vector2 delta)
+    {
+        Vector2[]tiles=new Vector2[]
+        {
+            delta+Vector2.Up,
+            delta+Vector2.Down,
+            delta+Vector2.Left,
+            delta+Vector2.Right,
+            delta+Vector2.Up+Vector2.Left,
+            delta+Vector2.Up+Vector2.Right,
+            delta+Vector2.Down+Vector2.Left,
+            delta+Vector2.Down+Vector2.Right
+        };
+
+        foreach(Vector2 tile in tiles)
+        {
+            int id=World.level.GetCellv(tile);
+            if(id>=0)
+            {
+                World.level.SetCellv(tile,id);
+            }
+        }
     }
 
 }
