@@ -300,7 +300,8 @@ public class Player : KinematicBody2D
 
         PlayerDie effect=PlayerDie.create();
         effect.Position=World.level.ToLocal(GlobalPosition);
-        Position=new Vector2(0,-100);
+        effect.flip=animationController.FlipH;
+        Position=new Vector2(0f,-100f);
         World.level.AddChild(effect);
         LIVES--;
         PlayerDieEffect.create();

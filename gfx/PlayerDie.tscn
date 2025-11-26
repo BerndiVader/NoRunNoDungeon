@@ -10,6 +10,7 @@ shader_param/offset = 0.0
 shader_param/fade = 1.0
 shader_param/strip = 4.0
 shader_param/direction = Vector2( 1, 0 )
+shader_param/flip = false
 
 [node name="PlayerDieEffect" type="Sprite"]
 material = SubResource( 2 )

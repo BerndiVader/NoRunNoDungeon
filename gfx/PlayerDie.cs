@@ -13,11 +13,13 @@ public class PlayerDie : Sprite
 
     float offset;
     ShaderMaterial shader;
+    public bool flip;
 
     public override void _Ready()
     {
         offset=0f;
         shader=(ShaderMaterial)Material;
+        shader.SetShaderParam("flip",flip);
     }
 
     public override void _PhysicsProcess(float delta)
