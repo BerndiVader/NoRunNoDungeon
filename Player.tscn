@@ -31,6 +31,7 @@ shader_param/alpha_start = 0.9
 shader_param/alpha_tail = 0.1
 shader_param/alpha_factor = 1.2
 shader_param/noise_margin = 0.68
+shader_param/flip = false
 shader_param/noise = SubResource( 6 )
 
 [sub_resource type="SpriteFrames" id=1]

@@ -134,8 +134,9 @@ public class Player : KinematicBody2D
             }
         }
 
-        Vector2 motVec=friction==1f?velocity*(PlayerCamera.instance.direction*-1):velocity;
-        motionTrails.SetShaderParam("velocity",motVec);
+        Vector2 motVel=velocity==Vector2.Zero?World.level.direction*World.level.Speed*-1.4f:(velocity-(World.level.direction*World.level.Speed))*1.2f;
+        motionTrails.SetShaderParam("velocity",motVel);
+        motionTrails.SetShaderParam("flip",animationController.FlipH);
 
         if(left&&velocity.x<WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
         {
