@@ -1,0 +1,210 @@
+[gd_scene load_steps=28 format=2]
+
+[ext_resource path="res://image/0x72/frames/zombiehurting_run_one_2.png" type="Texture" id=1]
+[ext_resource path="res://image/0x72/frames/zombiehurting_idle_1.png" type="Texture" id=2]
+[ext_resource path="res://image/0x72/frames/zombiehurting_idle_2.png" type="Texture" id=3]
+[ext_resource path="res://image/0x72/frames/zombiehurting_run_one_3.png" type="Texture" id=4]
+[ext_resource path="res://image/0x72/frames/zombiehurting_run_one_1.png" type="Texture" id=5]
+[ext_resource path="res://image/0x72/frames/zombiehurting_idle_0.png" type="Texture" id=6]
+[ext_resource path="res://image/0x72/frames/zombiehurting_idle_3.png" type="Texture" id=7]
+[ext_resource path="res://image/0x72/frames/zombiehurting_run_one_0.png" type="Texture" id=8]
+[ext_resource path="res://enemies/RunningZombieHurting.cs" type="Script" id=9]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_7.png" type="Texture" id=10]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_8.png" type="Texture" id=11]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_9.png" type="Texture" id=12]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_10.png" type="Texture" id=13]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_6.png" type="Texture" id=14]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_4.png" type="Texture" id=15]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_5.png" type="Texture" id=16]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_3.png" type="Texture" id=17]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_0.png" type="Texture" id=18]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_2.png" type="Texture" id=19]
+[ext_resource path="res://image/0x72/frames/zombiehurting_explode_1.png" type="Texture" id=20]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 4.44314, 6.5 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 18 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource( 17 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
+"loop": false,
+"name": "attack",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 5 ), ExtResource( 1 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "stroll",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 4.37473, 6.5 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "HIT"
+length = 0.3
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:ANIMATION_OFFSET")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.24 ),
+"transitions": PoolRealArray( 0.133972, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -1 ), Vector2( 10, -1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.24, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 30.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.24, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "PASSANGER"
+length = 0.2
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.4, 0.6 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+step = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:ANIMATION_OFFSET")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 13.0384
+
+[node name="RunningZombieHurting" type="KinematicBody2D"]
+position = Vector2( 0, -1 )
+collision_layer = 0
+collision_mask = 22
+script = ExtResource( 9 )
+ANIMATION_OFFSET = Vector2( 0, -1 )
+ACTIVATION_RANGE = 50.0
+WALK_FORCE = 500.0
+WALK_MIN_SPEED = 5.0
+WALK_MAX_SPEED = 80.0
+STOP_FORCE = 1000.0
+JUMP_SPEED = 140.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.5, 2.5 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "attack"
+flip_h = true
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( -5, 6 )
+cast_to = Vector2( 0, 20 )
+collision_mask = 22
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -0.5, 2.5 )
+shape = SubResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/HIT = SubResource( 4 )
+anims/PASSANGER = SubResource( 5 )
+anims/SETUP = SubResource( 6 )
+
+[node name="PlayerCast2D" type="RayCast2D" parent="."]
+position = Vector2( -4, 4 )
+cast_to = Vector2( -20, 0 )
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 0, 3 )
+shape = SubResource( 7 )

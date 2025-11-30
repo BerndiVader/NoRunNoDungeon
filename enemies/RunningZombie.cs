@@ -3,17 +3,20 @@ using System;
 
 public class RunningZombie : KinematicMonster
 {
-	[Export] private float ACTIVATION_RANGE=400f;
-	[Export] private float WALK_FORCE=600f;
-	[Export] private float WALK_MIN_SPEED=10f;
-	[Export] private float WALK_MAX_SPEED=60f;
-	[Export] private float STOP_FORCE=1300f;
-	[Export] private float JUMP_SPEED=130f;
+	[Export] protected float ACTIVATION_RANGE=400f;
+	[Export] protected float WALK_FORCE=600f;
+	[Export] protected float WALK_MIN_SPEED=10f;
+	[Export] protected float WALK_MAX_SPEED=60f;
+	[Export] protected float STOP_FORCE=1300f;
+	[Export] protected float JUMP_SPEED=130f;
 
-	private bool jumping = false;
-	private Vector2 snap = new Vector2(0f, 8f);
+	protected float COOLDOWNER_TIME=1.0f;
+	protected float cooldowner=0f;
 
-	private RayCast2D rayCast2D;
+	protected bool jumping = false;
+	protected Vector2 snap = new Vector2(0f, 8f);
+
+	protected RayCast2D rayCast2D;
 
     public override void _Ready()
 	{
@@ -64,10 +67,15 @@ public class RunningZombie : KinematicMonster
 		}
 		else
 		{
-			if(MathUtils.randBool())
+			if(cooldowner<=0f&&MathUtils.randBool())
 			{
 				FlipH();
+				cooldowner=COOLDOWNER_TIME;
 			}
+			else
+            {
+                cooldowner-=delta;
+            }
 
 		}
 	}
