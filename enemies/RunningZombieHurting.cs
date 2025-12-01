@@ -47,16 +47,24 @@ public class RunningZombieHurting : RunningZombie
         else if(animationController.Frame==3)
         {
             area.Monitoring=true;
+            COOLDOWNER_TIME=0.1f;
+            cooldowner=0f;
         }
         else
         {
-            if(cooldowner<0f)
+            if(cooldowner<=0f&&area.Monitoring)
             {
-                cooldowner=COOLDOWNER_TIME;
-
+                area.Scale*=1.6f;
+                animationController.Scale*=1.4f;
             }
-            cooldowner-=delta;
         }
+
+        if(cooldowner<0f)
+        {
+            cooldowner=COOLDOWNER_TIME;
+
+        }
+        cooldowner-=delta;        
     }
 
     protected override void FlipH()

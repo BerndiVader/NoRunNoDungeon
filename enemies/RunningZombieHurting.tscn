@@ -1,13 +1,13 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=30 format=2]
 
-[ext_resource path="res://image/0x72/frames/zombiehurting_run_one_2.png" type="Texture" id=1]
+[ext_resource path="res://image/0x72/frames/zombiehurting_rush_1.png" type="Texture" id=1]
 [ext_resource path="res://image/0x72/frames/zombiehurting_idle_1.png" type="Texture" id=2]
 [ext_resource path="res://image/0x72/frames/zombiehurting_idle_2.png" type="Texture" id=3]
-[ext_resource path="res://image/0x72/frames/zombiehurting_run_one_3.png" type="Texture" id=4]
-[ext_resource path="res://image/0x72/frames/zombiehurting_run_one_1.png" type="Texture" id=5]
+[ext_resource path="res://image/0x72/frames/zombiehurting_rush_4.png" type="Texture" id=4]
+[ext_resource path="res://image/0x72/frames/zombiehurting_rush_2.png" type="Texture" id=5]
 [ext_resource path="res://image/0x72/frames/zombiehurting_idle_0.png" type="Texture" id=6]
 [ext_resource path="res://image/0x72/frames/zombiehurting_idle_3.png" type="Texture" id=7]
-[ext_resource path="res://image/0x72/frames/zombiehurting_run_one_0.png" type="Texture" id=8]
+[ext_resource path="res://image/0x72/frames/zombiehurting_rush_0.png" type="Texture" id=8]
 [ext_resource path="res://enemies/RunningZombieHurting.cs" type="Script" id=9]
 [ext_resource path="res://image/0x72/frames/zombiehurting_explode_7.png" type="Texture" id=10]
 [ext_resource path="res://image/0x72/frames/zombiehurting_explode_8.png" type="Texture" id=11]
@@ -20,6 +20,8 @@
 [ext_resource path="res://image/0x72/frames/zombiehurting_explode_0.png" type="Texture" id=18]
 [ext_resource path="res://image/0x72/frames/zombiehurting_explode_2.png" type="Texture" id=19]
 [ext_resource path="res://image/0x72/frames/zombiehurting_explode_1.png" type="Texture" id=20]
+[ext_resource path="res://image/0x72/frames/zombiehurting_rush_5.png" type="Texture" id=21]
+[ext_resource path="res://image/0x72/frames/zombiehurting_rush_3.png" type="Texture" id=22]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4.44314, 6.5 )
@@ -36,7 +38,7 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 8 ), ExtResource( 5 ), ExtResource( 1 ), ExtResource( 4 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 1 ), ExtResource( 5 ), ExtResource( 22 ), ExtResource( 4 ), ExtResource( 21 ) ],
 "loop": true,
 "name": "stroll",
 "speed": 5.0
@@ -156,7 +158,7 @@ tracks/3/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=7]
-radius = 13.0384
+radius = 5.0
 
 [node name="RunningZombieHurting" type="KinematicBody2D"]
 position = Vector2( 0, -1 )
@@ -199,12 +201,12 @@ anims/SETUP = SubResource( 6 )
 
 [node name="PlayerCast2D" type="RayCast2D" parent="."]
 position = Vector2( -4, 4 )
-cast_to = Vector2( -20, 0 )
+cast_to = Vector2( -15, 0 )
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2( 0, 3 )
 collision_layer = 0
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2( 0, 3 )
 shape = SubResource( 7 )

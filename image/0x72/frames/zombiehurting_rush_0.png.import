@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/zombiehurting_run_one_3.png-46ea9f30f8e47bbee68460d1d9e83667.stex"
+path="res://.import/zombiehurting_rush_0.png-eca5ef4d2f037cace1438cdae1d35e44.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://image/0x72/frames/zombiehurting_run_one_3.png"
-dest_files=[ "res://.import/zombiehurting_run_one_3.png-46ea9f30f8e47bbee68460d1d9e83667.stex" ]
+source_file="res://image/0x72/frames/zombiehurting_rush_0.png"
+dest_files=[ "res://.import/zombiehurting_rush_0.png-eca5ef4d2f037cace1438cdae1d35e44.stex" ]
 
 [params]
 
