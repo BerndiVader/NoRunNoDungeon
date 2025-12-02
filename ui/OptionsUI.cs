@@ -83,8 +83,10 @@ public class OptionsUI : BaseUI
                 GameSettings.current.vsync=vSync.Pressed;
                 if(!fullScreen.Pressed)
                 {
-                    GameSettings.current.windowPosition=new Tuple<float, float>(OS.WindowPosition.x,OS.WindowPosition.y);
-                    GameSettings.current.windowSize=new Tuple<float, float>(OS.WindowSize.x,OS.WindowSize.y);
+                    GameSettings.current.windowPositionX=OS.WindowPosition.x;
+                    GameSettings.current.windowPositionY=OS.WindowPosition.y;
+                    GameSettings.current.windowSizeX=OS.WindowSize.x;
+                    GameSettings.current.windowPositionY=OS.WindowSize.y;
                 }
                 GameSettings.current.usage=fx.Pressed?Viewport.UsageEnum.Usage2d:Viewport.UsageEnum.Usage3d;
                 GameSettings.saveConfig(GameSettings.current);
@@ -104,8 +106,8 @@ public class OptionsUI : BaseUI
                 OS.WindowFullscreen=fullScreen.Pressed;
                 if(!OS.WindowFullscreen)
                 {
-                    OS.WindowSize=new Vector2(GameSettings.current.windowSize.Item1,GameSettings.current.windowSize.Item2);
-                    OS.WindowPosition=new Vector2(GameSettings.current.windowPosition.Item1,GameSettings.current.windowPosition.Item2);
+                    OS.WindowSize=new Vector2(GameSettings.current.windowSizeX,GameSettings.current.windowSizeY);
+                    OS.WindowPosition=new Vector2(GameSettings.current.windowPositionX,GameSettings.current.windowPositionY);
                 }
                 break;
             case "VSync":

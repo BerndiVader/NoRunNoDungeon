@@ -33,6 +33,7 @@ public class Intro : Node
             }
 			GetNode<RichTextLabel>(nameof(RichTextLabel)).Visible=true;
 			onOptions=false;
+			input=ResourceUtils.getInputController(this);
         }
 
 		if(input.getJump())

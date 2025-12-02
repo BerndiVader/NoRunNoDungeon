@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.ComponentModel.Design.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -14,8 +13,10 @@ public static class GameSettings
         public bool fullscreen {get;set;}
         public bool vsync {get;set;}
         public Viewport.UsageEnum usage {get;set;}
-        public Tuple<float,float> windowSize {get;set;}
-        public Tuple<float,float> windowPosition {get;set;}
+        public float windowSizeX{get;set;}
+        public float windowSizeY{get;set;}
+        public float windowPositionX {get;set;}
+        public float windowPositionY {get;set;}
 
         [JsonIgnore]
         public int masterBus;
@@ -36,8 +37,10 @@ public static class GameSettings
             BackgroundVolume=-8f;
 
             fullscreen=false;
-            windowSize=new Tuple<float, float>(1024f,576f);
-            windowPosition=new Tuple<float,float>(0f,0f);
+            windowSizeX=1024f;
+            windowSizeY=576f;
+            windowPositionX=0f;
+            windowPositionY=0f;
             vsync=false;
             usage=Viewport.UsageEnum.Usage3d;
         }
@@ -56,8 +59,8 @@ public static class GameSettings
             OS.WindowFullscreen=fullscreen;
             if(!fullscreen)
             {
-                OS.WindowPosition=new Vector2(windowPosition.Item1,windowPosition.Item2);
-                OS.WindowSize=new Vector2(windowSize.Item1,windowSize.Item2);
+                OS.WindowPosition=new Vector2(windowPositionX,windowPositionY);
+                OS.WindowSize=new Vector2(windowSizeX,windowSizeY);
             }
             OS.VsyncEnabled=vsync;
             
@@ -76,8 +79,8 @@ public static class GameSettings
 
     public static Config current;
     private static string ROOT_NAME;
-    private static readonly string CONFIG_DIR=ROOT_NAME+"gamesettings/";
-    private static readonly string CONFIG_NAME="config.json";
+    private static string CONFIG_DIR=>ROOT_NAME+"gamesettings/";
+    private static string CONFIG_NAME=>"config.json";
 
     public static void init()
     {
@@ -88,13 +91,16 @@ public static class GameSettings
         Directory dir=new Directory();
         if(!dir.DirExists(CONFIG_DIR))
         {
+            GD.Print(CONFIG_DIR);
             dir.MakeDir(CONFIG_DIR);
             saveConfig(current);
         }
         else if(!dir.FileExists(CONFIG_DIR+CONFIG_NAME))
         {
-           saveConfig(current);
+            GD.Print(CONFIG_DIR+CONFIG_NAME);
+            saveConfig(current);
         }
+        saveConfig(current);
         current=loadConfig();
     }
 
@@ -108,13 +114,20 @@ public static class GameSettings
 
     public static Config loadConfig()
     {
-        File file=new File();
-        if(file.FileExists(CONFIG_DIR+CONFIG_NAME))
+        try
         {
-            file.Open(CONFIG_DIR+CONFIG_NAME,File.ModeFlags.Read);
-            Config config=JsonSerializer.Deserialize<Config>(file.GetAsText());
-            file.Close();
-            return config;
+            File file=new File();
+            if(file.FileExists(CONFIG_DIR+CONFIG_NAME))
+            {
+                file.Open(CONFIG_DIR+CONFIG_NAME,File.ModeFlags.Read);
+                Config config=JsonSerializer.Deserialize<Config>(file.GetAsText());
+                file.Close();
+                return config;
+            }
+        }
+        catch(Exception e)
+        {
+            GD.Print(e);
         }
         return new Config();
     }

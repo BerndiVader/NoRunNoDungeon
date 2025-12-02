@@ -44,47 +44,50 @@ public static class ResourceUtils
             Console.WriteLine("No external main dlc found.");
         }
 
-        Console.WriteLine("Check for addons...");
-        Directory dir=new Directory();
-        List<string>files=new List<string>();
-
-        if(dir.DirExists("res://dlcs"))
+        if(!GameSettings.isMobile)
         {
-            dir.Open("res://dlcs");
-            dir.ListDirBegin();
+            Console.WriteLine("Check for addons...");
+            Directory dir=new Directory();
+            List<string>files=new List<string>();
 
-            string file=dir.GetNext();
-            while(file!="")
+            if(dir.DirExists("res://dlcs"))
             {
-                if(file.EndsWith(".pck"))
+                dir.Open("res://dlcs");
+                dir.ListDirBegin();
+
+                string file=dir.GetNext();
+                while(file!="")
                 {
-                    files.Add("res://dlcs/"+file);
+                    if(file.EndsWith(".pck"))
+                    {
+                        files.Add("res://dlcs/"+file);
+                    }
+                    file=dir.GetNext();
                 }
-                file=dir.GetNext();
+                dir.ListDirEnd();
             }
-            dir.ListDirEnd();
-        }
-        else
-        {
-            dir.MakeDir("res://dlcs");
-        }
-        if(files.Count>0)
-        {
-            files.ForEach(file=>
+            else
             {
-                if(ProjectSettings.LoadResourcePack(file,false))
+                dir.MakeDir("res://dlcs");
+            }
+            if(files.Count>0)
+            {
+                files.ForEach(file=>
                 {
-                    Console.WriteLine("Loaded "+file);
-                }
-                else
-                {
-                    Console.WriteLine("Failed to load "+file);
-                }
-            });
-        }
-        else
-        {
-            Console.WriteLine("No addons found.");
+                    if(ProjectSettings.LoadResourcePack(file,false))
+                    {
+                        Console.WriteLine("Loaded "+file);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to load "+file);
+                    }
+                });
+            }
+            else
+            {
+                Console.WriteLine("No addons found.");
+            }
         }
 
         if(GameSettings.isMobile)
