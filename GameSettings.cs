@@ -1,7 +1,6 @@
 using Godot;
 using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 public static class GameSettings
 {
@@ -68,8 +67,8 @@ public static class GameSettings
 
         public Config clone()
         {
-            string json=JsonSerializer.Serialize<Config>(this);
-            Config config=JsonSerializer.Deserialize<Config>(json);
+            string json=JsonConvert.SerializeObject(this);
+            Config config=JsonConvert.DeserializeObject<Config>(json);
             return config;
         }        
 
@@ -108,7 +107,7 @@ public static class GameSettings
     {
         File file=new File();
         file.Open(CONFIG_DIR+CONFIG_NAME,File.ModeFlags.Write);
-        file.StoreString(JsonSerializer.Serialize<Config>(config));
+        file.StoreString(JsonConvert.SerializeObject(config));
         file.Close();
     }
 
@@ -120,7 +119,7 @@ public static class GameSettings
             if(file.FileExists(CONFIG_DIR+CONFIG_NAME))
             {
                 file.Open(CONFIG_DIR+CONFIG_NAME,File.ModeFlags.Read);
-                Config config=JsonSerializer.Deserialize<Config>(file.GetAsText());
+                Config config=JsonConvert.DeserializeObject<Config>(file.GetAsText());
                 file.Close();
                 return config;
             }
