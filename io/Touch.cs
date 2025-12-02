@@ -9,15 +9,9 @@ public class Touch : Sprite
     public override void _Ready()
     {
         stick=GetNode<Stick>(nameof(Stick));
-        SetProcess(true);
+        SetProcess(false);
         SetPhysicsProcess(false);
         SetProcessInput(false);
-    }
-
-    public override void _Process(float delta)
-    {
-        Scale=PlayerCamera.instance.Zoom;
-        Position=PlayerCamera.instance.relativePosition()+oPosition*Scale;
     }
 
 }

@@ -41,7 +41,7 @@ public class PlayerCamera : Camera2D
 
     public Vector2 relativePosition()
     {
-        return GetCameraScreenCenter()-(size*Zoom*0.5f);
+        return GetCameraScreenCenter()-(GetViewportRect().Size*Zoom*0.5f);
     }
 
 }

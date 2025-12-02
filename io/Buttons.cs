@@ -13,6 +13,7 @@ public class Buttons : Node2D
         c=(XButton)GetNode("0");
         SetPhysicsProcess(false);
         SetProcessInput(false);
+        SetProcess(false);
         oPosition=Position;
     }
 
@@ -22,7 +23,7 @@ public class Buttons : Node2D
         Vector2 camZoom=PlayerCamera.instance.Zoom;
 
         Scale=2*camZoom;
-        
+
         Vector2 position=oPosition*0.5f*camZoom.x;
         Position=position+camCenter;
     }

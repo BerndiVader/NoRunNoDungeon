@@ -70,6 +70,7 @@ public class World : Node
 	public TileSet tileSet;
 	private Background background;
 	public Renderer renderer;
+	public CanvasLayer uiLayer;
 	public InputController input;
 	private int currentLevel,nextLevel;
 	private static Gamestate lastState;
@@ -90,13 +91,16 @@ public class World : Node
 		AddChild(musicPlayer);
 		musicPlayer.Play();
 
+		uiLayer=GetNode<CanvasLayer>(nameof(CanvasLayer));
+
 		ResourceUtils.camera.Instance<PlayerCamera>();
 		if(GameSettings.current.usage==Viewport.UsageEnum.Usage2d)
 		{
 			GetNode("WorldEnvironment").QueueFree();
 		}
-		input=ResourceUtils.getInputController(this);
+		input=ResourceUtils.getInputController(uiLayer);
 		renderer=GetNode<Renderer>("Renderer");
+		
 
 		tileSet=ResourceUtils.tilesets[(int)MathUtils.randomRange(0,ResourceUtils.tilesets.Count)];
 		currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);

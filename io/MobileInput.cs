@@ -17,7 +17,6 @@ public class MobileInput : InputController
 
         buttons=ResourceUtils.buttons.Instance<Buttons>();
         buttons.ZIndex=2500;
-        buttons.Position=new Vector2(445,225);
         scene.AddChild(buttons);
 
         buttons.PauseMode=Node.PauseModeEnum.Process;

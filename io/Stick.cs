@@ -32,7 +32,7 @@ public class Stick : TouchScreenButton
     {
         if(onGoing==-1)
         {
-            Vector2 diffPos=(Vector2.Zero-rad-Position)*touch.Scale;
+            Vector2 diffPos=Vector2.Zero-rad-Position;
             Position+=diffPos*returnAccel*delta;
             if(Position.IsEqualApprox(approxPosition)) 
             {
@@ -65,16 +65,16 @@ public class Stick : TouchScreenButton
                 
                 if(@t.IsPressed()&&position.x<256)
                 {
-                    touch.GlobalPosition=position;
-                    touch.oPosition=touch.Position;
+                    touch.Position=position;
+                    touch.oPosition=position;                
                 }
             }
-            
-            float distCenter=(position-GlobalPosition).Length();
+
+            float distCenter=(position-touch.Position).Length();
 
             if(distCenter<=boundary||index==onGoing)
             {
-                GlobalPosition=position-rad;
+                Position=position-touch.Position-rad;
                 if(getButtonPosition().Length()>boundary)
                 {
                     Position=getButtonPosition().Normalized()*boundary-rad;
