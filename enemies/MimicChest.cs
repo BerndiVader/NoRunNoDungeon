@@ -18,10 +18,14 @@ public class MimicChest : KinematicMonster
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
+		animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
+		animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
+		animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));        
 
+        animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         animationController.Play("idle");
         animationController.FlipH=MathUtils.randomRangeInt(0,1)!=0;
+
         EmitSignal(STATE.idle.ToString());
 
         cooldown=0;
@@ -34,18 +38,7 @@ public class MimicChest : KinematicMonster
 
     public override void _PhysicsProcess(float delta)
     {
-        velocity += FORCE * delta;
-        velocity = MoveAndSlideWithSnap(velocity, snap, Vector2.Up, false, 4, 0.785398f, true);
-
-        int slides = GetSlideCount();
-        for (int i = 0; i < slides; i++)
-        {
-            if (GetSlideCollision(i).Collider is Node2D node && node.IsInGroup(GROUPS.PLATFORMS.ToString()))
-            {
-                Platform platform = node as Platform;
-                velocity.x += platform.CurrentSpeed.x * 1.8f;
-            }
-        }
+        base._PhysicsProcess(delta);
 
         if(shake!=0f)
         {
@@ -53,7 +46,7 @@ public class MimicChest : KinematicMonster
         }
 
         goal(delta);
-    
+        navigation(delta);
     }
 
     protected override void idle(float delta)
@@ -116,13 +109,25 @@ public class MimicChest : KinematicMonster
         {
             onIdle();
         }
-    }    
+    }
+
+	protected override void passanger(float delta)
+	{
+		if(!animationPlayer.IsPlaying())
+		{
+			base.passanger(delta);
+		}
+	}      
 
     public override void onPassanger(Player player=null)
     {
-        if(state!=STATE.fight)
+        if(state!=STATE.attack)
         {
-            base.onPassanger(player);
+            if(state!=STATE.passanger)
+            {
+                base.onPassanger(player);
+                animationPlayer.Play("PASSANGER");
+            }
         }
         else
         {
@@ -140,6 +145,21 @@ public class MimicChest : KinematicMonster
             victim=null;
             cooldown=0;            
         }
+    }
+
+    protected override void navigation(float delta)
+    {
+        velocity+=FORCE*delta;
+        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
+
+        int slides = GetSlideCount();
+        for(int i=0;i<slides;i++)
+        {
+            if(GetSlideCollision(i).Collider is Platform platform)
+            {
+                velocity.x=platform.CurrentSpeed.x;
+            }
+        }      
     }
 
     protected override void FlipH()
