@@ -403,7 +403,7 @@ public class Oger : KinematicMonster
         collisionController.Position=FlipX(collisionController.Position);
     }
 
-    void navigation(float delta)
+    protected override void navigation(float delta)
     {
         if(direction.Length()>0f)
         {
@@ -432,7 +432,6 @@ public class Oger : KinematicMonster
         }
 
         velocity+=force*delta;
-
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
         if(IsOnFloor())

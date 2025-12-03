@@ -53,21 +53,23 @@ public class Zombie : KinematicMonster
         {
             Position=startOffset+(ANIMATION_OFFSET*animationDirection);
         }
+        goal(delta);
+        navigation(delta);
+    }
 
-        velocity += FORCE * delta;
-        velocity = MoveAndSlideWithSnap(velocity, snap, Vector2.Up, false, 4, 0.785398f, true);
+    protected override void navigation(float delta)
+    {
+        velocity+=FORCE*delta;
+        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
         int slides = GetSlideCount();
-        for (int i = 0; i < slides; i++)
+        for(int i=0;i<slides;i++)
         {
-            if (GetSlideCollision(i).Collider is Node2D node && node.IsInGroup(GROUPS.PLATFORMS.ToString()))
+            if(GetSlideCollision(i).Collider is Platform platform)
             {
-                Platform platform = node as Platform;
-                velocity.x += platform.CurrentSpeed.x * 1.8f;
+                velocity.x=platform.CurrentSpeed.x;
             }
         }
-
-        goal(delta);
     }
 
     protected override void idle(float delta)

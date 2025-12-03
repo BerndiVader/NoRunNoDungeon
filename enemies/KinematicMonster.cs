@@ -146,6 +146,7 @@ public abstract class KinematicMonster : KinematicBody2D
         World.level.AddChild(particles);
         QueueFree();
     }
+    protected virtual void navigation(float delta) {}
 
     protected virtual void onDie()
     {
