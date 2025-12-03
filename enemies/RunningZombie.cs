@@ -54,7 +54,7 @@ public class RunningZombie : KinematicMonster
             if (GetSlideCollision(i).Collider is Node2D node && node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
                 Platform platform = node as Platform;
-                velocity.x += platform.CurrentSpeed.x * 1.8f;
+                velocity.x = platform.CurrentSpeed.x;
             }
         }
 
