@@ -1,16 +1,17 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Player : KinematicBody2D
 {
     public static Player instance;
-    private static String ANIM_RUN="RUN";
-    private static String ANIM_JUMP="HIT";
+    private static readonly string ANIM_RUN="RUN";
+    private static readonly string ANIM_JUMP="HIT";
     public static int LIVES;
 
-    static AudioStream sfxJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/30_Jump_03.wav");
-    static AudioStream sfxDoubleJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
-    static AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
+    static readonly AudioStream sfxJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/30_Jump_03.wav");
+    static readonly AudioStream sfxDoubleJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
+    static readonly AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
 
     [Signal]
     public delegate void damage(float amount=1f, Node2D attacker=null);
@@ -24,6 +25,7 @@ public class Player : KinematicBody2D
     private bool justJumped=false;
     private bool onSlope=false;
     private int weaponCyle=0;
+    private List<int>weapons;
     private float slopeAngle=0f;
     private Vector2 lastVelocity=Vector2.Zero;
     private Vector2 FORCE;
@@ -61,8 +63,10 @@ public class Player : KinematicBody2D
         AddChild(jumpParticles);
         jumpParticles.Emitting=false;
 
-
-        equipWeapon(ResourceUtils.weapons[(int)WEAPONS.DAGGER]);
+        weapons=new List<int>
+        {
+            (int)WEAPONS.SWORD
+        };
 
         AddToGroup(GROUPS.PLAYERS.ToString());
         ZIndex=2;
@@ -102,12 +106,12 @@ public class Player : KinematicBody2D
         if(changeWeapon&&!attack)
         {
             weaponCyle++;
-            if(weaponCyle==ResourceUtils.weapons.Count) 
+            if(weaponCyle>=weapons.Count) 
             {
                 weaponCyle=0;
             }
             unequipWeapon();
-            equipWeapon(ResourceUtils.weapons[weaponCyle]);
+            equipWeapon(ResourceUtils.weapons[weapons[weaponCyle]]);
         }
 
         if(attack&&weapon!=null)
@@ -290,8 +294,11 @@ public class Player : KinematicBody2D
 
     public void unequipWeapon()
     {
-        RemoveChild(weapon);
-        weapon.QueueFree();
+        if(weapon!=null)
+        {
+            RemoveChild(weapon);
+            weapon.QueueFree();
+        }
     }
 
     private void onDamaged(float amount=1f,Node2D damager=null)
