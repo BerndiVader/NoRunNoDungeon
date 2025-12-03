@@ -128,14 +128,13 @@ position = Vector2( 744, 64 )
 [node name="MovingPlatform0" parent="PlatformMoving3x3" index="0"]
 Direction = Vector2( -1, 0 )
 Length = 4
-LerpFactor = 2.0
 Linear = false
 
 [node name="Zombie" parent="." instance=ExtResource( 7 )]
 position = Vector2( 741, 100.5 )
 
 [node name="Zombie3" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1048, 82 )
+position = Vector2( 1056, 103 )
 
 [node name="Zombie5" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1744, 48 )

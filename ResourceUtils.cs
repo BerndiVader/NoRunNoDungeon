@@ -107,12 +107,14 @@ public static class ResourceUtils
 
         Console.WriteLine("Loading levels...");
         levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
-        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
-        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
-        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
-        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
-        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
-        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
+        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level1.tscn"));
+        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level2.tscn"));
+        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level3.tscn"));
+        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level4.tscn"));
+        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level5.tscn"));
+        levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level6.tscn"));
+        levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest.tscn"));
+        levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTemplate.tscn"));
 
         Console.WriteLine("Loading tilesets...");
         tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset1.tres"));
