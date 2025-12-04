@@ -247,7 +247,7 @@ public class World : Node
 
 		Vector2 position=level.Position;
 		renderer.CallDeferred("remove_child",level);
-		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x)+16),position.y);
+		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x)),position.y);
 		level=newLevel;
 		setGamestate(Gamestate.SCENE_CHANGED);
 	}
