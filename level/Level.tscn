@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://placeholders/obstacles/RocksPlaceholder.tscn" type="PackedScene" id=20]
 [ext_resource path="res://placeholders/obstacles/DestroyableHolder.tscn" type="PackedScene" id=21]
 [ext_resource path="res://enemies/RunningZombieHurting.tscn" type="PackedScene" id=22]
+[ext_resource path="res://placeholders/platforms/PlatformFalling.tscn" type="PackedScene" id=23]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -253,15 +254,6 @@ Speed = 1.0
 RotationSteps = 0.5
 TransType = 10
 
-[node name="PlatformCycling4" parent="." instance=ExtResource( 17 )]
-position = Vector2( 592, 192 )
-
-[node name="CyclingPlatform" parent="PlatformCycling4" index="0"]
-RandomCycling = true
-Speed = 3.0
-RotationSteps = 1.5
-TransType = 6
-
 [node name="PlatformCycling5" parent="." instance=ExtResource( 17 )]
 position = Vector2( 608, 208 )
 
@@ -338,6 +330,9 @@ position = Vector2( 568, 88 )
 [node name="RunningZombieHurting" parent="." instance=ExtResource( 22 )]
 position = Vector2( 808, 239 )
 
+[node name="PlatformFalling" parent="." instance=ExtResource( 23 )]
+position = Vector2( 592, 192 )
+
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
 [editable path="RocksFalling3"]
@@ -356,6 +351,5 @@ position = Vector2( 808, 239 )
 [editable path="PlatformCycling"]
 [editable path="PlatformCycling2"]
 [editable path="PlatformCycling3"]
-[editable path="PlatformCycling4"]
 [editable path="PlatformCycling5"]
 [editable path="PlatformCycling6"]

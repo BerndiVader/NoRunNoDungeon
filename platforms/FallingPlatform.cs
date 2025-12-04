@@ -15,8 +15,8 @@ public class FallingPlatform : Platform
         time=TimeSpan;
         area2dShape=GetNode<CollisionShape2D>("Area2D/CollisionShape2D2");
         Area2D area2D=GetNode<Area2D>("Area2D");
-
         area2D.Connect("body_entered",this,nameof(onBodyEntered));
+        GetNode<Area2D>("bump").QueueFree();
     }
 
     public override void _PhysicsProcess(float delta)
