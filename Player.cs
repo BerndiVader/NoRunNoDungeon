@@ -122,7 +122,8 @@ public class Player : KinematicBody2D
         if(left)
         {
             PlayerCamera.instance.direction=1;
-            animationController.FlipH=friction==1f;
+            animationController.FlipH=true;
+            //animationController.FlipH=friction==1f;
         }
         else if(right)
         {
