@@ -7,7 +7,6 @@ public class Oger : KinematicMonster
     [Export] private float WALK_FORCE=600f;
     [Export] private float WALK_MIN_SPEED=10f;
     [Export] private float WALK_MAX_SPEED=40f;
-    [Export] private float STOP_FORCE = 1300f;
     [Export] private float FIGHT_DISTANCE = 30f;
 
     private Vector2 snap=new Vector2(0f,8f);

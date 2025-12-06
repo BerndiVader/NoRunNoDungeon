@@ -152,14 +152,25 @@ public class MimicChest : KinematicMonster
         velocity+=FORCE*delta;
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
-        int slides = GetSlideCount();
-        for(int i=0;i<slides;i++)
+        int slides=GetSlideCount();
+        if(slides>0)
         {
-            if(GetSlideCollision(i).Collider is Platform platform)
+            for(int i=0;i<slides;i++)
             {
-                velocity.x=platform.CurrentSpeed.x;
-            }
-        }      
+                var collision=GetSlideCollision(i);
+                if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
+                {
+                    velocity.x=platform.CurrentSpeed.x;
+                } else
+                {
+                    velocity=StopX(velocity,delta);
+                }
+            }    
+        }
+        else
+        {
+            velocity=StopX(velocity,delta);
+        }
     }
 
     protected override void FlipH()

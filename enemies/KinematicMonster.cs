@@ -11,6 +11,7 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected float HEALTH=1f;
     [Export] protected float GRAVITY=500f;
     [Export] protected float FRICTION=0.01f;
+    [Export] protected float STOP_FORCE=1300f;
     [Export] protected Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
     {
         {"Use",false},
@@ -320,6 +321,16 @@ public abstract class KinematicMonster : KinematicBody2D
     {
         vector.y *= -1f;
         return vector;
+    }
+
+    protected virtual Vector2 StopX(Vector2 velocity,float delta)
+    {
+			float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
+			if(xLength<0f) {
+				xLength=0f;
+			}
+			velocity.x=xLength*Mathf.Sign(velocity.x);
+            return velocity;
     }
 
     protected virtual Vector2 Facing()

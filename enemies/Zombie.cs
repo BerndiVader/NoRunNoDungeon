@@ -1,12 +1,9 @@
 using Godot;
 using System;
-using System.Xml.Serialization;
 
 public class Zombie : KinematicMonster
 {
-
     private int cooldown;
-
     private RayCast2D rayCast2D;
     private Vector2 CASTTO;
     private MonsterWeapon weapon;
@@ -63,12 +60,23 @@ public class Zombie : KinematicMonster
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
         int slides = GetSlideCount();
-        for(int i=0;i<slides;i++)
+        if(slides>0)
         {
-            if(GetSlideCollision(i).Collider is Platform platform)
+            for(int i=0;i<slides;i++)
             {
-                velocity.x=platform.CurrentSpeed.x;
+                if(GetSlideCollision(i).Collider is Platform platform)
+                {
+                    velocity.x=platform.CurrentSpeed.x;
+                }
+                else
+                {
+                    velocity=StopX(velocity,delta);
+                }
             }
+        } 
+        else
+        {
+            velocity=StopX(velocity,delta);
         }
     }
 

@@ -7,7 +7,6 @@ public class Bear : KinematicMonster
     [Export] private float WALK_FORCE=100f;
     [Export] private float WALK_MIN_SPEED=2f;
     [Export] private float WALK_MAX_SPEED=50f;
-    [Export] private float STOP_FORCE=1300f;
     private Vector2 snap=new Vector2(0f,8f);
     private Area2D damager;
     private RayCast2D raycast;

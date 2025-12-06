@@ -7,7 +7,6 @@ public class RunningZombie : KinematicMonster
 	[Export] protected float WALK_FORCE=600f;
 	[Export] protected float WALK_MIN_SPEED=10f;
 	[Export] protected float WALK_MAX_SPEED=60f;
-	[Export] protected float STOP_FORCE=1300f;
 	[Export] protected float JUMP_SPEED=130f;
 
 	protected float COOLDOWNER_TIME=1.0f;
