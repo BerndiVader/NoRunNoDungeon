@@ -146,11 +146,7 @@ public class Oger : KinematicMonster
             }
             else
             {
-                float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
-                if(xLength<0f) {
-                    xLength=0f;
-                }
-                velocity.x=xLength*Mathf.Sign(velocity.x);
+                velocity=StopX(velocity,delta);
             }
 
             velocity+=force*delta;
@@ -423,15 +419,28 @@ public class Oger : KinematicMonster
         }
         else
         {
-            float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
-            if(xLength<0f) {
-                xLength=0f;
-            }
-            velocity.x=xLength*Mathf.Sign(velocity.x);
+            velocity=StopX(velocity,delta);
+
         }
 
         velocity+=force*delta;
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
+
+        int slides=GetSlideCount();
+        if(velocity.x==0f&&slides>0)
+        {
+            for(int i=0;i<slides;i++)
+            {
+                var collision=GetSlideCollision(i);
+                if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
+                {
+                    velocity.x=platform.CurrentSpeed.x;
+                } else
+                {
+                    velocity=StopX(velocity,delta);
+                }
+            }    
+        }
 
         if(IsOnFloor())
         {
@@ -440,8 +449,11 @@ public class Oger : KinematicMonster
 
         if(IsOnWall()||!rayCast2D.IsColliding())
         {
-            direction=new Vector2(Mathf.Sign(direction.x)*-1f,0f);
-            FlipH();
+            if(IsOnFloor())
+            {
+                direction=new Vector2(Mathf.Sign(direction.x)*-1f,0f);
+                FlipH();
+            }
         }
     }
 

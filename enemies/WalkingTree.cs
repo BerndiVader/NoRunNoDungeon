@@ -37,20 +37,28 @@ public class WalkingTree : KinematicMonster
 
     protected override void idle(float delta)
     {
-		velocity+=FORCE*delta;
-		KinematicCollision2D collision=MoveAndCollide(velocity*delta);
+        velocity+=FORCE*delta;
+        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
-		if(collision!=null)
-		{
-			velocity=velocity.Bounce(collision.Normal)*FRICTION;
-
-			Node2D node=(Node2D)collision.Collider;
-			if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
-			{
-				Platform collider=(Platform)node;
-				velocity.x+=collider.CurrentSpeed.x*1.8f;
-			}
-		}
+        int slides=GetSlideCount();
+        if(slides>0)
+        {
+            for(int i=0;i<slides;i++)
+            {
+                var collision=GetSlideCollision(i);
+                if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
+                {
+                    velocity.x=platform.CurrentSpeed.x;
+                } else
+                {
+                    velocity=StopX(velocity,delta);
+                }
+            }    
+        }
+        else
+        {
+            velocity=StopX(velocity,delta);
+        }
     }
 
     protected override void stroll(float delta)
@@ -70,12 +78,7 @@ public class WalkingTree : KinematicMonster
         }
         else
         {
-            float xLength = Mathf.Abs(velocity.x) - (STOP_FORCE * delta);
-            if (xLength < 0f)
-            {
-                xLength = 0f;
-            }
-            velocity.x = xLength * Mathf.Sign(velocity.x);
+            velocity=StopX(velocity,delta);
         }
 
         velocity += force * delta;

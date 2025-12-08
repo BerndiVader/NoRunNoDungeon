@@ -47,16 +47,26 @@ public class RunningZombie : KinematicMonster
         velocity += FORCE * delta;
         velocity = MoveAndSlideWithSnap(velocity, snap, Vector2.Up, false, 4, 0.785398f, true);
 
-        int slides = GetSlideCount();
-        for (int i = 0; i < slides; i++)
+        int slides=GetSlideCount();
+        if(slides>0)
         {
-            if (GetSlideCollision(i).Collider is Node2D node && node.IsInGroup(GROUPS.PLATFORMS.ToString()))
+            for(int i=0;i<slides;i++)
             {
-                Platform platform = node as Platform;
-                velocity.x = platform.CurrentSpeed.x;
-            }
+                var collision=GetSlideCollision(i);
+                if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
+                {
+                    velocity.x=platform.CurrentSpeed.x;
+                } else
+                {
+                    velocity=StopX(velocity,delta);
+                }
+            }    
         }
-
+        else
+        {
+            velocity=StopX(velocity,delta);
+        }
+		
 		if(inRange())
 		{
 			animationController.SpeedScale=2;
@@ -97,11 +107,7 @@ public class RunningZombie : KinematicMonster
 		}
 		else
 		{
-			float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
-			if(xLength<0f) {
-				xLength=0f;
-			}
-			velocity.x=xLength*Mathf.Sign(velocity.x);
+			velocity=StopX(velocity,delta);
 		}
 
 		velocity+=force*delta;
