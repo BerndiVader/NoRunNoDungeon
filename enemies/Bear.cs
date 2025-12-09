@@ -27,9 +27,9 @@ public class Bear : KinematicMonster
         GetNode<CPUParticles2D>("Particles1").Emitting=true;
         GetNode<CPUParticles2D>("Particles2").Emitting=true;
         
-        EmitSignal(STATE.idle.ToString());
+        EmitSignal(STATE.stroll.ToString());
 
-        if(MathUtils.randomRangeInt(1,3)==2)
+        if(MathUtils.randBool())
         {
             FlipH();
         }
@@ -131,7 +131,16 @@ public class Bear : KinematicMonster
     {
         if(!animationPlayer.IsPlaying())
         {
-            onStroll();
+            if(health<=0f)
+            {
+                onDie();
+            }
+            else
+            {
+                animationController.SpeedScale=1;
+                damager.Monitoring=true;
+                onStroll();
+            }
         }
     } 
 
