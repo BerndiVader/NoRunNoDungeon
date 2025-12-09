@@ -177,6 +177,7 @@ public class MimicChest : KinematicMonster
     {
         animationController.FlipH^=true;
         rayCast2D.CastTo*=-1;
+        facing=Facing();
     }
 
     private void applyShake()

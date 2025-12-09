@@ -34,6 +34,7 @@ public class RunningZombie : KinematicMonster
 
 	public override void _PhysicsProcess(float delta)
 	{
+		base._PhysicsProcess(delta);
 		if (animationPlayer.IsPlaying())
 		{
 			Position = startOffset + (ANIMATION_OFFSET * animationDirection);
@@ -97,11 +98,11 @@ public class RunningZombie : KinematicMonster
 
 		bool jump=!rayCast2D.IsColliding()&&isOnFloor;
 
-		if(direction==Vector2.Left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
+		if(facing==Vector2.Left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
 		{
 			force.x-=WALK_FORCE;
 		} 
-		else if(direction==Vector2.Right&&velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED)
+		else if(facing==Vector2.Right&&velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED)
 		{
 			force.x+=WALK_FORCE;
 		}
@@ -222,9 +223,9 @@ public class RunningZombie : KinematicMonster
 	protected override void FlipH()
 	{
 		animationController.FlipH ^= true;
-		direction = animationController.FlipH ? Vector2.Left : Vector2.Right;
 		rayCast2D.Position=FlipX(rayCast2D.Position);
 		collisionController.Position=FlipX(collisionController.Position);
+		facing=Facing();
 	}
 
 }

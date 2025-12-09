@@ -91,8 +91,8 @@ public abstract class KinematicMonster : KinematicBody2D
         state = STATE.unknown;
         goal = unknown;
 
-        facing = animationController.FlipH ? Vector2.Left : Vector2.Right;
-        direction = Vector2.Zero;
+        facing=direction=Facing();
+
     }
 
     public override void _PhysicsProcess(float delta)

@@ -157,10 +157,9 @@ position = Vector2( 0, -4 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 2 )
 animation = "stroll"
-flip_h = true
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2( -5, 6 )
+position = Vector2( 7, 6 )
 cast_to = Vector2( 0, 20 )
 collision_mask = 22
 

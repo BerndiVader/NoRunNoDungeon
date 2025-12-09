@@ -21,7 +21,7 @@
 [ext_resource path="res://placeholders/obstacles/MadTreasure.tscn" type="PackedScene" id=19]
 [ext_resource path="res://placeholders/obstacles/RocksPlaceholder.tscn" type="PackedScene" id=20]
 [ext_resource path="res://placeholders/obstacles/DestroyableHolder.tscn" type="PackedScene" id=21]
-[ext_resource path="res://enemies/RunningZombieHurting.tscn" type="PackedScene" id=22]
+[ext_resource path="res://placeholders/monsters/HurtingZombieRunning.tscn" type="PackedScene" id=22]
 [ext_resource path="res://placeholders/platforms/PlatformFalling.tscn" type="PackedScene" id=23]
 
 [node name="TileMap" type="TileMap"]
@@ -327,11 +327,11 @@ position = Vector2( 1576, 232 )
 [node name="Coin6" parent="." instance=ExtResource( 7 )]
 position = Vector2( 568, 88 )
 
-[node name="RunningZombieHurting" parent="." instance=ExtResource( 22 )]
-position = Vector2( 808, 239 )
-
 [node name="PlatformFalling" parent="." instance=ExtResource( 23 )]
 position = Vector2( 592, 192 )
+
+[node name="Placeholder" parent="." instance=ExtResource( 22 )]
+position = Vector2( 808, 240 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]

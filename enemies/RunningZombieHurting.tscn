@@ -166,11 +166,11 @@ collision_layer = 0
 collision_mask = 22
 script = ExtResource( 9 )
 ANIMATION_OFFSET = Vector2( 0, -1 )
+STOP_FORCE = 1000.0
 ACTIVATION_RANGE = 50.0
 WALK_FORCE = 500.0
 WALK_MIN_SPEED = 5.0
 WALK_MAX_SPEED = 80.0
-STOP_FORCE = 1000.0
 JUMP_SPEED = 140.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -180,10 +180,9 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 animation = "attack"
-flip_h = true
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2( -5, 6 )
+position = Vector2( 6, 6 )
 cast_to = Vector2( 0, 20 )
 collision_mask = 22
 
@@ -200,8 +199,9 @@ anims/PASSANGER = SubResource( 5 )
 anims/SETUP = SubResource( 6 )
 
 [node name="PlayerCast2D" type="RayCast2D" parent="."]
-position = Vector2( -4, 4 )
-cast_to = Vector2( -15, 0 )
+position = Vector2( 4, 4 )
+cast_to = Vector2( 15, 0 )
+collision_mask = 23
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2( 0, 3 )

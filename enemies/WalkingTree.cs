@@ -138,6 +138,7 @@ public class WalkingTree : KinematicMonster
             
     protected override void FlipH()
     {
-        animationController.FlipH = !animationController.FlipH;
+        animationController.FlipH^=true;
+        facing=Facing();
     }
 }

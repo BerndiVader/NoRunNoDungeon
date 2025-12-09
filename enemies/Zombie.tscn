@@ -127,10 +127,10 @@ tracks/3/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 7.42499, 7.11936 )
+extents = Vector2( 6.425, 5 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 7.08851, 8.56653 )
+extents = Vector2( 5, 6.5 )
 
 [node name="Zombie" type="KinematicBody2D"]
 collision_layer = 0
@@ -150,7 +150,7 @@ anims/PASSANGER = SubResource( 2 )
 anims/SETUP = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.880666, -0.574983 )
+position = Vector2( 2, 0.425002 )
 rotation = -1.5708
 shape = SubResource( 4 )
 one_way_collision_margin = 0.0
@@ -164,7 +164,7 @@ position = Vector2( 0, -6 )
 collision_layer = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 0.91149, 5.56653 )
+position = Vector2( 2, 6.5 )
 shape = SubResource( 6 )
 
 [node name="Mace" parent="." instance=ExtResource( 3 )]
