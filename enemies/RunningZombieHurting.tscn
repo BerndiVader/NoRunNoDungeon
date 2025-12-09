@@ -174,7 +174,7 @@ WALK_MAX_SPEED = 80.0
 JUMP_SPEED = 140.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.5, 2.5 )
+position = Vector2( 0.5, 2.5 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

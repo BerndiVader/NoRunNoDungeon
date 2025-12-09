@@ -90,13 +90,11 @@ public static class GameSettings
         Directory dir=new Directory();
         if(!dir.DirExists(CONFIG_DIR))
         {
-            GD.Print(CONFIG_DIR);
             dir.MakeDir(CONFIG_DIR);
             saveConfig(current);
         }
         else if(!dir.FileExists(CONFIG_DIR+CONFIG_NAME))
         {
-            GD.Print(CONFIG_DIR+CONFIG_NAME);
             saveConfig(current);
         }
         saveConfig(current);
