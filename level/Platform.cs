@@ -60,8 +60,8 @@ public class Platform : StaticBody2D
                 Vector2 direction=diff.y>0f?Vector2.Up:Vector2.Down;
                 Vector2 target=Position+direction*4f;
 
-                bump.InterpolateProperty(this,"position",Position,target,0.1f,Tween.TransitionType.Expo,Tween.EaseType.Out);
-                bump.InterpolateProperty(this,"position",target,Position,0.2f,Tween.TransitionType.Cubic,Tween.EaseType.In,0.1f);
+                bump.InterpolateProperty(this,"position:y",Position.y,target.y,0.1f,Tween.TransitionType.Expo,Tween.EaseType.Out);
+                bump.InterpolateProperty(this,"position:y",target.y,Position.y,0.2f,Tween.TransitionType.Cubic,Tween.EaseType.In,0.1f);
                 bump.Start();
             }
 
