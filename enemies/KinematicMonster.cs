@@ -32,7 +32,7 @@ public abstract class KinematicMonster : KinematicBody2D
     protected Vector2 startOffset = Vector2.Zero;
     protected int animationDirection = 1;
     protected Vector2 FORCE;
-    protected Vector2 velocity,direction,lastPosition,facing;
+    protected Vector2 velocity,direction,LastPosition,facing;
     public STATE state,lastState;
     protected delegate void Goal(float delta);
     protected Goal goal;
@@ -43,7 +43,7 @@ public abstract class KinematicMonster : KinematicBody2D
         FORCE = new Vector2(0f, GRAVITY);
         health = HEALTH;
         velocity = VELOCITY;
-        lastPosition = GlobalPosition;
+        LastPosition = GlobalPosition;
         SetProcess(false);
         SetPhysicsProcess(true);
 
@@ -92,15 +92,15 @@ public abstract class KinematicMonster : KinematicBody2D
         goal = unknown;
 
         facing = animationController.FlipH ? Vector2.Left : Vector2.Right;
-        direction = new Vector2(facing);
+        direction = Vector2.Zero;
     }
 
     public override void _PhysicsProcess(float delta)
     {
         direction = Direction();
         facing = Facing();
-        
-        lastPosition = GlobalPosition;
+
+        LastPosition = GlobalPosition;
     }
 
     protected virtual void unknown(float delta) { }
@@ -340,11 +340,11 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual Vector2 Direction()
     {
-        Vector2 d = lastPosition.DirectionTo(GlobalPosition);
-        d.x = Mathf.Sign(direction.x);
+        Vector2 d = LastPosition.DirectionTo(GlobalPosition);
+        d.x = Mathf.Sign(d.x);
         d.y = 0f;
 
-        return direction;
+        return d;
     }
     
     public override void _EnterTree()
