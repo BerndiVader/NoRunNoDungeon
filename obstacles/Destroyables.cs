@@ -24,10 +24,9 @@ public class Destroyables : Area2D
         Vector2 tile=World.level.WorldToMap(local);
 
         int id=World.level.GetCellv(tile);
-        if(id>-1)
+        if(id!=TileMap.InvalidCell)
         {
             ImageTexture texture=extractTexture(id,tile);
-
             if(texture!=null)
             {
                 TileExploder exploder=ExpolderPack.Instance<TileExploder>();
@@ -81,7 +80,7 @@ public class Destroyables : Area2D
         foreach(Vector2 tile in tiles)
         {
             int id=World.level.GetCellv(tile);
-            if(id>=0)
+            if(id!=TileMap.InvalidCell)
             {
                 World.level.SetCellv(tile,id);
             }
