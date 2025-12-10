@@ -151,10 +151,7 @@ public class World : Node
 				setGamestate(Gamestate.PAUSED);
 				PauseUI pause=(PauseUI)ResourceUtils.pause.Instance();
 				pause.PauseMode=PauseModeEnum.Process;
-				Node2D node=new Node2D();
-				node.ZIndex=VisualServer.CanvasItemZMax;
-				node.AddChild(pause);
-				World.instance.renderer.AddChild(node);
+				World.instance.uiLayer.AddChild(pause);
 			}
 		}
 		else if(input.getQuit())

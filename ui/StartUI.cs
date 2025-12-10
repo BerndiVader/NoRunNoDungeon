@@ -8,7 +8,6 @@ public class StartUI : BaseUI
     public override void _Ready()
     {
         base._Ready();
-        sprite.QueueFree();
 
         start=GetNode<Button>("Start");
         quit=GetNode<Button>("Quit");
@@ -45,7 +44,7 @@ public class StartUI : BaseUI
             case 2:
                 OptionsUI options=OptionsPack.Instance<OptionsUI>();
                 options.PauseMode=PauseModeEnum.Process;
-                GetParent().AddChild(options);
+                World.instance.uiLayer.AddChild(options);
                 QueueFree();
                 break;
             case 3:

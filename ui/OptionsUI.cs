@@ -139,8 +139,7 @@ public class OptionsUI : BaseUI
         {
             PauseUI pause=PausePack.Instance<PauseUI>();
             pause.PauseMode=PauseModeEnum.Process;
-            GetParent().AddChild(pause);
-            sprite.QueueFree();
+            World.instance.uiLayer.AddChild(pause);
         }
         QueueFree();
 

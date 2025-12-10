@@ -47,7 +47,6 @@ public class Intro : Node
 			OptionsUI options=BaseUI.OptionsPack.Instance<OptionsUI>();
 			options.Name="Options";
 			AddChild(options);
-			options.sprite.QueueFree();
 			onOptions=true;
 			GetNode<RichTextLabel>(nameof(RichTextLabel)).Visible=false;
         }

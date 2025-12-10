@@ -36,22 +36,20 @@ public class PauseUI : BaseUI
         switch(selected)
         {
             case 0:
-                sprite.QueueFree();
                 World.instance.resetGamestate();
                 GetTree().Paused=false;
-                GetParent().QueueFree();
+                QueueFree();
                 break;
             case 1:
                 GetTree().Paused=false;
                 World.changeScene(ResourceUtils.intro);
-                GetParent().QueueFree();
+                QueueFree();
                 break;
             case 2:
                 OptionsUI options=OptionsPack.Instance<OptionsUI>();
                 options.back=PausePack;
                 options.PauseMode=PauseModeEnum.Process;
-                GetParent().AddChild(options);
-                sprite.QueueFree();
+                World.instance.uiLayer.AddChild(options);
                 QueueFree();
                 break;
             case 3:
