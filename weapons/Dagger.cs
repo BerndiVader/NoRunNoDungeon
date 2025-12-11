@@ -7,8 +7,8 @@ public class Dagger : Weapon
     public override void _Ready()
     {
         base._Ready();
-        Connect("body_entered",this,nameof(onHitSomething));
-        Connect("area_entered", this, nameof(onHitSomething));
+        Connect("body_entered",this,nameof(OnHitSomething));
+        Connect("area_entered", this, nameof(OnHitSomething));
         cooldown=5;
     }
 
@@ -22,7 +22,7 @@ public class Dagger : Weapon
                 {
                     if(!hit)
                     {
-                        throwDagger();
+                        ThrowDagger();
                     }
 
                     hit=false;
@@ -33,9 +33,9 @@ public class Dagger : Weapon
             }
             case WEAPONSTATE.IDLE:
             {
-                if(!animationPlayer.IsPlaying()&&AnimationNames.SETUP+getStringDirection()!=animationPlayer.CurrentAnimation)
+                if(!animationPlayer.IsPlaying()&&AnimationNames.SETUP+GetStringDirection()!=animationPlayer.CurrentAnimation)
                 {
-                    animationPlayer.Play(AnimationNames.SETUP+getStringDirection());
+                    animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
                 }
                 if(cooldown<5) 
                 {
@@ -46,19 +46,19 @@ public class Dagger : Weapon
         }        
     }
 
-    public override bool attack()
+    public override bool Attack()
     {
         if (state == WEAPONSTATE.IDLE && cooldown == 5)
         {
-            playSfx(sfxSwing);
-            animationPlayer.Play(AnimationNames.SWING + getStringDirection());
+            PlaySfx(sfxSwing);
+            animationPlayer.Play(AnimationNames.SWING + GetStringDirection());
             state = WEAPONSTATE.ATTACK;
             return true;
         }
         return false;
 
     }
-    private void throwDagger()
+    private void ThrowDagger()
     {
         DaggerShoot shoot=shootParticles.Instance<DaggerShoot>();
         shoot.Position=World.level.ToLocal(GetNode<Position2D>(nameof(Position2D)).GlobalPosition);

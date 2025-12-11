@@ -15,14 +15,14 @@ public class DaggerBullet : Area2D
         height=new Vector2(start.x+((end.x-start.x)*0.5f),start.y-30f);
         time=0f;
 
-        Connect("body_entered",this,nameof(onBodyEntered));
-        Connect("area_entered",this,nameof(onBodyEntered));
+        Connect("body_entered",this,nameof(OnBodyEntered));
+        Connect("area_entered",this,nameof(OnBodyEntered));
     }
 
     public override void _PhysicsProcess(float delta)
     {
         Rotation+=delta*10f;
-        Position=step();
+        Position=Step();
 
         time+=0.023f;
         if (time>2f)
@@ -31,23 +31,23 @@ public class DaggerBullet : Area2D
         }
     }
 
-    Vector2 step()
+    Vector2 Step()
     {
         Vector2 q0=start.LinearInterpolate(height,time);
         Vector2 q1=height.LinearInterpolate(end,time);
         return q0.LinearInterpolate(q1,time);
     }
 
-    public void onBodyEntered(Node node)
+    public void OnBodyEntered(Node node)
     {
         if(node.HasUserSignal(STATE.damage.ToString()))
         {
             node.EmitSignal(STATE.damage.ToString(),Player.instance,1f);
         }
-        destroy();
+        Destroy();
     }
 
-    void destroy()
+    void Destroy()
     {
         DaggerMissParticles particles=(DaggerMissParticles)((PackedScene)ResourceUtils.particles[(int)PARTICLES.DAGGERMISS]).Instance();
         particles.Position=World.level.ToLocal(GlobalPosition);

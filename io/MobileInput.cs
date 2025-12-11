@@ -23,73 +23,73 @@ public class MobileInput : InputController
         scene.PauseMode=Node.PauseModeEnum.Process;
     }
 
-    public override bool getLeft()
+    public override bool Left()
     {
-        return stick.getValue().x<0f;
+        return stick.GetValue().x<0f;
     }
-    public override bool getRight()
+    public override bool Right()
     {
-        return stick.getValue().x>0f;
+        return stick.GetValue().x>0f;
     }
-    public override bool getUp()
+    public override bool Up()
     {
-        return stick.getValue().y<0f;
+        return stick.GetValue().y<0f;
     }
-    public override bool getDown()
+    public override bool Down()
     {
-        return stick.getValue().y>0f;
-    }
-
-    public override bool getJump()
-    {
-        return buttons.jump.justPressed();
-    }
-    public override bool getAttack()
-    {
-        return buttons.o.justPressed();
-    }
-    public override bool getChange()
-    {
-        return buttons.x.justPressed();
+        return stick.GetValue().y>0f;
     }
 
-    public override void _free()
+    public override bool Jump()
+    {
+        return buttons.jump.JustPressed();
+    }
+    public override bool Attack()
+    {
+        return buttons.o.JustPressed();
+    }
+    public override bool Change()
+    {
+        return buttons.x.JustPressed();
+    }
+
+    public override void Free()
     {
         touch.QueueFree();
         buttons.QueueFree();
     }
 
-    public override bool getPause()
+    public override bool Pause()
     {
         return false;
     }
 
-    public override bool getQuit()
+    public override bool Quit()
     {
         return false;
     }
 
-    public override bool getJustLeft()
+    public override bool JustLeft()
     {
-        return buttons.c.justPressed();
+        return buttons.c.JustPressed();
     }
 
-    public override bool getJustRight()
+    public override bool JustRight()
     {
-        return buttons.o.justPressed();
+        return buttons.o.JustPressed();
     }
 
-    public override bool getJustUp()
+    public override bool JustUp()
     {
-        return buttons.jump.justPressed();
+        return buttons.jump.JustPressed();
     }
 
-    public override bool getJustDown()
+    public override bool JustDown()
     {
-        return buttons.x.justPressed();
+        return buttons.x.JustPressed();
     }
 
-    public override bool getJustAccept()
+    public override bool JustAccept()
     {
         throw new NotImplementedException();
     }

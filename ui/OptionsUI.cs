@@ -3,7 +3,7 @@ using System;
 
 public class OptionsUI : BaseUI
 {
-    private AudioStream sfxTest=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/051_use_item_01.wav");
+    private readonly AudioStream sfxTest=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/051_use_item_01.wav");
     private AudioStreamPlayer2D player;
 
     public PackedScene back;
@@ -27,51 +27,51 @@ public class OptionsUI : BaseUI
         vSync=GetNode<CheckBox>("Screen/VSync");
         fx=GetNode<CheckBox>("Screen/FX");
         
-        acceptBtn.Connect("button_up",this,nameof(onButtonUp),new Godot.Collections.Array(acceptBtn));
-        defaultBtn.Connect("button_up",this,nameof(onButtonUp),new Godot.Collections.Array(defaultBtn));
-        cancelBtn.Connect("button_up",this,nameof(onButtonUp),new Godot.Collections.Array(cancelBtn));
-        fx.Connect("button_up",this,nameof(onButtonUp),new Godot.Collections.Array(fx));
+        acceptBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(acceptBtn));
+        defaultBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(defaultBtn));
+        cancelBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(cancelBtn));
+        fx.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(fx));
 
-        acceptBtn.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
-        defaultBtn.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
-        cancelBtn.Connect("button_down",this,nameof(playSfx),new Godot.Collections.Array(sfxButtons));
-        acceptBtn.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
-        defaultBtn.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
-        cancelBtn.Connect("mouse_entered",this,nameof(playSfx),new Godot.Collections.Array(sfxHover));
+        acceptBtn.Connect("button_down",this,nameof(PlaySfx),new Godot.Collections.Array(sfxButtons));
+        defaultBtn.Connect("button_down",this,nameof(PlaySfx),new Godot.Collections.Array(sfxButtons));
+        cancelBtn.Connect("button_down",this,nameof(PlaySfx),new Godot.Collections.Array(sfxButtons));
+        acceptBtn.Connect("mouse_entered",this,nameof(PlaySfx),new Godot.Collections.Array(sfxHover));
+        defaultBtn.Connect("mouse_entered",this,nameof(PlaySfx),new Godot.Collections.Array(sfxHover));
+        cancelBtn.Connect("mouse_entered",this,nameof(PlaySfx),new Godot.Collections.Array(sfxHover));
 
-        volume.Connect("drag_ended",this,nameof(changeVolume));
-        sfx.Connect("drag_ended",this,nameof(changeSfx));
-        background.Connect("drag_ended",this,nameof(changeBackground));
+        volume.Connect("drag_ended",this,nameof(ChangeVolume));
+        sfx.Connect("drag_ended",this,nameof(ChangeSfx));
+        background.Connect("drag_ended",this,nameof(ChangeBackground));
 
-        fullScreen.Connect("button_up",this,nameof(onButtonUp),new Godot.Collections.Array(fullScreen));
-        vSync.Connect("button_up",this,nameof(onButtonUp),new Godot.Collections.Array(vSync));
+        fullScreen.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(fullScreen));
+        vSync.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(vSync));
 
-        updateButtons();
+        UpdateButtons();
 
         player=new AudioStreamPlayer2D();
         player.Stream=sfxTest;
         AddChild(player);
     }
 
-    private void changeVolume(bool changed)
+    private void ChangeVolume(bool changed)
     {
         AudioServer.SetBusVolumeDb(GameSettings.current.masterBus,(float)volume.Value);
         player.Bus="Master";
         player.Play();
     }
-    private void changeSfx(bool changed)
+    private void ChangeSfx(bool changed)
     {
         AudioServer.SetBusVolumeDb(GameSettings.current.sfxBus,(float)sfx.Value);
         player.Bus="Sfx";
         player.Play();
     }
-    private void changeBackground(bool changed)
+    private void ChangeBackground(bool changed)
     {
         AudioServer.SetBusVolumeDb(GameSettings.current.backgroundBus,(float)background.Value);
         player.Bus="Background";
         player.Play();
     }
-    private void onButtonUp(Button button)
+    private void OnButtonUp(Button button)
     {
         switch(button.Name)
         {
@@ -89,20 +89,20 @@ public class OptionsUI : BaseUI
                     GameSettings.current.windowPositionY=OS.WindowSize.y;
                 }
                 GameSettings.current.usage=fx.Pressed?Viewport.UsageEnum.Usage2d:Viewport.UsageEnum.Usage3d;
-                GameSettings.saveConfig(GameSettings.current);
+                GameSettings.SaveConfig(GameSettings.current);
                 GameSettings.current.setAll(this);
                 Back();
                 break;
             case "Default":
-                GameSettings.defaultConfig();
+                GameSettings.DefaultConfig();
                 GameSettings.current.setAll(this);
-                updateButtons();
+                UpdateButtons();
                 break;
             case "Cancel":
                 Back();
                 break;
             case "Fullscreen":
-                playSfx(sfxClick);
+                PlaySfx(sfxClick);
                 OS.WindowFullscreen=fullScreen.Pressed;
                 if(!OS.WindowFullscreen)
                 {
@@ -111,17 +111,17 @@ public class OptionsUI : BaseUI
                 }
                 break;
             case "VSync":
-                playSfx(sfxClick);
+                PlaySfx(sfxClick);
                 OS.VsyncEnabled=vSync.Pressed;
                 break;
             case "FX":
-                playSfx(sfxClick);
+                PlaySfx(sfxClick);
                 GetViewport().Usage=fx.Pressed?Viewport.UsageEnum.Usage2d:Viewport.UsageEnum.Usage3d;
                 break;
         }
     }
 
-    private void updateButtons()
+    private void UpdateButtons()
     {
         volume.Value=GameSettings.current.masterVolume;
         sfx.Value=GameSettings.current.sfxVolume;

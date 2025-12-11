@@ -15,7 +15,7 @@ public class FallingPlatform : Platform
         time=TimeSpan;
         area2dShape=GetNode<CollisionShape2D>("Area2D/CollisionShape2D2");
         Area2D area2D=GetNode<Area2D>("Area2D");
-        area2D.Connect("body_entered",this,nameof(onBodyEntered));
+        area2D.Connect("body_entered",this,nameof(OnBodyEntered));
         GetNode<Area2D>("bump").QueueFree();
     }
 
@@ -30,21 +30,21 @@ public class FallingPlatform : Platform
             } 
             else 
             {
-                applyShake();
+                ApplyShake();
             }
             time--;
         }
     }
 
-    private void applyShake() 
+    private void ApplyShake() 
     {
         shake=Math.Min(shake,shakeMax);
-        Vector2 offset=new Vector2((float)MathUtils.randomRange(-shake,shake),(float)MathUtils.randomRange(-shake,shake));
+        Vector2 offset=new Vector2((float)MathUtils.RandomRange(-shake,shake),(float)MathUtils.RandomRange(-shake,shake));
         Position=startPosition+offset;
         shake*=0.9f;
     }
 
-    private void onBodyEntered(Node body) 
+    private void OnBodyEntered(Node body) 
     {
         if(!body.IsInGroup(GROUPS.PLAYERS.ToString())&&!body.IsInGroup(GROUPS.LEVEL.ToString())) return;
         if(!falling)
@@ -54,11 +54,11 @@ public class FallingPlatform : Platform
         } 
         else if(time<0) 
         {
-            delete();
+            Delete();
         }
     }
 
-    private void delete()
+    private void Delete()
     {
         BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCK].Instance();
         blockBreakParticle.Position=World.level.ToLocal(GlobalPosition);

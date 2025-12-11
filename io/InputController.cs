@@ -3,19 +3,19 @@ using System;
 
 public abstract class InputController
 {
-    public abstract bool getLeft();
-    public abstract bool getJustLeft();
-    public abstract bool getRight();
-    public abstract bool getJustRight();
-    public abstract bool getUp();
-    public abstract bool getJustUp();
-    public abstract bool getDown();
-    public abstract bool getJustDown();
-    public abstract bool getJump();
-    public abstract bool getAttack();
-    public abstract bool getChange();
-    public abstract bool getPause();
-    public abstract bool getQuit();
-    public abstract bool getJustAccept();
-    public abstract void _free();
+    public abstract bool Left();
+    public abstract bool JustLeft();
+    public abstract bool Right();
+    public abstract bool JustRight();
+    public abstract bool Up();
+    public abstract bool JustUp();
+    public abstract bool Down();
+    public abstract bool JustDown();
+    public abstract bool Jump();
+    public abstract bool Attack();
+    public abstract bool Change();
+    public abstract bool Pause();
+    public abstract bool Quit();
+    public abstract bool JustAccept();
+    public abstract void Free();
 }

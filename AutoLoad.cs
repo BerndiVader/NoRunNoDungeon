@@ -4,7 +4,7 @@ public class AutoLoad : Node
 {
     public override void _Ready()
     {
-        GameSettings.init();
+        GameSettings.Init();
         GameSettings.current.setAll(this);
 
         new Worker();

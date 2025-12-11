@@ -11,7 +11,7 @@ public class LevelControlTimer : Node
     }
 
     private SceneTreeTimer timer;
-    private float time;
+    private readonly float time;
     private int current,last;
     private Settings settings;
 
@@ -27,7 +27,7 @@ public class LevelControlTimer : Node
         SetPhysicsProcess(false);
         SetProcessInput(false);
         timer=GetTree().CreateTimer(time,false);
-        timer.Connect("timeout",this,nameof(timeout));
+        timer.Connect("timeout",this,nameof(Timeout));
         current=last=(int)timer.TimeLeft;
     }
 
@@ -46,12 +46,12 @@ public class LevelControlTimer : Node
         }
     }
 
-    private void timeout()
+    private void Timeout()
     {
         SettingsEffect count=countEffect.Instance<SettingsEffect>();
         count.chr=(int)(0).ToString()[0];        
         World.instance.renderer.AddChild(count);
-        settings.restore();
+        settings.Restore();
         QueueFree();
     }
 }

@@ -3,22 +3,22 @@ using System;
 
 public class Destroyables : Area2D
 {
-    [Export] private bool Terraform=true;
-    private static PackedScene ExpolderPack=ResourceLoader.Load<PackedScene>("res://gfx/TileExploder.tscn");
+    [Export] private bool terraform=true;
+    private static readonly PackedScene ExpolderPack=ResourceLoader.Load<PackedScene>("res://gfx/TileExploder.tscn");
     public override void _Ready()
     {
         SetProcess(false);
         SetPhysicsProcess(false);
 
         VisibilityNotifier2D notifier2D = new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited", World.instance, nameof(World.onObjectExitedScreen), new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited", World.instance, nameof(World.OnObjectExitedScreen), new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         AddUserSignal(STATE.damage.ToString());
-        Connect(STATE.damage.ToString(), this, nameof(onDamage));
+        Connect(STATE.damage.ToString(), this, nameof(OnDamage));
     }
 
-    private void onDamage(Player player=null, int amount=0)
+    private void OnDamage(Player player=null, int amount=0)
     {
         Vector2 local=World.level.ToLocal(GlobalPosition);
         Vector2 tile=World.level.WorldToMap(local);
@@ -26,7 +26,7 @@ public class Destroyables : Area2D
         int id=World.level.GetCellv(tile);
         if(id!=TileMap.InvalidCell)
         {
-            ImageTexture texture=extractTexture(id,tile);
+            ImageTexture texture=ExtractTexture(id,tile);
             if(texture!=null)
             {
                 TileExploder exploder=ExpolderPack.Instance<TileExploder>();
@@ -37,15 +37,15 @@ public class Destroyables : Area2D
         }
 
         World.level.SetCellv(tile,-1);
-        if(Terraform)
+        if(terraform)
         {
-            terraform(tile);
+            Terraform(tile);
         }
         
         CallDeferred("queue_free");
     }
 
-    private static ImageTexture extractTexture(int id,Vector2 tile)
+    private static ImageTexture ExtractTexture(int id,Vector2 tile)
     {
         Vector2 subtile=World.level.GetCellAutotileCoord((int)tile.x,(int)tile.y);
         Texture tileset=World.level.TileSet.TileGetTexture(id);
@@ -63,7 +63,7 @@ public class Destroyables : Area2D
         return texture;
     }
 
-    private static void terraform(Vector2 delta)
+    private static void Terraform(Vector2 delta)
     {
         Vector2[]tiles=new Vector2[]
         {

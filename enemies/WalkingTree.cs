@@ -15,15 +15,15 @@ public class WalkingTree : KinematicMonster
         base._Ready();
 
         animationPlayer = GetNode<AnimationPlayer>(nameof(AnimationPlayer));
-        animationPlayer.Connect("animation_started", this, nameof(onAnimationPlayerStarts));
-        animationPlayer.Connect("animation_finished", this, nameof(onAnimationPlayerEnded));
+        animationPlayer.Connect("animation_started", this, nameof(OnAnimationPlayerStarts));
+        animationPlayer.Connect("animation_finished", this, nameof(OnAnimationPlayerEnded));
 
         rayCast2D = GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled = true;
 
         EmitSignal(STATE.idle.ToString());
 
-        if(MathUtils.randBool())
+        if(MathUtils.RandBool())
         {
             FlipH();
         }
@@ -35,7 +35,7 @@ public class WalkingTree : KinematicMonster
         goal(delta);
     }
 
-    protected override void idle(float delta)
+    protected override void Idle(float delta)
     {
         velocity+=FORCE*delta;
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
@@ -61,7 +61,7 @@ public class WalkingTree : KinematicMonster
         }
     }
 
-    protected override void stroll(float delta)
+    protected override void Stroll(float delta)
     {
         Vector2 force = new Vector2(FORCE);
 
@@ -91,46 +91,46 @@ public class WalkingTree : KinematicMonster
 
     }
 
-    protected override void damage(float delta)
+    protected override void Damage(float delta)
     {
         if (!animationPlayer.IsPlaying())
         {
             if (health <= 0f)
             {
-                onDie();
+                OnDie();
             }
             else
             {
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
                 animationController.SpeedScale = 1f;
-                onIdle();
+                OnIdle();
             }
         }
 
     }
 
-    protected override void passanger(float delta)
+    protected override void Passanger(float delta)
     {
         if (!animationPlayer.IsPlaying())
         {
-            base.passanger(delta);
+            base.Passanger(delta);
         }
     } 
 
-	protected override void onDamage(Player player=null, int amount=0)
+	protected override void OnDamage(Player player=null, int amount=0)
 	{
 		if(state!=STATE.damage&&state!=STATE.die)
 		{
-			base.onDamage(player, 0);
+			base.OnDamage(player, 0);
             animationPlayer.Play("PASSANGER");
 		}
 	}
 
-    public override void onPassanger(Player player=null)
+    public override void OnPassanger(Player player=null)
     {
         if (state != STATE.passanger)
         {
-			base.onDamage(player, 0);
+			base.OnDamage(player, 0);
             animationPlayer.Play("PASSANGER");
 
         }

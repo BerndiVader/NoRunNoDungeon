@@ -75,9 +75,9 @@ public class Stick : TouchScreenButton
             if(distCenter<=boundary||index==onGoing)
             {
                 Position=position-touch.Position-rad;
-                if(getButtonPosition().Length()>boundary)
+                if(GetButtonPosition().Length()>boundary)
                 {
-                    Position=getButtonPosition().Normalized()*boundary-rad;
+                    Position=GetButtonPosition().Normalized()*boundary-rad;
                 }
                 onGoing=index;
             }
@@ -94,18 +94,18 @@ public class Stick : TouchScreenButton
         }
     }
 
-    private Vector2 getButtonPosition()
+    private Vector2 GetButtonPosition()
     {
         return Position+rad;
     }
 
-    public Vector2 getValue()
+    public Vector2 GetValue()
     {
         if(!useAccelerometer)
         {
-            if(getButtonPosition().Length()>threshold)
+            if(GetButtonPosition().Length()>threshold)
             {
-                return getButtonPosition().Normalized();
+                return GetButtonPosition().Normalized();
             }
             else
             {

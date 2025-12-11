@@ -39,18 +39,18 @@ public class CyclingPlatform : Platform
         {
             if (RandomCycling)
             {
-                if (MathUtils.randBool())
+                if (MathUtils.RandBool())
                 {
                     if (IfPlayer)
                     {
                         if (overlapping)
                         {
-                            startTween();
+                            StartTween();
                         }
                     }
                     else
                     {
-                        startTween();
+                        StartTween();
                     }
                 }
             }
@@ -62,12 +62,12 @@ public class CyclingPlatform : Platform
                     {
                         if (overlapping)
                         {
-                            startTween();
+                            StartTween();
                         }
                     }
                     else
                     {
-                        startTween();
+                        StartTween();
                     }
                     delayCount = 0f;
                 }
@@ -76,7 +76,7 @@ public class CyclingPlatform : Platform
         }
     }
 
-    private void startTween()
+    private void StartTween()
     {
         tween.InterpolateProperty(this,
             "rotation",

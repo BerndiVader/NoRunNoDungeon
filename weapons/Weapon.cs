@@ -20,9 +20,9 @@ public abstract class Weapon : Area2D
         DOUBLE_SWING
     }
 
-    protected static AudioStream sfxSwing=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/56_Attack_03.wav");
-    protected static AudioStream sfxHit=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/61_Hit_03.wav");
-    protected static AudioStream sfxMiss=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/08_Step_rock_02.wav");
+    protected static readonly AudioStream sfxSwing=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/56_Attack_03.wav");
+    protected static readonly AudioStream sfxHit=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/61_Hit_03.wav");
+    protected static readonly AudioStream sfxMiss=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/08_Step_rock_02.wav");
 
     public override void _Ready()
     {
@@ -60,7 +60,7 @@ public abstract class Weapon : Area2D
 
     public virtual void _Free() {}
 
-    public abstract bool attack();
+    public abstract bool Attack();
 
     protected enum WEAPONSTATE
     {
@@ -68,13 +68,13 @@ public abstract class Weapon : Area2D
         ATTACK
     }
 
-    protected virtual void onHitSomething(Node node)
+    protected virtual void OnHitSomething(Node node)
     {
         if(state==WEAPONSTATE.ATTACK&&!hit)
         {
             if(node.HasUserSignal(STATE.damage.ToString()))
             {
-                playSfx(sfxHit);
+                PlaySfx(sfxHit);
                 node.EmitSignal(STATE.damage.ToString(),Player.instance,damage);
                 hit = true;
                 cooldownCount = cooldown;
@@ -82,23 +82,23 @@ public abstract class Weapon : Area2D
             }
             else
             {
-                playSfx(sfxMiss);
+                PlaySfx(sfxMiss);
                 warmupCount = warmup;
             }
         }
     }
 
-    public virtual bool isPlaying()
+    public virtual bool IsPlaying()
     {
         return animationPlayer.IsPlaying();
     }
 
-    protected virtual String getStringDirection()
+    protected virtual String GetStringDirection()
     {
         return directionNames[Player.instance.animationController.FlipH==true?1:0];
     }
 
-    protected void playSfx(AudioStream stream)
+    protected void PlaySfx(AudioStream stream)
     {
         SfxPlayer sfx=new SfxPlayer();
         sfx.Position=World.level.ToLocal(GlobalPosition);

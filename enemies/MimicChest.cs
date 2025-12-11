@@ -19,12 +19,12 @@ public class MimicChest : KinematicMonster
         CASTTO=rayCast2D.CastTo;
 
 		animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
-		animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
-		animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));        
+		animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
+		animationPlayer.Connect("animation_finished",this,nameof(OnAnimationPlayerEnded));        
 
         animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         animationController.Play("idle");
-        animationController.FlipH=MathUtils.randomRangeInt(0,1)!=0;
+        animationController.FlipH=MathUtils.RandomRangeInt(0,1)!=0;
 
         EmitSignal(STATE.idle.ToString());
 
@@ -42,14 +42,14 @@ public class MimicChest : KinematicMonster
 
         if(shake!=0f)
         {
-            applyShake();
+            ApplyShake();
         }
 
         goal(delta);
-        navigation(delta);
+        Navigation(delta);
     }
 
-    protected override void idle(float delta)
+    protected override void Idle(float delta)
     {
         float distance=GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
 
@@ -57,7 +57,7 @@ public class MimicChest : KinematicMonster
         {
             cooldown=0;
             animationController.Play("attack");
-            onAttack(Player.instance);
+            OnAttack(Player.instance);
         }
         else if(cooldown>100) 
         {
@@ -67,16 +67,16 @@ public class MimicChest : KinematicMonster
         cooldown++;
     }
 
-    protected override void attack(float delta)
+    protected override void Attack(float delta)
     {
         if(animationController.Frame>1)
         {
             animationController.Play("fight");
-            onFight(victim);
+            OnFight(victim);
         }
     }
 
-    protected override void fight(float delta)
+    protected override void Fight(float delta)
     {
         float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
 
@@ -94,38 +94,38 @@ public class MimicChest : KinematicMonster
             }
             else
             {
-                onCalm();
+                OnCalm();
             }
         }
         else
         {
-            onCalm();
+            OnCalm();
         }
     }
 
-    protected override void calm(float delta)
+    protected override void Calm(float delta)
     {
         if(animationController.Frame==2)
         {
-            onIdle();
+            OnIdle();
         }
     }
 
-	protected override void passanger(float delta)
+	protected override void Passanger(float delta)
 	{
 		if(!animationPlayer.IsPlaying())
 		{
-			base.passanger(delta);
+			base.Passanger(delta);
 		}
 	}      
 
-    public override void onPassanger(Player player=null)
+    public override void OnPassanger(Player player=null)
     {
         if(state!=STATE.attack)
         {
             if(state!=STATE.passanger)
             {
-                base.onPassanger(player);
+                base.OnPassanger(player);
                 animationPlayer.Play("PASSANGER");
             }
         }
@@ -135,11 +135,11 @@ public class MimicChest : KinematicMonster
         }
     }
 
-    protected override void onCalm()
+    protected override void OnCalm()
     {
         if(state!=STATE.calm)
         {
-            base.onCalm();
+            base.OnCalm();
             rayCast2D.CastTo=CASTTO;
             animationController.Play("calm");
             victim=null;
@@ -147,7 +147,7 @@ public class MimicChest : KinematicMonster
         }
     }
 
-    protected override void navigation(float delta)
+    protected override void Navigation(float delta)
     {
         velocity+=FORCE*delta;
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
@@ -180,12 +180,12 @@ public class MimicChest : KinematicMonster
         facing=Facing();
     }
 
-    private void applyShake()
+    private void ApplyShake()
     {
         shake=Math.Min(shake,ShakeMax);
         if(shake>=0.02f)
         {
-            float offset=(float)MathUtils.randomRange(-shake,shake);
+            float offset=(float)MathUtils.RandomRange(-shake,shake);
             Rotation=offset;
             shake*=0.9f;
         } 

@@ -8,14 +8,14 @@ public class MonsterWeapon : Weapon
     {
         base._Ready();
         warmupCount = 0;
-        Connect("body_entered", this, nameof(onHitSomething));
+        Connect("body_entered", this, nameof(OnHitSomething));
     }
     
     public void _Init()
     {
         GetNode<CollisionShape2D>("CollisionShape2D").Disabled=true;
         owner=GetParent<KinematicMonster>();
-        animationPlayer.Play(AnimationNames.SETUP+getStringDirection());
+        animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
     }
 
     public override void _PhysicsProcess(float delta)
@@ -24,9 +24,9 @@ public class MonsterWeapon : Weapon
         {
             case WEAPONSTATE.IDLE:
             {
-                if(!animationPlayer.IsPlaying()&&(AnimationNames.SETUP+getStringDirection()!=animationPlayer.CurrentAnimation))
+                if(!animationPlayer.IsPlaying()&&(AnimationNames.SETUP+GetStringDirection()!=animationPlayer.CurrentAnimation))
                 {
-                    animationPlayer.Play(AnimationNames.SETUP+getStringDirection());
+                    animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
                 }
                 break;
             }
@@ -34,7 +34,7 @@ public class MonsterWeapon : Weapon
             {
                 if(!animationPlayer.IsPlaying())
                 {
-                    animationPlayer.Play(AnimationNames.SETUP+getStringDirection());
+                    animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
                     state=WEAPONSTATE.IDLE;
                     hit=false;
                 }
@@ -43,24 +43,24 @@ public class MonsterWeapon : Weapon
         }        
     }
 
-    public override bool attack()
+    public override bool Attack()
     {
         if (state == WEAPONSTATE.IDLE && cooldownCount == 0 && warmupCount == 0)
         {
             warmupCount = warmup;
-            animationPlayer.Play(AnimationNames.SWING + getStringDirection());
+            animationPlayer.Play(AnimationNames.SWING + GetStringDirection());
             state = WEAPONSTATE.ATTACK;
             return true;
         }
         return false;
     }
 
-    protected override string getStringDirection()
+    protected override string GetStringDirection()
     {
         return directionNames[owner.animationController.FlipH==true?1:0];
     }
 
-    protected override void onHitSomething(Node node)
+    protected override void OnHitSomething(Node node)
     {
         if (state == WEAPONSTATE.ATTACK && !hit && owner.state != STATE.damage)
         {

@@ -11,7 +11,7 @@ public class Platform : StaticBody2D
     protected Area2D bumpArea=new Area2D();
     protected CollisionShape2D areaCollision=new CollisionShape2D();
     public Vector2 CurrentSpeed;
-    private Tween bump;
+    private readonly Tween bump;
 
     public Platform():base() 
     {
@@ -25,7 +25,7 @@ public class Platform : StaticBody2D
     public override void _Ready()
     {
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         CollisionShape2D collision=GetNode<CollisionShape2D>(nameof(CollisionShape2D));

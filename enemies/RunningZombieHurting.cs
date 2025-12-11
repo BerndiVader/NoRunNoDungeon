@@ -21,28 +21,28 @@ public class RunningZombieHurting : RunningZombie
 
         if(playerCast.Enabled&&playerCast.IsColliding()&&playerCast.GetCollider() is Player)
         {
-            onAttack();
+            OnAttack();
         }
 
     }
 
-    protected override void onAttack(Player player = null)
+    protected override void OnAttack(Player player = null)
     {
         if(state!=STATE.attack)
         {
-            base.onAttack(player);
+            base.OnAttack(player);
             playerCast.Enabled=false;
-            area.Connect("body_entered",this,nameof(body_entered));
-            animationController.Frames.SetAnimationLoop(nameof(attack),false);
-            animationController.Play(nameof(attack));
+            area.Connect("body_entered",this,nameof(BodyEntered));
+            animationController.Frames.SetAnimationLoop("attack",false);
+            animationController.Play("attack");
         }
     }
 
-    protected override void attack(float delta)
+    protected override void Attack(float delta)
     {
         if(animationController.Frame==10)
         {
-            onDie();
+            OnDie();
         }
         else if(animationController.Frame==3)
         {
@@ -74,7 +74,7 @@ public class RunningZombieHurting : RunningZombie
         playerCast.CastTo=FlipX(playerCast.CastTo);
     }
 
-    public void body_entered(Node node)
+    public void BodyEntered(Node node)
     {
         if(node is Player)
         {

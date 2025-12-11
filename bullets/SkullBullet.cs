@@ -15,8 +15,8 @@ public class SkullBullet : Area2D
             sprite.FlipH=true;
         }
 
-        Connect("body_entered",this,nameof(onBodyEntered));
-        Connect("area_entered",this,nameof(onBodyEntered));
+        Connect("body_entered",this,nameof(OnBodyEntered));
+        Connect("area_entered",this,nameof(OnBodyEntered));
     }
 
     public override void _PhysicsProcess(float delta)
@@ -29,16 +29,16 @@ public class SkullBullet : Area2D
         }
     }
 
-    public void onBodyEntered(Node node)
+    public void OnBodyEntered(Node node)
     {
         if(node.Name=="Player")
         {
             node.EmitSignal(STATE.damage.ToString(),this,1f);
         }
-        destroy();
+        Destroy();
     }
 
-    void destroy()
+    void Destroy()
     {
         DaggerMissParticles particles=(DaggerMissParticles)((PackedScene)ResourceUtils.particles[(int)PARTICLES.DAGGERMISS]).Instance();
         particles.Texture=sprite.Texture;

@@ -4,69 +4,69 @@ using System;
 public class DesktopInput : InputController
 {
 
-    public override bool getLeft()
+    public override bool Left()
     {
         return Input.IsKeyPressed((int)KeyList.A);
     }
-    public override bool getRight()
+    public override bool Right()
     {
         return Input.IsKeyPressed((int)KeyList.D);
     }
-    public override bool getUp()
+    public override bool Up()
     {
         return Input.IsKeyPressed((int)KeyList.W);
     }
-    public override bool getDown()
+    public override bool Down()
     {
         return Input.IsKeyPressed((int)KeyList.S);
     }
-    public override bool getJump()
+    public override bool Jump()
     {
         return Input.IsActionJustPressed("ui_up");
     }
-    public override bool getAttack()
+    public override bool Attack()
     {
         return Input.IsActionJustPressed("ui_right");
     }
-    public override bool getChange()
+    public override bool Change()
     {
         return Input.IsActionJustPressed("ui_down");
     }
-    public override bool getPause()
+    public override bool Pause()
     {
         return Input.IsActionJustPressed("ui_pause");
     }
-    public override bool getQuit()
+    public override bool Quit()
     {
         return Input.IsActionJustPressed("ui_cancel");
     }
 
-    public override bool getJustLeft()
+    public override bool JustLeft()
     {
         return Input.IsActionJustPressed("key_a");
     }
 
-    public override bool getJustRight()
+    public override bool JustRight()
     {
         return Input.IsActionJustPressed("key_d");
     }
 
-    public override bool getJustUp()
+    public override bool JustUp()
     {
         return Input.IsActionJustPressed("key_w");
     }
 
-    public override bool getJustDown()
+    public override bool JustDown()
     {
         return Input.IsActionJustPressed("key_s");
     }
 
-    public override bool getJustAccept()
+    public override bool JustAccept()
     {
         return Input.IsActionJustPressed("ui_accept");
     }
 
-    public override void _free()
+    public override void Free()
     {
         return;
     }

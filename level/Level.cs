@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class Level : TileMap
 {
@@ -17,7 +16,7 @@ public class Level : TileMap
         SetPhysicsProcess(false);
         SetProcessInput(false);
 
-        PlayerCamera.instance.Zoom=new Vector2(1f,1f);
+        PlayerCamera.instance.Zoom=Vector2.One;
 
         if(!KeepTileset)
         {
@@ -35,13 +34,13 @@ public class Level : TileMap
         startingPoint=pos.GlobalPosition;
         pos.QueueFree();
         
-        Connect("tree_exiting",this,nameof(freeLevel));
+        Connect("tree_exiting",this,nameof(FreeLevel));
         AddToGroup(GROUPS.LEVEL.ToString());
 
         settings=new Settings(this);
     }
 
-    public void freeLevel() 
+    public void FreeLevel() 
     {
         if(!IsQueuedForDeletion())
         {

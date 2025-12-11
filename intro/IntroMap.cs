@@ -23,37 +23,37 @@ public class IntroMap : TileMap
 
         tween=new Tween();
         colorTween=new Tween();
-        tween.Connect("tween_all_completed",this,nameof(onFinishedTween));
-        colorTween.Connect("tween_all_completed",this,nameof(onFinishedColorTween));
+        tween.Connect("tween_all_completed",this,nameof(OnFinishedTween));
+        colorTween.Connect("tween_all_completed",this,nameof(OnFinishedColorTween));
         AddChild(tween);
         AddChild(colorTween);
-        tweenIn();
-        colorTweenIn();
+        TweenIn();
+        ColorTweenIn();
         tween.Start();
         colorTween.Start();
     }
 
-    private void tweenIn()
+    private void TweenIn()
     {
-        tween.InterpolateMethod(this,nameof(tweening),Position,Position-Movement,Speed,Tween.TransitionType.Sine,Tween.EaseType.InOut,0);
+        tween.InterpolateMethod(this,nameof(Tweening),Position,Position-Movement,Speed,Tween.TransitionType.Sine,Tween.EaseType.InOut,0);
     }
 
-    private void tweenOut()
+    private void TweenOut()
     {
-        tween.InterpolateMethod(this,nameof(tweening),Position,Position-Movement,Speed,Tween.TransitionType.Sine,Tween.EaseType.Out,0);
+        tween.InterpolateMethod(this,nameof(Tweening),Position,Position-Movement,Speed,Tween.TransitionType.Sine,Tween.EaseType.Out,0);
     }
 
-    private void colorTweenIn()
+    private void ColorTweenIn()
     {
-        colorTween.InterpolateMethod(this,nameof(colorTweening),color,new Color((float)MathUtils.randomRange(0,1),(float)MathUtils.randomRange(0d,1d),(float)MathUtils.randomRange(0d,1d),1f),2f,Tween.TransitionType.Sine,Tween.EaseType.InOut,0f);
+        colorTween.InterpolateMethod(this,nameof(ColorTweening),color,new Color((float)MathUtils.RandomRange(0,1),(float)MathUtils.RandomRange(0d,1d),(float)MathUtils.RandomRange(0d,1d),1f),2f,Tween.TransitionType.Sine,Tween.EaseType.InOut,0f);
     }
-    private void colorTweenOut()
+    private void ColorTweenOut()
     {
-        colorTween.InterpolateMethod(this,nameof(colorTweening),color,new Color(0f,0f,0f,1f),2f,Tween.TransitionType.Sine,Tween.EaseType.InOut,0f);
+        colorTween.InterpolateMethod(this,nameof(ColorTweening),color,new Color(0f,0f,0f,1f),2f,Tween.TransitionType.Sine,Tween.EaseType.InOut,0f);
     }
 
 
-    private void tweening(Vector2 delta)
+    private void Tweening(Vector2 delta)
     {
         float alpha=Mathf.InverseLerp(1f,0f,1f/(1f+(Position.x-delta.x)));
         shaderColor.a=alpha;
@@ -64,29 +64,29 @@ public class IntroMap : TileMap
         Position=delta;
     }
 
-    private void colorTweening(Color delta)
+    private void ColorTweening(Color delta)
     {
         color=delta;
         VisualServer.SetDefaultClearColor(color);
     }
 
-    private void onFinishedTween()
+    private void OnFinishedTween()
     {
         Position=Vector2.Zero;
-        tweenOut();
+        TweenOut();
         tween.Start();
     }
 
-    private void onFinishedColorTween()
+    private void OnFinishedColorTween()
     {
         reverse=!reverse;
         if(reverse) 
         {
-            colorTweenIn();
+            ColorTweenIn();
         } 
         else 
         {
-            colorTweenOut();
+            ColorTweenOut();
         }
         colorTween.Start();
     }

@@ -20,17 +20,17 @@ public class Spikes : Area2D
     public override void _Ready()
     {
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         if(!StaticElement)
         {
             tween=new Tween();
-            tween.Connect("tween_all_completed",this,nameof(onFinishedTween));
+            tween.Connect("tween_all_completed",this,nameof(OnFinishedTween));
             AddChild(tween);
             movement=MoveDirection*MoveLength;
             startPosition=Position;
-            init();
+            Init();
         }
         else
         {
@@ -38,7 +38,7 @@ public class Spikes : Area2D
             SetPhysicsProcess(false);
         }
 
-        Connect("body_entered",this,nameof(onEnteredBody));
+        Connect("body_entered",this,nameof(OnEnteredBody));
     }
 
     public override void _PhysicsProcess(float delta)
@@ -48,15 +48,15 @@ public class Spikes : Area2D
         if(distance<ActOnDistance)
         {
             SetPhysicsProcess(false);
-            tweenIn();
+            TweenIn();
         }
     }
 
-    private void init()
+    private void Init()
     {
         if(ActOnDistance<0f)
         {
-            tweenIn();
+            TweenIn();
         }
         else
         {
@@ -65,17 +65,17 @@ public class Spikes : Area2D
 
     }
 
-    private void tweening(Vector2 delta)
+    private void Tweening(Vector2 delta)
     {
         Position=delta;
     }
 
-    private void onFinishedTween()
+    private void OnFinishedTween()
     {
         reverse=!reverse;
         if(reverse) 
         {
-            tweenOut();
+            TweenOut();
         } 
         else 
         {
@@ -86,24 +86,24 @@ public class Spikes : Area2D
             }
             else
             {
-                tweenIn();
+                TweenIn();
             }
         }
     }
 
-    private void tweenIn()
+    private void TweenIn()
     {
-        tween.InterpolateMethod(this,nameof(tweening),Position,Position-movement,Speed,Tween.TransitionType.Bounce,Tween.EaseType.Out,InDelay);
+        tween.InterpolateMethod(this,nameof(Tweening),Position,Position-movement,Speed,Tween.TransitionType.Bounce,Tween.EaseType.Out,InDelay);
         tween.Start();
     }
 
-    private void tweenOut()
+    private void TweenOut()
     {
-        tween.InterpolateMethod(this,nameof(tweening),Position,Position+movement,Speed,Tween.TransitionType.Back,Tween.EaseType.In,OutDelay);
+        tween.InterpolateMethod(this,nameof(Tweening),Position,Position+movement,Speed,Tween.TransitionType.Back,Tween.EaseType.In,OutDelay);
         tween.Start();
     }
 
-    private void onEnteredBody(Node node)
+    private void OnEnteredBody(Node node)
     {
         if(node.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {

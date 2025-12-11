@@ -22,8 +22,8 @@ public class RunningZombie : KinematicMonster
 		base._Ready();
 
 		animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
-		animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
-		animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
+		animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
+		animationPlayer.Connect("animation_finished",this,nameof(OnAnimationPlayerEnded));
 
 		rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
 		rayCast2D.Enabled=true;
@@ -43,7 +43,7 @@ public class RunningZombie : KinematicMonster
 		goal(delta);
 	}
 
-	protected override void idle(float delta)
+	protected override void Idle(float delta)
 	{
         velocity += FORCE * delta;
         velocity = MoveAndSlideWithSnap(velocity, snap, Vector2.Up, false, 4, 0.785398f, true);
@@ -68,16 +68,16 @@ public class RunningZombie : KinematicMonster
             velocity=StopX(velocity,delta);
         }
 		
-		if(inRange())
+		if(InRange())
 		{
 			animationController.SpeedScale=2;
 			velocity.y=-60f;
 			jumping=true;
-			onStroll();
+			OnStroll();
 		}
 		else
 		{
-			if(cooldowner<=0f&&MathUtils.randBool())
+			if(cooldowner<=0f&&MathUtils.RandBool())
 			{
 				FlipH();
 				cooldowner=COOLDOWNER_TIME;
@@ -90,7 +90,7 @@ public class RunningZombie : KinematicMonster
 		}
 	}
 
-	protected override void stroll(float delta)
+	protected override void Stroll(float delta)
 	{
 		Vector2 force = new Vector2(FORCE);
 		
@@ -131,7 +131,7 @@ public class RunningZombie : KinematicMonster
 
 		if(jump&&!jumping) 
 		{
-			switch(MathUtils.randomRangeInt(1,5))
+			switch(MathUtils.RandomRangeInt(1,5))
 			{
 				case 1:
 				case 2:
@@ -148,74 +148,74 @@ public class RunningZombie : KinematicMonster
 				}
 				case 5:
 				{
-					onIdle();
+					OnIdle();
 					break;
 				}
 			}
 		}
 	}
 
-	protected override void fight(float delta)
+	protected override void Fight(float delta)
 	{
 		throw new NotImplementedException();
 	}
 
-	protected override void damage(float delta)
+	protected override void Damage(float delta)
 	{
 		if(!animationPlayer.IsPlaying())
 		{
 			if(health<=0f)
 			{
-				onDie();
+				OnDie();
 			}
 			else
 			{
             	staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
 				animationController.SpeedScale=1;
-				onIdle();
+				OnIdle();
 			}
 		}
 	}
 
-	protected override void passanger(float delta)
+	protected override void Passanger(float delta)
 	{
 		if(!animationPlayer.IsPlaying())
 		{
-			base.passanger(delta);
+			base.Passanger(delta);
 		}
 	}
 
-	protected override void die(float delta)
+	protected override void Die(float delta)
 	{
-		base.die(delta);
+		base.Die(delta);
 	}
 
-	protected override void calm(float delta)
+	protected override void Calm(float delta)
 	{
 		throw new NotImplementedException();
 	}	
 
-	protected override void onDamage(Player player=null, int amount=0)
+	protected override void OnDamage(Player player=null, int amount=0)
 	{
 		if(state!=STATE.damage&&state!=STATE.die)
 		{
-			base.onDamage(player, amount);
+			base.OnDamage(player, amount);
 			animationDirection = Mathf.Sign(GlobalPosition.x - player.GlobalPosition.x);
 			animationPlayer.Play("HIT");
 		}
 	}    
 
-	public override void onPassanger(Player player=null)
+	public override void OnPassanger(Player player=null)
 	{
 		if(state!=STATE.passanger)
 		{
-			base.onPassanger(player);
+			base.OnPassanger(player);
 			animationPlayer.Play("PASSANGER");
 		}
 	}
 
 
-	private bool inRange()
+	private bool InRange()
 	{
 		return Mathf.Abs(Player.instance.GlobalPosition.DistanceTo(GlobalPosition))<ACTIVATION_RANGE;
 	}

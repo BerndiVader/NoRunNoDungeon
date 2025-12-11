@@ -110,7 +110,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest.tscn"));
         }
         else
         {
@@ -177,7 +177,7 @@ public static class ResourceUtils
         Console.WriteLine("Done!");
     }
 
-    public static InputController getInputController(Node scene)
+    public static InputController GetInputController(Node scene)
     {
         if(GameSettings.isMobile)
         {

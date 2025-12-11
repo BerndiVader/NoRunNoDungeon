@@ -20,7 +20,7 @@ public class PlayerLight2D : Light2D
     {
         if(lightCounter==LightDelay)
         {
-            Energy=(float)MathUtils.randomRange(MinLight,MaxLight);
+            Energy=(float)MathUtils.RandomRange(MinLight,MaxLight);
             lightCounter=0;
         }
         lightCounter++;

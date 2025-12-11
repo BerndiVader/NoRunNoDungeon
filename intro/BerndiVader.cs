@@ -29,12 +29,12 @@ public class BerndiVader : Node2D
 		audio=GetNode<AudioStreamPlayer2D>("Audio");
 
 		zoomTween=new Tween();
-		zoomTween.Connect("tween_all_completed",this,nameof(zoomOutFinished));
-		zoomTween.InterpolateMethod(this,nameof(zoomOutTweening),logo.Scale.x,200f,2,Tween.TransitionType.Quad,Tween.EaseType.Out,0.5f);
+		zoomTween.Connect("tween_all_completed",this,nameof(ZoomOutFinished));
+		zoomTween.InterpolateMethod(this,nameof(ZoomOutTweening),logo.Scale.x,200f,2,Tween.TransitionType.Quad,Tween.EaseType.Out,0.5f);
 		AddChild(zoomTween);
 
 		fadeTween=new Tween();
-		fadeTween.InterpolateMethod(this,nameof(fadeTweening),logo.Modulate,new Color(0f,0f,0f),2,Tween.TransitionType.Elastic,Tween.EaseType.InOut,0.5f);
+		fadeTween.InterpolateMethod(this,nameof(FadeTweening),logo.Modulate,new Color(0f,0f,0f),2,Tween.TransitionType.Elastic,Tween.EaseType.InOut,0.5f);
 		AddChild(fadeTween);
 
 		SetProcess(false);
@@ -61,18 +61,18 @@ public class BerndiVader : Node2D
 
 	}
 
-	private void zoomOutFinished()
+	private void ZoomOutFinished()
 	{
 		QueueFree();
-		World.changeScene(ResourceUtils.intro);
+		World.ChangeScene(ResourceUtils.intro);
 	}
 
-	private void zoomOutTweening(float delta)
+	private void ZoomOutTweening(float delta)
 	{
 		logo.Scale=new Vector2(delta,1f);
 	}
 
-	private void fadeTweening(Color delta)
+	private void FadeTweening(Color delta)
 	{
 		logo.Modulate=delta;
 	}

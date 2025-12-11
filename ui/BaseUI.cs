@@ -19,7 +19,7 @@ public abstract class BaseUI : Panel
         RectPosition+=World.RESOLUTION*0.5f;
     }
 
-    protected void playSfx(AudioStream effect)
+    protected void PlaySfx(AudioStream effect)
     {
         SfxPlayer sfx=new SfxPlayer
         {

@@ -11,7 +11,7 @@ public class XButton : TouchScreenButton
         
     }
 
-    public bool justPressed()
+    public bool JustPressed()
     {
         if(IsPressed())
         {

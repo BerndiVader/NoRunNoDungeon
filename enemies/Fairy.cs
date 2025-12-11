@@ -33,12 +33,12 @@ public class Fairy : KinematicMonster
         }
     }
 
-    protected override void idle(float delta)
+    protected override void Idle(float delta)
     {
-        fly(delta);
+        Fly(delta);
     }
 
-    protected override void onIdle()
+    protected override void OnIdle()
     {
         onDelay=false;
         if(state!=STATE.idle)
@@ -46,12 +46,12 @@ public class Fairy : KinematicMonster
             lastState=state;
             state=STATE.idle;
             animationController.Play("idle");
-            goal=idle;
+            goal=Idle;
             offsetPos=new Vector2(Position);
         }
     }
 
-    private void fly(float delta)
+    private void Fly(float delta)
     {
         passedTime+=delta;
         Position=new Vector2(offsetPos.x+(FloatRange.x*Mathf.Sin(passedTime*SinCosSpeed.x)),offsetPos.y+(FloatRange.y*Mathf.Cos(passedTime*SinCosSpeed.y)));
@@ -59,10 +59,10 @@ public class Fairy : KinematicMonster
         projectileCooldown--;
         projectileCooldown=Mathf.Clamp(projectileCooldown,0,100);
 
-        shootProjectile();
+        ShootProjectile();
     }
 
-    private void shootProjectile()
+    private void ShootProjectile()
     {
         Vector2 playerPos=Player.instance.GlobalPosition;
         Vector2 pos=GlobalPosition;

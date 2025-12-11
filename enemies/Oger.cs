@@ -21,8 +21,8 @@ public class Oger : KinematicMonster
         base._Ready();
 
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
-        animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
-        animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
+        animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
+        animationPlayer.Connect("animation_finished",this,nameof(OnAnimationPlayerEnded));
 
         rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
@@ -32,7 +32,7 @@ public class Oger : KinematicMonster
 
         direction=facing=Facing();
         animationController.Play("idle");
-        onIdle();
+        OnIdle();
 
         weapon=GetNode<MonsterWeapon>("Baton");
         if(weapon!=null)
@@ -52,58 +52,58 @@ public class Oger : KinematicMonster
         goal(delta);
     }
 
-    protected override void idle(float delta)
+    protected override void Idle(float delta)
     {
-        if(!canSeePlayer())
+        if(!CanSeePlayer())
         {
             travelTime++;
             if(travelTime==50f)
             {
-                if(MathUtils.randomRangeInt(0,5)>4)
+                if(MathUtils.RandomRangeInt(0,5)>4)
                 {
                     FlipH();
                 }
             } 
             else if(travelTime>100f)
             {
-                if(MathUtils.randomRangeInt(0,4)==1)
+                if(MathUtils.RandomRangeInt(0,4)==1)
                 {
                     FlipH();
                 }
-                onStroll();
+                OnStroll();
                 return;
             }
-            navigation(delta);
+            Navigation(delta);
         }
         else
         {
-            onAttack(Player.instance);
+            OnAttack(Player.instance);
         }
     }
 
-    protected override void stroll(float delta)
+    protected override void Stroll(float delta)
     {
-        if(!canSeePlayer())
+        if(!CanSeePlayer())
         {
             travelTime++;
             if(travelTime>300f)
             {
-                if(MathUtils.randomRangeInt(0,5)==1)
+                if(MathUtils.RandomRangeInt(0,5)==1)
                 {
-                    onIdle();
+                    OnIdle();
                     return;
                 }
                 travelTime=0f;
             }
-            navigation(delta);
+            Navigation(delta);
         }
         else
         {
-            onAttack(Player.instance);
+            OnAttack(Player.instance);
         }
     }
 
-    protected override void attack(float delta)
+    protected override void Attack(float delta)
     {
         float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
         Vector2 dir=GlobalPosition.DirectionTo(victim.GlobalPosition);
@@ -111,15 +111,15 @@ public class Oger : KinematicMonster
 
         if(distance>FIGHT_DISTANCE)
         {
-            if(!canSeePlayer())
+            if(!CanSeePlayer())
             {
-                if (MathUtils.randBool())
+                if (MathUtils.RandBool())
                 {
-                    onIdle();
+                    OnIdle();
                 }
                 else
                 {
-                    onStroll();
+                    OnStroll();
                 }
                 return;
             }
@@ -159,7 +159,7 @@ public class Oger : KinematicMonster
             if(IsOnWall())
             {
                 FlipH();
-                onIdle();
+                OnIdle();
             }        
         }
         else
@@ -167,31 +167,31 @@ public class Oger : KinematicMonster
             float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
             if(angle>45f&&angle<165f)
             {
-                if (MathUtils.randBool())
+                if (MathUtils.RandBool())
                 {
-                    onStroll();
+                    OnStroll();
                 }
                 else
                 {
-                    onIdle();
+                    OnIdle();
                 }
             }
             else
             {
-                onFight(victim);
+                OnFight(victim);
             }
         }
     }
 
-    protected override void fight(float delta)
+    protected override void Fight(float delta)
     {
         if(GlobalPosition.DistanceTo(victim.GlobalPosition)<=FIGHT_DISTANCE)
         {
             Vector2 dir=GlobalPosition.DirectionTo(victim.GlobalPosition);
             playerCast2D.CastTo=dir*(FIGHT_DISTANCE+15f);
-            if(!canSeePlayer())
+            if(!CanSeePlayer())
             {
-                onIdle();
+                OnIdle();
                 return;
             }
 
@@ -213,70 +213,70 @@ public class Oger : KinematicMonster
             if(IsOnWall())
             {
                 FlipH();
-                onIdle();
+                OnIdle();
             }
         }
         else
         {
-            onStroll();
+            OnStroll();
         }
     }
 
-    protected override void calm(float delta)
+    protected override void Calm(float delta)
     {
         throw new NotImplementedException();
     }
 
-    protected override void damage(float delta)
+    protected override void Damage(float delta)
     {
         if (!animationPlayer.IsPlaying())
         {
             if (health <= 0f)
             {
-                onDie();
+                OnDie();
             }
             else
             {
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
-                onAlert();
+                OnAlert();
             }
         }
     }
 
-    protected override void alert(float delta)
+    protected override void Alert(float delta)
     {
-        fight(delta);
+        Fight(delta);
         
     }
 
-    protected override void passanger(float delta)
+    protected override void Passanger(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
             if(health<=0)
             {
-                onDie();
+                OnDie();
             }
             else
             {
                 animationController.SpeedScale = 1f;
-                if (MathUtils.randBool())
+                if (MathUtils.RandBool())
                 {
-                    onAttack(Player.instance);
+                    OnAttack(Player.instance);
                 }
                 else
                 {
-                    onStroll();
+                    OnStroll();
                 }
             }            
         }
     }
 
-    protected override void onDamage(Player player=null, int amount=0)
+    protected override void OnDamage(Player player=null, int amount=0)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {
-            base.onDamage(player, amount);
+            base.OnDamage(player, amount);
             if (player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x < 0f)
             {
                 animationDirection = -1;
@@ -289,68 +289,68 @@ public class Oger : KinematicMonster
         }
     }
 
-    protected override void onAttack(Player player=null)
+    protected override void OnAttack(Player player=null)
     {      
         if(state!=STATE.attack)
         {
-            base.onAttack(player);
+            base.OnAttack(player);
             animationController.Play("stroll");
             WALK_MAX_SPEED=80f;
         }
     }
 
-    protected override void onFight(Player player=null)
+    protected override void OnFight(Player player=null)
     {
         if(state!=STATE.fight)
         {
-            base.onFight(player);
+            base.OnFight(player);
             animationController.Play("idle");
-            weapon.attack();
+            weapon.Attack();
             WALK_MAX_SPEED=0f;
         }
     }
 
-    public override void onPassanger(Player player=null)
+    public override void OnPassanger(Player player=null)
     {
         if(state!=STATE.passanger)
         {         
-            base.onPassanger(player);
+            base.OnPassanger(player);
             animationController.Play("idle");
             animationPlayer.Play("PASSANGER");
         }
     }
 
-    protected override void onStroll()
+    protected override void OnStroll()
     {
         if(state!=STATE.stroll)
         {
             WALK_MAX_SPEED=30f;
             travelTime=0f;
             playerCast2D.CastTo=Facing()*DETECT_DISTANCE;
-            base.onStroll();
+            base.OnStroll();
         }
     }
 
 
-    protected override void onIdle()
+    protected override void OnIdle()
     {
         if (state != STATE.idle)
         {
             travelTime = 0f;
             WALK_MAX_SPEED = 30f;
             playerCast2D.CastTo = Facing()*DETECT_DISTANCE;
-            base.onIdle();
+            base.OnIdle();
         }
     }
 
-    protected override void onAlert()
+    protected override void OnAlert()
     {
         onDelay = false;
         if(state!=STATE.alert)
         {
             lastState = state;
             state = STATE.alert;
-            goal = alert;
+            goal = Alert;
 
             victim = Player.instance;
             float distance = GlobalPosition.DistanceTo(victim.GlobalPosition);
@@ -364,17 +364,17 @@ public class Oger : KinematicMonster
 
             if (distance > FIGHT_DISTANCE)
             {
-                onAttack(victim);
+                OnAttack(victim);
             }
             else
             {
-                onFight(victim);
+                OnFight(victim);
             }
      
         }
     }
 
-    private bool canSeePlayer()
+    private bool CanSeePlayer()
     {
         return playerCast2D.IsColliding()&&playerCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId();
     }
@@ -390,7 +390,7 @@ public class Oger : KinematicMonster
         facing=Facing();
     }
 
-    protected override void navigation(float delta)
+    protected override void Navigation(float delta)
     {
         if(direction.Length()>0f)
         {

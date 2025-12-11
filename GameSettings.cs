@@ -81,7 +81,7 @@ public static class GameSettings
     private static string CONFIG_DIR=>ROOT_NAME+"gamesettings/";
     private static string CONFIG_NAME=>"config.json";
 
-    public static void init()
+    public static void Init()
     {
         isMobile=OS.GetName().Equals("android",StringComparison.OrdinalIgnoreCase);
         ROOT_NAME=isMobile?"user://":"res://";
@@ -91,17 +91,17 @@ public static class GameSettings
         if(!dir.DirExists(CONFIG_DIR))
         {
             dir.MakeDir(CONFIG_DIR);
-            saveConfig(current);
+            SaveConfig(current);
         }
         else if(!dir.FileExists(CONFIG_DIR+CONFIG_NAME))
         {
-            saveConfig(current);
+            SaveConfig(current);
         }
-        saveConfig(current);
-        current=loadConfig();
+        SaveConfig(current);
+        current=LoadConfig();
     }
 
-    public static void saveConfig(Config config)
+    public static void SaveConfig(Config config)
     {
         File file=new File();
         file.Open(CONFIG_DIR+CONFIG_NAME,File.ModeFlags.Write);
@@ -109,7 +109,7 @@ public static class GameSettings
         file.Close();
     }
 
-    public static Config loadConfig()
+    public static Config LoadConfig()
     {
         try
         {
@@ -129,7 +129,7 @@ public static class GameSettings
         return new Config();
     }
 
-    public static void defaultConfig()
+    public static void DefaultConfig()
     {
         current=new Config();
     }

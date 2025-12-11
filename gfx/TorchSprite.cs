@@ -18,7 +18,7 @@ public class TorchSprite : Godot.Sprite
         SetPhysicsProcess(true);
 
         VisibilityNotifier2D notifier2D = new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited", World.instance, nameof(World.onObjectExitedScreen), new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited", World.instance, nameof(World.OnObjectExitedScreen), new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
     }
@@ -29,8 +29,8 @@ public class TorchSprite : Godot.Sprite
         if (delayCount >= delay)
         {
             delayCount = 0;
-            Scale = defaultScale * (float)MathUtils.randomRange(0.8f, 1.2f);
-            shader.SetShaderParam("amount", MathUtils.randomRange(40f, 60f));
+            Scale = defaultScale * (float)MathUtils.RandomRange(0.8f, 1.2f);
+            shader.SetShaderParam("amount", MathUtils.RandomRange(40f, 60f));
         }
     }
 

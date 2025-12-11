@@ -8,7 +8,7 @@ public class Coin : Bonus
         base._Ready();
     }
 
-    protected override void onEnteredBody(Node body) 
+    protected override void OnEnteredBody(Node body) 
     {
         if(body.Name.Equals("Player"))
         {
@@ -20,7 +20,7 @@ public class Coin : Bonus
         }
     }
 
-    public override void apply(Player player)
+    public override void Apply(Player player)
     {
         throw new NotImplementedException();
     }

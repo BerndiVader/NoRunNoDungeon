@@ -15,8 +15,8 @@ public class Sword : Weapon
 
         shaderSprite.Visible=false;
 
-        Connect("body_entered", this, nameof(onHitSomething));
-        Connect("area_entered", this, nameof(onHitSomething));
+        Connect("body_entered", this, nameof(OnHitSomething));
+        Connect("area_entered", this, nameof(OnHitSomething));
     }
 
     public override void _PhysicsProcess(float delta)
@@ -24,9 +24,9 @@ public class Sword : Weapon
         switch(state)
         {
             case WEAPONSTATE.IDLE:
-                if(!animationPlayer.IsPlaying()&&AnimationNames.SETUP+getStringDirection()!=animationPlayer.CurrentAnimation)
+                if(!animationPlayer.IsPlaying()&&AnimationNames.SETUP+GetStringDirection()!=animationPlayer.CurrentAnimation)
                 {
-                    animationPlayer.Play(AnimationNames.SETUP+getStringDirection());
+                    animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
                 }
                 break;
             case WEAPONSTATE.ATTACK:
@@ -42,7 +42,7 @@ public class Sword : Weapon
         }
     }
 
-    public override bool attack()
+    public override bool Attack()
     {
         if (state == WEAPONSTATE.IDLE)
         {
@@ -50,8 +50,8 @@ public class Sword : Weapon
             shaderSprite.Visible=true;
             shader.SetShaderParam("flip_h",!Player.instance.animationController.FlipH);
             shader.SetShaderParam("swing",true);
-            playSfx(sfxSwing);
-            animationPlayer.Play(AnimationNames.SWING + getStringDirection());
+            PlaySfx(sfxSwing);
+            animationPlayer.Play(AnimationNames.SWING + GetStringDirection());
             state = WEAPONSTATE.ATTACK;
             return true;
         }

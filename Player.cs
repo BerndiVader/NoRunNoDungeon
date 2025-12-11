@@ -71,7 +71,7 @@ public class Player : KinematicBody2D
         AddToGroup(GROUPS.PLAYERS.ToString());
         ZIndex=2;
 
-        Connect(STATE.damage.ToString(),this,nameof(onDamaged));
+        Connect(STATE.damage.ToString(),this,nameof(OnDamaged));
 
         FORCE=new Vector2(0f,GRAVITY);
         smoothingSpeed=PlayerCamera.instance.SmoothingSpeed;
@@ -97,11 +97,11 @@ public class Player : KinematicBody2D
         
         Vector2 force=FORCE;
 
-        bool left=World.instance.input.getLeft();
-        bool right=World.instance.input.getRight();
-        bool jump=World.instance.input.getJump();
-        bool attack=World.instance.input.getAttack();
-        bool changeWeapon=World.instance.input.getChange();
+        bool left=World.instance.input.Left();
+        bool right=World.instance.input.Right();
+        bool jump=World.instance.input.Jump();
+        bool attack=World.instance.input.Attack();
+        bool changeWeapon=World.instance.input.Change();
 
         if(changeWeapon&&!attack)
         {
@@ -110,13 +110,13 @@ public class Player : KinematicBody2D
             {
                 weaponCyle=0;
             }
-            unequipWeapon();
-            equipWeapon(ResourceUtils.weapons[weapons[weaponCyle]]);
+            UnequipWeapon();
+            EquipWeapon(ResourceUtils.weapons[weapons[weaponCyle]]);
         }
 
         if(attack&&weapon!=null)
         {
-            weapon.attack();
+            weapon.Attack();
         }        
 
         if(left)
@@ -220,7 +220,7 @@ public class Player : KinematicBody2D
         {
             if(airParticles.Emitting)
             {
-                playSfx(sfxLanding);
+                PlaySfx(sfxLanding);
                 airParticles.Emitting=false;
             }
 
@@ -253,7 +253,7 @@ public class Player : KinematicBody2D
             velocity.y=-JUMP_SPEED;
             animationController.Play(ANIM_JUMP);
             jumpParticles.Emitting=true;
-            playSfx(sfxDoubleJump);
+            PlaySfx(sfxDoubleJump);
         }
 
         if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME) 
@@ -272,19 +272,19 @@ public class Player : KinematicBody2D
             velocity.y=-JUMP_SPEED;
             animationController.Play(ANIM_JUMP);
             justJumped=jumping=true;
-            playSfx(sfxJump);
+            PlaySfx(sfxJump);
         }
         onAirTime+=delta;
 
         if(Position.x<-20f||Position.y<-60f||Position.x>World.RESOLUTION.x+20f||Position.y>World.RESOLUTION.y+20f)
         {
-            onDamaged();
+            OnDamaged();
         }
 
         lastVelocity=velocity;
     }
 
-    public void equipWeapon(PackedScene packed)
+    public void EquipWeapon(PackedScene packed)
     {
         weapon=(Weapon)packed.Instance();
         if(weapon!=null)
@@ -293,7 +293,7 @@ public class Player : KinematicBody2D
         }
     }
 
-    public void unequipWeapon()
+    public void UnequipWeapon()
     {
         if(weapon!=null)
         {
@@ -302,10 +302,10 @@ public class Player : KinematicBody2D
         }
     }
 
-    private void onDamaged(float amount=1f,Node2D damager=null)
+    private void OnDamaged(float amount=1f,Node2D damager=null)
     {
         PlayerCamera.instance.SmoothingSpeed=0f;
-        World.instance.setGamestate(Gamestate.DIEING);
+        World.instance.SetGamestate(Gamestate.DIEING);
 
         PlayerDie effect=PlayerDie.create();
         effect.Position=World.level.ToLocal(GlobalPosition);
@@ -316,20 +316,20 @@ public class Player : KinematicBody2D
         PlayerDieEffect.create();
     }
 
-    public void die()
+    public void Die()
     {
         if(LIVES>0)
         {
-            World.instance.CallDeferred(nameof(World.instance.restartLevel),true);
+            World.instance.CallDeferred(nameof(World.instance.RestartLevel),true);
             PlayerCamera.instance.SmoothingSpeed=smoothingSpeed;
         }
         else
         {
-            World.instance.CallDeferred(nameof(World.changeScene),ResourceUtils.intro);
+            World.instance.CallDeferred(nameof(World.ChangeScene),ResourceUtils.intro);
         }
     }
 
-    private void playSfx(AudioStream stream)
+    private void PlaySfx(AudioStream stream)
     {
         SfxPlayer sfx=new SfxPlayer();
         sfx.Stream=stream;

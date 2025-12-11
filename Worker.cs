@@ -23,7 +23,7 @@ public class Worker : Thread
 	{
 		instance=this;
 		placeholders=new ConcurrentStack<WeakReference>();
-		setStatus(State.IDLE);
+		SetStatus(State.IDLE);
 		quit=false;
 		Start(this,nameof(Runner));
 	}
@@ -36,7 +36,7 @@ public class Worker : Thread
 		}
 	}
 
-	private static void instantiatePlaceholder(Placeholder placeholder)
+	private static void InstantiatePlaceholder(Placeholder placeholder)
 	{
 		try
 		{
@@ -62,33 +62,33 @@ public class Worker : Thread
 		}
 	}
 
-	private static void prepareAndChangeLevel()
+	private static void PrepareAndChangeLevel()
 	{
 		placeholders.Clear();
-		World.instance.prepareAndChangeLevel();
-		setStatus(State.IDLE);
-		gc();
+		World.instance.PrepareAndChangeLevel();
+		SetStatus(State.IDLE);
+		Gc();
 	}
 
-	private static void idle()
+	private static void Idle()
 	{
 		delay = 10;
 		if (placeholders.TryPop(out WeakReference result) && result.IsAlive && result.Target is Placeholder p)
 		{
-			instantiatePlaceholder(p);
+			InstantiatePlaceholder(p);
 			delay = 3;
 		}
 		OS.DelayMsec(delay);
 	}
 	
-	private static void quitting()
+	private static void Quitting()
     {
 		OS.DelayMsec(1);
     }
 
-	public static void stop()
+	public static void Stop()
 	{
-        setStatus(State.QUITTING);
+        SetStatus(State.QUITTING);
 		quit=true;
 		Console.Write("Wait for worker to finish...");
 		instance.WaitToFinish();
@@ -100,24 +100,24 @@ public class Worker : Thread
 		Console.WriteLine(" done!");		
 	}
 
-	public static void setStatus(State s)
+	public static void SetStatus(State s)
 	{
 		switch(s)
 		{
 			case State.PREPARELEVEL:
-				goal=prepareAndChangeLevel;
+				goal=PrepareAndChangeLevel;
 				break;
 			case State.IDLE:
-				goal=idle;
+				goal=Idle;
 				break;
 			case State.QUITTING:
-				goal = quitting;
+				goal = Quitting;
 				break;
 		}
 		state=s;
 	}
 
-	public static async void gc()
+	public static async void Gc()
 	{
 		await Task.Run(delegate()
 		{

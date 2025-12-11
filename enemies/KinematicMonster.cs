@@ -3,7 +3,7 @@ using System;
 
 public abstract class KinematicMonster : KinematicBody2D
 {
-    private static PackedScene levelControlPack=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
+    private static readonly PackedScene levelControlPack=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
 
     [Export] protected Vector2 ANIMATION_OFFSET = Vector2.Zero;
     [Export] protected Vector2 VELOCITY=Vector2.Zero;
@@ -48,7 +48,7 @@ public abstract class KinematicMonster : KinematicBody2D
         SetPhysicsProcess(true);
 
         VisibilityNotifier2D notifier2D = new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited", World.instance, nameof(World.onObjectExitedScreen), new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited", World.instance, nameof(World.OnObjectExitedScreen), new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         collisionController = GetNode<CollisionShape2D>(nameof(CollisionShape2D));
@@ -57,8 +57,8 @@ public abstract class KinematicMonster : KinematicBody2D
 
         staticBody.AddUserSignal(STATE.passanger.ToString());
         staticBody.AddUserSignal(STATE.damage.ToString());
-        staticBody.Connect(STATE.passanger.ToString(), this, nameof(onPassanger));
-        staticBody.Connect(STATE.damage.ToString(), this, nameof(onDamage));
+        staticBody.Connect(STATE.passanger.ToString(), this, nameof(OnPassanger));
+        staticBody.Connect(STATE.damage.ToString(), this, nameof(OnDamage));
 
         AddUserSignal(STATE.passanger.ToString());
         AddUserSignal(STATE.damage.ToString());
@@ -71,16 +71,16 @@ public abstract class KinematicMonster : KinematicBody2D
         AddUserSignal(STATE.panic.ToString());
         AddUserSignal(STATE.alert.ToString());
 
-        Connect(STATE.die.ToString(), this, nameof(onDie));
-        Connect(STATE.attack.ToString(), this, nameof(onAttack));
-        Connect(STATE.fight.ToString(), this, nameof(onFight));
-        Connect(STATE.calm.ToString(), this, nameof(onCalm));
-        Connect(STATE.idle.ToString(), this, nameof(onIdle));
-        Connect(STATE.stroll.ToString(), this, nameof(onStroll));
-        Connect(STATE.passanger.ToString(), this, nameof(onPassanger));
-        Connect(STATE.damage.ToString(), this, nameof(onDamage));
-        Connect(STATE.panic.ToString(), this, nameof(onPanic));
-        Connect(STATE.alert.ToString(), this, nameof(onAlert));
+        Connect(STATE.die.ToString(), this, nameof(OnDie));
+        Connect(STATE.attack.ToString(), this, nameof(OnAttack));
+        Connect(STATE.fight.ToString(), this, nameof(OnFight));
+        Connect(STATE.calm.ToString(), this, nameof(OnCalm));
+        Connect(STATE.idle.ToString(), this, nameof(OnIdle));
+        Connect(STATE.stroll.ToString(), this, nameof(OnStroll));
+        Connect(STATE.passanger.ToString(), this, nameof(OnPassanger));
+        Connect(STATE.damage.ToString(), this, nameof(OnDamage));
+        Connect(STATE.panic.ToString(), this, nameof(OnPanic));
+        Connect(STATE.alert.ToString(), this, nameof(OnAlert));
 
         AddToGroup(GROUPS.ENEMIES.ToString());
         staticBody.AddToGroup(GROUPS.ENEMIES.ToString());
@@ -89,7 +89,7 @@ public abstract class KinematicMonster : KinematicBody2D
         FORCE = new Vector2(0f, GRAVITY);
 
         state = STATE.unknown;
-        goal = unknown;
+        goal = Unknown;
 
         facing=direction=Facing();
 
@@ -103,39 +103,39 @@ public abstract class KinematicMonster : KinematicBody2D
         LastPosition = GlobalPosition;
     }
 
-    protected virtual void unknown(float delta) { }
-    protected virtual void idle(float delta) {}
-    protected virtual void stroll(float delta) {}
-    protected virtual void attack(float delta) {}
-    protected virtual void fight(float delta) {}
-    protected virtual void panic(float delta) {}
-    protected virtual void alert(float delta) {}
-    protected virtual void passanger(float delta)
+    protected virtual void Unknown(float delta) { }
+    protected virtual void Idle(float delta) {}
+    protected virtual void Stroll(float delta) {}
+    protected virtual void Attack(float delta) {}
+    protected virtual void Fight(float delta) {}
+    protected virtual void Panic(float delta) {}
+    protected virtual void Alert(float delta) {}
+    protected virtual void Passanger(float delta)
     {
         if(health<=0)
         {
-            onDie();
+            OnDie();
         }
         else
         {
             animationController.SpeedScale=1;
-            onIdle();
+            OnIdle();
         }
     }
-    protected virtual void calm(float delta) {}
-    protected virtual void damage(float delta)
+    protected virtual void Calm(float delta) {}
+    protected virtual void Damage(float delta)
     {
         if(health<=0)
         {
-            onDie();
+            OnDie();
         }
         else
         {
             staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
-            onIdle();
+            OnIdle();
         }
     }
-    protected virtual void die(float delta)
+    protected virtual void Die(float delta)
     {
         EnemieDieParticles particles=ResourceUtils.particles[(int)PARTICLES.ENEMIEDIE].Instance<EnemieDieParticles>();
         particles.Texture=animationController.Frames.GetFrame(animationController.Animation,animationController.Frame);
@@ -147,19 +147,19 @@ public abstract class KinematicMonster : KinematicBody2D
         World.level.AddChild(particles);
         QueueFree();
     }
-    protected virtual void navigation(float delta) {}
+    protected virtual void Navigation(float delta) {}
 
-    protected virtual void onDie()
+    protected virtual void OnDie()
     {
         onDelay=false;
         if(state!=STATE.die)
         {
             lastState=state;
             state=STATE.die;
-            goal=die;
+            goal=Die;
         }
     }
-    protected virtual void onAttack(Player player=null)
+    protected virtual void OnAttack(Player player=null)
     {
         if(player==null)
         {
@@ -171,10 +171,10 @@ public abstract class KinematicMonster : KinematicBody2D
             lastState=state;
             state=STATE.attack;
             victim=player;
-            goal=attack;
+            goal=Attack;
         }
     }
-    protected virtual void onFight(Player player=null)
+    protected virtual void OnFight(Player player=null)
     {    
         onDelay=false;
         if(state!=STATE.fight)
@@ -187,10 +187,10 @@ public abstract class KinematicMonster : KinematicBody2D
             lastState=state;
             state=STATE.fight;
             victim=player;
-            goal=fight;
+            goal=Fight;
         }
     }
-    protected virtual void onDamage(Player player=null,int amount=0)
+    protected virtual void OnDamage(Player player=null,int amount=0)
     {
         onDelay=false;
         if(state!=STATE.damage&&state!=STATE.die)
@@ -207,10 +207,10 @@ public abstract class KinematicMonster : KinematicBody2D
             DAMAGE_AMOUNT = amount;
             
             health-=amount;
-            goal = damage;
+            goal = Damage;
         }
     }
-    public virtual void onPassanger(Player player=null)
+    public virtual void OnPassanger(Player player=null)
     {      
         onDelay=false;
         if(state!=STATE.passanger)
@@ -225,40 +225,40 @@ public abstract class KinematicMonster : KinematicBody2D
             state = STATE.passanger;
             health -= 0.5f;
             attacker = player;
-            goal=passanger;
+            goal=Passanger;
         }
     }
-    protected virtual void onCalm()
+    protected virtual void OnCalm()
     {
         onDelay = false;
         if (state != STATE.calm)
         {
             lastState = state;
             state = STATE.calm;
-            goal = calm;
+            goal = Calm;
         }
     }
-    protected virtual void onPanic()
+    protected virtual void OnPanic()
     {
         onDelay = false;
         if (state != STATE.panic)
         {
             lastState = state;
             state = STATE.panic;
-            goal = panic;
+            goal = Panic;
         }
     }
-    protected virtual void onAlert()
+    protected virtual void OnAlert()
     {
         onDelay = false;
         if(state!=STATE.alert)
         {
             lastState = state;
             state = STATE.alert;
-            goal = alert;
+            goal = Alert;
         }
     }
-    protected virtual void onIdle()
+    protected virtual void OnIdle()
     {
         onDelay=false;
         if(state!=STATE.idle)
@@ -266,10 +266,10 @@ public abstract class KinematicMonster : KinematicBody2D
             lastState=state;
             state=STATE.idle;
             animationController.Play("idle");
-            goal=idle;
+            goal=Idle;
         }
     }
-    protected virtual void onStroll()
+    protected virtual void OnStroll()
     {
         onDelay=false;
         if(state!=STATE.stroll)
@@ -277,11 +277,11 @@ public abstract class KinematicMonster : KinematicBody2D
             lastState=state;
             state=STATE.stroll;
             animationController.Play("stroll");
-            goal=stroll;
+            goal=Stroll;
         }
     }
 
-    protected virtual void delayedState(float seconds,STATE next,params object[] args)
+    protected virtual void DelayedState(float seconds,STATE next,params object[] args)
     {
         if(!onDelay)
         {
@@ -295,11 +295,11 @@ public abstract class KinematicMonster : KinematicBody2D
         }
     }
 
-    protected void onAnimationPlayerStarts(string name)
+    protected void OnAnimationPlayerStarts(string name)
     {
         startOffset=Position;
     }
-    protected void onAnimationPlayerEnded(string name)
+    protected void OnAnimationPlayerEnded(string name)
     {
         startOffset=Position;
         ANIMATION_OFFSET=Vector2.Zero;
@@ -353,7 +353,7 @@ public abstract class KinematicMonster : KinematicBody2D
         {
             levelSettings=new Settings(World.level,Vector2.Zero,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
             LevelControl control=levelControlPack.Instance<LevelControl>();
-            control.setMonsterControlled(levelSettings);
+            control.SetMonsterControlled(levelSettings);
             control.Position=Position;
             World.level.AddChild(control);
         }
@@ -364,7 +364,7 @@ public abstract class KinematicMonster : KinematicBody2D
     {
         if((bool)LEVEL_SETTINGS["Use"])
         {
-            levelSettings.restore();
+            levelSettings.Restore();
         }
         base._ExitTree();
     }

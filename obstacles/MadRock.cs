@@ -3,18 +3,19 @@ using System;
 
 public class MadRock : KinematicBody2D
 {
-    private float GRAVITY=1200f,distance=1000f*1000f;
+    private readonly float GRAVITY=1200f;
+    private readonly float DISTANCE=10000000f;
     private int time;
     private Vector2 force,velocity,startPosition;
     private State state,nextState;
 
     private enum State
     {
-        onIdle,
-        onFalling,
-        onLift,
-        onWaiting,
-        unkown
+        OnIdle,
+        OnFalling,
+        OnLift,
+        OnWaiting,
+        Unkown
     }
 
     protected delegate void Goal(float delta);
@@ -25,15 +26,15 @@ public class MadRock : KinematicBody2D
         AddToGroup(GROUPS.OBSTACLES.ToString());
 
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         force=new Vector2(0f,GRAVITY);
         velocity=Vector2.Zero;
         startPosition=Position;
 
-        state=State.unkown;
-        onIdle();
+        state=State.Unkown;
+        OnIdle();
     }
 
     public override void _PhysicsProcess(float delta)
@@ -41,37 +42,37 @@ public class MadRock : KinematicBody2D
         goal(delta);
     }
 
-    private void idle(float delta)
+    private void Idle(float delta)
     {
-        if(GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<distance)
+        if(GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<DISTANCE)
         {
-            onFalling();
+            OnFalling();
         }
     }
 
-    private void falling(float delta)
+    private void Falling(float delta)
     {
         velocity+=force*delta;
         KinematicCollision2D collision=MoveAndCollide(velocity*delta);
         if(collision!=null)
         {
-            createParticles();
-            onWaiting(State.onLift);
+            CreateParticles();
+            OnWaiting(State.OnLift);
         }
     }
 
-    private void lift(float delta)
+    private void Lift(float delta)
     {
         velocity.y=-100f;
         MoveAndCollide(velocity*delta);
         if(Position.y<=startPosition.y)
         {
             Position=startPosition;
-            onWaiting(State.onIdle);
+            OnWaiting(State.OnIdle);
         }
     }
 
-    private void waiting(float delta)
+    private void Waiting(float delta)
     {
         int current=(int)OS.GetTicksMsec()/1000;
         if(current-time>0)
@@ -80,46 +81,46 @@ public class MadRock : KinematicBody2D
         }
     }
 
-    private void onIdle()
+    private void OnIdle()
     {
-        if(state!=State.onIdle)
+        if(state!=State.OnIdle)
         {
-            state=State.onIdle;
-            goal=idle;
+            state=State.OnIdle;
+            goal=Idle;
         }
     }
 
-    private void onFalling()
+    private void OnFalling()
     {
-        if(state!=State.onFalling)
+        if(state!=State.OnFalling)
         {
-            state=State.onFalling;
+            state=State.OnFalling;
             velocity=Vector2.Zero;
-            goal=falling;
+            goal=Falling;
         }
     }
 
-    private void onLift()
+    private void OnLift()
     {
-        if(state!=State.onLift)
+        if(state!=State.OnLift)
         {
-            state=State.onLift;
-            goal=lift;
+            state=State.OnLift;
+            goal=Lift;
         }
     }
 
-    private void onWaiting(State next)
+    private void OnWaiting(State next)
     {
-        if(state!=State.onWaiting)
+        if(state!=State.OnWaiting)
         {
             nextState=next;
-            state=State.onWaiting;
+            state=State.OnWaiting;
             time=(int)OS.GetTicksMsec()/1000;
-            goal=waiting;
+            goal=Waiting;
         }
     }
 
-    private void createParticles()
+    private void CreateParticles()
     {
         MadRockParticles particle=ResourceUtils.particles[(int)PARTICLES.MADROCK].Instance<MadRockParticles>();
         particle.Position=Position+new Vector2(0f,16f);

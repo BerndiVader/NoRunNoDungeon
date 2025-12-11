@@ -23,7 +23,7 @@ public class Settings
 
     }
 
-    public void set()
+    public void Set()
     {
         if(levelRef.TryGetTarget(out Level level))
         {
@@ -43,7 +43,7 @@ public class Settings
         }
     }
 
-    public void restore()
+    public void Restore()
     {
         if(levelRef.TryGetTarget(out Level level))
         {

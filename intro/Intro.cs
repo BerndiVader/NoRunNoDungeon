@@ -17,7 +17,7 @@ public class Intro : Node
 		musicPlayer.Play();
 
 		AddChild(ResourceUtils.camera.Instance<PlayerCamera>());		
-		input=ResourceUtils.getInputController(this);
+		input=ResourceUtils.GetInputController(this);
 		GetTree().CurrentScene=this;
 		GetTree().Paused=false;
 
@@ -33,28 +33,28 @@ public class Intro : Node
             }
 			GetNode<RichTextLabel>(nameof(RichTextLabel)).Visible=true;
 			onOptions=false;
-			input=ResourceUtils.getInputController(this);
+			input=ResourceUtils.GetInputController(this);
         }
 
-		if(input.getJump())
+		if(input.Jump())
 		{
-			input._free();
-			World.changeScene(ResourceUtils.world);
+			input.Free();
+			World.ChangeScene(ResourceUtils.world);
 		}
-		else if (input.getChange())
+		else if (input.Change())
         {
-			input._free();
+			input.Free();
 			OptionsUI options=BaseUI.OptionsPack.Instance<OptionsUI>();
 			options.Name="Options";
 			AddChild(options);
 			onOptions=true;
 			GetNode<RichTextLabel>(nameof(RichTextLabel)).Visible=false;
         }
-		else if(input.getQuit())
+		else if(input.Quit())
 		{
-			input._free();
+			input.Free();
 			input=null;
-			World.quit();
+			World.Quit();
 		}
 	}
 
@@ -62,7 +62,7 @@ public class Intro : Node
 	{
 		if(what==MainLoop.NotificationWmQuitRequest)
 		{
-			Worker.stop();
+			Worker.Stop();
 		}
 		base._Notification(what);
 	}

@@ -13,15 +13,15 @@ public class Renderer : CanvasModulate
 
     public override void _Process(float delta)
     {
-        if(shake!=0d) applyShake();
+        if(shake!=0d) ApplyShake();
     }
 
-    private void applyShake()
+    private void ApplyShake()
     {
         shake=Math.Min(shake,ShakeMax);
         if(shake>=0.3d)
         {
-            Position=new Vector2((float)MathUtils.randomRange(-shake,shake),(float)MathUtils.randomRange(-shake,shake));
+            Position=new Vector2((float)MathUtils.RandomRange(-shake,shake),(float)MathUtils.RandomRange(-shake,shake));
             shake*=0.9d;
         } 
         else if(shake>0d)

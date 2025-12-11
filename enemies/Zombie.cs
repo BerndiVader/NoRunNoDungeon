@@ -16,16 +16,16 @@ public class Zombie : KinematicMonster
         weapon=GetNode<MonsterWeapon>("Mace");
 
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
-        animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
-        animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
+        animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
+        animationPlayer.Connect("animation_finished",this,nameof(OnAnimationPlayerEnded));
 
         rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
         animationController.Play("idle");
-        animationController.FlipH=MathUtils.randomRangeInt(1,3)==2;
-        onIdle();
+        animationController.FlipH=MathUtils.RandBool();
+        OnIdle();
 
         cooldown=0;
 
@@ -51,10 +51,10 @@ public class Zombie : KinematicMonster
             Position=startOffset+(ANIMATION_OFFSET*animationDirection);
         }
         goal(delta);
-        navigation(delta);
+        Navigation(delta);
     }
 
-    protected override void navigation(float delta)
+    protected override void Navigation(float delta)
     {
         velocity+=FORCE*delta;
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
@@ -80,12 +80,12 @@ public class Zombie : KinematicMonster
         }
     }
 
-    protected override void idle(float delta)
+    protected override void Idle(float delta)
     {
         if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId())
         {
             cooldown=0;
-            onAttack(Player.instance);
+            OnAttack(Player.instance);
         }
         else if(cooldown>250)
         {
@@ -96,7 +96,7 @@ public class Zombie : KinematicMonster
 
     }
 
-    protected override void attack(float delta)
+    protected override void Attack(float delta)
     {
         float distance=rayCast2D.GlobalPosition.DistanceTo(victim.GlobalPosition);
         if (distance < 41f)
@@ -107,9 +107,9 @@ public class Zombie : KinematicMonster
             rayCast2D.CastTo = direction * distance;
             if (rayCast2D.IsColliding() && rayCast2D.GetCollider().GetInstanceId() == victim.GetInstanceId())
             {
-                if (cooldown < 0 && !weapon.isPlaying())
+                if (cooldown < 0 && !weapon.IsPlaying())
                 {
-                    weapon.attack();
+                    weapon.Attack();
                     cooldown = 20;
                 }
             }
@@ -117,24 +117,24 @@ public class Zombie : KinematicMonster
             {
                 rayCast2D.CastTo = animationController.FlipH == true ? CASTTO * -1 : CASTTO;
                 cooldown = 0;
-                onIdle();
+                OnIdle();
             }
         }
         else
         {
             rayCast2D.CastTo = animationController.FlipH == true ? CASTTO * -1 : CASTTO;
             cooldown = 0;
-            onIdle();
+            OnIdle();
         }
         cooldown--;
     }
 
-    protected override void fight(float delta)
+    protected override void Fight(float delta)
     {
         throw new NotImplementedException();
     }
 
-    protected override void damage(float delta)
+    protected override void Damage(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
@@ -145,34 +145,34 @@ public class Zombie : KinematicMonster
             else
             {
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
-                onIdle();
+                OnIdle();
             }
         }
     }
 
-    protected override void calm(float delta)
+    protected override void Calm(float delta)
     {
         throw new NotImplementedException();
     }    
 
-    protected override void passanger(float delta)
+    protected override void Passanger(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
-            base.passanger(delta);
+            base.Passanger(delta);
         }
     }
 
-    protected override void die(float delta)
+    protected override void Die(float delta)
     {
-        base.die(delta);
+        base.Die(delta);
     }
 
-    protected override void onDamage(Player player=null, int amount=0)
+    protected override void OnDamage(Player player=null, int amount=0)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {
-            base.onDamage(player, amount);
+            base.OnDamage(player, amount);
             if(GlobalPosition.x-player.GlobalPosition.x<0)
             {
                 animationDirection=-1;
@@ -181,11 +181,11 @@ public class Zombie : KinematicMonster
         }
     }
 
-    public override void onPassanger(Player player=null)
+    public override void OnPassanger(Player player=null)
     {
         if(state!=STATE.passanger)
         {
-            base.onPassanger(player);
+            base.OnPassanger(player);
             animationPlayer.Play("PASSANGER");
         }
     }

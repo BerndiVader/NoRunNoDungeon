@@ -13,11 +13,11 @@ public class Placeholder : Node2D
         SetProcess(false);
 
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_entered",this,nameof(onEnteredScreen));
+        notifier2D.Connect("screen_entered",this,nameof(OnEnteredScreen));
         AddChild(notifier2D);
     }
 
-    public void onEnteredScreen()
+    public void OnEnteredScreen()
     {
         Worker.placeholders.Push(new WeakReference(this));
     }

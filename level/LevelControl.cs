@@ -14,8 +14,8 @@ public class LevelControl : Node2D
     public override void _Ready()
     {
         notifier=new VisibilityNotifier2D();
-        notifier.Connect("screen_entered",this,nameof(onScreenEntered));
-        notifier.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
+        notifier.Connect("screen_entered",this,nameof(OnScreenEntered));
+        notifier.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier);
 
         SetProcess(false);
@@ -45,7 +45,7 @@ public class LevelControl : Node2D
             if(!Restore)
             {
                 settings=new Settings(World.level,Direction,Speed,Zoom);
-                settings.set();
+                settings.Set();
                 if(Timeout!=-1)
                 {
                     World.level.AddChild(new LevelControlTimer(Timeout,settings));
@@ -53,20 +53,20 @@ public class LevelControl : Node2D
             }
             else
             {
-                World.level.settings.restore();
+                World.level.settings.Restore();
             }
             QueueFree();
         }
 
     }
 
-    public void setMonsterControlled(Settings settings)
+    public void SetMonsterControlled(Settings settings)
     {
         Speed=settings.speed;
         Zoom=settings.zoom.x;
     }
 
-    private void onScreenEntered()
+    private void OnScreenEntered()
     {
         SettingsEffect effect=LevelControlTimer.countEffect.Instance<SettingsEffect>();
         effect.chr=(int)"!"[0];

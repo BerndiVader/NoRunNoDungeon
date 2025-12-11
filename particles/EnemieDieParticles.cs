@@ -7,7 +7,7 @@ public class EnemieDieParticles : CPUParticles2D
 
     public override void _Ready()
     {
-        ExplodeGfx explode=(ExplodeGfx)ResourceUtils.gfx[MathUtils.randomRangeInt(0,4)].Instance();
+        ExplodeGfx explode=(ExplodeGfx)ResourceUtils.gfx[MathUtils.RandomRangeInt(0,4)].Instance();
         explode.Position=Position;
 
         SfxPlayer sfxPlayer=new SfxPlayer();

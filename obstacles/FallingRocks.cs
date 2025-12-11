@@ -24,14 +24,14 @@ public class FallingRocks : StaticBody2D
     public override void _Ready()
     {
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.onObjectExitedScreen),new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         area=GetNode<Area2D>("Area2D");
-        area.Connect("body_entered",this,nameof(onBodyEntered));
-        area.Connect("body_exited",this,nameof(onBodyExited));
+        area.Connect("body_entered",this,nameof(OnBodyEntered));
+        area.Connect("body_exited",this,nameof(OnBodyExited));
 
-        GetNode<Area2D>("Area2D2").Connect("body_entered",this,nameof(onPlayerHit));
+        GetNode<Area2D>("Area2D2").Connect("body_entered",this,nameof(OnPlayerHit));
         AddToGroup(GROUPS.OBSTACLES.ToString());
 
         force=new Vector2(0f,GRAVITY);
@@ -68,10 +68,10 @@ public class FallingRocks : StaticBody2D
                 }
                 break;
         }
-        applyShake();
+        ApplyShake();
     }
 
-    private void onBodyEntered(Node2D body)
+    private void OnBodyEntered(Node2D body)
     {
         if(body.IsInGroup(GROUPS.PLATFORMS.ToString())&&body!=this)
         {
@@ -84,7 +84,7 @@ public class FallingRocks : StaticBody2D
         } 
         else if(body.IsInGroup(GROUPS.LEVEL.ToString())&&body!=this)
         {
-            area.Disconnect("body_entered",this,nameof(onBodyEntered));
+            area.Disconnect("body_entered",this,nameof(OnBodyEntered));
             shake = ShakeMax;
             World.instance.renderer.shake+=2;
             state=State.FALLEN;
@@ -93,7 +93,7 @@ public class FallingRocks : StaticBody2D
 
     }
 
-    private void onBodyExited(Node2D body)
+    private void OnBodyExited(Node2D body)
     {
         if(body.IsInGroup(GROUPS.PLATFORMS.ToString()))
         {
@@ -102,7 +102,7 @@ public class FallingRocks : StaticBody2D
         }
     }
 
-    private void onPlayerHit(Node2D body)
+    private void OnPlayerHit(Node2D body)
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString())&&state==State.FALLING) 
         {
@@ -110,19 +110,19 @@ public class FallingRocks : StaticBody2D
         }
     }
 
-    private void applyShake()
+    private void ApplyShake()
     {
         shake=Mathf.Min(shake,ShakeMax);
         if(shake>=ShakeMax*0.5f)
         {
-            float offset=(float)MathUtils.randomRange(-shake,shake);
+            float offset=(float)MathUtils.RandomRange(-shake,shake);
             Rotation=offset;
             shake*=0.9f;
         } 
         else if(shake>0f)
         {
-            float offset = (float)MathUtils.randomRange(-ShakeMax * shake, ShakeMax * shake);
-            offset *= MathUtils.randSign();
+            float offset = (float)MathUtils.RandomRange(-ShakeMax * shake, ShakeMax * shake);
+            offset *= MathUtils.RandSign();
             shake=0f;
             Rotation = offset;
         }

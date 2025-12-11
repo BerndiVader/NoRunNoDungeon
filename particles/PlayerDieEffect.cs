@@ -32,7 +32,7 @@ public class PlayerDieEffect : CPUParticles2D
     {
         if(!Emitting)
         {
-            Player.instance.die();
+            Player.instance.Die();
             QueueFree();
         }
     }

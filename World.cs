@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class World : Node
 {
@@ -12,7 +11,7 @@ public class World : Node
 		root=viewPort;
 	}	
 
-	public static void mergeMaps(Level newLevel, Level nextLevel) 
+	public static void MergeMaps(Level newLevel, Level nextLevel) 
 	{
 		int lx=(int)newLevel.GetUsedRect().End.x;
 
@@ -27,7 +26,7 @@ public class World : Node
 		}
 	}
 
-	public static void changeScene(PackedScene newScene)
+	public static void ChangeScene(PackedScene newScene)
 	{
 		Node currentScene=root.GetTree().CurrentScene;
 		root.AddChild(newScene.Instance());
@@ -43,10 +42,10 @@ public class World : Node
 				currentScene.QueueFree();
 			}
 		}
-		Worker.gc();
+		Worker.Gc();
 	}
 
-	public static void onObjectExitedScreen(Node node)
+	public static void OnObjectExitedScreen(Node node)
 	{
         if(PlayerCamera.instance.Zoom.x==1f)
         {
@@ -54,9 +53,9 @@ public class World : Node
         }
 	}
 
-	public static void quit() 
+	public static void Quit() 
 	{
-		Worker.stop();
+		Worker.Stop();
 		if(instance!=null)
 		{
 			instance._Free();
@@ -85,9 +84,9 @@ public class World : Node
 	{
 		musicPlayer=new AudioStreamPlayer2D();
 		musicPlayer.Bus="Background";
-		onMusicFinishedPlaying();
+		OnMusicFinishedPlaying();
 		musicPlayer.Position=new Vector2(RESOLUTION.x*0.5f,RESOLUTION.y*0.5f);
-		musicPlayer.Connect("finished",this,nameof(onMusicFinishedPlaying));
+		musicPlayer.Connect("finished",this,nameof(OnMusicFinishedPlaying));
 		AddChild(musicPlayer);
 		musicPlayer.Play();
 
@@ -98,16 +97,16 @@ public class World : Node
 		{
 			GetNode("WorldEnvironment").QueueFree();
 		}
-		input=ResourceUtils.getInputController(uiLayer);
+		input=ResourceUtils.GetInputController(uiLayer);
 		renderer=GetNode<Renderer>("Renderer");
 		
 
-		tileSet=ResourceUtils.tilesets[(int)MathUtils.randomRange(0,ResourceUtils.tilesets.Count)];
-		currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
+		tileSet=ResourceUtils.tilesets[(int)MathUtils.RandomRange(0,ResourceUtils.tilesets.Count)];
+		currentLevel=(int)MathUtils.RandomRange(0,ResourceUtils.levels.Count);
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
-		nextLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
+		nextLevel=(int)MathUtils.RandomRange(0,ResourceUtils.levels.Count);
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
-		mergeMaps(level,cachedLevel);
+		MergeMaps(level,cachedLevel);
 		ResourceUtils.player.Instance();
 		Player.LIVES=3;
 		background=(Background)ResourceUtils.background.Instance();
@@ -117,7 +116,7 @@ public class World : Node
 		renderer.AddChild(Player.instance);
 		renderer.AddChild(background);
 		
-		setGamestate(Gamestate.RUNNING);
+		SetGamestate(Gamestate.RUNNING);
 	}
 
     public override void _Process(float delta)
@@ -135,48 +134,48 @@ public class World : Node
 
 		if(Mathf.Abs(level.Position.x)>=level.pixelLength-RESOLUTION.x)
 		{
-			setGamestate(Gamestate.SCENE_CHANGE);
-			Worker.setStatus(Worker.State.PREPARELEVEL);
+			SetGamestate(Gamestate.SCENE_CHANGE);
+			Worker.SetStatus(Worker.State.PREPARELEVEL);
 		}
 	}
 
-	private void sceneRunning(float delta)
+	private void SceneRunning(float delta)
 	{
-		if(input.getPause())
+		if(input.Pause())
 		{
 			GetTree().Paused^=true;
 			if(GetTree().Paused)
 			{
 				lastState=state;
-				setGamestate(Gamestate.PAUSED);
+				SetGamestate(Gamestate.PAUSED);
 				PauseUI pause=(PauseUI)ResourceUtils.pause.Instance();
 				pause.PauseMode=PauseModeEnum.Process;
 				World.instance.uiLayer.AddChild(pause);
 			}
 		}
-		else if(input.getQuit())
+		else if(input.Quit())
 		{
-			CallDeferred(nameof(restartLevel),false);
+			CallDeferred(nameof(RestartLevel),false);
 			return;
 		}
 		tick(delta);
 	}
 
-	private void sceneChanged(float delta)
+	private void SceneChanged(float delta)
 	{
 		if(level.IsInsideTree())
 		{
-			setGamestate(Gamestate.RUNNING);
+			SetGamestate(Gamestate.RUNNING);
 			tick(delta);
 		}
 	}
 
-	public void resetGamestate()
+	public void ResetGamestate()
 	{
-		setGamestate(lastState);
+		SetGamestate(lastState);
 	}
 
-	private void sceneChange(float delta)
+	private void SceneChange(float delta)
 	{
 		if(level!=null&&level.IsInsideTree())
 		{
@@ -184,40 +183,40 @@ public class World : Node
 		}
 	}
 
-	private void sceneIdle(float delta) {}
+	private void SceneIdle(float delta) {}
 
-	public void setGamestate(Gamestate s)
+	public void SetGamestate(Gamestate s)
 	{
 		state=s;
 		switch(state)
 		{
 			case Gamestate.SCENE_CHANGED:
-				goal=sceneChanged;
+				goal=SceneChanged;
 				break;
 			case Gamestate.SCENE_CHANGE:
-				goal=sceneChange;
+				goal=SceneChange;
 				break;
 			case Gamestate.RUNNING:
 			case Gamestate.DIEING:
-				goal=sceneRunning;
+				goal=SceneRunning;
 				break;
 			default:
-				goal=sceneIdle;
+				goal=SceneIdle;
 				break;
 		}
 	}
 
-	public void restartLevel(bool keepLevel=false)
+	public void RestartLevel(bool keepLevel=false)
 	{
-		Worker.gc();
-		setGamestate(Gamestate.RESTART);
+		Worker.Gc();
+		SetGamestate(Gamestate.RESTART);
 		renderer.RemoveChild(level);
 		if(!keepLevel)
 		{
-			currentLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
+			currentLevel=(int)MathUtils.RandomRange(0,ResourceUtils.levels.Count);
 		}
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
-		mergeMaps(level,cachedLevel);
+		MergeMaps(level,cachedLevel);
 		renderer.AddChild(level);
 		renderer.RemoveChild(Player.instance);
 		Player.instance.RemoveChild(PlayerCamera.instance);
@@ -225,16 +224,16 @@ public class World : Node
 		ResourceUtils.player.Instance();
 		Player.instance.AddChild(PlayerCamera.instance);
 		renderer.AddChild(Player.instance);
-		setGamestate(Gamestate.RUNNING);
+		SetGamestate(Gamestate.RUNNING);
 	}
 
-	public void prepareAndChangeLevel()
+	public void PrepareAndChangeLevel()
 	{
 		currentLevel=nextLevel;
-		nextLevel=(int)MathUtils.randomRange(0,ResourceUtils.levels.Count);
+		nextLevel=(int)MathUtils.RandomRange(0,ResourceUtils.levels.Count);
 		Level newLevel=cachedLevel!=null?cachedLevel:(Level)ResourceUtils.levels[currentLevel].Instance();
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
-		mergeMaps(newLevel,cachedLevel);
+		MergeMaps(newLevel,cachedLevel);
 		renderer.CallDeferred("add_child", newLevel);
 
 		while (!newLevel.IsInsideTree())
@@ -246,25 +245,25 @@ public class World : Node
 		renderer.CallDeferred("remove_child",level);
 		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x))-16f,position.y);
 		level=newLevel;
-		setGamestate(Gamestate.SCENE_CHANGED);
+		SetGamestate(Gamestate.SCENE_CHANGED);
 	}
 
 	public void _Free()
 	{
-		setGamestate(Gamestate.RESTART);
+		SetGamestate(Gamestate.RESTART);
 		CallDeferred("queue_free");
 		if(cachedLevel!=null)
 		{
-			cachedLevel.freeLevel();
+			cachedLevel.FreeLevel();
 		}
-		input._free();
+		input.Free();
 		World.instance=null;
 	}
 	public override void _Notification(int what)
 	{
 		if(what==MainLoop.NotificationWmQuitRequest)
 		{
-			quit();
+			Quit();
 		}
 		base._Notification(what);
 	}
@@ -274,8 +273,8 @@ public class World : Node
 		GetTree().CurrentScene=this;
 	}
 
-	private void onMusicFinishedPlaying()
+	private void OnMusicFinishedPlaying()
 	{
-		musicPlayer.Stream=ResourceUtils.ingameMusic[MathUtils.randomRangeInt(0,ResourceUtils.ingameMusic.Count)];
+		musicPlayer.Stream=ResourceUtils.ingameMusic[MathUtils.RandomRangeInt(0,ResourceUtils.ingameMusic.Count)];
 	}	
 }

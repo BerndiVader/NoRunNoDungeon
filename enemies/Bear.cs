@@ -10,26 +10,29 @@ public class Bear : KinematicMonster
     private Vector2 snap=new Vector2(0f,8f);
     private Area2D damager;
     private RayCast2D raycast;
+    private CPUParticles2D particles1,particles2;
     
     public override void _Ready()
     {
         base._Ready();
 
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
-        animationPlayer.Connect("animation_started",this,nameof(onAnimationPlayerStarts));
-        animationPlayer.Connect("animation_finished",this,nameof(onAnimationPlayerEnded));
+        animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
+        animationPlayer.Connect("animation_finished",this,nameof(OnAnimationPlayerEnded));
 
         damager=GetNode<Area2D>("Damager");
-        damager.Connect("body_entered",this,nameof(onPlayerEntered));
+        damager.Connect("body_entered",this,nameof(OnPlayerEntered));
         raycast=GetNode<RayCast2D>(nameof(RayCast2D));
         raycast.Enabled=true;
 
-        GetNode<CPUParticles2D>("Particles1").Emitting=true;
-        GetNode<CPUParticles2D>("Particles2").Emitting=true;
+        particles1=GetNode<CPUParticles2D>("Particles1");
+        particles2=GetNode<CPUParticles2D>("Particles2");
+        particles1.Emitting=true;
+        particles2.Emitting=true;
         
         EmitSignal(STATE.stroll.ToString());
 
-        if(MathUtils.randBool())
+        if(MathUtils.RandBool())
         {
             FlipH();
         }
@@ -37,11 +40,12 @@ public class Bear : KinematicMonster
     }
 
     public override void _PhysicsProcess(float delta)
-    {   
+    {
+        base._PhysicsProcess(delta);
         goal(delta);
     }
 
-    protected override void idle(float delta)
+    protected override void Idle(float delta)
     {
         velocity+=FORCE*delta;
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
@@ -67,13 +71,12 @@ public class Bear : KinematicMonster
         }
     }
 
-    protected override void stroll(float delta)
+    protected override void Stroll(float delta)
     {
-        Vector2 direction=getDirection();
         Vector2 force=new Vector2(0,GRAVITY);
 
-        bool left=direction.x<0f;
-        bool right=direction.x>0f;
+        bool left=facing==Vector2.Left;
+        bool right=facing==Vector2.Right;
 
         if(left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
         {
@@ -102,12 +105,12 @@ public class Bear : KinematicMonster
         }
     }
 
-    protected override void onDamage(Player player=null, int amount=0)
+    protected override void OnDamage(Player player=null, int amount=0)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {
             damager.Monitoring=false;
-            base.onDamage(player, amount);
+            base.OnDamage(player, amount);
             if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
             {
                 animationDirection=-1;
@@ -116,51 +119,51 @@ public class Bear : KinematicMonster
         }
     }
     
-    public override void onPassanger(Player player=null)
+    public override void OnPassanger(Player player=null)
     {
         if(state!=STATE.passanger)
         {
             damager.Monitoring=false;
-            base.onPassanger(player);
+            base.OnPassanger(player);
             animationController.Play("idle");
             animationPlayer.Play("PASSANGER");
         }
     }
 
-    protected override void passanger(float delta)
+    protected override void Passanger(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
             if(health<=0f)
             {
-                onDie();
+                OnDie();
             }
             else
             {
                 animationController.SpeedScale=1;
                 damager.Monitoring=true;
-                onStroll();
+                OnStroll();
             }
         }
     } 
 
-    protected override void damage(float delta)
+    protected override void Damage(float delta)
     {
         if(!animationPlayer.IsPlaying())
         {
             if(health<=0)
             {
-                onDie();
+                OnDie();
             }
             else
             {
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
-                onIdle();
+                OnIdle();
             }
         }
     }     
 
-    private void onPlayerEntered(Node body)
+    private void OnPlayerEntered(Node body)
     {
         damager.SetDeferred("Monitoring",false);
         body.EmitSignal(STATE.damage.ToString(),1f,this);
@@ -168,24 +171,14 @@ public class Bear : KinematicMonster
 
     protected override void FlipH()
     {
-        if(Scale.y<0)
-        {
-            LookAt(GlobalPosition+Vector2.Right);
-        }
-        else
-        {
-            LookAt(GlobalPosition+Vector2.Left);
-        }
-        Scale*=new Vector2(1f,-1f);
-    }
+        animationController.FlipH^=true;
+        damager.Position=FlipX(damager.Position);
+        raycast.Position=FlipX(raycast.Position);
+        collisionController.Position=FlipX(collisionController.Position);
+        staticBody.Position=FlipX(staticBody.Position);
+        particles1.Position=FlipX(particles1.Position);
+        particles2.Position=FlipX(particles2.Position);
 
-    private Vector2 getDirection()
-    {
-        if(Scale.y>0)
-        {
-            return Vector2.Right;
-        }
-        return Vector2.Left;
+        facing=Facing();
     }
-
 }

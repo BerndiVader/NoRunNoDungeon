@@ -12,10 +12,10 @@ public class Rocks : PhysicsObject
         base._Ready();
 
         collision = GetNode<Area2D>(nameof(Area2D));
-        collision.Connect("body_entered", this, nameof(body_entered));
-        collision.Connect("body_exited", this, nameof(body_exited));
+        collision.Connect("body_entered", this, nameof(BodyEntered));
+        collision.Connect("body_exited", this, nameof(BodyExited));
 
-        rSpeed = MathUtils.randBool() ? rotation_speed : rotation_speed*-1f;
+        rSpeed = MathUtils.RandBool() ? rotation_speed : rotation_speed*-1f;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -26,7 +26,7 @@ public class Rocks : PhysicsObject
 
         if (collision != null)
         {
-            rSpeed = MathUtils.randBool() ? rotation_speed : rotation_speed * -1f;
+            rSpeed = MathUtils.RandBool() ? rotation_speed : rotation_speed * -1f;
             velocity = velocity.Bounce(Vector2.Up);
 
             Node node = (Node)collision.Collider;
@@ -40,7 +40,7 @@ public class Rocks : PhysicsObject
 
     }
 
-    private void body_entered(Node node)
+    private void BodyEntered(Node node)
     {
         if (node.IsInGroup(GROUPS.PLAYERS.ToString()))
         {
@@ -49,7 +49,7 @@ public class Rocks : PhysicsObject
         }
     }
     
-    private void body_exited(Node node)
+    private void BodyExited(Node node)
     {
         if (node.IsInGroup(GROUPS.PLAYERS.ToString()))
         {
