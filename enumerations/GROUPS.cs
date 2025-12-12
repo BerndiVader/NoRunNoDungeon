@@ -8,6 +8,7 @@ public enum GROUPS
     PLAYERS,
     OBSTACLES,
     PLATFORMS,
-    LEVEL
+    LEVEL,
+    DOORS
 
 }
