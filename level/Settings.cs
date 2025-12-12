@@ -5,8 +5,9 @@ public class Settings
 {
     public float speed,oSpeed;
     public Vector2 zoom,oZoom,oPosition,direction,oDirection;
+    public bool restoreCalled=false;
 
-    private WeakReference<Level> levelRef;
+    private readonly WeakReference<Level>levelRef;
 
     public Settings(Level level) : this(level,Vector2.Zero) {}
 
@@ -20,12 +21,15 @@ public class Settings
         oPosition=PlayerCamera.instance.Position;
         oDirection=level.direction;
         this.direction=direction;
-
     }
 
     public void Set()
     {
-        if(levelRef.TryGetTarget(out Level level))
+        if(restoreCalled)
+        {
+            Restore();
+        }
+        else if(levelRef.TryGetTarget(out Level level))
         {
             if(speed!=-1)
             {
@@ -45,6 +49,7 @@ public class Settings
 
     public void Restore()
     {
+        restoreCalled=true;
         if(levelRef.TryGetTarget(out Level level))
         {
             level.Speed=oSpeed;

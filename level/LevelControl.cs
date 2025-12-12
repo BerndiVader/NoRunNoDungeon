@@ -27,24 +27,15 @@ public class LevelControl : Node2D
 
     public override void _Process(float delta)
     {
-        /*
-            float dist=0f;
-            if (World.level.direction.x!=0f)
-            {
-                dist=Mathf.Abs(size.x-GlobalPosition.x);
-            }
-            else if (World.level.direction.y!=0f)
-            {
-                dist=Mathf.Abs(size.y-GlobalPosition.y);
-            }
-        */
-
-        if(GlobalPosition.x<size.x)
+        if(GlobalPosition.x<=size.x)
         {
             SetProcess(false);
             if(!Restore)
             {
-                settings=new Settings(World.level,Direction,Speed,Zoom);
+                if(settings==null)
+                {
+                    settings=new Settings(World.level,Direction,Speed,Zoom);
+                }
                 settings.Set();
                 if(Timeout!=-1)
                 {
@@ -62,8 +53,7 @@ public class LevelControl : Node2D
 
     public void SetMonsterControlled(Settings settings)
     {
-        Speed=settings.speed;
-        Zoom=settings.zoom.x;
+        this.settings=settings;
     }
 
     private void OnScreenEntered()
