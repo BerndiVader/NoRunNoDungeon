@@ -8,7 +8,6 @@ public class MimicChest : KinematicMonster
     private float ShakeMax=0.6f;
     private RayCast2D rayCast2D;
     private Vector2 CASTTO;
-    private Vector2 snap = new Vector2(0f, 8f);
 
     public override void _Ready()
     {

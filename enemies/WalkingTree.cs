@@ -6,8 +6,6 @@ public class WalkingTree : KinematicMonster
     [Export] private float WALK_FORCE=100f;
     [Export] private float WALK_MIN_SPEED=0f;
     [Export] private float WALK_MAX_SPEED=0f;
-    
-    private Vector2 snap=new Vector2(0f,8f);
     private RayCast2D rayCast2D;
 
     public override void _Ready()

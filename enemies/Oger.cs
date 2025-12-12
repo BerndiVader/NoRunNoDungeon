@@ -9,9 +9,6 @@ public class Oger : KinematicMonster
     [Export] private float WALK_MAX_SPEED=40f;
     [Export] private float FIGHT_DISTANCE = 30f;
     [Export] private float DETECT_DISTANCE=150f;
-
-    private Vector2 snap=new Vector2(0f,8f);
-
     private float travelTime=0f;
     private RayCast2D rayCast2D,playerCast2D;
     private MonsterWeapon weapon;

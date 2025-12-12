@@ -7,8 +7,7 @@ public class Zombie : KinematicMonster
     private RayCast2D rayCast2D;
     private Vector2 CASTTO;
     private MonsterWeapon weapon;
-    private Vector2 snap = new Vector2(0f, 8f);
-
+    
     public override void _Ready()
     {
         base._Ready();

@@ -7,7 +7,6 @@ public class Bear : KinematicMonster
     [Export] private float WALK_FORCE=100f;
     [Export] private float WALK_MIN_SPEED=2f;
     [Export] private float WALK_MAX_SPEED=50f;
-    private Vector2 snap=new Vector2(0f,8f);
     private Area2D damager;
     private RayCast2D raycast;
     private CPUParticles2D particles1,particles2;
@@ -109,7 +108,7 @@ public class Bear : KinematicMonster
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {
-            damager.Monitoring=false;
+            damager.SetDeferred("monitoring",false);
             base.OnDamage(player, amount);
             if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
             {
@@ -123,7 +122,7 @@ public class Bear : KinematicMonster
     {
         if(state!=STATE.passanger)
         {
-            damager.Monitoring=false;
+            damager.SetDeferred("monitoring",false);
             base.OnPassanger(player);
             animationController.Play("idle");
             animationPlayer.Play("PASSANGER");
@@ -141,7 +140,7 @@ public class Bear : KinematicMonster
             else
             {
                 animationController.SpeedScale=1;
-                damager.Monitoring=true;
+                damager.SetDeferred("monitoring",true);
                 OnStroll();
             }
         }

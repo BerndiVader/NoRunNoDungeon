@@ -8,13 +8,9 @@ public class RunningZombie : KinematicMonster
 	[Export] protected float WALK_MIN_SPEED=10f;
 	[Export] protected float WALK_MAX_SPEED=60f;
 	[Export] protected float JUMP_SPEED=130f;
-
 	protected float COOLDOWNER_TIME=1.0f;
 	protected float cooldowner=0f;
-
 	protected bool jumping = false;
-	protected Vector2 snap = new Vector2(0f, 8f);
-
 	protected RayCast2D rayCast2D;
 
     public override void _Ready()
