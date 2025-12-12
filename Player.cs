@@ -23,11 +23,11 @@ public class Player : KinematicBody2D
     private bool jumping=false;
     private bool doubleJump=false;
     private bool justJumped=false;
-    private bool onSlope=false;
     private int weaponCyle=0;
     private List<int>weapons;
     private float slopeAngle=0f;
     private Vector2 lastVelocity=Vector2.Zero;
+    private Vector2 lastPosition=Vector2.Zero;
     private Vector2 FORCE;
     private Vector2 platformSpeed=Vector2.Zero;
     private float smoothingSpeed;
@@ -76,6 +76,7 @@ public class Player : KinematicBody2D
         FORCE=new Vector2(0f,GRAVITY);
         smoothingSpeed=PlayerCamera.instance.SmoothingSpeed;
         motionTrails=(ShaderMaterial)animationController.Material;
+        lastPosition=GlobalPosition;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -87,7 +88,6 @@ public class Player : KinematicBody2D
         }
 
         airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.Speed;
-
 
         float friction=1f;
         if(World.level.Speed!=0f)
@@ -184,13 +184,25 @@ public class Player : KinematicBody2D
         }
 
         int collides=GetSlideCount();
-        onSlope=false;
+        bool onSlope=false;
+        bool onCeiling=IsOnCeiling();
+        bool onFloor=IsOnFloor();
 
         if(collides>0&&!jumping)
         {
+            Vector2 diff=GlobalPosition-lastPosition;
+            bool squeezed=Mathf.Abs(velocity.y)>200f&&diff.y==0f;
+
             for(int i=0;i<collides;i++)
             {
                 KinematicCollision2D collision=GetSlideCollision(i);
+
+                if(squeezed&&collision.Collider is Level)
+                {
+                    OnDamaged();
+                    return;
+                }
+
                 if(collision.ColliderId==World.level.GetInstanceId())
                 {
                     slopeAngle=collision.Normal.AngleTo(Vector2.Up);
@@ -203,20 +215,20 @@ public class Player : KinematicBody2D
                     justJumped=jumping=true;
                     collision.Collider.EmitSignal(STATE.passanger.ToString(),this);
                 }
-                else if(collision.Collider is MovingPlatform)
+                else if (collision.Collider is MovingPlatform platform)
                 {
-                    MovingPlatform platform=(MovingPlatform)collision.Collider;
                     platformSpeed=platform.CurrentSpeed;
                 }
             }
+
         }
 
-        if(IsOnCeiling()) 
+        if(onCeiling) 
         {
             if(lastVelocity.y<-150f) World.instance.renderer.shake+=Mathf.Abs(lastVelocity.y*0.004f);
         }
 
-        if(IsOnFloor())
+        if(onFloor)
         {
             if(airParticles.Emitting)
             {
@@ -281,6 +293,7 @@ public class Player : KinematicBody2D
             OnDamaged();
         }
 
+        lastPosition=GlobalPosition;
         lastVelocity=velocity;
     }
 
