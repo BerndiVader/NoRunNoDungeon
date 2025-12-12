@@ -27,6 +27,8 @@
     <Compile Include="level\LevelControlTimer.cs" />
     <Compile Include="level\Settings.cs" />
     <Compile Include="obstacles\Destroyables.cs" />
+    <Compile Include="obstacles\DoorSwitch.cs" />
+    <Compile Include="obstacles\HiddenDoor.cs" />
     <Compile Include="obstacles\Rocks.cs" />
     <Compile Include="particles\DaggerShoot.cs" />
     <Compile Include="particles\ExplodeParticles.cs" />
