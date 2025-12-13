@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 public static class ResourceUtils
 {
-    private static readonly bool DEBUG=true;
+    private static readonly bool DEBUG=false;
     public static PackedScene world;
     public static PackedScene intro;
     public static PackedScene pause;
@@ -115,6 +115,14 @@ public static class ResourceUtils
         else
         {
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/one/1.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level1.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level2.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level3.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level4.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level5.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level6.tscn"));
         }
 
         Console.WriteLine("Loading tilesets...");

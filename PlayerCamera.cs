@@ -4,7 +4,7 @@ using System;
 public class PlayerCamera : Camera2D
 {
     public static PlayerCamera instance;
-    private float rot=0.001f;
+    private const float ROT=0.001f;
     public int direction;
 
     public PlayerCamera() : base()
@@ -23,12 +23,12 @@ public class PlayerCamera : Camera2D
         {
             if((direction==-1&&Rotation>-0.02f)||(direction==1&&Rotation<0.02f))
             {
-                Rotation+=rot*Mathf.Sign(direction);
+                Rotation+=ROT*Mathf.Sign(direction);
             }
         }
         else if(Rotation!=0)
         {
-            Rotation-=rot*Mathf.Sign(Rotation);
+            Rotation-=ROT*Mathf.Sign(Rotation);
         }
     }
 
