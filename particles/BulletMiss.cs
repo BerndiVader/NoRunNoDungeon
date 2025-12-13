@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class DaggerMissParticles : CPUParticles2D
+public class BulletMiss : CPUParticles2D
 {
     public override void _Ready()
     {

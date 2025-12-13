@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://image/0x72/frames/weapon_knife.png" type="Texture" id=1]
-[ext_resource path="res://particles/DaggerMissParticles.cs" type="Script" id=2]
+[ext_resource path="res://particles/BulletMiss.cs" type="Script" id=2]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0.503906, 1 ), 0.0, -0.120376, 0, 0, Vector2( 1, 0.00862074 ), -4.1931, 0.0, 0, 0 ]

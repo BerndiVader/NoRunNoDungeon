@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 public static class ResourceUtils
 {
-    private static readonly bool DEBUG=false;
+    private static readonly bool DEBUG=true;
     public static PackedScene world;
     public static PackedScene intro;
     public static PackedScene pause;
@@ -149,7 +149,7 @@ public static class ResourceUtils
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/BlockParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/CoinTakenParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/EnemieDieParticles.tscn"));
-        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/DaggerMissParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/BulletMiss.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/MadRockParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/WeaponChangeParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/JumpParticles.tscn"));

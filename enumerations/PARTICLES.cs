@@ -6,7 +6,7 @@ public enum PARTICLES
     BLOCK,
     COINTAKEN,
     ENEMIEDIE,
-    DAGGERMISS,
+    BULLETMISS,
     MADROCK,
     WEAPONCHANGE,
     JUMP,

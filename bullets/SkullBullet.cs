@@ -4,7 +4,8 @@ using System;
 public class SkullBullet : Area2D
 {
     public Vector2 direction=Vector2.Zero;
-    [Export] private float speed=100f,liveSpan=50f;
+    [Export] private float speed=100f;
+    [Export] private float liveSpan=50f;
     private Sprite sprite;
 
     public override void _Ready()
@@ -25,7 +26,7 @@ public class SkullBullet : Area2D
         Position+=direction*(speed*delta);
         if(liveSpan<0f)
         {
-            QueueFree();
+            Destroy();
         }
     }
 
@@ -40,10 +41,16 @@ public class SkullBullet : Area2D
 
     void Destroy()
     {
-        DaggerMissParticles particles=(DaggerMissParticles)((PackedScene)ResourceUtils.particles[(int)PARTICLES.DAGGERMISS]).Instance();
+        BulletMiss particles=(BulletMiss)ResourceUtils.particles[(int)PARTICLES.BULLETMISS].Instance();
         particles.Texture=sprite.Texture;
         particles.Position=World.level.ToLocal(GlobalPosition);
         particles.GetNode<CPUParticles2D>("Second").QueueFree();
+        if(sprite.FlipH)
+        {
+            Vector2 scale=particles.Scale;
+            scale.x*=-1f;
+            particles.Scale=scale;
+        }
         World.level.AddChild(particles);
         QueueFree();
     }
