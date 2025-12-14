@@ -19,11 +19,11 @@ public class HiddenDoor : StaticBody2D
     [Export] private float openedTime=2f;
     [Export] private bool oneShoot=false;
     [Export] private string switchID="";
+    [Export] private DOOR_STATE doorState=DOOR_STATE.CLOSED;
 
     private bool moving=false;
     private bool used=false;
     private Tween tween;
-    private DOOR_STATE doorState=DOOR_STATE.CLOSED;
     private Timer timer;
 
     public override void _Ready()
@@ -57,7 +57,6 @@ public class HiddenDoor : StaticBody2D
 
     public void SwitchCall(string id)
     {
-        GD.Print(id+":"+switchID);
         if(id==switchID) 
         {
             switch(doorState)

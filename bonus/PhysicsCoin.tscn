@@ -6,7 +6,6 @@
 [ext_resource path="res://image/0x72/frames/coin_anim_f3.png" type="Texture" id=4]
 [ext_resource path="res://bonus/PhysicsCoin.cs" type="Script" id=5]
 
-
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 3 ), ExtResource( 2 ), ExtResource( 1 ), ExtResource( 4 ) ],
@@ -24,6 +23,7 @@ radius = 2.11943
 height = 3.55287
 
 [node name="Coin" type="KinematicBody2D"]
+z_index = 1
 collision_layer = 8
 collision_mask = 30
 script = ExtResource( 5 )

@@ -150,7 +150,7 @@ public class World : Node
 				SetGamestate(Gamestate.PAUSED);
 				PauseUI pause=(PauseUI)ResourceUtils.pause.Instance();
 				pause.PauseMode=PauseModeEnum.Process;
-				World.instance.uiLayer.AddChild(pause);
+				instance.uiLayer.AddChild(pause);
 			}
 		}
 		else if(input.Quit())

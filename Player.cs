@@ -317,16 +317,19 @@ public class Player : KinematicBody2D
 
     private void OnDamaged(float amount=1f,Node2D damager=null)
     {
-        PlayerCamera.instance.SmoothingSpeed=0f;
-        World.instance.SetGamestate(Gamestate.DIEING);
+        if(World.state!=Gamestate.DIEING)
+        {
+            PlayerCamera.instance.SmoothingSpeed=0f;
+            World.instance.SetGamestate(Gamestate.DIEING);
 
-        PlayerDie effect=PlayerDie.create();
-        effect.Position=World.level.ToLocal(GlobalPosition);
-        effect.flip=animationController.FlipH;
-        Position=new Vector2(0f,-100f);
-        World.level.AddChild(effect);
-        LIVES--;
-        PlayerDieEffect.create();
+            PlayerDie effect=PlayerDie.create();
+            effect.Position=World.level.ToLocal(GlobalPosition);
+            effect.flip=animationController.FlipH;
+            Position=new Vector2(0f,-100f);
+            World.level.AddChild(effect);
+            LIVES--;
+            PlayerDieEffect.create();
+        }
     }
 
     public void Die()
