@@ -222,6 +222,9 @@ position = Vector2( 1888, 208 )
 [node name="RocksPlaceholder" parent="." instance=ExtResource( 18 )]
 position = Vector2( 1515, 127 )
 
+[node name="OgerPlaceholder12" parent="." instance=ExtResource( 6 )]
+position = Vector2( 952, 232 )
+
 [editable path="BatonSwinging"]
 [editable path="PlatformMoving3x3"]
 [editable path="ZombieRunning"]

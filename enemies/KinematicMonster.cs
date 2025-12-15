@@ -38,6 +38,7 @@ public abstract class KinematicMonster : KinematicBody2D
     protected delegate void Goal(float delta);
     protected Goal goal;
     protected bool onDelay=false;
+    protected bool squeezed=false;
 
     public override void _Ready()
     {
@@ -100,6 +101,13 @@ public abstract class KinematicMonster : KinematicBody2D
     {
         direction = Direction();
         facing = Facing();
+
+        Vector2 diff=GlobalPosition-LastPosition;
+        squeezed=Mathf.Abs(velocity.y)>200f&&diff.y==0f;
+        if(squeezed)
+        {
+            OnDamage(Player.instance,1);
+        }
 
         LastPosition = GlobalPosition;
     }

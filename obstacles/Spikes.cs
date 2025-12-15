@@ -109,6 +109,10 @@ public class Spikes : Area2D
         {
             node.EmitSignal(STATE.damage.ToString(),damage,this);
         }
+        else if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
+        {
+            node.EmitSignal(STATE.damage.ToString(),Player.instance,damage);
+        }
 
     }  
 
