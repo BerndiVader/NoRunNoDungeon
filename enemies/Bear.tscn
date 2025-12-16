@@ -173,11 +173,11 @@ rotation = 1.5708
 shape = SubResource( 6 )
 
 [node name="Damager" type="Area2D" parent="."]
+position = Vector2( 8, 7 )
 collision_layer = 0
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Damager"]
-position = Vector2( 8, 6 )
 shape = SubResource( 5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
