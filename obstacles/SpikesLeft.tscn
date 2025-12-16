@@ -12,7 +12,6 @@ z_index = -1
 collision_layer = 0
 script = ExtResource( 2 )
 StaticElement = false
-MoveDirection = Vector2( -1, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.499998, 2.5 )

@@ -1,21 +1,30 @@
 using Godot;
 using System;
 
-public class Spikes : Area2D
+public class Spikes : Area2D,ISwitchable
 {
+    private enum SPIKESTATE
+    {
+        DOWN,
+        UP
+    }
 
     [Export] private bool StaticElement=true;
-    [Export] private Vector2 MoveDirection=new Vector2(0,1);
+    [Export] private bool Switchable=false;
+    [Export] private string SwitchId="";
+    [Export] private SPIKESTATE SpikeState=SPIKESTATE.DOWN;
+    [Export] private bool DamageMonster=false;
     [Export] private float MoveLength=12f;
     [Export] private float Speed=0.5f;
     [Export] private int InDelay=0;
     [Export] private int OutDelay=1;
     [Export] private float ActOnDistance=-1f;
-    [Export] private float damage=1f;
+    [Export] private float Damage=1f;
 
     private Tween tween;
     private Vector2 movement,startPosition;
-    private bool reverse=false;
+    private Vector2 MoveDirection;
+    private bool moving=false;
 
     public override void _Ready()
     {
@@ -23,13 +32,43 @@ public class Spikes : Area2D
         notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
-        if(!StaticElement)
+        switch(RotationDegrees)
         {
+            case 0:
+                MoveDirection=Vector2.Down;
+                break;
+            case 90:
+                MoveDirection=Vector2.Left;
+                break;
+            case 180:
+                MoveDirection=Vector2.Up;
+                break;
+            case 270:
+                MoveDirection=Vector2.Right;
+                break;
+        }
+
+        if(DamageMonster)
+        {
+            CollisionMask|=1<<5;
+        }
+
+        if(Switchable)
+        {
+            startPosition=Position;
+            movement=MoveDirection*MoveLength;
+            tween=new Tween();
+            tween.Connect("tween_all_completed",this,nameof(OnTweenCompleted));
+            AddChild(tween);
+            AddToGroup(GROUPS.SWITCHABLES.ToString());
+        }
+        else if(!StaticElement)
+        {
+            startPosition=Position;
+            movement=MoveDirection*MoveLength;
             tween=new Tween();
             tween.Connect("tween_all_completed",this,nameof(OnFinishedTween));
             AddChild(tween);
-            movement=MoveDirection*MoveLength;
-            startPosition=Position;
             Init();
         }
         else
@@ -54,7 +93,7 @@ public class Spikes : Area2D
 
     private void Init()
     {
-        if(ActOnDistance<0f)
+        if(ActOnDistance==-1f)
         {
             TweenIn();
         }
@@ -65,6 +104,21 @@ public class Spikes : Area2D
 
     }
 
+    private void Start()
+    {
+        switch(SpikeState)
+        {
+            case SPIKESTATE.UP:
+                TweenOut();
+                break;
+
+            case SPIKESTATE.DOWN:
+                Position=startPosition;
+                Init();
+                break;
+        }
+    }
+
     private void Tweening(Vector2 delta)
     {
         Position=delta;
@@ -72,33 +126,22 @@ public class Spikes : Area2D
 
     private void OnFinishedTween()
     {
-        reverse=!reverse;
-        if(reverse) 
-        {
-            TweenOut();
-        } 
-        else 
-        {
-            Position=startPosition;
-            if(ActOnDistance!=-1)
-            {
-                SetPhysicsProcess(true);
-            }
-            else
-            {
-                TweenIn();
-            }
-        }
+        moving=false;
+        Start();
     }
 
     private void TweenIn()
     {
+        moving=true;
+        SpikeState=SPIKESTATE.UP;
         tween.InterpolateMethod(this,nameof(Tweening),Position,Position-movement,Speed,Tween.TransitionType.Bounce,Tween.EaseType.Out,InDelay);
         tween.Start();
     }
 
     private void TweenOut()
     {
+        moving=true;
+        SpikeState=SPIKESTATE.DOWN;
         tween.InterpolateMethod(this,nameof(Tweening),Position,Position+movement,Speed,Tween.TransitionType.Back,Tween.EaseType.In,OutDelay);
         tween.Start();
     }
@@ -107,13 +150,33 @@ public class Spikes : Area2D
     {
         if(node.IsInGroup(GROUPS.PLAYERS.ToString())) 
         {
-            node.EmitSignal(STATE.damage.ToString(),damage,this);
+            node.EmitSignal(STATE.damage.ToString(),Damage,this);
         }
         else if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
         {
-            node.EmitSignal(STATE.damage.ToString(),Player.instance,damage);
+            node.EmitSignal(STATE.damage.ToString(),this,Damage);
         }
 
-    }  
+    }
 
+    private void OnTweenCompleted()
+    {
+        moving=false;
+    }
+
+    public void SwitchCall(string id)
+    {
+        if(id==SwitchId&&!moving)
+        {
+            switch(SpikeState)
+            {
+                case SPIKESTATE.DOWN:
+                    TweenIn();
+                    break;
+                case SPIKESTATE.UP:
+                    TweenOut();
+                    break;
+            }
+        }
+    }
 }
