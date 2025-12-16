@@ -106,7 +106,7 @@ public abstract class KinematicMonster : KinematicBody2D
         squeezed=Mathf.Abs(velocity.y)>200f&&diff.y==0f;
         if(squeezed)
         {
-            OnDamage(Player.instance,1);
+            OnDamage(this,1);
         }
 
         LastPosition = GlobalPosition;
@@ -199,22 +199,24 @@ public abstract class KinematicMonster : KinematicBody2D
             goal=Fight;
         }
     }
-    protected virtual void OnDamage(Player player=null,int amount=0)
+    protected virtual void OnDamage(Node2D node=null,int amount=0)
     {
         onDelay=false;
         if(state!=STATE.damage&&state!=STATE.die)
         {
-            if (player == null)
+            if(node==null)
             {
-                player = Player.instance;
+                node=Player.instance;
             }
             World.instance.renderer.shake=2d;
             staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
             lastState=state;
             state=STATE.damage;
-            attacker=player;
-            DAMAGE_AMOUNT = amount;
-            
+            if(node is Player)
+            {
+                attacker=node as Player;
+            }
+            DAMAGE_AMOUNT=amount;
             health-=amount;
             goal = Damage;
         }

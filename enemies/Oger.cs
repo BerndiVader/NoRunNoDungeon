@@ -269,12 +269,12 @@ public class Oger : KinematicMonster
         }
     }
 
-    protected override void OnDamage(Player player=null, int amount=0)
+    protected override void OnDamage(Node2D node=null, int amount=0)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {
-            base.OnDamage(player, amount);
-            if (player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x < 0f)
+            base.OnDamage(node, amount);
+            if (node.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x < 0f)
             {
                 animationDirection = -1;
             }

@@ -104,13 +104,13 @@ public class Bear : KinematicMonster
         }
     }
 
-    protected override void OnDamage(Player player=null, int amount=0)
+    protected override void OnDamage(Node2D node=null, int amount=0)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {
             damager.SetDeferred("monitoring",false);
-            base.OnDamage(player, amount);
-            if(player.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
+            base.OnDamage(node, amount);
+            if(node.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
             {
                 animationDirection=-1;
             }

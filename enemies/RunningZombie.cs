@@ -191,12 +191,12 @@ public class RunningZombie : KinematicMonster
 		throw new NotImplementedException();
 	}	
 
-	protected override void OnDamage(Player player=null, int amount=0)
+	protected override void OnDamage(Node2D node=null, int amount=0)
 	{
 		if(state!=STATE.damage&&state!=STATE.die)
 		{
-			base.OnDamage(player, amount);
-			animationDirection = Mathf.Sign(GlobalPosition.x - player.GlobalPosition.x);
+			base.OnDamage(node, amount);
+			animationDirection = Mathf.Sign(GlobalPosition.x - node.GlobalPosition.x);
 			animationPlayer.Play("HIT");
 		}
 	}    

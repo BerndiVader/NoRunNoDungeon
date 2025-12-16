@@ -115,11 +115,11 @@ public class WalkingTree : KinematicMonster
         }
     } 
 
-	protected override void OnDamage(Player player=null, int amount=0)
+	protected override void OnDamage(Node2D node=null, int amount=0)
 	{
 		if(state!=STATE.damage&&state!=STATE.die)
 		{
-			base.OnDamage(player, 0);
+			base.OnDamage(node, 0);
             animationPlayer.Play("PASSANGER");
 		}
 	}
