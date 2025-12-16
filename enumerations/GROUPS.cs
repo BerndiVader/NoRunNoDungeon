@@ -9,6 +9,6 @@ public enum GROUPS
     OBSTACLES,
     PLATFORMS,
     LEVEL,
-    DOORS
+    SWITCHABLES
 
 }

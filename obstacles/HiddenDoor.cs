@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class HiddenDoor : StaticBody2D
+public class HiddenDoor : StaticBody2D,ISwitchable
 {
     private enum TYPE {
         HITABLE,
@@ -49,27 +49,14 @@ public class HiddenDoor : StaticBody2D
                 StartAutomaticMode();
                 break;
             case TYPE.SWITCH:
-                AddToGroup(GROUPS.DOORS.ToString());
+                AddToGroup(GROUPS.SWITCHABLES.ToString());
                 break;
         }
 
-    }
+        SetProcess(false);
+        SetPhysicsProcess(false);
 
-    public void SwitchCall(string id)
-    {
-        if(id==switchID) 
-        {
-            switch(doorState)
-            {
-                case DOOR_STATE.CLOSED:
-                    OpenDoor();
-                    break;
-                case DOOR_STATE.OPENED:
-                    CloseDoor();
-                    break;
-            }
-        }
-    }    
+    }
 
     private void StartAutomaticMode()
     {
@@ -138,6 +125,22 @@ public class HiddenDoor : StaticBody2D
     private void OnDamage(Player player=null, int amount=0)
     {
         if(type==TYPE.HITABLE&&!moving)
+        {
+            switch(doorState)
+            {
+                case DOOR_STATE.CLOSED:
+                    OpenDoor();
+                    break;
+                case DOOR_STATE.OPENED:
+                    CloseDoor();
+                    break;
+            }
+        }
+    }
+
+    public void SwitchCall(string id)
+    {
+        if(id==switchID&&!moving)
         {
             switch(doorState)
             {

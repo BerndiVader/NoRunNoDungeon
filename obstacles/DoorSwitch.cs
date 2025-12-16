@@ -36,7 +36,7 @@ public class DoorSwitch : Area2D
             tween.InterpolateProperty(this,"rotation_degrees",-40f,40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut);
             tween.InterpolateProperty(this,"rotation_degrees",40f,-40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut,0.3f);
             tween.Start();
-            GetTree().CallGroup(GROUPS.DOORS.ToString(),nameof(HiddenDoor.SwitchCall),switchID);
+            GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),switchID);
         }
     }
 
