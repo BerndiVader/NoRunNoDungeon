@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://placeholders/obstacles/DestroyableHolder.tscn" type="PackedScene" id=21]
 [ext_resource path="res://placeholders/monsters/HurtingZombieRunning.tscn" type="PackedScene" id=22]
 [ext_resource path="res://placeholders/platforms/PlatformFalling.tscn" type="PackedScene" id=23]
+[ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=24]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -46,7 +47,9 @@ position = Vector2( 69.3553, 201.214 )
 position = Vector2( 646, 161 )
 
 [node name="MovingPlatform0" parent="PlatformMoving3x3" index="0"]
-Length = 1
+platformState = 2
+switchID = "c40101cd-5b71-4df6-9aaf-fbc71ec61056"
+Direction = Vector2( 0, 1 )
 Linear = false
 
 [node name="PlatformMoving3x4" parent="." instance=ExtResource( 3 )]
@@ -232,7 +235,7 @@ position = Vector2( 1168, 128 )
 position = Vector2( 693, 162 )
 
 [node name="CyclingPlatform" parent="PlatformCycling" index="0"]
-IfPlayer = true
+platformState = 3
 Delay = 100.0
 Speed = 1.0
 
@@ -258,6 +261,7 @@ TransType = 10
 position = Vector2( 608, 208 )
 
 [node name="CyclingPlatform" parent="PlatformCycling5" index="0"]
+platformState = 3
 RandomCycling = true
 Speed = 3.0
 TransType = 5
@@ -333,6 +337,19 @@ position = Vector2( 592, 192 )
 [node name="Placeholder" parent="." instance=ExtResource( 22 )]
 position = Vector2( 808, 240 )
 
+[node name="Switch" parent="." instance=ExtResource( 24 )]
+position = Vector2( 608, 257 )
+
+[node name="DoorSwitch" parent="Switch" index="0"]
+position = Vector2( 0, 1 )
+switchID = "c40101cd-5b71-4df6-9aaf-fbc71ec61056"
+
+[node name="Switch2" parent="." instance=ExtResource( 24 )]
+position = Vector2( 600, 96 )
+
+[node name="DoorSwitch" parent="Switch2" index="0"]
+switchID = "e34bad8a-05b8-4f20-a40d-376ecc2b7274"
+
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
 [editable path="RocksFalling3"]
@@ -353,3 +370,5 @@ position = Vector2( 808, 240 )
 [editable path="PlatformCycling3"]
 [editable path="PlatformCycling5"]
 [editable path="PlatformCycling6"]
+[editable path="Switch"]
+[editable path="Switch2"]

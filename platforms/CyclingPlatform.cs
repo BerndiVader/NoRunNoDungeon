@@ -5,45 +5,51 @@ using System.Threading;
 public class CyclingPlatform : Platform
 {
 
-    [Export] private bool RandomCycling = false;
-    [Export] private bool IfPlayer = false;
-    [Export] private float Delay = 10f;
-    [Export] private float Speed = 5f;
-    [Export] private float RotationSteps = 1f;
-    [Export] private Tween.TransitionType TransType = Tween.TransitionType.Quint;
-    [Export] private Tween.EaseType EaseType = Tween.EaseType.InOut;
+    [Export] private bool RandomCycling=false;
+    [Export] private float Delay=10f;
+    [Export] private float Speed=5f;
+    [Export] private float RotationSteps=1f;
+    [Export] private Tween.TransitionType TransType=Tween.TransitionType.Quint;
+    [Export] private Tween.EaseType EaseType=Tween.EaseType.InOut;
 
     private Tween tween;
     private Area2D area;
 
-    private float delayCount = 0f;
-    private bool overlapping = false;
+    private float delayCount=0f;
+    private bool overlapping=false;
 
     public override void _Ready()
     {
         base._Ready();
-        tween = GetNode<Tween>("Tween");
+        tween=GetNode<Tween>("Tween");
 
-        if(IfPlayer)
+        switch(platformState)
         {
-            area = GetNode<Area2D>("Area2D");
-            area.Connect("body_entered", this, nameof(OnBodyEntered));
-            area.Connect("body_exited", this, nameof(OnBodyExited));
+            case PLATFORMSTATE.ONPLAYER:
+                area=GetNode<Area2D>("Area2D");
+                area.Connect("body_entered", this, nameof(OnBodyEntered));
+                area.Connect("body_exited", this, nameof(OnBodyExited));
+                break;
+            case PLATFORMSTATE.SWITCH:
+                SetPhysicsProcess(false);
+                SetProcess(false);
+                AddToGroup(GROUPS.SWITCHABLES.ToString());
+                break;
         }
 
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        if (!tween.IsActive())
+        if(!tween.IsActive())
         {
-            if (RandomCycling)
+            if(RandomCycling)
             {
-                if (MathUtils.RandBool())
+                if(MathUtils.RandBool())
                 {
-                    if (IfPlayer)
+                    if(platformState==PLATFORMSTATE.ONPLAYER)
                     {
-                        if (overlapping)
+                        if(overlapping)
                         {
                             StartTween();
                         }
@@ -56,11 +62,11 @@ public class CyclingPlatform : Platform
             }
             else
             {
-                if (delayCount > Delay)
+                if(delayCount>Delay)
                 {
-                    if (IfPlayer)
+                    if(platformState==PLATFORMSTATE.ONPLAYER)
                     {
-                        if (overlapping)
+                        if(overlapping)
                         {
                             StartTween();
                         }
@@ -69,7 +75,7 @@ public class CyclingPlatform : Platform
                     {
                         StartTween();
                     }
-                    delayCount = 0f;
+                    delayCount=0f;
                 }
                 delayCount++;
             }
@@ -81,7 +87,7 @@ public class CyclingPlatform : Platform
         tween.InterpolateProperty(this,
             "rotation",
             Rotation,
-            Rotation + Mathf.Pi * RotationSteps,
+            Rotation+Mathf.Pi*RotationSteps,
             Speed,
             TransType,
             EaseType
@@ -91,20 +97,27 @@ public class CyclingPlatform : Platform
 
     private void OnBodyEntered(Node body)
     {
-        if (body is Player)
+        if(body is Player)
         {
-            overlapping = true;
+            overlapping=true;
         }
     }
     
     private void OnBodyExited(Node body)
     {
-        if (body is Player)
+        if(body is Player)
         {
-            overlapping = false;
+            overlapping=false;
         }
     }
-    
+
+    public override void SwitchCall(string id)
+    {
+        if(switchID==id&&!tween.IsActive())
+        {
+            StartTween();
+        }
+    }
 
 
 }

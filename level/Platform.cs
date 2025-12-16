@@ -1,9 +1,19 @@
 using Godot;
 using System;
-using System.Runtime.Remoting.Messaging;
 
-public class Platform : StaticBody2D
+public class Platform : StaticBody2D,ISwitchable
 {
+    protected enum PLATFORMSTATE
+    {
+        NORMAL,
+        ONETIME,
+        SWITCH,
+        ONPLAYER,
+    }
+
+    [Export] protected PLATFORMSTATE platformState=PLATFORMSTATE.NORMAL;
+    [Export] protected string switchID="";
+
     protected float damage=1f;
     protected float health=1f;
     private Vector2 extents=Vector2.Zero;
@@ -12,6 +22,7 @@ public class Platform : StaticBody2D
     protected CollisionShape2D areaCollision=new CollisionShape2D();
     public Vector2 CurrentSpeed;
     private readonly Tween bump;
+    protected bool playerOn=false;
 
     public Platform():base() 
     {
@@ -32,6 +43,7 @@ public class Platform : StaticBody2D
         bumpArea.CollisionLayer=1;
         bumpArea.CollisionMask=1;
         bumpArea.Connect("body_entered",this,nameof(BumpAreaEntered));
+        bumpArea.Connect("body_exited",this,nameof(BumpAreaExited));
         if(collision.Shape is RectangleShape2D shape)
         {
             bumpArea.Position=collision.Position;
@@ -52,20 +64,33 @@ public class Platform : StaticBody2D
     {
         if(node is Player player)
         {
-            if(bump.IsActive()) return;
             Vector2 diff=player.GlobalPosition-GlobalPosition;
-
-            if (Mathf.Abs(diff.x)<=extents.x)
+            if(Mathf.Abs(diff.x)<=extents.x)
             {
                 Vector2 direction=diff.y>0f?Vector2.Up:Vector2.Down;
                 Vector2 target=Position+direction*4f;
+                playerOn=direction==Vector2.Down;
 
-                bump.InterpolateProperty(this,"position:y",Position.y,target.y,0.1f,Tween.TransitionType.Expo,Tween.EaseType.Out);
-                bump.InterpolateProperty(this,"position:y",target.y,Position.y,0.2f,Tween.TransitionType.Cubic,Tween.EaseType.In,0.1f);
-                bump.Start();
+                if(!bump.IsActive())
+                {
+                    bump.InterpolateProperty(this,"position:y",Position.y,target.y,0.1f,Tween.TransitionType.Expo,Tween.EaseType.Out);
+                    bump.InterpolateProperty(this,"position:y",target.y,Position.y,0.2f,Tween.TransitionType.Cubic,Tween.EaseType.In,0.1f);
+                    bump.Start();
+                }
             }
-
         }
     }
 
+    protected virtual void BumpAreaExited(Node node)
+    {
+        if(node is Player)
+        {
+            playerOn=false;
+        }
+    }
+
+    public virtual void SwitchCall(string id)
+    {
+        return;
+    }
 }
