@@ -25,14 +25,14 @@ public class MimicChest : KinematicMonster
         animationController.Play("idle");
         animationController.FlipH=MathUtils.RandomRangeInt(0,1)!=0;
 
-        EmitSignal(STATE.idle.ToString());
-
         cooldown=0;
 
         if(animationController.FlipH)
         {
             rayCast2D.CastTo*=-1;
         }
+
+        OnIdle();
     }
 
     public override void _PhysicsProcess(float delta)

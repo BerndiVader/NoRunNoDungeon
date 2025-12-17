@@ -24,8 +24,10 @@ public class RunningZombie : KinematicMonster
 		rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
 		rayCast2D.Enabled=true;
 
+		SetSpawnFacing();
+
 		animationController.Play("idle");
-        EmitSignal(STATE.idle.ToString());
+		OnIdle();
 	}
 
 	public override void _PhysicsProcess(float delta)

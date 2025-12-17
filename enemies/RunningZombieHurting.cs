@@ -8,11 +8,11 @@ public class RunningZombieHurting : RunningZombie
 
     public override void _Ready()
     {
-        base._Ready();
         playerCast=GetNode<RayCast2D>("PlayerCast2D");
         playerCast.Enabled=true;
         area=GetNode<Area2D>(nameof(Area2D));
         area.Monitoring=false;
+        base._Ready();
     }
 
     public override void _PhysicsProcess(float delta)

@@ -28,14 +28,11 @@ public class Bear : KinematicMonster
         particles2=GetNode<CPUParticles2D>("Particles2");
         particles1.Emitting=true;
         particles2.Emitting=true;
+
+        SetSpawnFacing();
+
+        OnStroll();
         
-        EmitSignal(STATE.stroll.ToString());
-
-        if(MathUtils.RandBool())
-        {
-            FlipH();
-        }
-
     }
 
     public override void _PhysicsProcess(float delta)

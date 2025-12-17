@@ -19,13 +19,9 @@ public class WalkingTree : KinematicMonster
         rayCast2D = GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled = true;
 
-        EmitSignal(STATE.idle.ToString());
+        SetSpawnFacing();
 
-        if(MathUtils.RandBool())
-        {
-            FlipH();
-        }
-
+        OnIdle();
     }
 
     public override void _PhysicsProcess(float delta)

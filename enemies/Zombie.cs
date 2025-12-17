@@ -22,12 +22,6 @@ public class Zombie : KinematicMonster
         rayCast2D.Enabled=true;
         CASTTO=rayCast2D.CastTo;
 
-        animationController.Play("idle");
-        animationController.FlipH=MathUtils.RandBool();
-        OnIdle();
-
-        cooldown=0;
-
         if(animationController.FlipH)
         {
             rayCast2D.CastTo=CASTTO*-1;
@@ -40,7 +34,12 @@ public class Zombie : KinematicMonster
         {
             weapon._Init();
         }
+        cooldown=0;
 
+        SetSpawnFacing();      
+
+        animationController.Play("idle");
+        OnIdle();
     }
 
     public override void _PhysicsProcess(float delta)

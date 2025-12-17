@@ -12,6 +12,7 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected float GRAVITY=500f;
     [Export] protected float FRICTION=0.01f;
     [Export] protected float STOP_FORCE=1300f;
+    [Export] protected Vector2 SPAWN_FACING=Vector2.Zero;
     [Export] protected Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
     {
         {"Use",false},
@@ -356,6 +357,21 @@ public abstract class KinematicMonster : KinematicBody2D
         d.y = 0f;
 
         return d;
+    }
+
+    protected virtual void SetSpawnFacing()
+    {
+        if(SPAWN_FACING==Vector2.Zero)
+        {
+            if(MathUtils.RandBool())
+            {
+                FlipH();
+            }
+        }
+        else if(facing!=SPAWN_FACING)
+        {
+            FlipH();
+        }
     }
     
     public override void _EnterTree()

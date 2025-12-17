@@ -27,16 +27,16 @@ public class Oger : KinematicMonster
         playerCast2D=GetNode<RayCast2D>("PlayerCast2D");
         playerCast2D.Enabled=true;
 
-        direction=facing=Facing();
-        animationController.Play("idle");
-        OnIdle();
-
         weapon=GetNode<MonsterWeapon>("Baton");
         if(weapon!=null)
         {
             weapon._Init();
-        }
+        }        
 
+        SetSpawnFacing();
+
+        animationController.Play("idle");
+        OnIdle();
     }
 
     public override void _PhysicsProcess(float delta)
