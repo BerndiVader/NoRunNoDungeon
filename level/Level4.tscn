@@ -14,7 +14,6 @@
 [ext_resource path="res://placeholders/monsters/ChestMimic.tscn" type="PackedScene" id=12]
 [ext_resource path="res://placeholders/platforms/PlatformMoving2x2.tscn" type="PackedScene" id=13]
 
-
 [node name="TileMap" type="TileMap"]
 z_index = -1000
 tile_set = ExtResource( 1 )
@@ -40,7 +39,6 @@ Direction = Vector2( -1, 0 )
 Speed = 40.0
 MaxSpeed = 40.0
 Length = 4
-LerpFactor = 2.0
 Linear = false
 
 [node name="MadTreasure" parent="." instance=ExtResource( 10 )]
@@ -224,7 +222,6 @@ Direction = Vector2( -1, 0 )
 Speed = 40.0
 MaxSpeed = 40.0
 Length = 4
-LerpFactor = 2.0
 Linear = false
 
 [node name="ChestMimic2" parent="." instance=ExtResource( 12 )]
@@ -237,7 +234,6 @@ position = Vector2( 2920, 184 )
 Speed = 30.0
 MaxSpeed = 40.0
 Length = 4
-LerpFactor = 2.0
 Linear = false
 
 [editable path="PlatformMoving3x3"]
