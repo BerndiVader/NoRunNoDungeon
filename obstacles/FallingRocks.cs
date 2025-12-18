@@ -1,14 +1,15 @@
 using Godot;
 using System;
 
-public class FallingRocks : StaticBody2D
+public class FallingRocks : StaticBody2D,ISwitchable
 {
     [Export] private float ActivationDistance=10f;
+    [Export] private string switchID="";
     private Area2D area;
-    private float GRAVITY=600f;
-    private Vector2 velocity=new Vector2(0f,0f);
+    private const float GRAVITY=600f;
+    private Vector2 velocity=Vector2.Zero;
     private float shake;
-    private float ShakeMax=0.6f;
+    private const float ShakeMax=0.6f;
     private bool colliding=false;
     private Platform collider;
     private Vector2 force;
@@ -16,9 +17,9 @@ public class FallingRocks : StaticBody2D
 
     private enum State
     {
-        IDLE=0,
-        FALLING=1,
-        FALLEN=2
+        IDLE,
+        FALLING,
+        FALLEN
     }
 
     public override void _Ready()
@@ -34,6 +35,11 @@ public class FallingRocks : StaticBody2D
         GetNode<Area2D>("Area2D2").Connect("body_entered",this,nameof(OnPlayerHit));
         AddToGroup(GROUPS.OBSTACLES.ToString());
 
+        if(switchID!="")
+        {
+            AddToGroup(GROUPS.SWITCHABLES.ToString());
+        }
+
         force=new Vector2(0f,GRAVITY);
         state=State.IDLE;
     }
@@ -43,10 +49,13 @@ public class FallingRocks : StaticBody2D
         switch(state)
         {
             case State.IDLE:
-                float distance=Mathf.Abs(GlobalPosition.x-Player.instance.GlobalPosition.x);
-                if(distance<ActivationDistance) 
+                if(switchID=="")
                 {
-                    state=State.FALLING;
+                    float distance=Mathf.Abs(GlobalPosition.x-Player.instance.GlobalPosition.x);
+                    if(distance<ActivationDistance) 
+                    {
+                        state=State.FALLING;
+                    }
                 }
                 break;
             case State.FALLING:
@@ -77,16 +86,16 @@ public class FallingRocks : StaticBody2D
         {
             collider=(Platform)body;
             colliding=true;
-            shake = ShakeMax;
-            World.instance.renderer.shake+=2;
-            state = State.FALLEN;
+            shake=ShakeMax;
+            World.instance.renderer.shake+=2d;
+            state=State.FALLEN;
             AddToGroup(GROUPS.PLATFORMS.ToString());
         } 
         else if(body.IsInGroup(GROUPS.LEVEL.ToString())&&body!=this)
         {
             area.Disconnect("body_entered",this,nameof(OnBodyEntered));
-            shake = ShakeMax;
-            World.instance.renderer.shake+=2;
+            shake=ShakeMax;
+            World.instance.renderer.shake+=2d;
             state=State.FALLEN;
             AddToGroup(GROUPS.LEVEL.ToString());
         }
@@ -128,4 +137,11 @@ public class FallingRocks : StaticBody2D
         }
     }
 
+    public void SwitchCall(string id)
+    {
+        if(id==switchID&&state==State.IDLE)
+        {
+            state=State.FALLING;
+        }
+    }
 }

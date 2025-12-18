@@ -1,24 +1,41 @@
 using Godot;
 using System;
 
-public class Destroyables : Area2D
+public class Destroyables : Area2D,ISwitchable
 {
-    [Export] private bool terraform=true;
     private static readonly PackedScene ExpolderPack=ResourceLoader.Load<PackedScene>("res://gfx/TileExploder.tscn");
+
+    [Export] private bool terraform=true;
+    [Export] private string switchID="";
+    private Alert alert;
+    private bool used=false;
+
     public override void _Ready()
     {
         SetProcess(false);
         SetPhysicsProcess(false);
 
-        VisibilityNotifier2D notifier2D = new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited", World.instance, nameof(World.OnObjectExitedScreen), new Godot.Collections.Array(this));
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen), new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
-        AddUserSignal(STATE.damage.ToString());
-        Connect(STATE.damage.ToString(), this, nameof(OnDamage));
+        if(switchID=="")
+        {
+            AddUserSignal(STATE.damage.ToString());
+            Connect(STATE.damage.ToString(),this,nameof(OnDamage));
+
+            alert=ResourceUtils.particles[(int)PARTICLES.ALERT].Instance<Alert>();
+            alert.chr="!"[0];
+            AddChild(alert);
+        }
+        else
+        {
+            AddToGroup(GROUPS.SWITCHABLES.ToString());
+        }
+
     }
 
-    private void OnDamage(Player player=null, int amount=0)
+    private void OnDamage(Node2D node=null, int amount=0)
     {
         Vector2 local=World.level.ToLocal(GlobalPosition);
         Vector2 tile=World.level.WorldToMap(local);
@@ -87,4 +104,11 @@ public class Destroyables : Area2D
         }
     }
 
+    public void SwitchCall(string id)
+    {
+        if(switchID==id&&!used)
+        {
+            OnDamage();
+        }
+    }
 }
