@@ -100,6 +100,7 @@ public class Player : KinematicBody2D
         bool left=World.instance.input.Left();
         bool right=World.instance.input.Right();
         bool jump=World.instance.input.Jump();
+        bool down=World.instance.input.Down();
         bool attack=World.instance.input.Attack();
         bool changeWeapon=World.instance.input.Change();
 
@@ -250,6 +251,11 @@ public class Player : KinematicBody2D
         else if(!airParticles.Emitting)
         {
             airParticles.Emitting=true;
+        }
+
+        if(jumping&&down)
+        {
+            velocity.y*=0.92f;
         }
         
         if(jumping&&velocity.y>0f) 
