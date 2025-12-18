@@ -7,6 +7,8 @@ public class LevelControl : Node2D
     [Export] private float Zoom=-1f;
     [Export] private int Timeout=-1;
     [Export] private bool Restore=false;
+    [Export] private string switchID="";
+
     private VisibilityNotifier2D notifier;
     private Vector2 size;
     private Settings settings; 
@@ -37,9 +39,9 @@ public class LevelControl : Node2D
                     settings=new Settings(World.level,Direction,Speed,Zoom);
                 }
                 settings.Set();
-                if(Timeout!=-1)
+                if(Timeout!=-1||switchID!="")
                 {
-                    World.level.AddChild(new LevelControlTimer(Timeout,settings));
+                    World.level.AddChild(new LevelControlTimer(Timeout,settings,switchID));
                 }
             }
             else
