@@ -71,7 +71,7 @@ public class Worker : Thread
 		placeholders.Clear();
 		World.instance.PrepareAndChangeLevel();
 		SetStatus(State.IDLE);
-		Gc();
+		//Gc();
 	}
 
 	private static void Idle()

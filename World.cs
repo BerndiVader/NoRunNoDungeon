@@ -124,7 +124,7 @@ public class World : Node
 		goal(delta);
     }
 
-	private void tick(float delta) 
+	private void Tick(float delta) 
 	{
 		float speedDelta=level.Speed*delta;
 		level.MoveLocalX(level.direction.x*speedDelta);
@@ -158,7 +158,7 @@ public class World : Node
 			CallDeferred(nameof(RestartLevel),false);
 			return;
 		}
-		tick(delta);
+		Tick(delta);
 	}
 
 	private void SceneChanged(float delta)
@@ -166,7 +166,7 @@ public class World : Node
 		if(level.IsInsideTree())
 		{
 			SetGamestate(Gamestate.RUNNING);
-			tick(delta);
+			Tick(delta);
 		}
 	}
 
@@ -179,7 +179,7 @@ public class World : Node
 	{
 		if(level!=null&&level.IsInsideTree())
 		{
-			tick(delta);
+			Tick(delta);
 		}
 	}
 
@@ -208,11 +208,11 @@ public class World : Node
 
 	public void RestartLevel(bool keepLevel=false)
 	{
-		Worker.Gc();
 		SetGamestate(Gamestate.RESTART);
 		renderer.RemoveChild(level);
 		if(!keepLevel)
 		{
+			Worker.Gc();
 			currentLevel=(int)MathUtils.RandomRange(0,ResourceUtils.levels.Count);
 		}
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
