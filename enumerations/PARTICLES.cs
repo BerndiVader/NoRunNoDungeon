@@ -12,5 +12,6 @@ public enum PARTICLES
     JUMP,
     DAGGERSHOOT,
     PLAYERDIE,
-    EXPLODE
+    EXPLODE,
+    ALERT
 }

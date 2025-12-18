@@ -23,6 +23,8 @@ public static class ResourceUtils
     public static List<AudioStreamMP3>ingameMusic;
     public static PackedScene touch;
     public static PackedScene buttons;
+    public static BitmapFont font;
+    public static Image fontTexture;
 
     public static void Init() 
     {
@@ -35,6 +37,10 @@ public static class ResourceUtils
         gfx=new List<PackedScene>();
         weapons=new List<PackedScene>();
         ingameMusic=new List<AudioStreamMP3>();
+
+        font=new BitmapFont();
+        font.CreateFromFnt("res://fonts/m6x11.fnt");
+        fontTexture=font.GetTexture(0).GetData();        
 
         bool pck=ProjectSettings.LoadResourcePack("res://nodungeon.pck");
         if(pck)
@@ -110,7 +116,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level2.tscn"));
         }
         else
         {
@@ -156,6 +162,7 @@ public static class ResourceUtils
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/DaggerShoot.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/PlayerDieEffect.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/ExplodeParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/Alert.tscn"));
 
         Console.WriteLine("Loading bullets...");
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/SkullBullet.tscn"));
