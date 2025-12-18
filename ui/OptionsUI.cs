@@ -90,12 +90,12 @@ public class OptionsUI : BaseUI
                 }
                 GameSettings.current.usage=fx.Pressed?Viewport.UsageEnum.Usage2d:Viewport.UsageEnum.Usage3d;
                 GameSettings.SaveConfig(GameSettings.current);
-                GameSettings.current.setAll(this);
+                GameSettings.current.SetAll(this);
                 Back();
                 break;
             case "Default":
                 GameSettings.DefaultConfig();
-                GameSettings.current.setAll(this);
+                GameSettings.current.SetAll(this);
                 UpdateButtons();
                 break;
             case "Cancel":
@@ -133,7 +133,7 @@ public class OptionsUI : BaseUI
 
     private void Back()
     {
-        GameSettings.current.setAll(this);
+        GameSettings.current.SetAll(this);
 
         if(back!=null)
         {

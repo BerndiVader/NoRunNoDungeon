@@ -44,13 +44,13 @@ public static class GameSettings
             usage=Viewport.UsageEnum.Usage3d;
         }
 
-        public void setAll(Node node)
+        public void SetAll(Node node)
         {
-            setAll();
+            SetAll();
             node.GetTree().Root.Usage=usage;
         }
 
-        private void setAll()
+        private void SetAll()
         {
             AudioServer.SetBusVolumeDb(masterBus,masterVolume);
             AudioServer.SetBusVolumeDb(sfxBus,sfxVolume);
@@ -65,7 +65,7 @@ public static class GameSettings
             
         }
 
-        public Config clone()
+        public Config Clone()
         {
             string json=JsonConvert.SerializeObject(this);
             Config config=JsonConvert.DeserializeObject<Config>(json);
@@ -74,7 +74,7 @@ public static class GameSettings
 
     }
 
-    public static Boolean isMobile;
+    public static bool isMobile;
 
     public static Config current;
     private static string ROOT_NAME;

@@ -19,9 +19,13 @@ public class Worker : Thread
 	private static int delay;
 	private static bool quit;
 
+	public static void Start()
+	{
+		instance=new Worker();
+	}
+
 	public Worker() : base()
 	{
-		instance=this;
 		placeholders=new ConcurrentStack<WeakReference>();
 		SetStatus(State.IDLE);
 		quit=false;

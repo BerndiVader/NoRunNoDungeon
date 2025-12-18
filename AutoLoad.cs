@@ -5,9 +5,9 @@ public class AutoLoad : Node
     public override void _Ready()
     {
         GameSettings.Init();
-        GameSettings.current.setAll(this);
+        GameSettings.current.SetAll(this);
 
-        new Worker();
+        Worker.Start();
         ResourceUtils.Init();
         World.Init(GetTree().Root);
         QueueFree();
