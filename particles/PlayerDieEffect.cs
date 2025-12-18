@@ -1,11 +1,11 @@
 using Godot;
 using System;
 
-public class PlayerDieEffect : CPUParticles2D
+public class PlayerDieEffect : Particles
 {
     static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/Negative/Retro Negative Short 23.wav");
 
-    public static void create()
+    public static void Create()
     {
         PlayerDieEffect effect=ResourceUtils.particles[(int)PARTICLES.PLAYERDIE].Instance<PlayerDieEffect>();
         effect.ScaleAmount*=PlayerCamera.instance.Scale.x;
@@ -22,6 +22,7 @@ public class PlayerDieEffect : CPUParticles2D
 
     public override void _Ready()
     {
+        base._Ready();
         SetProcessInput(false);
         SetPhysicsProcess(false);
         OneShot=true;

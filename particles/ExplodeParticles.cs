@@ -1,10 +1,11 @@
 using Godot;
 using System;
 
-public class ExplodeParticles : CPUParticles2D
+public class ExplodeParticles : Particles
 {
     public override void _Ready()
     {
+        base._Ready();
         Emitting=true;
     }
 

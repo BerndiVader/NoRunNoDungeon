@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://placeholders/platforms/PlatformFalling.tscn" type="PackedScene" id=6]
 [ext_resource path="res://placeholders/obstacles/SpikesUp.tscn" type="PackedScene" id=7]
 [ext_resource path="res://placeholders/platforms/PlatformMoving2x2.tscn" type="PackedScene" id=8]
+[ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=9]
+[ext_resource path="res://placeholders/obstacles/RocksFalling.tscn" type="PackedScene" id=10]
+[ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=11]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -48,10 +51,10 @@ position = Vector2( 560, 112 )
 position = Vector2( 672, 112 )
 
 [node name="PlatformMoving2x2" parent="." instance=ExtResource( 8 )]
-position = Vector2( 824, 217 )
+position = Vector2( 752, 185 )
 
 [node name="CoinPhysics" parent="." instance=ExtResource( 5 )]
-position = Vector2( 824, 188 )
+position = Vector2( 752, 168 )
 
 [node name="SpikesUp" parent="." instance=ExtResource( 7 )]
 position = Vector2( 760, 237 )
@@ -77,4 +80,23 @@ position = Vector2( 1232, 176 )
 [node name="CoinPhysics6" parent="." instance=ExtResource( 5 )]
 position = Vector2( 1264, 144 )
 
+[node name="LevelControl" parent="." instance=ExtResource( 9 )]
+position = Vector2( 824, 96 )
+Speed = 0.0
+Timeout = 10
+
+[node name="RocksFalling" parent="." instance=ExtResource( 10 )]
+position = Vector2( 824, 177 )
+
+[node name="Rock" parent="RocksFalling" index="0"]
+switchID = "a9bee970-1f0d-4e48-a40a-067089ca501c"
+
+[node name="Switch" parent="." instance=ExtResource( 11 )]
+position = Vector2( 824, 256 )
+
+[node name="DoorSwitch" parent="Switch" index="0"]
+switchID = "a9bee970-1f0d-4e48-a40a-067089ca501c"
+
 [editable path="PlatformMoving2x2"]
+[editable path="RocksFalling"]
+[editable path="Switch"]

@@ -1,11 +1,13 @@
 using Godot;
 using System;
 
-public class BlockParticles : CPUParticles2D
+public class BlockParticles : Particles
 {
 
     public override void _Ready()
     {
+        base._Ready();
+        
         OneShot=true;
         Emitting=true;
     }

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class CoinTakenParticles : CPUParticles2D
+public class CoinTakenParticles : Particles
 {
     static Vector2 offset=new Vector2(0f,0.5f);
 
@@ -12,6 +12,7 @@ public class CoinTakenParticles : CPUParticles2D
 
     public override void _Ready()
     {
+        base._Ready();
         audio.Position=Position;
         audio.VolumeDb=-10;
         World.level.AddChild(audio);

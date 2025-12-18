@@ -1,12 +1,13 @@
 using Godot;
 using System;
 
-public class EnemieDieParticles : CPUParticles2D
+public class EnemieDieParticles : Particles
 {
     static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_Battle_SFX/15_Impact_flesh_02.wav");
 
     public override void _Ready()
     {
+        base._Ready();
         ExplodeGfx explode=(ExplodeGfx)ResourceUtils.gfx[MathUtils.RandomRangeInt(0,4)].Instance();
         explode.Position=Position;
 

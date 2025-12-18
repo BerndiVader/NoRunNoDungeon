@@ -328,7 +328,7 @@ public class Player : KinematicBody2D
             Position=new Vector2(0f,-100f);
             World.level.AddChild(effect);
             LIVES--;
-            PlayerDieEffect.create();
+            PlayerDieEffect.Create();
         }
     }
 
