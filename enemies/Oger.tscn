@@ -175,8 +175,8 @@ frames = SubResource( 2 )
 animation = "idle"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
-position = Vector2( 8, 9 )
-cast_to = Vector2( 0, 20 )
+position = Vector2( 9, 9 )
+cast_to = Vector2( 0, 16 )
 collision_mask = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

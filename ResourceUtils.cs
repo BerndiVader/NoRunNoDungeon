@@ -116,7 +116,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level2.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level1.tscn"));
         }
         else
         {
@@ -127,8 +127,8 @@ public static class ResourceUtils
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level2.tscn"));
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level3.tscn"));
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level4.tscn"));
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level5.tscn"));
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level6.tscn"));
+            //levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level5.tscn"));
+            //levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level6.tscn"));
         }
 
         Console.WriteLine("Loading tilesets...");
