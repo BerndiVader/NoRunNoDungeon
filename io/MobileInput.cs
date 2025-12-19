@@ -37,7 +37,8 @@ public class MobileInput : InputController
     }
     public override bool Down()
     {
-        return stick.GetValue().y>0f;
+        return false;
+        //return stick.GetValue().y>0f;
     }
 
     public override bool Jump()
