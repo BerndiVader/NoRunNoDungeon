@@ -9,7 +9,7 @@ public class OptionsUI : BaseUI
     public PackedScene back;
     
     private Button acceptBtn, defaultBtn, cancelBtn;
-    private CheckBox fullScreen, vSync, fx;
+    private CheckBox fullScreen, vSync, fx, glow,light;
     private HSlider volume, sfx, background;
 
     public override void _Ready()
@@ -26,11 +26,12 @@ public class OptionsUI : BaseUI
         fullScreen=GetNode<CheckBox>("Screen/Fullscreen");
         vSync=GetNode<CheckBox>("Screen/VSync");
         fx=GetNode<CheckBox>("Screen/FX");
+        glow=GetNode<CheckBox>("Screen/Glow");
+        light=GetNode<CheckBox>("Screen/Lights");
         
         acceptBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(acceptBtn));
         defaultBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(defaultBtn));
         cancelBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(cancelBtn));
-        fx.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(fx));
 
         acceptBtn.Connect("button_down",this,nameof(PlaySfx),new Godot.Collections.Array(sfxButtons));
         defaultBtn.Connect("button_down",this,nameof(PlaySfx),new Godot.Collections.Array(sfxButtons));
@@ -45,6 +46,9 @@ public class OptionsUI : BaseUI
 
         fullScreen.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(fullScreen));
         vSync.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(vSync));
+        fx.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(fx));
+        glow.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(glow));
+        light.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(light));
 
         UpdateButtons();
 
@@ -81,6 +85,8 @@ public class OptionsUI : BaseUI
                 GameSettings.current.BackgroundVolume=(float)background.Value;
                 GameSettings.current.fullscreen=fullScreen.Pressed;
                 GameSettings.current.vsync=vSync.Pressed;
+                GameSettings.current.glow=glow.Pressed;
+                GameSettings.current.light=light.Pressed;
                 if(!fullScreen.Pressed)
                 {
                     GameSettings.current.windowPositionX=OS.WindowPosition.x;
@@ -129,6 +135,8 @@ public class OptionsUI : BaseUI
         fullScreen.Pressed=GameSettings.current.fullscreen;
         vSync.Pressed=GameSettings.current.vsync;
         fx.Pressed=GameSettings.current.usage==Viewport.UsageEnum.Usage2d;
+        glow.Pressed=GameSettings.current.glow;
+        light.Pressed=GameSettings.current.light;
     }
 
     private void Back()

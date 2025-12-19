@@ -97,6 +97,10 @@ public class World : Node
 		{
 			GetNode("WorldEnvironment").QueueFree();
 		}
+		else if(GetNodeOrNull("WorldEnvironment") is WorldEnvironment env)
+		{
+			env.Environment.GlowEnabled = GameSettings.current.glow;
+        }
 		input=ResourceUtils.GetInputController(uiLayer);
 		renderer=GetNode<Renderer>("Renderer");
 		

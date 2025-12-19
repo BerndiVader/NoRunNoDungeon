@@ -11,6 +11,8 @@ public static class GameSettings
         public float BackgroundVolume {get;set;}
         public bool fullscreen {get;set;}
         public bool vsync {get;set;}
+        public bool glow {get;set;}
+        public bool light {get;set;}
         public Viewport.UsageEnum usage {get;set;}
         public float windowSizeX{get;set;}
         public float windowSizeY{get;set;}
@@ -42,6 +44,8 @@ public static class GameSettings
             windowPositionY=0f;
             vsync=false;
             usage=Viewport.UsageEnum.Usage3d;
+            light=true;
+            glow=true;
         }
 
         public void SetAll(Node node)
@@ -62,7 +66,6 @@ public static class GameSettings
                 OS.WindowSize=new Vector2(windowSizeX,windowSizeY);
             }
             OS.VsyncEnabled=vsync;
-            
         }
 
         public Config Clone()
