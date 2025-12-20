@@ -27,7 +27,7 @@ public class LevelControlTimer : Node,ISwitchable
     }
     public override void _Ready()
     {
-        SetPhysicsProcess(false);
+        SetProcess(false);
         SetProcessInput(false);
         if(switchID=="")
         {
@@ -41,7 +41,7 @@ public class LevelControlTimer : Node,ISwitchable
         }
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         current=(int)timer.TimeLeft;
         if(current<last)

@@ -11,7 +11,7 @@ public class Renderer : CanvasModulate
         shake=0d;
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(shake!=0d) ApplyShake();
     }

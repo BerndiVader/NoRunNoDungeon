@@ -36,7 +36,7 @@ public abstract class Weapon : Area2D
         initParticles.Rotation=Rotation;
         World.level.AddChild(initParticles);
         
-        SetProcess(true);
+        SetProcess(false);
         SetProcessInput(false);
         Visible=true;
         state=WEAPONSTATE.IDLE;
@@ -45,7 +45,7 @@ public abstract class Weapon : Area2D
         warmupCount = warmup;
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if (warmupCount > 0)
         {
@@ -93,7 +93,7 @@ public abstract class Weapon : Area2D
         return animationPlayer.IsPlaying();
     }
 
-    protected virtual String GetStringDirection()
+    protected virtual string GetStringDirection()
     {
         return directionNames[Player.instance.animationController.FlipH==true?1:0];
     }
