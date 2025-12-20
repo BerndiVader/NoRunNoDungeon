@@ -7,7 +7,7 @@ public class Stick : TouchScreenButton
     private Vector2 rad=new Vector2(16f,16f);
     private float boundary=32f;
     private int onGoing=-1;
-    private float returnAccel=20f;
+    private float returnAccel=60f;
     private float threshold=10f;
     private Vector2 hidePosition=new Vector2(-200f,-200f);
     private Vector2 approxPosition=new Vector2(-16f,-16f);
@@ -15,6 +15,8 @@ public class Stick : TouchScreenButton
 
     public override void _Ready()
     {
+        SetProcess(false);
+
         touch=GetParent<Touch>();
         touch.Position=hidePosition;
         touch.oPosition=Position;
@@ -23,12 +25,12 @@ public class Stick : TouchScreenButton
 
         if(useAccelerometer)
         {
-            SetProcess(false);
+            SetPhysicsProcess(false);
             SetProcessInput(false);
         }
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(onGoing==-1)
         {
@@ -50,8 +52,8 @@ public class Stick : TouchScreenButton
             InputEventScreenDrag d=@event as InputEventScreenDrag;
             InputEventScreenTouch t=@event as InputEventScreenTouch;
 
-            int index=-1;
-            Vector2 position=Vector2.Zero;
+            int index;
+            Vector2 position;
 
             if(d!=null)
             {
@@ -63,7 +65,7 @@ public class Stick : TouchScreenButton
                 position=t.Position;
                 index=t.Index;
                 
-                if(@t.IsPressed()&&position.x<256)
+                if(@t.IsPressed()&&position.x<256f)
                 {
                     touch.Position=position;
                     touch.oPosition=position;                
@@ -115,7 +117,7 @@ public class Stick : TouchScreenButton
         else
         {
             Vector3 acc=Input.GetAccelerometer();
-            Vector2 accel=new Vector2((int)acc.x,(int)acc.y);
+            Vector2 accel=new Vector2(acc.x,acc.y);
             return accel;
         }
     }

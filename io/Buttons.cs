@@ -17,15 +17,4 @@ public class Buttons : Node2D
         oPosition=Position;
     }
 
-    public override void _Process(float delta)
-    {
-        Vector2 camCenter=PlayerCamera.instance.GetCameraScreenCenter();
-        Vector2 camZoom=PlayerCamera.instance.Zoom;
-
-        Scale=2*camZoom;
-
-        Vector2 position=oPosition*0.5f*camZoom.x;
-        Position=position+camCenter;
-    }
-
 }
