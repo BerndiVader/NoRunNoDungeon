@@ -19,11 +19,12 @@ public class TileExploder : Sprite
         tween.Start();
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(!tween.IsActive())
         {
             CallDeferred("queue_free");
+            SetPhysicsProcess(false);
         }
     }
 

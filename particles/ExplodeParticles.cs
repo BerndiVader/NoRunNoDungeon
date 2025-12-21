@@ -6,14 +6,17 @@ public class ExplodeParticles : Particles
     public override void _Ready()
     {
         base._Ready();
+
+        OneShot=true;
         Emitting=true;
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(!Emitting)
         {
-            QueueFree();
+            CallDeferred("queue_free");
+            SetPhysicsProcess(false);
         }
     }
 

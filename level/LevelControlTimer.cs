@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Linq.Expressions;
 
 public class LevelControlTimer : Node,ISwitchable
 {
@@ -37,7 +36,7 @@ public class LevelControlTimer : Node,ISwitchable
         }
         else
         {
-            SetProcess(false);
+            SetPhysicsProcess(false);
         }
     }
 
@@ -61,7 +60,7 @@ public class LevelControlTimer : Node,ISwitchable
         SettingsEffect count=countEffect.Instance<SettingsEffect>();
         count.chr="0"[0];
         World.instance.renderer.AddChild(count);
-        settings.Restore();
+        World.level.settings.Restore();
         QueueFree();
     }
 
@@ -72,7 +71,7 @@ public class LevelControlTimer : Node,ISwitchable
             SettingsEffect count=countEffect.Instance<SettingsEffect>();
             count.chr=">"[0];
             World.instance.renderer.AddChild(count);
-            settings.Restore();
+            World.level.settings.Restore();
             QueueFree();
         }
     }

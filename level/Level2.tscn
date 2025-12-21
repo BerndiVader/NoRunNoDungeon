@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=9]
 [ext_resource path="res://placeholders/obstacles/RocksFalling.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=11]
+[ext_resource path="res://placeholders/obstacles/BatonSwinging.tscn" type="PackedScene" id=12]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -48,7 +49,7 @@ position = Vector2( 520, 137 )
 position = Vector2( 552, 105 )
 
 [node name="Zombie" parent="." instance=ExtResource( 3 )]
-position = Vector2( 672, 112 )
+position = Vector2( 672, 120 )
 
 [node name="PlatformMoving2x2" parent="." instance=ExtResource( 8 )]
 position = Vector2( 903, 65 )
@@ -106,12 +107,6 @@ position = Vector2( 654, 46 )
 [node name="CoinStatic6" parent="." instance=ExtResource( 4 )]
 position = Vector2( 646, 36 )
 
-[node name="RocksFalling2" parent="." instance=ExtResource( 10 )]
-position = Vector2( 824, -1 )
-
-[node name="Rock" parent="RocksFalling2" index="0"]
-switchID = "8d01fd9c-3995-4e1c-ac93-5c97e53d725b"
-
 [node name="CoinPhysics7" parent="." instance=ExtResource( 5 )]
 position = Vector2( 816, -24 )
 
@@ -127,8 +122,47 @@ position = Vector2( 824, 129 )
 [node name="DoorSwitch" parent="Switch2" index="0"]
 switchID = "8d01fd9c-3995-4e1c-ac93-5c97e53d725b"
 
+[node name="BatonSwinging" parent="." instance=ExtResource( 12 )]
+position = Vector2( 680, 152 )
+
+[node name="SwingingBaton" parent="BatonSwinging" index="0"]
+rotation = -1.38928
+scale = Vector2( 0.95, 0.95 )
+mode = 1
+type = 1
+switchID = "8d01fd9c-3995-4e1c-ac93-5c97e53d725b"
+oneShoot = true
+
+[node name="BatonSwinging2" parent="." instance=ExtResource( 12 )]
+position = Vector2( 976, 296 )
+
+[node name="SwingingBaton" parent="BatonSwinging2" index="0"]
+rotation = 6.28319
+scale = Vector2( 0.8, 0.8 )
+maxSpeed = 1.0
+maxRotation = 360.0
+type = 1
+
+[node name="LevelControl2" parent="." instance=ExtResource( 9 )]
+position = Vector2( 648, 8 )
+Speed = 80.0
+Signal = false
+
+[node name="LevelControl3" parent="." instance=ExtResource( 9 )]
+position = Vector2( 836, 96 )
+Restore = true
+Signal = false
+
+[node name="RocksFalling2" parent="." instance=ExtResource( 10 )]
+position = Vector2( 824, -3 )
+
+[node name="Rock" parent="RocksFalling2" index="0"]
+switchID = "8d01fd9c-3995-4e1c-ac93-5c97e53d725b"
+
 [editable path="PlatformMoving2x2"]
 [editable path="RocksFalling"]
 [editable path="Switch"]
-[editable path="RocksFalling2"]
 [editable path="Switch2"]
+[editable path="BatonSwinging"]
+[editable path="BatonSwinging2"]
+[editable path="RocksFalling2"]

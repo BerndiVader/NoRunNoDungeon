@@ -49,17 +49,18 @@ public class SwingingBaton : Area2D,ISwitchable
 
         switch(mode)
         {
+            case MODE.DISTANCE:
             case MODE.NORMAL:
-            break;
+                break;
             case MODE.SWITCH:
                 AddToGroup(GROUPS.SWITCHABLES.ToString());
                 SetPhysicsProcess(false);
                 break;
-            case MODE.DISTANCE:
-            break;
         }
         
-        sinAmplitude=Mathf.Deg2Rad(maxRotation);
+        startRotation=maxRotation*Mathf.Sign(RotationDegrees);
+
+        sinAmplitude=Mathf.Deg2Rad(startRotation);
         sinFrequency=Mathf.Lerp(minSpeed,maxSpeed,0.5f);
 
         linMinSpeed=sinAmplitude*minSpeed;
@@ -146,7 +147,7 @@ public class SwingingBaton : Area2D,ISwitchable
 
     public void SwitchCall(string id)
     {
-        if(switchID==id&&!oneShoot&&!IsPhysicsProcessing())
+        if(switchID==id&&!IsPhysicsProcessing())
         {
             SetPhysicsProcess(true);
         }

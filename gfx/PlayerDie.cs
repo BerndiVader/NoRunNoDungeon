@@ -29,7 +29,8 @@ public class PlayerDie : Sprite
 
         if(offset==1f)
         {
-            QueueFree();
+            CallDeferred("queue_free");
+            SetPhysicsProcess(false);
         }
     }
 

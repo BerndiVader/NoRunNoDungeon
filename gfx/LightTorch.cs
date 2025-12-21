@@ -21,7 +21,7 @@ public class LightTorch : Light2D
         GetNode<AnimatedSprite>("AnimatedSprite").Play();
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(lightCounter==LightDelay)
         {
@@ -33,6 +33,7 @@ public class LightTorch : Light2D
 
     private void onExitedScreen()
     {
-        QueueFree();
+        CallDeferred("queue_free");
+        SetPhysicsProcess(false);
     }
 }

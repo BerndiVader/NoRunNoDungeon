@@ -8,7 +8,7 @@ radius = 22.0
 height = 12.0
 
 [node name="SwingingBaton" type="Area2D"]
-collision_layer = 32
+collision_layer = 48
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]

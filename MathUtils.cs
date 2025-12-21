@@ -21,6 +21,13 @@ public static class MathUtils
         return Math.Max(Math.Min(delta, max), min);
     }
 
+    public static bool IsBetween(float a,float b,float delta)
+    {
+        float min=Mathf.Min(a,b);
+        float max=Mathf.Max(a,b);
+        return delta>=min&&delta<=max;
+    }    
+
     public static int RandSign()
     {
         return random.Next() % 2 == 0 ? 1 : -1;

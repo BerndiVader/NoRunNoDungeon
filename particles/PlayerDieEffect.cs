@@ -24,17 +24,18 @@ public class PlayerDieEffect : Particles
     {
         base._Ready();
         SetProcessInput(false);
-        SetPhysicsProcess(false);
+        SetProcess(false);
         OneShot=true;
         Emitting=true;
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(!Emitting)
         {
             Player.instance.Die();
-            QueueFree();
+            CallDeferred("queue_free");
+            SetPhysicsProcess(false);
         }
     }
 

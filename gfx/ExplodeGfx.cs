@@ -14,11 +14,12 @@ public class ExplodeGfx : AnimatedSprite
         Play();
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(Frame==animationLength)
         {
-            QueueFree();
+            CallDeferred("queue_free");
+            SetPhysicsProcess(false);
         }
     }
 }

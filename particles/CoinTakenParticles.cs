@@ -14,9 +14,10 @@ public class CoinTakenParticles : Particles
     {
         base._Ready();
         audio.Position=Position;
-        audio.VolumeDb=-10;
+        audio.VolumeDb=-10f;
         World.level.AddChild(audio);
 
+        OneShot=true;
         Emitting=true;
     }
 
@@ -24,9 +25,9 @@ public class CoinTakenParticles : Particles
     {
         if(!Emitting) 
         {
-            QueueFree();
+            CallDeferred("queue_free");
+            SetPhysicsProcess(false);
         }
-
         Position-=offset;
     }
 

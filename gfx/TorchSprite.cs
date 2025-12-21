@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class TorchSprite : Godot.Sprite
+public class TorchSprite : Sprite
 {
     private Vector2 defaultScale;
     private readonly int delay = 5;

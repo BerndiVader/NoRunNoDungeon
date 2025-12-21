@@ -15,7 +15,7 @@ public class Particles : CPUParticles2D
         {
             SetProcess(false);
             SetPhysicsProcess(false);
-            QueueFree();
+            CallDeferred("queue_free");
         }
     }
 

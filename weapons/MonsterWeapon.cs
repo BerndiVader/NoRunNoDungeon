@@ -7,8 +7,8 @@ public class MonsterWeapon : Weapon
     public override void _Ready()
     {
         base._Ready();
-        warmupCount = 0;
-        Connect("body_entered", this, nameof(OnHitSomething));
+        warmupCount=0;
+        Connect("body_entered",this,nameof(OnHitSomething));
     }
     
     public void _Init()
@@ -20,6 +20,7 @@ public class MonsterWeapon : Weapon
 
     public override void _PhysicsProcess(float delta)
     {
+        base._PhysicsProcess(delta);
         switch(state)
         {
             case WEAPONSTATE.IDLE:
@@ -45,11 +46,11 @@ public class MonsterWeapon : Weapon
 
     public override bool Attack()
     {
-        if (state == WEAPONSTATE.IDLE && cooldownCount == 0 && warmupCount == 0)
+        if(state==WEAPONSTATE.IDLE&&cooldownCount==0&&warmupCount==0)
         {
-            warmupCount = warmup;
-            animationPlayer.Play(AnimationNames.SWING + GetStringDirection());
-            state = WEAPONSTATE.ATTACK;
+            warmupCount=warmup;
+            animationPlayer.Play(AnimationNames.SWING+GetStringDirection());
+            state=WEAPONSTATE.ATTACK;
             return true;
         }
         return false;

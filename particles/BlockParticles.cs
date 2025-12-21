@@ -12,11 +12,12 @@ public class BlockParticles : Particles
         Emitting=true;
     }
 
-    public override void _Process(float delta) 
+    public override void _PhysicsProcess(float delta) 
     {
         if(!Emitting) 
         {
-            QueueFree();
+            CallDeferred("queue_free");
+            SetPhysicsProcess(false);
         }
     }
 

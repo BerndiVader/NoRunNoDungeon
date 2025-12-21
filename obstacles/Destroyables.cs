@@ -14,6 +14,7 @@ public class Destroyables : Area2D,ISwitchable
     {
         SetProcess(false);
         SetPhysicsProcess(false);
+        SetProcessInput(false);
 
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen), new Godot.Collections.Array(this));

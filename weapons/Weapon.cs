@@ -40,18 +40,18 @@ public abstract class Weapon : Area2D
         SetProcessInput(false);
         Visible=true;
         state=WEAPONSTATE.IDLE;
-        oldState = state;
+        oldState=state;
 
-        warmupCount = warmup;
+        warmupCount=warmup;
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        if (warmupCount > 0)
+        if(warmupCount>0)
         {
             warmupCount--;
         }
-        if (cooldownCount > 0)
+        if(cooldownCount>0)
         {
             cooldownCount--;
         }

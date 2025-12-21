@@ -4,7 +4,7 @@ using System;
 
 public class Placeholder : Node2D
 {
-    public Boolean isDisposed=false;
+    public bool isDisposed=false;
     public override void _Ready()
     {        
         Visible=false;

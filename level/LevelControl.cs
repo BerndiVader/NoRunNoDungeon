@@ -1,12 +1,14 @@
+using System;
 using Godot;
 
-public class LevelControl : Node2D
+public class LevelControl : Node2D,ISwitchable
 {
     [Export] private float Speed=-1f;
     [Export] private Vector2 Direction=Vector2.Zero;
     [Export] private float Zoom=-1f;
     [Export] private int Timeout=-1;
     [Export] private bool Restore=false;
+    [Export] private bool Signal=true;
     [Export] private string switchID="";
 
     private VisibilityNotifier2D notifier;
@@ -25,19 +27,24 @@ public class LevelControl : Node2D
         SetProcessInput(false);
 
         size=GetViewportRect().Size*0.5f;
+        if(settings==null)
+        {
+            settings=new Settings(World.level,Direction,Speed,Zoom);
+        }
+
+        if(switchID!="")
+        {
+            AddToGroup(GROUPS.SWITCHABLES.ToString());
+        }
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if(GlobalPosition.x<=size.x)
         {
-            SetProcess(false);
+            SetPhysicsProcess(false);
             if(!Restore)
             {
-                if(settings==null)
-                {
-                    settings=new Settings(World.level,Direction,Speed,Zoom);
-                }
                 settings.Set();
                 if(Timeout!=-1||switchID!="")
                 {
@@ -60,12 +67,26 @@ public class LevelControl : Node2D
 
     private void OnScreenEntered()
     {
-        SettingsEffect effect=LevelControlTimer.countEffect.Instance<SettingsEffect>();
-        effect.chr=(int)"!"[0];
-        effect.scale=15f;
-        World.instance.renderer.AddChild(effect);
+        if(Signal)
+        {
+            SettingsEffect effect=LevelControlTimer.countEffect.Instance<SettingsEffect>();
+            effect.chr=(int)"!"[0];
+            effect.scale=15f;
+            World.instance.renderer.AddChild(effect);
+        }
         
-        SetProcess(true);
+        SetPhysicsProcess(true);
     }
 
+    public void SwitchCall(string id)
+    {
+        if(id==switchID)
+        {
+            SettingsEffect count=LevelControlTimer.countEffect.Instance<SettingsEffect>();
+            count.chr=">"[0];
+            World.instance.renderer.AddChild(count);
+            World.level.settings.Restore();
+            QueueFree();
+        }
+    }
 }

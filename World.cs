@@ -49,7 +49,7 @@ public class World : Node
 	{
         if(PlayerCamera.instance.Zoom.x==1f)
         {
-            node.QueueFree();
+            node.CallDeferred("queue_free");
         }
 	}
 
