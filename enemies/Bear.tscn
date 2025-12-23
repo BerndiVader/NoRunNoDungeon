@@ -162,6 +162,7 @@ position = Vector2( 0, -1 )
 collision_layer = 0
 collision_mask = 22
 script = ExtResource( 9 )
+SPAWN_LEFT_WEIGHT = 50
 ANIMATION_OFFSET = Vector2( 0, -1 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
