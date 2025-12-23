@@ -1,10 +1,13 @@
 /.import/
 /.mono/
 /.vscode/
+/.vs/
+/Properties/
 /android/
 /logs/
 /builds/
 /.tmp.driveupload/
 /gamesettings/
-.gitingore
+.gitignore
 export_presets.cfg
+nodungeon.csproj.user
