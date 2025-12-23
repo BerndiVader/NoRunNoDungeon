@@ -209,7 +209,7 @@ public abstract class KinematicMonster : KinematicBody2D
             {
                 node=Player.instance;
             }
-            World.instance.renderer.shake=2d;
+            World.instance.renderer.shake=2f;
             staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
             lastState=state;
             state=STATE.damage;
@@ -232,7 +232,7 @@ public abstract class KinematicMonster : KinematicBody2D
                 player = Player.instance;
             }
 
-            World.instance.renderer.shake=2d;
+            World.instance.renderer.shake=2f;
             lastState=state;
             state = STATE.passanger;
             health -= 0.5f;

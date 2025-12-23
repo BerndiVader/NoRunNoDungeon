@@ -8,7 +8,6 @@ public class Destroyables : Area2D,ISwitchable
     [Export] private bool terraform=true;
     [Export] private string switchID="";
     private Alert alert;
-    private bool used=false;
 
     public override void _Ready()
     {
@@ -107,8 +106,9 @@ public class Destroyables : Area2D,ISwitchable
 
     public void SwitchCall(string id)
     {
-        if(switchID==id&&!used)
+        if(switchID==id)
         {
+            switchID="";
             OnDamage();
         }
     }

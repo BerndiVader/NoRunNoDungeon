@@ -23,7 +23,7 @@ public class MimicChest : KinematicMonster
 
         animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         animationController.Play("idle");
-        animationController.FlipH=MathUtils.RandomRangeInt(0,1)!=0;
+        animationController.FlipH=MathUtils.RandBool();
 
         cooldown=0;
 

@@ -56,14 +56,14 @@ public class Oger : KinematicMonster
             travelTime++;
             if(travelTime==50f)
             {
-                if(MathUtils.RandomRangeInt(0,5)>4)
+                if(MathUtils.RandomRange(0,5)>4)
                 {
                     FlipH();
                 }
             } 
             else if(travelTime>100f)
             {
-                if(MathUtils.RandomRangeInt(0,4)==1)
+                if(MathUtils.RandomRange(0,4)==1)
                 {
                     FlipH();
                 }
@@ -85,7 +85,7 @@ public class Oger : KinematicMonster
             travelTime++;
             if(travelTime>300f)
             {
-                if(MathUtils.RandomRangeInt(0,5)==1)
+                if(MathUtils.RandomRange(0,5)==1)
                 {
                     OnIdle();
                     return;

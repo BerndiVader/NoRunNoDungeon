@@ -129,7 +129,7 @@ public class RunningZombie : KinematicMonster
 
 		if(jump&&!jumping) 
 		{
-			switch(MathUtils.RandomRangeInt(1,5))
+			switch(MathUtils.RandomRange(1,5))
 			{
 				case 1:
 				case 2:

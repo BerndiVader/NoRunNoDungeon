@@ -8,6 +8,6 @@ public class Background : ParallaxBackground
     public override void _PhysicsProcess(float delta) 
     {
         speed.x=World.level!=null?-World.level.Speed*0.1f:-10f;
-        ScrollBaseOffset+=(speed*delta);
+        ScrollBaseOffset+=speed*delta;
     }
 }

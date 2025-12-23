@@ -4,7 +4,6 @@ using System;
 public class Buttons : Node2D
 {
     public XButton jump,x,o,c;
-    private Vector2 oPosition;
     public override void _Ready()
     {
         jump=(XButton)GetNode("A");
@@ -14,7 +13,6 @@ public class Buttons : Node2D
         SetPhysicsProcess(false);
         SetProcessInput(false);
         SetProcess(false);
-        oPosition=Position;
     }
 
 }

@@ -35,12 +35,9 @@ public class World : Node
 		{
 			((World)currentScene)._Free();
 		}
-		else
+		else if(!currentScene.IsQueuedForDeletion())
 		{
-			if(!currentScene.IsQueuedForDeletion())
-			{
-				currentScene.QueueFree();
-			}
+			currentScene.QueueFree();
 		}
 		Worker.Gc();
 	}
@@ -279,6 +276,6 @@ public class World : Node
 
 	private void OnMusicFinishedPlaying()
 	{
-		musicPlayer.Stream=ResourceUtils.ingameMusic[MathUtils.RandomRangeInt(0,ResourceUtils.ingameMusic.Count)];
+		musicPlayer.Stream=ResourceUtils.ingameMusic[MathUtils.RandomRange(0,ResourceUtils.ingameMusic.Count)];
 	}	
 }

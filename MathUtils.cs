@@ -11,7 +11,12 @@ public static class MathUtils
         return random.NextDouble()*(max-min)+min;
     }
 
-    public static int RandomRangeInt(int min,int max)
+    public static float RandomRange(float min,float max)
+    {
+        return (float)random.NextDouble()*(max-min)+min;
+    }
+
+    public static int RandomRange(int min,int max)
     {
         return random.Next(min,max);
     }

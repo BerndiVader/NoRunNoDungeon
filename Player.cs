@@ -51,7 +51,8 @@ public class Player : KinematicBody2D
         if(GameSettings.current.usage!=Viewport.UsageEnum.Usage3d)
         {
             GetNode<Light2D>(nameof(Light2D)).QueueFree();
-        } else if(!GameSettings.current.light)
+        } 
+        else if(!GameSettings.current.light)
         {
             Light2D light=GetNodeOrNull<Light2D>(nameof(Light2D));
             light?.QueueFree();
@@ -332,7 +333,7 @@ public class Player : KinematicBody2D
             PlayerCamera.instance.SmoothingSpeed=0f;
             World.instance.SetGamestate(Gamestate.DIEING);
 
-            PlayerDie effect=PlayerDie.create();
+            PlayerDie effect=PlayerDie.Create();
             effect.Position=World.level.ToLocal(GlobalPosition);
             effect.flip=animationController.FlipH;
             Position=new Vector2(0f,-100f);

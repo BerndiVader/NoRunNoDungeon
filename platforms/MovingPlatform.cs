@@ -17,7 +17,7 @@ public class MovingPlatform : Platform
     {
         base._Ready();
 
-        maxDistance=Length*16;
+        maxDistance=Length*16f;
         speed=Speed;
 
         if(platformState==PLATFORMSTATE.SWITCH)
