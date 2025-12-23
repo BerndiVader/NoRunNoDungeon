@@ -13,8 +13,8 @@ public class WeaponChangeParticles : CPUParticles2D
     {
         if(!Emitting)
         {
-            CallDeferred("queue_free");
             SetPhysicsProcess(false);
+            QueueFree();
         }
     }
 

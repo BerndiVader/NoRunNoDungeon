@@ -86,7 +86,8 @@ public class LevelControl : Node2D,ISwitchable
             count.chr=">"[0];
             World.instance.renderer.AddChild(count);
             World.level.settings.Restore();
-            QueueFree();
+            switchID="";
+            CallDeferred("queue_free");
         }
     }
 }

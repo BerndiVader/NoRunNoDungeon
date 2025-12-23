@@ -34,8 +34,8 @@ public class PlayerDieEffect : Particles
         if(!Emitting)
         {
             Player.instance.Die();
-            CallDeferred("queue_free");
             SetPhysicsProcess(false);
+            QueueFree();
         }
     }
 

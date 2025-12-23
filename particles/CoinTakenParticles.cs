@@ -25,7 +25,7 @@ public class CoinTakenParticles : Particles
     {
         if(!Emitting) 
         {
-            CallDeferred("queue_free");
+            QueueFree();
             SetPhysicsProcess(false);
         }
         Position-=offset;

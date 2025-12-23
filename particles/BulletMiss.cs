@@ -14,7 +14,7 @@ public class BulletMiss : Particles
     {
         if(!Emitting) 
         {
-            CallDeferred("queue_free");
+            QueueFree();
             SetPhysicsProcess(false);
         }
     }

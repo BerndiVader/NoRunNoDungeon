@@ -3,10 +3,9 @@ using System;
 
 public class PlayerDie : Sprite
 {
+    private static readonly PackedScene scene=ResourceLoader.Load<PackedScene>("res://gfx/PlayerDie.tscn");
 
-    static PackedScene scene=ResourceLoader.Load<PackedScene>("res://gfx/PlayerDie.tscn");
-
-    public static PlayerDie create()
+    public static PlayerDie Create()
     {
         return scene.Instance<PlayerDie>();
     }
@@ -29,7 +28,7 @@ public class PlayerDie : Sprite
 
         if(offset==1f)
         {
-            CallDeferred("queue_free");
+            QueueFree();
             SetPhysicsProcess(false);
         }
     }

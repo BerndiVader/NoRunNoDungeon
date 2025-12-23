@@ -8,8 +8,13 @@ public class TileExploder : Sprite
 
     public override void _Ready()
     {
+        SetPhysicsProcess(false);
+        SetProcess(false);
+        SetProcessInput(false);
+
         Material=new ShaderMaterial{Shader=shader};
         tween=new Tween();
+        tween.Connect("tween_all_completed",this,nameof(OnComplete));
         AddChild(tween);
 
         tween.InterpolateProperty(
@@ -19,14 +24,9 @@ public class TileExploder : Sprite
         tween.Start();
     }
 
-    public override void _PhysicsProcess(float delta)
+    private void OnComplete()
     {
-        if(!tween.IsActive())
-        {
-            CallDeferred("queue_free");
-            SetPhysicsProcess(false);
-        }
+        CallDeferred("queue_free");
     }
-
 
 }

@@ -10,7 +10,7 @@ public class ExplodeGfx : AnimatedSprite
         particles.Position=Position;
         World.level.AddChild(particles);
         ZIndex=4;
-        animationLength=this.Frames.GetFrameCount(this.Animation)-1;
+        animationLength=Frames.GetFrameCount(Animation)-1;
         Play();
     }
 
@@ -18,7 +18,7 @@ public class ExplodeGfx : AnimatedSprite
     {
         if(Frame==animationLength)
         {
-            CallDeferred("queue_free");
+            QueueFree();
             SetPhysicsProcess(false);
         }
     }

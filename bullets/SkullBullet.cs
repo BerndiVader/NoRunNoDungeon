@@ -52,7 +52,7 @@ public class SkullBullet : Area2D
             particles.Scale=scale;
         }
         World.level.AddChild(particles);
-        QueueFree();
+        CallDeferred("queue_free");
     }
 
 }

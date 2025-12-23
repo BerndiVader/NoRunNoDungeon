@@ -23,8 +23,8 @@ public class SettingsEffect : CPUParticles2D
     {
         if(!Emitting)
         {
-            CallDeferred("queue_free");
             SetPhysicsProcess(false);
+            QueueFree();
         }
     }
 

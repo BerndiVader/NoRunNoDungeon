@@ -14,7 +14,7 @@ public class DaggerShoot : Particles
     {
         if(!Emitting)
         {
-            CallDeferred("queue_free");
+            QueueFree();
             SetPhysicsProcess(false);
         }
     }

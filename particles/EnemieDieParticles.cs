@@ -8,7 +8,7 @@ public class EnemieDieParticles : Particles
     public override void _Ready()
     {
         base._Ready();
-        ExplodeGfx explode=(ExplodeGfx)ResourceUtils.gfx[MathUtils.RandomRangeInt(0,4)].Instance();
+        ExplodeGfx explode=(ExplodeGfx)ResourceUtils.gfx[MathUtils.RandomRange(0,ResourceUtils.gfx.Count)].Instance();
         explode.Position=Position;
 
         SfxPlayer sfxPlayer=new SfxPlayer();
@@ -26,7 +26,7 @@ public class EnemieDieParticles : Particles
     {
         if(!Emitting) 
         {
-            CallDeferred("queue_free");
+            QueueFree();
             SetPhysicsProcess(false);
         }
     }

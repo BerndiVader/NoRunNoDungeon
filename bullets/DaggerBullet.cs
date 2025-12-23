@@ -52,7 +52,7 @@ public class DaggerBullet : Area2D
         BulletMiss particles=(BulletMiss)((PackedScene)ResourceUtils.particles[(int)PARTICLES.BULLETMISS]).Instance();
         particles.Position=World.level.ToLocal(GlobalPosition);
         World.level.AddChild(particles);
-        QueueFree();
+        CallDeferred("queue_free");
     }
 
 }

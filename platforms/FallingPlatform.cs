@@ -63,7 +63,8 @@ public class FallingPlatform : Platform
         BlockParticles blockBreakParticle=(BlockParticles)ResourceUtils.particles[(int)PARTICLES.BLOCK].Instance();
         blockBreakParticle.Position=World.level.ToLocal(GlobalPosition);
         World.level.AddChild(blockBreakParticle);
-        QueueFree();
+        SetPhysicsProcess(false);
+        CallDeferred("queue_free");
     }
 
 }

@@ -61,7 +61,7 @@ public class LevelControlTimer : Node,ISwitchable
         count.chr="0"[0];
         World.instance.renderer.AddChild(count);
         World.level.settings.Restore();
-        QueueFree();
+        CallDeferred("queue_free");
     }
 
     public void SwitchCall(string id)
@@ -72,7 +72,8 @@ public class LevelControlTimer : Node,ISwitchable
             count.chr=">"[0];
             World.instance.renderer.AddChild(count);
             World.level.settings.Restore();
-            QueueFree();
+            switchID="";
+            CallDeferred("queue_free");
         }
     }
 }

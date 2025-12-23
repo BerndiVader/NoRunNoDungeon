@@ -14,10 +14,10 @@ public class BlockParticles : Particles
 
     public override void _PhysicsProcess(float delta) 
     {
-        if(!Emitting) 
+        if(!Emitting)
         {
-            CallDeferred("queue_free");
             SetPhysicsProcess(false);
+            QueueFree();
         }
     }
 
