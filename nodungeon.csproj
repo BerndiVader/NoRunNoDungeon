@@ -31,6 +31,7 @@
     <Compile Include="obstacles\DoorSwitch.cs" />
     <Compile Include="obstacles\HiddenDoor.cs" />
     <Compile Include="obstacles\Rocks.cs" />
+    <Compile Include="obstacles\FallingHammer.cs" />
     <Compile Include="particles\Alert.cs" />
     <Compile Include="particles\DaggerShoot.cs" />
     <Compile Include="particles\ExplodeParticles.cs" />
