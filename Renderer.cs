@@ -4,7 +4,7 @@ using System;
 public class Renderer : CanvasModulate
 {
     [Export] private float ShakeMax=6f;
-    public float shake;
+    private float shake;
     
     public override void _Ready()
     {
@@ -22,7 +22,7 @@ public class Renderer : CanvasModulate
     private void ApplyShake()
     {
         shake=Mathf.Min(shake,ShakeMax);
-        if(shake>=0.3d)
+        if(shake>=0.3f)
         {
             Position=new Vector2(MathUtils.RandomRange(-shake,shake),MathUtils.RandomRange(-shake,shake));
             shake*=0.9f;
@@ -33,4 +33,26 @@ public class Renderer : CanvasModulate
             Position=Vector2.Zero;
         }
     }
+
+    public float Shake()
+    {
+        return shake;
+    }
+    public void Shake(float amount)
+    {
+        shake=Mathf.Min(shake+amount,ShakeMax);
+    }
+    public void SetShake(float amount)
+    {
+        shake=Mathf.Min(amount,ShakeMax);
+    }
+
+    public void PlaySfx(AudioStream stream,Vector2 position)
+    {
+        SfxPlayer sfx=new SfxPlayer();
+        sfx.Stream=stream;
+        sfx.Position=position;
+        AddChild(sfx);
+    }
+
 }
