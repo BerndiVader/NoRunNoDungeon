@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 public class Player : KinematicBody2D
 {
@@ -25,7 +26,6 @@ public class Player : KinematicBody2D
     private bool justJumped=false;
     private int weaponCyle=0;
     private List<int>weapons;
-    private float slopeAngle=0f;
     private Vector2 lastVelocity=Vector2.Zero;
     private Vector2 lastPosition=Vector2.Zero;
     private Vector2 FORCE;
@@ -101,6 +101,7 @@ public class Player : KinematicBody2D
         }
         
         Vector2 force=FORCE;
+        float slopeAngle=0f;
 
         bool left=World.instance.input.Left();
         bool right=World.instance.input.Right();
@@ -179,8 +180,7 @@ public class Player : KinematicBody2D
 
         if(justJumped)
         {
-            MoveLocalX(velocity.x*delta);
-            MoveLocalY(velocity.y*delta);
+            Translate(velocity*delta);
             justJumped=false;
         } 
         else
@@ -194,7 +194,7 @@ public class Player : KinematicBody2D
         bool onCeiling=IsOnCeiling();
         bool onFloor=IsOnFloor();
 
-        if(collides>0&&!jumping)
+        if(collides>0)
         {
             Vector2 diff=GlobalPosition-lastPosition;
             bool squeezed=Mathf.Abs(velocity.y)>200f&&diff.y==0f;
@@ -203,25 +203,25 @@ public class Player : KinematicBody2D
             {
                 KinematicCollision2D collision=GetSlideCollision(i);
 
-                if(squeezed&&collision.Collider is Level)
+                if(squeezed&&collision.ColliderId==World.level.GetInstanceId())
                 {
                     OnDamaged();
                     return;
                 }
 
-                if(collision.ColliderId==World.level.GetInstanceId())
-                {
-                    slopeAngle=collision.Normal.AngleTo(Vector2.Up);
-                    onSlope=Mathf.Abs(slopeAngle)>=0.785298f;
-                }
-                else if(collision.Collider.HasSignal(STATE.passanger.ToString())&&collision.Normal.AngleTo(Vector2.Up)==0)
+                slopeAngle=collision.Normal.AngleTo(Vector2.Up);
+                float sa=Mathf.Abs(slopeAngle);
+                onSlope=sa>0.785297f&&sa<1.3f;
+
+                if(!jumping&&slopeAngle==0f&&collision.Collider.HasSignal(STATE.passanger.ToString()))
                 {
                     velocity.y=-JUMP_SPEED;
                     animationController.Play(ANIM_JUMP);
                     justJumped=jumping=true;
                     collision.Collider.EmitSignal(STATE.passanger.ToString(),this);
                 }
-                else if (collision.Collider is MovingPlatform platform)
+                
+                if(collision.Collider is MovingPlatform platform)
                 {
                     platformSpeed=platform.CurrentSpeed;
                 }
@@ -229,59 +229,30 @@ public class Player : KinematicBody2D
 
         }
 
-        if(onCeiling) 
+        if(jumping)
         {
-            if(lastVelocity.y<-150f) World.instance.renderer.shake+=Mathf.Abs(lastVelocity.y*0.004f);
-        }
-
-        if(onFloor)
-        {
-            if(airParticles.Emitting)
+            if(down)
             {
-                PlaySfx(sfxLanding);
-                airParticles.Emitting=false;
+                velocity.y*=0.92f;
             }
-
-            Vector2 floorVelocity=GetFloorVelocity();
-            if(floorVelocity!=Vector2.Zero)
+            if(velocity.y>0f)
             {
-                MoveAndCollide(-floorVelocity*delta);
+                animationController.Play(ANIM_RUN);
+                doubleJump=jumping=false;
+                jumpParticles.Emitting=false;
             }
-            onAirTime=0.0f;
-            if(lastVelocity.y>300f) 
+            else if(jump&&!doubleJump)
             {
-                World.instance.renderer.shake+=lastVelocity.y*0.004f;
+                doubleJump=true;
+                velocity.y=-JUMP_SPEED;
+                animationController.Play(ANIM_JUMP);
+                jumpParticles.Emitting=true;
+                PlaySfx(sfxDoubleJump);
             }
         }
-        else if(!airParticles.Emitting)
+        else if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME)
         {
-            airParticles.Emitting=true;
-        }
-
-        if(jumping&&down)
-        {
-            velocity.y*=0.92f;
-        }
-        
-        if(jumping&&velocity.y>0f) 
-        {
-            animationController.Play(ANIM_RUN);
-            doubleJump=jumping=false;
-            jumpParticles.Emitting=false;
-        }
-
-        if(jump&&jumping&&!doubleJump) 
-        {
-            doubleJump=true;
-            velocity.y=-JUMP_SPEED;
-            animationController.Play(ANIM_JUMP);
-            jumpParticles.Emitting=true;
-            PlaySfx(sfxDoubleJump);
-        }
-
-        if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME) 
-        {
-            if(onSlope) 
+            if(onSlope)
             {
                 if(slopeAngle<0f) 
                 {
@@ -297,6 +268,32 @@ public class Player : KinematicBody2D
             justJumped=jumping=true;
             PlaySfx(sfxJump);
         }
+
+        if(onCeiling) 
+        {
+            if(lastVelocity.y<-150f) World.instance.renderer.Shake(Mathf.Abs(lastVelocity.y*0.004f));
+        }
+
+        if(onFloor||onSlope)
+        {
+            if(airParticles.Emitting)
+            {
+                PlaySfx(sfxLanding);
+                airParticles.Emitting=false;
+                animationController.Play(ANIM_RUN);
+            }
+
+            if(lastVelocity.y>300f) 
+            {
+                World.instance.renderer.Shake(lastVelocity.y*0.004f);
+            }
+            onAirTime=0.0f;
+        }
+        else if(!airParticles.Emitting)
+        {
+            airParticles.Emitting=true;
+        }
+
         onAirTime+=delta;
 
         if(Position.x<-20f||Position.y<-60f||Position.x>World.RESOLUTION.x+20f||Position.y>World.RESOLUTION.y+20f)
@@ -363,5 +360,6 @@ public class Player : KinematicBody2D
         sfx.Position=Position;
         World.instance.renderer.AddChild(sfx);
     }
+
 
 }
