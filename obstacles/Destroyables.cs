@@ -6,6 +6,7 @@ public class Destroyables : Area2D,ISwitchable
     private static readonly PackedScene ExpolderPack=ResourceLoader.Load<PackedScene>("res://gfx/TileExploder.tscn");
 
     [Export] private bool terraform=true;
+    [Export] private bool notPlayer=false;
     [Export] private string switchID="";
     private Alert alert;
 
@@ -37,6 +38,10 @@ public class Destroyables : Area2D,ISwitchable
 
     private void OnDamage(Node2D node=null, int amount=0)
     {
+        if(notPlayer&&node.IsInGroup(GROUPS.PLAYERS.ToString()))
+        {
+            return;
+        }
         Vector2 local=World.level.ToLocal(GlobalPosition);
         Vector2 tile=World.level.WorldToMap(local);
 
