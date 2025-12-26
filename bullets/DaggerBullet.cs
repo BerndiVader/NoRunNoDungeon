@@ -49,7 +49,7 @@ public class DaggerBullet : Area2D
 
     void Destroy()
     {
-        BulletMiss particles=(BulletMiss)((PackedScene)ResourceUtils.particles[(int)PARTICLES.BULLETMISS]).Instance();
+        BulletMiss particles=(BulletMiss)ResourceUtils.particles[(int)PARTICLES.BULLETMISS].Instance();
         particles.Position=World.level.ToLocal(GlobalPosition);
         World.level.AddChild(particles);
         CallDeferred("queue_free");
