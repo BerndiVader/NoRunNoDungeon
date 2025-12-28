@@ -51,7 +51,7 @@ public static class GameSettings
             Glow=true;
             LowProcessorUsageMode=false;
             KeepScreenOn=true;
-            TargetFps=60;
+            TargetFps=0;
         }
 
         public void SetAll(Node node)

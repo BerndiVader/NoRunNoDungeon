@@ -44,7 +44,11 @@ public class Worker : Thread
 	{
 		try
 		{
-			if(!placeholder.isDisposed&&placeholder.IsInsideTree())
+			if(placeholder.isDisposed)
+			{
+				return;
+			}
+			if(placeholder.IsInsideTree())
 			{
 				InstancePlaceholder iPlaceholder=placeholder.GetChild<InstancePlaceholder>(0);
 				string instancePath=iPlaceholder.GetInstancePath();
