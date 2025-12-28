@@ -90,13 +90,13 @@ public class World : Node
 		uiLayer=GetNode<CanvasLayer>(nameof(CanvasLayer));
 
 		ResourceUtils.camera.Instance<PlayerCamera>();
-		if(GameSettings.current.usage==Viewport.UsageEnum.Usage2d)
+		if(GameSettings.current.Usage==Viewport.UsageEnum.Usage2d)
 		{
 			GetNode("WorldEnvironment").QueueFree();
 		}
 		else if(GetNodeOrNull("WorldEnvironment") is WorldEnvironment env)
 		{
-			env.Environment.GlowEnabled = GameSettings.current.glow;
+			env.Environment.GlowEnabled = GameSettings.current.Glow;
         }
 		input=ResourceUtils.GetInputController(uiLayer);
 		renderer=GetNode<Renderer>("Renderer");
