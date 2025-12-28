@@ -30,6 +30,7 @@
     <Compile Include="obstacles\Destroyables.cs" />
     <Compile Include="obstacles\DoorSwitch.cs" />
     <Compile Include="obstacles\HiddenDoor.cs" />
+    <Compile Include="obstacles\Hideables.cs" />
     <Compile Include="obstacles\Rocks.cs" />
     <Compile Include="obstacles\FallingHammer.cs" />
     <Compile Include="particles\Alert.cs" />
