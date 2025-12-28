@@ -48,8 +48,8 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=7]
-radius = 4.0
-height = 3.61048
+radius = 5.0
+height = 1.61048
 
 [sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0, 0.185022, 0.45815, 1 )
