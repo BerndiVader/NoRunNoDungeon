@@ -26,7 +26,7 @@ public class Destroyables : Area2D,ISwitchable
             Connect(STATE.damage.ToString(),this,nameof(OnDamage));
 
             alert=ResourceUtils.particles[(int)PARTICLES.ALERT].Instance<Alert>();
-            alert.chr="!"[0];
+            alert.chr="x"[0];
             AddChild(alert);
         }
         else
@@ -61,7 +61,7 @@ public class Destroyables : Area2D,ISwitchable
         World.level.SetCellv(tile,-1);
         if(terraform)
         {
-            Terraform(tile);
+            World.level.Terraform(tile);
         }
         
         CallDeferred("queue_free");
@@ -83,30 +83,6 @@ public class Destroyables : Area2D,ISwitchable
         texture.CreateFromImage(big);
         texture.Flags=0;
         return texture;
-    }
-
-    private static void Terraform(Vector2 delta)
-    {
-        Vector2[]tiles=new Vector2[]
-        {
-            delta+Vector2.Up,
-            delta+Vector2.Down,
-            delta+Vector2.Left,
-            delta+Vector2.Right,
-            delta+Vector2.Up+Vector2.Left,
-            delta+Vector2.Up+Vector2.Right,
-            delta+Vector2.Down+Vector2.Left,
-            delta+Vector2.Down+Vector2.Right
-        };
-
-        foreach(Vector2 tile in tiles)
-        {
-            int id=World.level.GetCellv(tile);
-            if(id!=TileMap.InvalidCell)
-            {
-                World.level.SetCellv(tile,id);
-            }
-        }
     }
 
     public void SwitchCall(string id)

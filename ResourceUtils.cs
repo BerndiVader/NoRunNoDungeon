@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class ResourceUtils
 {
-    private static readonly bool DEBUG=false;
+    private static readonly bool DEBUG=true;
     public static PackedScene world;
     public static PackedScene intro;
     public static PackedScene pause;
