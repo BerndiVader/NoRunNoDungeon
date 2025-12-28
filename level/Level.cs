@@ -56,6 +56,28 @@ public class Level : TileMap
         }
     }
 
+    public void Terraform(Vector2 delta)
+    {
+        Vector2[]tiles=new Vector2[]
+        {
+            delta+Vector2.Up,
+            delta+Vector2.Down,
+            delta+Vector2.Left,
+            delta+Vector2.Right,
+            delta+Vector2.Up+Vector2.Left,
+            delta+Vector2.Up+Vector2.Right,
+            delta+Vector2.Down+Vector2.Left,
+            delta+Vector2.Down+Vector2.Right
+        };
+
+        foreach(Vector2 tile in tiles)
+        {
+            int id=GetCellv(tile);
+            SetCellv(tile,id);
+            UpdateBitmaskArea(tile);
+        }
+    }
+
     new public void SetCell(int x,int y,int tile,bool flipX=false,bool flipY=false,bool transpose=false,Vector2? autotileCoord=null) 
     {
         base.SetCell(x,y,tile,flipX,flipY,transpose,autotileCoord);
