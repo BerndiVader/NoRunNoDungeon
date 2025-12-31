@@ -70,19 +70,19 @@ position = Vector2( 891, 237 )
 position = Vector2( 980, 118 )
 
 [node name="CoinPhysics2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1208, 176 )
+position = Vector2( 1152, 244 )
 
 [node name="CoinPhysics3" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1232, 156 )
+position = Vector2( 1176, 224 )
 
 [node name="CoinPhysics4" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1256, 144 )
+position = Vector2( 1200, 212 )
 
 [node name="CoinPhysics5" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1280, 157 )
+position = Vector2( 1224, 225 )
 
 [node name="CoinPhysics6" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1296, 177 )
+position = Vector2( 1240, 245 )
 
 [node name="LevelControl" parent="." instance=ExtResource( 9 )]
 position = Vector2( 824, 96 )
@@ -144,7 +144,7 @@ maxRotation = 360.0
 type = 1
 
 [node name="LevelControl2" parent="." instance=ExtResource( 9 )]
-position = Vector2( 648, 8 )
+position = Vector2( 528, 8 )
 Speed = 80.0
 Signal = false
 
