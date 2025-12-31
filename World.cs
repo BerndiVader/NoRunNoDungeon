@@ -28,6 +28,7 @@ public class World : Node
 
 	public static void ChangeScene(PackedScene newScene)
 	{
+		Worker.Gc();
 		Node currentScene=root.GetTree().CurrentScene;
 		root.AddChild(newScene.Instance());
 		root.RemoveChild(currentScene);		
@@ -39,7 +40,6 @@ public class World : Node
 		{
 			currentScene.QueueFree();
 		}
-		Worker.Gc();
 	}
 
 	public static void OnObjectExitedScreen(Node node)
@@ -96,23 +96,24 @@ public class World : Node
 		}
 		else if(GetNodeOrNull("WorldEnvironment") is WorldEnvironment env)
 		{
-			env.Environment.GlowEnabled = GameSettings.current.Glow;
+			env.Environment.GlowEnabled=GameSettings.current.Glow;
         }
 		input=ResourceUtils.GetInputController(uiLayer);
 		renderer=GetNode<Renderer>("Renderer");
 		
-
-		tileSet=ResourceUtils.tilesets[(int)MathUtils.RandomRange(0,ResourceUtils.tilesets.Count)];
-		currentLevel=(int)MathUtils.RandomRange(0,ResourceUtils.levels.Count);
+		tileSet=ResourceUtils.tilesets[MathUtils.RandomRange(0,ResourceUtils.tilesets.Count)];
+		currentLevel=MathUtils.RandomRange(0,ResourceUtils.levels.Count);
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
-		nextLevel=(int)MathUtils.RandomRange(0,ResourceUtils.levels.Count);
+		nextLevel=MathUtils.RandomRange(0,ResourceUtils.levels.Count);
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 		MergeMaps(level,cachedLevel);
+
 		ResourceUtils.player.Instance();
 		Player.LIVES=3;
+		Player.instance.AddChild(PlayerCamera.instance);
+
 		background=(Background)ResourceUtils.background.Instance();
 
-		Player.instance.AddChild(PlayerCamera.instance);
 		renderer.AddChild(level);
 		renderer.AddChild(Player.instance);
 		renderer.AddChild(background);
@@ -214,7 +215,7 @@ public class World : Node
 		if(!keepLevel)
 		{
 			Worker.Gc();
-			currentLevel=(int)MathUtils.RandomRange(0,ResourceUtils.levels.Count);
+			currentLevel=MathUtils.RandomRange(0,ResourceUtils.levels.Count);
 		}
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
 		MergeMaps(level,cachedLevel);
@@ -231,17 +232,23 @@ public class World : Node
 	public void PrepareAndChangeLevel()
 	{
 		currentLevel=nextLevel;
-		nextLevel=(int)MathUtils.RandomRange(0,ResourceUtils.levels.Count);
+		nextLevel=MathUtils.RandomRange(0,ResourceUtils.levels.Count);
 		Level newLevel=cachedLevel!=null?cachedLevel:(Level)ResourceUtils.levels[currentLevel].Instance();
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
-		MergeMaps(newLevel,cachedLevel);
-		renderer.CallDeferred("add_child", newLevel);
 
-		while (!newLevel.IsInsideTree())
+		MergeMaps(newLevel,cachedLevel);
+		renderer.CallDeferred("add_child",newLevel);
+		int timeout=0;
+		int timeouted=40;
+		while(!newLevel.IsInsideTree()&&timeout<timeouted)
 		{
+			timeout++;
 			OS.DelayMsec(1);
 		}
-
+		if(timeout>=timeouted)
+		{
+			GD.Print("Add new level to tree timeout.");
+		}
 		Vector2 position=level.Position;
 		renderer.CallDeferred("remove_child",level);
 		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x))-16f,position.y);
@@ -252,13 +259,13 @@ public class World : Node
 	public void _Free()
 	{
 		SetGamestate(Gamestate.RESTART);
-		CallDeferred("queue_free");
 		if(cachedLevel!=null)
 		{
 			cachedLevel.FreeLevel();
 		}
 		input.Free();
-		World.instance=null;
+		instance=null;
+		QueueFree();
 	}
 	public override void _Notification(int what)
 	{

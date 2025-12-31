@@ -7,6 +7,7 @@ public class Worker : Thread
 {
     public static Worker instance;
 	public static ConcurrentStack<WeakReference>placeholders;
+
 	public enum State
 	{
 		IDLE,
@@ -16,8 +17,8 @@ public class Worker : Thread
 	private static State state;
 	private delegate void Goal();
 	private static Goal goal;
-	private static int delay;
 	private static bool quit;
+	private static int timeouted=40;
 
 	public static void Start()
 	{
@@ -44,7 +45,8 @@ public class Worker : Thread
 	{
 		try
 		{
-			if(placeholder.isDisposed)
+			int timeout=0;
+			if(placeholder.isDisposed||placeholder.IsQueuedForDeletion())
 			{
 				return;
 			}
@@ -56,17 +58,35 @@ public class Worker : Thread
 				{
 					ResourceLoader.Load(instancePath);
 				}
+
 				placeholder.CallDeferred("remove_child",iPlaceholder);
-				iPlaceholder.Set("position",placeholder.Position);
-				World.level.CallDeferred("add_child",iPlaceholder);
-				iPlaceholder.CallDeferred("create_instance",false);
+				while(iPlaceholder.IsInsideTree()&&timeout<timeouted)
+				{
+					timeout++;
+					OS.DelayMsec(1);
+				}
+				if(timeout<timeouted)
+				{
+					timeout=0;
+					iPlaceholder.Set("position",placeholder.Position);
+					World.level.CallDeferred("add_child",iPlaceholder);
+					while(!iPlaceholder.IsInsideTree()&&timeout<timeouted)
+					{
+						timeout++;
+						OS.DelayMsec(1);
+					}
+					if(timeout<timeouted)
+					{
+						iPlaceholder.CallDeferred("create_instance",false);
+					}
+				}
 				iPlaceholder.CallDeferred("queue_free");
 			}
 			placeholder.CallDeferred("queue_free");
 		}
 		catch(Exception e)
 		{
-			Console.WriteLine(e.GetType().Name);
+			GD.Print("Instantiate Placeholder failed: "+e);
 		}
 	}
 
@@ -75,18 +95,18 @@ public class Worker : Thread
 		placeholders.Clear();
 		World.instance.PrepareAndChangeLevel();
 		SetStatus(State.IDLE);
-		//Gc();
 	}
 
 	private static void Idle()
 	{
-		delay = 10;
-		if (placeholders.TryPop(out WeakReference result) && result.IsAlive && result.Target is Placeholder p)
+		if(placeholders.TryPop(out WeakReference result) && result.IsAlive && result.Target is Placeholder p)
 		{
 			InstantiatePlaceholder(p);
-			delay = 3;
 		}
-		OS.DelayMsec(delay);
+		else
+		{
+			OS.DelayMsec(20);
+		}
 	}
 	
 	private static void Quitting()
@@ -98,14 +118,14 @@ public class Worker : Thread
 	{
         SetStatus(State.QUITTING);
 		quit=true;
-		Console.Write("Wait for worker to finish...");
+		GD.Print("Wait for worker to finish...");
 		instance.WaitToFinish();
 		while(instance.IsActive())
 		{
-			Console.Write(".");
+			GD.Print(".");
 			OS.DelayMsec(1);
 		}
-		Console.WriteLine(" done!");		
+		GD.Print("Done!");		
 	}
 
 	public static void SetStatus(State s)
@@ -119,7 +139,7 @@ public class Worker : Thread
 				goal=Idle;
 				break;
 			case State.QUITTING:
-				goal = Quitting;
+				goal=Quitting;
 				break;
 		}
 		state=s;
