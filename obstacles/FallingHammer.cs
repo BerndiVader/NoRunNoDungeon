@@ -1,7 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System;
-using System.Diagnostics;
 
 public class FallingHammer : Area2D,ISwitchable
 {
@@ -11,6 +9,7 @@ public class FallingHammer : Area2D,ISwitchable
         IDLE,
         FALLING,
         BACK,
+        PLAYEDONCE
     }
     private enum MODE
     {
@@ -23,14 +22,14 @@ public class FallingHammer : Area2D,ISwitchable
     [Export] string switchID="";
     [Export] float activationRange=50f;
     [Export] bool oneTime=false;
+    [Export] bool fallOnly=false;
     [Export] bool hitMonsters=false;
     [Export] bool destroyables=false;
-    [Export] float maxFallSpeed=4f;
 
     private RayCast2D raycast;
     private Tween tween;
-    private float startRotation;
-    private float targetRotation=0f;
+    private float oRotation;
+    private bool playedOnce=false;
     private HAMMERSTATE state=HAMMERSTATE.IDLE;
 
     public override void _Ready()
@@ -43,7 +42,7 @@ public class FallingHammer : Area2D,ISwitchable
         raycast.AddException(GetNode<StaticBody2D>(nameof(StaticBody2D)));
 
         Connect("body_entered",this,nameof(BodyEntered));
-        startRotation=Rotation;
+        oRotation=Rotation;
 
         tween=new Tween();
         AddChild(tween);
@@ -77,7 +76,7 @@ public class FallingHammer : Area2D,ISwitchable
         if(state==HAMMERSTATE.FALLING&&raycast.IsColliding())
         {
             CreateParticles();
-            Stop();
+            StopFall();
             if(destroyables)
             {
 
@@ -103,54 +102,93 @@ public class FallingHammer : Area2D,ISwitchable
 
     private void Tweening(float value)
     {
-        float delta=value-Rotation;
-        float maxStep=maxFallSpeed*GetProcessDeltaTime();
-
-        if(Mathf.Abs(delta)>maxStep)
+        switch(state)
         {
-            Rotation+=Mathf.Sign(delta)*maxStep;
-        }
-        else
-        {
-            Rotation=value;
+            case HAMMERSTATE.FALLING:
+                Rotation=value;
+                break;
+            case HAMMERSTATE.BACK:
+                Rotation=value;
+                break;
         }
     }
 
     private void Start()
     {
+        if(oneTime&&playedOnce)
+        {
+            return;
+        }
+
+        tween.StopAll();        
+        playedOnce=true;
         state=HAMMERSTATE.FALLING;
-        Rotation=startRotation;
-        targetRotation=0f;
 
         tween.InterpolateMethod(
             this,
             nameof(Tweening),
-            startRotation,
+            Rotation,
             -Mathf.Pi*2f,
             1f,
             Tween.TransitionType.Circ,
             Tween.EaseType.In
         );
+
+        tween.Connect("tween_all_completed",this,nameof(OnFallCompete));
         tween.Start();
     }
 
-    private void Stop()
+    private void StopFall()
     {
-        state=HAMMERSTATE.BACK;
+        tween.Disconnect("tween_all_completed",this,nameof(OnFallCompete));
         tween.StopAll();
-        tween.InterpolateProperty(this,"rotation",Rotation,startRotation,2f,Tween.TransitionType.Quad,Tween.EaseType.Out);
-        tween.Connect("tween_all_completed", this, nameof(OnBackComplete));
-        tween.Start();
+
+        if(oneTime&&fallOnly)
+        {
+            state=HAMMERSTATE.PLAYEDONCE;
+            SetPhysicsProcess(false);
+        }
+        else
+        {
+            state=HAMMERSTATE.BACK;
+            tween.InterpolateMethod(
+                this,
+                nameof(Tweening),
+                Rotation,
+                oRotation,
+                2f,
+                Tween.TransitionType.Quad,
+                Tween.EaseType.Out
+            );
+            tween.Connect("tween_all_completed",this,nameof(OnBackComplete));
+            tween.Start();
+        }
+
     }
 
     private void OnBackComplete()
     {
-        state=HAMMERSTATE.IDLE;
         tween.Disconnect("tween_all_completed", this, nameof(OnBackComplete));
-        if(mode==MODE.DEFAULT) 
+        tween.StopAll();
+
+        if(!oneTime) 
         {
-            Start();
+            state=HAMMERSTATE.IDLE;
+            if(mode==MODE.DEFAULT)
+            {
+                Start();
+            }
         }
+        else
+        {
+            state=HAMMERSTATE.PLAYEDONCE;
+        }
+    }
+
+    private void OnFallCompete()
+    {
+        tween.Disconnect("tween_all_completed",this,nameof(OnFallCompete));
+        StopFall();
     }
 
     private void BodyEntered(Node body)
@@ -167,7 +205,9 @@ public class FallingHammer : Area2D,ISwitchable
                     var collider=collision.Collider;
                     if(collider is Level||collider is Platform)
                     {
+                        StopFall();
                         player.EmitSignal(STATE.damage.ToString(),this,1f);
+                        break;
                     }
                 }
             }
@@ -185,8 +225,14 @@ public class FallingHammer : Area2D,ISwitchable
 
     public void SwitchCall(string id)
     {
-        if(switchID==id&&mode==MODE.SWITCHABLE&&state==HAMMERSTATE.IDLE)
+        if(switchID==id&&mode==MODE.SWITCHABLE&&state!=HAMMERSTATE.FALLING)
         {
+            if(state==HAMMERSTATE.BACK)
+            {
+                tween.Disconnect("tween_all_completed",this,nameof(OnBackComplete));
+                tween.StopAll();
+                state=HAMMERSTATE.IDLE;
+            }
             Start();
         }
     }
