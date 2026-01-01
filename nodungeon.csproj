@@ -60,7 +60,6 @@
     <Compile Include="enumerations\BULLETS.cs" />
     <Compile Include="enumerations\GROUPS.cs" />
     <Compile Include="enumerations\PARTICLES.cs" />
-    <Compile Include="enumerations\SIGNALS.cs" />
     <Compile Include="enumerations\WEAPONS.cs" />
     <Compile Include="gfx\ExplodeGfx.cs" />
     <Compile Include="gfx\ExplodeGfx3.cs" />
