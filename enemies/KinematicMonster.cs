@@ -210,7 +210,7 @@ public abstract class KinematicMonster : KinematicBody2D
             goal=Fight;
         }
     }
-    protected virtual void OnDamage(Node2D node=null,int amount=0)
+    protected virtual void OnDamage(Node2D node=null,float amount=0f)
     {
         onDelay=false;
         if(state!=STATE.damage&&state!=STATE.die)

@@ -2,7 +2,7 @@ using Godot;
 
 public class Rocks : PhysicsObject
 {
-    [Export] private float damage = 1f;
+    [Export] private float damage=1f;
     [Export] private float rotation_speed = 1.5f;
     private float rSpeed = 1.5f;
     private Area2D collision;
@@ -44,8 +44,8 @@ public class Rocks : PhysicsObject
     {
         if (node.IsInGroup(GROUPS.PLAYERS.ToString()))
         {
-            collision.SetDeferred("monitoring", false);
-            node.EmitSignal(STATE.damage.ToString(), damage, this);
+            collision.SetDeferred("monitoring",false);
+            node.EmitSignal(STATE.damage.ToString(),this,1f);
         }
     }
     

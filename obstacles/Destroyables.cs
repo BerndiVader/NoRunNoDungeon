@@ -36,7 +36,7 @@ public class Destroyables : Area2D,ISwitchable
 
     }
 
-    private void OnDamage(Node2D node=null, int amount=0)
+    private void OnDamage(Node2D node=null,float amount=0f)
     {
         if(notPlayer&&node.IsInGroup(GROUPS.PLAYERS.ToString()))
         {

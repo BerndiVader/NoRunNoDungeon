@@ -166,11 +166,11 @@ public class Zombie : KinematicMonster
         base.Die(delta);
     }
 
-    protected override void OnDamage(Node2D node=null, int amount=0)
+    protected override void OnDamage(Node2D node=null,float amount=0f)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {
-            base.OnDamage(node, amount);
+            base.OnDamage(node,amount);
             if(GlobalPosition.x-node.GlobalPosition.x<0)
             {
                 animationDirection=-1;
