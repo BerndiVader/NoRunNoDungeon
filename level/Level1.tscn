@@ -180,7 +180,9 @@ position = Vector2( 656, 144 )
 [node name="SwingingBaton" parent="Placeholder" index="0"]
 rotation = -1.22173
 maxRotation = 70.0
+mode = 2
 type = 1
+activationRange = 120.0
 
 [node name="Placeholder3" parent="." instance=ExtResource( 10 )]
 position = Vector2( 2360, 32 )

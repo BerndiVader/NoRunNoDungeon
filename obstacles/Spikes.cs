@@ -148,15 +148,10 @@ public class Spikes : Area2D,ISwitchable
 
     private void OnEnteredBody(Node node)
     {
-        if(node.IsInGroup(GROUPS.PLAYERS.ToString())) 
-        {
-            node.EmitSignal(STATE.damage.ToString(),Damage,this);
-        }
-        else if(node.IsInGroup(GROUPS.ENEMIES.ToString()))
+        if(node.HasUserSignal(STATE.damage.ToString()))
         {
             node.EmitSignal(STATE.damage.ToString(),this,Damage);
         }
-
     }
 
     private void OnTweenCompleted()
