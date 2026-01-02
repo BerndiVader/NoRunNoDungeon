@@ -35,9 +35,12 @@ public class SwingingBaton : Area2D,ISwitchable
     private float sinAmplitude;
     private float sinSwingPhase;
     private float sinFrequency;
+    private bool active=false;
 
     private delegate void Goal(float delta);
     private Goal goal;
+
+    private CollisionShape2D shape;
 
     public override void _Ready()
     {
@@ -50,6 +53,8 @@ public class SwingingBaton : Area2D,ISwitchable
         switch(mode)
         {
             case MODE.DISTANCE:
+                shape=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
+                break;
             case MODE.NORMAL:
                 break;
             case MODE.SWITCH:
@@ -92,12 +97,24 @@ public class SwingingBaton : Area2D,ISwitchable
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString()))
         {
-            body.EmitSignal(STATE.damage.ToString(),1f,this);
+            body.EmitSignal(STATE.damage.ToString(),this,1f);
         }
     }
 
     public override void _PhysicsProcess(float delta)
     {
+        if(mode==MODE.DISTANCE&&!active)
+        {
+            float distance=shape.GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
+            if(distance<activationRange)
+            {
+                active=true;
+            } 
+            else
+            {
+                return;
+            }
+        }
         goal(delta);
     }
 
