@@ -45,7 +45,6 @@ public class Worker : Thread
 	{
 		try
 		{
-			int timeout=0;
 			if(placeholder.isDisposed||placeholder.IsQueuedForDeletion())
 			{
 				return;
@@ -58,31 +57,13 @@ public class Worker : Thread
 				{
 					ResourceLoader.Load(instancePath);
 				}
-
-				placeholder.CallDeferred("remove_child",iPlaceholder);
-				while(iPlaceholder.IsInsideTree()&&timeout<timeouted)
-				{
-					timeout++;
-					OS.DelayMsec(1);
-				}
-				if(timeout<timeouted)
-				{
-					timeout=0;
-					iPlaceholder.Set("position",placeholder.Position);
-					World.level.CallDeferred("add_child",iPlaceholder);
-					while(!iPlaceholder.IsInsideTree()&&timeout<timeouted)
-					{
-						timeout++;
-						OS.DelayMsec(1);
-					}
-					if(timeout<timeouted)
-					{
-						iPlaceholder.CallDeferred("create_instance",false);
-					}
-				}
-				iPlaceholder.CallDeferred("queue_free");
+				placeholder.EmitSignal("Create",iPlaceholder);
 			}
-			placeholder.CallDeferred("queue_free");
+			else
+			{
+				GD.Print("Placeholder not in tree anymore: "+placeholder);
+				placeholder.CallDeferred("queue_free");
+			}
 		}
 		catch(Exception e)
 		{
@@ -99,7 +80,7 @@ public class Worker : Thread
 
 	private static void Idle()
 	{
-		if(placeholders.TryPop(out WeakReference result) && result.IsAlive && result.Target is Placeholder p)
+		if(placeholders.TryPop(out WeakReference result)&&result.IsAlive&&result.Target is Placeholder p)
 		{
 			InstantiatePlaceholder(p);
 		}
