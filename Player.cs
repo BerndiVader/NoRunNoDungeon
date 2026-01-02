@@ -14,9 +14,6 @@ public class Player : KinematicBody2D
     static readonly AudioStream sfxDoubleJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
     static readonly AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
 
-    [Signal]
-    public delegate void damage(float amount=1f, Node2D attacker=null);
-
     [Export] public float GRAVITY=700f, WALK_FORCE=1600f, WALK_MIN_SPEED=119f, WALK_MAX_SPEED=119f, STOP_FORCE=1600f, JUMP_SPEED=220f, JUMP_MAX_AIRBORNE_TIME=0.2f;
 
     private Vector2 velocity=Vector2.Zero;
@@ -76,6 +73,7 @@ public class Player : KinematicBody2D
         AddToGroup(GROUPS.PLAYERS.ToString());
         ZIndex=2;
 
+        AddUserSignal(STATE.damage.ToString());
         Connect(STATE.damage.ToString(),this,nameof(OnDamaged));
 
         FORCE=new Vector2(0f,GRAVITY);
@@ -323,7 +321,7 @@ public class Player : KinematicBody2D
         }
     }
 
-    private void OnDamaged(float amount=1f,Node2D damager=null)
+    private void OnDamaged(Node2D damager=null,float amount=1f)
     {
         if(World.state!=Gamestate.DIEING)
         {
