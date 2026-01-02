@@ -44,6 +44,8 @@ public class FallingHammer : Area2D,ISwitchable
         Connect("body_entered",this,nameof(BodyEntered));
         oRotation=Rotation;
 
+        CollisionMask=hitMonsters?CollisionMask|=1<<5:CollisionMask&=~(uint)(1<<5);
+
         tween=new Tween();
         AddChild(tween);
 
@@ -90,9 +92,9 @@ public class FallingHammer : Area2D,ISwitchable
                 {
                     if(obj is Dictionary hit)
                     {
-                        if(hit["collider"] is Destroyables destroyables)
+                        if(hit["collider"] is Destroyables destroyable)
                         {
-                            destroyables.EmitSignal(STATE.damage.ToString(),this,1f);
+                            destroyable.EmitSignal(STATE.damage.ToString(),this,1f);
                         }
                     }
                 }
@@ -193,20 +195,23 @@ public class FallingHammer : Area2D,ISwitchable
 
     private void BodyEntered(Node body)
     {
-        if(state==HAMMERSTATE.FALLING&&body.IsInGroup(GROUPS.PLAYERS.ToString()))
+        if(state==HAMMERSTATE.FALLING&&body is KinematicBody2D victim)
         {
-            Player player=(Player)body;
-            int slides=player.GetSlideCount();
+            int slides=victim.GetSlideCount();
             if(slides>0)
             {
                 for(int i=0;i<slides;i++)
                 {
-                    KinematicCollision2D collision=player.GetSlideCollision(i);
+                    KinematicCollision2D collision=victim.GetSlideCollision(i);
                     var collider=collision.Collider;
                     if(collider is Level||collider is Platform)
                     {
                         StopFall();
-                        player.EmitSignal(STATE.damage.ToString(),this,1f);
+                        if(victim.IsInGroup(GROUPS.PLAYERS.ToString())
+                            ||(hitMonsters&&victim.IsInGroup(GROUPS.ENEMIES.ToString())))
+                        {
+                            victim.EmitSignal(STATE.damage.ToString(),this,1f);
+                        }
                         break;
                     }
                 }
