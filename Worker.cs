@@ -18,7 +18,6 @@ public class Worker : Thread
 	private delegate void Goal();
 	private static Goal goal;
 	private static bool quit;
-	private static int timeouted=40;
 
 	public static void Start()
 	{

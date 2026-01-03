@@ -69,6 +69,7 @@
     <Compile Include="level\LevelControl.cs" />
     <Compile Include="obstacles\MadRock.cs" />
     <Compile Include="obstacles\SwingingBaton.cs" />
+    <Compile Include="obstacles\Hitables.cs" />
     <Compile Include="particles\BulletMiss.cs" />
     <Compile Include="particles\EnemieDieParticles.cs" />
     <Compile Include="particles\MadRockParticles.cs" />
