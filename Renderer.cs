@@ -3,11 +3,13 @@ using System;
 
 public class Renderer : CanvasModulate
 {
+    public static Renderer instance;
     [Export] private float ShakeMax=6f;
     private float shake;
     
     public override void _Ready()
     {
+        instance=this;
         shake=0f;
     }
 

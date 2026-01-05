@@ -78,6 +78,22 @@ public class Level : TileMap
         }
     }
 
+    public Image CreateImageForTile(int id,Vector2 tile)
+    {
+        Vector2 subtile=GetCellAutotileCoord((int)tile.x,(int)tile.y);
+        Texture tileset=TileSet.TileGetTexture(id);
+        Rect2 region=new Rect2(subtile.x*16f,subtile.y*16f,16f,16f);
+        return tileset.GetData().GetRect(region);
+    }
+
+    public ImageTexture CreateTextureForTile(int id,Vector2 tile)
+    {
+        ImageTexture texture=new ImageTexture();
+        texture.CreateFromImage(CreateImageForTile(id,tile));
+        texture.Flags=0;
+        return texture;
+    }
+
     new public void SetCell(int x,int y,int tile,bool flipX=false,bool flipY=false,bool transpose=false,Vector2? autotileCoord=null) 
     {
         base.SetCell(x,y,tile,flipX,flipY,transpose,autotileCoord);

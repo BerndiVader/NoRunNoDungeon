@@ -223,8 +223,8 @@ public class FallingHammer : Area2D,ISwitchable
     {
         MadRockParticles particles=ResourceUtils.particles[(int)PARTICLES.MADROCK].Instance<MadRockParticles>();
         particles.Position=World.level.ToLocal(raycast.GetCollisionPoint());
-        World.instance.renderer.PlaySfx(sfx,Position);
-        World.instance.renderer.Shake(1f);
+        Renderer.instance.PlaySfx(sfx,Position);
+        Renderer.instance.Shake(1f);
         World.level.AddChild(particles);
     }
 

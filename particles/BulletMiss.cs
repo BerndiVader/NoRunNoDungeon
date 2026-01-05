@@ -7,7 +7,7 @@ public class BulletMiss : Particles
     public override void _Ready()
     {
         base._Ready();
-        World.instance.renderer.PlaySfx(sfx,Position);
+        Renderer.instance.PlaySfx(sfx,Position);
         OneShot=true;
         Emitting=true;
     }

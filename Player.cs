@@ -14,9 +14,10 @@ public class Player : KinematicBody2D
     static readonly AudioStream sfxDoubleJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
     static readonly AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
 
-    [Export] public float GRAVITY=700f, WALK_FORCE=1600f, WALK_MIN_SPEED=119f, WALK_MAX_SPEED=119f, STOP_FORCE=1600f, JUMP_SPEED=220f, JUMP_MAX_AIRBORNE_TIME=0.2f;
+    [Export] private float GRAVITY=700f, WALK_FORCE=1600f, WALK_MIN_SPEED=119f, WALK_MAX_SPEED=119f, STOP_FORCE=1600f, JUMP_SPEED=220f, JUMP_MAX_AIRBORNE_TIME=0.2f;
 
     private Vector2 velocity=Vector2.Zero;
+    public Vector2 Velocity=>velocity;
     private float onAirTime=100f;
     private bool jumping=false;
     private bool doubleJump=false;
@@ -29,8 +30,10 @@ public class Player : KinematicBody2D
     private Vector2 platformSpeed=Vector2.Zero;
     private float smoothingSpeed;
 
-    public AnimatedSprite animationController;
-    public CollisionShape2D collisionShape;
+    private AnimatedSprite animationController;
+    public AnimatedSprite AnimationController=>animationController;
+    private CollisionShape2D collisionShape;
+    public CollisionShape2D CollisionShape=>collisionShape;
     private CPUParticles2D airParticles,jumpParticles;
     private ShaderMaterial motionTrails;
 
@@ -84,8 +87,7 @@ public class Player : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
-        Gamestate gamestate=World.state;
-        if((int)gamestate<3)
+        if((int)World.state<3)
         {
             return;
         }
@@ -128,7 +130,6 @@ public class Player : KinematicBody2D
         {
             PlayerCamera.instance.direction=1;
             animationController.FlipH=true;
-            //animationController.FlipH=friction==1f;
         }
         else if(right)
         {
@@ -245,7 +246,7 @@ public class Player : KinematicBody2D
                 velocity.y=-JUMP_SPEED;
                 animationController.Play(ANIM_JUMP);
                 jumpParticles.Emitting=true;
-                PlaySfx(sfxDoubleJump);
+                Renderer.instance.PlaySfx(sfxDoubleJump,Position);
             }
         }
         else if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME)
@@ -264,26 +265,26 @@ public class Player : KinematicBody2D
             velocity.y=-JUMP_SPEED;
             animationController.Play(ANIM_JUMP);
             justJumped=jumping=true;
-            PlaySfx(sfxJump);
+            Renderer.instance.PlaySfx(sfxJump,Position);
         }
 
         if(onCeiling) 
         {
-            if(lastVelocity.y<-150f) World.instance.renderer.Shake(Mathf.Abs(lastVelocity.y*0.004f));
+            if(lastVelocity.y<-150f) Renderer.instance.Shake(Mathf.Abs(lastVelocity.y*0.004f));
         }
 
         if(onFloor||onSlope)
         {
             if(airParticles.Emitting)
             {
-                PlaySfx(sfxLanding);
+                Renderer.instance.PlaySfx(sfxLanding,Position);
                 airParticles.Emitting=false;
                 animationController.Play(ANIM_RUN);
             }
 
             if(lastVelocity.y>300f) 
             {
-                World.instance.renderer.Shake(lastVelocity.y*0.004f);
+                Renderer.instance.Shake(lastVelocity.y*0.004f);
             }
             onAirTime=0.0f;
         }
@@ -318,6 +319,7 @@ public class Player : KinematicBody2D
         {
             RemoveChild(weapon);
             weapon.QueueFree();
+            weapon=null;
         }
     }
 
@@ -350,14 +352,5 @@ public class Player : KinematicBody2D
             World.instance.CallDeferred(nameof(World.ChangeScene),ResourceUtils.intro);
         }
     }
-
-    private void PlaySfx(AudioStream stream)
-    {
-        SfxPlayer sfx=new SfxPlayer();
-        sfx.Stream=stream;
-        sfx.Position=Position;
-        World.instance.renderer.AddChild(sfx);
-    }
-
 
 }
