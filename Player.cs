@@ -1,7 +1,5 @@
 using Godot;
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 
 public class Player : KinematicBody2D
 {
@@ -29,6 +27,7 @@ public class Player : KinematicBody2D
     private Vector2 FORCE;
     private Vector2 platformSpeed=Vector2.Zero;
     private float smoothingSpeed;
+    public bool onTeleport=false;
 
     private AnimatedSprite animationController;
     public AnimatedSprite AnimationController=>animationController;
@@ -89,6 +88,12 @@ public class Player : KinematicBody2D
     {
         if((int)World.state<3)
         {
+            return;
+        }
+
+        if(onTeleport)
+        {
+            Visible=false;
             return;
         }
 

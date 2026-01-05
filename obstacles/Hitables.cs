@@ -73,6 +73,7 @@ public class Hitables : Area2D
                             CoinTakenParticles particles=ResourceUtils.particles[(int)PARTICLES.COINTAKEN].Instance<CoinTakenParticles>();
                             particles.Position=Position;
                             World.level.AddChild(particles);
+                            Renderer.instance.Shake(1.5f);
                             Renderer.instance.PlaySfx(bonusSfx,Position);
                             CallDeferred("queue_free");
                         }
@@ -87,6 +88,7 @@ public class Hitables : Area2D
     private async void FlashMarker()
     {
         Renderer.instance.PlaySfx(blockSfx,Position);
+        Renderer.instance.Shake(1f);
         marker.Modulate=new Color(1,1,1,1f);
         await ToSignal(GetTree().CreateTimer(0.11f),"timeout");
         marker.Modulate=new Color(1f,1f,1f,0f);

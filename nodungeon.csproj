@@ -29,6 +29,7 @@
     <Compile Include="level\Settings.cs" />
     <Compile Include="obstacles\Destroyables.cs" />
     <Compile Include="obstacles\DoorSwitch.cs" />
+    <Compile Include="obstacles\Gate.cs" />
     <Compile Include="obstacles\HiddenDoor.cs" />
     <Compile Include="obstacles\Hideables.cs" />
     <Compile Include="obstacles\Rocks.cs" />

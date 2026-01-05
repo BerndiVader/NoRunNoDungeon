@@ -8,6 +8,7 @@ public enum Gamestate
     DIEING,
     SCENE_CHANGE,
     RUNNING,
+    BONUS,
     PAUSED
     
 }

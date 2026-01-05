@@ -44,7 +44,7 @@ public class World : Node
 
 	public static void OnObjectExitedScreen(Node node)
 	{
-        if(PlayerCamera.instance.Zoom.x==1f)
+        if(PlayerCamera.instance.Zoom.x==1f&&state!=Gamestate.BONUS)
         {
             node.CallDeferred("queue_free");
         }
@@ -189,6 +189,7 @@ public class World : Node
 
 	public void SetGamestate(Gamestate s)
 	{
+		lastState=state;
 		state=s;
 		switch(state)
 		{
@@ -200,6 +201,29 @@ public class World : Node
 				break;
 			case Gamestate.RUNNING:
 			case Gamestate.DIEING:
+			case Gamestate.BONUS:
+				goal=SceneRunning;
+				break;
+			default:
+				goal=SceneIdle;
+				break;
+		}
+	}
+
+	public void RestoreGamestate()
+	{
+		state=lastState;
+		switch(state)
+		{
+			case Gamestate.SCENE_CHANGED:
+				goal=SceneChanged;
+				break;
+			case Gamestate.SCENE_CHANGE:
+				goal=SceneChange;
+				break;
+			case Gamestate.RUNNING:
+			case Gamestate.DIEING:
+			case Gamestate.BONUS:
 				goal=SceneRunning;
 				break;
 			default:

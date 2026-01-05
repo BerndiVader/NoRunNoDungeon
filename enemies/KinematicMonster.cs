@@ -61,7 +61,7 @@ public abstract class KinematicMonster : KinematicBody2D
         SetProcessInput(false);
 
         VisibilityNotifier2D notifier2D = new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited", World.instance, nameof(World.OnObjectExitedScreen), new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         collisionController = GetNode<CollisionShape2D>(nameof(CollisionShape2D));
