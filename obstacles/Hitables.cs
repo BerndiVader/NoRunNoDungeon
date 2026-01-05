@@ -1,10 +1,19 @@
 using Godot;
 using System;
+using System.Linq.Expressions;
 
 public class Hitables : Area2D
 {
-    private Alert alert;
+    private static readonly AudioStream blockSfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_Battle_SFX/39_Block_03.wav");
+    private static readonly AudioStream bonusSfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PickUp/Retro PickUp Coin 07.wav");
+    [Export] private int load=3;
+
     private ImageTexture texture;
+    private Sprite marker;
+    private bool active=true;
+    private double lastTriggered=0d;
+    private const double timeout=0.1d;
+
     public override void _Ready()
     {
         SetProcess(false);
@@ -18,76 +27,69 @@ public class Hitables : Area2D
         Connect("body_entered",this,nameof(OnBodyEntered));
         Connect("body_exited",this,nameof(OnBodyExited));
 
+        marker=GetNode<Sprite>(nameof(Sprite));
+
         Vector2 local=World.level.ToLocal(GlobalPosition);
         Vector2 tile=World.level.WorldToMap(local);
 
         int id=World.level.GetCellv(tile);
         if(id!=TileMap.InvalidCell)
         {
-            texture=ExtractTexture(id,tile);
+            texture=World.level.CreateTextureForTile(id,tile);
+            marker.Texture=texture;
         }
+        marker.ZIndex=World.level.ZIndex+1;
+        marker.Visible=true;
+        marker.Modulate=new Color(1f,1f,1f,0f);
 
     }
 
     private void OnBodyExited(Node node)
     {
-        if(node.IsInGroup(GROUPS.PLAYERS.ToString()))
+        if(!active&&(node is Player))
         {
-            SetDeferred("monitoring",true);
+            active=true;
         }
     }
 
     private void OnBodyEntered(Node node)
     {
-        if(!node.IsInGroup(GROUPS.PLAYERS.ToString()))
+        if(active&&(node is Player player))
         {
-            return;
+            if(player.GlobalPosition.y>GlobalPosition.y)
+            {
+                if(Mathf.Abs(player.GlobalPosition.x-GlobalPosition.x)<8f)
+                {
+                    double now=Time.GetUnixTimeFromSystem();
+                    if(now-lastTriggered>timeout)
+                    {
+                        load--;
+                        if(load>0)
+                        {
+                            FlashMarker();
+                        }
+                        else
+                        {
+                            CoinTakenParticles particles=ResourceUtils.particles[(int)PARTICLES.COINTAKEN].Instance<CoinTakenParticles>();
+                            particles.Position=Position;
+                            World.level.AddChild(particles);
+                            Renderer.instance.PlaySfx(bonusSfx,Position);
+                            CallDeferred("queue_free");
+                        }
+                        active=false;
+                        lastTriggered=now;
+                    }
+                }
+            }
         }
-
-        SpawnBumpParticle();
-
-        SetDeferred("monitoring",false);
-
     }
 
-    private void SpawnBumpParticle()
+    private async void FlashMarker()
     {
-        CPUParticles2D particles=new CPUParticles2D();
-        particles.Amount=1;
-        particles.Texture=texture;
-        particles.Direction=Vector2.Up;
-        particles.Spread=0.0f;
-        particles.InitialVelocity=260f;
-        particles.Gravity=new Vector2(0f,-60f);
-
-        var ramp=new Gradient();
-        ramp.AddPoint(0f,new Color(1,1,1,1));
-        ramp.AddPoint(1f,new Color(1,1,1,0));
-        particles.ColorRamp=ramp;
-
-        particles.Lifetime=0.6f;
-        particles.OneShot=true;
-        particles.Emitting=true;
-
-        AddChild(particles);
-    }
-
-    private static ImageTexture ExtractTexture(int id,Vector2 tile)
-    {
-        Vector2 subtile=World.level.GetCellAutotileCoord((int)tile.x,(int)tile.y);
-        Texture tileset=World.level.TileSet.TileGetTexture(id);
-        Rect2 region=new Rect2(subtile.x*16f,subtile.y*16f,16f,16f);
-
-        Image image=tileset.GetData().GetRect(region);
-        Image big=new Image();
-        big.Create(64,64,false,Image.Format.Rgba8);
-        big.Fill(new Color(0,0,0,0));
-        big.BlitRect(image,new Rect2(0f,0f,16f,16f),new Vector2(24f,24f));
-
-        ImageTexture texture=new ImageTexture();
-        texture.CreateFromImage(big);
-        texture.Flags=0;
-        return texture;
-    }
+        Renderer.instance.PlaySfx(blockSfx,Position);
+        marker.Modulate=new Color(1,1,1,1f);
+        await ToSignal(GetTree().CreateTimer(0.11f),"timeout");
+        marker.Modulate=new Color(1f,1f,1f,0f);
+    }    
 
 }
