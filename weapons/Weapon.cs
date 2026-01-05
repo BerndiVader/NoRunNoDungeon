@@ -95,7 +95,7 @@ public abstract class Weapon : Area2D
 
     protected virtual string GetStringDirection()
     {
-        return directionNames[Player.instance.animationController.FlipH==true?1:0];
+        return directionNames[Player.instance.AnimationController.FlipH==true?1:0];
     }
 
     protected void PlaySfx(AudioStream stream)

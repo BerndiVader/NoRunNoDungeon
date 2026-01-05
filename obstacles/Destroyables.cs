@@ -38,7 +38,7 @@ public class Destroyables : Area2D,ISwitchable
 
     private void OnDamage(Node2D node=null,float amount=0f)
     {
-        if(notPlayer&&node.IsInGroup(GROUPS.PLAYERS.ToString()))
+        if(notPlayer&&node is Player)
         {
             return;
         }
@@ -69,15 +69,10 @@ public class Destroyables : Area2D,ISwitchable
 
     private static ImageTexture ExtractTexture(int id,Vector2 tile)
     {
-        Vector2 subtile=World.level.GetCellAutotileCoord((int)tile.x,(int)tile.y);
-        Texture tileset=World.level.TileSet.TileGetTexture(id);
-        Rect2 region=new Rect2(subtile.x*16f,subtile.y*16f,16f,16f);
-
-        Image image=tileset.GetData().GetRect(region);
         Image big=new Image();
         big.Create(64,64,false,Image.Format.Rgba8);
         big.Fill(new Color(0,0,0,0));
-        big.BlitRect(image,new Rect2(0f,0f,16f,16f),new Vector2(24f,24f));
+        big.BlitRect(World.level.CreateImageForTile(id,tile),new Rect2(0f,0f,16f,16f),new Vector2(24f,24f));
 
         ImageTexture texture=new ImageTexture();
         texture.CreateFromImage(big);

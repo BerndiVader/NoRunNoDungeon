@@ -9,7 +9,7 @@ public class DaggerBullet : Area2D
 
     public override void _Ready()
     {
-        int xDir=Player.instance.animationController.FlipH?-1:1;
+        int xDir=Player.instance.AnimationController.FlipH?-1:1;
         start=Position;
         end=new Vector2(start.x+(offset.x*xDir),start.y+offset.y);
         height=new Vector2(start.x+((end.x-start.x)*0.5f),start.y-30f);

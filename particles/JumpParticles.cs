@@ -13,7 +13,7 @@ public class JumpParticles : CPUParticles2D
 
     public override void _PhysicsProcess(float delta)
     {
-        animTex.CurrentFrame=Player.instance.animationController.FlipH?1:0;
+        animTex.CurrentFrame=Player.instance.AnimationController.FlipH?1:0;
     }
 
 }
