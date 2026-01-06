@@ -19,11 +19,13 @@ public class XButton : TouchScreenButton
         {
             if(!jPressed)
             {
-                return jPressed=true;
+                jPressed=true;
+                return jPressed;
             }
             return false;
         }
-        return jPressed=false;
+        jPressed=false;
+        return false;
     }
 
 }

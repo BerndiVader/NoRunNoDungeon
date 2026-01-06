@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://placeholders/bonus/CoinStatic.tscn" type="PackedScene" id=14]
 [ext_resource path="res://placeholders/monsters/ChestMimic.tscn" type="PackedScene" id=15]
 [ext_resource path="res://placeholders/monsters/FairyPlaceholder.tscn" type="PackedScene" id=16]
+[ext_resource path="res://placeholders/obstacles/FlamethrowerHolder.tscn" type="PackedScene" id=17]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -39,7 +40,7 @@ position = Vector2( 160, 232 )
 position = Vector2( 1049, 234 )
 
 [node name="FallingHammer" parent="HammerFall" index="0"]
-rotation = 2.68432
+rotation = 2.38063
 mode = 1
 switchID = "d3378640-7963-4b23-9ec8-1cacd53ca201"
 activationRange = 100.0
@@ -335,6 +336,18 @@ position = Vector2( 972, -330 )
 [node name="Torch3" parent="." instance=ExtResource( 13 )]
 position = Vector2( 945, 15 )
 
+[node name="FlamethrowerHolder" parent="." instance=ExtResource( 17 )]
+position = Vector2( 733, 154 )
+
+[node name="Flamethrower" parent="FlamethrowerHolder" index="0"]
+rotation = 2.53073
+
+[node name="FlamethrowerHolder2" parent="." instance=ExtResource( 17 )]
+position = Vector2( 993, 161 )
+
+[node name="Flamethrower" parent="FlamethrowerHolder2" index="0"]
+rotation = 0.785398
+
 [editable path="HammerFall"]
 [editable path="RocksFalling"]
 [editable path="RocksFalling2"]
@@ -362,3 +375,5 @@ position = Vector2( 945, 15 )
 [editable path="Switch3"]
 [editable path="ControlHolder"]
 [editable path="GateHolder"]
+[editable path="FlamethrowerHolder"]
+[editable path="FlamethrowerHolder2"]
