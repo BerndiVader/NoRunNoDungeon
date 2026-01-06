@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Player.cs" type="Script" id=1]
 [ext_resource path="res://image/0x72/frames/knight_f_hit_anim_f0.png" type="Texture" id=2]
@@ -47,11 +47,6 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=7]
-custom_solver_bias = 0.5
-radius = 4.0
-height = 3.4
-
 [sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0, 0.185022, 0.45815, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.835294, 0.803922, 0.803922, 0.803922, 0.458824, 0.631373, 0.631373, 0.631373, 0 )
@@ -78,7 +73,6 @@ animation = "RUN"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 4 )
-shape = SubResource( 7 )
 
 [node name="airParticles" type="CPUParticles2D" parent="."]
 position = Vector2( 0, 11 )

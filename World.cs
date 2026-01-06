@@ -128,9 +128,14 @@ public class World : Node
 
 	private void Tick(float delta) 
 	{
+		if(level.lastDirection!=level.direction)
+		{
+			Player.instance.UpdateCollisionShape();
+		}
 		float speedDelta=level.Speed*delta;
 		level.MoveLocalX(level.direction.x*speedDelta);
 		level.MoveLocalY(level.direction.y*speedDelta);
+		level.lastDirection=level.direction;
 
 		if(state!=Gamestate.RUNNING) return;
 
@@ -138,7 +143,22 @@ public class World : Node
 		{
 			SetGamestate(Gamestate.SCENE_CHANGE);
 			Worker.SetStatus(Worker.State.PREPARELEVEL);
+			return;
 		}
+
+		if(level.direction.y!=0f)
+		{
+			if(level.Position.y<0f)
+			{
+				level.Position=new Vector2(level.Position.x,0f);
+				level.direction=Vector2.Zero;
+			}
+			else if(level.Position.y+RESOLUTION.y>level.pixelHeight.y)
+			{
+				level.Position=new Vector2(level.Position.x,level.pixelHeight.y-RESOLUTION.y);
+				level.direction=Vector2.Zero;
+			}
+		}		
 	}
 
 	private void SceneRunning(float delta)

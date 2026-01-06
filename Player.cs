@@ -31,6 +31,8 @@ public class Player : KinematicBody2D
 
     private AnimatedSprite animationController;
     public AnimatedSprite AnimationController=>animationController;
+    private CapsuleShape2D capsuleShape;
+    private RectangleShape2D rectShape;
     private CollisionShape2D collisionShape;
     public CollisionShape2D CollisionShape=>collisionShape;
     private CPUParticles2D airParticles,jumpParticles;
@@ -58,6 +60,17 @@ public class Player : KinematicBody2D
         }
 
         collisionShape=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
+
+        rectShape=new RectangleShape2D{Extents=new Vector2(4f,5.5f)};
+        capsuleShape=new CapsuleShape2D
+        {
+            Radius=4f,
+            Height=3.4f,
+            CustomSolverBias=0.5f
+        };
+
+        UpdateCollisionShape();
+
         animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         animationController.Play(ANIM_RUN);
 
@@ -97,13 +110,15 @@ public class Player : KinematicBody2D
             return;
         }
 
-        airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.Speed;
-
         float friction=1f;
-        if(World.level.Speed!=0f)
+        if(World.level.Speed!=0f&&World.level.direction.x!=0f)
         {
             friction=36f/World.level.Speed;
         }
+
+        float levelYSpeed=World.level.direction.y*World.level.Speed;
+        airParticles.Direction=jumpParticles.Direction=World.level.direction;
+        airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.Speed*World.level.direction.Length();
         
         Vector2 force=FORCE;
         float slopeAngle=0f;
@@ -154,23 +169,18 @@ public class Player : KinematicBody2D
         motionTrails.SetShaderParam("velocity",motVel);
         motionTrails.SetShaderParam("flip",animationController.FlipH);
 
-        if(left&&velocity.x<WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
+        if(left&&velocity.x>-WALK_MAX_SPEED)
         {
             force.x-=WALK_FORCE;
         } 
-        else if(right&&velocity.x>=-(WALK_MIN_SPEED*friction)&&velocity.x<(WALK_MAX_SPEED*friction))
+        else if(right&&velocity.x<(WALK_MAX_SPEED*friction))
         {
             force.x+=WALK_FORCE;
         }
         else
         {
-            float xlength=Mathf.Abs(velocity.x);
-            xlength-=STOP_FORCE*delta;
-            if(xlength<0f) 
-            {
-                xlength=0f;
-            }
-            velocity.x=xlength*Mathf.Sign(velocity.x);
+            float xlength=Mathf.Abs(velocity.x)-STOP_FORCE*delta;
+            velocity.x=(xlength>0f?xlength:0f)*Mathf.Sign(velocity.x);
         }
 
         velocity+=force*delta;
@@ -248,7 +258,7 @@ public class Player : KinematicBody2D
             else if(jump&&!doubleJump)
             {
                 doubleJump=true;
-                velocity.y=-JUMP_SPEED;
+                velocity.y=-(JUMP_SPEED-levelYSpeed);
                 animationController.Play(ANIM_JUMP);
                 jumpParticles.Emitting=true;
                 Renderer.instance.PlaySfx(sfxDoubleJump,Position);
@@ -267,7 +277,7 @@ public class Player : KinematicBody2D
                     velocity.x-=50f;
                 }
             }
-            velocity.y=-JUMP_SPEED;
+            velocity.y=-(JUMP_SPEED-levelYSpeed);
             animationController.Play(ANIM_JUMP);
             justJumped=jumping=true;
             Renderer.instance.PlaySfx(sfxJump,Position);
@@ -358,4 +368,19 @@ public class Player : KinematicBody2D
         }
     }
 
+    public void UpdateCollisionShape()
+    {
+        if(World.level.direction.x!=0f)
+        {
+            collisionShape.Shape=capsuleShape;
+        }
+        else if(World.level.direction.y!=0f)
+        {
+            collisionShape.Shape=rectShape;
+        }
+        else
+        {
+            collisionShape.Shape=capsuleShape;
+        }
+    }
 }

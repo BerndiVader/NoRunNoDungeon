@@ -5,11 +5,12 @@ public class Level : TileMap
     [Export] public float Speed=120f;
     [Export] public Vector2 direction=new Vector2(-1f,0f);
     [Export] public bool KeepTileset=false;
+    public Vector2 lastDirection=Vector2.Zero;
     public int mapLength;
+    public Vector2 pixelHeight;
     public int pixelLength;
     public Vector2 startingPoint;
     public Settings settings;
-
     public override void _Ready()
     {
         SetProcess(false);
@@ -25,6 +26,7 @@ public class Level : TileMap
 
         mapLength=(int)GetUsedRect().End.x;
         pixelLength=mapLength*16;
+        pixelHeight=LevelHeight()*16;
         CellYSort=false;
         CellCustomTransform=new Transform2D(128f,0f,0f,128f,0f,0f);
         CellQuadrantSize=8;
@@ -36,6 +38,8 @@ public class Level : TileMap
         
         Connect("tree_exiting",this,nameof(FreeLevel));
         AddToGroup(GROUPS.LEVEL.ToString());
+
+        lastDirection=direction;
 
         settings=new Settings(this);
     }
@@ -92,6 +96,12 @@ public class Level : TileMap
         texture.CreateFromImage(CreateImageForTile(id,tile));
         texture.Flags=0;
         return texture;
+    }
+
+    private Vector2 LevelHeight()
+    {
+        Rect2 rect=GetUsedRect();
+        return new Vector2((int)rect.Position.y,(int)(rect.Size.y-1f));
     }
 
     new public void SetCell(int x,int y,int tile,bool flipX=false,bool flipY=false,bool transpose=false,Vector2? autotileCoord=null) 
