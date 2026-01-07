@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
 [ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=3]
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=4]
+[ext_resource path="res://placeholders/obstacles/GateHolder.tscn" type="PackedScene" id=5]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -65,9 +66,26 @@ position = Vector2( 1317, 256 )
 [node name="DoorSwitch" parent="Switch2" index="0"]
 switchID = "b5e139a4-2433-4e15-9f1a-59db48dac9a6"
 
+[node name="GateHolder" parent="." instance=ExtResource( 5 )]
+position = Vector2( 625, 244 )
+
+[node name="Gate" parent="GateHolder" index="0"]
+companionID = "11"
+changeStateTo = 9
+
+[node name="GateHolder2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 772, 197 )
+
+[node name="Gate" parent="GateHolder2" index="0"]
+companionID = "11"
+type = 1
+changeStateTo = 9
+
 [editable path="ControlHolder"]
 [editable path="ControlHolder2"]
 [editable path="Switch"]
 [editable path="ControlHolder3"]
 [editable path="ControlHolder4"]
 [editable path="Switch2"]
+[editable path="GateHolder"]
+[editable path="GateHolder2"]

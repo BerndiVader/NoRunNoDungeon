@@ -17,8 +17,14 @@ public class FallingHammer : Area2D,ISwitchable
         SWITCHABLE,
         DISTANCE
     }
+    private enum DIRECTION
+    {
+        LEFT,
+        RIGHT
+    }
 
     [Export] MODE mode=MODE.DEFAULT;
+    [Export] DIRECTION direction=DIRECTION.LEFT;
     [Export] string switchID="";
     [Export] float activationRange=50f;
     [Export] bool oneTime=false;
@@ -130,7 +136,7 @@ public class FallingHammer : Area2D,ISwitchable
             this,
             nameof(Tweening),
             Rotation,
-            -Mathf.Pi*2f,
+            Mathf.Pi*2f*(direction==DIRECTION.LEFT?-1f:1f),
             1f,
             Tween.TransitionType.Circ,
             Tween.EaseType.In

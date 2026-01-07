@@ -11,11 +11,14 @@ public class Gate : Area2D
 
     [Export] private string companionID="";
     [Export] private TYPE type=TYPE.ENTRY;
+    [Export] private bool closed=false;
+    [Export] private Gamestate changeStateTo=Gamestate.BONUS;
+    [Export] private bool oneTime=true;
 
     private bool active=false;
-    private bool closed=false;
     private const string ID="companion";
     private Vector2 restorePosition=Vector2.Zero;
+    private Gamestate gamestate;
     private AnimatedSprite sprite;
 
     public override void _Ready()
@@ -33,8 +36,13 @@ public class Gate : Area2D
         Connect("body_entered",this,nameof(OnBodyEntered));
         Connect("body_exited",this,nameof(OnBodyExited));
 
+        if(changeStateTo!=Gamestate.KEEP)
+        {
+            oneTime=true;
+        }
+
         sprite=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
-        sprite.Play("open");
+        sprite.Play(closed?"close":"open");
     }
 
     public override void _PhysicsProcess(float delta)
@@ -44,18 +52,19 @@ public class Gate : Area2D
             if(World.instance.input.JustUp())
             {
 
-                if(type==TYPE.ENTRY)
+                if(type==TYPE.ENTRY&&changeStateTo!=Gamestate.KEEP)
                 {
-                    World.instance.SetGamestate(Gamestate.BONUS);
+                    gamestate=World.state;
+                    World.instance.SetGamestate(changeStateTo);
                     restorePosition=World.level.Position;
                 }
-                if(type==TYPE.EXIT)
-                {
-                    World.instance.RestoreGamestate();
-                }
                 GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),ID+companionID,GetInstanceId());
-                closed=true;
-                sprite.Play("close");
+
+                if(oneTime)
+                {
+                    closed=true;
+                    sprite.Play("close");
+                }
             }
         }
     }
@@ -89,15 +98,28 @@ public class Gate : Area2D
 
     private void TeleportLevel()
     {
-        Player.instance.onTeleport=true;
-        Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
-        Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;
+        if(type==TYPE.ENTRY&&changeStateTo!=Gamestate.KEEP)
+        {
+            World.instance.SetGamestate(gamestate);
+            Player.instance.onTeleport=true;
+            Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
+            Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;
 
-        SceneTreeTween tween=GetTree().CreateTween();
-        tween.TweenProperty(World.level,"position",targetPosition,0.1f)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.InOut);
-        tween.TweenCallback(this,nameof(TeleportPlayer));
+            SceneTreeTween tween=GetTree().CreateTween();
+            tween.TweenProperty(World.level,"position",targetPosition,0.1f)
+                .SetTrans(Tween.TransitionType.Cubic)
+                .SetEase(Tween.EaseType.InOut);
+            tween.TweenCallback(this,nameof(TeleportPlayer));
+        } 
+        else
+        {
+            TeleportPlayer();
+            if(oneTime)
+            {
+                closed=true;
+                sprite.Play("close");
+            }
+        }
     }
 
     private void TeleportPlayer()

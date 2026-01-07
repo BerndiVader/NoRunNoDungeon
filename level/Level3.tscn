@@ -177,7 +177,7 @@ ACTIVATION_RANGE = 50.0
 position = Vector2( 2392, 160 )
 
 [node name="FallingHammer" parent="HammerFall" index="0"]
-rotation = 0.532325
+rotation = 1.29329
 
 [node name="ControlHolder" parent="." instance=ExtResource( 12 )]
 position = Vector2( 2392, 120 )

@@ -9,6 +9,9 @@ public enum Gamestate
     SCENE_CHANGE,
     RUNNING,
     BONUS,
-    PAUSED
+    SHOP,
+    BOSS,
+    PAUSED,
+    KEEP,
     
 }
