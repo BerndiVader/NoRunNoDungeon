@@ -1,8 +1,14 @@
 using System;
+using System.Data.SqlTypes;
 using Godot;
 
 public class Gate : Area2D
 {
+    private enum STYLE
+    {
+        STEEL,
+        WOOD,
+    }
     private enum TYPE
     {
         ENTRY,
@@ -11,6 +17,7 @@ public class Gate : Area2D
 
     [Export] private string companionID="";
     [Export] private TYPE type=TYPE.ENTRY;
+    [Export] private STYLE style=STYLE.WOOD;
     [Export] private bool closed=false;
     [Export] private Gamestate changeStateTo=Gamestate.BONUS;
     [Export] private bool oneTime=true;
@@ -42,7 +49,8 @@ public class Gate : Area2D
         }
 
         sprite=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
-        sprite.Play(closed?"close":"open");
+        sprite.Animation=style.ToString();
+        sprite.Frame=closed?4:0;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -63,7 +71,7 @@ public class Gate : Area2D
                 if(oneTime)
                 {
                     closed=true;
-                    sprite.Play("close");
+                    sprite.Play();
                 }
             }
         }
@@ -101,7 +109,7 @@ public class Gate : Area2D
                 if(oneTime)
                 {
                     closed=true;
-                    sprite.Play("close");
+                    sprite.Play();
                 }
                 TeleportPlayer();
             }

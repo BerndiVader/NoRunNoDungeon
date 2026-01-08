@@ -67,14 +67,14 @@ position = Vector2( 1317, 256 )
 switchID = "b5e139a4-2433-4e15-9f1a-59db48dac9a6"
 
 [node name="GateHolder" parent="." instance=ExtResource( 5 )]
-position = Vector2( 625, 244 )
+position = Vector2( 625, 247 )
 
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "11"
 changeStateTo = 9
 
 [node name="GateHolder2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 772, 197 )
+position = Vector2( 772, 200 )
 
 [node name="Gate" parent="GateHolder2" index="0"]
 companionID = "11"

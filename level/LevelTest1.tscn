@@ -293,18 +293,19 @@ position = Vector2( 872, 24 )
 position = Vector2( 888, 24 )
 
 [node name="GateHolder" parent="." instance=ExtResource( 11 )]
-position = Vector2( 945, 37 )
+position = Vector2( 945, 38 )
 
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "1"
 
 [node name="Torch" parent="." instance=ExtResource( 13 )]
-position = Vector2( 947, -330 )
+position = Vector2( 947, -329 )
 
 [node name="Gate" parent="." instance=ExtResource( 12 )]
-position = Vector2( 960, -315 )
+position = Vector2( 960, -314 )
 companionID = "1"
 type = 1
+style = 0
 
 [node name="CoinStatic" parent="." instance=ExtResource( 14 )]
 position = Vector2( 1112, -272 )
@@ -331,10 +332,10 @@ position = Vector2( 808, -328 )
 position = Vector2( 1096, -304 )
 
 [node name="Torch2" parent="." instance=ExtResource( 13 )]
-position = Vector2( 972, -330 )
+position = Vector2( 972, -329 )
 
 [node name="Torch3" parent="." instance=ExtResource( 13 )]
-position = Vector2( 945, 15 )
+position = Vector2( 945, 16 )
 
 [node name="FlamethrowerHolder3" parent="." instance=ExtResource( 17 )]
 position = Vector2( 738, 35 )
@@ -379,13 +380,14 @@ position = Vector2( 994, 37 )
 rotation = -0.712094
 
 [node name="GateHolder2" parent="." instance=ExtResource( 11 )]
-position = Vector2( 786, 37 )
+position = Vector2( 786, 38 )
 
 [node name="Gate" parent="GateHolder2" index="0"]
+style = 0
 closed = true
 
 [node name="Torch4" parent="." instance=ExtResource( 13 )]
-position = Vector2( 786, 15 )
+position = Vector2( 786, 16 )
 
 [node name="HammerFall2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 696, 232 )
