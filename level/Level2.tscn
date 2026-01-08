@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://placeholders/obstacles/RocksFalling.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=11]
 [ext_resource path="res://placeholders/obstacles/BatonSwinging.tscn" type="PackedScene" id=12]
+[ext_resource path="res://placeholders/obstacles/GateHolder.tscn" type="PackedScene" id=13]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -159,6 +160,23 @@ position = Vector2( 824, -3 )
 [node name="Rock" parent="RocksFalling2" index="0"]
 switchID = "8d01fd9c-3995-4e1c-ac93-5c97e53d725b"
 
+[node name="GateHolder" parent="." instance=ExtResource( 13 )]
+position = Vector2( 936, 246 )
+
+[node name="Gate" parent="GateHolder" index="0"]
+companionID = "11"
+style = 0
+changeStateTo = 9
+
+[node name="GateHolder2" parent="." instance=ExtResource( 13 )]
+position = Vector2( 600, 54 )
+
+[node name="Gate" parent="GateHolder2" index="0"]
+companionID = "11"
+type = 1
+style = 0
+changeStateTo = 9
+
 [editable path="PlatformMoving2x2"]
 [editable path="RocksFalling"]
 [editable path="Switch"]
@@ -166,3 +184,5 @@ switchID = "8d01fd9c-3995-4e1c-ac93-5c97e53d725b"
 [editable path="BatonSwinging"]
 [editable path="BatonSwinging2"]
 [editable path="RocksFalling2"]
+[editable path="GateHolder"]
+[editable path="GateHolder2"]

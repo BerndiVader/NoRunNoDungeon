@@ -23,6 +23,7 @@ public class Gate : Area2D
     [Export] private bool oneTime=true;
 
     private bool active=false;
+    private bool used=false;
     private const string ID="companion";
     private Vector2 restorePosition=Vector2.Zero;
     private Gamestate gamestate;
@@ -59,20 +60,28 @@ public class Gate : Area2D
         {
             if(World.instance.input.JustUp())
             {
-
-                if(type==TYPE.ENTRY&&changeStateTo!=Gamestate.KEEP)
+                if(oneTime&&used)
                 {
-                    gamestate=World.state;
-                    World.instance.SetGamestate(changeStateTo);
-                    restorePosition=World.level.Position;
+                    closed=true;
+                    sprite.Play();
+                    return;
                 }
-                GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),ID+companionID,GetInstanceId());
-
-                if(oneTime)
+                used=true;
+                if(type==TYPE.ENTRY)
+                {
+                    if(changeStateTo!=Gamestate.KEEP)
+                    {
+                        gamestate=World.state;
+                        World.instance.SetGamestate(changeStateTo);
+                        restorePosition=World.level.Position;
+                    }
+                }
+                else if(oneTime)
                 {
                     closed=true;
                     sprite.Play();
                 }
+                GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),ID+companionID,GetInstanceId());
             }
         }
     }
@@ -102,6 +111,11 @@ public class Gate : Area2D
         {
             if(changeStateTo!=Gamestate.KEEP)
             {
+                if(oneTime&&used)
+                {
+                    closed=true;
+                    sprite.Play();
+                }
                 TeleportLevel();
             }
             else
@@ -134,7 +148,7 @@ public class Gate : Area2D
         Player.instance.GlobalPosition=GlobalPosition;
         Player.instance.Visible=true;
         Player.instance.onTeleport=false;       
-        if(type==TYPE.ENTRY)
+        if(type==TYPE.ENTRY&&changeStateTo!=Gamestate.KEEP)
         {
             World.instance.SetGamestate(gamestate);
         }
