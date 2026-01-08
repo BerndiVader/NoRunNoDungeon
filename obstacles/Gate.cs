@@ -92,41 +92,44 @@ public class Gate : Area2D
     {
         if(instance!=GetInstanceId()&&id==ID+companionID)
         {
-            TeleportLevel();
+            if(changeStateTo!=Gamestate.KEEP)
+            {
+                TeleportLevel();
+            }
+            else
+            {
+                if(oneTime)
+                {
+                    closed=true;
+                    sprite.Play("close");
+                }
+                TeleportPlayer();
+            }
         }
     }
 
     private void TeleportLevel()
     {
-        if(type==TYPE.ENTRY&&changeStateTo!=Gamestate.KEEP)
-        {
-            World.instance.SetGamestate(gamestate);
-            Player.instance.onTeleport=true;
-            Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
-            Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;
+        Player.instance.onTeleport=true;
+        Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
+        Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;
 
-            SceneTreeTween tween=GetTree().CreateTween();
-            tween.TweenProperty(World.level,"position",targetPosition,0.1f)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.InOut);
-            tween.TweenCallback(this,nameof(TeleportPlayer));
-        } 
-        else
-        {
-            TeleportPlayer();
-            if(oneTime)
-            {
-                closed=true;
-                sprite.Play("close");
-            }
-        }
+        SceneTreeTween tween=GetTree().CreateTween();
+        tween.TweenProperty(World.level,"position",targetPosition,0.1f)
+            .SetTrans(Tween.TransitionType.Cubic)
+            .SetEase(Tween.EaseType.InOut);
+        tween.TweenCallback(this,nameof(TeleportPlayer));
     }
 
     private void TeleportPlayer()
     {
         Player.instance.GlobalPosition=GlobalPosition;
         Player.instance.Visible=true;
-        Player.instance.onTeleport=false;
+        Player.instance.onTeleport=false;       
+        if(type==TYPE.ENTRY)
+        {
+            World.instance.SetGamestate(gamestate);
+        }
     }
 
 

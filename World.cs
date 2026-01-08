@@ -128,10 +128,6 @@ public class World : Node
 
 	private void Tick(float delta) 
 	{
-		if(level.lastDirection!=level.direction)
-		{
-			Player.instance.UpdateCollisionShape();
-		}
 		float speedDelta=level.Speed*delta;
 		level.MoveLocalX(level.direction.x*speedDelta);
 		level.MoveLocalY(level.direction.y*speedDelta);

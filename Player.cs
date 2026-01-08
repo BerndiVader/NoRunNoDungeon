@@ -31,10 +31,8 @@ public class Player : KinematicBody2D
 
     private AnimatedSprite animationController;
     public AnimatedSprite AnimationController=>animationController;
-    private CapsuleShape2D capsuleShape;
-    private RectangleShape2D rectShape;
-    private CollisionShape2D collisionShape;
-    public CollisionShape2D CollisionShape=>collisionShape;
+    private CollisionPolygon2D collisionShape;
+    public CollisionPolygon2D CollisionShape=>collisionShape;
     private CPUParticles2D airParticles,jumpParticles;
     private ShaderMaterial motionTrails;
 
@@ -59,17 +57,7 @@ public class Player : KinematicBody2D
             light?.QueueFree();
         }
 
-        collisionShape=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
-
-        rectShape=new RectangleShape2D{Extents=new Vector2(4f,5.5f)};
-        capsuleShape=new CapsuleShape2D
-        {
-            Radius=4f,
-            Height=3.4f,
-            CustomSolverBias=0.5f
-        };
-
-        UpdateCollisionShape();
+        collisionShape=GetNode<CollisionPolygon2D>(nameof(CollisionPolygon2D));
 
         animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         animationController.Play(ANIM_RUN);
@@ -368,19 +356,4 @@ public class Player : KinematicBody2D
         }
     }
 
-    public void UpdateCollisionShape()
-    {
-        if(World.level.direction.x!=0f)
-        {
-            collisionShape.Shape=capsuleShape;
-        }
-        else if(World.level.direction.y!=0f)
-        {
-            collisionShape.Shape=rectShape;
-        }
-        else
-        {
-            collisionShape.Shape=capsuleShape;
-        }
-    }
 }
