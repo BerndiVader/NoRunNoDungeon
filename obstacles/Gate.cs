@@ -4,6 +4,8 @@ using Godot;
 
 public class Gate : Area2D
 {
+    private static AudioStream teleportSfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/88_Teleport_02.wav");
+    private static AudioStreamMP3 closeSfx=ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/06_door_close_1.mp3");
     private enum STYLE
     {
         STEEL,
@@ -109,6 +111,13 @@ public class Gate : Area2D
     {
         if(instance!=GetInstanceId()&&id==ID+companionID)
         {
+            SfxPlayer teleportFx=new SfxPlayer
+            {
+                Position=Position,
+                Stream=teleportSfx
+            };
+            World.level.AddChild(teleportFx);
+
             if(changeStateTo!=Gamestate.KEEP)
             {
                 if(oneTime&&used)
@@ -124,6 +133,12 @@ public class Gate : Area2D
                 {
                     closed=true;
                     sprite.Play();
+                    SfxPlayer closefx=new SfxPlayer
+                    {
+                        Stream=closeSfx,
+                        Position=Position
+                    };
+                    World.level.AddChild(closefx);
                 }
                 TeleportPlayer();
             }

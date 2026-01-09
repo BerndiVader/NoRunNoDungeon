@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 public class Flamethrower : Area2D,ISwitchable
 {
+    private static AudioStream flameFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_human_special_atk_2.wav");
     private static readonly Vector2[] shapesize=new Vector2[]
     {
         Vector2.Zero,
@@ -31,10 +32,12 @@ public class Flamethrower : Area2D,ISwitchable
     [Export] private float distance=20f;
     [Export] private string switchID="";
     [Export] private int delay=2;
+    [Export] private bool damageMonster=false;
 
     private AnimatedSprite animation;
     private CollisionShape2D collision;
     private RectangleShape2D collisionRect=new RectangleShape2D();
+    private AudioStreamPlayer2D sfxPlayer=new AudioStreamPlayer2D();
     private Timer timer;
     private int animationIndex=0;
 
@@ -54,6 +57,9 @@ public class Flamethrower : Area2D,ISwitchable
         collisionRect.Extents=shapesize[animation.Frame];
 
         Connect("body_entered",this,nameof(OnBodyEntered));
+
+        sfxPlayer.Stream=flameFx;
+        AddChild(sfxPlayer);
 
         switch(mode)
         {
@@ -99,6 +105,10 @@ public class Flamethrower : Area2D,ISwitchable
 
     private void OnFrameChanged()
     {
+        if(animation.Frame==1)
+        {
+            sfxPlayer.Play();
+        }
         collisionRect.Extents=shapesize[animation.Frame];
         Vector2 offset=baseOffset;
 
