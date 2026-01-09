@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/Retro PowerUP 09.wav-284cceef05814ecf7d565414a1182186.sample"
+path="res://.import/15_human_dash_2.wav-3b072561c98b0bb78b3c54b8ea330a1e.sample"
 
 [deps]
 
-source_file="res://sounds/ingame/PowerUp/Retro PowerUP 09.wav"
-dest_files=[ "res://.import/Retro PowerUP 09.wav-284cceef05814ecf7d565414a1182186.sample" ]
+source_file="res://sounds/ingame/12_Player_Movement_SFX/15_human_dash_2.wav"
+dest_files=[ "res://.import/15_human_dash_2.wav-3b072561c98b0bb78b3c54b8ea330a1e.sample" ]
 
 [params]
 

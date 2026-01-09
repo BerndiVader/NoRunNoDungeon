@@ -342,18 +342,21 @@ position = Vector2( 738, 35 )
 
 [node name="Flamethrower" parent="FlamethrowerHolder3" index="0"]
 rotation = -2.38412
+delay = 1
 
 [node name="FlamethrowerHolder" parent="." instance=ExtResource( 17 )]
 position = Vector2( 733, 154 )
 
 [node name="Flamethrower" parent="FlamethrowerHolder" index="0"]
 rotation = 2.53073
+delay = 4
 
 [node name="FlamethrowerHolder2" parent="." instance=ExtResource( 17 )]
 position = Vector2( 993, 161 )
 
 [node name="Flamethrower" parent="FlamethrowerHolder2" index="0"]
 rotation = 0.785398
+delay = 3
 
 [node name="DestroyableHolder29" parent="." instance=ExtResource( 7 )]
 position = Vector2( 840, 104 )
