@@ -11,52 +11,115 @@ public class Saw : Area2D
 
     [Export] private DIRECTION direction=DIRECTION.RIGHT;
     [Export] private int Length=2;
+    [Export] private float Speed=120f;
 
     private AnimatedSprite animation;
-    private CPUParticles2D particles;
+    private CPUParticles2D partLeft,partRight;
     private Tween tween;
     private Vector2 startPosition;
     private float length;
+    private float lastX;
 
     public override void _Ready()
     {
         animation=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
-        particles=GetNode<CPUParticles2D>(nameof(CPUParticles2D));
+        partRight=GetNode<CPUParticles2D>(nameof(CPUParticles2D));
+        partLeft=GetNode<CPUParticles2D>("CPUParticles2D2");
+
+        Connect("body_entered",this,nameof(BodyEntered));
 
         tween=GetNode<Tween>(nameof(Tween));
         tween.Connect("tween_completed",this,nameof(OnTweenCompleted));
         startPosition=Position;
         length=Length*16f;
+
+        CPUParticles2D particles=ActiveParticles();
+        animation.Playing=true;
         StartTween();
     }
 
     private void StartTween() 
     {
-        float targetX=direction==DIRECTION.RIGHT?startPosition.x+length:startPosition.x-length;
-        tween.InterpolateProperty(this,"position:x", Position.x,targetX,1.0f,Tween.TransitionType.Sine,Tween.EaseType.InOut);
+        SetActiveParticles();
+        animation.Play(direction.ToString());
+
+        float from=Position.x;
+        float to=direction==DIRECTION.RIGHT?startPosition.x+length:startPosition.x-length;
+        float duration=Mathf.Abs(from-to)/Speed;
+        tween.InterpolateMethod(
+            this,
+            nameof(Tweening),
+            from,
+            to,
+            duration,
+            Tween.TransitionType.Sine,
+            Tween.EaseType.InOut
+        );
         tween.Start();
     }
 
     private void OnTweenCompleted(object obj,NodePath path)
     {
         direction=direction==DIRECTION.RIGHT?DIRECTION.LEFT:DIRECTION.RIGHT;
-        UpdateDirection();
         StartTween();
     }
 
-    private void UpdateDirection()
+    private void Tweening(float x) 
     {
-        switch(direction) 
-        {
-            case DIRECTION.LEFT:
-                particles.OrbitVelocity=-2f;
-                break;
-            case DIRECTION.RIGHT:
-                particles.OrbitVelocity=2f;
-                break;
-        }
-        animation.Play(direction.ToString());
+        float delta=GetPhysicsProcessDeltaTime();
+        float velocity=delta>0f?Mathf.Abs(x-lastX)/delta:0f;
+        float factor=velocity/120f;
+
+        CPUParticles2D particles=ActiveParticles();
+
+        animation.SpeedScale=8f*factor;
+        particles.SpeedScale=1.2f*factor;
+        particles.Lifetime=MathUtils.MinMax(0.01f,0.35f,0.35f*factor);
+        particles.OrbitVelocity=direction==DIRECTION.LEFT?-2f*factor:2f*factor;
+
+        Position=new Vector2(x,Position.y);
+        lastX=x;
     }
 
+    private void SetActiveParticles()
+    {
+        partLeft.Emitting=direction==DIRECTION.LEFT;
+        partRight.Emitting=direction==DIRECTION.RIGHT;
+
+        switch(direction)
+        {
+            case DIRECTION.LEFT:
+                partRight.Lifetime=0.01f;
+                partRight.SpeedScale=1f;                
+                break;
+            case DIRECTION.RIGHT:
+                partLeft.Lifetime=0.01f;
+                partLeft.SpeedScale=1f;            
+                break;
+        }
+
+    }    
+
+    private CPUParticles2D ActiveParticles()
+    {
+        return direction==DIRECTION.LEFT?partLeft:partRight;
+    }
+
+    private void BodyEntered(Node node)
+    {
+        if(node is Player)
+        {
+            SetDeferred("monitoring",false);
+            node.EmitSignal(STATE.damage.ToString(),this,1f);
+        }
+    }
+
+    private void BodyExited(Node node)
+    {
+        if(node is Player)
+        {
+
+        }
+    } 
 
 }

@@ -128,6 +128,7 @@ public static class ResourceUtils
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level4.tscn"));
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest1.tscn"));
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest2.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest3.tscn"));
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTestTerra.tscn"));
         }
 
