@@ -3,6 +3,9 @@ using System;
 
 public class Saw : Area2D
 {
+
+    private static readonly AudioStream sawFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/saw.wav");
+
     private enum DIRECTION
     {
         LEFT,
@@ -16,22 +19,34 @@ public class Saw : Area2D
     private AnimatedSprite animation;
     private CPUParticles2D partLeft,partRight;
     private Tween tween;
+    private AudioStreamPlayer2D sfxPlayer;
     private Vector2 startPosition;
     private float length;
     private float lastX;
 
     public override void _Ready()
     {
+
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
+        AddChild(notifier2D);        
+
         animation=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         partRight=GetNode<CPUParticles2D>(nameof(CPUParticles2D));
         partLeft=GetNode<CPUParticles2D>("CPUParticles2D2");
+        sfxPlayer=GetNode<AudioStreamPlayer2D>(nameof(AudioStreamPlayer2D));
 
         Connect("body_entered",this,nameof(BodyEntered));
+        Connect("body_exited",this,nameof(BodyExited));
 
         tween=GetNode<Tween>(nameof(Tween));
         tween.Connect("tween_completed",this,nameof(OnTweenCompleted));
         startPosition=Position;
         length=Length*16f;
+
+        sfxPlayer.Connect("finished",this,nameof(SfxEnd));
+        sfxPlayer.Stream=sawFx;
+        sfxPlayer.Play();
 
         CPUParticles2D particles=ActiveParticles();
         animation.Playing=true;
@@ -70,6 +85,7 @@ public class Saw : Area2D
         float velocity=delta>0f?Mathf.Abs(x-lastX)/delta:0f;
         float factor=velocity/120f;
 
+        sfxPlayer.VolumeDb=Mathf.Lerp(-20f,0f,Mathf.Clamp(factor,0f,1f));
         CPUParticles2D particles=ActiveParticles();
 
         animation.SpeedScale=8f*factor;
@@ -118,8 +134,13 @@ public class Saw : Area2D
     {
         if(node is Player)
         {
-
+            SetDeferred("monitoring",true);
         }
     } 
+
+    private void SfxEnd()
+    {
+        sfxPlayer.Play();
+    }
 
 }
