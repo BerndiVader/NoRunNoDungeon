@@ -147,12 +147,26 @@ public class World : Node
 			if(level.Position.y<0f)
 			{
 				level.Position=new Vector2(level.Position.x,0f);
-				level.direction=Vector2.Zero;
+				if(level.settings.autoRestore)
+				{
+					level.settings.Restore();
+				}
+				else
+				{
+					level.direction=Vector2.Zero;
+				}
 			}
 			else if(level.Position.y+RESOLUTION.y>level.pixelHeight.y)
 			{
 				level.Position=new Vector2(level.Position.x,level.pixelHeight.y-RESOLUTION.y);
-				level.direction=Vector2.Zero;
+				if(level.settings.autoRestore)
+				{
+					level.settings.Restore();
+				}
+				else
+				{
+					level.direction=Vector2.Zero;
+				}
 			}
 		}		
 	}
