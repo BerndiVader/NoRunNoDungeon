@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Threading.Tasks;
 
 public class Flamethrower : Area2D,ISwitchable
 {
@@ -33,13 +32,14 @@ public class Flamethrower : Area2D,ISwitchable
     [Export] private string switchID="";
     [Export] private int delay=2;
     [Export] private bool damageMonster=false;
+    [Export] private float FieldOfVision=45f;
 
     private AnimatedSprite animation;
     private CollisionShape2D collision;
     private RectangleShape2D collisionRect=new RectangleShape2D();
     private AudioStreamPlayer2D sfxPlayer=new AudioStreamPlayer2D();
+    private CPUParticles2D particles;
     private Timer timer;
-    private int animationIndex=0;
 
     public override void _Ready()
     {
@@ -48,7 +48,7 @@ public class Flamethrower : Area2D,ISwitchable
         SetProcessInput(false);
 
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen), new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
 
         animation=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
@@ -61,23 +61,55 @@ public class Flamethrower : Area2D,ISwitchable
         sfxPlayer.Stream=flameFx;
         AddChild(sfxPlayer);
 
+        timer=new Timer
+        {
+            OneShot=true,
+            WaitTime=delay
+        };
+        timer.Connect("timeout",this,nameof(OnTimeOut));
+        AddChild(timer);
+
+        particles=GetNode<CPUParticles2D>(nameof(CPUParticles2D));
+        particles.Direction=Vector2.Left.Rotated(Rotation);
+
+        animation.Connect("animation_finished",this,nameof(OnAnimEnd));
+        animation.Connect("frame_changed",this,nameof(OnFrameChanged));
+        animation.Frame=0;
+        collisionRect.Extents=shapesize[animation.Frame];
+
         switch(mode)
         {
             case MODE.DEFAULT:
-                animation.Connect("animation_finished",this,nameof(OnAnimEnd));
-                animation.Connect("frame_changed",this,nameof(OnFrameChanged));
-                animation.Frame=0;
-                collisionRect.Extents=shapesize[animation.Frame];
                 animation.Play("default");
-
-                timer=new Timer();
-                timer.OneShot=true;
-                timer.WaitTime=delay;
-                timer.Connect("timeout",this,nameof(OnTimeOut));
-                AddChild(timer);
                 break;
+            case MODE.DISTANCE:
+                SetPhysicsProcess(true);
+            break;
         }
     }
+
+    public override void _PhysicsProcess(float delta)
+    {
+        if(InFOV())
+        {
+            float d=GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
+            if(d<distance)
+            {
+                animation.Play("default");
+                SetPhysicsProcess(false);
+            }
+        }
+    }
+
+    private bool InFOV()
+    {
+        Vector2 distance=(Player.instance.GlobalPosition-collision.GlobalPosition).Normalized();
+        Vector2 direction=Vector2.Right.Rotated(Rotation);
+
+        float angle=Mathf.Rad2Deg(direction.AngleTo(distance));
+        return Mathf.Abs(angle)<=FieldOfVision/2f;
+    }
+
 
     private void OnBodyEntered(Node node)
     {
@@ -88,19 +120,31 @@ public class Flamethrower : Area2D,ISwitchable
         }
     }
 
-    private async void OnAnimEnd()
+    private void OnAnimEnd()
     {
         SetDeferred("monitoring",false);
         animation.Stop();
         timer.Start();
+        particles.Emitting=true;
     }
 
     private void OnTimeOut()
     {
         SetDeferred("monitoring",true);
         animation.Frame=0;
-        animation.Play("default");
         collisionRect.Extents=shapesize[animation.Frame];
+        particles.Emitting=false;
+
+        switch(mode)
+        {
+            case MODE.DEFAULT:
+                animation.Play("default");
+                break;
+            case MODE.DISTANCE:
+                SetPhysicsProcess(true);
+                break;
+        }
+
     }
 
     private void OnFrameChanged()
