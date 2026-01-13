@@ -31,7 +31,8 @@ public abstract class KinematicMonster : KinematicBody2D
     };
 
     private Settings levelSettings;
-    
+    private bool wasVisible=false;
+
     protected Player victim,attacker;
     protected AnimationPlayer animationPlayer;
     protected CollisionShape2D collisionController;
@@ -61,7 +62,8 @@ public abstract class KinematicMonster : KinematicBody2D
         SetProcessInput(false);
 
         VisibilityNotifier2D notifier2D = new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",this,nameof(OnScreenExited));
+        notifier2D.Connect("screen_entered",this,nameof(OnScreenEntered));
         AddChild(notifier2D);
 
         collisionController = GetNode<CollisionShape2D>(nameof(CollisionShape2D));
@@ -412,6 +414,19 @@ public abstract class KinematicMonster : KinematicBody2D
                     FlipH();
                 }
                 break;
+        }
+    }
+
+    private void OnScreenEntered()
+    {
+        wasVisible=true;
+    }
+
+    private void OnScreenExited()
+    {
+        if(wasVisible)
+        {
+            World.OnObjectExitedScreen(this);
         }
     }
     
