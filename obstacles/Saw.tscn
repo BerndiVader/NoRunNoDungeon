@@ -72,7 +72,7 @@ colors = PoolColorArray( 1, 1, 1, 1, 0.96875, 1, 0, 1, 1, 0.015625, 0.015625, 0.
 
 [node name="Saw" type="Area2D"]
 z_index = -1
-collision_layer = 0
+collision_layer = 288
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

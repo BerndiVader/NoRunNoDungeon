@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
 [ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=3]
-[ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=4]
 [ext_resource path="res://placeholders/obstacles/GateHolder.tscn" type="PackedScene" id=5]
 [ext_resource path="res://placeholders/obstacles/SawHolder.tscn" type="PackedScene" id=6]
 
@@ -31,20 +30,7 @@ position = Vector2( 736, 231 )
 [node name="LevelControl" parent="ControlHolder" index="0"]
 Speed = 40.0
 Direction = Vector2( 0, 1 )
-
-[node name="ControlHolder2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 906, -404 )
-
-[node name="LevelControl" parent="ControlHolder2" index="0"]
-Restore = true
-Signal = false
-switchID = "3f6ab471-a796-4604-a392-3895e6e6424b"
-
-[node name="Switch" parent="." instance=ExtResource( 4 )]
-position = Vector2( 710, -318 )
-
-[node name="DoorSwitch" parent="Switch" index="0"]
-switchID = "3f6ab471-a796-4604-a392-3895e6e6424b"
+AutoRestore = true
 
 [node name="ControlHolder3" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1152, -407 )
@@ -52,30 +38,17 @@ position = Vector2( 1152, -407 )
 [node name="LevelControl" parent="ControlHolder3" index="0"]
 Speed = 60.0
 Direction = Vector2( 0, -1 )
-
-[node name="ControlHolder4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1172, 166 )
-
-[node name="LevelControl" parent="ControlHolder4" index="0"]
-Restore = true
-Signal = false
-switchID = "b5e139a4-2433-4e15-9f1a-59db48dac9a6"
-
-[node name="Switch2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1317, 256 )
-
-[node name="DoorSwitch" parent="Switch2" index="0"]
-switchID = "b5e139a4-2433-4e15-9f1a-59db48dac9a6"
+AutoRestore = true
 
 [node name="GateHolder" parent="." instance=ExtResource( 5 )]
-position = Vector2( 625, 247 )
+position = Vector2( 817, 247 )
 
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "11"
 changeStateTo = 9
 
 [node name="GateHolder2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 772, 200 )
+position = Vector2( 793, 152 )
 
 [node name="Gate" parent="GateHolder2" index="0"]
 companionID = "11"
@@ -83,17 +56,14 @@ type = 1
 changeStateTo = 9
 
 [node name="SawHolder" parent="." instance=ExtResource( 6 )]
-position = Vector2( 804, -367 )
+position = Vector2( 886, -367 )
 
 [node name="Saw" parent="SawHolder" index="0"]
-length = 160.0
+direction = 0
+Length = 3
 
 [editable path="ControlHolder"]
-[editable path="ControlHolder2"]
-[editable path="Switch"]
 [editable path="ControlHolder3"]
-[editable path="ControlHolder4"]
-[editable path="Switch2"]
 [editable path="GateHolder"]
 [editable path="GateHolder2"]
 [editable path="SawHolder"]

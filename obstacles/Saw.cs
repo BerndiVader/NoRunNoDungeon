@@ -1,10 +1,11 @@
 using Godot;
 using System;
+using System.Runtime.InteropServices;
 
 public class Saw : Area2D
 {
-
     private static readonly AudioStream sawFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/saw.wav");
+    private static readonly AudioStream hitFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/17_orc_atk_sword_2.wav");
 
     private enum DIRECTION
     {
@@ -23,12 +24,14 @@ public class Saw : Area2D
     private Vector2 startPosition;
     private float length;
     private float lastX;
+    private bool wasVisible=false;
 
     public override void _Ready()
     {
 
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",this,nameof(OnScreenExited));
+        notifier2D.Connect("screen_entered",this,nameof(OnScreenEntered));
         AddChild(notifier2D);        
 
         animation=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
@@ -39,6 +42,9 @@ public class Saw : Area2D
         Connect("body_entered",this,nameof(BodyEntered));
         Connect("body_exited",this,nameof(BodyExited));
 
+        AddUserSignal(STATE.damage.ToString());
+        Connect(STATE.damage.ToString(),this,nameof(OnDamage));
+
         tween=GetNode<Tween>(nameof(Tween));
         tween.Connect("tween_completed",this,nameof(OnTweenCompleted));
         startPosition=Position;
@@ -48,7 +54,6 @@ public class Saw : Area2D
         sfxPlayer.Stream=sawFx;
         sfxPlayer.Play();
 
-        CPUParticles2D particles=ActiveParticles();
         animation.Playing=true;
         StartTween();
     }
@@ -86,12 +91,15 @@ public class Saw : Area2D
         float factor=velocity/120f;
 
         sfxPlayer.VolumeDb=Mathf.Lerp(-20f,0f,Mathf.Clamp(factor,0f,1f));
-        CPUParticles2D particles=ActiveParticles();
-
         animation.SpeedScale=8f*factor;
-        particles.SpeedScale=1.2f*factor;
-        particles.Lifetime=MathUtils.MinMax(0.01f,0.35f,0.35f*factor);
-        particles.OrbitVelocity=direction==DIRECTION.LEFT?-2f*factor:2f*factor;
+
+        CPUParticles2D particles=ActiveParticles();
+        if(particles.Emitting)
+        {
+            particles.SpeedScale=1.2f*factor;
+            particles.Lifetime=MathUtils.MinMax(0.01f,0.35f,0.35f*factor);
+            particles.OrbitVelocity=direction==DIRECTION.LEFT?-2f*factor:2f*factor;
+        }
 
         Position=new Vector2(x,Position.y);
         lastX=x;
@@ -118,7 +126,7 @@ public class Saw : Area2D
 
     private CPUParticles2D ActiveParticles()
     {
-        return direction==DIRECTION.LEFT?partLeft:partRight;
+        return partLeft.Emitting?partLeft:partRight;
     }
 
     private void BodyEntered(Node node)
@@ -141,6 +149,29 @@ public class Saw : Area2D
     private void SfxEnd()
     {
         sfxPlayer.Play();
+    }
+
+    private void OnDamage(Node damager,float amount)
+    {
+        SfxPlayer sfx=new SfxPlayer
+        {
+            Stream=hitFx,
+            Position=Position
+        };
+        World.level.AddChild(sfx);
+    }
+
+    private void OnScreenEntered()
+    {
+        wasVisible=true;
+    }
+
+    private void OnScreenExited()
+    {
+        if(wasVisible)
+        {
+            World.OnObjectExitedScreen(this);
+        }
     }
 
 }
