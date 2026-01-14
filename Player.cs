@@ -27,7 +27,7 @@ public class Player : KinematicBody2D
     private Vector2 FORCE;
     private Vector2 platformSpeed=Vector2.Zero;
     private float smoothingSpeed;
-    public bool onTeleport=false;
+    private bool onTeleport=false;
 
     private AnimatedSprite animationController;
     public AnimatedSprite AnimationController=>animationController;
@@ -87,14 +87,8 @@ public class Player : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
-        if((int)World.state<3)
+        if((int)World.state<3||onTeleport)
         {
-            return;
-        }
-
-        if(onTeleport)
-        {
-            Visible=false;
             return;
         }
 
@@ -354,6 +348,17 @@ public class Player : KinematicBody2D
         {
             World.instance.CallDeferred(nameof(World.ChangeScene),ResourceUtils.intro);
         }
+    }
+
+    public void Teleport(bool teleport)
+    {
+        onTeleport=teleport;
+        Visible=teleport==false;
+    }
+
+    public bool Teleport()
+    {
+        return onTeleport;
     }
 
 }

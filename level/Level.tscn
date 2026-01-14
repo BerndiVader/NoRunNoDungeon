@@ -178,7 +178,7 @@ OutDelay = 2
 position = Vector2( 648, 144 )
 
 [node name="OgerPlaceholder" parent="." instance=ExtResource( 13 )]
-position = Vector2( 760, 248 )
+position = Vector2( 776, 248 )
 
 [node name="Oger" parent="OgerPlaceholder" index="0"]
 position = Vector2( 0, -8 )
@@ -364,6 +364,12 @@ position = Vector2( 713, 296 )
 terraform = false
 switchID = "asdf"
 
+[node name="SpikesUp2" parent="." instance=ExtResource( 12 )]
+position = Vector2( 705, 314 )
+
+[node name="Spikes" parent="SpikesUp2" index="0"]
+DamageMonster = true
+
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
 [editable path="RocksFalling3"]
@@ -388,3 +394,4 @@ switchID = "asdf"
 [editable path="Switch2"]
 [editable path="DestroyableHolder"]
 [editable path="DestroyableHolder2"]
+[editable path="SpikesUp2"]

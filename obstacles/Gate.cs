@@ -23,11 +23,19 @@ public class Gate : Area2D
     [Export] private bool closed=false;
     [Export] private Gamestate changeStateTo=Gamestate.BONUS;
     [Export] private bool oneTime=true;
+    [Export] private Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
+    {
+        {"Use",false},
+        {"Dir",Vector2.Zero},
+        {"Speed",-1.0f},
+        {"Zoom",-1.0f},
+    };
 
     private bool active=false;
     private bool used=false;
     private const string ID="companion";
     private Vector2 restorePosition=Vector2.Zero;
+    private Settings settings;
     private Gamestate gamestate;
     private AnimatedSprite sprite;
 
@@ -82,6 +90,11 @@ public class Gate : Area2D
                 {
                     closed=true;
                     sprite.Play();
+                }
+                if((bool)LEVEL_SETTINGS["Use"])
+                {
+                    settings=new Settings(World.level,Vector2.Zero,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
+                    settings.Set();
                 }
                 GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),ID+companionID,GetInstanceId());
             }
@@ -147,7 +160,7 @@ public class Gate : Area2D
 
     private void TeleportLevel()
     {
-        Player.instance.onTeleport=true;
+        Player.instance.Teleport(true);
         Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
         Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;
 
@@ -161,11 +174,14 @@ public class Gate : Area2D
     private void TeleportPlayer()
     {
         Player.instance.GlobalPosition=GlobalPosition;
-        Player.instance.Visible=true;
-        Player.instance.onTeleport=false;       
+        Player.instance.Teleport(false);
         if(type==TYPE.ENTRY&&changeStateTo!=Gamestate.KEEP)
         {
             World.instance.SetGamestate(gamestate);
+        }
+        if((bool)LEVEL_SETTINGS["Use"])
+        {
+            settings.Restore();
         }
     }
 

@@ -8,10 +8,9 @@ public enum Gamestate
     DIEING,
     SCENE_CHANGE,
     RUNNING,
+    PAUSED,
     BONUS,
     SHOP,
     BOSS,
-    PAUSED,
-    KEEP,
-    
+    KEEP
 }

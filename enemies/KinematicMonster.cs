@@ -440,7 +440,6 @@ public abstract class KinematicMonster : KinematicBody2D
             control.Position=Position;
             World.level.AddChild(control);
         }
-        base._EnterTree();
     }
 
     public override void _ExitTree()
