@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 public class Level : TileMap
@@ -11,6 +12,9 @@ public class Level : TileMap
     public int pixelLength;
     public Vector2 startingPoint;
     public Settings settings;
+    public Settings DEFAULT_SETTING;
+    public Stack<Settings>modifiers=new Stack<Settings>();
+
     public override void _Ready()
     {
         SetProcess(false);
@@ -41,7 +45,10 @@ public class Level : TileMap
 
         lastDirection=direction;
 
-        settings=new Settings(this);
+
+
+        settings=new Settings(this,direction,Speed,1f,false);
+        DEFAULT_SETTING=new Settings(this,direction,Speed,1f,false);
     }
 
     public void FreeLevel() 

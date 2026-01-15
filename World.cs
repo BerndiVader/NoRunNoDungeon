@@ -149,7 +149,7 @@ public class World : Node
 				level.Position=new Vector2(level.Position.x,0f);
 				if(level.settings.autoRestore)
 				{
-					level.settings.Restore();
+					level.DEFAULT_SETTING.Restore();
 				}
 				else
 				{
@@ -161,7 +161,7 @@ public class World : Node
 				level.Position=new Vector2(level.Position.x,level.pixelHeight.y-RESOLUTION.y);
 				if(level.settings.autoRestore)
 				{
-					level.settings.Restore();
+					level.DEFAULT_SETTING.Restore();
 				}
 				else
 				{

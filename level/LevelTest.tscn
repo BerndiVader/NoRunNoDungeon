@@ -373,7 +373,7 @@ type = 1
 style = 0
 
 [node name="GateHolder" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1073, 166 )
+position = Vector2( 1060, 166 )
 
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "11"

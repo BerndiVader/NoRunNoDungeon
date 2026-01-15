@@ -3,11 +3,10 @@ using System;
 
 public class Settings
 {
-    public float speed,oSpeed;
-    public Vector2 zoom,oZoom,oPosition,direction,oDirection;
-    public bool restoreCalled=false;
+    private float speed,oSpeed;
+    private Vector2 zoom,oZoom,oPosition,direction,oDirection;
+    private bool restoreCalled=false;
     public bool autoRestore=false;
-
     private readonly WeakReference<Level>levelRef;
 
     public Settings(Level level) : this(level,Vector2.Zero) {}
