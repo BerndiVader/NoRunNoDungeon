@@ -7,6 +7,7 @@ public class MobileInput : InputController
     private Touch touch;
     private Stick stick;
     private Buttons buttons;
+    private bool jUp,jDown,jLeft,jRight;
 
     public MobileInput(Node scene)
     {
@@ -21,6 +22,8 @@ public class MobileInput : InputController
 
         buttons.PauseMode=Node.PauseModeEnum.Process;
         scene.PauseMode=Node.PauseModeEnum.Process;
+
+        jUp=jDown=jLeft=jRight=false;
     }
 
     public override bool Left()
@@ -33,12 +36,11 @@ public class MobileInput : InputController
     }
     public override bool Up()
     {
-        return stick.GetValue().y<0f;
+        return stick.GetValue().y<-0.96f;
     }
     public override bool Down()
     {
-        return false;
-        //return stick.GetValue().y>0f;
+        return stick.GetValue().y>0.96f;
     }
 
     public override bool Jump()
@@ -72,22 +74,54 @@ public class MobileInput : InputController
 
     public override bool JustLeft()
     {
-        return buttons.c.JustPressed();
+        if(stick.GetValue().x<-0.96f)
+        {
+            if(!jLeft)
+            {
+                return jLeft=true;
+            }
+            return false;
+        }
+        return jLeft=false;
     }
 
     public override bool JustRight()
     {
-        return buttons.o.JustPressed();
+        if(stick.GetValue().x>0.96f)
+        {
+            if(!jRight)
+            {
+                return jRight=true;
+            }
+            return false;
+        }
+        return jRight=false;
     }
 
     public override bool JustUp()
     {
-        return buttons.jump.JustPressed();
+        if(stick.GetValue().y<-0.96f)
+        {
+            if(!jUp)
+            {
+                return jUp=true;
+            }
+            return false;
+        }
+        return jUp=false;
     }
 
     public override bool JustDown()
     {
-        return buttons.x.JustPressed();
+        if(stick.GetValue().y>0.96f)
+        {
+            if(!jDown)
+            {
+                return jDown=true;
+            }
+            return false;
+        }
+        return jDown=false;        
     }
 
     public override bool JustAccept()

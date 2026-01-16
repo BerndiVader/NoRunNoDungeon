@@ -48,7 +48,7 @@ public class Sword : Weapon
         {
             sprite.Visible=false;
             shaderSprite.Visible=true;
-            shader.SetShaderParam("flip_h",!Player.instance.animationController.FlipH);
+            shader.SetShaderParam("flip_h",!Player.instance.AnimationController.FlipH);
             shader.SetShaderParam("swing",true);
             PlaySfx(sfxSwing);
             animationPlayer.Play(AnimationNames.SWING + GetStringDirection());

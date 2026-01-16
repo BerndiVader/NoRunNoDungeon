@@ -269,7 +269,7 @@ public class Oger : KinematicMonster
         }
     }
 
-    protected override void OnDamage(Node2D node=null, int amount=0)
+    protected override void OnDamage(Node2D node=null,float amount=0f)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {

@@ -80,21 +80,21 @@ public class OptionsUI : BaseUI
         switch(button.Name)
         {
             case "Accept":
-                GameSettings.current.masterVolume=(float)volume.Value;
-                GameSettings.current.sfxVolume=(float)sfx.Value;
+                GameSettings.current.MasterVolume=(float)volume.Value;
+                GameSettings.current.SfxVolume=(float)sfx.Value;
                 GameSettings.current.BackgroundVolume=(float)background.Value;
-                GameSettings.current.fullscreen=fullScreen.Pressed;
-                GameSettings.current.vsync=vSync.Pressed;
-                GameSettings.current.glow=glow.Pressed;
-                GameSettings.current.light=light.Pressed;
+                GameSettings.current.Fullscreen=fullScreen.Pressed;
+                GameSettings.current.Vsync=vSync.Pressed;
+                GameSettings.current.Glow=glow.Pressed;
+                GameSettings.current.Light=light.Pressed;
                 if(!fullScreen.Pressed)
                 {
-                    GameSettings.current.windowPositionX=OS.WindowPosition.x;
-                    GameSettings.current.windowPositionY=OS.WindowPosition.y;
-                    GameSettings.current.windowSizeX=OS.WindowSize.x;
-                    GameSettings.current.windowPositionY=OS.WindowSize.y;
+                    GameSettings.current.WindowPositionX=OS.WindowPosition.x;
+                    GameSettings.current.WindowPositionY=OS.WindowPosition.y;
+                    GameSettings.current.WindowSizeX=OS.WindowSize.x;
+                    GameSettings.current.WindowPositionY=OS.WindowSize.y;
                 }
-                GameSettings.current.usage=fx.Pressed?Viewport.UsageEnum.Usage2d:Viewport.UsageEnum.Usage3d;
+                GameSettings.current.Usage=fx.Pressed?Viewport.UsageEnum.Usage2d:Viewport.UsageEnum.Usage3d;
                 GameSettings.SaveConfig(GameSettings.current);
                 GameSettings.current.SetAll(this);
                 Back();
@@ -112,8 +112,8 @@ public class OptionsUI : BaseUI
                 OS.WindowFullscreen=fullScreen.Pressed;
                 if(!OS.WindowFullscreen)
                 {
-                    OS.WindowSize=new Vector2(GameSettings.current.windowSizeX,GameSettings.current.windowSizeY);
-                    OS.WindowPosition=new Vector2(GameSettings.current.windowPositionX,GameSettings.current.windowPositionY);
+                    OS.WindowSize=new Vector2(GameSettings.current.WindowSizeX,GameSettings.current.WindowSizeY);
+                    OS.WindowPosition=new Vector2(GameSettings.current.WindowPositionX,GameSettings.current.WindowPositionY);
                 }
                 break;
             case "VSync":
@@ -129,14 +129,14 @@ public class OptionsUI : BaseUI
 
     private void UpdateButtons()
     {
-        volume.Value=GameSettings.current.masterVolume;
-        sfx.Value=GameSettings.current.sfxVolume;
+        volume.Value=GameSettings.current.MasterVolume;
+        sfx.Value=GameSettings.current.SfxVolume;
         background.Value=GameSettings.current.BackgroundVolume;
-        fullScreen.Pressed=GameSettings.current.fullscreen;
-        vSync.Pressed=GameSettings.current.vsync;
-        fx.Pressed=GameSettings.current.usage==Viewport.UsageEnum.Usage2d;
-        glow.Pressed=GameSettings.current.glow;
-        light.Pressed=GameSettings.current.light;
+        fullScreen.Pressed=GameSettings.current.Fullscreen;
+        vSync.Pressed=GameSettings.current.Vsync;
+        fx.Pressed=GameSettings.current.Usage==Viewport.UsageEnum.Usage2d;
+        glow.Pressed=GameSettings.current.Glow;
+        light.Pressed=GameSettings.current.Light;
     }
 
     private void Back()

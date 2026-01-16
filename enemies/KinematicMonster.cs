@@ -5,6 +5,14 @@ public abstract class KinematicMonster : KinematicBody2D
 {
     private static readonly PackedScene levelControlPack=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
 
+    protected enum SPAWN_FACING
+    {
+        DEFAULT,
+        RANDOM,
+        LEFT,
+        RIGHT
+    }
+
     [Export] protected Vector2 ANIMATION_OFFSET = Vector2.Zero;
     [Export] protected Vector2 VELOCITY=Vector2.Zero;
     [Export] protected float DAMAGE_AMOUNT=1f;
@@ -12,7 +20,8 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected float GRAVITY=500f;
     [Export] protected float FRICTION=0.01f;
     [Export] protected float STOP_FORCE=1300f;
-    [Export] protected Vector2 SPAWN_FACING=Vector2.Zero;
+    [Export] protected SPAWN_FACING spawn_facing=SPAWN_FACING.DEFAULT;
+    [Export] protected int SPAWN_LEFT_WEIGHT=50;
     [Export] protected Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
     {
         {"Use",false},
@@ -22,7 +31,8 @@ public abstract class KinematicMonster : KinematicBody2D
     };
 
     private Settings levelSettings;
-    
+    private bool wasVisible=false;
+
     protected Player victim,attacker;
     protected AnimationPlayer animationPlayer;
     protected CollisionShape2D collisionController;
@@ -49,9 +59,11 @@ public abstract class KinematicMonster : KinematicBody2D
         LastPosition = GlobalPosition;
         SetProcess(false);
         SetPhysicsProcess(true);
+        SetProcessInput(false);
 
         VisibilityNotifier2D notifier2D = new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited", World.instance, nameof(World.OnObjectExitedScreen), new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",this,nameof(OnScreenExited));
+        notifier2D.Connect("screen_entered",this,nameof(OnScreenEntered));
         AddChild(notifier2D);
 
         collisionController = GetNode<CollisionShape2D>(nameof(CollisionShape2D));
@@ -200,7 +212,7 @@ public abstract class KinematicMonster : KinematicBody2D
             goal=Fight;
         }
     }
-    protected virtual void OnDamage(Node2D node=null,int amount=0)
+    protected virtual void OnDamage(Node2D node=null,float amount=0f)
     {
         onDelay=false;
         if(state!=STATE.damage&&state!=STATE.die)
@@ -209,7 +221,7 @@ public abstract class KinematicMonster : KinematicBody2D
             {
                 node=Player.instance;
             }
-            World.instance.renderer.shake=2f;
+            Renderer.instance.Shake(1f);
             staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
             lastState=state;
             state=STATE.damage;
@@ -232,7 +244,7 @@ public abstract class KinematicMonster : KinematicBody2D
                 player = Player.instance;
             }
 
-            World.instance.renderer.shake=2f;
+            Renderer.instance.Shake(1f);
             lastState=state;
             state = STATE.passanger;
             health -= 0.5f;
@@ -361,16 +373,60 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void SetSpawnFacing()
     {
-        if(SPAWN_FACING==Vector2.Zero)
+        switch(spawn_facing)
         {
-            if(MathUtils.RandBool())
-            {
-                FlipH();
-            }
+            case SPAWN_FACING.RANDOM:
+            case SPAWN_FACING.DEFAULT:
+                if(SPAWN_LEFT_WEIGHT!=0)
+                {
+                    if(SPAWN_LEFT_WEIGHT>MathUtils.RandomRange(0,100))
+                    {
+                        if(facing!=Vector2.Left)
+                        {
+                            FlipH();
+                        }
+                    }
+                    else
+                    {
+                        if(facing!=Vector2.Right)
+                        {
+                            FlipH();
+                        }
+                    }
+                }
+                else
+                {
+                    if(MathUtils.RandBool())
+                    {
+                        FlipH();
+                    }
+                }
+                break;
+            case SPAWN_FACING.LEFT:
+                if(facing!=Vector2.Left)
+                {
+                    FlipH();
+                }
+                break;
+            case SPAWN_FACING.RIGHT:
+                if(facing!=Vector2.Right)
+                {
+                    FlipH();
+                }
+                break;
         }
-        else if(facing!=SPAWN_FACING)
+    }
+
+    private void OnScreenEntered()
+    {
+        wasVisible=true;
+    }
+
+    private void OnScreenExited()
+    {
+        if(wasVisible)
         {
-            FlipH();
+            World.OnObjectExitedScreen(this);
         }
     }
     
@@ -384,7 +440,6 @@ public abstract class KinematicMonster : KinematicBody2D
             control.Position=Position;
             World.level.AddChild(control);
         }
-        base._EnterTree();
     }
 
     public override void _ExitTree()

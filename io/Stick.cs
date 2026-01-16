@@ -52,7 +52,7 @@ public class Stick : TouchScreenButton
     {
         using(@event)
         {
-            if(@event is InputEventScreenDrag || (@event is InputEventScreenTouch && @event.IsPressed()))
+            if((@event.IsPressed()&&@event is InputEventScreenTouch)||@event is InputEventScreenDrag)
             {
                 InputEventScreenDrag d=@event as InputEventScreenDrag;
                 InputEventScreenTouch t=@event as InputEventScreenTouch;
@@ -89,17 +89,17 @@ public class Stick : TouchScreenButton
                     }
                     onGoing=index;
                 }
-
             }
 
-            if(@event is InputEventScreenTouch && !@event.IsPressed())
+            if(!@event.IsPressed()&&@event is InputEventScreenTouch)
             {
-                InputEventScreenTouch eventScreenTouch=@event as InputEventScreenTouch;
-                if(eventScreenTouch.Index==onGoing)
+                InputEventScreenTouch e=@event as InputEventScreenTouch;
+                if(e.Index==onGoing)
                 {
                     onGoing=-1;
                 }
             }
+            
         }
     }
 

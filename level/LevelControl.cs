@@ -8,6 +8,7 @@ public class LevelControl : Node2D,ISwitchable
     [Export] private float Zoom=-1f;
     [Export] private int Timeout=-1;
     [Export] private bool Restore=false;
+    [Export] private bool AutoRestore=false;
     [Export] private bool Signal=true;
     [Export] private string switchID="";
 
@@ -29,7 +30,7 @@ public class LevelControl : Node2D,ISwitchable
         size=GetViewportRect().Size*0.5f;
         if(settings==null)
         {
-            settings=new Settings(World.level,Direction,Speed,Zoom);
+            settings=new Settings(World.level,Direction,Speed,Zoom,AutoRestore);
         }
 
         if(switchID!="")

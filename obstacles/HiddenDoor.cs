@@ -122,7 +122,7 @@ public class HiddenDoor : StaticBody2D,ISwitchable
         }
     }
 
-    private void OnDamage(Player player=null, int amount=0)
+    private void OnDamage(Player player=null,float amount=0f)
     {
         if(type==TYPE.HITABLE&&!moving)
         {

@@ -26,7 +26,7 @@ public class RunningZombieHurting : RunningZombie
 
     }
 
-    protected override void OnAttack(Player player = null)
+    protected override void OnAttack(Player player=null)
     {
         if(state!=STATE.attack)
         {
@@ -76,7 +76,7 @@ public class RunningZombieHurting : RunningZombie
 
     public void BodyEntered(Node node)
     {
-        if(node is Player)
+        if(state==STATE.attack&&node is Player)
         {
             node.EmitSignal("damage",this,1f);
             area.SetDeferred("monitoring",false);

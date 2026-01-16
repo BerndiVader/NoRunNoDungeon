@@ -6,18 +6,21 @@ public static class GameSettings
 {
     public class Config
     {
-        public float masterVolume {get;set;}
-        public float sfxVolume {get;set;}
+        public float MasterVolume {get;set;}
+        public float SfxVolume {get;set;}
         public float BackgroundVolume {get;set;}
-        public bool fullscreen {get;set;}
-        public bool vsync {get;set;}
-        public bool glow {get;set;}
-        public bool light {get;set;}
-        public Viewport.UsageEnum usage {get;set;}
-        public float windowSizeX{get;set;}
-        public float windowSizeY{get;set;}
-        public float windowPositionX {get;set;}
-        public float windowPositionY {get;set;}
+        public bool Fullscreen {get;set;}
+        public bool Vsync {get;set;}
+        public bool Glow {get;set;}
+        public bool Light {get;set;}
+        public Viewport.UsageEnum Usage {get;set;}
+        public float WindowSizeX{get;set;}
+        public float WindowSizeY{get;set;}
+        public float WindowPositionX {get;set;}
+        public float WindowPositionY {get;set;}
+        public bool LowProcessorUsageMode {get;set;}
+        public int TargetFps {get;set;}
+        public bool KeepScreenOn {get;set;}
 
         [JsonIgnore]
         public int masterBus;
@@ -33,39 +36,45 @@ public static class GameSettings
             sfxBus=AudioServer.GetBusIndex("Sfx");
             backgroundBus=AudioServer.GetBusIndex("Background");
 
-            masterVolume=-12f;
-            sfxVolume=0f;
+            MasterVolume=-12f;
+            SfxVolume=0f;
             BackgroundVolume=-8f;
 
-            fullscreen=false;
-            windowSizeX=1024f;
-            windowSizeY=576f;
-            windowPositionX=0f;
-            windowPositionY=0f;
-            vsync=false;
-            usage=Viewport.UsageEnum.Usage3d;
-            light=true;
-            glow=true;
+            Fullscreen=false;
+            WindowSizeX=1024f;
+            WindowSizeY=576f;
+            WindowPositionX=0f;
+            WindowPositionY=0f;
+            Vsync=false;
+            Usage=Viewport.UsageEnum.Usage3d;
+            Light=true;
+            Glow=true;
+            LowProcessorUsageMode=false;
+            KeepScreenOn=true;
+            TargetFps=0;
         }
 
         public void SetAll(Node node)
         {
             SetAll();
-            node.GetTree().Root.Usage=usage;
+            node.GetTree().Root.Usage=Usage;
         }
 
         private void SetAll()
         {
-            AudioServer.SetBusVolumeDb(masterBus,masterVolume);
-            AudioServer.SetBusVolumeDb(sfxBus,sfxVolume);
+            AudioServer.SetBusVolumeDb(masterBus,MasterVolume);
+            AudioServer.SetBusVolumeDb(sfxBus,SfxVolume);
             AudioServer.SetBusVolumeDb(backgroundBus,BackgroundVolume);
-            OS.WindowFullscreen=fullscreen;
-            if(!fullscreen)
+            OS.WindowFullscreen=Fullscreen;
+            if(!Fullscreen)
             {
-                OS.WindowPosition=new Vector2(windowPositionX,windowPositionY);
-                OS.WindowSize=new Vector2(windowSizeX,windowSizeY);
+                OS.WindowPosition=new Vector2(WindowPositionX,WindowPositionY);
+                OS.WindowSize=new Vector2(WindowSizeX,WindowSizeY);
             }
-            OS.VsyncEnabled=vsync;
+            OS.VsyncEnabled=Vsync;
+            OS.LowProcessorUsageMode=LowProcessorUsageMode;
+            OS.KeepScreenOn=KeepScreenOn;
+            Engine.TargetFps=TargetFps;
         }
 
         public Config Clone()
@@ -102,6 +111,7 @@ public static class GameSettings
         }
         SaveConfig(current);
         current=LoadConfig();
+
     }
 
     public static void SaveConfig(Config config)

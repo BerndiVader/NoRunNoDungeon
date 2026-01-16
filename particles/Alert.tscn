@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://particles/Alert.cs" type="Script" id=1]
 
@@ -6,17 +6,27 @@
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.144531, 1 ), 23.1825, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=3]
-offsets = PoolRealArray( 0.00440529, 0.180617, 0.361233 )
+offsets = PoolRealArray( 0.00440529, 0.136986, 0.866438 )
 colors = PoolColorArray( 0.0156863, 0.0156863, 0.0156863, 0, 0.915174, 0.915174, 0.915174, 1, 0.933333, 0.933333, 0.933333, 0 )
 
+[sub_resource type="Curve" id=4]
+min_value = -1.0
+_data = [ Vector2( 0, 0.958529 ), 0.0, -8.87727, 0, 0, Vector2( 1, 0.994893 ), 0.694215, 0.0, 0, 0 ]
+
 [node name="Alert" type="CPUParticles2D"]
-self_modulate = Color( 1, 0.00784314, 0.00784314, 0.564706 )
+modulate = Color( 0.988235, 0.933333, 0, 1 )
+self_modulate = Color( 0.827451, 0.898039, 0.0823529, 0.564706 )
 emitting = false
 amount = 1
-lifetime_randomness = 0.48
+explosiveness = 1.0
+lifetime_randomness = 0.5
 direction = Vector2( 0, 0 )
 spread = 0.0
 gravity = Vector2( 0, 0 )
 scale_amount_curve = SubResource( 2 )
+color = Color( 0.145098, 0.996078, 0.0235294, 1 )
 color_ramp = SubResource( 3 )
+hue_variation = 0.6
+hue_variation_random = 0.94
+hue_variation_curve = SubResource( 4 )
 script = ExtResource( 1 )

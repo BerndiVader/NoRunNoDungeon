@@ -87,7 +87,7 @@ public class FallingRocks : StaticBody2D,ISwitchable
             collider=(Platform)body;
             colliding=true;
             shake=ShakeMax;
-            World.instance.renderer.shake+=2f;
+            Renderer.instance.Shake(2f);
             state=State.FALLEN;
             AddToGroup(GROUPS.PLATFORMS.ToString());
         } 
@@ -95,7 +95,7 @@ public class FallingRocks : StaticBody2D,ISwitchable
         {
             area.Disconnect("body_entered",this,nameof(OnBodyEntered));
             shake=ShakeMax;
-            World.instance.renderer.shake+=2f;
+            Renderer.instance.Shake(2f);
             state=State.FALLEN;
             AddToGroup(GROUPS.LEVEL.ToString());
         }
@@ -115,7 +115,7 @@ public class FallingRocks : StaticBody2D,ISwitchable
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString())&&state==State.FALLING) 
         {
-            body.EmitSignal(STATE.damage.ToString(),1f,this);
+            body.EmitSignal(STATE.damage.ToString(),this,1f);
         }
     }
 

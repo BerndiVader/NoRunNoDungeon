@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/06_door_close_1.mp3-a70a62d1b62d65c370774a4fcc06a481.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/06_door_close_1.mp3"
+dest_files=[ "res://.import/06_door_close_1.mp3-a70a62d1b62d65c370774a4fcc06a481.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

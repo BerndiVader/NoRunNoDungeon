@@ -28,7 +28,7 @@ public class DoorSwitch : Area2D
         tween=GetNode<Tween>(nameof(Tween));
     }
 
-    private void OnDamage(Player player=null, int amount=0)
+    private void OnDamage(Player player=null,float amount=0f)
     {
         if(!tween.IsActive()) 
         {

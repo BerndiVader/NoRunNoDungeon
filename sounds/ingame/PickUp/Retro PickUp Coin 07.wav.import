@@ -11,7 +11,7 @@ dest_files=[ "res://.import/Retro PickUp Coin 07.wav-ecce4801bba60fea20211c890b8
 
 [params]
 
-force/8_bit=false
+force/8_bit=true
 force/mono=false
 force/max_rate=false
 force/max_rate_hz=44100

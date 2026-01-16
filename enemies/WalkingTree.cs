@@ -20,7 +20,6 @@ public class WalkingTree : KinematicMonster
         rayCast2D.Enabled = true;
 
         SetSpawnFacing();
-
         OnIdle();
     }
 
@@ -111,11 +110,11 @@ public class WalkingTree : KinematicMonster
         }
     } 
 
-	protected override void OnDamage(Node2D node=null, int amount=0)
+	protected override void OnDamage(Node2D node=null,float amount=0f)
 	{
 		if(state!=STATE.damage&&state!=STATE.die)
 		{
-			base.OnDamage(node, 0);
+			base.OnDamage(node,0f);
             animationPlayer.Play("PASSANGER");
 		}
 	}

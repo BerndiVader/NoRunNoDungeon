@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://placeholders/obstacles/RocksFalling.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=11]
 [ext_resource path="res://placeholders/obstacles/BatonSwinging.tscn" type="PackedScene" id=12]
+[ext_resource path="res://placeholders/obstacles/GateHolder.tscn" type="PackedScene" id=13]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -70,19 +71,19 @@ position = Vector2( 891, 237 )
 position = Vector2( 980, 118 )
 
 [node name="CoinPhysics2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1208, 176 )
+position = Vector2( 1152, 244 )
 
 [node name="CoinPhysics3" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1232, 156 )
+position = Vector2( 1176, 224 )
 
 [node name="CoinPhysics4" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1256, 144 )
+position = Vector2( 1200, 212 )
 
 [node name="CoinPhysics5" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1280, 157 )
+position = Vector2( 1224, 225 )
 
 [node name="CoinPhysics6" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1296, 177 )
+position = Vector2( 1240, 245 )
 
 [node name="LevelControl" parent="." instance=ExtResource( 9 )]
 position = Vector2( 824, 96 )
@@ -144,7 +145,7 @@ maxRotation = 360.0
 type = 1
 
 [node name="LevelControl2" parent="." instance=ExtResource( 9 )]
-position = Vector2( 648, 8 )
+position = Vector2( 528, 8 )
 Speed = 80.0
 Signal = false
 
@@ -159,6 +160,23 @@ position = Vector2( 824, -3 )
 [node name="Rock" parent="RocksFalling2" index="0"]
 switchID = "8d01fd9c-3995-4e1c-ac93-5c97e53d725b"
 
+[node name="GateHolder" parent="." instance=ExtResource( 13 )]
+position = Vector2( 936, 246 )
+
+[node name="Gate" parent="GateHolder" index="0"]
+companionID = "11"
+style = 0
+changeStateTo = 9
+
+[node name="GateHolder2" parent="." instance=ExtResource( 13 )]
+position = Vector2( 600, 54 )
+
+[node name="Gate" parent="GateHolder2" index="0"]
+companionID = "11"
+type = 1
+style = 0
+changeStateTo = 9
+
 [editable path="PlatformMoving2x2"]
 [editable path="RocksFalling"]
 [editable path="Switch"]
@@ -166,3 +184,5 @@ switchID = "8d01fd9c-3995-4e1c-ac93-5c97e53d725b"
 [editable path="BatonSwinging"]
 [editable path="BatonSwinging2"]
 [editable path="RocksFalling2"]
+[editable path="GateHolder"]
+[editable path="GateHolder2"]

@@ -1,0 +1,82 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://image/gfx/flamethrower.png" type="Texture" id=1]
+[ext_resource path="res://obstacles/Flamethrower.cs" type="Script" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 64, 23 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 64, 23 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 128, 0, 64, 23 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 64, 23 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 256, 0, 64, 23 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 1 )
+region = Rect2( 320, 0, 64, 23 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 384, 0, 64, 23 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 1 )
+region = Rect2( 448, 0, 64, 23 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 1 )
+region = Rect2( 512, 0, 64, 23 )
+
+[sub_resource type="SpriteFrames" id=10]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 1 ) ],
+"loop": false,
+"name": "default",
+"speed": 20.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 0, 0 )
+
+[sub_resource type="Gradient" id=12]
+offsets = PoolRealArray( 0, 0.523973, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0, 0, 1, 1, 0.847059, 0.0196078, 0.501961 )
+
+[node name="Flamethrower" type="Area2D"]
+collision_layer = 0
+script = ExtResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -25, 0 )
+rotation = 1.5708
+shape = SubResource( 11 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2( -26, 0 )
+emitting = false
+amount = 1
+gravity = Vector2( 0, -90 )
+initial_velocity = 30.3
+angular_velocity = 104.73
+radial_accel = -19.39
+tangential_accel = -21.82
+tangential_accel_random = 0.25
+damping = 100.0
+angle_random = 1.0
+scale_amount = 1.5
+color_ramp = SubResource( 12 )

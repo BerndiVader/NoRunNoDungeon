@@ -68,7 +68,7 @@ public class MonsterWeapon : Weapon
             if (node.IsInGroup(GROUPS.PLAYERS.ToString()))
             {
                 cooldownCount = cooldown;
-                node.EmitSignal(STATE.damage.ToString(), damage, this);
+                node.EmitSignal(STATE.damage.ToString(),this,damage);
                 hit = true;
             }
             else

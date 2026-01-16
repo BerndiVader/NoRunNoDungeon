@@ -11,7 +11,7 @@ dest_files=[ "res://.import/Retro PowerUP 23.wav-dd9d34c7c517e410834fd8b4f08dc7f
 
 [params]
 
-force/8_bit=false
+force/8_bit=true
 force/mono=false
 force/max_rate=false
 force/max_rate_hz=44100

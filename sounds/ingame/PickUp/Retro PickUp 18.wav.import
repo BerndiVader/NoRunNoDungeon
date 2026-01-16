@@ -11,7 +11,7 @@ dest_files=[ "res://.import/Retro PickUp 18.wav-1c75231be1496a2d64dab89c316cc6e9
 
 [params]
 
-force/8_bit=false
+force/8_bit=true
 force/mono=false
 force/max_rate=false
 force/max_rate_hz=44100

@@ -81,7 +81,7 @@ public class MimicChest : KinematicMonster
 
         if(distance<14f)
         {
-            victim.EmitSignal(STATE.damage.ToString(),DAMAGE_AMOUNT,this);
+            victim.EmitSignal(STATE.damage.ToString(),this,DAMAGE_AMOUNT);
         }
         else if(distance<100f)
         {
@@ -130,7 +130,7 @@ public class MimicChest : KinematicMonster
         }
         else
         {
-            player.EmitSignal(STATE.damage.ToString(),DAMAGE_AMOUNT,this);
+            player.EmitSignal(STATE.damage.ToString(),this,DAMAGE_AMOUNT);
         }
     }
 

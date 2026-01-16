@@ -11,7 +11,7 @@ dest_files=[ "res://.import/Retro Negative Short 23.wav-faa23c0bbf61c7251eba6477
 
 [params]
 
-force/8_bit=false
+force/8_bit=true
 force/mono=false
 force/max_rate=false
 force/max_rate_hz=44100
