@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoLoad.cs" />
+    <Compile Include="bonus\WeaponItem.cs" />
     <Compile Include="enemies\RunningZombieHurting.cs" />
     <Compile Include="enemies\WalkingTree.cs" />
     <Compile Include="enemies\Fairy.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="obstacles\TreasureMad.cs" />
     <Compile Include="particles\BlockParticles.cs" />
     <Compile Include="particles\CoinTakenParticles.cs" />
+    <Compile Include="particles\ItemTaken.cs" />
     <Compile Include="particles\Particles.cs" />
     <Compile Include="placeholders\Placeholder.cs" />
     <Compile Include="level\Platform.cs" />

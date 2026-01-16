@@ -13,5 +13,6 @@ public enum PARTICLES
     DAGGERSHOOT,
     PLAYERDIE,
     EXPLODE,
-    ALERT
+    ALERT,
+    ITEMTAKEN,
 }

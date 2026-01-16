@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://image/0x72/frames/weapon_regular_sword.png" type="Texture" id=1]
+[ext_resource path="res://bonus/WeaponItem.cs" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7.80826, 3 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="SwordItem" type="Area2D"]
+scale = Vector2( 0.7, 0.7 )
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.432142, -0.504626 )
+rotation = 2.42426
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+rotation = 0.881391
+frames = SubResource( 2 )
