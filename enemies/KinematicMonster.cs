@@ -448,7 +448,6 @@ public abstract class KinematicMonster : KinematicBody2D
         {
             levelSettings.Restore();
         }
-        base._ExitTree();
     }
 
 }

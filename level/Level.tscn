@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -9,7 +9,7 @@
 [ext_resource path="res://bonus/Coin.tscn" type="PackedScene" id=7]
 [ext_resource path="res://placeholders/monsters/ZombieRunning.tscn" type="PackedScene" id=8]
 [ext_resource path="res://placeholders/bonus/CoinPhysics.tscn" type="PackedScene" id=9]
-[ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=10]
+[ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/monsters/ChestMimic.tscn" type="PackedScene" id=11]
 [ext_resource path="res://placeholders/obstacles/SpikesUp.tscn" type="PackedScene" id=12]
 [ext_resource path="res://placeholders/monsters/OgerPlaceholder.tscn" type="PackedScene" id=13]
@@ -24,6 +24,7 @@
 [ext_resource path="res://placeholders/monsters/HurtingZombieRunning.tscn" type="PackedScene" id=22]
 [ext_resource path="res://placeholders/platforms/PlatformFalling.tscn" type="PackedScene" id=23]
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=24]
+[ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=25]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -109,12 +110,6 @@ position = Vector2( 1232, 122 )
 Direction = Vector2( 0, 1 )
 Length = 1
 Linear = false
-
-[node name="LevelControl" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1212, 164 )
-Speed = 0.0
-Zoom = 0.8
-Timeout = 30
 
 [node name="RocksFalling5" parent="." instance=ExtResource( 6 )]
 position = Vector2( 896, -73 )
@@ -370,6 +365,17 @@ position = Vector2( 705, 314 )
 [node name="Spikes" parent="SpikesUp2" index="0"]
 DamageMonster = true
 
+[node name="ControlHolder" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1212, 152 )
+
+[node name="LevelControl" parent="ControlHolder" index="0"]
+Speed = 0.0
+Zoom = 0.8
+Timeout = 30
+
+[node name="SwordItemHolder" parent="." instance=ExtResource( 25 )]
+position = Vector2( 552, 201 )
+
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
 [editable path="RocksFalling3"]
@@ -395,3 +401,4 @@ DamageMonster = true
 [editable path="DestroyableHolder"]
 [editable path="DestroyableHolder2"]
 [editable path="SpikesUp2"]
+[editable path="ControlHolder"]

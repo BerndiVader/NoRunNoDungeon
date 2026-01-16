@@ -3,25 +3,28 @@ using System;
 
 public class Settings
 {
-    private float speed,oSpeed;
-    private Vector2 zoom,oZoom,oPosition,direction,oDirection;
+    private float speed,prevSpeed;
+    private Vector2 zoom,prevZoom,prevPosition,direction,prevDirection;
     private bool restoreCalled=false;
     public bool autoRestore=false;
+    public bool restoreToDefault=false;
     private readonly WeakReference<Level>levelRef;
 
     public Settings(Level level) : this(level,Vector2.Zero) {}
 
-    public Settings(Level level,Vector2 direction,float speed=-1f,float zoom=-1f,bool autoRestore=false)
+    public Settings(Level level,Vector2 direction,float speed=-1f,float zoom=-1f,bool autoRestore=false,bool restoreToDefault=false)
     {
         levelRef=new WeakReference<Level>(level);
         this.zoom=new Vector2(zoom,zoom);
         this.speed=speed;
         this.direction=direction;
         this.autoRestore=autoRestore;
-        oSpeed=level.Speed;
-        oZoom=PlayerCamera.instance.Zoom;
-        oPosition=PlayerCamera.instance.Position;
-        oDirection=level.direction;
+        this.restoreToDefault=restoreToDefault;
+
+        prevSpeed=level.Speed;
+        prevZoom=PlayerCamera.instance.Zoom;
+        prevPosition=PlayerCamera.instance.Position;
+        prevDirection=level.direction;
     }
 
     public void Set()
@@ -55,10 +58,18 @@ public class Settings
         restoreCalled=true;
         if(levelRef.TryGetTarget(out Level level))
         {
-            level.Speed=oSpeed;
-            level.direction=oDirection;
-            PlayerCamera.instance.Zoom=oZoom;
-            PlayerCamera.instance.Position=oPosition;
+            if(restoreToDefault)
+            {
+                level.DEFAULT_SETTING.Restore();
+            }
+            else
+            {
+                level.Speed=prevSpeed;
+                level.direction=prevDirection;
+                PlayerCamera.instance.Zoom=prevZoom;
+                PlayerCamera.instance.Position=prevPosition;
+            }
         }
     }
+
 }

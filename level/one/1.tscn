@@ -6,7 +6,7 @@
 [ext_resource path="res://placeholders/platforms/PlatformMoving2x2.tscn" type="PackedScene" id=4]
 [ext_resource path="res://placeholders/monsters/TreeWalking.tscn" type="PackedScene" id=5]
 [ext_resource path="res://placeholders/bonus/CoinStatic.tscn" type="PackedScene" id=6]
-[ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=7]
+[ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=7]
 [ext_resource path="res://placeholders/platforms/PlatformFalling.tscn" type="PackedScene" id=8]
 [ext_resource path="res://placeholders/obstacles/SpikesUp.tscn" type="PackedScene" id=9]
 [ext_resource path="res://placeholders/bonus/CoinPhysics.tscn" type="PackedScene" id=10]
@@ -68,20 +68,6 @@ position = Vector2( 680, 152 )
 
 [node name="PlatformFalling3" parent="." instance=ExtResource( 8 )]
 position = Vector2( 640, 128 )
-
-[node name="LevelControl" parent="." instance=ExtResource( 7 )]
-position = Vector2( 773, 64 )
-Speed = 0.0
-Timeout = 15
-
-[node name="LevelControl2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 2536, 162 )
-Speed = 80.0
-Zoom = 0.8
-
-[node name="LevelControl3" parent="." instance=ExtResource( 7 )]
-position = Vector2( 2832, 160 )
-Restore = true
 
 [node name="PlatformFalling4" parent="." instance=ExtResource( 8 )]
 position = Vector2( 2056, 232 )
@@ -305,6 +291,29 @@ position = Vector2( 2280, 195 )
 [node name="Flamethrower" parent="FlamethrowerHolder2" index="0"]
 rotation = -1.5708
 
+[node name="ControlHolder" parent="." instance=ExtResource( 7 )]
+position = Vector2( 773, 58 )
+
+[node name="LevelControl" parent="ControlHolder" index="0"]
+Speed = 0.0
+Timeout = 15
+
+[node name="ControlHolder2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 2536, 136 )
+
+[node name="LevelControl" parent="ControlHolder2" index="0"]
+Speed = 80.0
+Zoom = 0.8
+
+[node name="ControlHolder3" parent="." instance=ExtResource( 7 )]
+position = Vector2( 2832, 136 )
+
+[node name="LevelControl" parent="ControlHolder3" index="0"]
+Restore = true
+
 [editable path="PlatformMoving2x2"]
 [editable path="FlamethrowerHolder"]
 [editable path="FlamethrowerHolder2"]
+[editable path="ControlHolder"]
+[editable path="ControlHolder2"]
+[editable path="ControlHolder3"]

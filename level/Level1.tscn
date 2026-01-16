@@ -11,7 +11,7 @@
 [ext_resource path="res://placeholders/bonus/CoinStatic.tscn" type="PackedScene" id=9]
 [ext_resource path="res://placeholders/obstacles/BatonSwinging.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/obstacles/MadRockPlaceholder.tscn" type="PackedScene" id=11]
-[ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=12]
+[ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=12]
 [ext_resource path="res://placeholders/monsters/FairyPlaceholder.tscn" type="PackedScene" id=13]
 [ext_resource path="res://placeholders/ambients/TorchPlaceholder.tscn" type="PackedScene" id=14]
 [ext_resource path="res://placeholders/monsters/TreeWalking.tscn" type="PackedScene" id=15]
@@ -117,12 +117,6 @@ position = Vector2( 2640, 176 )
 
 [node name="CoinPhysics7" parent="." instance=ExtResource( 8 )]
 position = Vector2( 2752, 160 )
-
-[node name="LevelControl" parent="." instance=ExtResource( 12 )]
-position = Vector2( 952, 144 )
-Speed = 0.0
-Zoom = 0.5
-Timeout = 10
 
 [node name="CoinStatic" parent="." instance=ExtResource( 9 )]
 position = Vector2( 2448, 240 )
@@ -240,6 +234,14 @@ position = Vector2( 2016, 256 )
 [node name="FallingHammer" parent="HammerFall" index="0"]
 rotation = 1.21824
 
+[node name="ControlHolder" parent="." instance=ExtResource( 12 )]
+position = Vector2( 952, 144 )
+
+[node name="LevelControl" parent="ControlHolder" index="0"]
+Speed = 0.0
+Zoom = 0.5
+Timeout = 10
+
 [editable path="BatonSwinging"]
 [editable path="PlatformMoving3x3"]
 [editable path="ZombieRunning"]
@@ -250,3 +252,4 @@ rotation = 1.21824
 [editable path="Placeholder3"]
 [editable path="Switch"]
 [editable path="HammerFall"]
+[editable path="ControlHolder"]
