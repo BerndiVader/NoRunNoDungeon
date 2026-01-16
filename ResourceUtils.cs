@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class ResourceUtils
 {
-    private static readonly bool DEBUG=false;
+    private static readonly bool DEBUG=true;
     public static PackedScene world;
     public static PackedScene intro;
     public static PackedScene pause;
@@ -115,7 +115,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest2.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
         }
         else
         {
@@ -164,6 +164,7 @@ public static class ResourceUtils
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/PlayerDieEffect.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/ExplodeParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/Alert.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/ItemTaken.tscn"));
 
         Console.WriteLine("Loading bullets...");
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/SkullBullet.tscn"));
