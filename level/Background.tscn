@@ -9,6 +9,7 @@ scroll_base_scale = Vector2( 0.3, 0.3 )
 script = ExtResource( 1 )
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
+z_index = -1000
 motion_scale = Vector2( 0.5, 1 )
 motion_mirroring = Vector2( 512, 0 )
 script = ExtResource( 3 )
@@ -18,7 +19,7 @@ centered = false
 script = ExtResource( 2 )
 
 [node name="ParallaxLayer1" type="ParallaxLayer" parent="."]
-z_index = -1
+z_index = -1001
 motion_mirroring = Vector2( 512, 0 )
 script = ExtResource( 3 )
 
@@ -27,7 +28,7 @@ centered = false
 script = ExtResource( 2 )
 
 [node name="ParallaxLayer0" type="ParallaxLayer" parent="."]
-z_index = -2
+z_index = -1002
 motion_scale = Vector2( 2, 1 )
 motion_mirroring = Vector2( 512, 0 )
 script = ExtResource( 3 )

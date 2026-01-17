@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://placeholders/monsters/ChestMimic.tscn" type="PackedScene" id=15]
 [ext_resource path="res://placeholders/monsters/FairyPlaceholder.tscn" type="PackedScene" id=16]
 [ext_resource path="res://placeholders/obstacles/FlamethrowerHolder.tscn" type="PackedScene" id=17]
+[ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=18]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -399,6 +400,9 @@ position = Vector2( 696, 232 )
 rotation = -2.21133
 scale = Vector2( -1, 1 )
 direction = 1
+
+[node name="SwordItemHolder" parent="." instance=ExtResource( 18 )]
+position = Vector2( 624, 248 )
 
 [editable path="HammerFall"]
 [editable path="RocksFalling"]
