@@ -68,7 +68,7 @@ public class Gate : Area2D
     {
         if(active)
         {
-            if(World.instance.input.JustUp())
+            if(World.instance.input.Change())
             {
                 if(oneTime&&used)
                 {
