@@ -13,5 +13,6 @@ public enum STATE
     damage,
     passanger,
     die,
+    interact,
     unknown
 }

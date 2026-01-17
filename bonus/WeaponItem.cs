@@ -4,6 +4,7 @@ using System;
 public class WeaponItem : Bonus
 {
     [Export] private WEAPONS weaponType=WEAPONS.SWORD;
+    [Export] private bool forceSpawn=false;
     protected Shader glintShader=ResourceLoader.Load<Shader>("res://shaders/Glint.gdshader");
     protected ShaderMaterial material;
     protected static GradientTexture2D gradient=CreateGradient();
@@ -11,6 +12,11 @@ public class WeaponItem : Bonus
 
     public override void _Ready()
     {
+        if(!forceSpawn&&!SpawnCondition())
+        {
+            CallDeferred("queue_free");
+            return;
+        }
         base._Ready();
 
         material=new ShaderMaterial
@@ -40,8 +46,8 @@ public class WeaponItem : Bonus
             taken.Scale=new Vector2(0.5f,0.5f);
             taken.Position=Position;
             taken.Texture=animation.Frames.GetFrame("default",0);
-            World.level.AddChild(taken);
-
+            World.level.CallDeferred("add_child",taken);
+            player.CallDeferred("EquipWeapon",ResourceUtils.weapons[(int)weaponType]);
             CallDeferred("queue_free");
         }
     }
@@ -49,7 +55,12 @@ public class WeaponItem : Bonus
     public override void Apply(Player player)
     {
         throw new NotImplementedException();
-    }  
+    }
+
+    public virtual bool SpawnCondition()
+    {
+        return !Player.instance.HasWeapon();
+    }
 
     private static GradientTexture2D CreateGradient()
     {

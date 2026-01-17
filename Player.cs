@@ -36,7 +36,7 @@ public class Player : KinematicBody2D
     private CPUParticles2D airParticles,jumpParticles;
     private ShaderMaterial motionTrails;
 
-    private Weapon weapon;
+    private Weapon weapon=null;
 
     public Player() : base()
     {
@@ -110,23 +110,12 @@ public class Player : KinematicBody2D
         bool jump=World.instance.input.Jump();
         bool down=World.instance.input.Down();
         bool attack=World.instance.input.Attack();
-        bool changeWeapon=World.instance.input.Change();
-
-        if(changeWeapon&&!attack)
-        {
-            weaponCyle++;
-            if(weaponCyle>=weapons.Count) 
-            {
-                weaponCyle=0;
-            }
-            UnequipWeapon();
-            EquipWeapon(ResourceUtils.weapons[weapons[weaponCyle]]);
-        }
+        bool interact=World.instance.input.Change();
 
         if(attack&&weapon!=null)
         {
             weapon.Attack();
-        }        
+        }
 
         if(left)
         {
@@ -303,7 +292,7 @@ public class Player : KinematicBody2D
 
     public void EquipWeapon(PackedScene packed)
     {
-        weapon=(Weapon)packed.Instance();
+        weapon=packed.Instance<Weapon>();
         if(weapon!=null)
         {
             AddChild(weapon);
@@ -318,6 +307,11 @@ public class Player : KinematicBody2D
             weapon.QueueFree();
             weapon=null;
         }
+    }
+
+    public bool HasWeapon()
+    {
+        return weapon!=null;
     }
 
     private void OnDamaged(Node2D damager=null,float amount=1f)
