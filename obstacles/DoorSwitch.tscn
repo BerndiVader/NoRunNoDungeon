@@ -10,8 +10,7 @@ height = 10.0922
 [node name="DoorSwitch" type="Area2D"]
 rotation = -0.698132
 z_index = -1
-collision_layer = 32
-collision_mask = 0
+collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="Switch" type="Sprite" parent="."]

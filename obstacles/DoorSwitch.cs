@@ -1,13 +1,14 @@
 using Godot;
 using System;
-using System.ComponentModel.Design;
 
 [Tool]
 public class DoorSwitch : Area2D
 {
     [Export] private string switchID="";
+    [Export] private bool oneTime=false;
     private Tween tween;
     private bool active=false;
+    private bool used=false;
 
     public override void _Ready()
     {
@@ -25,55 +26,46 @@ public class DoorSwitch : Area2D
         }
         
         tween=GetNode<Tween>(nameof(Tween));      
-        tween.Connect("tween_all_completed",this,nameof(OnTweensCompleted));
-
         Connect("body_entered",this,nameof(OnBodyEntered));
         Connect("body_exited",this,nameof(OnBodyExited));
 
-        SetPhysicsProcess(active);
+        SetPhysicsProcess(false);
         SetProcess(false);
         SetProcessInput(false);
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        if(!active&&World.instance.input.Change())
+        if(!tween.IsActive()&&World.instance.input.Change())
         {
-            OnInteract();
+            Interact();
         }
     }
 
-    private void OnTweensCompleted()
+    private void Interact()
     {
-        active=false;
-    }
-
-    private void OnInteract(Player player=null,float amount=0f)
-    {
-        if(!tween.IsActive()) 
-        {
-            active=true;
-            RotationDegrees=-40f;
-            tween.InterpolateProperty(this,"rotation_degrees",-40f,40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut);
-            tween.InterpolateProperty(this,"rotation_degrees",40f,-40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut,0.3f);
-            tween.Start();
-            GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),switchID);
-        }
+        RotationDegrees=-40f;
+        tween.InterpolateProperty(this,"rotation_degrees",-40f,40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut);
+        tween.InterpolateProperty(this,"rotation_degrees",40f,-40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut,0.3f);
+        tween.Start();
+        GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),switchID);
     }
 
     private void OnBodyEntered(Node node)
     {
-        if(node is Player)
+        if(!active&&node is Player)
         {
-            SetPhysicsProcess(true);
+            active=true;
+            SetPhysicsProcess(active);
         }
     }
 
     private void OnBodyExited(Node node)
     {
-        if(node is Player)
+        if(active&&node is Player)
         {
-            SetPhysicsProcess(false);
+            active=false;
+            SetPhysicsProcess(active);
         }
     }
 
