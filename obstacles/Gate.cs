@@ -1,5 +1,3 @@
-using System;
-using System.Data.SqlTypes;
 using Godot;
 
 public class Gate : Area2D
@@ -15,6 +13,8 @@ public class Gate : Area2D
     {
         ENTRY,
         EXIT,
+        EXIT_WITH_0Y,
+        EXIT_WITH_DY
     }
 
     [Export] private string companionID="";
@@ -23,6 +23,7 @@ public class Gate : Area2D
     [Export] private bool closed=false;
     [Export] private Gamestate changeStateTo=Gamestate.BONUS;
     [Export] private bool oneTime=true;
+    [Export] private bool oneWay=false;
     [Export] private Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
     {
         {"Use",false},
@@ -165,6 +166,11 @@ public class Gate : Area2D
         Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
         Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;
 
+        if(type==TYPE.EXIT_WITH_0Y)
+        {
+            targetPosition.y=0f;
+        }
+
         SceneTreeTween tween=GetTree().CreateTween();
         tween.TweenProperty(World.level,"position",targetPosition,0.1f)
             .SetTrans(Tween.TransitionType.Cubic)
@@ -176,6 +182,19 @@ public class Gate : Area2D
     {
         Player.instance.GlobalPosition=GlobalPosition;
         Player.instance.Teleport(false);
+
+        if(oneWay)
+        {
+            sprite.Play();
+            SfxPlayer closefx=new SfxPlayer
+            {
+                Stream=closeSfx,
+                Position=Position
+            };
+            World.level.AddChild(closefx);
+
+        }
+
         if(type==TYPE.ENTRY&&changeStateTo!=Gamestate.KEEP)
         {
             World.instance.SetGamestate(gamestate);
