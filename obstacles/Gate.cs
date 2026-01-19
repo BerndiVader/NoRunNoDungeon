@@ -138,6 +138,7 @@ public class Gate : Area2D
                 if(oneTime&&used)
                 {
                     closed=true;
+                    sprite.Frame=0;
                     sprite.Play();
                 }
                 TeleportLevel();
@@ -147,6 +148,7 @@ public class Gate : Area2D
                 if(oneTime)
                 {
                     closed=true;
+                    sprite.Frame=0;
                     sprite.Play();
                     SfxPlayer closefx=new SfxPlayer
                     {
@@ -185,6 +187,7 @@ public class Gate : Area2D
 
         if(oneWay)
         {
+            sprite.Frame=0;
             sprite.Play();
             SfxPlayer closefx=new SfxPlayer
             {
@@ -201,7 +204,14 @@ public class Gate : Area2D
         }
         if((bool)LEVEL_SETTINGS["Use"])
         {
-            settings.Restore();
+            if(settings!=null)
+            {
+                settings.Restore();
+            }
+            else
+            {
+                World.level.settings.Restore();
+            }
         }
     }
 

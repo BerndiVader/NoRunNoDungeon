@@ -6,7 +6,11 @@ public class DoorSwitch : Area2D
 {
     [Export] private string switchID="";
     [Export] private bool oneTime=false;
+
+    private static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/01_chest_open_4.wav");
+
     private Tween tween;
+    private AudioStreamPlayer2D sfxPlayer=new AudioStreamPlayer2D();
     private bool active=false;
     private bool used=false;
 
@@ -24,8 +28,11 @@ public class DoorSwitch : Area2D
             switchID=Guid.NewGuid().ToString();
             PropertyListChangedNotify();
         }
+
+        sfxPlayer.Stream=sfx;
+        AddChild(sfxPlayer);
         
-        tween=GetNode<Tween>(nameof(Tween));      
+        tween=GetNode<Tween>(nameof(Tween));
         Connect("body_entered",this,nameof(OnBodyEntered));
         Connect("body_exited",this,nameof(OnBodyExited));
 
@@ -44,6 +51,7 @@ public class DoorSwitch : Area2D
 
     private void Interact()
     {
+        sfxPlayer.Play();
         RotationDegrees=-40f;
         tween.InterpolateProperty(this,"rotation_degrees",-40f,40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut);
         tween.InterpolateProperty(this,"rotation_degrees",40f,-40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut,0.3f);
