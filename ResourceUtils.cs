@@ -115,7 +115,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest4.tscn"));
         }
         else
         {
@@ -129,6 +129,7 @@ public static class ResourceUtils
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest1.tscn"));
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest2.tscn"));
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest3.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest4.tscn"));
             levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTestTerra.tscn"));
         }
 
