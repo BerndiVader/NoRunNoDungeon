@@ -22,8 +22,8 @@ public class SkullBullet : Area2D
 
     public override void _PhysicsProcess(float delta)
     {
+        Translate(direction*(speed*delta));
         liveSpan-=1f;
-        Position+=direction*(speed*delta);
         if(liveSpan<0f)
         {
             Destroy();

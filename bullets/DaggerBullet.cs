@@ -1,19 +1,18 @@
 using Godot;
-using System;
 
 public class DaggerBullet : Area2D
 {
     private Vector2 start, end, height; 
-    [Export] private Vector2 offset=new Vector2(75f,50f);
-    private float time;
+    [Export] private Vector2 offset=new Vector2(150f,50f);
+    private float elapsed=0f;
+    private float flightTime=0.5f;
 
     public override void _Ready()
     {
         int xDir=Player.instance.AnimationController.FlipH?-1:1;
         start=Position;
         end=new Vector2(start.x+(offset.x*xDir),start.y+offset.y);
-        height=new Vector2(start.x+((end.x-start.x)*0.5f),start.y-30f);
-        time=0f;
+        height=(start+end)*0.5f+new Vector2(0f,-50f);
 
         Connect("body_entered",this,nameof(OnBodyEntered));
         Connect("area_entered",this,nameof(OnBodyEntered));
@@ -22,20 +21,22 @@ public class DaggerBullet : Area2D
     public override void _PhysicsProcess(float delta)
     {
         Rotation+=delta*10f;
-        Position=Step();
+        elapsed+=delta;
 
-        time+=0.023f;
-        if (time>2f)
+        float t=Mathf.Clamp(elapsed/flightTime,0f,1f);
+        Position=Step(t);
+
+        if(elapsed>flightTime)
         {
             QueueFree();
         }
     }
 
-    Vector2 Step()
+    Vector2 Step(float t)
     {
-        Vector2 q0=start.LinearInterpolate(height,time);
-        Vector2 q1=height.LinearInterpolate(end,time);
-        return q0.LinearInterpolate(q1,time);
+        Vector2 q0=start.LinearInterpolate(height,t);
+        Vector2 q1=height.LinearInterpolate(end,t);
+        return q0.LinearInterpolate(q1,t);
     }
 
     public void OnBodyEntered(Node node)
@@ -50,7 +51,7 @@ public class DaggerBullet : Area2D
     void Destroy()
     {
         BulletMiss particles=(BulletMiss)ResourceUtils.particles[(int)PARTICLES.BULLETMISS].Instance();
-        particles.Position=World.level.ToLocal(GlobalPosition);
+        particles.Position=Position;
         World.level.AddChild(particles);
         CallDeferred("queue_free");
     }
