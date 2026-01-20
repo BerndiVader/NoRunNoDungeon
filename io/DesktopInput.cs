@@ -22,13 +22,25 @@ public class DesktopInput : InputController
     }
     public override bool Jump()
     {
+        return Input.IsActionPressed("ui_up");
+    }
+    public override bool JustJump()
+    {
         return Input.IsActionJustPressed("ui_up");
     }
     public override bool Attack()
     {
+        return Input.IsActionPressed("ui_right");
+    }
+    public override bool JustAttack()
+    {
         return Input.IsActionJustPressed("ui_right");
     }
     public override bool Change()
+    {
+        return Input.IsActionPressed("ui_down");
+    }
+    public override bool JustChange()
     {
         return Input.IsActionJustPressed("ui_down");
     }

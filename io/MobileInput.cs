@@ -45,13 +45,25 @@ public class MobileInput : InputController
 
     public override bool Jump()
     {
+        return buttons.jump.IsPressed();
+    }
+    public override bool JustJump()
+    {
         return buttons.jump.JustPressed();
     }
     public override bool Attack()
     {
+        return buttons.o.IsPressed();
+    }
+    public override bool JustAttack()
+    {
         return buttons.o.JustPressed();
     }
     public override bool Change()
+    {
+        return buttons.x.IsPressed();
+    }
+    public override bool JustChange()
     {
         return buttons.x.JustPressed();
     }

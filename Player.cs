@@ -20,7 +20,6 @@ public class Player : KinematicBody2D
     private bool jumping=false;
     private bool doubleJump=false;
     private bool justJumped=false;
-    private int weaponCyle=0;
     private List<int>weapons;
     private Vector2 lastVelocity=Vector2.Zero;
     private Vector2 lastPosition=Vector2.Zero;
@@ -107,10 +106,10 @@ public class Player : KinematicBody2D
 
         bool left=World.instance.input.Left();
         bool right=World.instance.input.Right();
-        bool jump=World.instance.input.Jump();
+        bool jump=World.instance.input.JustJump();
         bool down=World.instance.input.Down();
-        bool attack=World.instance.input.Attack();
-        bool interact=World.instance.input.Change();
+        bool attack=World.instance.input.JustAttack();
+        bool interact=World.instance.input.JustChange();
 
         if(attack&&weapon!=null)
         {

@@ -3,7 +3,7 @@ using System;
 
 public class XButton : TouchScreenButton
 {
-    bool jPressed;
+    protected bool jPressed;
 
     public override void _Ready()
     {

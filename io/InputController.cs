@@ -12,8 +12,11 @@ public abstract class InputController
     public abstract bool Down();
     public abstract bool JustDown();
     public abstract bool Jump();
+    public abstract bool JustJump();
     public abstract bool Attack();
+    public abstract bool JustAttack();
     public abstract bool Change();
+    public abstract bool JustChange();
     public abstract bool Pause();
     public abstract bool Quit();
     public abstract bool JustAccept();
