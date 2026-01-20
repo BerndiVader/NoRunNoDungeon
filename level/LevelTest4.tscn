@@ -55,8 +55,10 @@ position = Vector2( 1528, -26 )
 
 [node name="Gate" parent="GateHolder3" index="0"]
 companionID = "2"
+closed = true
 changeStateTo = 4
 oneWay = true
+switchID = "22"
 LEVEL_SETTINGS = {
 "Dir": Vector2( 0, -1 ),
 "Speed": 120.0,
@@ -65,12 +67,14 @@ LEVEL_SETTINGS = {
 }
 
 [node name="ControlHolder" parent="." instance=ExtResource( 11 )]
-position = Vector2( 1344, -31 )
+position = Vector2( 1344, -247 )
 scale = Vector2( 0.7, 0.7 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
 Speed = 0.0
 Timeout = 5
+CallSwitch = true
+CallID = "22"
 
 [node name="Gate" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1528, 182 )
