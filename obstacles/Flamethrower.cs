@@ -59,6 +59,8 @@ public class Flamethrower : Area2D,ISwitchable
         Connect("body_entered",this,nameof(OnBodyEntered));
 
         sfxPlayer.Stream=flameFx;
+        sfxPlayer.Bus="Sfx";
+        sfxPlayer.MaxDistance=500f;
         AddChild(sfxPlayer);
 
         timer=new Timer

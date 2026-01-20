@@ -30,6 +30,8 @@ public class DoorSwitch : Area2D
         }
 
         sfxPlayer.Stream=sfx;
+        sfxPlayer.Bus="Sfx";
+        sfxPlayer.MaxDistance=500f;
         AddChild(sfxPlayer);
         
         tween=GetNode<Tween>(nameof(Tween));
