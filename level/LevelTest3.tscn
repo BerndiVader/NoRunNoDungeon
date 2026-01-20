@@ -31,7 +31,7 @@ position = Vector2( 768, 80 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
 Speed = 0.0
-switchID = "0949da50-aa58-4ae8-9c56-41ec434d689c"
+SwitchID = "0949da50-aa58-4ae8-9c56-41ec434d689c"
 
 [node name="Switch" parent="." instance=ExtResource( 3 )]
 position = Vector2( 768, 240 )
