@@ -1,6 +1,6 @@
 using Godot;
 
-public class Gate : Area2D
+public class Gate : Area2D,ISwitchable
 {
     private static AudioStream teleportSfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/88_Teleport_02.wav");
     private static AudioStreamMP3 closeSfx=ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/06_door_close_1.mp3");
@@ -24,6 +24,7 @@ public class Gate : Area2D
     [Export] private Gamestate changeStateTo=Gamestate.BONUS;
     [Export] private bool oneTime=true;
     [Export] private bool oneWay=false;
+    [Export] private string switchID="";
     [Export] private Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
     {
         {"Use",false},
@@ -71,6 +72,8 @@ public class Gate : Area2D
         {
             if(World.instance.input.Change())
             {
+                active=false;
+                SetPhysicsProcess(active);
                 if(oneTime&&used)
                 {
                     closed=true;
@@ -98,7 +101,7 @@ public class Gate : Area2D
                     settings.autoRestore=World.level.settings.autoRestore;
                     settings.Set();
                 }
-                GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),ID+companionID,GetInstanceId());
+                GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(TeleportCall),ID+companionID,GetInstanceId());
             }
         }
     }
@@ -122,7 +125,7 @@ public class Gate : Area2D
         }
     }
 
-    public void SwitchCall(string id,ulong instance)
+    public void TeleportCall(string id,ulong instance)
     {
         if(instance!=GetInstanceId()&&id==ID+companionID)
         {
@@ -215,6 +218,29 @@ public class Gate : Area2D
         }
     }
 
-
-
+    public void SwitchCall(string id)
+    {
+        if(id==switchID)
+        {
+            switch(closed)
+            {
+                case true:
+                    sprite.Frame=sprite.Frames.GetFrameCount(style.ToString());
+                    sprite.Play(null,true);
+                    closed=false;
+                    break;
+                case false:
+                    sprite.Frame=0;
+                    sprite.Play();
+                    closed=true;
+                    break;
+            }
+            SfxPlayer closefx=new SfxPlayer
+            {
+                Stream=closeSfx,
+                Position=Position
+            };
+            World.level.AddChild(closefx);            
+        }
+    }
 }

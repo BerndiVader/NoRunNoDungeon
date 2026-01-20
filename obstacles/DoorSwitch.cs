@@ -45,7 +45,13 @@ public class DoorSwitch : Area2D
     {
         if(!tween.IsActive()&&World.instance.input.Change())
         {
+            if(oneTime&&used)
+            {
+                SetPhysicsProcess(false);
+                return;
+            }
             Interact();
+            used=true;
         }
     }
 
@@ -63,6 +69,10 @@ public class DoorSwitch : Area2D
     {
         if(!active&&node is Player)
         {
+            if(oneTime&&used)
+            {
+                return;
+            }
             active=true;
             SetPhysicsProcess(active);
         }

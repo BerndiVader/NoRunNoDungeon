@@ -10,7 +10,9 @@ public class LevelControl : Node2D,ISwitchable
     [Export] private bool Restore=false;
     [Export] private bool AutoRestore=false;
     [Export] private bool Signal=true;
-    [Export] private string switchID="";
+    [Export] private string SwitchID="";
+    [Export] private bool CallSwitch=false;
+    [Export] private string CallID="";
 
     private VisibilityNotifier2D notifier;
     private Vector2 size;
@@ -31,9 +33,10 @@ public class LevelControl : Node2D,ISwitchable
         if(settings==null)
         {
             settings=new Settings(World.level,Direction,Speed,Zoom,AutoRestore);
+            settings.CallID=CallID;
         }
 
-        if(switchID!="")
+        if(SwitchID!="")
         {
             AddToGroup(GROUPS.SWITCHABLES.ToString());
         }
@@ -47,13 +50,17 @@ public class LevelControl : Node2D,ISwitchable
             if(!Restore)
             {
                 settings.Set();
-                if(Timeout!=-1||switchID!="")
+                if(Timeout!=-1||SwitchID!="")
                 {
-                    World.level.AddChild(new LevelControlTimer(Timeout,settings,switchID));
+                    World.level.AddChild(new LevelControlTimer(Timeout,settings,SwitchID));
                 }
             }
             else
             {
+                if(settings.CallID!="")
+                {
+                    GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),CallID);
+                }
                 World.level.settings.Restore();
             }
             QueueFree();
@@ -81,13 +88,13 @@ public class LevelControl : Node2D,ISwitchable
 
     public void SwitchCall(string id)
     {
-        if(id==switchID)
+        if(id==SwitchID)
         {
             SettingsEffect count=LevelControlTimer.countEffect.Instance<SettingsEffect>();
             count.chr=">"[0];
             World.instance.renderer.AddChild(count);
             World.level.settings.Restore();
-            switchID="";
+            SwitchID="";
             CallDeferred("queue_free");
         }
     }

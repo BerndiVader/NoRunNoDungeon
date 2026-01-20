@@ -8,16 +8,16 @@ public class LevelControlTimer : Node,ISwitchable
     private SceneTreeTimer timer;
     private readonly float time;
     private int current,last;
-    private Settings settings;
     private string switchID="";
+    private Settings settings;
 
     public LevelControlTimer():base() {}
 
     public LevelControlTimer(float time, Settings settings,string id):base()
     {
         this.time=time;
-        this.settings=settings;
         switchID=id;
+        this.settings=settings;
 
         if(switchID!="")
         {
@@ -60,6 +60,12 @@ public class LevelControlTimer : Node,ISwitchable
         SettingsEffect count=countEffect.Instance<SettingsEffect>();
         count.chr="0"[0];
         World.instance.renderer.AddChild(count);
+
+        if(settings.CallID!="")
+        {
+            GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),settings.CallID);
+        }
+        
         World.level.settings.Restore();
         CallDeferred("queue_free");
     }
@@ -71,6 +77,12 @@ public class LevelControlTimer : Node,ISwitchable
             SettingsEffect count=countEffect.Instance<SettingsEffect>();
             count.chr=">"[0];
             World.instance.renderer.AddChild(count);
+
+            if(settings.CallID!="")
+            {
+                GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),settings.CallID);
+            }
+
             World.level.settings.Restore();
             switchID="";
             CallDeferred("queue_free");

@@ -8,6 +8,7 @@ public class Settings
     private bool restoreCalled=false;
     public bool autoRestore=false;
     public bool restoreToDefault=false;
+    public string CallID="";
     private readonly WeakReference<Level>levelRef;
 
     public Settings(Level level) : this(level,Vector2.Zero) {}
