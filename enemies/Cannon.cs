@@ -1,0 +1,113 @@
+using Godot;
+
+
+public class Cannon : KinematicMonster
+{
+    private static AudioStream shootFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/SingleShot 04.wav");
+    private Timer timer=new Timer();
+    private AudioStreamPlayer2D sfxPlayer;
+
+    public override void _Ready()
+    {
+        base._Ready();
+
+        animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
+        animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
+        animationPlayer.Connect("animation_finished",this,nameof(OnAnimationPlayerEnded));
+
+        sfxPlayer=GetNode<AudioStreamPlayer2D>(nameof(AudioStreamPlayer2D));
+        sfxPlayer.Stream=shootFx;
+
+        timer.WaitTime=2f;
+        timer.OneShot=true;
+        AddChild(timer);
+        timer.Connect("timeout",this,nameof(TimerTimeout));
+
+        SetSpawnFacing();
+
+        OnIdle();
+    }
+
+    public override void _PhysicsProcess(float delta)
+    {
+        base._PhysicsProcess(delta);
+
+        goal(delta);
+        Navigation(delta);
+    }
+
+    protected override void Navigation(float delta)
+    {
+        velocity+=FORCE*delta;
+        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
+
+        int slides=GetSlideCount();
+        if(slides>0)
+        {
+            for(int i=0;i<slides;i++)
+            {
+                var collision=GetSlideCollision(i);
+                if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
+                {
+                    velocity.x=platform.CurrentSpeed.x;
+                } else
+                {
+                    velocity=StopX(velocity,delta);
+                }
+            }    
+        }
+        else
+        {
+            velocity=StopX(velocity,delta);
+        }
+    }    
+
+    protected override void Idle(float delta)
+    {
+        if(timer.TimeLeft==0)
+        {
+            timer.Start();
+        }
+    }
+
+    protected override void Attack(float delta)
+    {
+        if(animationController.Frame==4)
+        {
+            timer.WaitTime=MathUtils.RandomRange(1,4);
+            OnIdle();
+        }
+    }
+
+
+    protected override void OnAttack(Player player=null)
+    {
+        onDelay=false;
+        if(state!=STATE.attack)
+        {
+            lastState=state;
+            state=STATE.attack;
+            victim=Player.instance;
+            goal=Attack;
+            sfxPlayer.Play();
+            animationController.Play("attack");
+            animationController.Playing=true;
+        }
+    }
+
+
+    private void TimerTimeout()
+    {
+        OnAttack();
+    }
+
+	protected override void FlipH()
+	{
+		animationController.FlipH^=true;
+		collisionController.Position=FlipX(collisionController.Position);
+        staticBody.Position=FlipX(staticBody.Position);
+		facing=Facing();
+	}    
+
+
+}
