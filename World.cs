@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public class World : Node
@@ -68,6 +70,7 @@ public class World : Node
 	public Renderer renderer;
 	public CanvasLayer uiLayer;
 	public InputController input;
+	private List<int>levels;
 	private int currentLevel,nextLevel;
 	private static Gamestate lastState;
 	public static Gamestate state;
@@ -100,11 +103,12 @@ public class World : Node
         }
 		input=ResourceUtils.GetInputController(uiLayer);
 		renderer=GetNode<Renderer>("Renderer");
-		
+
+		levels=Enumerable.Range(0,ResourceUtils.levels.Count).ToList();
 		tileSet=ResourceUtils.tilesets[MathUtils.RandomRange(0,ResourceUtils.tilesets.Count)];
-		currentLevel=MathUtils.RandomRange(0,ResourceUtils.levels.Count);
+		currentLevel=GetALevel();
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
-		nextLevel=MathUtils.RandomRange(0,ResourceUtils.levels.Count);
+		nextLevel=GetALevel(currentLevel);
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 		MergeMaps(level,cachedLevel);
 
@@ -269,7 +273,7 @@ public class World : Node
 		if(!keepLevel)
 		{
 			Worker.Gc();
-			currentLevel=MathUtils.RandomRange(0,ResourceUtils.levels.Count);
+			currentLevel=GetALevel(nextLevel);
 		}
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
 		MergeMaps(level,cachedLevel);
@@ -285,8 +289,9 @@ public class World : Node
 
 	public void PrepareAndChangeLevel()
 	{
+		RemoveALevel(currentLevel);
 		currentLevel=nextLevel;
-		nextLevel=MathUtils.RandomRange(0,ResourceUtils.levels.Count);
+		nextLevel=GetALevel(currentLevel);
 		Level newLevel=cachedLevel!=null?cachedLevel:(Level)ResourceUtils.levels[currentLevel].Instance();
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 
@@ -308,6 +313,28 @@ public class World : Node
 		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x))-16f,position.y);
 		level=newLevel;
 		SetGamestate(Gamestate.SCENE_CHANGED);
+	}
+
+	private int GetALevel()
+	{
+		return MathUtils.RandomRange(0,levels.Count);
+	}
+	private int GetALevel(int nodub)
+	{
+		int next;
+		do
+		{
+			next=MathUtils.RandomRange(0,levels.Count);
+		}
+		while(levels[next]==nodub&&levels.Count>1);
+		return levels[next];
+	}
+	private void RemoveALevel(int index)
+	{
+		if(levels.Contains(index))
+		{
+			levels.Remove(index);
+		}
 	}
 
 	public void _Free()
