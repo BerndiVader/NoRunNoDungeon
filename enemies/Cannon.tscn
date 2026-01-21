@@ -183,7 +183,7 @@ one_way_collision_margin = 0.0
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 animation = "attack"
-frame = 4
+frame = 2
 speed_scale = 0.3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

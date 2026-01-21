@@ -3,9 +3,11 @@ using Godot;
 
 public class Cannon : KinematicMonster
 {
-    private static AudioStream shootFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/SingleShot 04.wav");
+    private static readonly PackedScene ballPack=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball.tscn");
+    private static readonly AudioStream shootFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/SingleShot 04.wav");
     private Timer timer=new Timer();
     private AudioStreamPlayer2D sfxPlayer;
+    private bool fired;
 
     public override void _Ready()
     {
@@ -77,8 +79,12 @@ public class Cannon : KinematicMonster
             timer.WaitTime=MathUtils.RandomRange(1,4);
             OnIdle();
         }
+        else if(animationController.Frame==2&&!fired)
+        {
+            Fire();
+            fired=true;
+        }
     }
-
 
     protected override void OnAttack(Player player=null)
     {
@@ -88,11 +94,20 @@ public class Cannon : KinematicMonster
             lastState=state;
             state=STATE.attack;
             victim=Player.instance;
+            fired=false;
             goal=Attack;
             sfxPlayer.Play();
             animationController.Play("attack");
             animationController.Playing=true;
         }
+    }
+
+    private void Fire()
+    {
+        Cannonball ball=ballPack.Instance<Cannonball>();
+        ball.Position=Position;
+        ball.SetDirection(facing);
+        World.level.AddChild(ball);
     }
 
 
@@ -107,7 +122,7 @@ public class Cannon : KinematicMonster
 		collisionController.Position=FlipX(collisionController.Position);
         staticBody.Position=FlipX(staticBody.Position);
 		facing=Facing();
-	}    
+	}
 
 
 }
