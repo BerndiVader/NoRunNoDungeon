@@ -6,6 +6,8 @@ public class Cannonball : KinematicMonster
     [Export] public float MOVE_FORCE=150f;
     [Export] public float MIN_SPEED=20f;
     [Export] public float MAX_SPEED=50f;
+    [Export] public Vector2 BOUNCE_FORCE=new Vector2(50f,100f);
+    [Export] public bool RANDOM_BOUNCE_FORCE=false;
 
     private Area2D collider;
 
@@ -62,13 +64,11 @@ public class Cannonball : KinematicMonster
     protected override void Stroll(float delta)
     {
         Vector2 force=new Vector2(0,GRAVITY);
-        bool left=facing==Vector2.Left;
-        bool right=facing==Vector2.Right;
-        if(left&&velocity.x<=MIN_SPEED&&velocity.x>-MAX_SPEED)
+        if(facing==Vector2.Left&&velocity.x<=MIN_SPEED&&velocity.x>-MAX_SPEED)
         {
             force.x-=MOVE_FORCE;
         }
-        else if(right&&velocity.x>=-MIN_SPEED&&velocity.x<MAX_SPEED)
+        else if(facing==Vector2.Right&&velocity.x>=-MIN_SPEED&&velocity.x<MAX_SPEED)
         {
             force.x+=MOVE_FORCE;
         }
@@ -79,7 +79,14 @@ public class Cannonball : KinematicMonster
 
         if(IsOnFloor()&&Mathf.Abs(velocity.y)<0.1f)
         {
-            velocity.y=-100f;
+            if(RANDOM_BOUNCE_FORCE)
+            {
+                velocity.y=-MathUtils.RandomRange(BOUNCE_FORCE.x,BOUNCE_FORCE.y);
+            }
+            else
+            {
+                velocity.y=-BOUNCE_FORCE.y;
+            }
             animationController.Rotation=Mathf.Deg2Rad(MathUtils.RandomRange(-45,45));
         }
 

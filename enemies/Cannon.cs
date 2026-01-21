@@ -107,6 +107,7 @@ public class Cannon : KinematicMonster
         Cannonball ball=ballPack.Instance<Cannonball>();
         ball.Position=Position;
         ball.SetDirection(facing);
+        ball.RANDOM_BOUNCE_FORCE=true;
         World.level.AddChild(ball);
     }
 
