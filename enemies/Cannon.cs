@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 
@@ -5,7 +6,11 @@ public class Cannon : KinematicMonster
 {
     private static readonly PackedScene ballPack=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball.tscn");
     private static readonly AudioStream shootFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/SingleShot 04.wav");
-    private Timer timer=new Timer();
+
+    [Export] private float FIRE_DELAY=2f;
+    [Export] private Dictionary<string,object>CANNONBALL_SETTINGS=Cannonball.GetDefaults();
+
+    private readonly Timer timer=new Timer();
     private AudioStreamPlayer2D sfxPlayer;
     private bool fired;
 
@@ -20,13 +25,12 @@ public class Cannon : KinematicMonster
         sfxPlayer=GetNode<AudioStreamPlayer2D>(nameof(AudioStreamPlayer2D));
         sfxPlayer.Stream=shootFx;
 
-        timer.WaitTime=2f;
+        timer.WaitTime=FIRE_DELAY;
         timer.OneShot=true;
         AddChild(timer);
         timer.Connect("timeout",this,nameof(TimerTimeout));
 
         SetSpawnFacing();
-
         OnIdle();
     }
 
@@ -107,7 +111,10 @@ public class Cannon : KinematicMonster
         Cannonball ball=ballPack.Instance<Cannonball>();
         ball.Position=Position;
         ball.SetDirection(facing);
-        ball.RANDOM_BOUNCE_FORCE=true;
+        if((bool)CANNONBALL_SETTINGS["USE_SETTINGS"])
+        {
+            ball.SetOptions(CANNONBALL_SETTINGS);
+        }
         World.level.AddChild(ball);
     }
 

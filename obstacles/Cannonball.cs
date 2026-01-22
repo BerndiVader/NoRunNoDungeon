@@ -1,4 +1,4 @@
-using System.Xml.Serialization;
+using System.Collections.Generic;
 using Godot;
 
 public class Cannonball : KinematicMonster
@@ -8,6 +8,8 @@ public class Cannonball : KinematicMonster
     [Export] public float MAX_SPEED=50f;
     [Export] public Vector2 BOUNCE_FORCE=new Vector2(50f,100f);
     [Export] public bool RANDOM_BOUNCE_FORCE=false;
+    [Export] public bool EXPLODE_ON_WALL=false;
+    [Export] public int EXPLODE_AFTER_MS=0;
 
     private Area2D collider;
 
@@ -77,7 +79,18 @@ public class Cannonball : KinematicMonster
             velocity=StopX(velocity,delta);
         }
 
-        if(IsOnFloor()&&Mathf.Abs(velocity.y)<0.1f)
+        bool onFloor=IsOnFloor();
+        bool onCeiling=IsOnCeiling();
+        bool onWall=IsOnWall();
+
+
+        if(EXPLODE_ON_WALL&&(onFloor||onCeiling||onWall))
+        {
+            OnAttack();
+            return;
+        }
+
+        if(onFloor&&Mathf.Abs(velocity.y)<0.1f)
         {
             if(RANDOM_BOUNCE_FORCE)
             {
@@ -90,7 +103,7 @@ public class Cannonball : KinematicMonster
             animationController.Rotation=Mathf.Deg2Rad(MathUtils.RandomRange(-45,45));
         }
 
-        if(IsOnWall())
+        if(onWall)
         {
             FlipH();
         }
@@ -117,13 +130,12 @@ public class Cannonball : KinematicMonster
             animationController.Play("stroll");
             int dir=spawn_facing==SPAWN_FACING.LEFT?-1:1;
             velocity.x=dir*200f;
-
             goal=Stroll;
         }
     }
 
 
-    protected override void OnAttack(Player player = null)
+    protected override void OnAttack(Player player=null)
     {
         onDelay=false;
         if(state!=STATE.attack)
@@ -133,11 +145,12 @@ public class Cannonball : KinematicMonster
             animationController.Play("attack");
             animationController.Rotation=0f;
             goal=Attack;
-            Player.instance.EmitSignal(STATE.damage.ToString(),this,1f);
+            if(player!=null)
+            {
+                player.EmitSignal(STATE.damage.ToString(),this,DAMAGE_AMOUNT);
+            }
         }
     }
-
-
 
     protected override void FlipH()
     {
@@ -161,7 +174,43 @@ public class Cannonball : KinematicMonster
 
     private void OnBodyEntered(Node body)
     {
-        OnAttack();
+        OnAttack(Player.instance);
+    }
+
+    public void SetOptions(Dictionary<string,object>options)
+    {
+        DAMAGE_AMOUNT=(float)options["DAMAGE_AMOUNT"];
+        HEALTH=(float)options["HEALTH"];
+        GRAVITY=(float)options["GRAVITY"];
+        FRICTION=(float)options["FRICTION"];
+        STOP_FORCE=(float)options["STOP_FORCE"];
+        MOVE_FORCE=(float)options["MOVE_FORCE"];
+        MIN_SPEED=(float)options["MIN_SPEED"];
+        MAX_SPEED=(float)options["MAX_SPEED"];
+        BOUNCE_FORCE=(Vector2)options["BOUNCE_FORCE"];
+        RANDOM_BOUNCE_FORCE=(bool)options["RANDOM_BOUNCE_FORCE"];
+        EXPLODE_AFTER_MS=(int)options["EXPLODE_AFTER_MS"];
+        EXPLODE_ON_WALL=(bool)options["EXPLODE_ON_WALL"];
+    }
+
+    public static Dictionary<string,object>GetDefaults()
+    {
+        return new Dictionary<string,object>
+        {
+            {"USE_SETTINGS",false},
+            {"DAMAGE_AMOUNT",1f},
+            {"HEALTH",1f},
+            {"GRAVITY",500f},
+            {"FRICTION",0.01f},
+            {"STOP_FORCE",500f},
+            {"MOVE_FORCE",150f},
+            {"MIN_SPEED",20f},
+            {"MAX_SPEED",50f},
+            {"BOUNCE_FORCE",new Vector2(50f,100f)},
+            {"RANDOM_BOUNCE_FORCE",false},
+            {"EXPLODE_ON_WALL",false},
+            {"EXPLODE_AFTER_MS",0}
+        };
     }
 
 }

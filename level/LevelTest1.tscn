@@ -404,6 +404,9 @@ direction = 1
 [node name="SwordItemHolder" parent="." instance=ExtResource( 18 )]
 position = Vector2( 624, 248 )
 
+[node name="WeaponItem" parent="SwordItemHolder" index="0"]
+weaponType = 1
+
 [editable path="HammerFall"]
 [editable path="RocksFalling"]
 [editable path="RocksFalling2"]
@@ -437,3 +440,4 @@ position = Vector2( 624, 248 )
 [editable path="FlamethrowerHolder4"]
 [editable path="GateHolder2"]
 [editable path="HammerFall2"]
+[editable path="SwordItemHolder"]

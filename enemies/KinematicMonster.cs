@@ -13,7 +13,7 @@ public abstract class KinematicMonster : KinematicBody2D
         RIGHT
     }
 
-    [Export] protected Vector2 ANIMATION_OFFSET = Vector2.Zero;
+    [Export] protected Vector2 ANIMATION_OFFSET=Vector2.Zero;
     [Export] protected Vector2 VELOCITY=Vector2.Zero;
     [Export] protected float DAMAGE_AMOUNT=1f;
     [Export] protected float HEALTH=1f;
@@ -229,7 +229,6 @@ public abstract class KinematicMonster : KinematicBody2D
             {
                 attacker=node as Player;
             }
-            DAMAGE_AMOUNT=amount;
             health-=amount;
             goal = Damage;
         }
