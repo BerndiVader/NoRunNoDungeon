@@ -5,9 +5,9 @@ public class WeaponItem : Bonus
 {
     [Export] private WEAPONS weaponType=WEAPONS.SWORD;
     [Export] private bool forceSpawn=false;
-    protected Shader glintShader=ResourceLoader.Load<Shader>("res://shaders/Glint.gdshader");
-    protected ShaderMaterial material;
-    protected static GradientTexture2D gradient=CreateGradient();
+    protected readonly Shader glintShader=ResourceLoader.Load<Shader>("res://shaders/Glint.gdshader");
+    protected readonly ShaderMaterial material=new ShaderMaterial();
+    public static readonly GradientTexture2D gradient=CreateGradient();
     protected float shine=0f;
 
     public override void _Ready()
@@ -17,15 +17,18 @@ public class WeaponItem : Bonus
             CallDeferred("queue_free");
             return;
         }
-        base._Ready();
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
+        AddChild(notifier2D);
+        
+        animation=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
+        animation.Frame=(int)weaponType;
 
-        material=new ShaderMaterial
-        {
-            Shader=glintShader,
-        };
+        material.Shader=glintShader;
         material.SetShaderParam("gradient_texture",gradient);
         animation.Material=material;
 
+        Connect("body_entered",this,nameof(OnEnteredBody));
     }
 
     public override void _PhysicsProcess(float delta)
