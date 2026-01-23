@@ -23,6 +23,12 @@ public class Cannonball : KinematicMonster
 
         SetSpawnFacing();
         OnStroll();
+
+        if(EXPLODE_AFTER_MS!=0)
+        {
+            GetTree().CreateTimer(1f).Connect("timeout",this,nameof(OnAttack));
+
+        }
     }
 
     public override void _PhysicsProcess(float delta)
@@ -134,7 +140,10 @@ public class Cannonball : KinematicMonster
         }
     }
 
-
+    private void OnAttack()
+    {
+        OnAttack(null);
+    }
     protected override void OnAttack(Player player=null)
     {
         onDelay=false;

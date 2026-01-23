@@ -4,10 +4,19 @@ using Godot;
 
 public class Cannon : KinematicMonster
 {
-    private static readonly PackedScene ballPack=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball.tscn");
+    private static readonly PackedScene bombPack=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball.tscn");
+    private static readonly PackedScene ballPack=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball2.tscn");
     private static readonly AudioStream shootFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/SingleShot 04.wav");
 
+    private enum CANNONBALL_TYPE
+    {
+        BOMB,
+        BALL
+    }
+
     [Export] private float FIRE_DELAY=2f;
+    [Export] private CANNONBALL_TYPE CANNONBALL=CANNONBALL_TYPE.BOMB;
+    [Export] private bool WARMUP=true;
     [Export] private Dictionary<string,object>CANNONBALL_SETTINGS=Cannonball.GetDefaults();
 
     private readonly Timer timer=new Timer();
@@ -32,6 +41,10 @@ public class Cannon : KinematicMonster
 
         SetSpawnFacing();
         OnIdle();
+        if(!WARMUP)
+        {
+            Fire();
+        }
     }
 
     public override void _PhysicsProcess(float delta)
@@ -108,7 +121,7 @@ public class Cannon : KinematicMonster
 
     private void Fire()
     {
-        Cannonball ball=ballPack.Instance<Cannonball>();
+        Cannonball ball=CANNONBALL==CANNONBALL_TYPE.BOMB?bombPack.Instance<Cannonball>():ballPack.Instance<Cannonball>();
         ball.Position=Position;
         ball.SetDirection(facing);
         if((bool)CANNONBALL_SETTINGS["USE_SETTINGS"])
