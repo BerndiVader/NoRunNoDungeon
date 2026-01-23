@@ -317,7 +317,7 @@ public class World : Node
 
 	private int GetALevel()
 	{
-		return MathUtils.RandomRange(0,levels.Count);
+		return levels[MathUtils.RandomRange(0,levels.Count)];
 	}
 	private int GetALevel(int nodub)
 	{
@@ -331,7 +331,7 @@ public class World : Node
 	}
 	private void RemoveALevel(int index)
 	{
-		if(levels.Contains(index))
+		if(!ResourceUtils.DEBUG&&levels.Contains(index))
 		{
 			levels.Remove(index);
 		}
