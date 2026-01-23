@@ -7,6 +7,7 @@ public class Cannon : KinematicMonster
     private static readonly PackedScene bombPack=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball.tscn");
     private static readonly PackedScene ballPack=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball2.tscn");
     private static readonly AudioStream shootFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/SingleShot 04.wav");
+    private static readonly AudioStream hitFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/26_sword_hit_1.wav");
 
     private enum CANNONBALL_TYPE
     {
@@ -14,6 +15,7 @@ public class Cannon : KinematicMonster
         BALL
     }
 
+    [Export] private bool DESTORYABLE=false;
     [Export] private float FIRE_DELAY=2f;
     [Export] private CANNONBALL_TYPE CANNONBALL=CANNONBALL_TYPE.BOMB;
     [Export] private bool WARMUP=true;
@@ -45,6 +47,19 @@ public class Cannon : KinematicMonster
         {
             Fire();
         }
+
+        if(!DESTORYABLE)
+        {
+            if(staticBody.HasUserSignal(STATE.passanger.ToString()))
+            {
+                staticBody.Disconnect(STATE.passanger.ToString(),this,nameof(OnPassanger));
+            }
+            if(HasUserSignal(STATE.passanger.ToString()))
+            {
+                Disconnect(STATE.passanger.ToString(),this,nameof(OnPassanger));
+            }
+        }
+
     }
 
     public override void _PhysicsProcess(float delta)
@@ -102,6 +117,47 @@ public class Cannon : KinematicMonster
             fired=true;
         }
     }
+
+    protected override void OnDamage(Node2D node=null, float amount=0)
+    {
+        if(!DESTORYABLE)
+        {
+            SfxPlayer sfx=new SfxPlayer
+            {
+                Stream=hitFx,
+                Position=Position
+            };
+            World.level.AddChild(sfx);
+            sfx.Play();
+            return;
+        }
+
+        onDelay=false;
+        if(state!=STATE.damage&&state!=STATE.die)
+        {
+            if(node==null)
+            {
+                node=Player.instance;
+            }
+            Renderer.instance.Shake(1f);
+            staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
+            lastState=state;
+            state=STATE.damage;
+            if(node is Player)
+            {
+                attacker=node as Player;
+            }
+            health-=amount;
+            goal=Damage;
+        }
+    }
+
+    public override void OnPassanger(Player player=null)
+    {
+        base.OnPassanger(player);
+    }
+
+
 
     protected override void OnAttack(Player player=null)
     {
