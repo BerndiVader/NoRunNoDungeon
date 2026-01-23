@@ -42,6 +42,10 @@ public class Hitables : Area2D
         marker.Visible=true;
         marker.Modulate=new Color(1f,1f,1f,0f);
 
+        Alert alert=ResourceUtils.particles[(int)PARTICLES.ALERT].Instance<Alert>();
+        alert.chr="?"[0];
+        AddChild(alert);        
+
     }
 
     private void OnBodyExited(Node node)
