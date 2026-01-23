@@ -17,6 +17,7 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected Vector2 VELOCITY=Vector2.Zero;
     [Export] protected float DAMAGE_AMOUNT=1f;
     [Export] protected float HEALTH=1f;
+    [Export] protected bool RIDEABLE=true;
     [Export] protected float GRAVITY=500f;
     [Export] protected float FRICTION=0.01f;
     [Export] protected float STOP_FORCE=1300f;
@@ -70,12 +71,18 @@ public abstract class KinematicMonster : KinematicBody2D
         staticBody = GetNode<StaticBody2D>(nameof(StaticBody2D));
         animationController = GetNode<AnimatedSprite>(nameof(AnimatedSprite));
 
-        staticBody.AddUserSignal(STATE.passanger.ToString());
         staticBody.AddUserSignal(STATE.damage.ToString());
-        staticBody.Connect(STATE.passanger.ToString(), this, nameof(OnPassanger));
         staticBody.Connect(STATE.damage.ToString(), this, nameof(OnDamage));
 
-        AddUserSignal(STATE.passanger.ToString());
+        if(RIDEABLE)
+        {
+            AddUserSignal(STATE.passanger.ToString());
+            Connect(STATE.passanger.ToString(), this, nameof(OnPassanger));
+            staticBody.AddUserSignal(STATE.passanger.ToString());
+            staticBody.Connect(STATE.passanger.ToString(), this, nameof(OnPassanger));
+        }
+
+
         AddUserSignal(STATE.damage.ToString());
         AddUserSignal(STATE.die.ToString());
         AddUserSignal(STATE.attack.ToString());
@@ -92,7 +99,6 @@ public abstract class KinematicMonster : KinematicBody2D
         Connect(STATE.calm.ToString(), this, nameof(OnCalm));
         Connect(STATE.idle.ToString(), this, nameof(OnIdle));
         Connect(STATE.stroll.ToString(), this, nameof(OnStroll));
-        Connect(STATE.passanger.ToString(), this, nameof(OnPassanger));
         Connect(STATE.damage.ToString(), this, nameof(OnDamage));
         Connect(STATE.panic.ToString(), this, nameof(OnPanic));
         Connect(STATE.alert.ToString(), this, nameof(OnAlert));
@@ -230,7 +236,7 @@ public abstract class KinematicMonster : KinematicBody2D
                 attacker=node as Player;
             }
             health-=amount;
-            goal = Damage;
+            goal=Damage;
         }
     }
     public virtual void OnPassanger(Player player=null)

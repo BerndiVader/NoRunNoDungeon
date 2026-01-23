@@ -28,5 +28,4 @@ animations = [ {
 [node name="ExplodeGfx" type="AnimatedSprite"]
 material = SubResource( 2 )
 frames = SubResource( 1 )
-frame = 6
 script = ExtResource( 8 )

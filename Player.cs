@@ -197,7 +197,7 @@ public class Player : KinematicBody2D
                 float sa=Mathf.Abs(slopeAngle);
                 onSlope=sa>0.785297f&&sa<1.35f;
 
-                if(!jumping&&slopeAngle==0f&&collision.Collider.HasSignal(STATE.passanger.ToString()))
+                if(!jumping&&slopeAngle==0f&&collision.Collider.HasUserSignal(STATE.passanger.ToString()))
                 {
                     velocity.y=-JUMP_SPEED;
                     animationController.Play(ANIM_JUMP);

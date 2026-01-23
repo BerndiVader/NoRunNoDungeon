@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class ResourceUtils
 {
-    private static readonly bool DEBUG=true;
+    public static readonly bool DEBUG=false;
     public static PackedScene world;
     public static PackedScene intro;
     public static PackedScene pause;
@@ -115,7 +115,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest5.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest1.tscn"));
         }
         else
         {
