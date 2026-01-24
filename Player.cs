@@ -187,7 +187,7 @@ public class Player : KinematicBody2D
             {
                 KinematicCollision2D collision=GetSlideCollision(i);
 
-                if(squeezed&&collision.ColliderId==World.level.GetInstanceId())
+                if(squeezed)
                 {
                     OnDamaged();
                     return;
