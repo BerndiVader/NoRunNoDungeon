@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Runtime.Serialization;
 
 public class Destroyables : Area2D,ISwitchable
 {
@@ -7,6 +8,7 @@ public class Destroyables : Area2D,ISwitchable
 
     [Export] private bool terraform=true;
     [Export] private bool notPlayer=false;
+    [Export] private bool destroyParent=false;
     [Export] private string switchID="";
     private Alert alert;
 
@@ -42,29 +44,40 @@ public class Destroyables : Area2D,ISwitchable
         {
             return;
         }
-        Vector2 local=World.level.ToLocal(GlobalPosition);
-        Vector2 tile=World.level.WorldToMap(local);
-
-        int id=World.level.GetCellv(tile);
-        if(id!=TileMap.InvalidCell)
+        if(!destroyParent)
         {
-            ImageTexture texture=ExtractTexture(id,tile);
-            if(texture!=null)
+            Vector2 local=World.level.ToLocal(GlobalPosition);
+            Vector2 tile=World.level.WorldToMap(local);
+
+            int id=World.level.GetCellv(tile);
+            if(id!=TileMap.InvalidCell)
             {
-                TileExploder exploder=ExpolderPack.Instance<TileExploder>();
-                exploder.Texture=texture;
-                exploder.Position=local;
-                World.level.AddChild(exploder);
+                ImageTexture texture=ExtractTexture(id,tile);
+                if(texture!=null)
+                {
+                    TileExploder exploder=ExpolderPack.Instance<TileExploder>();
+                    exploder.Texture=texture;
+                    exploder.Position=local;
+                    World.level.AddChild(exploder);
+                }
             }
+
+            World.level.SetCellv(tile,-1);
+            if(terraform)
+            {
+                World.level.Terraform(tile);
+            }
+            CallDeferred("queue_free");
+        }
+        else
+        {
+            ExplodeGfx gfx=ResourceUtils.gfx[0].Instance<ExplodeGfx>();
+            gfx.useParticles=false;
+            gfx.Position=World.level.ToLocal(GlobalPosition);
+            World.level.AddChild(gfx);
+            GetParent().CallDeferred("queue_free");
         }
 
-        World.level.SetCellv(tile,-1);
-        if(terraform)
-        {
-            World.level.Terraform(tile);
-        }
-        
-        CallDeferred("queue_free");
     }
 
     private static ImageTexture ExtractTexture(int id,Vector2 tile)
