@@ -36,6 +36,7 @@
     <Compile Include="obstacles\Gate.cs" />
     <Compile Include="obstacles\HiddenDoor.cs" />
     <Compile Include="obstacles\Hideables.cs" />
+    <Compile Include="obstacles\PhysicsBlock.cs" />
     <Compile Include="obstacles\Rocks.cs" />
     <Compile Include="obstacles\FallingHammer.cs" />
     <Compile Include="obstacles\Saw.cs" />
