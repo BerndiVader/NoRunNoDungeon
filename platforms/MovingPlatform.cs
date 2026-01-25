@@ -11,7 +11,7 @@ public class MovingPlatform : Platform
 
     private float maxDistance;
     private float speed;
-    private bool moving=false;
+    private bool moving=true;
 
     public override void _Ready()
     {
@@ -53,20 +53,23 @@ public class MovingPlatform : Platform
 
         if(!Linear)
         {
-            speed=Mathf.Clamp(Mathf.Ease(1-(distance/maxDistance),0.5f)*1000,10,MaxSpeed);
+            speed=Mathf.Clamp(Mathf.Ease(1-(distance/maxDistance),0.5f)*1000f,10f,MaxSpeed);
         }
 
         speed=Mathf.Min(speed,MaxSpeed);
         CurrentSpeed=Direction*speed;
         Translate(CurrentSpeed*delta);
+        if(!IsPhysicsProcessing())
+        {
+            CurrentSpeed=Vector2.Zero;
+        }
     }
 
     public override void SwitchCall(string id)
     {
         if(switchID==id&&!moving)
         {
-            moving=true;
-            SetPhysicsProcess(moving);
+            SetPhysicsProcess(true);
         }
     }
 
