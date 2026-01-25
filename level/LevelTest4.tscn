@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=11]
 [ext_resource path="res://placeholders/monsters/CannonHolder.tscn" type="PackedScene" id=12]
+[ext_resource path="res://placeholders/obstacles/PhysicsBlockDestHolder.tscn" type="PackedScene" id=13]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -29,7 +30,7 @@ __meta__ = {
 }
 
 [node name="FairyPlaceholder" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1352, 160 )
+position = Vector2( 1728, 160 )
 
 [node name="StartingPoint" type="Position2D" parent="."]
 position = Vector2( 160, 232 )
@@ -111,16 +112,12 @@ position = Vector2( 1611, -16 )
 [node name="SwordItemHolder" parent="." instance=ExtResource( 10 )]
 position = Vector2( 784, 232 )
 
-[node name="WeaponItem" parent="SwordItemHolder" index="0"]
-weaponType = 2
-
 [node name="CannonHolder" parent="." instance=ExtResource( 12 )]
 position = Vector2( 1366, -42 )
 
 [node name="Cannon" parent="CannonHolder" index="0"]
 position = Vector2( 0, 0 )
 HEALTH = 999.0
-RIDEABLE = false
 spawn_facing = 2
 FIRE_DELAY = 4.0
 WARMUP = false
@@ -163,6 +160,24 @@ position = Vector2( 2016, 194 )
 rotation = -1.5708
 scale = Vector2( 2, 2 )
 delay = 1
+
+[node name="PhysicsBlockDestroyHolder" parent="." instance=ExtResource( 13 )]
+position = Vector2( 1264, 184 )
+
+[node name="PhysicsBlockDestroyHolder2" parent="." instance=ExtResource( 13 )]
+position = Vector2( 1248, 152 )
+
+[node name="PhysicsBlockDestroyHolder3" parent="." instance=ExtResource( 13 )]
+position = Vector2( 1248, 168 )
+
+[node name="PhysicsBlockDestroyHolder4" parent="." instance=ExtResource( 13 )]
+position = Vector2( 1264, 168 )
+
+[node name="PhysicsBlockDestroyHolder5" parent="." instance=ExtResource( 13 )]
+position = Vector2( 1248, 184 )
+
+[node name="PhysicsBlockDestroyHolder6" parent="." instance=ExtResource( 13 )]
+position = Vector2( 1264, 152 )
 
 [editable path="FairyPlaceholder"]
 [editable path="GateHolder"]

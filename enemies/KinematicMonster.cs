@@ -337,18 +337,18 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void FlipH()
     {
-        facing = animationController.FlipH ? Vector2.Left : Vector2.Right;
+        facing=animationController.FlipH?Vector2.Left:Vector2.Right;
     }
 
     protected Vector2 FlipX(Vector2 vector)
     {
-        vector.x *= -1f;
+        vector.x*=-1f;
         return vector;
     }
 
     protected Vector2 FlipY(Vector2 vector)
     {
-        vector.y *= -1f;
+        vector.y*=-1f;
         return vector;
     }
 
@@ -364,15 +364,14 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual Vector2 Facing()
     {
-        return animationController.FlipH ? Vector2.Left : Vector2.Right;
+        return animationController.FlipH?Vector2.Left:Vector2.Right;
     }
 
     protected virtual Vector2 Direction()
     {
-        Vector2 d = LastPosition.DirectionTo(GlobalPosition);
-        d.x = Mathf.Sign(d.x);
-        d.y = 0f;
-
+        Vector2 d=LastPosition.DirectionTo(GlobalPosition);
+        d.x=Mathf.Sign(d.x);
+        d.y=0f;
         return d;
     }
 

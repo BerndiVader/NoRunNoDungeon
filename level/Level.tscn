@@ -371,7 +371,7 @@ position = Vector2( 1212, 152 )
 [node name="LevelControl" parent="ControlHolder" index="0"]
 Speed = 0.0
 Zoom = 0.8
-Timeout = 30
+Timeout = 20
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 25 )]
 position = Vector2( 552, 201 )

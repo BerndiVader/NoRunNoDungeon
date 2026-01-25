@@ -5,13 +5,9 @@ public class PhysicsBlock : PhysicsObject
 {
     [Export] protected float STOP_FORCE=1300f;
 
-    private StaticBody2D staticBody;
-
     public override void _Ready()
     {
         base._Ready();
-        staticBody=GetNode<StaticBody2D>(nameof(StaticBody2D));
-
     }
 
     public override void _PhysicsProcess(float delta)
@@ -22,7 +18,7 @@ public class PhysicsBlock : PhysicsObject
     private void Navigation(float delta)
     {
         velocity+=GRAVITY*delta;
-        velocity=MoveAndSlideWithSnap(velocity,Vector2.Zero,new Vector2(8f,8f),true,4,0f,true);
+        velocity=MoveAndSlideWithSnap(velocity,Vector2.Zero,new Vector2(4f,4f),true,4,0f,true);
         
         int slides=GetSlideCount();
         if(slides>0)
