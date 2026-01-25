@@ -4,6 +4,7 @@ using System;
 public class DirtyZombie : KinematicMonster
 {
     private RayCast2D rayCast2D;
+    private bool justJumped=false;
     
     public override void _Ready()
     {
@@ -23,21 +24,16 @@ public class DirtyZombie : KinematicMonster
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);
-
-        if(animationPlayer.IsPlaying())
-        {
-            Position=startOffset+(ANIMATION_OFFSET*animationDirection);
-        }
-
         goal(delta);
     }
 
-    protected override void Navigation(float delta)
+    protected override void Idle(float delta)
     {
         velocity+=FORCE*delta;
-        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
+        velocity=MoveAndSlideWithSnap(velocity,justJumped?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
+        justJumped=false;
 
-        int slides = GetSlideCount();
+        int slides=GetSlideCount();
         if(slides>0)
         {
             for(int i=0;i<slides;i++)
@@ -51,18 +47,12 @@ public class DirtyZombie : KinematicMonster
                     velocity=StopX(velocity,delta);
                 }
             }
-        } 
+        }
         else
         {
             velocity=StopX(velocity,delta);
         }
     }
-
-    protected override void Idle(float delta)
-    {
-        Navigation(delta);
-    }
-
 
     protected override void Passanger(float delta)
     {
@@ -71,6 +61,22 @@ public class DirtyZombie : KinematicMonster
             base.Passanger(delta);
         }
     }
+
+    protected override void OnDamage(Node2D node=null,float amount=0)
+    {
+        if(state!=STATE.damage&&state!=STATE.die)
+        {
+            base.OnDamage(node,amount);
+            if(GlobalPosition.x-node.GlobalPosition.x<0)
+            {
+                animationDirection=-1;
+            }
+            justJumped=true;
+            velocity+=new Vector2(200f*animationDirection,-50f);
+            animationPlayer.Play("HIT");
+        }        
+    }
+
 
     protected override void FlipH()
     {
