@@ -118,8 +118,8 @@ public abstract class KinematicMonster : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
-        direction = Direction();
-        facing = Facing();
+        direction=Direction();
+        facing=Facing();
 
         Vector2 diff=GlobalPosition-LastPosition;
         squeezed=Mathf.Abs(velocity.y)>200f&&diff.y==0f;
@@ -330,7 +330,6 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected void OnAnimationPlayerEnded(string name)
     {
-        startOffset=Position;
         ANIMATION_OFFSET=Vector2.Zero;
         animationDirection=1;
     }
