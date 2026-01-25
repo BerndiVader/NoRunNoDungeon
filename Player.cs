@@ -92,14 +92,16 @@ public class Player : KinematicBody2D
         }
 
         float friction=1f;
-        if(World.level.Speed!=0f&&World.level.direction.x!=0f)
+        Vector2 levelDirection=World.level.direction;
+
+        if(World.level.Speed!=0f&&levelDirection.x!=0f)
         {
             friction=36f/World.level.Speed;
         }
 
-        float levelYSpeed=World.level.direction.y*World.level.Speed;
-        airParticles.Direction=jumpParticles.Direction=World.level.direction;
-        airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.Speed*World.level.direction.Length();
+        float levelYSpeed=levelDirection.y*World.level.Speed;
+        airParticles.Direction=jumpParticles.Direction=levelDirection;
+        airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.Speed*levelDirection.Length();
         
         Vector2 force=FORCE;
         float slopeAngle=0f;
@@ -120,35 +122,32 @@ public class Player : KinematicBody2D
         {
             PlayerCamera.instance.direction=1;
             animationController.FlipH=true;
+            
+            float maxSpeed=(levelDirection.x>0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
+            if(velocity.x>-maxSpeed)
+            {
+                force.x-=WALK_FORCE;
+            }
         }
         else if(right)
         {
             PlayerCamera.instance.direction=-1;
             animationController.FlipH=false;
+
+            float maxSpeed=(levelDirection.x<0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
+            if(velocity.x<maxSpeed)
+            {
+                force.x+=WALK_FORCE;
+            }
         }
         else
         {
             PlayerCamera.instance.direction=0;
             if(friction!=1f)
             {
-                animationController.FlipH=false;
+                animationController.FlipH=levelDirection!=Vector2.Left;
             }
-        }
 
-        Vector2 motVel=velocity==Vector2.Zero?World.level.direction*World.level.Speed*-1.4f:(velocity-(World.level.direction*World.level.Speed))*1.2f;
-        motionTrails.SetShaderParam("velocity",motVel);
-        motionTrails.SetShaderParam("flip",animationController.FlipH);
-
-        if(left&&velocity.x>-WALK_MAX_SPEED)
-        {
-            force.x-=WALK_FORCE;
-        } 
-        else if(right&&velocity.x<(WALK_MAX_SPEED*friction))
-        {
-            force.x+=WALK_FORCE;
-        }
-        else
-        {
             float xlength=Mathf.Abs(velocity.x)-STOP_FORCE*delta;
             velocity.x=(xlength>0f?xlength:0f)*Mathf.Sign(velocity.x);
         }
@@ -172,6 +171,10 @@ public class Player : KinematicBody2D
             Vector2 snap=jumping?Vector2.Zero:new Vector2(0f,4f);
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
         }
+
+        Vector2 motVel=velocity==Vector2.Zero?levelDirection*World.level.Speed*-1.4f:(velocity-(levelDirection*World.level.Speed))*1.2f;
+        motionTrails.SetShaderParam("velocity",motVel);
+        motionTrails.SetShaderParam("flip",animationController.FlipH);
 
         int collides=GetSlideCount();
         bool onSlope=false;

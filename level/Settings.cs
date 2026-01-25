@@ -8,12 +8,13 @@ public class Settings
     private bool restoreCalled=false;
     public bool autoRestore=false;
     public bool restoreToDefault=false;
+    public bool noStop=false;
     public string CallID="";
     private readonly WeakReference<Level>levelRef;
 
     public Settings(Level level) : this(level,Vector2.Zero) {}
 
-    public Settings(Level level,Vector2 direction,float speed=-1f,float zoom=-1f,bool autoRestore=false,bool restoreToDefault=false)
+    public Settings(Level level,Vector2 direction,float speed=-1f,float zoom=-1f,bool autoRestore=false,bool restoreToDefault=false,bool noStop=false)
     {
         levelRef=new WeakReference<Level>(level);
         this.zoom=new Vector2(zoom,zoom);
@@ -21,6 +22,7 @@ public class Settings
         this.direction=direction;
         this.autoRestore=autoRestore;
         this.restoreToDefault=restoreToDefault;
+        this.noStop=noStop;
 
         prevSpeed=level.Speed;
         prevZoom=PlayerCamera.instance.Zoom;

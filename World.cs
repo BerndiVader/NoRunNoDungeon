@@ -146,7 +146,7 @@ public class World : Node
 			return;
 		}
 
-		if(level.direction.y!=0f)
+		if(!level.settings.noStop&&level.direction.y!=0f)
 		{
 			if(level.Position.y<0f)
 			{

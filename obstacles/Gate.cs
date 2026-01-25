@@ -99,6 +99,7 @@ public class Gate : Area2D,ISwitchable
                 {
                     settings=new Settings(World.level,Vector2.Zero,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
                     settings.autoRestore=World.level.settings.autoRestore;
+                    settings.restoreToDefault=true;
                     settings.Set();
                 }
                 GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(TeleportCall),ID+companionID,GetInstanceId());
@@ -205,6 +206,7 @@ public class Gate : Area2D,ISwitchable
         {
             World.instance.SetGamestate(gamestate);
         }
+
         if((bool)LEVEL_SETTINGS["Use"])
         {
             if(settings!=null)
@@ -213,7 +215,7 @@ public class Gate : Area2D,ISwitchable
             }
             else
             {
-                World.level.settings.Restore();
+                World.level.DEFAULT_SETTING.Restore();
             }
         }
     }

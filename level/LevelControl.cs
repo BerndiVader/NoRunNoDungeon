@@ -9,6 +9,7 @@ public class LevelControl : Node2D,ISwitchable
     [Export] private int Timeout=-1;
     [Export] private bool Restore=false;
     [Export] private bool AutoRestore=false;
+    [Export] private bool NoStop=false;
     [Export] private bool Signal=true;
     [Export] private string SwitchID="";
     [Export] private bool CallSwitch=false;
@@ -33,6 +34,7 @@ public class LevelControl : Node2D,ISwitchable
         if(settings==null)
         {
             settings=new Settings(World.level,Direction,Speed,Zoom,AutoRestore);
+            settings.noStop=NoStop;
             settings.CallID=CallID;
         }
 
