@@ -7,11 +7,11 @@ public class PhysicsCoin : PhysicsObject
     {
         base._Ready();
 
-        GetNode<Area2D>(nameof(Area2D)).Connect("body_entered",this,nameof(onBodyEntered));
+        GetNode<Area2D>(nameof(Area2D)).Connect("body_entered",this,nameof(OnBodyEntered));
         GetNode<AnimatedSprite>(nameof(AnimatedSprite)).Play("default");
     }
 
-    private void onBodyEntered(Node body) 
+    private void OnBodyEntered(Node body) 
     {
         if(body.Name.Equals("Player"))
         {
@@ -23,7 +23,7 @@ public class PhysicsCoin : PhysicsObject
         }
     }
 
-    public void apply(Player player)
+    public void Apply(Player player)
     {
         throw new NotImplementedException();
     }

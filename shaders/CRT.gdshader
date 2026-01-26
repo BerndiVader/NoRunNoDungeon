@@ -3,7 +3,7 @@ shader_type canvas_item;
 uniform float scanlines_opacity:hint_range(0.0f,1.0f)=0.4f;
 uniform float scanlines_width:hint_range(0.0f,0.5f)=0.2f;
 uniform float grille_opacity:hint_range(0.0f,1.0f)=0.7f;
-uniform vec2 resolution=vec2(512.0f,288.0f);
+uniform vec2 resolution=vec2(200.0f,100.0f);
 uniform float roll_speed=2.0f;
 uniform float roll_size:hint_range(0.0f,100.0f)=45.0f;
 uniform float roll_variation:hint_range(0.1f,5.0f)=1.5f;

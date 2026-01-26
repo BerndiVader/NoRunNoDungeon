@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://intro/BerndiVader.cs" type="Script" id=1]
 [ext_resource path="res://image/berndivader/berndivader.png" type="Texture" id=2]
@@ -6,6 +6,28 @@
 [ext_resource path="res://intro/Klammer.cs" type="Script" id=4]
 [ext_resource path="res://gfx/CrtShader.tscn" type="PackedScene" id=5]
 [ext_resource path="res://sounds/berndivader/Bass Drop Sound Effect.ogg" type="AudioStream" id=6]
+[ext_resource path="res://shaders/CRT.gdshader" type="Shader" id=7]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 7 )
+shader_param/scanlines_opacity = 0.4
+shader_param/scanlines_width = 0.2
+shader_param/grille_opacity = 0.0
+shader_param/resolution = Vector2( 200, 100 )
+shader_param/roll_speed = 2.0
+shader_param/roll_size = 45.0
+shader_param/roll_variation = 1.5
+shader_param/distort_intensity = 0.002
+shader_param/noise_opacity = 1.0
+shader_param/noise_speed = 0.0
+shader_param/static_noise_intensity = 0.816
+shader_param/aberration = 0.301
+shader_param/brightness = 1.4
+shader_param/discolor = false
+shader_param/warp_amount = 1.0
+shader_param/clip_warp = false
+shader_param/vignette_intensity = 3.0
+shader_param/vignette_opacity = 0.387
 
 [node name="Root" type="Node2D"]
 script = ExtResource( 1 )
@@ -37,3 +59,4 @@ position = Vector2( 256, 149 )
 stream = ExtResource( 6 )
 
 [node name="CrtShader" parent="." instance=ExtResource( 5 )]
+material = SubResource( 1 )

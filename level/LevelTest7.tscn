@@ -22,9 +22,6 @@ __meta__ = {
 "_edit_vertical_guides_": [ 0.0 ]
 }
 
-[node name="DirtyZombieHolder3" parent="." instance=ExtResource( 5 )]
-position = Vector2( 881, 248 )
-
 [node name="StartingPoint" type="Position2D" parent="."]
 position = Vector2( 160, 232 )
 
@@ -47,9 +44,6 @@ position = Vector2( 832, 201 )
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 6 )]
 position = Vector2( 704, 248 )
-
-[node name="DirtyZombieHolder2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 793, 248 )
 
 [editable path="ControlHolder"]
 [editable path="PlatformMoving3x3"]
