@@ -3,6 +3,9 @@ using Godot;
 public class DirtyZombie : KinematicMonster
 {
     [Export] private Vector2 DAMAGE_FORCE=new Vector2(200f,-50f);
+    [Export] private float WALK_FORCE=600f;
+    [Export] private float WALK_MIN_SPEED=10f;
+    [Export] private float WALK_MAX_SPEED=60f;
     private RayCast2D rayCast2D;
     private bool justDamaged=false;
     
@@ -24,6 +27,7 @@ public class DirtyZombie : KinematicMonster
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);
+        GD.Print(state);
         goal(delta);
     }
 
@@ -59,10 +63,41 @@ public class DirtyZombie : KinematicMonster
     {
         if(DistanceToPlayer()<80f)
         {
-            int dir=Mathf.Sign(GlobalPosition.x-Player.instance.GlobalPosition.x);
+            if(facing.x!=Mathf.Sign(Player.instance.GlobalPosition.x-GlobalPosition.x))
+            {
+                FlipH();
+                OnStroll();
+            }
+        }
+        Navigation(delta);
+    }
+
+    protected override void Stroll(float delta)
+    {
+
+        if(!rayCast2D.IsColliding())
+        {
+            OnIdle();
+            return;
         }
 
-        Navigation(delta);
+		Vector2 force=new Vector2(FORCE);
+		if(facing==Vector2.Left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
+		{
+			force.x-=WALK_FORCE;
+		} 
+		else if(facing==Vector2.Right&&velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED)
+		{
+			force.x+=WALK_FORCE;
+		}
+		else
+		{
+			velocity=StopX(velocity,delta);
+		}
+
+		velocity+=force*delta;
+		velocity=MoveAndSlideWithSnap(velocity,justDamaged?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
+        
     }
 
     protected override void Damage(float delta)
@@ -83,6 +118,18 @@ public class DirtyZombie : KinematicMonster
         if(!animationPlayer.IsPlaying())
         {
             base.Passanger(delta);
+        }
+    }
+
+    protected override void OnStroll()
+    {
+        onDelay=false;
+        if(state!=STATE.stroll)
+        {
+            lastState=state;
+            state=STATE.stroll;
+            animationController.Play("stroll");
+            goal=Stroll;
         }
     }
 

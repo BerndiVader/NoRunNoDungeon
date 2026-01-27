@@ -317,7 +317,7 @@ public abstract class KinematicMonster : KinematicBody2D
             onDelay=true;
             char[]chr=next.ToString().ToCharArray();
             chr[0]=char.ToUpper(chr[0]);
-            string method="on"+new string(chr);
+            string method="On"+new string(chr);
 
             SceneTreeTimer timer=GetTree().CreateTimer(seconds,false);
             timer.Connect("timeout",this,method,new Godot.Collections.Array(args));
