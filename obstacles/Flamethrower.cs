@@ -36,8 +36,8 @@ public class Flamethrower : Area2D,ISwitchable
 
     private AnimatedSprite animation;
     private CollisionShape2D collision;
-    private RectangleShape2D collisionRect=new RectangleShape2D();
-    private AudioStreamPlayer2D sfxPlayer=new AudioStreamPlayer2D();
+    private readonly RectangleShape2D collisionRect=new RectangleShape2D();
+    private readonly AudioStreamPlayer2D sfxPlayer=new AudioStreamPlayer2D();
     private CPUParticles2D particles;
     private Timer timer;
 
@@ -60,7 +60,7 @@ public class Flamethrower : Area2D,ISwitchable
 
         sfxPlayer.Stream=flameFx;
         sfxPlayer.Bus="Sfx";
-        sfxPlayer.MaxDistance=500f;
+        sfxPlayer.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
         AddChild(sfxPlayer);
 
         timer=new Timer
@@ -77,7 +77,12 @@ public class Flamethrower : Area2D,ISwitchable
         animation.Connect("animation_finished",this,nameof(OnAnimEnd));
         animation.Connect("frame_changed",this,nameof(OnFrameChanged));
         animation.Frame=0;
+
         collisionRect.Extents=shapesize[animation.Frame];
+        if(damageMonster)
+        {
+            CollisionMask|=1<<5;
+        }
 
         switch(mode)
         {
@@ -86,7 +91,10 @@ public class Flamethrower : Area2D,ISwitchable
                 break;
             case MODE.DISTANCE:
                 SetPhysicsProcess(true);
-            break;
+                break;
+            case MODE.SWITCH:
+                AddToGroup(GROUPS.SWITCHABLES.ToString());
+                break;
         }
     }
 
@@ -115,19 +123,12 @@ public class Flamethrower : Area2D,ISwitchable
 
     private void OnBodyEntered(Node node)
     {
-        if(node is Player)
+        if(node.HasUserSignal(STATE.damage.ToString()))
         {
             node.EmitSignal(STATE.damage.ToString(),this,1f);
             SetDeferred("monitoring",false);
         }
-    }
-
-    private void OnAnimEnd()
-    {
-        SetDeferred("monitoring",false);
-        animation.Stop();
-        timer.Start();
-        particles.Emitting=true;
+        
     }
 
     private void OnTimeOut()
@@ -149,6 +150,17 @@ public class Flamethrower : Area2D,ISwitchable
 
     }
 
+    private void OnAnimEnd()
+    {
+        SetDeferred("monitoring",false);
+        animation.Stop();
+        if(mode!=MODE.SWITCH)
+        {
+            timer.Start();
+        }
+        particles.Emitting=true;
+    }    
+
     private void OnFrameChanged()
     {
         if(animation.Frame==1)
@@ -167,6 +179,13 @@ public class Flamethrower : Area2D,ISwitchable
 
     public void SwitchCall(string id)
     {
-        throw new NotImplementedException();
+        if(id==switchID&&!animation.Playing)
+        {
+            SetDeferred("monitoring",true);
+            animation.Frame=0;
+            collisionRect.Extents=shapesize[animation.Frame];
+            particles.Emitting=false;
+            animation.Play("default");
+        }
     }
 }
