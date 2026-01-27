@@ -5,7 +5,7 @@ public class SfxPlayer : AudioStreamPlayer2D
 {
     public override void _Ready()
     {
-        MaxDistance=500f;
+        MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
         Bus="Sfx";
         Connect("finished",this,nameof(OnFinished));
         Play(); 

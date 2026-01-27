@@ -35,6 +35,7 @@ public class Cannon : KinematicMonster
 
         sfxPlayer=GetNode<AudioStreamPlayer2D>(nameof(AudioStreamPlayer2D));
         sfxPlayer.Stream=shootFx;
+        sfxPlayer.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
 
         timer.WaitTime=FIRE_DELAY;
         timer.OneShot=true;

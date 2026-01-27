@@ -33,15 +33,21 @@ public class World : Node
 		Worker.Gc();
 		Node currentScene=root.GetTree().CurrentScene;
 		root.AddChild(newScene.Instance());
-		root.RemoveChild(currentScene);		
-		if(currentScene.GetType().Name.Equals("World"))
+		root.RemoveChild(currentScene);
+
+		switch(currentScene.GetType().Name)
 		{
-			((World)currentScene)._Free();
+			case "World":
+				((World)currentScene).FreeWorld();
+				break;
+			default:
+				if(!currentScene.IsQueuedForDeletion())
+				{
+					currentScene.QueueFree();
+				}
+				break;
 		}
-		else if(!currentScene.IsQueuedForDeletion())
-		{
-			currentScene.QueueFree();
-		}
+
 	}
 
 	public static void OnObjectExitedScreen(Node node)
@@ -57,7 +63,7 @@ public class World : Node
 		Worker.Stop();
 		if(instance!=null)
 		{
-			instance._Free();
+			instance.FreeWorld();
 		}
 
 		root.GetTree().Quit();
@@ -337,7 +343,7 @@ public class World : Node
 		}
 	}
 
-	public void _Free()
+	public void FreeWorld()
 	{
 		SetGamestate(Gamestate.RESTART);
 		if(cachedLevel!=null)
@@ -348,6 +354,7 @@ public class World : Node
 		instance=null;
 		QueueFree();
 	}
+
 	public override void _Notification(int what)
 	{
 		if(what==MainLoop.NotificationWmQuitRequest)

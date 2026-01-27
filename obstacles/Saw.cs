@@ -52,6 +52,7 @@ public class Saw : Area2D
 
         sfxPlayer.Connect("finished",this,nameof(SfxEnd));
         sfxPlayer.Stream=sawFx;
+        sfxPlayer.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
         sfxPlayer.Play();
 
         animation.Playing=true;

@@ -4,15 +4,20 @@ using System.Collections.Generic;
 public class Player : KinematicBody2D
 {
     public static Player instance;
-    private static readonly string ANIM_RUN="RUN";
-    private static readonly string ANIM_JUMP="HIT";
+    private const string ANIM_RUN="RUN";
+    private const string ANIM_JUMP="HIT";
     public static int LIVES;
 
-    static readonly AudioStream sfxJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/30_Jump_03.wav");
-    static readonly AudioStream sfxDoubleJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
-    static readonly AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
+    private static readonly AudioStream sfxJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/30_Jump_03.wav");
+    private static readonly AudioStream sfxDoubleJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
+    private static readonly AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
 
-    [Export] private float GRAVITY=700f, WALK_FORCE=1600f, WALK_MIN_SPEED=119f, WALK_MAX_SPEED=119f, STOP_FORCE=1600f, JUMP_SPEED=220f, JUMP_MAX_AIRBORNE_TIME=0.2f;
+    [Export] private float GRAVITY=700f;
+    [Export] private float WALK_FORCE=1600f;
+    [Export] private float WALK_MAX_SPEED=119f;
+    [Export] private float STOP_FORCE=1600f;
+    [Export] private float JUMP_SPEED=220f;
+    [Export] private float JUMP_MAX_AIRBORNE_TIME=0.2f;
 
     private Vector2 velocity=Vector2.Zero;
     public Vector2 Velocity=>velocity;
@@ -25,7 +30,6 @@ public class Player : KinematicBody2D
     private Vector2 lastPosition=Vector2.Zero;
     private Vector2 FORCE;
     private Vector2 platformSpeed=Vector2.Zero;
-    private float smoothingSpeed;
     private bool onTeleport=false;
 
     private AnimatedSprite animationController;
@@ -79,7 +83,6 @@ public class Player : KinematicBody2D
         Connect(STATE.damage.ToString(),this,nameof(OnDamaged));
 
         FORCE=new Vector2(0f,GRAVITY);
-        smoothingSpeed=PlayerCamera.instance.SmoothingSpeed;
         motionTrails=(ShaderMaterial)animationController.Material;
         lastPosition=GlobalPosition;
     }
@@ -338,7 +341,7 @@ public class Player : KinematicBody2D
         if(LIVES>0)
         {
             World.instance.CallDeferred(nameof(World.instance.RestartLevel),true);
-            PlayerCamera.instance.SmoothingSpeed=smoothingSpeed;
+            PlayerCamera.instance.ResetSmoothingSpeed();
         }
         else
         {

@@ -3,7 +3,7 @@ using Godot;
 public class ItemTaken : Particles
 {
     public static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PowerUp/Retro PowerUP StereoUP 05.wav");
-    public SfxPlayer audio=new SfxPlayer();
+    public readonly SfxPlayer audio=new SfxPlayer();
     private static Vector2 offset=new Vector2(0f,0.05f);
 
     public override void _Ready()

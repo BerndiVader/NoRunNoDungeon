@@ -3,6 +3,9 @@ using System;
 
 public class PlayerCamera : Camera2D
 {
+
+    [Export] private float SMOOTHING_SPEED=2f;
+
     public static PlayerCamera instance;
     private const float ROT=0.001f;
     public int direction;
@@ -13,23 +16,23 @@ public class PlayerCamera : Camera2D
         direction=0;
     }
 
-    public override void _Ready()
-    {
-    }
-
     public override void _PhysicsProcess(float delta)
     {
-        if(direction!=0)
+        if(direction!=0f)
         {
-            if((direction==-1&&Rotation>-0.02f)||(direction==1&&Rotation<0.02f))
-            {
-                Rotation+=ROT*Mathf.Sign(direction);
-            }
+            float target=direction*0.02f;
+            Rotation=Mathf.MoveToward(Rotation,target,ROT);
+
         }
-        else if(Rotation!=0)
+        else if(Rotation!=0f)
         {
-            Rotation-=ROT*Mathf.Sign(Rotation);
+            Rotation=Mathf.MoveToward(Rotation,0f,ROT);
         }
+    }
+
+    public void ResetSmoothingSpeed()
+    {
+        SmoothingSpeed=SMOOTHING_SPEED;
     }
 
 }

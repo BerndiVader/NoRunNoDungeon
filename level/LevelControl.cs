@@ -12,7 +12,6 @@ public class LevelControl : Node2D,ISwitchable
     [Export] private bool NoStop=false;
     [Export] private bool Signal=true;
     [Export] private string SwitchID="";
-    [Export] private bool CallSwitch=false;
     [Export] private string CallID="";
 
     private VisibilityNotifier2D notifier;

@@ -45,8 +45,6 @@ public class Level : TileMap
 
         lastDirection=direction;
 
-
-
         settings=new Settings(this,direction,Speed,1f,false);
         DEFAULT_SETTING=new Settings(this,direction,Speed,1f,false);
     }

@@ -10,7 +10,7 @@ public class DoorSwitch : Area2D
     private static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/01_chest_open_4.wav");
 
     private Tween tween;
-    private AudioStreamPlayer2D sfxPlayer=new AudioStreamPlayer2D();
+    private readonly AudioStreamPlayer2D sfxPlayer=new AudioStreamPlayer2D();
     private bool active=false;
     private bool used=false;
 
@@ -31,7 +31,7 @@ public class DoorSwitch : Area2D
 
         sfxPlayer.Stream=sfx;
         sfxPlayer.Bus="Sfx";
-        sfxPlayer.MaxDistance=500f;
+        sfxPlayer.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
         AddChild(sfxPlayer);
         
         tween=GetNode<Tween>(nameof(Tween));
