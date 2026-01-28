@@ -8,6 +8,7 @@ public class KnifeGoblin : KinematicMonster
     [Export] private float WALK_MAX_SPEED=120f;
 
     private RayCast2D rayCast2D;
+    private RayCast2D playerCast;
     private MonsterWeapon weapon;
 
 
@@ -21,6 +22,9 @@ public class KnifeGoblin : KinematicMonster
 
         rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
+
+        playerCast=GetNode<RayCast2D>("PlayerCast");
+        playerCast.Enabled=true;
 
         weapon=GetNode<MonsterWeapon>("KnifeMonster");
         if(weapon!=null)
@@ -67,6 +71,12 @@ public class KnifeGoblin : KinematicMonster
 
     protected override void Idle(float delta)
     {
+
+        if(playerCast.IsColliding()&&!weapon.IsPlaying())
+        {
+            weapon.Attack();
+        }
+
         if(DistanceToPlayer()<ACTIVATION_DISTANCE)
         {
             if(facing.x!=Mathf.Sign(Player.instance.GlobalPosition.x-GlobalPosition.x))
@@ -148,14 +158,6 @@ public class KnifeGoblin : KinematicMonster
         if(state!=STATE.damage&&state!=STATE.die)
         {
             base.OnDamage(node,amount);
-
-            if(GlobalPosition.x-node.GlobalPosition.x<0)
-            {
-                animationDirection=-1;
-            }
-            justDamaged=true;
-            velocity.x+=DAMAGE_FORCE.x*animationDirection;
-            velocity.y+=DAMAGE_FORCE.y;
             animationPlayer.Play("HIT");
         }        
     }
@@ -172,6 +174,7 @@ public class KnifeGoblin : KinematicMonster
         staticBody.Position=FlipX(staticBody.Position);
         rayCast2D.Position=FlipX(rayCast2D.Position);
         rayCast2D.CastTo=FlipX(rayCast2D.CastTo);
+        playerCast.CastTo=FlipX(playerCast.CastTo);
 		facing=Facing();
     }
 
