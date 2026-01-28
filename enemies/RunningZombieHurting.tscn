@@ -1,44 +1,105 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
-[ext_resource path="res://image/0x72/frames/zombiehurting_rush_1.png" type="Texture" id=1]
-[ext_resource path="res://image/0x72/frames/zombiehurting_idle_1.png" type="Texture" id=2]
-[ext_resource path="res://image/0x72/frames/zombiehurting_idle_2.png" type="Texture" id=3]
-[ext_resource path="res://image/0x72/frames/zombiehurting_rush_4.png" type="Texture" id=4]
-[ext_resource path="res://image/0x72/frames/zombiehurting_rush_2.png" type="Texture" id=5]
-[ext_resource path="res://image/0x72/frames/zombiehurting_idle_0.png" type="Texture" id=6]
-[ext_resource path="res://image/0x72/frames/zombiehurting_idle_3.png" type="Texture" id=7]
-[ext_resource path="res://image/0x72/frames/zombiehurting_rush_0.png" type="Texture" id=8]
 [ext_resource path="res://enemies/RunningZombieHurting.cs" type="Script" id=9]
-[ext_resource path="res://image/0x72/frames/zombiehurting_explode_7.png" type="Texture" id=10]
-[ext_resource path="res://image/0x72/frames/zombiehurting_explode_8.png" type="Texture" id=11]
-[ext_resource path="res://image/0x72/frames/zombiehurting_explode_9.png" type="Texture" id=12]
+[ext_resource path="res://image/0x72/zombie_hurting.png" type="Texture" id=10]
 [ext_resource path="res://image/0x72/frames/zombiehurting_explode_10.png" type="Texture" id=13]
-[ext_resource path="res://image/0x72/frames/zombiehurting_explode_6.png" type="Texture" id=14]
-[ext_resource path="res://image/0x72/frames/zombiehurting_explode_4.png" type="Texture" id=15]
-[ext_resource path="res://image/0x72/frames/zombiehurting_explode_5.png" type="Texture" id=16]
-[ext_resource path="res://image/0x72/frames/zombiehurting_explode_3.png" type="Texture" id=17]
-[ext_resource path="res://image/0x72/frames/zombiehurting_explode_0.png" type="Texture" id=18]
-[ext_resource path="res://image/0x72/frames/zombiehurting_explode_2.png" type="Texture" id=19]
-[ext_resource path="res://image/0x72/frames/zombiehurting_explode_1.png" type="Texture" id=20]
-[ext_resource path="res://image/0x72/frames/zombiehurting_rush_5.png" type="Texture" id=21]
-[ext_resource path="res://image/0x72/frames/zombiehurting_rush_3.png" type="Texture" id=22]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4.44314, 6.5 )
 
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 10 )
+region = Rect2( 0, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 10 )
+region = Rect2( 16, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 10 )
+region = Rect2( 32, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 10 )
+region = Rect2( 48, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 10 )
+region = Rect2( 64, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 10 )
+region = Rect2( 80, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 10 )
+region = Rect2( 96, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 10 )
+region = Rect2( 112, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 10 )
+region = Rect2( 128, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 10 )
+region = Rect2( 144, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 10 )
+region = Rect2( 160, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 10 )
+region = Rect2( 176, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 10 )
+region = Rect2( 192, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 10 )
+region = Rect2( 208, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 10 )
+region = Rect2( 224, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 10 )
+region = Rect2( 240, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 10 )
+region = Rect2( 256, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 10 )
+region = Rect2( 272, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 10 )
+region = Rect2( 288, 0, 16, 24 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 10 )
+region = Rect2( 304, 0, 16, 24 )
+
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 18 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource( 17 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ) ],
+"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), ExtResource( 13 ) ],
 "loop": false,
 "name": "attack",
 "speed": 10.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 7 ) ],
+"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 8 ), ExtResource( 1 ), ExtResource( 5 ), ExtResource( 22 ), ExtResource( 4 ), ExtResource( 21 ) ],
+"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
 "loop": true,
 "name": "stroll",
 "speed": 5.0
@@ -191,7 +252,7 @@ shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-animation = "attack"
+animation = "idle"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2( 6, 6 )

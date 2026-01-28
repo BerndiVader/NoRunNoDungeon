@@ -1,26 +1,51 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://image/0x72/frames/Ent_Idle_4.png" type="Texture" id=1]
-[ext_resource path="res://image/0x72/frames/Ent_Walk_1.png" type="Texture" id=2]
-[ext_resource path="res://image/0x72/frames/Ent_Walk_3.png" type="Texture" id=3]
-[ext_resource path="res://image/0x72/frames/Ent_Idle_3.png" type="Texture" id=4]
-[ext_resource path="res://image/0x72/frames/Ent_Walk_2.png" type="Texture" id=5]
-[ext_resource path="res://image/0x72/frames/Ent_Walk_4.png" type="Texture" id=6]
-[ext_resource path="res://image/0x72/frames/Ent_Idle_1.png" type="Texture" id=7]
-[ext_resource path="res://image/0x72/frames/Ent_Idle_2.png" type="Texture" id=8]
+[ext_resource path="res://image/0x72/ent.png" type="Texture" id=1]
 [ext_resource path="res://enemies/WalkingTree.cs" type="Script" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5, 9.5 )
 
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 1 )
+region = Rect2( 128, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 1 )
+region = Rect2( 160, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 1 )
+region = Rect2( 224, 0, 32, 32 )
+
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 1 ) ],
+"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 2 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 6 ) ],
+"frames": [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
 "loop": true,
 "name": "stroll",
 "speed": 5.0
@@ -168,7 +193,7 @@ shape = SubResource( 1 )
 position = Vector2( 0, -4 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 2 )
-animation = "stroll"
+animation = "idle"
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2( 7, 6 )

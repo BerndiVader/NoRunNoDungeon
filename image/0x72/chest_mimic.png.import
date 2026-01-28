@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tiny_zombie_idle_anim_f0.png-b5d715c5a638e1a40d1dbbcbc069ec4e.stex"
+path="res://.import/chest_mimic.png-cf3d6b7e3c977160aaa5046bafd9431d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://image/0x72/frames/tiny_zombie_idle_anim_f0.png"
-dest_files=[ "res://.import/tiny_zombie_idle_anim_f0.png-b5d715c5a638e1a40d1dbbcbc069ec4e.stex" ]
+source_file="res://image/0x72/chest_mimic.png"
+dest_files=[ "res://.import/chest_mimic.png-cf3d6b7e3c977160aaa5046bafd9431d.stex" ]
 
 [params]
 

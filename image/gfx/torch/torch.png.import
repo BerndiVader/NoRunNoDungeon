@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tiny_zombie_idle_anim_f0.png-b5d715c5a638e1a40d1dbbcbc069ec4e.stex"
+path="res://.import/torch.png-4669fa456c21d97bf791b307d7806206.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://image/0x72/frames/tiny_zombie_idle_anim_f0.png"
-dest_files=[ "res://.import/tiny_zombie_idle_anim_f0.png-b5d715c5a638e1a40d1dbbcbc069ec4e.stex" ]
+source_file="res://image/gfx/torch/torch.png"
+dest_files=[ "res://.import/torch.png-4669fa456c21d97bf791b307d7806206.stex" ]
 
 [params]
 
