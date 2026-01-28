@@ -19,7 +19,7 @@
     <Compile Include="AutoLoad.cs" />
     <Compile Include="bonus\WeaponItem.cs" />
     <Compile Include="enemies\Cannon.cs" />
-    <Compile Include="enemies\DirtyZombie.cs" />
+    <Compile Include="enemies\BombTroll.cs" />
     <Compile Include="enemies\RunningZombieHurting.cs" />
     <Compile Include="enemies\WalkingTree.cs" />
     <Compile Include="enemies\Fairy.cs" />

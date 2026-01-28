@@ -1,14 +1,21 @@
+using System.Collections.Generic;
 using Godot;
 
-public class DirtyZombie : KinematicMonster
+public class BombTroll : KinematicMonster
 {
-    [Export] private Vector2 DAMAGE_FORCE=new Vector2(200f,-50f);
+    private static PackedScene bombPack=Cannon.bombPack;
+
     [Export] private float WALK_FORCE=600f;
     [Export] private float WALK_MIN_SPEED=10f;
     [Export] private float WALK_MAX_SPEED=60f;
+    [Export] private double THROW_DELAY_MS=1000d;
+    [Export] private float CANNON_INITIAL_FORCE=100f;
+    [Export] private Dictionary<string,object>CANNONBALL_SETTINGS=Cannonball.GetDefaults();
+
     private RayCast2D rayCast2D;
-    private bool justDamaged=false;
-    
+    private AnimatedSprite bomb;
+    private double timestamp;
+
     public override void _Ready()
     {
         base._Ready();
@@ -20,6 +27,10 @@ public class DirtyZombie : KinematicMonster
         rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
 
+        bomb=GetNode<AnimatedSprite>(nameof(Sprite));
+        bomb.Visible=false;
+        bomb.Stop();
+
         SetSpawnFacing();
         OnIdle();
     }
@@ -27,7 +38,6 @@ public class DirtyZombie : KinematicMonster
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);
-        GD.Print(state);
         goal(delta);
     }
 
@@ -68,6 +78,14 @@ public class DirtyZombie : KinematicMonster
                 FlipH();
                 OnStroll();
             }
+            else if(rayCast2D.IsColliding())
+            {
+                OnStroll();
+            }
+            else if(!rayCast2D.IsColliding())
+            {
+                OnAlert();
+            }
         }
         Navigation(delta);
     }
@@ -100,6 +118,18 @@ public class DirtyZombie : KinematicMonster
         
     }
 
+    protected override void Alert(float delta)
+    {
+        if(Time.GetTicksMsec()-timestamp>=THROW_DELAY_MS)
+        {
+            ThrowBomb();
+            bomb.Visible=false;
+            bomb.Stop();
+            OnIdle();
+        }
+        Navigation(delta);
+    }
+
     protected override void Damage(float delta)
     {
         if(health<=0)
@@ -118,6 +148,20 @@ public class DirtyZombie : KinematicMonster
         if(!animationPlayer.IsPlaying())
         {
             base.Passanger(delta);
+        }
+    }
+
+    protected override void OnAlert()
+    {
+        onDelay=false;
+        if(state!=STATE.alert)
+        {
+            lastState=state;
+            state=STATE.alert;
+            bomb.Visible=true;
+            bomb.Play("default");
+            timestamp=Time.GetTicksMsec();
+            goal=Alert;
         }
     }
 
@@ -150,6 +194,20 @@ public class DirtyZombie : KinematicMonster
         }        
     }
 
+    private void ThrowBomb()
+    {
+        Cannonball ball=bombPack.Instance<Cannonball>();
+        ball.Position=World.level.ToLocal(bomb.GlobalPosition);
+        ball.SetDirection(facing);
+        if((bool)CANNONBALL_SETTINGS["USE_SETTINGS"])
+        {
+            ball.SetOptions(CANNONBALL_SETTINGS);
+        }
+        ball.Scale=new Vector2(0.7f,0.7f);
+        ball.INITIAL_FORCE=CANNON_INITIAL_FORCE;
+        World.level.AddChild(ball);
+    }
+
     private float DistanceToPlayer()
     {
         return GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
@@ -162,6 +220,7 @@ public class DirtyZombie : KinematicMonster
         staticBody.Position=FlipX(staticBody.Position);
         rayCast2D.Position=FlipX(rayCast2D.Position);
         rayCast2D.CastTo=FlipX(rayCast2D.CastTo);
+        bomb.Position=FlipX(bomb.Position);
 		facing=Facing();
     }
 

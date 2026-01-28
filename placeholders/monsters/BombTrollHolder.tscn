@@ -2,7 +2,7 @@
 
 [ext_resource path="res://placeholders/Placeholder.cs" type="Script" id=1]
 
-[node name="DirtyZombieHolder" type="Node2D"]
+[node name="BombTrollHolder" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="DirtyZombie" parent="." instance_placeholder="res://enemies/DirtyZombie.tscn"]
+[node name="BombTroll" parent="." instance_placeholder="res://enemies/BombTroll.tscn"]

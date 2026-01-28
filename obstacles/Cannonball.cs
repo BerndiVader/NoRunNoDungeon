@@ -4,6 +4,7 @@ using Godot;
 public class Cannonball : KinematicMonster
 {
     [Export] public float MOVE_FORCE=150f;
+    [Export] public float INITIAL_FORCE=200f;
     [Export] public float MIN_SPEED=20f;
     [Export] public float MAX_SPEED=50f;
     [Export] public Vector2 BOUNCE_FORCE=new Vector2(50f,100f);
@@ -135,7 +136,7 @@ public class Cannonball : KinematicMonster
             state=STATE.stroll;
             animationController.Play("stroll");
             int dir=spawn_facing==SPAWN_FACING.LEFT?-1:1;
-            velocity.x=dir*200f;
+            velocity.x=dir*INITIAL_FORCE;
             goal=Stroll;
         }
     }
