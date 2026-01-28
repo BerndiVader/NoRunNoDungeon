@@ -7,7 +7,7 @@
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=5]
 [ext_resource path="res://placeholders/obstacles/GateHolder.tscn" type="PackedScene" id=6]
 [ext_resource path="res://obstacles/Gate.tscn" type="PackedScene" id=7]
-[ext_resource path="res://placeholders/monsters/DirtyZombieHolder.tscn" type="PackedScene" id=8]
+[ext_resource path="res://placeholders/monsters/BombTrollHolder.tscn" type="PackedScene" id=8]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -97,11 +97,27 @@ LEVEL_SETTINGS = {
 "Zoom": -1.0
 }
 
-[node name="DirtyZombieHolder" parent="." instance=ExtResource( 8 )]
-position = Vector2( 832, 184 )
+[node name="BombTrollHolder" parent="." instance=ExtResource( 8 )]
+position = Vector2( 831, 184 )
 
-[node name="DirtyZombie" parent="DirtyZombieHolder" index="0"]
-spawn_facing = 2
+[node name="BombTroll" parent="BombTrollHolder" index="0"]
+HEALTH = 1.0
+THROW_DELAY_MS = 500.0
+CANNONBALL_SETTINGS = {
+"BOUNCE_FORCE": Vector2( 50, 100 ),
+"DAMAGE_AMOUNT": 1.0,
+"EXPLODE_AFTER_MS": 0,
+"EXPLODE_ON_WALL": true,
+"FRICTION": 0.01,
+"GRAVITY": 500.0,
+"HEALTH": 1.0,
+"MAX_SPEED": 0.0,
+"MIN_SPEED": 0.0,
+"MOVE_FORCE": 0.0,
+"RANDOM_BOUNCE_FORCE": true,
+"STOP_FORCE": 500.0,
+"USE_SETTINGS": true
+}
 
 [editable path="SwordItemHolder"]
 [editable path="ControlHolder"]
@@ -109,4 +125,4 @@ spawn_facing = 2
 [editable path="ControlHolder3"]
 [editable path="ControlHolder4"]
 [editable path="GateHolder"]
-[editable path="DirtyZombieHolder"]
+[editable path="BombTrollHolder"]
