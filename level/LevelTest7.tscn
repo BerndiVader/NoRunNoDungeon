@@ -34,6 +34,7 @@ position = Vector2( 832, 136 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
 Speed = 0.0
+SwitchID = "fe9b9120-97bb-4e22-a3a9-31e104df33b6"
 
 [node name="PlatformMoving3x3" parent="." instance=ExtResource( 4 )]
 position = Vector2( 952, 216 )
@@ -73,6 +74,12 @@ DAMAGE_FORCE = Vector2( 100, -50 )
 [node name="KnifeGoblinHolder" parent="." instance=ExtResource( 10 )]
 position = Vector2( 808, 248 )
 
+[node name="Switch2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 967, 257 )
+
+[node name="DoorSwitch" parent="Switch2" index="0"]
+switchID = "fe9b9120-97bb-4e22-a3a9-31e104df33b6"
+
 [editable path="ControlHolder"]
 [editable path="PlatformMoving3x3"]
 [editable path="SwordItemHolder"]
@@ -80,3 +87,4 @@ position = Vector2( 808, 248 )
 [editable path="Switch"]
 [editable path="BombTrollHolder"]
 [editable path="KnifeGoblinHolder"]
+[editable path="Switch2"]

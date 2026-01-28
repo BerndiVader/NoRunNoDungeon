@@ -167,10 +167,6 @@ public class Zombie : KinematicMonster
         if(state!=STATE.damage&&state!=STATE.die)
         {
             base.OnDamage(node,amount);
-            if(GlobalPosition.x-node.GlobalPosition.x<0)
-            {
-                animationDirection=-1;
-            }
             animationPlayer.Play("HIT");
         }
     }

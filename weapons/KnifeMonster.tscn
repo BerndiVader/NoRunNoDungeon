@@ -16,7 +16,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -6, -2 ) ]
+"values": [ Vector2( -8, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:rotation_degrees")
@@ -43,7 +43,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -6, -2 ) ]
+"values": [ Vector2( -8, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:rotation_degrees")
@@ -71,7 +71,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 6, -2 ) ]
+"values": [ Vector2( 8, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:rotation_degrees")
@@ -99,7 +99,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.07, 0.15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -6, -2 ), Vector2( -6, -2 ), Vector2( -6, -2 ) ]
+"values": [ Vector2( -8, 0 ), Vector2( -8, 0 ), Vector2( -8, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:rotation_degrees")
@@ -140,7 +140,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.07, 0.15 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 6, -2 ), Vector2( 6, -2 ), Vector2( 6, -2 ) ]
+"values": [ Vector2( 8, 0 ), Vector2( 8, 0 ), Vector2( 8, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:rotation_degrees")
@@ -171,8 +171,8 @@ tracks/2/keys = {
 extents = Vector2( 1.44889, 3.76897 )
 
 [node name="KnifeMonster" type="Area2D"]
-position = Vector2( -6, -2 )
-rotation = 0.261799
+position = Vector2( 6, -2 )
+rotation = -0.261799
 collision_layer = 0
 script = ExtResource( 2 )
 
@@ -186,9 +186,7 @@ anims/SWING_RIGHT = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.154792, -4.7349 )
-scale = Vector2( 1, 1 )
 shape = SubResource( 6 )
-disabled = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0.189469, -3.1566 )
