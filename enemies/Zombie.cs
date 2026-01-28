@@ -37,17 +37,12 @@ public class Zombie : KinematicMonster
         cooldown=0;
 
         SetSpawnFacing();      
-
-        animationController.Play("idle");
         OnIdle();
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        if(animationPlayer.IsPlaying())
-        {
-            Position=startOffset+(ANIMATION_OFFSET*animationDirection);
-        }
+        base._PhysicsProcess(delta);
         goal(delta);
         Navigation(delta);
     }
@@ -55,9 +50,10 @@ public class Zombie : KinematicMonster
     protected override void Navigation(float delta)
     {
         velocity+=FORCE*delta;
-        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
+        velocity=MoveAndSlideWithSnap(velocity,justDamaged?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
+        justDamaged=false;
 
-        int slides = GetSlideCount();
+        int slides=GetSlideCount();
         if(slides>0)
         {
             for(int i=0;i<slides;i++)
@@ -71,7 +67,7 @@ public class Zombie : KinematicMonster
                     velocity=StopX(velocity,delta);
                 }
             }
-        } 
+        }
         else
         {
             velocity=StopX(velocity,delta);
@@ -97,31 +93,31 @@ public class Zombie : KinematicMonster
     protected override void Attack(float delta)
     {
         float distance=rayCast2D.GlobalPosition.DistanceTo(victim.GlobalPosition);
-        if (distance < 41f)
+        if (distance<41f)
         {
-            Vector2 direction = rayCast2D.GlobalPosition.DirectionTo(victim.GlobalPosition);
-            SetFlipH(direction.x < 0f);
+            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(victim.GlobalPosition);
+            SetFlipH(direction.x<0f);
 
-            rayCast2D.CastTo = direction * distance;
-            if (rayCast2D.IsColliding() && rayCast2D.GetCollider().GetInstanceId() == victim.GetInstanceId())
+            rayCast2D.CastTo=direction*distance;
+            if (rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
             {
-                if (cooldown < 0 && !weapon.IsPlaying())
+                if(cooldown<0&&!weapon.IsPlaying())
                 {
                     weapon.Attack();
-                    cooldown = 20;
+                    cooldown=20;
                 }
             }
             else
             {
-                rayCast2D.CastTo = animationController.FlipH == true ? CASTTO * -1 : CASTTO;
-                cooldown = 0;
+                rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
+                cooldown=0;
                 OnIdle();
             }
         }
         else
         {
-            rayCast2D.CastTo = animationController.FlipH == true ? CASTTO * -1 : CASTTO;
-            cooldown = 0;
+            rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
+            cooldown=0;
             OnIdle();
         }
         cooldown--;
@@ -138,7 +134,7 @@ public class Zombie : KinematicMonster
         {
             if(health<=0)
             {
-                EmitSignal(STATE.die.ToString());
+                OnDie();
             }
             else
             {
@@ -191,13 +187,8 @@ public class Zombie : KinematicMonster
     protected override void FlipH()
     {
         animationController.FlipH^=true;
-        if(animationController.FlipH)
-        {
-            rayCast2D.CastTo=CASTTO*-1;
-        } else
-        {
-            rayCast2D.CastTo=CASTTO;
-        }
+        rayCast2D.CastTo=FlipX(rayCast2D.CastTo);
+        facing=Facing();
     }
 
     private void SetFlipH(bool flip=false)
@@ -210,6 +201,7 @@ public class Zombie : KinematicMonster
         {
             rayCast2D.CastTo=CASTTO;
         }
+        facing=Facing();
     }
 
 }

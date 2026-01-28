@@ -60,22 +60,22 @@ public abstract class KinematicMonster : KinematicBody2D
 
     public override void _Ready()
     {
-        FORCE = new Vector2(0f, GRAVITY);
-        health = HEALTH;
-        velocity = VELOCITY;
-        LastPosition = GlobalPosition;
+        FORCE=new Vector2(0f,GRAVITY);
+        health=HEALTH;
+        velocity=VELOCITY;
+        LastPosition=GlobalPosition;
         SetProcess(false);
         SetPhysicsProcess(true);
         SetProcessInput(false);
 
-        VisibilityNotifier2D notifier2D = new VisibilityNotifier2D();
+        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",this,nameof(OnScreenExited));
         notifier2D.Connect("screen_entered",this,nameof(OnScreenEntered));
         AddChild(notifier2D);
 
-        collisionController = GetNode<CollisionShape2D>(nameof(CollisionShape2D));
-        staticBody = GetNode<StaticBody2D>(nameof(StaticBody2D));
-        animationController = GetNode<AnimatedSprite>(nameof(AnimatedSprite));
+        collisionController=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
+        staticBody=GetNode<StaticBody2D>(nameof(StaticBody2D));
+        animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
 
         staticBody.AddUserSignal(STATE.damage.ToString());
         staticBody.Connect(STATE.damage.ToString(), this, nameof(OnDamage));
@@ -83,9 +83,9 @@ public abstract class KinematicMonster : KinematicBody2D
         if(RIDEABLE)
         {
             AddUserSignal(STATE.passanger.ToString());
-            Connect(STATE.passanger.ToString(), this, nameof(OnPassanger));
+            Connect(STATE.passanger.ToString(),this,nameof(OnPassanger));
             staticBody.AddUserSignal(STATE.passanger.ToString());
-            staticBody.Connect(STATE.passanger.ToString(), this, nameof(OnPassanger));
+            staticBody.Connect(STATE.passanger.ToString(),this,nameof(OnPassanger));
         }
 
         AddUserSignal(STATE.damage.ToString());
@@ -98,24 +98,24 @@ public abstract class KinematicMonster : KinematicBody2D
         AddUserSignal(STATE.panic.ToString());
         AddUserSignal(STATE.alert.ToString());
 
-        Connect(STATE.die.ToString(), this, nameof(OnDie));
-        Connect(STATE.attack.ToString(), this, nameof(OnAttack));
-        Connect(STATE.fight.ToString(), this, nameof(OnFight));
-        Connect(STATE.calm.ToString(), this, nameof(OnCalm));
-        Connect(STATE.idle.ToString(), this, nameof(OnIdle));
-        Connect(STATE.stroll.ToString(), this, nameof(OnStroll));
-        Connect(STATE.damage.ToString(), this, nameof(OnDamage));
-        Connect(STATE.panic.ToString(), this, nameof(OnPanic));
-        Connect(STATE.alert.ToString(), this, nameof(OnAlert));
+        Connect(STATE.die.ToString(),this,nameof(OnDie));
+        Connect(STATE.attack.ToString(),this,nameof(OnAttack));
+        Connect(STATE.fight.ToString(),this,nameof(OnFight));
+        Connect(STATE.calm.ToString(),this, nameof(OnCalm));
+        Connect(STATE.idle.ToString(),this,nameof(OnIdle));
+        Connect(STATE.stroll.ToString(),this,nameof(OnStroll));
+        Connect(STATE.damage.ToString(),this,nameof(OnDamage));
+        Connect(STATE.panic.ToString(),this,nameof(OnPanic));
+        Connect(STATE.alert.ToString(),this,nameof(OnAlert));
 
         AddToGroup(GROUPS.ENEMIES.ToString());
         staticBody.AddToGroup(GROUPS.ENEMIES.ToString());
 
-        attacker = victim = null;
-        FORCE = new Vector2(0f, GRAVITY);
+        attacker=victim=null;
+        FORCE=new Vector2(0f,GRAVITY);
 
-        state = STATE.unknown;
-        goal = Unknown;
+        state=STATE.unknown;
+        goal=Unknown;
 
         facing=direction=Facing();
 
@@ -164,7 +164,7 @@ public abstract class KinematicMonster : KinematicBody2D
         }
         else
         {
-            staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
+            staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
             OnIdle();
         }
     }
@@ -196,7 +196,7 @@ public abstract class KinematicMonster : KinematicBody2D
     {
         if(player==null)
         {
-            player = Player.instance;
+            player=Player.instance;
         }
         onDelay=false;
         if(state!=STATE.attack)
@@ -212,9 +212,9 @@ public abstract class KinematicMonster : KinematicBody2D
         onDelay=false;
         if(state!=STATE.fight)
         {
-            if (player == null)
+            if (player==null)
             {
-                player = Player.instance;
+                player=Player.instance;
             }                
             
             lastState=state;
@@ -247,7 +247,7 @@ public abstract class KinematicMonster : KinematicBody2D
             state=STATE.damage;
             if(node is Player)
             {
-                attacker=node as Player;
+                attacker=Player.instance;
             }
             health-=amount;
             goal=Damage;
@@ -258,47 +258,47 @@ public abstract class KinematicMonster : KinematicBody2D
         onDelay=false;
         if(state!=STATE.passanger)
         {
-            if (player == null)
+            if (player==null)
             {
-                player = Player.instance;
+                player=Player.instance;
             }
 
             Renderer.instance.Shake(1f);
             lastState=state;
-            state = STATE.passanger;
-            health -= 0.5f;
-            attacker = player;
+            state=STATE.passanger;
+            health-=0.5f;
+            attacker=player;
             goal=Passanger;
         }
     }
     protected virtual void OnCalm()
     {
-        onDelay = false;
-        if (state != STATE.calm)
+        onDelay=false;
+        if (state!=STATE.calm)
         {
-            lastState = state;
-            state = STATE.calm;
-            goal = Calm;
+            lastState=state;
+            state=STATE.calm;
+            goal=Calm;
         }
     }
     protected virtual void OnPanic()
     {
-        onDelay = false;
-        if (state != STATE.panic)
+        onDelay=false;
+        if (state!=STATE.panic)
         {
-            lastState = state;
-            state = STATE.panic;
-            goal = Panic;
+            lastState=state;
+            state=STATE.panic;
+            goal=Panic;
         }
     }
     protected virtual void OnAlert()
     {
-        onDelay = false;
+        onDelay=false;
         if(state!=STATE.alert)
         {
-            lastState = state;
-            state = STATE.alert;
-            goal = Alert;
+            lastState=state;
+            state=STATE.alert;
+            goal=Alert;
         }
     }
     protected virtual void OnIdle()

@@ -5,6 +5,7 @@ public class BombTroll : KinematicMonster
 {
     private static PackedScene bombPack=Cannon.bombPack;
 
+    [Export] private float ACTIVATION_DISTANCE=80f;
     [Export] private float WALK_FORCE=600f;
     [Export] private float WALK_MIN_SPEED=10f;
     [Export] private float WALK_MAX_SPEED=60f;
@@ -68,10 +69,9 @@ public class BombTroll : KinematicMonster
         }
    }
 
-
     protected override void Idle(float delta)
     {
-        if(DistanceToPlayer()<80f)
+        if(DistanceToPlayer()<ACTIVATION_DISTANCE)
         {
             if(facing.x!=Mathf.Sign(Player.instance.GlobalPosition.x-GlobalPosition.x))
             {
@@ -103,7 +103,7 @@ public class BombTroll : KinematicMonster
 		if(facing==Vector2.Left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
 		{
 			force.x-=WALK_FORCE;
-		} 
+		}
 		else if(facing==Vector2.Right&&velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED)
 		{
 			force.x+=WALK_FORCE;

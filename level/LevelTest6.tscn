@@ -102,6 +102,8 @@ position = Vector2( 831, 184 )
 
 [node name="BombTroll" parent="BombTrollHolder" index="0"]
 HEALTH = 1.0
+ACTIVEATION_DISTANCE = 200.0
+WALK_MAX_SPEED = 90.0
 THROW_DELAY_MS = 500.0
 CANNONBALL_SETTINGS = {
 "BOUNCE_FORCE": Vector2( 50, 100 ),
