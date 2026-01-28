@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public abstract class KinematicMonster : KinematicBody2D
 {
@@ -16,6 +15,11 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected Vector2 ANIMATION_OFFSET=Vector2.Zero;
     [Export] protected Vector2 VELOCITY=Vector2.Zero;
     [Export] protected float DAMAGE_AMOUNT=1f;
+
+    /// <summary>
+    /// HINT: Vector2(200f,-50f)
+    /// </summary>
+    [Export] protected Vector2 DAMAGE_FORCE=new Vector2(0f,0f);
     [Export] protected float HEALTH=1f;
     [Export] protected bool RIDEABLE=true;
     [Export] protected float GRAVITY=500f;
@@ -51,6 +55,8 @@ public abstract class KinematicMonster : KinematicBody2D
     protected Goal goal;
     protected bool onDelay=false;
     protected bool squeezed=false;
+    protected bool justDamaged=false;
+
 
     public override void _Ready()
     {
@@ -81,7 +87,6 @@ public abstract class KinematicMonster : KinematicBody2D
             staticBody.AddUserSignal(STATE.passanger.ToString());
             staticBody.Connect(STATE.passanger.ToString(), this, nameof(OnPassanger));
         }
-
 
         AddUserSignal(STATE.damage.ToString());
         AddUserSignal(STATE.die.ToString());
@@ -125,10 +130,10 @@ public abstract class KinematicMonster : KinematicBody2D
         squeezed=Mathf.Abs(velocity.y)>200f&&diff.y==0f;
         if(squeezed)
         {
-            OnDamage(this,1);
+            OnDamage(this,1f);
         }
 
-        LastPosition = GlobalPosition;
+        LastPosition=GlobalPosition;
     }
 
     protected virtual void Unknown(float delta) { }
@@ -227,6 +232,15 @@ public abstract class KinematicMonster : KinematicBody2D
             {
                 node=Player.instance;
             }
+
+            if(GlobalPosition.x-node.GlobalPosition.x<0)
+            {
+                animationDirection=-1;
+            }
+            justDamaged=true;
+            velocity.x+=DAMAGE_FORCE.x*animationDirection;
+            velocity.y+=DAMAGE_FORCE.y;
+
             Renderer.instance.Shake(1f);
             staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
             lastState=state;
