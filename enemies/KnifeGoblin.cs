@@ -8,6 +8,8 @@ public class KnifeGoblin : KinematicMonster
     [Export] private float WALK_MAX_SPEED=120f;
 
     private RayCast2D rayCast2D;
+    private MonsterWeapon weapon;
+
 
     public override void _Ready()
     {
@@ -19,6 +21,12 @@ public class KnifeGoblin : KinematicMonster
 
         rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
+
+        weapon=GetNode<MonsterWeapon>("KnifeMonster");
+        if(weapon!=null)
+        {
+            weapon._Init();
+        }
 
         SetSpawnFacing();
         OnIdle();

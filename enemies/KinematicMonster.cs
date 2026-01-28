@@ -49,6 +49,7 @@ public abstract class KinematicMonster : KinematicBody2D
     protected int animationDirection = 1;
     protected Vector2 FORCE;
     protected Vector2 velocity,direction,LastPosition,facing;
+    public Vector2 FACING=>facing;
     protected readonly Vector2 snap=new Vector2(0f,8f);
     public STATE state,lastState;
     protected delegate void Goal(float delta);

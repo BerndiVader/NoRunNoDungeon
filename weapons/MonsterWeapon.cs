@@ -58,27 +58,27 @@ public class MonsterWeapon : Weapon
 
     protected override string GetStringDirection()
     {
-        return directionNames[owner.animationController.FlipH==true?1:0];
+        return directionNames[owner.FACING==Vector2.Left?1:0];
     }
 
     protected override void OnHitSomething(Node node)
     {
-        if (state == WEAPONSTATE.ATTACK && !hit && owner.state != STATE.damage)
+        if (state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.damage)
         {
             if (node.IsInGroup(GROUPS.PLAYERS.ToString()))
             {
-                cooldownCount = cooldown;
+                cooldownCount=cooldown;
                 node.EmitSignal(STATE.damage.ToString(),this,damage);
-                hit = true;
+                hit=true;
             }
             else
             {
-                warmupCount = warmup;
+                warmupCount=warmup;
             }
         }
         else
         {
-            warmupCount = warmup;
+            warmupCount=warmup;
         }
     }
 

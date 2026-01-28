@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://image/0x72/frames/weapon_hammer.png" type="Texture" id=1]
+[ext_resource path="res://image/0x72/frames/weapon_rusty_sword.png" type="Texture" id=1]
 [ext_resource path="res://weapons/MonsterWeapon.cs" type="Script" id=2]
 
 [sub_resource type="Animation" id=1]
@@ -168,9 +168,9 @@ tracks/2/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 2.21269, 13.058 )
+extents = Vector2( 1.44889, 3.76897 )
 
-[node name="Mace" type="Area2D"]
+[node name="KnifeMonster" type="Area2D"]
 position = Vector2( -6, -2 )
 rotation = 0.261799
 collision_layer = 0
@@ -185,9 +185,12 @@ anims/SWING_LEFT = SubResource( 4 )
 anims/SWING_RIGHT = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.0507669, -11.1566 )
+position = Vector2( 0.154792, -4.7349 )
+scale = Vector2( 1, 1 )
 shape = SubResource( 6 )
+disabled = true
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0.0507684, -11.4016 )
+position = Vector2( 0.189469, -3.1566 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class ResourceUtils
 {
-    public static readonly bool DEBUG=false;
+    public static readonly bool DEBUG=true;
     public static readonly float MAX_SFX_DISTANCE=512f; 
     public static PackedScene world;
     public static PackedScene intro;
