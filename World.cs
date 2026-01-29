@@ -119,7 +119,7 @@ public class World : Node
 		MergeMaps(level,cachedLevel);
 
 		ResourceUtils.player.Instance();
-		Player.LIVES=3;
+		Player.LIVES=ResourceUtils.PLAYER_LIVES_DEFAULT;
 		Player.instance.AddChild(PlayerCamera.instance);
 
 		background=(Background)ResourceUtils.background.Instance();

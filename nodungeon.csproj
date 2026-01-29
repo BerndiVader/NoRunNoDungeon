@@ -116,6 +116,7 @@
     <Compile Include="GameSettings.cs" />
     <Compile Include="sounds\SfxPlayer.cs" />
     <Compile Include="ui\BaseUI.cs" />
+    <Compile Include="ui\HUD.cs" />
     <Compile Include="ui\OptionsUI.cs" />
     <Compile Include="ui\PauseUI.cs" />
     <Compile Include="weapons\Broadsword.cs" />
