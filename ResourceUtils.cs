@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class ResourceUtils
 {
-    public static readonly bool DEBUG=false;
+    public static readonly bool DEBUG=true;
     public static readonly float MAX_SFX_DISTANCE=512f; 
     public static PackedScene world;
     public static PackedScene intro;
@@ -184,8 +184,10 @@ public static class ResourceUtils
 
         Console.WriteLine("Loading weapons...");
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Sword.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Katana.tscn"));
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Broadsword.tscn"));
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Dagger.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/KingsSword.tscn"));
 
         Console.WriteLine("Loading ingame musics...");
         ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 01 Stronghold Of The Barbarians.mp3"));

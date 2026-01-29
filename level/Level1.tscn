@@ -247,7 +247,7 @@ Timeout = 10
 position = Vector2( 792, 192 )
 
 [node name="WeaponItem" parent="SwordItemHolder" index="0"]
-weaponType = 2
+weaponType = 1
 
 [editable path="BatonSwinging"]
 [editable path="PlatformMoving3x3"]

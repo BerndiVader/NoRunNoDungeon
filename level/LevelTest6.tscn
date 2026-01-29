@@ -42,6 +42,9 @@ position = Vector2( 760, 232 )
 [node name="SwordItemHolder" parent="." instance=ExtResource( 5 )]
 position = Vector2( 576, 240 )
 
+[node name="WeaponItem" parent="SwordItemHolder" index="0"]
+weaponType = 1
+
 [node name="ControlHolder" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1048, 248 )
 
@@ -102,7 +105,6 @@ position = Vector2( 831, 184 )
 
 [node name="BombTroll" parent="BombTrollHolder" index="0"]
 HEALTH = 1.0
-ACTIVEATION_DISTANCE = 200.0
 WALK_MAX_SPEED = 90.0
 THROW_DELAY_MS = 500.0
 CANNONBALL_SETTINGS = {

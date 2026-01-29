@@ -47,6 +47,9 @@ Linear = false
 [node name="SwordItemHolder" parent="." instance=ExtResource( 6 )]
 position = Vector2( 704, 248 )
 
+[node name="WeaponItem" parent="SwordItemHolder" index="0"]
+weaponType = 4
+
 [node name="FlamethrowerHolder" parent="." instance=ExtResource( 7 )]
 position = Vector2( 800, 206 )
 

@@ -189,6 +189,9 @@ oneTime = true
 [node name="SwordItemHolder" parent="." instance=ExtResource( 9 )]
 position = Vector2( 808, 248 )
 
+[node name="WeaponItem" parent="SwordItemHolder" index="0"]
+weaponType = 1
+
 [node name="CannonHolder4" parent="." instance=ExtResource( 3 )]
 position = Vector2( 2222, 215 )
 
