@@ -72,7 +72,7 @@ public class KnifeGoblin : KinematicMonster
     protected override void Idle(float delta)
     {
 
-        if(playerCast.IsColliding()&&!weapon.IsPlaying())
+        if(!justDamaged&&playerCast.IsColliding()&&!weapon.IsPlaying())
         {
             weapon.Attack();
         }
@@ -94,6 +94,10 @@ public class KnifeGoblin : KinematicMonster
 
     protected override void Stroll(float delta)
     {
+        if(playerCast.IsColliding()&&DistanceToPlayer()<10f&&!weapon.IsPlaying())
+        {
+            weapon.Attack();
+        }
 
         if(!rayCast2D.IsColliding())
         {
@@ -129,7 +133,7 @@ public class KnifeGoblin : KinematicMonster
         else
         {
             staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
-            OnIdle();
+            OnStroll();
         }
     }   
 
