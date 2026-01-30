@@ -1,12 +1,27 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://ui/HUD.cs" type="Script" id=1]
+[ext_resource path="res://ui/ui.tres" type="Theme" id=1]
+[ext_resource path="res://ui/HUD.cs" type="Script" id=2]
 
 [node name="HUD" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="Lives" type="HBoxContainer" parent="."]
-margin_right = 512.0
+margin_right = 128.0
 margin_bottom = 16.0
+
+[node name="Distance" type="HBoxContainer" parent="."]
+margin_left = 368.0
+margin_right = 656.0
+margin_bottom = 37.0
+rect_scale = Vector2( 0.5, 0.5 )
+alignment = 2
+
+[node name="Label" type="Label" parent="Distance"]
+margin_left = 268.0
+margin_right = 288.0
+margin_bottom = 37.0
+align = 2

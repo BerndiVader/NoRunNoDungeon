@@ -84,6 +84,9 @@ public class World : Node
 	private delegate void Goal(float delta);
 	private Goal goal;
 
+	private Vector2 levelLastPosition;
+	private float distance;
+
 	private AudioStreamPlayer2D musicPlayer;
 
 	public override void _Ready()
@@ -128,6 +131,8 @@ public class World : Node
 		renderer.AddChild(Player.instance);
 		renderer.AddChild(background);
 
+		distance=0f;
+
 		ResourceUtils.hud.Instance();
 		uiLayer.AddChild(HUD.instance);
 		HUD.instance.UpdateLives();
@@ -142,6 +147,7 @@ public class World : Node
 
 	private void Tick(float delta) 
 	{
+		levelLastPosition=level.Position;
 		float speedDelta=level.Speed*delta;
 		level.MoveLocalX(level.direction.x*speedDelta);
 		level.MoveLocalY(level.direction.y*speedDelta);
@@ -155,6 +161,9 @@ public class World : Node
 			Worker.SetStatus(Worker.State.PREPARELEVEL);
 			return;
 		}
+
+		distance+=level.Position.DistanceTo(levelLastPosition);
+		HUD.instance.UpdateDistance(distance);
 
 		if(!level.settings.noStop&&level.direction.y!=0f)
 		{

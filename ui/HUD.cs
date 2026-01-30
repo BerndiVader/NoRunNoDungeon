@@ -3,9 +3,12 @@ using System;
 
 public class HUD : Control
 {
+    private static Texture heart_full=ResourceLoader.Load<Texture>("res://image/0x72/frames/ui_heart_full.png");
+    private static Texture heart_empty=ResourceLoader.Load<Texture>("res://image/0x72/frames/ui_heart_empty.png");
+
     public static HUD instance;
     private HBoxContainer lives;
-    private static Texture live_full=ResourceLoader.Load<Texture>("res://image/0x72/frames/ui_heart_full.png");
+    private Label distance;
 
     public HUD():base()
     {
@@ -15,23 +18,46 @@ public class HUD : Control
     public override void _Ready()
     {
         lives=GetNode<HBoxContainer>("Lives");
+        distance=GetNode<HBoxContainer>("Distance").GetNode<Label>("Label");
+
+        PopulateLives();
+        PopulateDistance();
     }
+
+    public void UpdateDistance(float dist)
+    {
+        distance.Text=Mathf.RoundToInt(dist)+" yards";
+    }
+
     public void UpdateLives()
     {
-        foreach(Node live in lives.GetChildren())
+        int hearts=lives.GetChildCount();
+        for(int i=0;i<hearts;i++)
         {
-            live.QueueFree();
+            TextureRect heart=(TextureRect)lives.GetChild(i);
+            heart.Texture=i<Player.LIVES?heart_full:heart_empty;
         }
 
-        for(int i=0;i<Player.LIVES;i++)
+    }
+
+    private void PopulateLives()
+    {
+        TextureRect heart;
+        for(int i=0;i<ResourceUtils.PLAYER_LIVES_MAX;i++)
         {
-            TextureRect live=new TextureRect();
-            live.Texture=live_full;
-            live.Expand=false;
-            live.StretchMode=TextureRect.StretchModeEnum.KeepCentered;
-            lives.AddChild(live);
+            heart=new TextureRect
+            {
+                Texture=i<Player.LIVES?heart_full:heart_empty,
+                Expand=false,
+                StretchMode=TextureRect.StretchModeEnum.KeepCentered
+            };
+            lives.AddChild(heart);
         }
-        
+    }
+
+    private void PopulateDistance()
+    {
+        distance.Text="0 meters";
     }
 
 }
