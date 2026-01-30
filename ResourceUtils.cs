@@ -12,6 +12,8 @@ public static class ResourceUtils
     public static PackedScene pause;
     public static PackedScene player;
     public static PackedScene camera;
+    public static PackedScene hud;
+
     public static List<PackedScene> levels;
     public static List<PackedScene> enemies;
     public static List<PackedScene> bullets;
@@ -113,6 +115,7 @@ public static class ResourceUtils
         player=ResourceLoader.Load<PackedScene>("res://Player.tscn");
         background=ResourceLoader.Load<PackedScene>("res://level/Background.tscn");
         camera=ResourceLoader.Load<PackedScene>("res://PlayerCamera.tscn");
+        hud=ResourceLoader.Load<PackedScene>("res://ui/HUD.tscn");
 
         Console.WriteLine("Loading levels...");
         if(DEBUG)

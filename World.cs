@@ -127,6 +127,10 @@ public class World : Node
 		renderer.AddChild(level);
 		renderer.AddChild(Player.instance);
 		renderer.AddChild(background);
+
+		ResourceUtils.hud.Instance();
+		uiLayer.AddChild(HUD.instance);
+		HUD.instance.UpdateLives();
 		
 		SetGamestate(Gamestate.RUNNING);
 	}
@@ -290,6 +294,7 @@ public class World : Node
 		ResourceUtils.player.Instance();
 		Player.instance.AddChild(PlayerCamera.instance);
 		renderer.AddChild(Player.instance);
+		HUD.instance.UpdateLives();
 		SetGamestate(Gamestate.RUNNING);
 	}
 
@@ -350,6 +355,7 @@ public class World : Node
 		{
 			cachedLevel.FreeLevel();
 		}
+		HUD.instance.QueueFree();
 		input.Free();
 		instance=null;
 		QueueFree();
