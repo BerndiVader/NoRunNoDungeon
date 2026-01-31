@@ -33,6 +33,7 @@
     <Compile Include="level\Settings.cs" />
     <Compile Include="obstacles\Cannonball.cs" />
     <Compile Include="obstacles\Destroyables.cs" />
+    <Compile Include="obstacles\Dirtball.cs" />
     <Compile Include="obstacles\DoorSwitch.cs" />
     <Compile Include="obstacles\Flamethrower.cs" />
     <Compile Include="obstacles\Gate.cs" />
