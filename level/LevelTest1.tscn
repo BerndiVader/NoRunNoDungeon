@@ -405,7 +405,7 @@ direction = 1
 position = Vector2( 624, 248 )
 
 [node name="WeaponItem" parent="SwordItemHolder" index="0"]
-weaponType = 1
+weaponType = 5
 
 [editable path="HammerFall"]
 [editable path="RocksFalling"]
