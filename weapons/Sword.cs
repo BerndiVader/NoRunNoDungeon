@@ -3,6 +3,7 @@ using System;
 
 public class Sword : Weapon
 {
+    [Export] private bool USE_SHADER=true;
     Sprite sprite,shaderSprite;
     ShaderMaterial shader;
     public override void _Ready()
@@ -10,10 +11,12 @@ public class Sword : Weapon
         base._Ready();
 
         sprite=GetNode<Sprite>("Sprite");
-        shaderSprite=GetNode<Sprite>("ShaderSprite");
-        shader=(ShaderMaterial)shaderSprite.Material;
-
-        shaderSprite.Visible=false;
+        if(USE_SHADER)
+        {
+            shaderSprite=GetNode<Sprite>("ShaderSprite");
+            shader=(ShaderMaterial)shaderSprite.Material;
+            shaderSprite.Visible=false;
+        }
 
         Connect("body_entered", this, nameof(OnHitSomething));
         Connect("area_entered", this, nameof(OnHitSomething));
@@ -32,9 +35,12 @@ public class Sword : Weapon
             case WEAPONSTATE.ATTACK:
                 if(!animationPlayer.IsPlaying())
                 {
-                    shader.SetShaderParam("swing",false);
-                    sprite.Visible=true;
-                    shaderSprite.Visible=false;
+                    if(USE_SHADER)
+                    {
+                        shader.SetShaderParam("swing",false);
+                        sprite.Visible=true;
+                        shaderSprite.Visible=false;
+                    }
                     state=WEAPONSTATE.IDLE;
                     hit=false;
                 }
@@ -46,10 +52,13 @@ public class Sword : Weapon
     {
         if (state == WEAPONSTATE.IDLE)
         {
-            sprite.Visible=false;
-            shaderSprite.Visible=true;
-            shader.SetShaderParam("flip_h",!Player.instance.AnimationController.FlipH);
-            shader.SetShaderParam("swing",true);
+            if(USE_SHADER)
+            {
+                sprite.Visible=false;
+                shaderSprite.Visible=true;
+                shader.SetShaderParam("flip_h",!Player.instance.AnimationController.FlipH);
+                shader.SetShaderParam("swing",true);
+            }
             PlaySfx(sfxSwing);
             animationPlayer.Play(AnimationNames.SWING + GetStringDirection());
             state = WEAPONSTATE.ATTACK;
