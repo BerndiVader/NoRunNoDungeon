@@ -8,4 +8,6 @@ public enum WEAPONS
     BROADSWORD,
     DAGGER,
     KINGSWORD,
+    MYTHICSWORD,
+    RAPIER,
 }

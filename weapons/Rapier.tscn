@@ -2,7 +2,7 @@
 
 [ext_resource path="res://weapons/Sword.cs" type="Script" id=2]
 [ext_resource path="res://shaders/Sword.gdshader" type="Shader" id=3]
-[ext_resource path="res://image/0x72/frames/weapon_golden_sword.png" type="Texture" id=4]
+[ext_resource path="res://image/0x72/frames/weapon_duel_sword.png" type="Texture" id=4]
 
 [sub_resource type="ShaderMaterial" id=9]
 shader = ExtResource( 3 )
@@ -363,14 +363,15 @@ tracks/3/keys = {
 
 [sub_resource type="CapsuleShape2D" id=3]
 radius = 3.08493
-height = 10.75
+height = 15.5833
 
-[node name="KingsSword" type="Area2D"]
+[node name="Rapier" type="Area2D"]
 position = Vector2( -6.02623, 14.7308 )
 rotation = -2.35619
 collision_layer = 128
 collision_mask = 32
 script = ExtResource( 2 )
+USE_SHADER = false
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 4 )
@@ -379,7 +380,8 @@ texture = ExtResource( 4 )
 visible = false
 light_mask = 0
 material = SubResource( 9 )
-scale = Vector2( 1.4, 1.4 )
+position = Vector2( -1.41507, -2.48157 )
+scale = Vector2( 1.75377, 1.56544 )
 texture = ExtResource( 4 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -392,5 +394,5 @@ anims/SWING_LEFT = SubResource( 6 )
 anims/SWING_RIGHT = SubResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.0956573, -2.73026 )
+position = Vector2( -2.33024, -3.70733 )
 shape = SubResource( 3 )
