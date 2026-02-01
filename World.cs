@@ -85,7 +85,8 @@ public class World : Node
 	private Goal goal;
 
 	private Vector2 levelLastPosition;
-	private float distance;
+	private float overall_distance;
+	private float current_distance;
 
 	private AudioStreamPlayer2D musicPlayer;
 
@@ -131,7 +132,7 @@ public class World : Node
 		renderer.AddChild(Player.instance);
 		renderer.AddChild(background);
 
-		distance=0f;
+		overall_distance=current_distance=0f;
 
 		ResourceUtils.hud.Instance();
 		uiLayer.AddChild(HUD.instance);
@@ -153,7 +154,10 @@ public class World : Node
 		level.MoveLocalY(level.direction.y*speedDelta);
 		level.lastDirection=level.direction;
 
-		if(state!=Gamestate.RUNNING) return;
+		if(state!=Gamestate.RUNNING) 
+		{
+			return;
+		}
 
 		if(Mathf.Abs(level.Position.x)>=level.pixelLength-RESOLUTION.x)
 		{
@@ -162,8 +166,8 @@ public class World : Node
 			return;
 		}
 
-		distance+=level.Position.DistanceTo(levelLastPosition);
-		HUD.instance.UpdateDistance(distance);
+		current_distance+=level.Position.DistanceTo(levelLastPosition);
+		HUD.instance.UpdateDistance(overall_distance+current_distance);
 
 		if(!level.settings.noStop&&level.direction.y!=0f)
 		{
@@ -287,6 +291,7 @@ public class World : Node
 
 	public void RestartLevel(bool keepLevel=false)
 	{
+		current_distance=0f;
 		SetGamestate(Gamestate.RESTART);
 		renderer.RemoveChild(level);
 		if(!keepLevel)
@@ -309,6 +314,9 @@ public class World : Node
 
 	public void PrepareAndChangeLevel()
 	{
+		overall_distance+=current_distance;
+		current_distance=0f;
+
 		RemoveALevel(currentLevel);
 		currentLevel=nextLevel;
 		nextLevel=GetALevel(currentLevel);
