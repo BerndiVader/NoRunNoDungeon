@@ -10,7 +10,7 @@ public class RunningZombie : KinematicMonster
 	[Export] protected float JUMP_SPEED=130f;
 	protected float COOLDOWNER_TIME=1.0f;
 	protected float cooldowner=0f;
-	protected bool jumping = false;
+	protected bool jumping=false;
 	protected RayCast2D rayCast2D;
 
     public override void _Ready()
@@ -25,17 +25,15 @@ public class RunningZombie : KinematicMonster
 		rayCast2D.Enabled=true;
 
 		SetSpawnFacing();
-
-		animationController.Play("idle");
 		OnIdle();
 	}
 
 	public override void _PhysicsProcess(float delta)
 	{
 		base._PhysicsProcess(delta);
-		if (animationPlayer.IsPlaying())
+		if(animationPlayer.IsPlaying())
 		{
-			Position = startOffset + (ANIMATION_OFFSET * animationDirection);
+			Position=startOffset+(ANIMATION_OFFSET*animationDirection);
 		}
 
 		goal(delta);
@@ -43,8 +41,8 @@ public class RunningZombie : KinematicMonster
 
 	protected override void Idle(float delta)
 	{
-        velocity += FORCE * delta;
-        velocity = MoveAndSlideWithSnap(velocity, snap, Vector2.Up, false, 4, 0.785398f, true);
+        velocity+=FORCE*delta;
+        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
         int slides=GetSlideCount();
         if(slides>0)
@@ -90,16 +88,14 @@ public class RunningZombie : KinematicMonster
 
 	protected override void Stroll(float delta)
 	{
-		Vector2 force = new Vector2(FORCE);
-		
-		bool isOnFloor = IsOnFloor();
-
+		Vector2 force=new Vector2(FORCE);
+		bool isOnFloor=IsOnFloor();
 		bool jump=!rayCast2D.IsColliding()&&isOnFloor;
 
 		if(facing==Vector2.Left&&velocity.x<=WALK_MIN_SPEED&&velocity.x>-WALK_MAX_SPEED)
 		{
 			force.x-=WALK_FORCE;
-		} 
+		}
 		else if(facing==Vector2.Right&&velocity.x>=-WALK_MIN_SPEED&&velocity.x<WALK_MAX_SPEED)
 		{
 			force.x+=WALK_FORCE;
@@ -198,7 +194,7 @@ public class RunningZombie : KinematicMonster
 		if(state!=STATE.damage&&state!=STATE.die)
 		{
 			base.OnDamage(node,amount);
-			animationDirection = Mathf.Sign(GlobalPosition.x - node.GlobalPosition.x);
+			animationDirection=Mathf.Sign(GlobalPosition.x-node.GlobalPosition.x);
 			animationPlayer.Play("HIT");
 		}
 	}    
@@ -213,7 +209,7 @@ public class RunningZombie : KinematicMonster
 	}
 
 
-	private bool InRange()
+	protected bool InRange()
 	{
 		return Mathf.Abs(Player.instance.GlobalPosition.DistanceTo(GlobalPosition))<ACTIVATION_RANGE;
 	}
