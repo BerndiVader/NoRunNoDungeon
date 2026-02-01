@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://placeholders/obstacles/GateHolder.tscn" type="PackedScene" id=6]
 [ext_resource path="res://obstacles/Gate.tscn" type="PackedScene" id=7]
 [ext_resource path="res://placeholders/monsters/BombTrollHolder.tscn" type="PackedScene" id=8]
+[ext_resource path="res://placeholders/obstacles/DirtballHolder.tscn" type="PackedScene" id=9]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -43,7 +44,7 @@ position = Vector2( 760, 232 )
 position = Vector2( 576, 240 )
 
 [node name="WeaponItem" parent="SwordItemHolder" index="0"]
-weaponType = 1
+weaponType = 5
 
 [node name="ControlHolder" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1048, 248 )
@@ -64,7 +65,7 @@ Direction = Vector2( -1, 0 )
 position = Vector2( 1696, 714 )
 
 [node name="LevelControl" parent="ControlHolder3" index="0"]
-Speed = 40.0
+Speed = 30.0
 Direction = Vector2( 0, 1 )
 NoStop = true
 
@@ -123,6 +124,68 @@ CANNONBALL_SETTINGS = {
 "USE_SETTINGS": true
 }
 
+[node name="DirtballHolder" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1688, 384 )
+
+[node name="Dirtball" parent="DirtballHolder" index="0"]
+position = Vector2( 1, 0 )
+spawn_facing = 2
+MIN_SPEED = 40.0
+MAX_SPEED = 80.0
+BOUNCE_FORCE = Vector2( 50, 200 )
+RANDOM_BOUNCE_FORCE = true
+
+[node name="DirtballHolder2" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1712, 376 )
+
+[node name="Dirtball" parent="DirtballHolder2" index="0"]
+spawn_facing = 2
+MIN_SPEED = 40.0
+MAX_SPEED = 80.0
+RANDOM_BOUNCE_FORCE = true
+
+[node name="DirtballHolder3" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1696, 592 )
+
+[node name="Dirtball" parent="DirtballHolder3" index="0"]
+spawn_facing = 2
+MIN_SPEED = 50.0
+MAX_SPEED = 80.0
+RANDOM_BOUNCE_FORCE = true
+
+[node name="DirtballHolder4" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1824, 672 )
+
+[node name="Dirtball" parent="DirtballHolder4" index="0"]
+spawn_facing = 2
+MIN_SPEED = 50.0
+MAX_SPEED = 80.0
+RANDOM_BOUNCE_FORCE = true
+
+[node name="DirtballHolder5" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1760, 32 )
+
+[node name="DirtballHolder6" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1714, -64 )
+
+[node name="DirtballHolder7" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1744, 56 )
+
+[node name="DirtballHolder8" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1713, -120 )
+
+[node name="DirtballHolder9" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1718, -208 )
+
+[node name="DirtballHolder10" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1672, -272 )
+
+[node name="DirtballHolder11" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1711, -290 )
+
+[node name="DirtballHolder12" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1704, -368 )
+
 [editable path="SwordItemHolder"]
 [editable path="ControlHolder"]
 [editable path="ControlHolder2"]
@@ -130,3 +193,7 @@ CANNONBALL_SETTINGS = {
 [editable path="ControlHolder4"]
 [editable path="GateHolder"]
 [editable path="BombTrollHolder"]
+[editable path="DirtballHolder"]
+[editable path="DirtballHolder2"]
+[editable path="DirtballHolder3"]
+[editable path="DirtballHolder4"]
