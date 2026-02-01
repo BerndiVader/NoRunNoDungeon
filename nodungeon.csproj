@@ -25,6 +25,7 @@
     <Compile Include="enemies\WalkingTree.cs" />
     <Compile Include="enemies\Fairy.cs" />
     <Compile Include="gfx\CrtShader.cs" />
+    <Compile Include="gfx\Dust.cs" />
     <Compile Include="gfx\TileExploder.cs" />
     <Compile Include="gfx\TorchSprite.cs" />
     <Compile Include="ISwitchable.cs" />

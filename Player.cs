@@ -11,6 +11,7 @@ public class Player : KinematicBody2D
     private static readonly AudioStream sfxJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/30_Jump_03.wav");
     private static readonly AudioStream sfxDoubleJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
     private static readonly AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
+    private static readonly AudioStream sfxDash=ResourceLoader.Load<AudioStream>("res://sounds/ingame/15_human_dash_2.wav");
 
     [Export] private float GRAVITY=700f;
     [Export] private float WALK_FORCE=1600f;
@@ -137,6 +138,12 @@ public class Player : KinematicBody2D
 
         if(justLeft)
         {
+            Dust dust=ResourceUtils.dust.Instance<Dust>();
+            dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
+            dust.type=Dust.TYPE.RUN;
+            dust.FlipH=true;
+            World.level.AddChild(dust);
+
             float now=Time.GetTicksMsec();
             if(dashLeftTap>0f&&now-dashLeftTap<DOUBLE_TAP_TIME)
             {
@@ -150,6 +157,11 @@ public class Player : KinematicBody2D
         }
         else if(justRight)
         {
+            Dust dust=ResourceUtils.dust.Instance<Dust>();
+            dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
+            dust.type=Dust.TYPE.RUN;
+            World.level.AddChild(dust);
+
             float now=Time.GetTicksMsec();
             if(dashRightTap>0f&&now-dashRightTap<DOUBLE_TAP_TIME)
             {
@@ -177,6 +189,7 @@ public class Player : KinematicBody2D
                 dashDirection=-1;
                 dashTime=DASH_DURATION;
                 dasCooldown=DASH_COOLDOWN+DASH_DURATION;
+                Renderer.instance.PlaySfx(sfxDash,Position);
             }
             else
             {
@@ -199,6 +212,7 @@ public class Player : KinematicBody2D
                 dashDirection=1;
                 dashTime=DASH_DURATION;
                 dasCooldown=DASH_COOLDOWN+DASH_DURATION;
+                Renderer.instance.PlaySfx(sfxDash,Position);
             }
             else
             {
@@ -234,7 +248,7 @@ public class Player : KinematicBody2D
             animationController.FlipH=dashDirection==-1;
             jumpParticles.Emitting=true;
             force.x=dashDirection*DASH_FORCE;
-            force.y=0f;
+            velocity.y=0f;
             dashTime-=delta;
         } 
         else
@@ -259,6 +273,11 @@ public class Player : KinematicBody2D
 
         if(justJumped)
         {
+            Dust dust=ResourceUtils.dust.Instance<Dust>();
+            dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
+            dust.type=Dust.TYPE.JUMP;
+            World.level.AddChild(dust);
+
             Translate(velocity*delta);
             justJumped=false;
         } 
@@ -361,6 +380,11 @@ public class Player : KinematicBody2D
         {
             if(airParticles.Emitting)
             {
+                Dust dust=ResourceUtils.dust.Instance<Dust>();
+                dust.type=Dust.TYPE.FALL;
+                dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
+                World.level.AddChild(dust);
+                
                 Renderer.instance.PlaySfx(sfxLanding,Position);
                 airParticles.Emitting=false;
                 animationController.Play(ANIM_RUN);
