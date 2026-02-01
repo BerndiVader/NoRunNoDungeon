@@ -145,6 +145,16 @@ public class KnifeGoblin : KinematicMonster
         }
     }
 
+    public override void OnPassanger(Player player=null)
+    {
+        if(state!=STATE.passanger)
+        {
+            base.OnPassanger(player);
+            animationPlayer.Play("PASSANGER");
+        }        
+    }
+
+
     protected override void OnStroll()
     {
         onDelay=false;
@@ -166,11 +176,6 @@ public class KnifeGoblin : KinematicMonster
         }        
     }
  
-    private float DistanceToPlayer()
-    {
-        return GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
-    }
-
     protected override void FlipH()
     {
 		animationController.FlipH^=true;

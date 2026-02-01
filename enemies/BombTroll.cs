@@ -151,6 +151,15 @@ public class BombTroll : KinematicMonster
         }
     }
 
+    public override void OnPassanger(Player player=null)
+    {
+        if(state!=STATE.passanger)
+        {
+            base.OnPassanger(player);
+            animationPlayer.Play("PASSANGER");
+        }
+    }
+
     protected override void OnAlert()
     {
         onDelay=false;
@@ -206,11 +215,6 @@ public class BombTroll : KinematicMonster
         ball.Scale=new Vector2(0.7f,0.7f);
         ball.INITIAL_FORCE=CANNON_INITIAL_FORCE;
         World.level.AddChild(ball);
-    }
-
-    private float DistanceToPlayer()
-    {
-        return GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
     }
 
     protected override void FlipH()

@@ -435,6 +435,11 @@ public abstract class KinematicMonster : KinematicBody2D
         }
     }
 
+    protected float DistanceToPlayer()
+    {
+        return GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
+    }    
+
     private void OnScreenEntered()
     {
         wasVisible=true;
