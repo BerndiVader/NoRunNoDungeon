@@ -19,18 +19,32 @@ public class Player : KinematicBody2D
     [Export] private float JUMP_SPEED=220f;
     [Export] private float JUMP_MAX_AIRBORNE_TIME=0.2f;
 
+    [Export] private float DASH_FORCE=3000f;
+    [Export] private float DASH_DURATION=0.25f;
+    [Export] private float DASH_COOLDOWN=1f;
+
+    [Export] private float DOUBLE_TAP_TIME=300f;
+
     private Vector2 velocity=Vector2.Zero;
     public Vector2 Velocity=>velocity;
     private float onAirTime=100f;
     private bool jumping=false;
     private bool doubleJump=false;
     private bool justJumped=false;
-    private List<int>weapons;
     private Vector2 lastVelocity=Vector2.Zero;
     private Vector2 lastPosition=Vector2.Zero;
     private Vector2 FORCE;
     private Vector2 platformSpeed=Vector2.Zero;
+
+    private float dashTime=0f;
+    private float dasCooldown=0f;
+    private int dashDirection=0;
+    private float dashLeftTap=-1f;
+    private float dashRightTap=-1f;
+
     private bool onTeleport=false;
+
+    private List<int>weapons;    
 
     private AnimatedSprite animationController;
     public AnimatedSprite AnimationController=>animationController;
@@ -115,6 +129,38 @@ public class Player : KinematicBody2D
         bool down=World.instance.input.Down();
         bool attack=World.instance.input.JustAttack();
         bool interact=World.instance.input.JustChange();
+        bool justLeft=World.instance.input.JustLeft();
+        bool justRight=World.instance.input.JustRight();
+
+        bool dashLeft=false;
+        bool dashRight=false;
+
+        if(justLeft)
+        {
+            float now=Time.GetTicksMsec();
+            if(dashLeftTap>0f&&now-dashLeftTap<DOUBLE_TAP_TIME)
+            {
+                dashLeft=true;
+                dashLeftTap=-1f;
+            }
+            else
+            {
+                dashLeftTap=now;
+            }
+        }
+        else if(justRight)
+        {
+            float now=Time.GetTicksMsec();
+            if(dashRightTap>0f&&now-dashRightTap<DOUBLE_TAP_TIME)
+            {
+                dashRight=true;
+                dashRightTap=-1f;
+            }
+            else
+            {
+                dashRightTap=now;
+            }
+        }
 
         if(attack&&weapon!=null)
         {
@@ -125,23 +171,51 @@ public class Player : KinematicBody2D
         {
             PlayerCamera.instance.direction=1;
             animationController.FlipH=true;
-            
-            float maxSpeed=(levelDirection.x>0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
-            if(velocity.x>-maxSpeed)
+
+            if(dashLeft&&dasCooldown<=0f&&dashTime<=0f)
             {
-                force.x-=WALK_FORCE;
+                dashDirection=-1;
+                dashTime=DASH_DURATION;
+                dasCooldown=DASH_COOLDOWN+DASH_DURATION;
             }
+            else
+            {
+                float maxSpeed=(levelDirection.x>0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
+                if(velocity.x>-maxSpeed)
+                {
+                    force.x-=WALK_FORCE;
+                }
+                else
+                {
+                    velocity.x=-maxSpeed;
+                }
+            }
+            
         }
         else if(right)
         {
-            PlayerCamera.instance.direction=-1;
-            animationController.FlipH=false;
-
-            float maxSpeed=(levelDirection.x<0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
-            if(velocity.x<maxSpeed)
+            if(dashRight&&dasCooldown<=0f&&dashTime<=0f)
             {
-                force.x+=WALK_FORCE;
+                dashDirection=1;
+                dashTime=DASH_DURATION;
+                dasCooldown=DASH_COOLDOWN+DASH_DURATION;
             }
+            else
+            {
+                PlayerCamera.instance.direction=-1;
+                animationController.FlipH=false;
+
+                float maxSpeed=(levelDirection.x<0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
+                if(velocity.x<maxSpeed)
+                {
+                    force.x+=WALK_FORCE;
+                }
+                else
+                {
+                    velocity.x=maxSpeed;
+                }
+            }
+
         }
         else
         {
@@ -155,8 +229,27 @@ public class Player : KinematicBody2D
             velocity.x=(xlength>0f?xlength:0f)*Mathf.Sign(velocity.x);
         }
 
+        if(dashTime>0f)
+        {
+            animationController.FlipH=dashDirection==-1;
+            jumpParticles.Emitting=true;
+            force.x=dashDirection*DASH_FORCE;
+            force.y=0f;
+            dashTime-=delta;
+        } 
+        else
+        {
+            jumpParticles.Emitting=doubleJump;
+            dashDirection=0;
+        }
+
+        if(dasCooldown>0f)
+        {
+            dasCooldown-=delta;
+        }
+
         velocity+=force*delta;
-        velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED)*Mathf.Sign(velocity.x);
+        if(dashDirection==0) velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED)*Mathf.Sign(velocity.x);
 
         if(platformSpeed!=Vector2.Zero&&velocity.x==0f)
         {
