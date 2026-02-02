@@ -434,6 +434,27 @@ public abstract class KinematicMonster : KinematicBody2D
         }
     }
 
+    protected Vector2 GetCollisionRectEdge(Vector2 source)
+    {
+        Vector2 direction=GlobalPosition.DirectionTo(source);
+        Vector2 extents=((RectangleShape2D)collisionController.Shape).Extents;
+
+        float px=Mathf.Sign(direction.x)*extents.x;
+        float py=Mathf.Sign(direction.y)*extents.y;
+        float rx=Mathf.Abs(direction.x/extents.x);
+        float ry=Mathf.Abs(direction.y/extents.y);
+
+        if(rx>ry)
+        {
+            return new Vector2(px,direction.y/Mathf.Abs(direction.x)*extents.x);
+        }
+        else
+        {
+            return new Vector2(direction.x/Mathf.Abs(direction.y)*extents.y,py);
+        }
+
+    }
+
     protected float DistanceToPlayer()
     {
         return GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
