@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/ui.tres" type="Theme" id=1]
+[ext_resource path="res://ui/InstructionsUI.cs" type="Script" id=2]
+
+[node name="Panel" type="Panel"]
+margin_left = -292.0
+margin_top = -116.0
+margin_right = 292.0
+margin_bottom = 148.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+SCALE_SIZE = 0.5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 0.994
+margin_bottom = 1.01398
+bbcode_enabled = true
+bbcode_text = "[color=green]Controls:[/color]
+[A] LEFT - [D] RIGHT - [W] UP - [S] DOWN
+
+[color=green]Buttons:[/color]
+[UP] JUMP - [DOWN] INTERACT - [RIGHT] ATTACK - [LEFT] UNUSED
+
+[color=green]Specials:[/color]
+[ESC] RESTART RANDOM LEVEL - [P] PAUSE"
+tab_size = 2
+text = "Controls:
+[A] LEFT - [D] RIGHT - [W] UP - [S] DOWN
+
+Buttons:
+[UP] JUMP - [DOWN] INTERACT - [RIGHT] ATTACK - [LEFT] UNUSED
+
+Specials:
+[ESC] RESTART RANDOM LEVEL - [P] PAUSE"
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+margin_left = 216.0
+margin_top = -48.0
+margin_right = -218.0
+margin_bottom = -11.0
+text = "Instructions"
+align = 1
+valign = 1
+
+[node name="Back" type="Button" parent="."]
+anchor_top = 0.994
+anchor_right = 1.0
+anchor_bottom = 0.994
+margin_left = 240.0
+margin_top = -39.986
+margin_right = -232.0
+margin_bottom = -10.986
+toggle_mode = true
+text = "BACK"

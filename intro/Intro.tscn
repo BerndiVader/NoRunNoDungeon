@@ -17,19 +17,21 @@ __meta__ = {
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 process_priority = 5
-margin_left = 157.0
-margin_top = 104.0
-margin_right = 357.0
-margin_bottom = 191.0
+margin_left = 117.0
+margin_top = 85.0
+margin_right = 396.0
+margin_bottom = 206.0
 custom_fonts/normal_font = ExtResource( 4 )
 bbcode_enabled = true
 bbcode_text = "[center][color=red]UP[/color] - start
-[color=green]DOWN[/color] - options
+[color=yellow]DOWN[/color] - options
+[color=green]RIGHT[/color] - instructions
 [color=blue]ESC[/color] - exit
 [/center]"
 meta_underlined = false
 text = "UP - start
 DOWN - options
+RIGHT - instructions
 ESC - exit
 "
 scroll_active = false

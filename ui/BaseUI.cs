@@ -4,11 +4,12 @@ using System.IO;
 
 public abstract class BaseUI : Panel
 {
-    public static PackedScene OptionsPack=ResourceLoader.Load<PackedScene>("res://ui/Options.tscn");
-    public static PackedScene PausePack=ResourceLoader.Load<PackedScene>("res://ui/PauseUI.tscn");
-    protected static AudioStream sfxHover=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/001_Hover_01.wav");
-    protected static AudioStream sfxClick=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/013_Confirm_03.wav");
-    protected static AudioStream sfxButtons=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/029_Decline_09.wav");
+    public static readonly PackedScene OptionsPack=ResourceLoader.Load<PackedScene>("res://ui/Options.tscn");
+    public static readonly PackedScene PausePack=ResourceLoader.Load<PackedScene>("res://ui/PauseUI.tscn");
+    public static readonly PackedScene InstructionsPack=ResourceLoader.Load<PackedScene>("res://ui/InstructionsUI.tscn");
+    protected static readonly AudioStream sfxHover=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/001_Hover_01.wav");
+    protected static readonly AudioStream sfxClick=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/013_Confirm_03.wav");
+    protected static readonly AudioStream sfxButtons=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_UI_Menu_SFX/029_Decline_09.wav");
     protected int selected;
     [Export] protected float SCALE_SIZE=1f;
 

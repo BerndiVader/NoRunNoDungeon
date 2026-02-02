@@ -27,7 +27,7 @@ public class Intro : Node
 	{
 		if(onOptions)
         {
-			if(GetNodeOrNull<OptionsUI>("Options")!=null)
+			if(GetNodeOrNull<OptionsUI>("Options")!=null||GetNodeOrNull<InstructionsUI>("Instructions")!=null)
 			{
             	return;
             }
@@ -41,7 +41,7 @@ public class Intro : Node
 			input.Free();
 			World.ChangeScene(ResourceUtils.world);
 		}
-		else if (input.Change())
+		else if(input.Change())
         {
 			input.Free();
 			OptionsUI options=BaseUI.OptionsPack.Instance<OptionsUI>();
@@ -50,6 +50,15 @@ public class Intro : Node
 			onOptions=true;
 			GetNode<RichTextLabel>(nameof(RichTextLabel)).Visible=false;
         }
+		else if(input.Attack())
+		{
+			input.Free();
+			InstructionsUI instructions=BaseUI.InstructionsPack.Instance<InstructionsUI>();
+			instructions.Name="Instructions";
+			AddChild(instructions);
+			onOptions=true;
+			GetNode<RichTextLabel>(nameof(RichTextLabel)).Visible=false;
+		}
 		else if(input.Quit())
 		{
 			input.Free();
