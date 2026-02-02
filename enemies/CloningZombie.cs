@@ -68,15 +68,19 @@ public class CloningZombie : KinematicMonster
 
     protected override void Damage(float delta)
     {
-        if(health<=0)
+        if(!animationPlayer.IsPlaying())
         {
-            OnDie();
+            if(health<=0)
+            {
+                OnDie();
+            }
+            else
+            {
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
+                OnIdle();
+            }
         }
-        else
-        {
-            staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
-            OnIdle();
-        }
+        Navigation(delta);
     }
 
     protected override void Passanger(float delta)
@@ -85,6 +89,7 @@ public class CloningZombie : KinematicMonster
         {
             base.Passanger(delta);
         }
+        Navigation(delta);
     }
 
     public override void OnPassanger(Player player=null)
@@ -102,13 +107,6 @@ public class CloningZombie : KinematicMonster
         if(state!=STATE.damage&&state!=STATE.die)
         {
             base.OnDamage(node,amount);
-            if(GlobalPosition.x-node.GlobalPosition.x<0)
-            {
-                animationDirection=-1;
-            }
-            justDamaged=true;
-            velocity.x+=DAMAGE_FORCE.x*animationDirection;
-            velocity.y+=DAMAGE_FORCE.y;
             animationPlayer.Play("HIT");
         }
     }

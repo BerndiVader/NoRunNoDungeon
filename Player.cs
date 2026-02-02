@@ -323,7 +323,7 @@ public class Player : KinematicBody2D
                     collision.Collider.EmitSignal(STATE.passanger.ToString(),this);
                 }
                 
-                if(collision.Collider is MovingPlatform platform)
+                if(collision.Collider is Platform platform)
                 {
                     platformSpeed=platform.CurrentSpeed;
                 }

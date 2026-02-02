@@ -12,10 +12,7 @@ public abstract class KinematicMonster : KinematicBody2D
         RIGHT
     }
 
-    [Export] protected Vector2 ANIMATION_OFFSET=Vector2.Zero;
-    [Export] protected Vector2 VELOCITY=Vector2.Zero;
     [Export] protected float DAMAGE_AMOUNT=1f;
-
     /// <summary>
     /// HINT: Vector2(200f,-50f)
     /// </summary>
@@ -34,6 +31,8 @@ public abstract class KinematicMonster : KinematicBody2D
         {"Speed",-1.0f},
         {"Zoom",-1.0f},
     };
+    protected Vector2 ANIMATION_OFFSET=Vector2.Zero;
+    protected Vector2 VELOCITY=Vector2.Zero;
 
     private Settings levelSettings;
     private bool wasVisible=false;

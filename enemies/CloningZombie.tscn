@@ -57,7 +57,7 @@ region = Rect2( 48, 32, 16, 16 )
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
-"loop": true,
+"loop": false,
 "name": "clone",
 "speed": 5.0
 }, {
@@ -202,7 +202,7 @@ position = Vector2( 0, -1 )
 collision_layer = 0
 collision_mask = 22
 script = ExtResource( 2 )
-ANIMATION_OFFSET = Vector2( 0, -1 )
+DAMAGE_FORCE = Vector2( 200, -50 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, 2 )
