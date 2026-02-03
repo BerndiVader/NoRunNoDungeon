@@ -6,6 +6,7 @@ public class Player : KinematicBody2D
     public static Player instance;
     private const string ANIM_RUN="RUN";
     private const string ANIM_JUMP="HIT";
+    private const string ANIM_IDLE="IDLE";
     public static int LIVES;
 
     private static readonly AudioStream sfxJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/30_Jump_03.wav");
@@ -21,8 +22,9 @@ public class Player : KinematicBody2D
     [Export] private float JUMP_MAX_AIRBORNE_TIME=0.2f;
 
     [Export] private float DASH_FORCE=3000f;
-    [Export] private float DASH_DURATION=0.25f;
+    [Export] private float DASH_DURATION=0.20f;
     [Export] private float DASH_COOLDOWN=1f;
+    [Export] private float DASH_MAX_SPEED=500f;
 
     [Export] private float DOUBLE_TAP_TIME=300f;
 
@@ -78,7 +80,6 @@ public class Player : KinematicBody2D
         collisionShape=GetNode<CollisionPolygon2D>(nameof(CollisionPolygon2D));
 
         animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
-        animationController.Play(ANIM_RUN);
 
         airParticles=GetNode<CPUParticles2D>(nameof(airParticles));
         airParticles.Emitting=false;
@@ -111,7 +112,6 @@ public class Player : KinematicBody2D
 
         float friction=1f;
         Vector2 levelDirection=World.level.direction;
-
         if(World.level.Speed!=0f&&levelDirection.x!=0f)
         {
             friction=36f/World.level.Speed;
@@ -198,7 +198,7 @@ public class Player : KinematicBody2D
                 {
                     force.x-=WALK_FORCE;
                 }
-                else
+                else if(dashTime<=0f)
                 {
                     velocity.x=-maxSpeed;
                 }
@@ -224,7 +224,7 @@ public class Player : KinematicBody2D
                 {
                     force.x+=WALK_FORCE;
                 }
-                else
+                else if(dashTime<=0f)
                 {
                     velocity.x=maxSpeed;
                 }
@@ -248,6 +248,7 @@ public class Player : KinematicBody2D
             animationController.FlipH=dashDirection==-1;
             jumpParticles.Emitting=true;
             force.x=dashDirection*DASH_FORCE;
+            velocity.x=Mathf.Clamp(velocity.x,-DASH_MAX_SPEED,DASH_MAX_SPEED);
             velocity.y=0f;
             dashTime-=delta;
         } 
@@ -318,7 +319,6 @@ public class Player : KinematicBody2D
                 if(!jumping&&slopeAngle==0f&&collision.Collider.HasUserSignal(STATE.passanger.ToString()))
                 {
                     velocity.y=-JUMP_SPEED;
-                    animationController.Play(ANIM_JUMP);
                     justJumped=jumping=true;
                     collision.Collider.EmitSignal(STATE.passanger.ToString(),this);
                 }
@@ -339,7 +339,6 @@ public class Player : KinematicBody2D
             }
             if(velocity.y>0f)
             {
-                animationController.Play(ANIM_RUN);
                 doubleJump=jumping=false;
                 jumpParticles.Emitting=false;
             }
@@ -347,7 +346,6 @@ public class Player : KinematicBody2D
             {
                 doubleJump=true;
                 velocity.y=-(JUMP_SPEED-levelYSpeed);
-                animationController.Play(ANIM_JUMP);
                 jumpParticles.Emitting=true;
                 Renderer.instance.PlaySfx(sfxDoubleJump,Position);
             }
@@ -366,7 +364,6 @@ public class Player : KinematicBody2D
                 }
             }
             velocity.y=-(JUMP_SPEED-levelYSpeed);
-            animationController.Play(ANIM_JUMP);
             justJumped=jumping=true;
             Renderer.instance.PlaySfx(sfxJump,Position);
         }
@@ -387,7 +384,6 @@ public class Player : KinematicBody2D
                 
                 Renderer.instance.PlaySfx(sfxLanding,Position);
                 airParticles.Emitting=false;
-                animationController.Play(ANIM_RUN);
             }
 
             if(lastVelocity.y>300f) 
@@ -407,6 +403,8 @@ public class Player : KinematicBody2D
         {
             OnDamaged();
         }
+
+        UpdateAnimation(onFloor,friction);
 
         lastPosition=GlobalPosition;
         lastVelocity=velocity;
@@ -463,6 +461,30 @@ public class Player : KinematicBody2D
         else
         {
             World.instance.CallDeferred(nameof(World.ChangeScene),ResourceUtils.intro);
+        }
+    }
+
+    private void UpdateAnimation(bool onFloor,float friction)
+    {
+        if(dashTime>0f)
+        {
+            animationController.Play("RUN");
+        }
+        else if(!onFloor&&velocity.y<0f)
+        {
+            animationController.Play(ANIM_JUMP);
+        }
+        else if(!onFloor&&velocity.y>0f)
+        {
+            animationController.Play(ANIM_RUN);
+        }
+        else if(Mathf.Abs(velocity.x)>5f)
+        {
+            animationController.Play(ANIM_RUN);
+        }
+        else
+        {
+            animationController.Play(friction==1f?ANIM_IDLE:ANIM_RUN);
         }
     }
 
