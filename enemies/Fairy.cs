@@ -76,7 +76,7 @@ public class Fairy : KinematicMonster
                 projectileCooldown=100;
                 SkullBullet bullet=ResourceUtils.bullets[(int)BULLETS.TESTBULLET].Instance<SkullBullet>();
                 
-                bullet.Position=Position-new Vector2(0,-5f);
+                bullet.Position=Position;
                 bullet.direction=animationController.FlipH?Vector2.Right:Vector2.Left;
                 World.level.AddChild(bullet);
             }

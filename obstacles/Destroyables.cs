@@ -1,15 +1,16 @@
 using Godot;
-using System;
-using System.Runtime.Serialization;
 
 public class Destroyables : Area2D,ISwitchable
 {
     private static readonly PackedScene ExpolderPack=ResourceLoader.Load<PackedScene>("res://gfx/TileExploder.tscn");
+    private static readonly AudioStream hitFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/26_sword_hit_1.wav");
 
     [Export] private bool terraform=true;
     [Export] private bool notPlayer=false;
     [Export] private bool destroyParent=false;
     [Export] private string switchID="";
+
+    private CollisionShape2D collisionController;
     private Alert alert;
 
     public override void _Ready()
@@ -21,6 +22,8 @@ public class Destroyables : Area2D,ISwitchable
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen), new Godot.Collections.Array(this));
         AddChild(notifier2D);
+
+        collisionController=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
 
         if(switchID=="")
         {
@@ -44,6 +47,22 @@ public class Destroyables : Area2D,ISwitchable
         {
             return;
         }
+
+        if(node is Player)
+        {
+            DaggerShoot particle=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT].Instance<DaggerShoot>();
+            particle.Position=Position+GetCollisionRectEdge(node.GlobalPosition);
+
+            SfxPlayer sfx=new SfxPlayer
+            {
+                Stream=hitFx,
+                Position=Position
+            };
+            World.level.AddChild(sfx);
+            sfx.Play();
+            World.level.AddChild(particle);
+        }
+
         if(!destroyParent)
         {
             Vector2 local=World.level.ToLocal(GlobalPosition);
@@ -79,6 +98,27 @@ public class Destroyables : Area2D,ISwitchable
         }
 
     }
+
+    protected Vector2 GetCollisionRectEdge(Vector2 source)
+    {
+        Vector2 direction=GlobalPosition.DirectionTo(source);
+        Vector2 extents=((RectangleShape2D)collisionController.Shape).Extents;
+
+        float px=Mathf.Sign(direction.x)*extents.x;
+        float py=Mathf.Sign(direction.y)*extents.y;
+        float rx=Mathf.Abs(direction.x/extents.x);
+        float ry=Mathf.Abs(direction.y/extents.y);
+
+        if(rx>ry)
+        {
+            return new Vector2(px,direction.y/Mathf.Abs(direction.x)*extents.x);
+        }
+        else
+        {
+            return new Vector2(direction.x/Mathf.Abs(direction.y)*extents.y,py);
+        }
+
+    }    
 
     private static ImageTexture ExtractTexture(int id,Vector2 tile)
     {
