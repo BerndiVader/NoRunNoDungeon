@@ -43,28 +43,7 @@ public class Bear : KinematicMonster
 
     protected override void Idle(float delta)
     {
-        velocity+=FORCE*delta;
-        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
-
-        int slides=GetSlideCount();
-        if(slides>0)
-        {
-            for(int i=0;i<slides;i++)
-            {
-                var collision=GetSlideCollision(i);
-                if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
-                {
-                    velocity.x=platform.CurrentSpeed.x;
-                } else
-                {
-                    velocity=StopX(velocity,delta);
-                }
-            }    
-        }
-        else
-        {
-            velocity=StopX(velocity,delta);
-        }
+        Navigation(delta);
     }
 
     protected override void Stroll(float delta)
@@ -141,6 +120,7 @@ public class Bear : KinematicMonster
                 OnStroll();
             }
         }
+        Navigation(delta);
     } 
 
     protected override void Damage(float delta)
@@ -157,6 +137,7 @@ public class Bear : KinematicMonster
                 OnIdle();
             }
         }
+        Navigation(delta);
     }     
 
     private void OnPlayerEntered(Node body)

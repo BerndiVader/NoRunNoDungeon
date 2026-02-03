@@ -68,34 +68,7 @@ public class Cannon : KinematicMonster
         base._PhysicsProcess(delta);
 
         goal(delta);
-        Navigation(delta);
     }
-
-    protected override void Navigation(float delta)
-    {
-        velocity+=FORCE*delta;
-        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
-
-        int slides=GetSlideCount();
-        if(slides>0)
-        {
-            for(int i=0;i<slides;i++)
-            {
-                var collision=GetSlideCollision(i);
-                if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
-                {
-                    velocity.x=platform.CurrentSpeed.x;
-                } else
-                {
-                    velocity=StopX(velocity,delta);
-                }
-            }    
-        }
-        else
-        {
-            velocity=StopX(velocity,delta);
-        }
-    }    
 
     protected override void Idle(float delta)
     {
@@ -103,6 +76,7 @@ public class Cannon : KinematicMonster
         {
             timer.Start();
         }
+        Navigation(delta);
     }
 
     protected override void Attack(float delta)
@@ -117,25 +91,25 @@ public class Cannon : KinematicMonster
             Fire();
             fired=true;
         }
+        Navigation(delta);
     }
 
     protected override void OnDamage(Node2D node=null, float amount=0)
     {
-        if(!DESTORYABLE)
-        {
-            DaggerShoot particle=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT].Instance<DaggerShoot>();
-            particle.Position=Position+GetCollisionRectEdge(node.GlobalPosition);
 
-            SfxPlayer sfx=new SfxPlayer
-            {
-                Stream=hitFx,
-                Position=Position
-            };
-            World.level.AddChild(sfx);
-            sfx.Play();
-            World.level.AddChild(particle);
-        }
-        else
+        DaggerShoot particle=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT].Instance<DaggerShoot>();
+        particle.Position=Position+GetCollisionRectEdge(node.GlobalPosition);
+
+        SfxPlayer sfx=new SfxPlayer
+        {
+            Stream=hitFx,
+            Position=Position
+        };
+        World.level.AddChild(sfx);
+        sfx.Play();
+        World.level.AddChild(particle);
+
+        if(DESTORYABLE)
         {
             onDelay=false;
             if(state!=STATE.damage&&state!=STATE.die)

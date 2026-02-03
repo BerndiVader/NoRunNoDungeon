@@ -3,11 +3,11 @@ using System;
 
 public class Oger : KinematicMonster
 {
-    [Export] private new Vector2 ANIMATION_OFFSET=new Vector2(0f,0f);
+    [Export] private new Vector2 ANIMATION_OFFSET=Vector2.Zero;
     [Export] private float WALK_FORCE=600f;
     [Export] private float WALK_MIN_SPEED=10f;
     [Export] private float WALK_MAX_SPEED=40f;
-    [Export] private float FIGHT_DISTANCE = 30f;
+    [Export] private float FIGHT_DISTANCE=30f;
     [Export] private float DETECT_DISTANCE=150f;
     private float travelTime=0f;
     private RayCast2D rayCast2D,playerCast2D;
@@ -44,7 +44,7 @@ public class Oger : KinematicMonster
         base._PhysicsProcess(delta);        
         if (animationPlayer.IsPlaying())
         {
-            Position = startOffset + (ANIMATION_OFFSET * animationDirection);
+            Position=startOffset+(ANIMATION_OFFSET*animationDirection);
         }
         goal(delta);
     }
@@ -70,12 +70,12 @@ public class Oger : KinematicMonster
                 OnStroll();
                 return;
             }
-            Navigation(delta);
         }
         else
         {
             OnAttack(Player.instance);
         }
+        Navigation(delta);
     }
 
     protected override void Stroll(float delta)
@@ -92,12 +92,12 @@ public class Oger : KinematicMonster
                 }
                 travelTime=0f;
             }
-            Navigation(delta);
         }
         else
         {
             OnAttack(Player.instance);
         }
+        Navigation(delta);
     }
 
     protected override void Attack(float delta)
@@ -238,6 +238,7 @@ public class Oger : KinematicMonster
                 OnAlert();
             }
         }
+        Navigation(delta);
     }
 
     protected override void Alert(float delta)
@@ -256,7 +257,7 @@ public class Oger : KinematicMonster
             }
             else
             {
-                animationController.SpeedScale = 1f;
+                animationController.SpeedScale=1f;
                 if (MathUtils.RandBool())
                 {
                     OnAttack(Player.instance);
@@ -267,6 +268,7 @@ public class Oger : KinematicMonster
                 }
             }            
         }
+        Navigation(delta);
     }
 
     protected override void OnDamage(Node2D node=null,float amount=0f)

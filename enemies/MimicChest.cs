@@ -45,7 +45,6 @@ public class MimicChest : KinematicMonster
         }
 
         goal(delta);
-        Navigation(delta);
     }
 
     protected override void Idle(float delta)
@@ -64,6 +63,7 @@ public class MimicChest : KinematicMonster
             cooldown=0;
         }
         cooldown++;
+        Navigation(delta);
     }
 
     protected override void Attack(float delta)
@@ -73,6 +73,7 @@ public class MimicChest : KinematicMonster
             animationController.Play("fight");
             OnFight(victim);
         }
+        Navigation(delta);
     }
 
     protected override void Fight(float delta)
@@ -100,6 +101,7 @@ public class MimicChest : KinematicMonster
         {
             OnCalm();
         }
+        Navigation(delta);
     }
 
     protected override void Calm(float delta)
@@ -108,6 +110,7 @@ public class MimicChest : KinematicMonster
         {
             OnIdle();
         }
+        Navigation(delta);
     }
 
 	protected override void Passanger(float delta)
@@ -146,32 +149,6 @@ public class MimicChest : KinematicMonster
         }
     }
 
-    protected override void Navigation(float delta)
-    {
-        velocity+=FORCE*delta;
-        velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
-
-        int slides=GetSlideCount();
-        if(slides>0)
-        {
-            for(int i=0;i<slides;i++)
-            {
-                var collision=GetSlideCollision(i);
-                if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
-                {
-                    velocity.x=platform.CurrentSpeed.x;
-                } else
-                {
-                    velocity=StopX(velocity,delta);
-                }
-            }    
-        }
-        else
-        {
-            velocity=StopX(velocity,delta);
-        }
-    }
-
     protected override void FlipH()
     {
         animationController.FlipH^=true;
@@ -194,6 +171,5 @@ public class MimicChest : KinematicMonster
             Rotation=0;
         }
     }
-
 
 }

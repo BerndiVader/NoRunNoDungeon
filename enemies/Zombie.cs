@@ -44,34 +44,6 @@ public class Zombie : KinematicMonster
     {
         base._PhysicsProcess(delta);
         goal(delta);
-        Navigation(delta);
-    }
-
-    protected override void Navigation(float delta)
-    {
-        velocity+=FORCE*delta;
-        velocity=MoveAndSlideWithSnap(velocity,justDamaged?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
-        justDamaged=false;
-
-        int slides=GetSlideCount();
-        if(slides>0)
-        {
-            for(int i=0;i<slides;i++)
-            {
-                if(GetSlideCollision(i).Collider is Platform platform)
-                {
-                    velocity.x=platform.CurrentSpeed.x;
-                }
-                else
-                {
-                    velocity=StopX(velocity,delta);
-                }
-            }
-        }
-        else
-        {
-            velocity=StopX(velocity,delta);
-        }
     }
 
     protected override void Idle(float delta)
@@ -87,7 +59,7 @@ public class Zombie : KinematicMonster
             cooldown=0;
         }
         cooldown++;
-
+        Navigation(delta);
     }
 
     protected override void Attack(float delta)
@@ -121,6 +93,7 @@ public class Zombie : KinematicMonster
             OnIdle();
         }
         cooldown--;
+        Navigation(delta);
     }
 
     protected override void Fight(float delta)
@@ -142,6 +115,7 @@ public class Zombie : KinematicMonster
                 OnIdle();
             }
         }
+        Navigation(delta);
     }
 
     protected override void Calm(float delta)

@@ -64,7 +64,8 @@ public class RunningZombieHurting : RunningZombie
             cooldowner=COOLDOWNER_TIME;
 
         }
-        cooldowner-=delta;        
+        cooldowner-=delta;
+        Navigation(delta);
     }
 
     protected override void FlipH()
