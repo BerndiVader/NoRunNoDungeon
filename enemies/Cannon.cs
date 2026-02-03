@@ -123,6 +123,9 @@ public class Cannon : KinematicMonster
     {
         if(!DESTORYABLE)
         {
+            DaggerShoot particle=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT].Instance<DaggerShoot>();
+            particle.Position=Position+GetCollisionRectEdge(node.GlobalPosition);
+
             SfxPlayer sfx=new SfxPlayer
             {
                 Stream=hitFx,
@@ -130,26 +133,28 @@ public class Cannon : KinematicMonster
             };
             World.level.AddChild(sfx);
             sfx.Play();
-            return;
+            World.level.AddChild(particle);
         }
-
-        onDelay=false;
-        if(state!=STATE.damage&&state!=STATE.die)
+        else
         {
-            if(node==null)
+            onDelay=false;
+            if(state!=STATE.damage&&state!=STATE.die)
             {
-                node=Player.instance;
+                if(node==null)
+                {
+                    node=Player.instance;
+                }
+                Renderer.instance.Shake(1f);
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
+                lastState=state;
+                state=STATE.damage;
+                if(node is Player)
+                {
+                    attacker=node as Player;
+                }
+                health-=amount;
+                goal=Damage;
             }
-            Renderer.instance.Shake(1f);
-            staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
-            lastState=state;
-            state=STATE.damage;
-            if(node is Player)
-            {
-                attacker=node as Player;
-            }
-            health-=amount;
-            goal=Damage;
         }
     }
 
@@ -157,8 +162,6 @@ public class Cannon : KinematicMonster
     {
         base.OnPassanger(player);
     }
-
-
 
     protected override void OnAttack(Player player=null)
     {
@@ -187,7 +190,6 @@ public class Cannon : KinematicMonster
         }
         World.level.AddChild(ball);
     }
-
 
     private void TimerTimeout()
     {

@@ -121,6 +121,7 @@ position = Vector2( 1366, -42 )
 position = Vector2( 0, 0 )
 HEALTH = 999.0
 spawn_facing = 2
+DESTORYABLE = true
 FIRE_DELAY = 4.0
 WARMUP = false
 CANNONBALL_SETTINGS = {
