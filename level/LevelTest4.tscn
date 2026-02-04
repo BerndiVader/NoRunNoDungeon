@@ -75,7 +75,7 @@ scale = Vector2( 0.7, 0.7 )
 [node name="LevelControl" parent="ControlHolder" index="0"]
 Speed = 0.0
 Timeout = 20
-CallID = "22"
+RestoreDefault = true
 
 [node name="Gate" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1528, 182 )
@@ -119,8 +119,10 @@ position = Vector2( 1366, -42 )
 
 [node name="Cannon" parent="CannonHolder" index="0"]
 position = Vector2( 0, 0 )
-HEALTH = 999.0
+HEALTH = 40.0
 spawn_facing = 2
+CALL_SWITCH_ON_DIE = true
+SWITCH_ID = "22"
 DESTORYABLE = true
 FIRE_DELAY = 4.0
 WARMUP = false

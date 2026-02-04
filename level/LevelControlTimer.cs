@@ -65,8 +65,16 @@ public class LevelControlTimer : Node,ISwitchable
         {
             GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),settings.CallID);
         }
+
+        if(settings.restoreToDefault)
+        {
+            settings.Restore();
+        }
+        else
+        {
+            World.level.settings.Restore();
+        }
         
-        World.level.settings.Restore();
         CallDeferred("queue_free");
     }
 

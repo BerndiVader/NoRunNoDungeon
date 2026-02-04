@@ -8,6 +8,7 @@ public class LevelControl : Node2D,ISwitchable
     [Export] private float Zoom=-1f;
     [Export] private int Timeout=-1;
     [Export] private bool Restore=false;
+    [Export] private bool RestoreDefault=false;
     [Export] private bool AutoRestore=false;
     [Export] private bool NoStop=false;
     [Export] private bool Signal=true;
@@ -35,6 +36,7 @@ public class LevelControl : Node2D,ISwitchable
             settings=new Settings(World.level,Direction,Speed,Zoom,AutoRestore);
             settings.noStop=NoStop;
             settings.CallID=CallID;
+            settings.restoreToDefault=RestoreDefault;
         }
 
         if(SwitchID!="")
@@ -51,6 +53,7 @@ public class LevelControl : Node2D,ISwitchable
             if(!Restore)
             {
                 settings.Set();
+                
                 if(Timeout!=-1||SwitchID!="")
                 {
                     World.level.AddChild(new LevelControlTimer(Timeout,settings,SwitchID));

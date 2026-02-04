@@ -25,6 +25,8 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected float STOP_FORCE=1300f;
     [Export] protected SPAWN_FACING spawn_facing=SPAWN_FACING.DEFAULT;
     [Export] protected int SPAWN_LEFT_WEIGHT=50;
+    [Export] protected bool CALL_SWITCH_ON_DIE=false;
+    [Export] protected string SWITCH_ID="";
     [Export] protected Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
     {
         {"Use",false},
@@ -32,6 +34,7 @@ public abstract class KinematicMonster : KinematicBody2D
         {"Speed",-1.0f},
         {"Zoom",-1.0f},
     };
+
     protected Vector2 ANIMATION_OFFSET=Vector2.Zero;
     protected Vector2 VELOCITY=Vector2.Zero;
 
@@ -179,8 +182,13 @@ public abstract class KinematicMonster : KinematicBody2D
         Vector2 position=GlobalPosition;
         position.y+=particles.Texture.GetWidth()/2;
         particles.Position=World.level.ToLocal(position);
-
         World.level.AddChild(particles);
+
+        if(CALL_SWITCH_ON_DIE)
+        {
+            GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),SWITCH_ID);
+        }
+
         QueueFree();
     }
     protected virtual void Navigation(float delta)

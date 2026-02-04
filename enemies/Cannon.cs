@@ -129,12 +129,10 @@ public class Cannon : KinematicMonster
                 }
 
                 health-=amount;
-
                 if(health>0f&&amount!=0f)
                 {
                     HealthNotifier(health);
                 }
-
                 goal=Damage;
             }
         }
