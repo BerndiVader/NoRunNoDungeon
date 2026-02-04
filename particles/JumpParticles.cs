@@ -3,17 +3,27 @@ using System;
 
 public class JumpParticles : CPUParticles2D
 {
-    AnimatedTexture animTex;
+    private AnimatedTexture animTex;
 
     public override void _Ready()
     {
+        SetPhysicsProcess(false);
+        SetProcess(false);
+        SetProcessInput(false);
+
         animTex=(AnimatedTexture)Texture;
         animTex.CurrentFrame=0;
     }
 
-    public override void _PhysicsProcess(float delta)
+    public void Start(bool flipped)
     {
-        animTex.CurrentFrame=Player.instance.AnimationController.FlipH?1:0;
+        animTex.CurrentFrame=flipped?1:0;
+        Emitting=true;
+    }
+
+    public void Stop()
+    {
+        Emitting=false;
     }
 
 }

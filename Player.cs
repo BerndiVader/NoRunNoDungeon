@@ -53,7 +53,8 @@ public class Player : KinematicBody2D
     public AnimatedSprite AnimationController=>animationController;
     private CollisionPolygon2D collisionShape;
     public CollisionPolygon2D CollisionShape=>collisionShape;
-    private CPUParticles2D airParticles,jumpParticles;
+    private CPUParticles2D airParticles;
+    private JumpParticles jumpParticles;
     private ShaderMaterial motionTrails;
 
     private Weapon weapon=null;
@@ -83,9 +84,9 @@ public class Player : KinematicBody2D
 
         airParticles=GetNode<CPUParticles2D>(nameof(airParticles));
         airParticles.Emitting=false;
-        jumpParticles=ResourceUtils.particles[(int)PARTICLES.JUMP].Instance<CPUParticles2D>();
+        jumpParticles=ResourceUtils.particles[(int)PARTICLES.JUMP].Instance<JumpParticles>();
         AddChild(jumpParticles);
-        jumpParticles.Emitting=false;
+        jumpParticles.Stop();
 
         weapons=new List<int>
         {
@@ -246,7 +247,7 @@ public class Player : KinematicBody2D
         if(dashTime>0f)
         {
             animationController.FlipH=dashDirection==-1;
-            jumpParticles.Emitting=true;
+            jumpParticles.Start(animationController.FlipH);
             force.x=dashDirection*DASH_FORCE;
             velocity.x=Mathf.Clamp(velocity.x,-DASH_MAX_SPEED,DASH_MAX_SPEED);
             velocity.y=0f;
@@ -346,7 +347,7 @@ public class Player : KinematicBody2D
             {
                 doubleJump=true;
                 velocity.y=-(JUMP_SPEED-levelYSpeed);
-                jumpParticles.Emitting=true;
+                jumpParticles.Start(animationController.FlipH);
                 Renderer.instance.PlaySfx(sfxDoubleJump,Position);
             }
         }
