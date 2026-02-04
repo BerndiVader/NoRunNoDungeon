@@ -122,11 +122,19 @@ public class Cannon : KinematicMonster
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
                 lastState=state;
                 state=STATE.damage;
+
                 if(node is Player)
                 {
                     attacker=node as Player;
                 }
+
                 health-=amount;
+
+                if(health>0f&&amount!=0f)
+                {
+                    HealthNotifier(health);
+                }
+
                 goal=Damage;
             }
         }

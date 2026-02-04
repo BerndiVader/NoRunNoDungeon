@@ -48,6 +48,7 @@
     <Compile Include="particles\Alert.cs" />
     <Compile Include="particles\DaggerShoot.cs" />
     <Compile Include="particles\ExplodeParticles.cs" />
+    <Compile Include="particles\HealthLoss.cs" />
     <Compile Include="particles\JumpParticles.cs" />
     <Compile Include="particles\PlayerDieEffect.cs" />
     <Compile Include="particles\SettingsEffect.cs" />

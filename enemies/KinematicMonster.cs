@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public abstract class KinematicMonster : KinematicBody2D
@@ -276,7 +277,14 @@ public abstract class KinematicMonster : KinematicBody2D
             {
                 attacker=Player.instance;
             }
+
             health-=amount;
+
+            if(amount!=0f&&health>0f)
+            {
+                HealthNotifier(health);
+            }
+
             goal=Damage;
         }
     }
@@ -285,7 +293,7 @@ public abstract class KinematicMonster : KinematicBody2D
         onDelay=false;
         if(state!=STATE.passanger)
         {
-            if (player==null)
+            if(player==null)
             {
                 player=Player.instance;
             }
@@ -293,7 +301,13 @@ public abstract class KinematicMonster : KinematicBody2D
             Renderer.instance.Shake(1f);
             lastState=state;
             state=STATE.passanger;
+
             health-=0.5f;
+            if(health>0f)
+            {
+                HealthNotifier(health);
+            }
+            
             attacker=player;
             goal=Passanger;
         }
@@ -480,6 +494,14 @@ public abstract class KinematicMonster : KinematicBody2D
             return new Vector2(direction.x/Mathf.Abs(direction.y)*extents.y,py);
         }
 
+    }
+
+    protected void HealthNotifier(float amount)
+    {
+        HealthLoss particles=ResourceUtils.particles[(int)PARTICLES.HEALTHLOSS].Instance<HealthLoss>();
+        particles.text=amount.ToString();
+        particles.Position=Position;
+        World.level.AddChild(particles);
     }
 
     protected float DistanceToPlayer()
