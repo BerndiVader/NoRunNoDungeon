@@ -1,32 +1,61 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://ui/ui.tres" type="Theme" id=1]
 [ext_resource path="res://ui/HUD.cs" type="Script" id=2]
+[ext_resource path="res://image/dash_icon.png" type="Texture" id=3]
+[ext_resource path="res://image/gold_hud.png" type="Texture" id=4]
 
 [node name="HUD" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 19.0 ]
+}
 
 [node name="Lives" type="HBoxContainer" parent="."]
-margin_right = 128.0
+margin_right = 120.0
 margin_bottom = 16.0
 
 [node name="Distance" type="HBoxContainer" parent="."]
-margin_left = 416.0
-margin_right = 608.0
+margin_left = 425.0
+margin_right = 617.0
 margin_bottom = 37.0
-rect_scale = Vector2( 0.5, 0.5 )
+rect_scale = Vector2( 0.45, 0.45 )
 alignment = 2
 
-[node name="Label" type="Label" parent="Distance"]
+[node name="Yards" type="Label" parent="Distance"]
 margin_left = 172.0
 margin_right = 192.0
 margin_bottom = 37.0
 align = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 208.0
-margin_right = 304.0
+[node name="Modifiers" type="HBoxContainer" parent="."]
+margin_left = 122.0
+margin_right = 140.0
 margin_bottom = 16.0
+
+[node name="Dash" type="TextureProgress" parent="Modifiers"]
+margin_right = 16.0
+margin_bottom = 16.0
+value = 100.0
+texture_progress = ExtResource( 3 )
+
+[node name="Values" type="HBoxContainer" parent="."]
+margin_left = 141.0
+margin_right = 227.0
+margin_bottom = 37.0
+rect_scale = Vector2( 0.45, 0.45 )
+
+[node name="TextureRect" type="TextureRect" parent="Values"]
+margin_right = 41.0
+margin_bottom = 37.0
+texture = ExtResource( 4 )
+
+[node name="Coins" type="Label" parent="Values"]
+margin_left = 45.0
+margin_right = 74.0
+margin_bottom = 37.0
+text = "0"
+valign = 1

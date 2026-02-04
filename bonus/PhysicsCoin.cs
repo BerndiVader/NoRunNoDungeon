@@ -3,6 +3,7 @@ using System;
 
 public class PhysicsCoin : PhysicsObject
 {
+    [Export] int VALUE=1;
     public override void _Ready()
     {
         base._Ready();
@@ -13,18 +14,19 @@ public class PhysicsCoin : PhysicsObject
 
     private void OnBodyEntered(Node body) 
     {
-        if(body.Name.Equals("Player"))
+        if(body is Player player)
         {
             CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKEN].Instance();
             particles.Position=World.level.ToLocal(GlobalPosition);
             particles.audio.Stream=CoinTakenParticles.sfxSmall;
             World.level.AddChild(particles);
             CallDeferred("queue_free");
+            Apply(player);
         }
     }
 
     public void Apply(Player player)
     {
-        throw new NotImplementedException();
+        player.ApplyCoins(VALUE);
     }
 }

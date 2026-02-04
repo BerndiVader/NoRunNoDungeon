@@ -40,14 +40,15 @@ public class Player : KinematicBody2D
     private Vector2 platformSpeed=Vector2.Zero;
 
     private float dashTime=0f;
-    private float dasCooldown=0f;
+    private float dashCooldown=0f;
     private int dashDirection=0;
     private float dashLeftTap=-1f;
     private float dashRightTap=-1f;
 
     private bool onTeleport=false;
 
-    private List<int>weapons;    
+    private List<int>weapons;
+    private int coins=0;
 
     private AnimatedSprite animationController;
     public AnimatedSprite AnimationController=>animationController;
@@ -102,6 +103,7 @@ public class Player : KinematicBody2D
         FORCE=new Vector2(0f,GRAVITY);
         motionTrails=(ShaderMaterial)animationController.Material;
         lastPosition=GlobalPosition;
+
     }
 
     public override void _PhysicsProcess(float delta)
@@ -110,6 +112,8 @@ public class Player : KinematicBody2D
         {
             return;
         }
+
+        UpdateDash();
 
         float friction=1f;
         Vector2 levelDirection=World.level.direction;
@@ -185,11 +189,11 @@ public class Player : KinematicBody2D
             PlayerCamera.instance.direction=1;
             animationController.FlipH=true;
 
-            if(dashLeft&&dasCooldown<=0f&&dashTime<=0f)
+            if(dashLeft&&dashCooldown<=0f&&dashTime<=0f)
             {
                 dashDirection=-1;
                 dashTime=DASH_DURATION;
-                dasCooldown=DASH_COOLDOWN+DASH_DURATION;
+                dashCooldown=DASH_COOLDOWN+DASH_DURATION;
                 Renderer.instance.PlaySfx(sfxDash,Position);
             }
             else
@@ -208,11 +212,11 @@ public class Player : KinematicBody2D
         }
         else if(right)
         {
-            if(dashRight&&dasCooldown<=0f&&dashTime<=0f)
+            if(dashRight&&dashCooldown<=0f&&dashTime<=0f)
             {
                 dashDirection=1;
                 dashTime=DASH_DURATION;
-                dasCooldown=DASH_COOLDOWN+DASH_DURATION;
+                dashCooldown=DASH_COOLDOWN+DASH_DURATION;
                 Renderer.instance.PlaySfx(sfxDash,Position);
             }
             else
@@ -259,9 +263,9 @@ public class Player : KinematicBody2D
             dashDirection=0;
         }
 
-        if(dasCooldown>0f)
+        if(dashCooldown>0f)
         {
-            dasCooldown-=delta;
+            dashCooldown-=delta;
         }
 
         velocity+=force*delta;
@@ -489,6 +493,31 @@ public class Player : KinematicBody2D
         }
     }
 
+    private void UpdateDash()
+    {
+        float max=DASH_COOLDOWN+DASH_DURATION;
+        float value=Mathf.Clamp(dashCooldown,0f,max);
+        HUD.instance.UpdateDash((int)(100f*(1f-(value/max))));
+    }
+
+    public void ApplyCoins(int amount)
+    {
+        coins+=amount;
+        HUD.instance.UpdateCoins(World.instance.overall_coins+coins);
+    }
+
+    public int SaveCoins()
+    {
+        int amount=coins;
+        coins=0;
+        return amount;
+    }
+
+    public int GetCoins()
+    {
+        return coins;
+    }
+ 
     public void Teleport(bool teleport)
     {
         onTeleport=teleport;

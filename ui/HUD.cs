@@ -9,6 +9,8 @@ public class HUD : Control
     public static HUD instance;
     private HBoxContainer lives;
     private Label distance;
+    private TextureProgress dash;
+    private Label coins;
 
     public HUD():base()
     {
@@ -18,7 +20,9 @@ public class HUD : Control
     public override void _Ready()
     {
         lives=GetNode<HBoxContainer>("Lives");
-        distance=GetNode<HBoxContainer>("Distance").GetNode<Label>("Label");
+        distance=GetNode<HBoxContainer>("Distance").GetNode<Label>("Yards");
+        dash=GetNode<HBoxContainer>("Modifiers").GetNode<TextureProgress>("Dash");
+        coins=GetNode<HBoxContainer>("Values").GetNode<Label>("Coins");
 
         PopulateLives();
         PopulateDistance();
@@ -37,7 +41,15 @@ public class HUD : Control
             TextureRect heart=(TextureRect)lives.GetChild(i);
             heart.Texture=i<Player.LIVES?heart_full:heart_empty;
         }
+    }
 
+    public void UpdateDash(float value)
+    {
+        dash.Value=value;
+    }
+    public void UpdateCoins(int amount)
+    {
+        coins.Text=amount.ToString();
     }
 
     private void PopulateLives()

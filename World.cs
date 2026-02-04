@@ -87,6 +87,7 @@ public class World : Node
 	private Vector2 levelLastPosition;
 	private float overall_distance;
 	private float current_distance;
+	public int overall_coins;
 
 	private AudioStreamPlayer2D musicPlayer;
 
@@ -133,6 +134,7 @@ public class World : Node
 		renderer.AddChild(background);
 
 		overall_distance=current_distance=0f;
+		overall_coins=0;
 
 		ResourceUtils.hud.Instance();
 		uiLayer.AddChild(HUD.instance);
@@ -224,6 +226,7 @@ public class World : Node
 	{
 		if(level.IsInsideTree())
 		{
+			Player.instance.ApplyCoins(0);
 			SetGamestate(Gamestate.RUNNING);
 			Tick(delta);
 		}
@@ -291,6 +294,9 @@ public class World : Node
 
 	public void RestartLevel(bool keepLevel=false)
 	{
+		Player.instance.SaveCoins();
+		Player.instance.ApplyCoins(0);
+		
 		current_distance=0f;
 		SetGamestate(Gamestate.RESTART);
 		renderer.RemoveChild(level);
@@ -316,6 +322,8 @@ public class World : Node
 	{
 		overall_distance+=current_distance;
 		current_distance=0f;
+
+		overall_coins+=Player.instance.SaveCoins();
 
 		RemoveALevel(currentLevel);
 		currentLevel=nextLevel;
