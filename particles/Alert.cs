@@ -18,4 +18,14 @@ public class Alert : CPUParticles2D
         Emitting=true;
     }
 
+    public override void _PhysicsProcess(float delta)
+    {
+        if(!Emitting)
+        {
+            SetPhysicsProcess(false);
+            QueueFree();
+        }
+    }
+
+
 }

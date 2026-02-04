@@ -15,4 +15,5 @@ public enum PARTICLES
     EXPLODE,
     ALERT,
     ITEMTAKEN,
+    HEALTHLOSS,
 }

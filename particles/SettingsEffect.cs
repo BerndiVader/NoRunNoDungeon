@@ -5,14 +5,14 @@ public class SettingsEffect : CPUParticles2D
 {
     public int chr;
     public float scale=5f;
-    private ImageTexture tex=new ImageTexture();
+    private readonly ImageTexture texture=new ImageTexture();
 
     public override void _Ready()
     {
         ScaleAmount=scale;
 
-        tex.CreateFromImage(ResourceUtils.fontTexture.GetRect(ResourceUtils.font.GetCharTxUvRect(chr)),1);
-        Texture=tex;
+        texture.CreateFromImage(ResourceUtils.fontTexture.GetRect(ResourceUtils.font.GetCharTxUvRect(chr)),1);
+        Texture=texture;
         Scale=PlayerCamera.instance.Zoom;
         Position=PlayerCamera.instance.GetCameraScreenCenter();   
         OneShot=true;

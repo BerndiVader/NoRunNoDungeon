@@ -177,6 +177,7 @@ public static class ResourceUtils
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/ExplodeParticles.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/Alert.tscn"));
         particles.Add(ResourceLoader.Load<PackedScene>("res://particles/ItemTaken.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/HealthLoss.tscn"));
 
         Console.WriteLine("Loading bullets...");
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/SkullBullet.tscn"));
@@ -220,5 +221,34 @@ public static class ResourceUtils
         {
             return new DesktopInput();
         }
+    }
+
+    public static ImageTexture CreateTextureFromText(string text,BitmapFont font,Image image)
+    {
+        float totalWidth=0;
+        float maxHeight=0;
+        List<Rect2> rects=new List<Rect2>();
+
+        foreach(char c in text)
+        {
+            Rect2 rect=font.GetCharTxUvRect(c);
+            rects.Add(rect);
+            totalWidth+=rect.Size.x;
+            maxHeight=Mathf.Max(maxHeight,rect.Size.y);
+        }
+
+        Image img=new Image();
+        img.Create((int)totalWidth,(int)maxHeight,false,Image.Format.Rgba8);
+
+        float x=0;
+        foreach(Rect2 rect in rects)
+        {
+            img.BlitRect(image,rect,new Vector2(x,0f));
+            x+=rect.Size.x;
+        }
+
+        ImageTexture texture=new ImageTexture();
+        texture.CreateFromImage(img,1);
+        return texture;
     }
 }

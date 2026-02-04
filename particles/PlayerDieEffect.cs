@@ -18,8 +18,6 @@ public class PlayerDieEffect : Particles
         World.instance.renderer.AddChild(effect);
     }
 
-    public PlayerDieEffect():base() {}
-
     public override void _Ready()
     {
         base._Ready();

@@ -22,7 +22,8 @@ public class ItemTaken : Particles
     {
         if(!Emitting)
         {
-            OnExitedScreen();
+            QueueFree();
+            SetPhysicsProcess(false);
         }
         Position-=offset;
     }

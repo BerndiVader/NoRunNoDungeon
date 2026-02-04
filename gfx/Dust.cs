@@ -14,6 +14,10 @@ public class Dust : AnimatedSprite
 
     public override void _Ready()
     {
+        SetPhysicsProcess(false);
+        SetProcess(false);
+        SetProcessInput(false);
+        
         Connect("animation_finished",this,nameof(OnFinish));
         Play(type.ToString());
     }

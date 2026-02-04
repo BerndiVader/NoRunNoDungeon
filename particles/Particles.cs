@@ -8,12 +8,14 @@ public class Particles : CPUParticles2D
         VisibilityNotifier2D notifier=new VisibilityNotifier2D();
         notifier.Connect("screen_exited",this,nameof(OnExitedScreen));
         AddChild(notifier);
+
+        SetProcess(false);
+        SetProcessInput(false);
     }
 
     protected void OnExitedScreen() {
         if(!IsQueuedForDeletion())
         {
-            SetProcess(false);
             SetPhysicsProcess(false);
             CallDeferred("queue_free");
         }

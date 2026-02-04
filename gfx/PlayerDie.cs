@@ -10,8 +10,8 @@ public class PlayerDie : Sprite
         return scene.Instance<PlayerDie>();
     }
 
-    float offset;
-    ShaderMaterial shader;
+    private float offset;
+    private ShaderMaterial shader;
     public bool flip;
 
     public override void _Ready()
@@ -28,8 +28,8 @@ public class PlayerDie : Sprite
 
         if(offset==1f)
         {
-            QueueFree();
             SetPhysicsProcess(false);
+            QueueFree();
         }
     }
 

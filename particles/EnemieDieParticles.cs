@@ -3,7 +3,7 @@ using System;
 
 public class EnemieDieParticles : Particles
 {
-    static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_Battle_SFX/15_Impact_flesh_02.wav");
+    private static readonly AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_Battle_SFX/15_Impact_flesh_02.wav");
 
     public override void _Ready()
     {
@@ -24,10 +24,10 @@ public class EnemieDieParticles : Particles
 
     public override void _PhysicsProcess(float delta) 
     {
-        if(!Emitting) 
+        if(!Emitting)
         {
-            QueueFree();
             SetPhysicsProcess(false);
+            QueueFree();
         }
     }
 }

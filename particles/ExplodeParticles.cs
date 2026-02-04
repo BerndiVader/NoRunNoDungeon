@@ -15,8 +15,8 @@ public class ExplodeParticles : Particles
     {
         if(!Emitting)
         {
-            QueueFree();
             SetPhysicsProcess(false);
+            QueueFree();
         }
     }
 

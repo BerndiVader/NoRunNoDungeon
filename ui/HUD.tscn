@@ -14,14 +14,19 @@ margin_right = 128.0
 margin_bottom = 16.0
 
 [node name="Distance" type="HBoxContainer" parent="."]
-margin_left = 368.0
-margin_right = 656.0
+margin_left = 416.0
+margin_right = 608.0
 margin_bottom = 37.0
 rect_scale = Vector2( 0.5, 0.5 )
 alignment = 2
 
 [node name="Label" type="Label" parent="Distance"]
-margin_left = 268.0
-margin_right = 288.0
+margin_left = 172.0
+margin_right = 192.0
 margin_bottom = 37.0
 align = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 208.0
+margin_right = 304.0
+margin_bottom = 16.0

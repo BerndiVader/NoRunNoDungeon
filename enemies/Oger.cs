@@ -3,7 +3,7 @@ using System;
 
 public class Oger : KinematicMonster
 {
-    [Export] private new Vector2 ANIMATION_OFFSET=Vector2.Zero;
+    [Export] private new Vector2 ANIMATION_OFFSET=new Vector2(0f,0f);
     [Export] private float WALK_FORCE=600f;
     [Export] private float WALK_MIN_SPEED=10f;
     [Export] private float WALK_MAX_SPEED=40f;
@@ -42,7 +42,7 @@ public class Oger : KinematicMonster
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);        
-        if (animationPlayer.IsPlaying())
+        if(animationPlayer.IsPlaying())
         {
             Position=startOffset+(ANIMATION_OFFSET*animationDirection);
         }
@@ -70,12 +70,12 @@ public class Oger : KinematicMonster
                 OnStroll();
                 return;
             }
+            Navigation(delta);
         }
         else
         {
             OnAttack(Player.instance);
         }
-        Navigation(delta);
     }
 
     protected override void Stroll(float delta)
@@ -92,12 +92,12 @@ public class Oger : KinematicMonster
                 }
                 travelTime=0f;
             }
+            Navigation(delta);
         }
         else
         {
             OnAttack(Player.instance);
         }
-        Navigation(delta);
     }
 
     protected override void Attack(float delta)
@@ -226,9 +226,9 @@ public class Oger : KinematicMonster
 
     protected override void Damage(float delta)
     {
-        if (!animationPlayer.IsPlaying())
+        if(!animationPlayer.IsPlaying())
         {
-            if (health <= 0f)
+            if (health<=0f)
             {
                 OnDie();
             }
@@ -238,7 +238,6 @@ public class Oger : KinematicMonster
                 OnAlert();
             }
         }
-        Navigation(delta);
     }
 
     protected override void Alert(float delta)
@@ -257,7 +256,7 @@ public class Oger : KinematicMonster
             }
             else
             {
-                animationController.SpeedScale=1f;
+                animationController.SpeedScale = 1f;
                 if (MathUtils.RandBool())
                 {
                     OnAttack(Player.instance);
@@ -268,22 +267,14 @@ public class Oger : KinematicMonster
                 }
             }            
         }
-        Navigation(delta);
     }
 
     protected override void OnDamage(Node2D node=null,float amount=0f)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {
-            base.OnDamage(node, amount);
-            if (node.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x < 0f)
-            {
-                animationDirection = -1;
-            }
-            else
-            {
-                animationDirection = 1;
-            }
+            base.OnDamage(node,amount);
+            animationDirection=Mathf.Sign(GlobalPosition.DirectionTo(node.GlobalPosition).x);
             animationPlayer.Play("HIT");
         }
     }
@@ -344,24 +335,24 @@ public class Oger : KinematicMonster
 
     protected override void OnAlert()
     {
-        onDelay = false;
+        onDelay=false;
         if(state!=STATE.alert)
         {
-            lastState = state;
-            state = STATE.alert;
-            goal = Alert;
+            lastState=state;
+            state=STATE.alert;
+            goal=Alert;
 
-            victim = Player.instance;
-            float distance = GlobalPosition.DistanceTo(victim.GlobalPosition);
-            Vector2 dir = GlobalPosition.DirectionTo(victim.GlobalPosition);
-            playerCast2D.CastTo = dir*DETECT_DISTANCE;
+            victim=Player.instance;
+            float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
+            Vector2 dir=GlobalPosition.DirectionTo(victim.GlobalPosition);
+            playerCast2D.CastTo=dir*DETECT_DISTANCE;
 
             if(Mathf.Sign(dir.x)!=facing.x)
             {
                 FlipH();
             }
 
-            if (distance > FIGHT_DISTANCE)
+            if (distance>FIGHT_DISTANCE)
             {
                 OnAttack(victim);
             }
