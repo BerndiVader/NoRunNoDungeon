@@ -3,23 +3,26 @@ using System;
 
 public class Stick : TouchScreenButton
 {
-    private Touch touch;
-    private Vector2 rad=new Vector2(16f,16f);
-    private float boundary=32f;
+    private readonly Vector2 RAD=new Vector2(16f,16f);
+    private readonly Vector2 HIDE_POSITION=new Vector2(-100f,-100f);
+    private readonly Vector2 APPROX_POSITION=new Vector2(-16f,-16f);
+
+    private const float BOUNDARY=32f;
+    private const float RETURN_ACCEL=60f;
+    private const float THRESHOLD=10f;
+
     private int onGoing=-1;
-    private float returnAccel=60f;
-    private float threshold=10f;
-    private Vector2 hidePosition=new Vector2(-100f,-100f);
     private bool visible;
-    private Vector2 approxPosition=new Vector2(-16f,-16f);
     public bool useAccelerometer;
+
+    private Touch touch;
 
     public override void _Ready()
     {
         SetProcess(false);
 
         touch=GetParent<Touch>();
-        touch.Position=hidePosition;
+        touch.Position=HIDE_POSITION;
         visible=false;
         touch.oPosition=Position;
 
@@ -36,12 +39,12 @@ public class Stick : TouchScreenButton
     {
         if(onGoing==-1)
         {
-            Vector2 diffPos=Vector2.Zero-rad-Position;
-            Position+=diffPos*returnAccel*delta;
-            if(visible&&Position.IsEqualApprox(approxPosition)) 
+            Vector2 diffPos=Vector2.Zero-RAD-Position;
+            Position+=diffPos*RETURN_ACCEL*delta;
+            if(visible&&Position.IsEqualApprox(APPROX_POSITION)) 
             {
-                touch.Position=hidePosition;
-                touch.oPosition=hidePosition;
+                touch.Position=HIDE_POSITION;
+                touch.oPosition=HIDE_POSITION;
                 visible=false;
                 onGoing--;
             }
@@ -80,12 +83,12 @@ public class Stick : TouchScreenButton
 
                 float distCenter=(position-touch.Position).Length();
 
-                if(distCenter<=boundary||index==onGoing)
+                if(distCenter<=BOUNDARY||index==onGoing)
                 {
-                    Position=position-touch.Position-rad;
-                    if(GetButtonPosition().Length()>boundary)
+                    Position=position-touch.Position-RAD;
+                    if(GetButtonPosition().Length()>BOUNDARY)
                     {
-                        Position=GetButtonPosition().Normalized()*boundary-rad;
+                        Position=GetButtonPosition().Normalized()*BOUNDARY-RAD;
                     }
                     onGoing=index;
                 }
@@ -105,14 +108,14 @@ public class Stick : TouchScreenButton
 
     private Vector2 GetButtonPosition()
     {
-        return Position+rad;
+        return Position+RAD;
     }
 
     public Vector2 GetValue()
     {
         if(!useAccelerometer)
         {
-            if(GetButtonPosition().Length()>threshold)
+            if(GetButtonPosition().Length()>THRESHOLD)
             {
                 return GetButtonPosition().Normalized();
             }

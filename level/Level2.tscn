@@ -90,13 +90,13 @@ position = Vector2( 1240, 245 )
 position = Vector2( 824, 177 )
 
 [node name="Rock" parent="RocksFalling" index="0"]
-switchID = "a9bee970-1f0d-4e48-a40a-067089ca501c"
+switchID = "cf4d2096-bb52-4285-a3e8-c171e9a1cad2"
 
 [node name="Switch" parent="." instance=ExtResource( 11 )]
 position = Vector2( 824, 256 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
-switchID = "a9bee970-1f0d-4e48-a40a-067089ca501c"
+SWITCH_ID = "cf4d2096-bb52-4285-a3e8-c171e9a1cad2"
 
 [node name="CoinStatic5" parent="." instance=ExtResource( 4 )]
 position = Vector2( 654, 46 )
@@ -117,7 +117,7 @@ position = Vector2( 832, -24 )
 position = Vector2( 824, 129 )
 
 [node name="DoorSwitch" parent="Switch2" index="0"]
-switchID = "8d01fd9c-3995-4e1c-ac93-5c97e53d725b"
+SWITCH_ID = "80230094-baae-43e2-8bd2-419d8d30d15b"
 
 [node name="BatonSwinging" parent="." instance=ExtResource( 12 )]
 position = Vector2( 680, 152 )
@@ -144,7 +144,7 @@ type = 1
 position = Vector2( 824, -3 )
 
 [node name="Rock" parent="RocksFalling2" index="0"]
-switchID = "8d01fd9c-3995-4e1c-ac93-5c97e53d725b"
+switchID = "80230094-baae-43e2-8bd2-419d8d30d15b"
 
 [node name="GateHolder" parent="." instance=ExtResource( 13 )]
 position = Vector2( 936, 246 )
@@ -167,22 +167,16 @@ changeStateTo = 9
 position = Vector2( 824, 80 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 0.0
-SwitchID = "a9bee970-1f0d-4e48-a40a-067089ca501c"
-
-[node name="ControlHolder2" parent="." instance=ExtResource( 14 )]
-position = Vector2( 836, 80 )
-
-[node name="LevelControl" parent="ControlHolder2" index="0"]
-Restore = true
-Signal = false
+SPEED = 0.0
+ZOOM = 0.8
+RESTORE_TO_DEFAULT = true
+SWITCH_ID = "cf4d2096-bb52-4285-a3e8-c171e9a1cad2"
 
 [node name="ControlHolder3" parent="." instance=ExtResource( 14 )]
 position = Vector2( 528, 16 )
 
 [node name="LevelControl" parent="ControlHolder3" index="0"]
-Speed = 80.0
-Signal = false
+SPEED = 60.0
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 9 )]
 position = Vector2( 688, 40 )
@@ -197,5 +191,4 @@ position = Vector2( 688, 40 )
 [editable path="GateHolder"]
 [editable path="GateHolder2"]
 [editable path="ControlHolder"]
-[editable path="ControlHolder2"]
 [editable path="ControlHolder3"]

@@ -212,15 +212,16 @@ position = Vector2( 776, 40 )
 position = Vector2( 920, -48 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 0.0
-Zoom = 0.5
-SwitchID = "1cca46c7-a0bf-4153-bfbf-5e41241bf4ad"
+SPEED = 0.0
+ZOOM = 0.5
+RESTORE_TO_DEFAULT = true
+SWITCH_ID = "eadaf243-f70a-48ad-9125-d2e596f42bf0"
 
 [node name="Switch" parent="." instance=ExtResource( 5 )]
 position = Vector2( 960, 18 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
-switchID = "1cca46c7-a0bf-4153-bfbf-5e41241bf4ad"
+SWITCH_ID = "eadaf243-f70a-48ad-9125-d2e596f42bf0"
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 6 )]
 position = Vector2( 624, 240 )

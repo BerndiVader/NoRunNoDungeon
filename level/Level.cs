@@ -3,9 +3,10 @@ using Godot;
 
 public class Level : TileMap
 {
-    [Export] public float Speed=120f;
+    [Export] public bool KEEP_TILESET=false;
+    [Export] public float speed=120f;
     [Export] public Vector2 direction=new Vector2(-1f,0f);
-    [Export] public bool KeepTileset=false;
+
     public Vector2 lastDirection=Vector2.Zero;
     public int mapLength;
     public Vector2 pixelHeight;
@@ -23,7 +24,7 @@ public class Level : TileMap
 
         PlayerCamera.instance.Zoom=Vector2.One;
 
-        if(!KeepTileset)
+        if(!KEEP_TILESET)
         {
             TileSet=World.instance.tileSet;
         }
@@ -45,8 +46,8 @@ public class Level : TileMap
 
         lastDirection=direction;
 
-        settings=new Settings(this,direction,Speed,1f,false);
-        DEFAULT_SETTING=new Settings(this,direction,Speed,1f,false);
+        settings=new Settings(this,direction,speed,1f,false);
+        DEFAULT_SETTING=new Settings(this,direction,speed,1f,false);
     }
 
     public void FreeLevel() 

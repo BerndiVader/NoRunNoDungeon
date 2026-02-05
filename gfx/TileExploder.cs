@@ -3,8 +3,8 @@ using System;
 
 public class TileExploder : Sprite
 {
+    private static readonly Shader SHADER=ResourceLoader.Load<Shader>("res://shaders/TileExploder.gdshader");
     private Tween tween;
-    private static Shader shader=ResourceLoader.Load<Shader>("res://shaders/TileExploder.gdshader");
 
     public override void _Ready()
     {
@@ -12,7 +12,7 @@ public class TileExploder : Sprite
         SetProcess(false);
         SetProcessInput(false);
 
-        Material=new ShaderMaterial{Shader=shader};
+        Material=new ShaderMaterial{Shader=SHADER};
         tween=new Tween();
         tween.Connect("tween_all_completed",this,nameof(OnComplete));
         AddChild(tween);

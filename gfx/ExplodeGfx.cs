@@ -5,6 +5,7 @@ public class ExplodeGfx : AnimatedSprite
 {
     public bool useParticles=true;
     protected int animationLength;
+    
     public override void _Ready()
     {
         if(useParticles)

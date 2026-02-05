@@ -3,11 +3,13 @@ using System;
 
 public class IntroMap : TileMap
 {
-    private float Speed=4f;
+    private const float SPEED=4f;
+    
     private bool reverse=true;
     private Tween tween;
     private Tween colorTween;
-    private Color color=new Color(0,0,0,0), shaderColor=new Color(1f,0.74902f,0f,1f);
+    private Color color=new Color(0,0,0,0);
+    private Color shaderColor=new Color(1f,0.74902f,0f,1f);
     private Vector2 Movement=Vector2.Right*2080f;
     private Intro intro;
 	private ShaderMaterial speedTrailsTop,speedTrailsBottom;
@@ -35,12 +37,12 @@ public class IntroMap : TileMap
 
     private void TweenIn()
     {
-        tween.InterpolateMethod(this,nameof(Tweening),Position,Position-Movement,Speed,Tween.TransitionType.Sine,Tween.EaseType.InOut,0);
+        tween.InterpolateMethod(this,nameof(Tweening),Position,Position-Movement,SPEED,Tween.TransitionType.Sine,Tween.EaseType.InOut,0);
     }
 
     private void TweenOut()
     {
-        tween.InterpolateMethod(this,nameof(Tweening),Position,Position-Movement,Speed,Tween.TransitionType.Sine,Tween.EaseType.Out,0);
+        tween.InterpolateMethod(this,nameof(Tweening),Position,Position-Movement,SPEED,Tween.TransitionType.Sine,Tween.EaseType.Out,0);
     }
 
     private void ColorTweenIn()

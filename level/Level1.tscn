@@ -35,7 +35,6 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 0.0, 288.0 ],
 "_edit_vertical_guides_": [ 0.0 ]
 }
-KeepTileset = true
 
 [node name="BatonSwinging" parent="." instance=ExtResource( 10 )]
 position = Vector2( 1906, 130 )
@@ -48,7 +47,7 @@ maxSpeed = 5.0
 maxRotation = 118.6
 mode = 1
 type = 2
-switchID = "00bc2375-bcdc-497f-a828-6f448d620a44"
+switchID = "0f92b931-37e1-4775-b007-f8f660e640a1"
 
 [node name="StartingPoint" type="Position2D" parent="."]
 position = Vector2( 48, 224 )
@@ -227,7 +226,7 @@ position = Vector2( 1533, 128 )
 position = Vector2( 1928, 274 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
-switchID = "00bc2375-bcdc-497f-a828-6f448d620a44"
+SWITCH_ID = "0f92b931-37e1-4775-b007-f8f660e640a1"
 
 [node name="HammerFall" parent="." instance=ExtResource( 21 )]
 position = Vector2( 2016, 256 )
@@ -239,15 +238,13 @@ rotation = 1.21824
 position = Vector2( 952, 144 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 0.0
-Zoom = 0.5
-Timeout = 10
+SPEED = 0.0
+ZOOM = 0.7
+TIMEOUT = 10
+RESTORE_TO_DEFAULT = true
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 22 )]
 position = Vector2( 792, 192 )
-
-[node name="WeaponItem" parent="SwordItemHolder" index="0"]
-weaponType = 6
 
 [editable path="BatonSwinging"]
 [editable path="PlatformMoving3x3"]

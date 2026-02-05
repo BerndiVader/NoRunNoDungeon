@@ -7,7 +7,7 @@ public class MimicChest : KinematicMonster
     private float shake;
     private float ShakeMax=0.6f;
     private RayCast2D rayCast2D;
-    private Vector2 CASTTO;
+    private Vector2 castTo;
 
     public override void _Ready()
     {
@@ -15,7 +15,7 @@ public class MimicChest : KinematicMonster
 
         rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
-        CASTTO=rayCast2D.CastTo;
+        castTo=rayCast2D.CastTo;
 
 		animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
 		animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
@@ -142,7 +142,7 @@ public class MimicChest : KinematicMonster
         if(state!=STATE.calm)
         {
             base.OnCalm();
-            rayCast2D.CastTo=CASTTO;
+            rayCast2D.CastTo=castTo;
             animationController.Play("calm");
             victim=null;
             cooldown=0;            

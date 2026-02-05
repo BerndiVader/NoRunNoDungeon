@@ -9,6 +9,7 @@ public class Oger : KinematicMonster
     [Export] private float WALK_MAX_SPEED=40f;
     [Export] private float FIGHT_DISTANCE=30f;
     [Export] private float DETECT_DISTANCE=150f;
+    
     private float travelTime=0f;
     private RayCast2D rayCast2D,playerCast2D;
     private MonsterWeapon weapon;
@@ -274,7 +275,6 @@ public class Oger : KinematicMonster
         if(state!=STATE.damage&&state!=STATE.die)
         {
             base.OnDamage(node,amount);
-            animationDirection=Mathf.Sign(GlobalPosition.DirectionTo(node.GlobalPosition).x);
             animationPlayer.Play("HIT");
         }
     }

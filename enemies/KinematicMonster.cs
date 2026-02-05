@@ -3,7 +3,7 @@ using Godot;
 
 public abstract class KinematicMonster : KinematicBody2D
 {
-    private static readonly PackedScene levelControlPack=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
+    private static readonly PackedScene LEVELCONTROL_PACK=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
 
     protected enum SPAWN_FACING
     {
@@ -20,6 +20,7 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected Vector2 DAMAGE_FORCE=new Vector2(0f,0f);
     [Export] protected float HEALTH=1f;
     [Export] protected bool RIDEABLE=true;
+    [Export] protected bool DESTORYABLE=true;
     [Export] protected float GRAVITY=500f;
     [Export] protected float FRICTION=0.01f;
     [Export] protected float STOP_FORCE=1300f;
@@ -35,21 +36,21 @@ public abstract class KinematicMonster : KinematicBody2D
         {"Zoom",-1.0f},
     };
 
-    protected Vector2 ANIMATION_OFFSET=Vector2.Zero;
-    protected Vector2 VELOCITY=Vector2.Zero;
+    protected readonly Vector2 VELOCITY=Vector2.Zero;
 
     private Settings levelSettings;
     private bool wasVisible=false;
 
+    protected Vector2 ANIMATION_OFFSET=Vector2.Zero;
     protected Player victim,attacker;
     protected AnimationPlayer animationPlayer;
     protected CollisionShape2D collisionController;
     protected StaticBody2D staticBody;
-    public AnimatedSprite animationController;
+    protected AnimatedSprite animationController;
 
     protected float health;
     protected Vector2 startOffset = Vector2.Zero;
-    protected int animationDirection = 1;
+    protected int animationDirection=1;
     protected Vector2 FORCE;
     protected Vector2 velocity,direction,LastPosition,facing;
     public Vector2 FACING=>facing;
@@ -60,7 +61,6 @@ public abstract class KinematicMonster : KinematicBody2D
     protected bool onDelay=false;
     protected bool squeezed=false;
     protected bool justDamaged=false;
-
 
     public override void _Ready()
     {
@@ -122,7 +122,6 @@ public abstract class KinematicMonster : KinematicBody2D
         goal=Unknown;
 
         facing=direction=Facing();
-
     }
 
     public override void _PhysicsProcess(float delta)
@@ -264,16 +263,18 @@ public abstract class KinematicMonster : KinematicBody2D
         onDelay=false;
         if(state!=STATE.damage&&state!=STATE.die)
         {
+            justDamaged=true;
+
             if(node==null)
             {
-                node=Player.instance;
+                node=this;
+            }
+            else if(node is Player)
+            {
+                attacker=Player.instance;
             }
 
-            if(GlobalPosition.x-node.GlobalPosition.x<0)
-            {
-                animationDirection=-1;
-            }
-            justDamaged=true;
+            animationDirection=Mathf.Sign(GlobalPosition.x-node.GlobalPosition.x);
             velocity.x+=DAMAGE_FORCE.x*animationDirection;
             velocity.y+=DAMAGE_FORCE.y;
 
@@ -281,13 +282,8 @@ public abstract class KinematicMonster : KinematicBody2D
             staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",true);
             lastState=state;
             state=STATE.damage;
-            if(node is Player)
-            {
-                attacker=Player.instance;
-            }
 
             health-=amount;
-
             if(amount!=0f&&health>0f)
             {
                 HealthNotifier(health);
@@ -535,7 +531,7 @@ public abstract class KinematicMonster : KinematicBody2D
         if((bool)LEVEL_SETTINGS["Use"])
         {
             levelSettings=new Settings(World.level,Vector2.Zero,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
-            LevelControl control=levelControlPack.Instance<LevelControl>();
+            LevelControl control=LEVELCONTROL_PACK.Instance<LevelControl>();
             control.SetMonsterControlled(levelSettings);
             control.Position=Position;
             World.level.AddChild(control);

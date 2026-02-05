@@ -4,15 +4,16 @@ using System;
 [Tool]
 public class DoorSwitch : Area2D
 {
-    [Export] private string switchID="";
-    [Export] private bool oneTime=false;
+    private static readonly AudioStream SFX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/01_chest_open_4.wav");
+    private readonly AudioStreamPlayer2D SFX_PLAYER=new AudioStreamPlayer2D();
 
-    private static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/01_chest_open_4.wav");
+    [Export] private string SWITCH_ID="";
+    [Export] private bool ONE_TIME=false;
 
-    private Tween tween;
-    private readonly AudioStreamPlayer2D sfxPlayer=new AudioStreamPlayer2D();
     private bool active=false;
     private bool used=false;
+
+    private Tween tween;
 
     public override void _Ready()
     {
@@ -23,16 +24,16 @@ public class DoorSwitch : Area2D
             AddChild(notifier2D);
         }
 
-        if(Engine.EditorHint&&switchID=="")
+        if(Engine.EditorHint&&SWITCH_ID=="")
         {
-            switchID=Guid.NewGuid().ToString();
+            SWITCH_ID=Guid.NewGuid().ToString();
             PropertyListChangedNotify();
         }
 
-        sfxPlayer.Stream=sfx;
-        sfxPlayer.Bus="Sfx";
-        sfxPlayer.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
-        AddChild(sfxPlayer);
+        SFX_PLAYER.Stream=SFX;
+        SFX_PLAYER.Bus="Sfx";
+        SFX_PLAYER.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
+        AddChild(SFX_PLAYER);
         
         tween=GetNode<Tween>(nameof(Tween));
         Connect("body_entered",this,nameof(OnBodyEntered));
@@ -47,7 +48,7 @@ public class DoorSwitch : Area2D
     {
         if(!tween.IsActive()&&World.instance.input.Change())
         {
-            if(oneTime&&used)
+            if(ONE_TIME&&used)
             {
                 SetPhysicsProcess(false);
                 return;
@@ -59,19 +60,19 @@ public class DoorSwitch : Area2D
 
     private void Interact()
     {
-        sfxPlayer.Play();
+        SFX_PLAYER.Play();
         RotationDegrees=-40f;
         tween.InterpolateProperty(this,"rotation_degrees",-40f,40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut);
         tween.InterpolateProperty(this,"rotation_degrees",40f,-40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut,0.3f);
         tween.Start();
-        GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),switchID);
+        GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),SWITCH_ID);
     }
 
     private void OnBodyEntered(Node node)
     {
         if(!active&&node is Player)
         {
-            if(oneTime&&used)
+            if(ONE_TIME&&used)
             {
                 return;
             }

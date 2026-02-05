@@ -43,7 +43,7 @@ position = Vector2( 1049, 234 )
 [node name="FallingHammer" parent="HammerFall" index="0"]
 rotation = 2.00015
 mode = 1
-switchID = "d3378640-7963-4b23-9ec8-1cacd53ca201"
+switchID = "a68ea70f-5d77-4eb9-a103-8c4b65d9041c"
 activationRange = 100.0
 destroyables = true
 
@@ -63,61 +63,37 @@ ActivationDistance = 1.0
 position = Vector2( 872, 177 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
-switchID = "d3378640-7963-4b23-9ec8-1cacd53ca201"
+SWITCH_ID = "a68ea70f-5d77-4eb9-a103-8c4b65d9041c"
 
 [node name="DestroyableHolder" parent="." instance=ExtResource( 7 )]
 position = Vector2( 952, 216 )
 
-[node name="Destroyables" parent="DestroyableHolder" index="0"]
-notPlayer = true
-
 [node name="DestroyableHolder2" parent="." instance=ExtResource( 7 )]
 position = Vector2( 968, 184 )
-
-[node name="Destroyables" parent="DestroyableHolder2" index="0"]
-notPlayer = true
 
 [node name="DestroyableHolder3" parent="." instance=ExtResource( 7 )]
 position = Vector2( 968, 200 )
 
-[node name="Destroyables" parent="DestroyableHolder3" index="0"]
-notPlayer = true
-
 [node name="DestroyableHolder5" parent="." instance=ExtResource( 7 )]
 position = Vector2( 968, 216 )
-
-[node name="Destroyables" parent="DestroyableHolder5" index="0"]
-notPlayer = true
 
 [node name="DestroyableHolder6" parent="." instance=ExtResource( 7 )]
 position = Vector2( 952, 232 )
 
-[node name="Destroyables" parent="DestroyableHolder6" index="0"]
-notPlayer = true
-
 [node name="DestroyableHolder7" parent="." instance=ExtResource( 7 )]
 position = Vector2( 968, 232 )
-
-[node name="Destroyables" parent="DestroyableHolder7" index="0"]
-notPlayer = true
 
 [node name="DestroyableHolder8" parent="." instance=ExtResource( 7 )]
 position = Vector2( 952, 248 )
 
-[node name="Destroyables" parent="DestroyableHolder8" index="0"]
-notPlayer = true
-
 [node name="DestroyableHolder9" parent="." instance=ExtResource( 7 )]
 position = Vector2( 968, 248 )
-
-[node name="Destroyables" parent="DestroyableHolder9" index="0"]
-notPlayer = true
 
 [node name="Switch2" parent="." instance=ExtResource( 6 )]
 position = Vector2( 952, 257 )
 
 [node name="DoorSwitch" parent="Switch2" index="0"]
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="CoinPhysics" parent="." instance=ExtResource( 8 )]
 position = Vector2( 845, -86 )
@@ -165,84 +141,84 @@ position = Vector2( 872, -64 )
 position = Vector2( 792, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder10" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="DestroyableHolder11" parent="." instance=ExtResource( 7 )]
 position = Vector2( 808, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder11" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="DestroyableHolder12" parent="." instance=ExtResource( 7 )]
 position = Vector2( 824, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder12" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="DestroyableHolder13" parent="." instance=ExtResource( 7 )]
 position = Vector2( 840, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder13" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="DestroyableHolder14" parent="." instance=ExtResource( 7 )]
 position = Vector2( 856, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder14" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="DestroyableHolder15" parent="." instance=ExtResource( 7 )]
 position = Vector2( 872, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder15" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="DestroyableHolder16" parent="." instance=ExtResource( 7 )]
 position = Vector2( 888, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder16" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="DestroyableHolder17" parent="." instance=ExtResource( 7 )]
 position = Vector2( 904, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder17" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="DestroyableHolder18" parent="." instance=ExtResource( 7 )]
 position = Vector2( 920, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder18" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="DestroyableHolder19" parent="." instance=ExtResource( 7 )]
 position = Vector2( 936, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder19" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="DestroyableHolder20" parent="." instance=ExtResource( 7 )]
 position = Vector2( 952, -40 )
 
 [node name="Destroyables" parent="DestroyableHolder20" index="0"]
-terraform = false
-switchID = "94095427-b2df-4a72-9282-2195a4b78100"
+TERRAFORM = false
+SWITCH_ID = "8397c744-67e7-4cbb-98b4-85678a236d2a"
 
 [node name="Switch3" parent="." instance=ExtResource( 6 )]
 position = Vector2( 778, 98 )
 
 [node name="DoorSwitch" parent="Switch3" index="0"]
-switchID = "48f2cd85-f80e-4de6-8770-3f9c50671705"
+SWITCH_ID = "5c71020b-0d68-419c-a1bb-7a627dfb7522"
 
 [node name="HideablesHolder" parent="." instance=ExtResource( 9 )]
 position = Vector2( 696, 104 )
@@ -281,8 +257,9 @@ position = Vector2( 968, 88 )
 position = Vector2( 872, 264 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 0.0
-SwitchID = "48f2cd85-f80e-4de6-8770-3f9c50671705"
+SPEED = 0.0
+RESTORE_TO_DEFAULT = true
+SWITCH_ID = "5c71020b-0d68-419c-a1bb-7a627dfb7522"
 
 [node name="HitablesHolder" parent="." instance=ExtResource( 10 )]
 position = Vector2( 856, 24 )
@@ -298,6 +275,12 @@ position = Vector2( 945, 38 )
 
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "1"
+LEVEL_SETTINGS = {
+"Dir": Vector2( 0, 0 ),
+"Speed": 0.0,
+"Use": true,
+"Zoom": 0.8
+}
 
 [node name="Torch" parent="." instance=ExtResource( 13 )]
 position = Vector2( 947, -329 )
@@ -403,9 +386,6 @@ direction = 1
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 18 )]
 position = Vector2( 624, 248 )
-
-[node name="WeaponItem" parent="SwordItemHolder" index="0"]
-weaponType = 5
 
 [editable path="HammerFall"]
 [editable path="RocksFalling"]

@@ -4,10 +4,10 @@ using Godot;
 
 public class Cannon : KinematicMonster
 {
-    public static readonly PackedScene bombPack=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball.tscn");
-    public static readonly PackedScene ballPack=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball2.tscn");
-    private static readonly AudioStream shootFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/SingleShot 04.wav");
-    private static readonly AudioStream hitFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/26_sword_hit_1.wav");
+    public static readonly PackedScene BOMB_PACK=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball.tscn");
+    public static readonly PackedScene BALL_PACK=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball2.tscn");
+    private static readonly AudioStream SHOOT_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/SingleShot 04.wav");
+    private static readonly AudioStream HIT_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/26_sword_hit_1.wav");
 
     private enum CANNONBALL_TYPE
     {
@@ -15,7 +15,6 @@ public class Cannon : KinematicMonster
         BALL
     }
 
-    [Export] private bool DESTORYABLE=false;
     [Export] private float FIRE_DELAY=2f;
     [Export] private CANNONBALL_TYPE CANNONBALL=CANNONBALL_TYPE.BOMB;
     [Export] private bool WARMUP=true;
@@ -34,7 +33,7 @@ public class Cannon : KinematicMonster
         animationPlayer.Connect("animation_finished",this,nameof(OnAnimationPlayerEnded));
 
         sfxPlayer=GetNode<AudioStreamPlayer2D>(nameof(AudioStreamPlayer2D));
-        sfxPlayer.Stream=shootFx;
+        sfxPlayer.Stream=SHOOT_FX;
         sfxPlayer.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
 
         timer.WaitTime=FIRE_DELAY;
@@ -48,19 +47,7 @@ public class Cannon : KinematicMonster
         {
             Fire();
         }
-
-        if(!DESTORYABLE)
-        {
-            if(staticBody.HasUserSignal(STATE.passanger.ToString()))
-            {
-                staticBody.Disconnect(STATE.passanger.ToString(),this,nameof(OnPassanger));
-            }
-            if(HasUserSignal(STATE.passanger.ToString()))
-            {
-                Disconnect(STATE.passanger.ToString(),this,nameof(OnPassanger));
-            }
-        }
-
+        
     }
 
     public override void _PhysicsProcess(float delta)
@@ -102,7 +89,7 @@ public class Cannon : KinematicMonster
 
         SfxPlayer sfx=new SfxPlayer
         {
-            Stream=hitFx,
+            Stream=HIT_FX,
             Position=Position
         };
         World.level.AddChild(sfx);
@@ -161,7 +148,7 @@ public class Cannon : KinematicMonster
 
     private void Fire()
     {
-        Cannonball ball=CANNONBALL==CANNONBALL_TYPE.BOMB?bombPack.Instance<Cannonball>():ballPack.Instance<Cannonball>();
+        Cannonball ball=CANNONBALL==CANNONBALL_TYPE.BOMB?BOMB_PACK.Instance<Cannonball>():BALL_PACK.Instance<Cannonball>();
         ball.Position=Position;
         ball.SetDirection(facing);
         if((bool)CANNONBALL_SETTINGS["USE_SETTINGS"])

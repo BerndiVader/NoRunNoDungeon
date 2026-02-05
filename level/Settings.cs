@@ -24,7 +24,7 @@ public class Settings
         this.restoreToDefault=restoreToDefault;
         this.noStop=noStop;
 
-        prevSpeed=level.Speed;
+        prevSpeed=level.speed;
         prevZoom=PlayerCamera.instance.Zoom;
         prevPosition=PlayerCamera.instance.Position;
         prevDirection=level.direction;
@@ -42,7 +42,7 @@ public class Settings
             
             if(speed!=-1)
             {
-                level.Speed=speed;
+                level.speed=speed;
             }
             if(zoom.x!=-1f)
             {
@@ -67,7 +67,7 @@ public class Settings
             }
             else
             {
-                level.Speed=prevSpeed;
+                level.speed=prevSpeed;
                 level.direction=prevDirection;
                 PlayerCamera.instance.Zoom=prevZoom;
                 PlayerCamera.instance.Position=prevPosition;

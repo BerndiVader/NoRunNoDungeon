@@ -8,7 +8,8 @@ public class RunningZombie : KinematicMonster
 	[Export] protected float WALK_MIN_SPEED=10f;
 	[Export] protected float WALK_MAX_SPEED=60f;
 	[Export] protected float JUMP_SPEED=130f;
-	protected float COOLDOWNER_TIME=1.0f;
+
+	protected float cooldowner_time=1.0f;
 	protected float cooldowner=0f;
 	protected bool jumping=false;
 	protected RayCast2D rayCast2D;
@@ -53,7 +54,7 @@ public class RunningZombie : KinematicMonster
 			if(cooldowner<=0f&&MathUtils.RandBool())
 			{
 				FlipH();
-				cooldowner=COOLDOWNER_TIME;
+				cooldowner=cooldowner_time;
 			}
 			else
             {

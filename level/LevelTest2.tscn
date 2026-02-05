@@ -35,17 +35,20 @@ position = Vector2( 160, 232 )
 position = Vector2( 736, 231 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 40.0
-Direction = Vector2( 0, 1 )
-AutoRestore = true
+SPEED = 60.0
+DIRECTION = Vector2( 0, 1 )
+RESTORE_TO_DEFAULT = true
+AUTO_RESTORE = true
 
 [node name="ControlHolder3" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1152, -407 )
 
 [node name="LevelControl" parent="ControlHolder3" index="0"]
-Speed = 60.0
-Direction = Vector2( 0, -1 )
-AutoRestore = true
+SPEED = 60.0
+DIRECTION = Vector2( 0, -1 )
+ZOOM = 0.9
+RESTORE_TO_DEFAULT = true
+AUTO_RESTORE = true
 
 [node name="GateHolder" parent="." instance=ExtResource( 5 )]
 position = Vector2( 791, 247 )
@@ -182,7 +185,7 @@ LEVEL_SETTINGS = {
 "Dir": Vector2( 0, 0 ),
 "Speed": 0.0,
 "Use": true,
-"Zoom": 0.9
+"Zoom": -1.0
 }
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 11 )]

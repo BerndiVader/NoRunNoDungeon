@@ -4,17 +4,17 @@ using System;
 public class Intro : Node
 {
 	private static InputController input;
-	static AudioStreamMP3 music=ResourceLoader.Load<AudioStreamMP3>("res://sounds/title/Dark Age 11 Heroic Victory - 1.mp3");
-	AudioStreamPlayer2D musicPlayer=new AudioStreamPlayer2D();
+	private static readonly AudioStreamMP3 MUSIC=ResourceLoader.Load<AudioStreamMP3>("res://sounds/title/Dark Age 11 Heroic Victory - 1.mp3");
+	private readonly AudioStreamPlayer2D MUSIC_PLAYER=new AudioStreamPlayer2D();
 	private bool onOptions=false;
 	
 	public override void _Ready()
 	{
-		musicPlayer.Bus="Master";
-		musicPlayer.Stream=music;
-		musicPlayer.Position=new Vector2(256f,146f);
-		AddChild(musicPlayer);
-		musicPlayer.Play();
+		MUSIC_PLAYER.Bus="Master";
+		MUSIC_PLAYER.Stream=MUSIC;
+		MUSIC_PLAYER.Position=new Vector2(256f,146f);
+		AddChild(MUSIC_PLAYER);
+		MUSIC_PLAYER.Play();
 
 		AddChild(ResourceUtils.camera.Instance<PlayerCamera>());		
 		input=ResourceUtils.GetInputController(this);

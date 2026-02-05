@@ -47,7 +47,7 @@ public class RunningZombieHurting : RunningZombie
         else if(animationController.Frame==3)
         {
             area.Monitoring=true;
-            COOLDOWNER_TIME=0.1f;
+            cooldowner_time=0.1f;
             cooldowner=0f;
         }
         else
@@ -61,7 +61,7 @@ public class RunningZombieHurting : RunningZombie
 
         if(cooldowner<0f)
         {
-            cooldowner=COOLDOWNER_TIME;
+            cooldowner=cooldowner_time;
 
         }
         cooldowner-=delta;

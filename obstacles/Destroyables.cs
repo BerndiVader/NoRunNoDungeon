@@ -2,13 +2,13 @@ using Godot;
 
 public class Destroyables : Area2D,ISwitchable
 {
-    private static readonly PackedScene ExpolderPack=ResourceLoader.Load<PackedScene>("res://gfx/TileExploder.tscn");
-    private static readonly AudioStream hitFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/26_sword_hit_1.wav");
+    private static readonly PackedScene EXPLODER_PACK=ResourceLoader.Load<PackedScene>("res://gfx/TileExploder.tscn");
+    private static readonly AudioStream HIT_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/26_sword_hit_1.wav");
 
-    [Export] private bool terraform=true;
-    [Export] private bool notPlayer=false;
-    [Export] private bool destroyParent=false;
-    [Export] private string switchID="";
+    [Export] private bool TERRAFORM=true;
+    [Export] private bool NOT_PLAYER=false;
+    [Export] private bool DESTROY_PARENT=false;
+    [Export] private string SWITCH_ID="";
 
     private CollisionShape2D collisionController;
     private Alert alert;
@@ -25,7 +25,7 @@ public class Destroyables : Area2D,ISwitchable
 
         collisionController=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
 
-        if(switchID=="")
+        if(SWITCH_ID=="")
         {
             AddUserSignal(STATE.damage.ToString());
             Connect(STATE.damage.ToString(),this,nameof(OnDamage));
@@ -43,7 +43,7 @@ public class Destroyables : Area2D,ISwitchable
 
     private void OnDamage(Node2D node=null,float amount=0f)
     {
-        if(notPlayer&&node is Player)
+        if(NOT_PLAYER&&node is Player)
         {
             return;
         }
@@ -55,7 +55,7 @@ public class Destroyables : Area2D,ISwitchable
 
             SfxPlayer sfx=new SfxPlayer
             {
-                Stream=hitFx,
+                Stream=HIT_FX,
                 Position=Position
             };
             World.level.AddChild(sfx);
@@ -63,7 +63,7 @@ public class Destroyables : Area2D,ISwitchable
             World.level.AddChild(particle);
         }
 
-        if(!destroyParent)
+        if(!DESTROY_PARENT)
         {
             Vector2 local=World.level.ToLocal(GlobalPosition);
             Vector2 tile=World.level.WorldToMap(local);
@@ -74,7 +74,7 @@ public class Destroyables : Area2D,ISwitchable
                 ImageTexture texture=ExtractTexture(id,tile);
                 if(texture!=null)
                 {
-                    TileExploder exploder=ExpolderPack.Instance<TileExploder>();
+                    TileExploder exploder=EXPLODER_PACK.Instance<TileExploder>();
                     exploder.Texture=texture;
                     exploder.Position=local;
                     World.level.AddChild(exploder);
@@ -82,7 +82,7 @@ public class Destroyables : Area2D,ISwitchable
             }
 
             World.level.SetCellv(tile,-1);
-            if(terraform)
+            if(TERRAFORM)
             {
                 World.level.Terraform(tile);
             }
@@ -135,9 +135,9 @@ public class Destroyables : Area2D,ISwitchable
 
     public void SwitchCall(string id)
     {
-        if(switchID==id)
+        if(SWITCH_ID==id)
         {
-            switchID="";
+            SWITCH_ID="";
             OnDamage();
         }
     }

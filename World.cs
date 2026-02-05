@@ -151,7 +151,7 @@ public class World : Node
 	private void Tick(float delta) 
 	{
 		levelLastPosition=level.Position;
-		float speedDelta=level.Speed*delta;
+		float speedDelta=level.speed*delta;
 		level.MoveLocalX(level.direction.x*speedDelta);
 		level.MoveLocalY(level.direction.y*speedDelta);
 		level.lastDirection=level.direction;

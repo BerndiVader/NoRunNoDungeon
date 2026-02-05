@@ -5,7 +5,7 @@ public class Zombie : KinematicMonster
 {
     private int cooldown;
     private RayCast2D rayCast2D;
-    private Vector2 CASTTO;
+    private Vector2 castTo;
     private MonsterWeapon weapon;
     
     public override void _Ready()
@@ -20,14 +20,14 @@ public class Zombie : KinematicMonster
 
         rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
-        CASTTO=rayCast2D.CastTo;
+        castTo=rayCast2D.CastTo;
 
         if(animationController.FlipH)
         {
-            rayCast2D.CastTo=CASTTO*-1;
+            rayCast2D.CastTo=castTo*-1;
         } else
         {
-            rayCast2D.CastTo=CASTTO;
+            rayCast2D.CastTo=castTo;
         }
 
         if(weapon!=null)
@@ -81,14 +81,14 @@ public class Zombie : KinematicMonster
             }
             else
             {
-                rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
+                rayCast2D.CastTo=animationController.FlipH==true?castTo*-1:castTo;
                 cooldown=0;
                 OnIdle();
             }
         }
         else
         {
-            rayCast2D.CastTo=animationController.FlipH==true?CASTTO*-1:CASTTO;
+            rayCast2D.CastTo=animationController.FlipH==true?castTo*-1:castTo;
             cooldown=0;
             OnIdle();
         }
@@ -166,10 +166,10 @@ public class Zombie : KinematicMonster
         animationController.FlipH=flip;
         if(flip)
         {
-            rayCast2D.CastTo=CASTTO*-1;
+            rayCast2D.CastTo=castTo*-1;
         } else
         {
-            rayCast2D.CastTo=CASTTO;
+            rayCast2D.CastTo=castTo;
         }
         facing=Facing();
     }

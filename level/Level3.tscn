@@ -184,14 +184,15 @@ rotation = 1.29329
 position = Vector2( 2392, 120 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 0.0
-SwitchID = "d53b207b-0188-43c9-92ad-4facc93d5b52"
+SPEED = 0.0
+RESTORE_TO_DEFAULT = true
+SWITCH_ID = "1da02928-28ab-45a4-816a-eef822e8964b"
 
 [node name="Switch" parent="." instance=ExtResource( 13 )]
 position = Vector2( 2408, 241 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
-switchID = "d53b207b-0188-43c9-92ad-4facc93d5b52"
+SWITCH_ID = "1da02928-28ab-45a4-816a-eef822e8964b"
 
 [node name="DestroyableHolder" parent="." instance=ExtResource( 14 )]
 position = Vector2( 2248, 264 )

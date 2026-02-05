@@ -79,6 +79,7 @@ public class Hitables : Area2D
                             World.level.AddChild(particles);
                             Renderer.instance.Shake(1.5f);
                             Renderer.instance.PlaySfx(bonusSfx,Position);
+                            player.ApplyCoins(1);
                             CallDeferred("queue_free");
                         }
                         active=false;

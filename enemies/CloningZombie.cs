@@ -7,8 +7,8 @@ public class CloningZombie : KinematicMonster
 	[Export] protected float WALK_MIN_SPEED=10f;
 	[Export] protected float WALK_MAX_SPEED=60f;
 	[Export] protected float JUMP_SPEED=130f;
+	[Export] protected float COOLDOWNER_TIME=1.0f;
 
-	protected float COOLDOWNER_TIME=1.0f;
 	protected float cooldowner=0f;
 	protected bool jumping=false;
 	protected RayCast2D rayCast2D;

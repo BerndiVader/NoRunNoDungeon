@@ -117,14 +117,14 @@ public class Player : KinematicBody2D
 
         float friction=1f;
         Vector2 levelDirection=World.level.direction;
-        if(World.level.Speed!=0f&&levelDirection.x!=0f)
+        if(World.level.speed!=0f&&levelDirection.x!=0f)
         {
-            friction=36f/World.level.Speed;
+            friction=36f/World.level.speed;
         }
 
-        float levelYSpeed=levelDirection.y*World.level.Speed;
+        float levelYSpeed=levelDirection.y*World.level.speed;
         airParticles.Direction=jumpParticles.Direction=levelDirection;
-        airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.Speed*levelDirection.Length();
+        airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.speed*levelDirection.Length();
         
         Vector2 force=FORCE;
         float slopeAngle=0f;
@@ -293,7 +293,7 @@ public class Player : KinematicBody2D
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
         }
 
-        Vector2 motVel=velocity==Vector2.Zero?levelDirection*World.level.Speed*-1.4f:(velocity-(levelDirection*World.level.Speed))*1.2f;
+        Vector2 motVel=velocity==Vector2.Zero?levelDirection*World.level.speed*-1.4f:(velocity-(levelDirection*World.level.speed))*1.2f;
         motionTrails.SetShaderParam("velocity",motVel);
         motionTrails.SetShaderParam("flip",animationController.FlipH);
 

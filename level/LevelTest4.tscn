@@ -73,9 +73,10 @@ position = Vector2( 1344, -247 )
 scale = Vector2( 0.7, 0.7 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 0.0
-Timeout = 20
-RestoreDefault = true
+SPEED = 0.0
+TIMEOUT = 15
+RESTORE_TO_DEFAULT = true
+SIGNAL = false
 
 [node name="Gate" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1528, 182 )
@@ -111,19 +112,16 @@ position = Vector2( 1611, -16 )
 [node name="SwordItemHolder" parent="." instance=ExtResource( 10 )]
 position = Vector2( 784, 232 )
 
-[node name="WeaponItem" parent="SwordItemHolder" index="0"]
-weaponType = 1
-
 [node name="CannonHolder" parent="." instance=ExtResource( 12 )]
 position = Vector2( 1366, -42 )
 
 [node name="Cannon" parent="CannonHolder" index="0"]
 position = Vector2( 0, 0 )
 HEALTH = 40.0
+DESTORYABLE = true
 spawn_facing = 2
 CALL_SWITCH_ON_DIE = true
 SWITCH_ID = "22"
-DESTORYABLE = true
 FIRE_DELAY = 4.0
 WARMUP = false
 CANNONBALL_SETTINGS = {

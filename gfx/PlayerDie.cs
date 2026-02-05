@@ -3,11 +3,11 @@ using System;
 
 public class PlayerDie : Sprite
 {
-    private static readonly PackedScene scene=ResourceLoader.Load<PackedScene>("res://gfx/PlayerDie.tscn");
+    private static readonly PackedScene SCENE=ResourceLoader.Load<PackedScene>("res://gfx/PlayerDie.tscn");
 
     public static PlayerDie Create()
     {
-        return scene.Instance<PlayerDie>();
+        return SCENE.Instance<PlayerDie>();
     }
 
     private float offset;

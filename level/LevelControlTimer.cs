@@ -3,19 +3,21 @@ using System;
 
 public class LevelControlTimer : Node,ISwitchable
 {
-    public static PackedScene countEffect=ResourceLoader.Load<PackedScene>("res://particles/SettingsEffect.tscn");
+    public static readonly PackedScene COUNT_EFFECT=ResourceLoader.Load<PackedScene>("res://particles/SettingsEffect.tscn");
 
-    private SceneTreeTimer timer;
-    private readonly float time;
+    private readonly float TIME;
+    
     private int current,last;
     private string switchID="";
-    private Settings settings;
+
+    private SceneTreeTimer timer;
+    private readonly Settings settings;
 
     public LevelControlTimer():base() {}
 
     public LevelControlTimer(float time, Settings settings,string id):base()
     {
-        this.time=time;
+        TIME=time;
         switchID=id;
         this.settings=settings;
 
@@ -30,7 +32,7 @@ public class LevelControlTimer : Node,ISwitchable
         SetProcessInput(false);
         if(switchID=="")
         {
-            timer=GetTree().CreateTimer(time,false);
+            timer=GetTree().CreateTimer(TIME,false);
             timer.Connect("timeout",this,nameof(Timeout));
             current=last=(int)timer.TimeLeft;
         }
@@ -48,7 +50,7 @@ public class LevelControlTimer : Node,ISwitchable
             last=current;
             if(current<5)
             {
-                SettingsEffect count=countEffect.Instance<SettingsEffect>();
+                SettingsEffect count=COUNT_EFFECT.Instance<SettingsEffect>();
                 count.chr=(int)(current+1).ToString()[0];
                 World.instance.renderer.AddChild(count);
             }
@@ -57,7 +59,7 @@ public class LevelControlTimer : Node,ISwitchable
 
     private void Timeout()
     {
-        SettingsEffect count=countEffect.Instance<SettingsEffect>();
+        SettingsEffect count=COUNT_EFFECT.Instance<SettingsEffect>();
         count.chr="0"[0];
         World.instance.renderer.AddChild(count);
 
@@ -68,7 +70,7 @@ public class LevelControlTimer : Node,ISwitchable
 
         if(settings.restoreToDefault)
         {
-            settings.Restore();
+            World.level.DEFAULT_SETTING.Restore();
         }
         else
         {
@@ -82,7 +84,7 @@ public class LevelControlTimer : Node,ISwitchable
     {
         if(id==switchID)
         {
-            SettingsEffect count=countEffect.Instance<SettingsEffect>();
+            SettingsEffect count=COUNT_EFFECT.Instance<SettingsEffect>();
             count.chr=">"[0];
             World.instance.renderer.AddChild(count);
 
@@ -91,7 +93,14 @@ public class LevelControlTimer : Node,ISwitchable
                 GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),settings.CallID);
             }
 
-            World.level.settings.Restore();
+            if(settings.restoreToDefault)
+            {
+                World.level.DEFAULT_SETTING.Restore();
+            }
+            else
+            {
+                World.level.settings.Restore();
+            }
             switchID="";
             CallDeferred("queue_free");
         }

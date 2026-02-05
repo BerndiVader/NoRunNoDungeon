@@ -49,7 +49,7 @@ position = Vector2( 646, 161 )
 
 [node name="MovingPlatform0" parent="PlatformMoving3x3" index="0"]
 platformState = 2
-switchID = "c40101cd-5b71-4df6-9aaf-fbc71ec61056"
+switchID = "3706c7b9-568d-4a0c-804c-576d444ed3f1"
 Direction = Vector2( 0, 1 )
 Linear = false
 
@@ -144,7 +144,6 @@ position = Vector2( 856, 238 )
 
 [node name="WalkingTree" parent="TreeWalking2" index="0"]
 position = Vector2( 0, 0 )
-ANIMATION_OFFSET = Vector2( 0, 1 )
 WALK_FORCE = 0.0
 
 [node name="TreeWalking" parent="." instance=ExtResource( 5 )]
@@ -337,27 +336,26 @@ position = Vector2( 608, 257 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
 position = Vector2( 0, 1 )
-switchID = "c40101cd-5b71-4df6-9aaf-fbc71ec61056"
+SWITCH_ID = "3706c7b9-568d-4a0c-804c-576d444ed3f1"
 
 [node name="Switch2" parent="." instance=ExtResource( 24 )]
 position = Vector2( 600, 96 )
 
 [node name="DoorSwitch" parent="Switch2" index="0"]
-switchID = "asdf"
+SWITCH_ID = "6b2cfd11-4e8c-47f2-b97b-ebe6b07b9513"
+ONE_TIME = true
 
 [node name="DestroyableHolder" parent="." instance=ExtResource( 21 )]
 position = Vector2( 696, 296 )
 
 [node name="Destroyables" parent="DestroyableHolder" index="0"]
-terraform = false
-switchID = "asdf"
+SWITCH_ID = "6b2cfd11-4e8c-47f2-b97b-ebe6b07b9513"
 
 [node name="DestroyableHolder2" parent="." instance=ExtResource( 21 )]
 position = Vector2( 713, 296 )
 
 [node name="Destroyables" parent="DestroyableHolder2" index="0"]
-terraform = false
-switchID = "asdf"
+SWITCH_ID = "6b2cfd11-4e8c-47f2-b97b-ebe6b07b9513"
 
 [node name="SpikesUp2" parent="." instance=ExtResource( 12 )]
 position = Vector2( 705, 314 )
@@ -369,9 +367,9 @@ DamageMonster = true
 position = Vector2( 1212, 152 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 0.0
-Zoom = 0.8
-Timeout = 20
+SPEED = 0.0
+ZOOM = 0.8
+TIMEOUT = 15
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 25 )]
 position = Vector2( 552, 201 )

@@ -3,7 +3,7 @@ using Godot;
 
 public class BombTroll : KinematicMonster
 {
-    private static PackedScene bombPack=Cannon.bombPack;
+    private static readonly PackedScene BOMB_PACK=Cannon.BOMB_PACK;
 
     [Export] private float ACTIVATION_DISTANCE=80f;
     [Export] private float WALK_FORCE=600f;
@@ -179,7 +179,7 @@ public class BombTroll : KinematicMonster
 
     private void ThrowBomb()
     {
-        Cannonball ball=bombPack.Instance<Cannonball>();
+        Cannonball ball=BOMB_PACK.Instance<Cannonball>();
         ball.Position=World.level.ToLocal(bomb.GlobalPosition);
         ball.SetDirection(facing);
         if((bool)CANNONBALL_SETTINGS["USE_SETTINGS"])

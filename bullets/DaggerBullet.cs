@@ -2,8 +2,9 @@ using Godot;
 
 public class DaggerBullet : Area2D
 {
+    [Export] private Vector2 OFFSET=new Vector2(150f,50f);
+
     private Vector2 start, end, height; 
-    [Export] private Vector2 offset=new Vector2(150f,50f);
     private float elapsed=0f;
     private float flightTime=0.5f;
 
@@ -11,7 +12,7 @@ public class DaggerBullet : Area2D
     {
         int xDir=Player.instance.AnimationController.FlipH?-1:1;
         start=Position;
-        end=new Vector2(start.x+(offset.x*xDir),start.y+offset.y);
+        end=new Vector2(start.x+(OFFSET.x*xDir),start.y+OFFSET.y);
         height=(start+end)*0.5f+new Vector2(0f,-50f);
 
         Connect("body_entered",this,nameof(OnBodyEntered));

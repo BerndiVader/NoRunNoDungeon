@@ -3,10 +3,11 @@ using System;
 
 public class SkullBullet : Area2D
 {
-    public Vector2 direction=Vector2.Zero;
-    [Export] private float speed=100f;
-    [Export] private float liveSpan=50f;
+    [Export] private float SPEED=100f;
+    [Export] private float LIVE_SPAN=50f;
+
     private Sprite sprite;
+    public Vector2 direction=Vector2.Zero;
 
     public override void _Ready()
     {
@@ -22,9 +23,9 @@ public class SkullBullet : Area2D
 
     public override void _PhysicsProcess(float delta)
     {
-        Translate(direction*(speed*delta));
-        liveSpan-=1f;
-        if(liveSpan<0f)
+        Translate(direction*(SPEED*delta));
+        LIVE_SPAN-=1f;
+        if(LIVE_SPAN<0f)
         {
             Destroy();
         }

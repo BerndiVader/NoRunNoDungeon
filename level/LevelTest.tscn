@@ -102,7 +102,7 @@ position = Vector2( 1088, 227 )
 [node name="HiddenDoor" parent="DoorHidden" index="0"]
 type = 2
 oneShoot = true
-switchID = "eb40277e-9ba4-49d1-954e-a478cb698e78"
+switchID = "ed495a73-064d-47bf-b377-5a12e293611c"
 
 [node name="DoorHidden2" parent="." instance=ExtResource( 13 )]
 position = Vector2( 1026, 227 )
@@ -117,7 +117,7 @@ position = Vector2( 1088, 147 )
 position = Vector2( 752, 99 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
-switchID = "eb40277e-9ba4-49d1-954e-a478cb698e78"
+SWITCH_ID = "ed495a73-064d-47bf-b377-5a12e293611c"
 
 [node name="Destroyables" parent="." instance=ExtResource( 12 )]
 position = Vector2( 648, 72 )
@@ -173,7 +173,7 @@ LEVEL_SETTINGS = {
 position = Vector2( 1368, 208 )
 
 [node name="DoorSwitch" parent="Switch3" index="0"]
-switchID = "4f08e9d9-886b-4c5b-a5d8-ed189541ee0f"
+SWITCH_ID = "007903d9-42d5-4562-8fdf-9de6a11e23ab"
 
 [node name="Placeholder2" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1384, 128 )
@@ -186,13 +186,13 @@ position = Vector2( 1416, 176 )
 
 [node name="HiddenDoor" parent="DoorHidden6" index="0"]
 type = 2
-switchID = "4f08e9d9-886b-4c5b-a5d8-ed189541ee0f"
+switchID = "007903d9-42d5-4562-8fdf-9de6a11e23ab"
 
 [node name="Switch4" parent="." instance=ExtResource( 14 )]
 position = Vector2( 1448, 208 )
 
 [node name="DoorSwitch" parent="Switch4" index="0"]
-switchID = "7c4d02f8-9fbd-4784-8ce8-fbd280eca6be"
+SWITCH_ID = "fa2d60cd-e7f5-433e-b579-349d910db718"
 
 [node name="SpikesRight" parent="." instance=ExtResource( 19 )]
 position = Vector2( 1352, 89 )
@@ -200,7 +200,7 @@ position = Vector2( 1352, 89 )
 [node name="Spikes" parent="SpikesRight" index="0"]
 StaticElement = false
 Switchable = true
-SwitchId = "7c4d02f8-9fbd-4784-8ce8-fbd280eca6be"
+SwitchId = "fa2d60cd-e7f5-433e-b579-349d910db718"
 DamageMonster = true
 OutDelay = 0
 
@@ -210,7 +210,7 @@ position = Vector2( 1480, 90 )
 [node name="Spikes" parent="SpikesLeft" index="0"]
 StaticElement = false
 Switchable = true
-SwitchId = "7c4d02f8-9fbd-4784-8ce8-fbd280eca6be"
+SwitchId = "fa2d60cd-e7f5-433e-b579-349d910db718"
 DamageMonster = true
 OutDelay = 0
 
@@ -226,29 +226,29 @@ Speed = 2.0
 position = Vector2( 728, -8 )
 
 [node name="Destroyables" parent="DestroyableHolder" index="0"]
-terraform = false
-switchID = "a6da9a0b-634b-43a9-b59e-cedc20f2b0ac"
+NOT_PLAYER = true
+SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
 
 [node name="DestroyableHolder2" parent="." instance=ExtResource( 17 )]
 position = Vector2( 744, -8 )
 
 [node name="Destroyables" parent="DestroyableHolder2" index="0"]
-terraform = false
-switchID = "a6da9a0b-634b-43a9-b59e-cedc20f2b0ac"
+NOT_PLAYER = true
+SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
 
 [node name="DestroyableHolder3" parent="." instance=ExtResource( 17 )]
 position = Vector2( 760, -8 )
 
 [node name="Destroyables" parent="DestroyableHolder3" index="0"]
-terraform = false
-switchID = "a6da9a0b-634b-43a9-b59e-cedc20f2b0ac"
+NOT_PLAYER = true
+SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
 
 [node name="DestroyableHolder4" parent="." instance=ExtResource( 17 )]
 position = Vector2( 776, -8 )
 
 [node name="Destroyables" parent="DestroyableHolder4" index="0"]
-terraform = false
-switchID = "a6da9a0b-634b-43a9-b59e-cedc20f2b0ac"
+NOT_PLAYER = true
+SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
 
 [node name="CoinPhysics" parent="." instance=ExtResource( 15 )]
 position = Vector2( 736, -48 )
@@ -302,31 +302,39 @@ position = Vector2( 768, -40 )
 position = Vector2( 841, 82 )
 
 [node name="DoorSwitch" parent="Switch5" index="0"]
-switchID = "a6da9a0b-634b-43a9-b59e-cedc20f2b0ac"
+SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
 
 [node name="DestroyableHolder5" parent="." instance=ExtResource( 17 )]
 position = Vector2( 728, 56 )
 
 [node name="Destroyables" parent="DestroyableHolder5" index="0"]
-switchID = "a6da9a0b-634b-43a9-b59e-cedc20f2b0ac"
+TERRAFORM = false
+NOT_PLAYER = true
+SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
 
 [node name="DestroyableHolder6" parent="." instance=ExtResource( 17 )]
 position = Vector2( 744, 56 )
 
 [node name="Destroyables" parent="DestroyableHolder6" index="0"]
-switchID = "a6da9a0b-634b-43a9-b59e-cedc20f2b0ac"
+TERRAFORM = false
+NOT_PLAYER = true
+SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
 
 [node name="DestroyableHolder7" parent="." instance=ExtResource( 17 )]
 position = Vector2( 776, 56 )
 
 [node name="Destroyables" parent="DestroyableHolder7" index="0"]
-switchID = "a6da9a0b-634b-43a9-b59e-cedc20f2b0ac"
+TERRAFORM = false
+NOT_PLAYER = true
+SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
 
 [node name="DestroyableHolder8" parent="." instance=ExtResource( 17 )]
 position = Vector2( 760, 56 )
 
 [node name="Destroyables" parent="DestroyableHolder8" index="0"]
-switchID = "a6da9a0b-634b-43a9-b59e-cedc20f2b0ac"
+TERRAFORM = false
+NOT_PLAYER = true
+SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
 
 [node name="Placeholder3" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1456, 128 )

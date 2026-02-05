@@ -3,12 +3,13 @@ using System;
 
 public class Fairy : KinematicMonster
 {
+    [Export]private Vector2 SIN_COS_SPEED=new Vector2(3f,1.5f);
+    [Export]private Vector2 FLOAT_RANGE=new Vector2(5f,5f);
+
     private float passedTime;
     private int projectileCooldown;
     private Vector2 offsetPos;
     private RayCast2D raycast;
-    [Export]private Vector2 SinCosSpeed=new Vector2(3f,1.5f);
-    [Export]private Vector2 FloatRange=new Vector2(5f,5f);
 
     public override void _Ready()
     {
@@ -54,7 +55,7 @@ public class Fairy : KinematicMonster
     private void Fly(float delta)
     {
         passedTime+=delta;
-        Position=new Vector2(offsetPos.x+(FloatRange.x*Mathf.Sin(passedTime*SinCosSpeed.x)),offsetPos.y+(FloatRange.y*Mathf.Cos(passedTime*SinCosSpeed.y)));
+        Position=new Vector2(offsetPos.x+(FLOAT_RANGE.x*Mathf.Sin(passedTime*SIN_COS_SPEED.x)),offsetPos.y+(FLOAT_RANGE.y*Mathf.Cos(passedTime*SIN_COS_SPEED.y)));
 
         projectileCooldown--;
         projectileCooldown=Mathf.Clamp(projectileCooldown,0,100);

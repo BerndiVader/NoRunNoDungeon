@@ -3,17 +3,17 @@ using Godot;
 
 public class LevelControl : Node2D,ISwitchable
 {
-    [Export] private float Speed=-1f;
-    [Export] private Vector2 Direction=Vector2.Zero;
-    [Export] private float Zoom=-1f;
-    [Export] private int Timeout=-1;
-    [Export] private bool Restore=false;
-    [Export] private bool RestoreDefault=false;
-    [Export] private bool AutoRestore=false;
-    [Export] private bool NoStop=false;
-    [Export] private bool Signal=true;
-    [Export] private string SwitchID="";
-    [Export] private string CallID="";
+    [Export] private float SPEED=-1f;
+    [Export] private Vector2 DIRECTION=Vector2.Zero;
+    [Export] private float ZOOM=-1f;
+    [Export] private int TIMEOUT=-1;
+    [Export] private bool RESTORE=false;
+    [Export] private bool RESTORE_TO_DEFAULT=false;
+    [Export] private bool AUTO_RESTORE=false;
+    [Export] private bool NO_STOP=false;
+    [Export] private bool SIGNAL=true;
+    [Export] private string SWITCH_ID="";
+    [Export] private string CALL_ID="";
 
     private VisibilityNotifier2D notifier;
     private Vector2 size;
@@ -33,13 +33,13 @@ public class LevelControl : Node2D,ISwitchable
         size=GetViewportRect().Size*0.5f;
         if(settings==null)
         {
-            settings=new Settings(World.level,Direction,Speed,Zoom,AutoRestore);
-            settings.noStop=NoStop;
-            settings.CallID=CallID;
-            settings.restoreToDefault=RestoreDefault;
+            settings=new Settings(World.level,DIRECTION,SPEED,ZOOM,AUTO_RESTORE);
+            settings.noStop=NO_STOP;
+            settings.CallID=CALL_ID;
+            settings.restoreToDefault=RESTORE_TO_DEFAULT;
         }
 
-        if(SwitchID!="")
+        if(SWITCH_ID!="")
         {
             AddToGroup(GROUPS.SWITCHABLES.ToString());
         }
@@ -50,22 +50,29 @@ public class LevelControl : Node2D,ISwitchable
         if(GlobalPosition.x<=size.x)
         {
             SetPhysicsProcess(false);
-            if(!Restore)
+            if(!RESTORE)
             {
                 settings.Set();
                 
-                if(Timeout!=-1||SwitchID!="")
+                if(TIMEOUT!=-1||SWITCH_ID!="")
                 {
-                    World.level.AddChild(new LevelControlTimer(Timeout,settings,SwitchID));
+                    World.level.AddChild(new LevelControlTimer(TIMEOUT,settings,SWITCH_ID));
                 }
             }
             else
             {
                 if(settings.CallID!="")
                 {
-                    GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),CallID);
+                    GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),CALL_ID);
                 }
-                World.level.settings.Restore();
+                if(RESTORE_TO_DEFAULT)
+                {
+                    World.level.DEFAULT_SETTING.Restore();
+                }
+                else
+                {
+                    World.level.settings.Restore();
+                }
             }
             QueueFree();
         }
@@ -79,9 +86,9 @@ public class LevelControl : Node2D,ISwitchable
 
     private void OnScreenEntered()
     {
-        if(Signal)
+        if(SIGNAL)
         {
-            SettingsEffect effect=LevelControlTimer.countEffect.Instance<SettingsEffect>();
+            SettingsEffect effect=LevelControlTimer.COUNT_EFFECT.Instance<SettingsEffect>();
             effect.chr=(int)"!"[0];
             effect.scale=15f;
             World.instance.renderer.AddChild(effect);
@@ -92,13 +99,20 @@ public class LevelControl : Node2D,ISwitchable
 
     public void SwitchCall(string id)
     {
-        if(id==SwitchID)
+        if(id==SWITCH_ID)
         {
-            SettingsEffect count=LevelControlTimer.countEffect.Instance<SettingsEffect>();
+            SettingsEffect count=LevelControlTimer.COUNT_EFFECT.Instance<SettingsEffect>();
             count.chr=">"[0];
             World.instance.renderer.AddChild(count);
-            World.level.settings.Restore();
-            SwitchID="";
+            if(RESTORE_TO_DEFAULT)
+            {
+                World.level.DEFAULT_SETTING.Restore();
+            }
+            else
+            {
+                World.level.settings.Restore();
+            }
+            SWITCH_ID="";
             CallDeferred("queue_free");
         }
     }

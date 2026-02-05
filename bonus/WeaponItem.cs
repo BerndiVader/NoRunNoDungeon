@@ -2,17 +2,19 @@ using Godot;
 using System;
 
 public class WeaponItem : Bonus
-{
-    [Export] private WEAPONS weaponType=WEAPONS.SWORD;
-    [Export] private bool forceSpawn=false;
+{    
+    public static readonly GradientTexture2D gradient=CreateGradient();
+
+    [Export] private WEAPONS WEAPON_TYPE=WEAPONS.SWORD;
+    [Export] private bool FORCE_SPAWN=false;
+
     protected readonly Shader glintShader=ResourceLoader.Load<Shader>("res://shaders/Glint.gdshader");
     protected readonly ShaderMaterial material=new ShaderMaterial();
-    public static readonly GradientTexture2D gradient=CreateGradient();
     protected float shine=0f;
 
     public override void _Ready()
     {
-        if(!forceSpawn&&!SpawnCondition())
+        if(!FORCE_SPAWN&&!SpawnCondition())
         {
             CallDeferred("queue_free");
             return;
@@ -22,7 +24,7 @@ public class WeaponItem : Bonus
         AddChild(notifier2D);
         
         animation=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
-        animation.Frame=(int)weaponType;
+        animation.Frame=(int)WEAPON_TYPE;
 
         material.Shader=glintShader;
         material.SetShaderParam("gradient_texture",gradient);
@@ -50,7 +52,7 @@ public class WeaponItem : Bonus
             taken.Position=Position;
             taken.Texture=animation.Frames.GetFrame("default",0);
             World.level.CallDeferred("add_child",taken);
-            player.CallDeferred("EquipWeapon",ResourceUtils.weapons[(int)weaponType]);
+            player.CallDeferred("EquipWeapon",ResourceUtils.weapons[(int)WEAPON_TYPE]);
             CallDeferred("queue_free");
         }
     }

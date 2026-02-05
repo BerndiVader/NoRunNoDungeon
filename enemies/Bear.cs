@@ -3,7 +3,6 @@ using System;
 
 public class Bear : KinematicMonster
 {
-    [Export] private new Vector2 ANIMATION_OFFSET=new Vector2(0f,0f);
     [Export] private float WALK_FORCE=100f;
     [Export] private float WALK_MIN_SPEED=2f;
     [Export] private float WALK_MAX_SPEED=50f;

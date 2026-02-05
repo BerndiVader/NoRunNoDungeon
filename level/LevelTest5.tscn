@@ -61,7 +61,7 @@ companionID = "44"
 closed = true
 changeStateTo = 4
 oneWay = true
-switchID = "e073c929-3003-4042-88f1-d7959389a766"
+switchID = "4d02fea8-ae0b-4dbc-8ec8-d620aca12a90"
 
 [node name="StartingPoint" type="Position2D" parent="."]
 position = Vector2( 160, 232 )
@@ -104,7 +104,8 @@ CANNONBALL_SETTINGS = {
 position = Vector2( 2008, 112 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 0.0
+SPEED = 0.0
+RESTORE_TO_DEFAULT = true
 
 [node name="Gate" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1811, 262 )
@@ -183,14 +184,10 @@ LEVEL_SETTINGS = {
 position = Vector2( 1817, 33 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
-switchID = "e073c929-3003-4042-88f1-d7959389a766"
-oneTime = true
+SWITCH_ID = "4d02fea8-ae0b-4dbc-8ec8-d620aca12a90"
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 9 )]
 position = Vector2( 808, 248 )
-
-[node name="WeaponItem" parent="SwordItemHolder" index="0"]
-weaponType = 1
 
 [node name="CannonHolder4" parent="." instance=ExtResource( 3 )]
 position = Vector2( 2222, 215 )

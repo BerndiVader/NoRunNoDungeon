@@ -296,21 +296,22 @@ rotation = -1.5708
 position = Vector2( 773, 58 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 0.0
-Timeout = 15
+SPEED = 0.0
+ZOOM = 0.8
+TIMEOUT = 15
 
 [node name="ControlHolder2" parent="." instance=ExtResource( 7 )]
 position = Vector2( 2536, 136 )
 
 [node name="LevelControl" parent="ControlHolder2" index="0"]
-Speed = 80.0
-Zoom = 0.8
+SPEED = 60.0
 
 [node name="ControlHolder3" parent="." instance=ExtResource( 7 )]
 position = Vector2( 2832, 136 )
 
 [node name="LevelControl" parent="ControlHolder3" index="0"]
-Restore = true
+RESTORE = true
+RESTORE_TO_DEFAULT = true
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 19 )]
 position = Vector2( 600, 200 )

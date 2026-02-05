@@ -3,9 +3,10 @@ using System;
 
 public abstract class PhysicsObject : KinematicBody2D
 {
-    [Export] protected float friction=0.7f;
-    protected Vector2 velocity=new Vector2(0f,0f);
+    [Export] protected float FRICTION=0.7f;
     [Export] protected Vector2 GRAVITY=new Vector2(0,300f);
+
+    protected Vector2 velocity=Vector2.Zero;
 
     public override void _Ready()
     {
@@ -22,7 +23,7 @@ public abstract class PhysicsObject : KinematicBody2D
 
         if(collision!=null) 
         {
-            velocity=velocity.Bounce(collision.Normal)*friction;
+            velocity=velocity.Bounce(collision.Normal)*FRICTION;
 
             Node node=(Node)collision.Collider;
             if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))

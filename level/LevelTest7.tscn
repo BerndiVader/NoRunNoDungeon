@@ -34,8 +34,9 @@ position = Vector2( 160, 232 )
 position = Vector2( 832, 136 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
-Speed = 0.0
-SwitchID = "fe9b9120-97bb-4e22-a3a9-31e104df33b6"
+SPEED = 0.0
+RESTORE_TO_DEFAULT = true
+SWITCH_ID = "542e6a9c-65a5-4fa3-9d4a-24c3c8f4dd10"
 
 [node name="PlatformMoving3x3" parent="." instance=ExtResource( 4 )]
 position = Vector2( 952, 216 )
@@ -48,23 +49,20 @@ Linear = false
 [node name="SwordItemHolder" parent="." instance=ExtResource( 6 )]
 position = Vector2( 704, 248 )
 
-[node name="WeaponItem" parent="SwordItemHolder" index="0"]
-weaponType = 4
-
 [node name="FlamethrowerHolder" parent="." instance=ExtResource( 7 )]
 position = Vector2( 800, 206 )
 
 [node name="Flamethrower" parent="FlamethrowerHolder" index="0"]
 rotation = 1.5708
 mode = 2
-switchID = "959c02ad-e1e4-470d-b3cb-ddd68c586b05"
+switchID = "b27adc8d-b300-4bc5-a12b-6afade16bfe8"
 damageMonster = true
 
 [node name="Switch" parent="." instance=ExtResource( 8 )]
 position = Vector2( 832, 257 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
-switchID = "959c02ad-e1e4-470d-b3cb-ddd68c586b05"
+SWITCH_ID = "b27adc8d-b300-4bc5-a12b-6afade16bfe8"
 
 [node name="Zombie" parent="." instance=ExtResource( 9 )]
 position = Vector2( 797, 201 )
@@ -82,7 +80,7 @@ position = Vector2( 808, 248 )
 position = Vector2( 967, 257 )
 
 [node name="DoorSwitch" parent="Switch2" index="0"]
-switchID = "fe9b9120-97bb-4e22-a3a9-31e104df33b6"
+SWITCH_ID = "542e6a9c-65a5-4fa3-9d4a-24c3c8f4dd10"
 
 [node name="CloneZombiHolder" parent="." instance=ExtResource( 11 )]
 position = Vector2( 800, 128 )
