@@ -3,6 +3,7 @@ using Godot;
 
 public class Cannonball : KinematicMonster
 {
+    private static readonly AudioStream SFX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/Retro Impact 20.wav");
     [Export] public float MOVE_FORCE=150f;
     [Export] public float INITIAL_FORCE=200f;
     [Export] public float MIN_SPEED=20f;
@@ -65,7 +66,7 @@ public class Cannonball : KinematicMonster
 
         if(animationController.Frame==5)
         {
-            CallDeferred("queue_free");
+            QueueFree();
         }
 
     }    
@@ -155,6 +156,12 @@ public class Cannonball : KinematicMonster
             animationController.Play("attack");
             animationController.Rotation=0f;
             goal=Attack;
+            
+            SfxPlayer sfxplayer=new SfxPlayer();
+            sfxplayer.Stream=SFX;
+            sfxplayer.Position=Position;
+            World.level.AddChild(sfxplayer);
+
             if(player!=null)
             {
                 player.EmitSignal(STATE.damage.ToString(),this,DAMAGE_AMOUNT);

@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Collections;
 
 public class SwingingBaton : Area2D,ISwitchable
 {
@@ -35,12 +34,14 @@ public class SwingingBaton : Area2D,ISwitchable
     private float sinAmplitude;
     private float sinSwingPhase;
     private float sinFrequency;
+    private float lastRotation=999f;
     private bool active=false;
 
     private delegate void Goal(float delta);
     private Goal goal;
 
     private CollisionShape2D shape;
+    private AudioStreamPlayer2D audioPlayer;
 
     public override void _Ready()
     {
@@ -49,6 +50,10 @@ public class SwingingBaton : Area2D,ISwitchable
         AddChild(notifier2D);
 
         AddToGroup(GROUPS.OBSTACLES.ToString());
+
+        audioPlayer=GetNode<AudioStreamPlayer2D>(nameof(AudioStreamPlayer2D));
+        audioPlayer.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
+        audioPlayer.Bus="Sfx";
 
         switch(mode)
         {
@@ -128,6 +133,7 @@ public class SwingingBaton : Area2D,ISwitchable
 
         if(RotationDegrees>maxRotation-1f)
         {
+            audioPlayer.Play();
             rotateTo=new Vector2(Mathf.Deg2Rad(maxRotation*-1f),0f);
             if(mode==MODE.SWITCH||oneShoot)
             {
@@ -136,6 +142,7 @@ public class SwingingBaton : Area2D,ISwitchable
         }
         else if(RotationDegrees<(maxRotation-1f)*-1f)
         {
+            audioPlayer.Play();
             rotateTo=new Vector2(Mathf.Deg2Rad(maxRotation),0f);
             if(mode==MODE.SWITCH||oneShoot)
             {
@@ -147,14 +154,45 @@ public class SwingingBaton : Area2D,ISwitchable
     private void Sinus(float delta)
     {
         sinSwingTime+=delta;
+        float prevRotation=Rotation;
         Rotation=Mathf.Sin(sinSwingTime*sinFrequency+sinSwingPhase)*sinAmplitude;
+
+        float velocity=Rotation-prevRotation;
+        float lastVelocity=lastRotation-prevRotation;
+
+        if(Mathf.Sign(velocity)!=Mathf.Sign(lastVelocity)&&Mathf.Abs(velocity)<0.01f)
+        {
+            if(!audioPlayer.Playing)
+            {
+                audioPlayer.Play();
+            }
+        }
+
+        lastRotation=Rotation;
     }
 
     private void SinDamping(float delta)
     {
         sinSwingTime+=delta;
         sinAmplitude*=SinusDamping;
+
+        float prevRotation=Rotation;
         Rotation=Mathf.Sin(sinSwingTime*sinFrequency+sinSwingPhase)*sinAmplitude;
+
+        float velocity=Rotation-prevRotation;
+        float lastVelocity=lastRotation-prevRotation;
+        
+        if(Mathf.Sign(velocity)!=Mathf.Sign(lastVelocity)&&Mathf.Abs(velocity)<0.01f)
+        {
+            float amp=Mathf.Abs(sinAmplitude);
+            if(!audioPlayer.Playing&&amp>0.2f)
+            {
+                audioPlayer.VolumeDb=5*amp;
+                audioPlayer.Play();
+            }
+
+        }
+        lastRotation=Rotation;
 
         if(Mathf.Abs(sinAmplitude)<0.01f&&Mathf.Abs(RotationDegrees)<2f)
         {
@@ -166,6 +204,7 @@ public class SwingingBaton : Area2D,ISwitchable
     {
         if(switchID==id&&!IsPhysicsProcessing())
         {
+            audioPlayer.Play();
             SetPhysicsProcess(true);
         }
     }
