@@ -94,14 +94,8 @@ position = Vector2( 1664, 248 )
 [node name="RocksFalling3" parent="." instance=ExtResource( 6 )]
 position = Vector2( 480, -64 )
 
-[node name="Rock" parent="RocksFalling3" index="0"]
-ActivationDistance = 50.0
-
 [node name="RocksFalling" parent="." instance=ExtResource( 6 )]
 position = Vector2( 496, -36 )
-
-[node name="Rock" parent="RocksFalling" index="0"]
-ActivationDistance = 50.0
 
 [node name="PlatformMoving3x5" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1232, 122 )
@@ -116,13 +110,13 @@ position = Vector2( 896, -73 )
 
 [node name="Rock" parent="RocksFalling5" index="0"]
 position = Vector2( 0, 1 )
-ActivationDistance = 500.0
+ACTIVATION_DISTANCE = 400.0
 
 [node name="RocksFalling2" parent="." instance=ExtResource( 6 )]
 position = Vector2( 912, -36 )
 
 [node name="Rock" parent="RocksFalling2" index="0"]
-ActivationDistance = 500.0
+ACTIVATION_DISTANCE = 400.0
 
 [node name="ChestMimic" parent="." instance=ExtResource( 11 )]
 position = Vector2( 736, 145 )
@@ -130,14 +124,11 @@ position = Vector2( 736, 145 )
 [node name="RocksFalling4" parent="." instance=ExtResource( 6 )]
 position = Vector2( 504, -96 )
 
-[node name="Rock" parent="RocksFalling4" index="0"]
-ActivationDistance = 50.0
-
 [node name="RocksFalling6" parent="." instance=ExtResource( 6 )]
 position = Vector2( 928, -89 )
 
 [node name="Rock" parent="RocksFalling6" index="0"]
-ActivationDistance = 500.0
+ACTIVATION_DISTANCE = 400.0
 
 [node name="TreeWalking2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 856, 238 )

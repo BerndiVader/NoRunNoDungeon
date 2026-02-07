@@ -45,15 +45,14 @@ position = Vector2( 649, 258 )
 
 [node name="Saw" parent="SawHolder" index="0"]
 direction = 0
-Length = 5
-Speed = 80.0
+LENGTH = 4
 
 [node name="SawHolder2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 888, 256 )
 
 [node name="Saw" parent="SawHolder2" index="0"]
 direction = 0
-Length = 5
+LENGTH = 4
 
 [node name="FlamethrowerHolder2" parent="." instance=ExtResource( 6 )]
 position = Vector2( 723, 249 )
