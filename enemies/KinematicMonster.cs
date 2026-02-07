@@ -21,6 +21,7 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected float HEALTH=1f;
     [Export] protected bool RIDEABLE=true;
     [Export] protected bool DESTORYABLE=true;
+    [Export] protected bool INTERACTABLE=false;
     [Export] protected float GRAVITY=500f;
     [Export] protected float FRICTION=0.01f;
     [Export] protected float STOP_FORCE=1300f;
@@ -61,6 +62,7 @@ public abstract class KinematicMonster : KinematicBody2D
     protected bool onDelay=false;
     protected bool squeezed=false;
     protected bool justDamaged=false;
+    protected bool forcedState=false;
 
     public override void _Ready()
     {
@@ -92,6 +94,14 @@ public abstract class KinematicMonster : KinematicBody2D
             staticBody.Connect(STATE.passanger.ToString(),this,nameof(OnPassanger));
         }
 
+        if(INTERACTABLE)
+        {
+            AddUserSignal(STATE.interact.ToString());
+            Connect(STATE.interact.ToString(),this,nameof(OnInteract));
+            staticBody.AddUserSignal(STATE.interact.ToString());
+            staticBody.Connect(STATE.interact.ToString(),this,nameof(OnInteract));
+        }
+
         AddUserSignal(STATE.damage.ToString());
         AddUserSignal(STATE.die.ToString());
         AddUserSignal(STATE.attack.ToString());
@@ -101,6 +111,7 @@ public abstract class KinematicMonster : KinematicBody2D
         AddUserSignal(STATE.stroll.ToString());
         AddUserSignal(STATE.panic.ToString());
         AddUserSignal(STATE.alert.ToString());
+        AddUserSignal(STATE.spawn.ToString());
 
         Connect(STATE.die.ToString(),this,nameof(OnDie));
         Connect(STATE.attack.ToString(),this,nameof(OnAttack));
@@ -111,6 +122,9 @@ public abstract class KinematicMonster : KinematicBody2D
         Connect(STATE.damage.ToString(),this,nameof(OnDamage));
         Connect(STATE.panic.ToString(),this,nameof(OnPanic));
         Connect(STATE.alert.ToString(),this,nameof(OnAlert));
+        Connect(STATE.spawn.ToString(),this,nameof(OnSpawn));
+
+        animationController.Connect("animation_finished",this,nameof(OnAnimationControllerFinished));
 
         AddToGroup(GROUPS.ENEMIES.ToString());
         staticBody.AddToGroup(GROUPS.ENEMIES.ToString());
@@ -146,6 +160,10 @@ public abstract class KinematicMonster : KinematicBody2D
     protected virtual void Fight(float delta) {}
     protected virtual void Panic(float delta) {}
     protected virtual void Alert(float delta) {}
+    protected virtual void Interact(float delta) {}
+    protected virtual void Calm(float delta) {}
+    protected virtual void Spawn(float delta) {}
+
     protected virtual void Passanger(float delta)
     {
         if(health<=0)
@@ -159,7 +177,7 @@ public abstract class KinematicMonster : KinematicBody2D
         }
         Navigation(delta);
     }
-    protected virtual void Calm(float delta) {}
+
     protected virtual void Damage(float delta)
     {
         if(health<=0)
@@ -215,7 +233,7 @@ public abstract class KinematicMonster : KinematicBody2D
         {
             velocity=StopX(velocity,delta);
         }
-   }
+    }
 
     protected virtual void OnDie()
     {
@@ -369,6 +387,27 @@ public abstract class KinematicMonster : KinematicBody2D
         }
     }
 
+    protected virtual void OnInteract()
+    {
+        onDelay=false;
+        if(state!=STATE.interact)
+        {
+            lastState=state;
+            state=STATE.interact;
+            goal=Interact;
+        }
+    }
+    protected virtual void OnSpawn()
+    {
+        onDelay=false;
+        if(state!=STATE.spawn)
+        {
+            lastState=state;
+            state=STATE.spawn;
+            goal=Spawn;
+        }
+    }
+
     protected virtual void DelayedState(float seconds,STATE next,params object[] args)
     {
         if(!onDelay)
@@ -511,6 +550,16 @@ public abstract class KinematicMonster : KinematicBody2D
     protected float DistanceToPlayer()
     {
         return GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
+    }
+
+    protected virtual void OnAnimationControllerFinished()
+    {
+        string current=animationController.Animation;
+        if(!animationController.Frames.GetAnimationLoop(current))
+        {
+            animationController.Playing=false;
+        }
+        
     }    
 
     private void OnScreenEntered()

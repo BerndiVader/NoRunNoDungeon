@@ -14,5 +14,6 @@ public enum STATE
     passanger,
     die,
     interact,
+    spawn,
     unknown
 }
