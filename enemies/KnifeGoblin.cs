@@ -94,7 +94,7 @@ public class KnifeGoblin : KinematicMonster
 
 		velocity+=force*delta;
 		velocity=MoveAndSlideWithSnap(velocity,justDamaged?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
-        
+        justDamaged=false;
     }
 
     protected override void Damage(float delta)
