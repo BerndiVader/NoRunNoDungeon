@@ -3,8 +3,9 @@ using System;
 
 public class MadRock : KinematicBody2D
 {
-    private readonly float GRAVITY=1200f;
-    private readonly float DISTANCE=10000000f;
+    private const float GRAVITY=1200f;
+    private const float DISTANCE=10000000f;
+    
     private int time;
     private Vector2 force,velocity,startPosition;
     private State state,nextState;

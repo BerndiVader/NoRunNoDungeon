@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 public class Hideables : Area2D,ISwitchable
 {
-    private static readonly PackedScene ExpolderPack=ResourceLoader.Load<PackedScene>("res://gfx/TileExploder.tscn");
+    private static readonly PackedScene EXPLODER_PACK=ResourceLoader.Load<PackedScene>("res://gfx/TileExploder.tscn");
 
-    [Export] private bool terraform=true;
-    [Export] private bool notPlayer=false;
+    [Export] private bool TERRAFORM=true;
+    [Export] private bool NOT_PLAYER=false;
     [Export] private string switchID="";
 
     private int tileID=TileMap.InvalidCell;
@@ -59,7 +59,7 @@ public class Hideables : Area2D,ISwitchable
 
     private void OnDamage(Node2D node=null,float amount=0f)
     {
-        if(notPlayer&&node.IsInGroup(GROUPS.PLAYERS.ToString()))
+        if(NOT_PLAYER&&node.IsInGroup(GROUPS.PLAYERS.ToString()))
         {
             return;
         }
@@ -67,7 +67,7 @@ public class Hideables : Area2D,ISwitchable
         if(tileID!=TileMap.InvalidCell)
         {
             World.level.SetCellv(pos,tileID);
-            if(terraform)
+            if(TERRAFORM)
             {
                 World.level.Terraform(pos);
             }

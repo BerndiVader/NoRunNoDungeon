@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 
 public class Saw : Area2D
 {
-    private static readonly AudioStream sawFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/saw.wav");
-    private static readonly AudioStream hitFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/17_orc_atk_sword_2.wav");
+    private static readonly AudioStream SAW_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/saw.wav");
+    private static readonly AudioStream HIT_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/17_orc_atk_sword_2.wav");
 
     private enum DIRECTION
     {
@@ -14,17 +14,18 @@ public class Saw : Area2D
     }
 
     [Export] private DIRECTION direction=DIRECTION.RIGHT;
-    [Export] private int Length=2;
-    [Export] private float Speed=120f;
+    [Export] private int LENGTH=2;
+    [Export] private float SPEED=120f;
+
+    private Vector2 startPosition;
+    private float length;
+    private float lastX;
+    private bool wasVisible=false;
 
     private AnimatedSprite animation;
     private CPUParticles2D partLeft,partRight;
     private Tween tween;
     private AudioStreamPlayer2D sfxPlayer;
-    private Vector2 startPosition;
-    private float length;
-    private float lastX;
-    private bool wasVisible=false;
 
     public override void _Ready()
     {
@@ -48,10 +49,10 @@ public class Saw : Area2D
         tween=GetNode<Tween>(nameof(Tween));
         tween.Connect("tween_completed",this,nameof(OnTweenCompleted));
         startPosition=Position;
-        length=Length*16f;
+        length=LENGTH*16f;
 
         sfxPlayer.Connect("finished",this,nameof(SfxEnd));
-        sfxPlayer.Stream=sawFx;
+        sfxPlayer.Stream=SAW_FX;
         sfxPlayer.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
         sfxPlayer.Play();
 
@@ -66,7 +67,7 @@ public class Saw : Area2D
 
         float from=Position.x;
         float to=direction==DIRECTION.RIGHT?startPosition.x+length:startPosition.x-length;
-        float duration=Mathf.Abs(from-to)/Speed;
+        float duration=Mathf.Abs(from-to)/SPEED;
         tween.InterpolateMethod(
             this,
             nameof(Tweening),
@@ -91,7 +92,7 @@ public class Saw : Area2D
         float velocity=delta>0f?Mathf.Abs(x-lastX)/delta:0f;
         float factor=velocity/120f;
 
-        sfxPlayer.VolumeDb=Mathf.Lerp(-20f,0f,Mathf.Clamp(factor,0f,1f));
+        sfxPlayer.VolumeDb=Mathf.Lerp(-10f,10f,Mathf.Clamp(factor,0f,1f));
         animation.SpeedScale=8f*factor;
 
         CPUParticles2D particles=ActiveParticles();
@@ -156,7 +157,7 @@ public class Saw : Area2D
     {
         SfxPlayer sfx=new SfxPlayer
         {
-            Stream=hitFx,
+            Stream=HIT_FX,
             Position=Position
         };
         World.level.AddChild(sfx);

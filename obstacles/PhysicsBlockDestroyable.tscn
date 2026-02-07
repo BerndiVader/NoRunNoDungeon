@@ -33,4 +33,5 @@ collision_layer = 0
 shape = SubResource( 2 )
 
 [node name="Destroyables" parent="." instance=ExtResource( 3 )]
-destroyParent = true
+TERRAFORM = false
+DESTROY_PARENT = true

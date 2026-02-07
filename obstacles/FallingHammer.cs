@@ -3,7 +3,8 @@ using Godot.Collections;
 
 public class FallingHammer : Area2D,ISwitchable
 {
-    private static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/8_Atk_Magic_SFX/13_Ice_explosion_01.wav");
+    private static readonly AudioStream SFX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/8_Atk_Magic_SFX/13_Ice_explosion_01.wav");
+
     private enum HAMMERSTATE
     {
         IDLE,
@@ -11,6 +12,7 @@ public class FallingHammer : Area2D,ISwitchable
         BACK,
         PLAYEDONCE
     }
+
     private enum MODE
     {
         DEFAULT,
@@ -23,20 +25,21 @@ public class FallingHammer : Area2D,ISwitchable
         RIGHT
     }
 
-    [Export] MODE mode=MODE.DEFAULT;
-    [Export] DIRECTION direction=DIRECTION.LEFT;
-    [Export] string switchID="";
-    [Export] float activationRange=50f;
-    [Export] bool oneTime=false;
-    [Export] bool fallOnly=false;
-    [Export] bool hitMonsters=false;
-    [Export] bool destroyables=false;
+    [Export] private MODE mode=MODE.DEFAULT;
+    [Export] private DIRECTION direction=DIRECTION.LEFT;
+    [Export] private string switchID="";
+    [Export] private float ACTIVATION_RANGE=50f;
+    [Export] private bool ONE_TIME=false;
+    [Export] private bool FALL_ONLY=false;
+    [Export] private bool HIT_MONSTERS=false;
+    [Export] private bool DESTROYABLES=false;
 
-    private RayCast2D raycast;
-    private Tween tween;
     private float oRotation;
     private bool playedOnce=false;
     private HAMMERSTATE state=HAMMERSTATE.IDLE;
+
+    private RayCast2D raycast;
+    private Tween tween;
 
     public override void _Ready()
     {
@@ -50,7 +53,7 @@ public class FallingHammer : Area2D,ISwitchable
         Connect("body_entered",this,nameof(BodyEntered));
         oRotation=Rotation;
 
-        CollisionMask=hitMonsters?CollisionMask|=1<<5:CollisionMask&=~(uint)(1<<5);
+        CollisionMask=HIT_MONSTERS?CollisionMask|=1<<5:CollisionMask&=~(uint)(1<<5);
 
         tween=new Tween();
         AddChild(tween);
@@ -76,7 +79,7 @@ public class FallingHammer : Area2D,ISwitchable
             float distance=raycast.GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
             Vector2 direction=raycast.GlobalPosition.DirectionTo(Player.instance.GlobalPosition);
 
-            if(activationRange>distance&&Mathf.Sign(direction.x)==-1&&Mathf.Sign(direction.y)==1)
+            if(ACTIVATION_RANGE>distance&&Mathf.Sign(direction.x)==-1&&Mathf.Sign(direction.y)==1)
             {
                 Start();
             }
@@ -85,7 +88,7 @@ public class FallingHammer : Area2D,ISwitchable
         {
             CreateParticles();
             StopFall();
-            if(destroyables)
+            if(DESTROYABLES)
             {
 
                 Vector2 point=raycast.GetCollisionPoint();
@@ -123,7 +126,7 @@ public class FallingHammer : Area2D,ISwitchable
 
     private void Start()
     {
-        if(oneTime&&playedOnce)
+        if(ONE_TIME&&playedOnce)
         {
             return;
         }
@@ -151,7 +154,7 @@ public class FallingHammer : Area2D,ISwitchable
         tween.Disconnect("tween_all_completed",this,nameof(OnFallCompete));
         tween.StopAll();
 
-        if(oneTime&&fallOnly)
+        if(ONE_TIME&&FALL_ONLY)
         {
             state=HAMMERSTATE.PLAYEDONCE;
             SetPhysicsProcess(false);
@@ -179,7 +182,7 @@ public class FallingHammer : Area2D,ISwitchable
         tween.Disconnect("tween_all_completed", this, nameof(OnBackComplete));
         tween.StopAll();
 
-        if(!oneTime) 
+        if(!ONE_TIME) 
         {
             state=HAMMERSTATE.IDLE;
             if(mode==MODE.DEFAULT)
@@ -214,7 +217,7 @@ public class FallingHammer : Area2D,ISwitchable
                     {
                         StopFall();
                         if(victim.IsInGroup(GROUPS.PLAYERS.ToString())
-                            ||(hitMonsters&&victim.IsInGroup(GROUPS.ENEMIES.ToString())))
+                            ||(HIT_MONSTERS&&victim.IsInGroup(GROUPS.ENEMIES.ToString())))
                         {
                             victim.EmitSignal(STATE.damage.ToString(),this,1f);
                         }
@@ -229,7 +232,7 @@ public class FallingHammer : Area2D,ISwitchable
     {
         MadRockParticles particles=ResourceUtils.particles[(int)PARTICLES.MADROCK].Instance<MadRockParticles>();
         particles.Position=World.level.ToLocal(raycast.GetCollisionPoint());
-        Renderer.instance.PlaySfx(sfx,Position);
+        Renderer.instance.PlaySfx(SFX,Position);
         Renderer.instance.Shake(1f);
         World.level.AddChild(particles);
     }

@@ -122,4 +122,3 @@ anim_speed_random = 0.1
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 bus = "Sfx"
-area_mask = 0

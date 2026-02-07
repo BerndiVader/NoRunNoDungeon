@@ -3,17 +3,20 @@ using System;
 
 public class FallingRocks : StaticBody2D,ISwitchable
 {
-    [Export] private float ActivationDistance=10f;
+    [Export] private float ACTIVATION_DISTANCE=10f;
     [Export] private string switchID="";
-    private Area2D area;
+
     private const float GRAVITY=600f;
+    private const float SHAKE_MAX=0.6f;
+
     private Vector2 velocity=Vector2.Zero;
     private float shake;
-    private const float ShakeMax=0.6f;
     private bool colliding=false;
-    private Platform collider;
     private Vector2 force;
     private State state;
+
+    private Area2D area;
+    private Platform collider;
 
     private enum State
     {
@@ -52,7 +55,7 @@ public class FallingRocks : StaticBody2D,ISwitchable
                 if(switchID=="")
                 {
                     float distance=Mathf.Abs(GlobalPosition.x-Player.instance.GlobalPosition.x);
-                    if(distance<ActivationDistance) 
+                    if(distance<ACTIVATION_DISTANCE) 
                     {
                         state=State.FALLING;
                     }
@@ -86,7 +89,7 @@ public class FallingRocks : StaticBody2D,ISwitchable
         {
             collider=(Platform)body;
             colliding=true;
-            shake=ShakeMax;
+            shake=SHAKE_MAX;
             Renderer.instance.Shake(2f);
             state=State.FALLEN;
             AddToGroup(GROUPS.PLATFORMS.ToString());
@@ -94,7 +97,7 @@ public class FallingRocks : StaticBody2D,ISwitchable
         else if(body.IsInGroup(GROUPS.LEVEL.ToString())&&body!=this)
         {
             area.Disconnect("body_entered",this,nameof(OnBodyEntered));
-            shake=ShakeMax;
+            shake=SHAKE_MAX;
             Renderer.instance.Shake(2f);
             state=State.FALLEN;
             AddToGroup(GROUPS.LEVEL.ToString());
@@ -121,8 +124,8 @@ public class FallingRocks : StaticBody2D,ISwitchable
 
     private void ApplyShake()
     {
-        shake=Mathf.Min(shake,ShakeMax);
-        if(shake>=ShakeMax*0.5f)
+        shake=Mathf.Min(shake,SHAKE_MAX);
+        if(shake>=SHAKE_MAX*0.5f)
         {
             float offset=(float)MathUtils.RandomRange(-shake,shake);
             Rotation=offset;
@@ -130,10 +133,10 @@ public class FallingRocks : StaticBody2D,ISwitchable
         } 
         else if(shake>0f)
         {
-            float offset = (float)MathUtils.RandomRange(-ShakeMax * shake, ShakeMax * shake);
-            offset *= MathUtils.RandSign();
+            float offset=(float)MathUtils.RandomRange(-SHAKE_MAX*shake,SHAKE_MAX*shake);
+            offset*=MathUtils.RandSign();
             shake=0f;
-            Rotation = offset;
+            Rotation=offset;
         }
     }
 

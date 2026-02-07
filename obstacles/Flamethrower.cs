@@ -3,8 +3,8 @@ using System;
 
 public class Flamethrower : Area2D,ISwitchable
 {
-    private static AudioStream flameFx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_human_special_atk_2.wav");
-    private static readonly Vector2[] shapesize=new Vector2[]
+    private static readonly AudioStream FLAME_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_human_special_atk_2.wav");
+    private static readonly Vector2[] SHAPE_SIZE=new Vector2[]
     {
         Vector2.Zero,
         new Vector2(2f,3f),
@@ -54,11 +54,11 @@ public class Flamethrower : Area2D,ISwitchable
         animation=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         collision=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
         collision.Shape=collisionRect;
-        collisionRect.Extents=shapesize[animation.Frame];
+        collisionRect.Extents=SHAPE_SIZE[animation.Frame];
 
         Connect("body_entered",this,nameof(OnBodyEntered));
 
-        sfxPlayer.Stream=flameFx;
+        sfxPlayer.Stream=FLAME_FX;
         sfxPlayer.Bus="Sfx";
         sfxPlayer.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
         AddChild(sfxPlayer);
@@ -78,7 +78,7 @@ public class Flamethrower : Area2D,ISwitchable
         animation.Connect("frame_changed",this,nameof(OnFrameChanged));
         animation.Frame=0;
 
-        collisionRect.Extents=shapesize[animation.Frame];
+        collisionRect.Extents=SHAPE_SIZE[animation.Frame];
         if(damageMonster)
         {
             CollisionMask|=1<<5;
@@ -135,7 +135,7 @@ public class Flamethrower : Area2D,ISwitchable
     {
         SetDeferred("monitoring",true);
         animation.Frame=0;
-        collisionRect.Extents=shapesize[animation.Frame];
+        collisionRect.Extents=SHAPE_SIZE[animation.Frame];
         particles.Emitting=false;
 
         switch(mode)
@@ -167,7 +167,7 @@ public class Flamethrower : Area2D,ISwitchable
         {
             sfxPlayer.Play();
         }
-        collisionRect.Extents=shapesize[animation.Frame];
+        collisionRect.Extents=SHAPE_SIZE[animation.Frame];
         Vector2 offset=baseOffset;
 
         if(collisionRect.Extents!=Vector2.Zero)
@@ -183,7 +183,7 @@ public class Flamethrower : Area2D,ISwitchable
         {
             SetDeferred("monitoring",true);
             animation.Frame=0;
-            collisionRect.Extents=shapesize[animation.Frame];
+            collisionRect.Extents=SHAPE_SIZE[animation.Frame];
             particles.Emitting=false;
             animation.Play("default");
         }

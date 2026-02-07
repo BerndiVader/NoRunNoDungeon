@@ -91,7 +91,6 @@ public class Cannonball : KinematicMonster
         bool onCeiling=IsOnCeiling();
         bool onWall=IsOnWall();
 
-
         if(EXPLODE_ON_WALL&&(onFloor||onCeiling||onWall))
         {
             OnAttack();

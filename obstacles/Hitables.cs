@@ -4,15 +4,18 @@ using System.Linq.Expressions;
 
 public class Hitables : Area2D
 {
-    private static readonly AudioStream blockSfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_Battle_SFX/39_Block_03.wav");
-    private static readonly AudioStream bonusSfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PickUp/Retro PickUp Coin 07.wav");
-    [Export] private int load=3;
+    private static readonly AudioStream BLOCK_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_Battle_SFX/39_Block_03.wav");
+    private static readonly AudioStream BONUS_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PickUp/Retro PickUp Coin 07.wav");
+
+    private const double TIMEOUT=0.1d;
+
+    [Export] private int LOAD=3;
+
+    private bool active=true;
+    private double lastTriggered=0d;
 
     private ImageTexture texture;
     private Sprite marker;
-    private bool active=true;
-    private double lastTriggered=0d;
-    private const double timeout=0.1d;
 
     public override void _Ready()
     {
@@ -65,10 +68,10 @@ public class Hitables : Area2D
                 if(Mathf.Abs(player.GlobalPosition.x-GlobalPosition.x)<8f)
                 {
                     double now=Time.GetUnixTimeFromSystem();
-                    if(now-lastTriggered>timeout)
+                    if(now-lastTriggered>TIMEOUT)
                     {
-                        load--;
-                        if(load>0)
+                        LOAD--;
+                        if(LOAD>0)
                         {
                             FlashMarker();
                         }
@@ -78,7 +81,7 @@ public class Hitables : Area2D
                             particles.Position=Position;
                             World.level.AddChild(particles);
                             Renderer.instance.Shake(1.5f);
-                            Renderer.instance.PlaySfx(bonusSfx,Position);
+                            Renderer.instance.PlaySfx(BONUS_FX,Position);
                             player.ApplyCoins(1);
                             CallDeferred("queue_free");
                         }
@@ -92,7 +95,7 @@ public class Hitables : Area2D
 
     private async void FlashMarker()
     {
-        Renderer.instance.PlaySfx(blockSfx,Position);
+        Renderer.instance.PlaySfx(BLOCK_FX,Position);
         Renderer.instance.Shake(1f);
         marker.Modulate=new Color(1,1,1,1f);
         await ToSignal(GetTree().CreateTimer(0.11f),"timeout");

@@ -2,8 +2,11 @@ using Godot;
 
 public class Gate : Area2D,ISwitchable
 {
-    private static AudioStream teleportSfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/88_Teleport_02.wav");
-    private static AudioStreamMP3 closeSfx=ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/06_door_close_1.mp3");
+    private static readonly AudioStream TELEPORT_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/88_Teleport_02.wav");
+    private static readonly AudioStreamMP3 CLOSE_FX=ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/06_door_close_1.mp3");
+
+    private const string ID="companion";
+
     private enum STYLE
     {
         STEEL,
@@ -35,7 +38,6 @@ public class Gate : Area2D,ISwitchable
 
     private bool active=false;
     private bool used=false;
-    private const string ID="companion";
     private Vector2 restorePosition=Vector2.Zero;
     private Settings settings;
     private Gamestate gamestate;
@@ -133,7 +135,7 @@ public class Gate : Area2D,ISwitchable
             SfxPlayer teleportFx=new SfxPlayer
             {
                 Position=Position,
-                Stream=teleportSfx
+                Stream=TELEPORT_FX
             };
             World.level.AddChild(teleportFx);
 
@@ -156,7 +158,7 @@ public class Gate : Area2D,ISwitchable
                     sprite.Play();
                     SfxPlayer closefx=new SfxPlayer
                     {
-                        Stream=closeSfx,
+                        Stream=CLOSE_FX,
                         Position=Position
                     };
                     World.level.AddChild(closefx);
@@ -195,7 +197,7 @@ public class Gate : Area2D,ISwitchable
             sprite.Play();
             SfxPlayer closefx=new SfxPlayer
             {
-                Stream=closeSfx,
+                Stream=CLOSE_FX,
                 Position=Position
             };
             World.level.AddChild(closefx);
@@ -239,7 +241,7 @@ public class Gate : Area2D,ISwitchable
             }
             SfxPlayer closefx=new SfxPlayer
             {
-                Stream=closeSfx,
+                Stream=CLOSE_FX,
                 Position=Position
             };
             World.level.AddChild(closefx);            

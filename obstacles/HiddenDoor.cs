@@ -15,14 +15,15 @@ public class HiddenDoor : StaticBody2D,ISwitchable
     }
 
     [Export] private TYPE type=TYPE.HITABLE;
-    [Export] private float closedTime=2f;
-    [Export] private float openedTime=2f;
-    [Export] private bool oneShoot=false;
+    [Export] private float CLOSED_TIME=2f;
+    [Export] private float OPENED_TIME=2f;
+    [Export] private bool ONE_SHOOT=false;
     [Export] private string switchID="";
-    [Export] private DOOR_STATE doorState=DOOR_STATE.CLOSED;
+    [Export] private DOOR_STATE DOORSTATE=DOOR_STATE.CLOSED;
 
     private bool moving=false;
     private bool used=false;
+    
     private Tween tween;
     private Timer timer;
 
@@ -60,16 +61,16 @@ public class HiddenDoor : StaticBody2D,ISwitchable
 
     private void StartAutomaticMode()
     {
-        switch(doorState)
+        switch(DOORSTATE)
         {
             case DOOR_STATE.CLOSED:
                 OpenDoor();
-                timer.WaitTime=openedTime;
+                timer.WaitTime=OPENED_TIME;
                 timer.Start();
                 break;
             case DOOR_STATE.OPENED:
                 CloseDoor();
-                timer.WaitTime=closedTime;
+                timer.WaitTime=CLOSED_TIME;
                 timer.Start();
                 break;
         }
@@ -86,14 +87,14 @@ public class HiddenDoor : StaticBody2D,ISwitchable
 
     private void OpenDoor()
     {
-        if(used&&oneShoot)
+        if(used&&ONE_SHOOT)
         {
             return;
         }
         if(GetNode<CollisionShape2D>(nameof(CollisionShape2D)).Shape is RectangleShape2D shape) {
             used=moving=true;
             Vector2 startPos=Position;
-            doorState=DOOR_STATE.OPENED;
+            DOORSTATE=DOOR_STATE.OPENED;
             Vector2 endPos=startPos+new Vector2(0,shape.Extents.y*-1.5f);
             tween.InterpolateProperty(this,"position",startPos,endPos,0.5f,Tween.TransitionType.Sine,Tween.EaseType.Out);
             tween.Start();
@@ -104,7 +105,7 @@ public class HiddenDoor : StaticBody2D,ISwitchable
     }
     private void CloseDoor()
     {
-        if(used&&oneShoot)
+        if(used&&ONE_SHOOT)
         {
             return;
         }
@@ -112,7 +113,7 @@ public class HiddenDoor : StaticBody2D,ISwitchable
         {
             Vector2 endPos=Position;
             used=moving=true;
-            doorState=DOOR_STATE.CLOSED;
+            DOORSTATE=DOOR_STATE.CLOSED;
             Vector2 startPos=endPos+new Vector2(0,shape.Extents.y*1.5f);
             tween.InterpolateProperty(this,"position",endPos,startPos,0.5f,Tween.TransitionType.Sine,Tween.EaseType.Out);
             tween.Start();
@@ -126,7 +127,7 @@ public class HiddenDoor : StaticBody2D,ISwitchable
     {
         if(type==TYPE.HITABLE&&!moving)
         {
-            switch(doorState)
+            switch(DOORSTATE)
             {
                 case DOOR_STATE.CLOSED:
                     OpenDoor();
@@ -142,7 +143,7 @@ public class HiddenDoor : StaticBody2D,ISwitchable
     {
         if(id==switchID&&!moving)
         {
-            switch(doorState)
+            switch(DOORSTATE)
             {
                 case DOOR_STATE.CLOSED:
                     OpenDoor();

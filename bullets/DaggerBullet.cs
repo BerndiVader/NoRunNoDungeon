@@ -6,7 +6,7 @@ public class DaggerBullet : Area2D
 
     private Vector2 start, end, height; 
     private float elapsed=0f;
-    private float flightTime=0.5f;
+    private const float FLIGHT_TIME=0.5f;
 
     public override void _Ready()
     {
@@ -24,10 +24,10 @@ public class DaggerBullet : Area2D
         Rotation+=delta*10f;
         elapsed+=delta;
 
-        float t=Mathf.Clamp(elapsed/flightTime,0f,1f);
+        float t=Mathf.Clamp(elapsed/FLIGHT_TIME,0f,1f);
         Position=Step(t);
 
-        if(elapsed>flightTime)
+        if(elapsed>FLIGHT_TIME)
         {
             QueueFree();
         }
