@@ -36,6 +36,44 @@ public class CloningZombie : KinematicMonster
 
     protected override void Idle(float delta)
     {
+        if(ShouldClone())
+        {
+            OnAlert();
+        }
+        Navigation(delta);
+    }
+
+    protected override void Alert(float delta)
+    {
+        if(!animationController.Playing)
+        {
+            OnCalm();
+        }
+        Navigation(delta);
+    }
+
+    protected override void Calm(float delta)
+    {
+        if(!animationController.Playing)
+        {
+            CloningZombie clone=Duplicate() as CloningZombie;
+            World.level.AddChild(clone);
+            clone.velocity+=-facing*new Vector2(200f,-50f);
+            velocity+=facing*new Vector2(200f,-50f);
+
+            if(clone.FACING==clone.direction)
+            {
+                clone.FlipH();
+            }
+
+            Dust dust=ResourceUtils.dust.Instance<Dust>();
+            dust.type=Dust.TYPE.JUMP;
+            dust.Position=new Vector2(Position.x,Position.y+7f);
+            World.level.AddChild(dust);
+
+            forcedState=false;
+            OnIdle();
+        }
         Navigation(delta);
     }
 
@@ -67,6 +105,10 @@ public class CloningZombie : KinematicMonster
 
     public override void OnPassanger(Player player=null)
     {
+        if(forcedState)
+        {
+            return;
+        }
         if(state!=STATE.passanger)
         {
             base.OnPassanger(player);
@@ -77,11 +119,55 @@ public class CloningZombie : KinematicMonster
 
     protected override void OnDamage(Node2D node=null,float amount=0)
     {
+        if(forcedState)
+        {
+            return;
+        }
         if(state!=STATE.damage&&state!=STATE.die)
         {
             base.OnDamage(node,amount);
             animationPlayer.Play("HIT");
         }
+    }
+
+    /*
+    OnAlert: cloning start.
+    */
+    protected override void OnAlert()
+    {
+        if(forcedState)
+        {
+            return;
+        }
+        if(state!=STATE.alert)
+        {
+            forcedState=true;
+            base.OnAlert();
+            animationController.Play("alert");
+        }
+    }
+
+    /*
+    OnCalm: cloning.
+    */
+    protected override void OnCalm()
+    {
+        if(state!=STATE.calm)
+        {
+            base.OnCalm();
+            animationController.Play("calm");
+        }
+    }
+
+    private bool LookingTo(Vector2 globalposition)
+    {
+        Vector2 direction=GlobalPosition.DirectionTo(globalposition);
+        return Mathf.Sign(direction.x)==facing.x;
+    }
+
+    private bool ShouldClone()
+    {
+        return DistanceToPlayer()<10f&&LookingTo(Player.instance.GlobalPosition);
     }
 
 	protected override void FlipH()
