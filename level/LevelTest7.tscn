@@ -65,7 +65,7 @@ position = Vector2( 832, 257 )
 SWITCH_ID = "b27adc8d-b300-4bc5-a12b-6afade16bfe8"
 
 [node name="Zombie" parent="." instance=ExtResource( 9 )]
-position = Vector2( 797, 201 )
+position = Vector2( 800, 135 )
 
 [node name="BombTrollHolder" parent="." instance=ExtResource( 5 )]
 position = Vector2( 952, 200 )
@@ -82,11 +82,8 @@ position = Vector2( 967, 257 )
 [node name="DoorSwitch" parent="Switch2" index="0"]
 SWITCH_ID = "542e6a9c-65a5-4fa3-9d4a-24c3c8f4dd10"
 
-[node name="CloneZombiHolder" parent="." instance=ExtResource( 11 )]
-position = Vector2( 800, 128 )
-
 [node name="CloneZombiHolder2" parent="." instance=ExtResource( 11 )]
-position = Vector2( 728, 240 )
+position = Vector2( 768, 201 )
 
 [editable path="ControlHolder"]
 [editable path="PlatformMoving3x3"]

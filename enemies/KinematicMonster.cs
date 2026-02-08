@@ -4,6 +4,7 @@ using Godot;
 public abstract class KinematicMonster : KinematicBody2D
 {
     private static readonly PackedScene LEVELCONTROL_PACK=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
+    protected static readonly Vector2 DEFAULT_DAMAGE_FORCE=new Vector2(200f,-50f);
 
     protected enum SPAWN_FACING
     {
@@ -208,6 +209,7 @@ public abstract class KinematicMonster : KinematicBody2D
 
         QueueFree();
     }
+    
     protected virtual void Navigation(float delta)
     {
         velocity+=FORCE*delta;
