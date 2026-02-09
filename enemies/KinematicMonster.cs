@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 public abstract class KinematicMonster : KinematicBody2D
 {
+    protected static List<WeakRef>ACTIVE_MONSTERS=new List<WeakRef>();
     private static readonly PackedScene LEVELCONTROL_PACK=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
     protected static readonly Vector2 DEFAULT_DAMAGE_FORCE=new Vector2(200f,-50f);
 
@@ -14,6 +16,8 @@ public abstract class KinematicMonster : KinematicBody2D
         RIGHT
     }
 
+    protected WeakRef weakRef;
+
     [Export] protected float DAMAGE_AMOUNT=1f;
     /// <summary>
     /// HINT: Vector2(200f,-50f)
@@ -23,6 +27,7 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected bool RIDEABLE=true;
     [Export] protected bool DESTORYABLE=true;
     [Export] protected bool INTERACTABLE=false;
+    [Export] protected bool COLLIDABLE=false;
     [Export] protected float GRAVITY=500f;
     [Export] protected float FRICTION=0.01f;
     [Export] protected float STOP_FORCE=1300f;
@@ -55,6 +60,7 @@ public abstract class KinematicMonster : KinematicBody2D
     protected int animationDirection=1;
     protected Vector2 FORCE;
     protected Vector2 velocity,direction,LastPosition,facing;
+    public Vector2 Velocity=>velocity;
     public Vector2 FACING=>facing;
     protected readonly Vector2 snap=new Vector2(0f,8f);
     public STATE state,lastState;
@@ -137,6 +143,12 @@ public abstract class KinematicMonster : KinematicBody2D
         goal=Unknown;
 
         facing=direction=Facing();
+
+        if(COLLIDABLE)
+        {
+            weakRef=WeakRef(this);
+            ACTIVE_MONSTERS.Add(weakRef);
+        }
     }
 
     public override void _PhysicsProcess(float delta)
@@ -591,6 +603,11 @@ public abstract class KinematicMonster : KinematicBody2D
 
     public override void _ExitTree()
     {
+        if(COLLIDABLE)
+        {
+            ACTIVE_MONSTERS.Remove(weakRef);
+        }
+        
         if((bool)LEVEL_SETTINGS["Use"])
         {
             levelSettings.Restore();
