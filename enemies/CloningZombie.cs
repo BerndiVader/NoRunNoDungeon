@@ -7,7 +7,7 @@ public class CloningZombie : KinematicMonster
 	[Export] protected float WALK_FORCE=600f;
 	[Export] protected float WALK_MIN_SPEED=10f;
 	[Export] protected float WALK_MAX_SPEED=60f;
-	[Export] protected float JUMP_SPEED=130f;
+	[Export] protected float JUMP_SPEED=150f;
 	[Export] protected float COOLDOWNER_TIME=1.0f;
 
 	protected float cooldowner=0f;
@@ -15,6 +15,7 @@ public class CloningZombie : KinematicMonster
     protected bool hasCloned=false;
 
 	protected RayCast2D rayCast2D;
+    protected MonsterWeapon weapon;
 
     public override void _Ready()
     {
@@ -28,6 +29,11 @@ public class CloningZombie : KinematicMonster
 		rayCast2D.Enabled=true;
 
 		SetSpawnFacing();
+
+        weapon=GetNode<MonsterWeapon>("ButcherMonster");
+        weapon._Init();
+        weapon.Visible=false;
+
 		OnIdle();
     }
 
@@ -77,6 +83,23 @@ public class CloningZombie : KinematicMonster
                 FlipH();
             }
         }
+        else if(IsOnWall())
+        {
+            if(DistanceToPlayer()<20f&&!jumping)
+            {
+                velocity.y=-JUMP_SPEED;
+                jumping=true;
+                justDamaged=true;
+            }
+            else
+            {
+                FlipH();
+            }
+        }
+        if(DistanceToPlayer()>50f)
+        {
+            OnIdle();
+        }
            
     }
 
@@ -88,17 +111,45 @@ public class CloningZombie : KinematicMonster
         {
             OnAlert();
         }
-        else if(LookingTo(Player.instance.GlobalPosition)&&DistanceToPlayer()<50f)
+        else if(LookingTo(Player.instance.GlobalPosition)&&DistanceToPlayer()<20f)
         {
             FlipH();
             OnStroll();
         }
-        else if(DistanceToPlayer()<20f&&!rayCast2D.IsColliding())
+        else if(DistanceToPlayer()<20f)
         {
-            velocity.y=-JUMP_SPEED;
-            jumping=true;
-            justDamaged=true;
-            OnStroll();
+            if(!rayCast2D.IsColliding()&&!jumping)
+            {
+                velocity.y=-JUMP_SPEED;
+                jumping=true;
+                justDamaged=true;
+            }
+            else if(IsOnWall()&&!jumping)
+            {
+                FlipH();
+                velocity.y=-JUMP_SPEED;
+                jumping=true;
+                justDamaged=true;
+            }
+            else if(hasCloned)
+            {
+                OnAttack();
+            }
+            else
+            {
+                OnStroll();
+            }
+        }
+
+    }
+
+    protected override void Attack(float delta)
+    {
+        Navigation(delta);
+
+        if(!weapon.IsPlaying())
+        {
+            OnIdle();
         }
 
     }
@@ -135,6 +186,7 @@ public class CloningZombie : KinematicMonster
 
             forcedState=false;
             hasCloned=true;
+            weapon.Visible=true;
             OnIdle();
         }
         Navigation(delta);
@@ -166,6 +218,19 @@ public class CloningZombie : KinematicMonster
         Navigation(delta);
     }
 
+    protected override void OnAttack(Player player=null)
+    {
+        if(state!=STATE.attack)
+        {
+            base.OnAttack(player);
+            if(!LookingTo(Player.instance.GlobalPosition))
+            {
+                FlipH();
+            }
+            weapon.Attack();
+        }
+    }
+
     public override void OnPassanger(Player player=null)
     {
         if(forcedState)
@@ -189,12 +254,30 @@ public class CloningZombie : KinematicMonster
         {
             if(hasCloned)
             {
-                base.OnDamage(node,amount);
-                animationPlayer.Play("HIT");
+                if(MathUtils.RandBool())
+                {
+                    base.OnDamage(node,amount);
+                    animationPlayer.Play("HIT");
+                }
+                else
+                {
+                    OnAttack();
+                }
             }
             else
             {
-                OnAlert();
+                if(MathUtils.RandBool())
+                {
+                    OnAlert();
+                }
+                else if(hasCloned)
+                {
+                    OnAttack();
+                }
+                else
+                {
+                    OnIdle();   
+                }
             }
         }
     }
