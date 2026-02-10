@@ -170,6 +170,11 @@ public class Gate : Area2D,ISwitchable
 
     private void TeleportLevel()
     {
+        Dust dust=ResourceUtils.dust.Instance<Dust>();
+        dust.type=Dust.TYPE.DISAPEAR;
+        dust.Position=World.level.ToLocal(Player.instance.GlobalPosition);
+        World.level.AddChild(dust);
+
         Player.instance.Teleport(true);
         Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
         Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;
@@ -189,6 +194,12 @@ public class Gate : Area2D,ISwitchable
     private void TeleportPlayer()
     {
         Player.instance.GlobalPosition=GlobalPosition;
+
+        Dust dust=ResourceUtils.dust.Instance<Dust>();
+        dust.type=Dust.TYPE.APPEAR;
+        dust.Position=World.level.ToLocal(Player.instance.GlobalPosition);
+        World.level.AddChild(dust);        
+
         Player.instance.Teleport(false);
 
         if(oneWay)
