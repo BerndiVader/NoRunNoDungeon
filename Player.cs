@@ -353,6 +353,12 @@ public class Player : KinematicBody2D
                 velocity.y=-(JUMP_SPEED-levelYSpeed);
                 jumpParticles.Start(animationController.FlipH);
                 Renderer.instance.PlaySfx(sfxDoubleJump,Position);
+
+                Dust dust=ResourceUtils.dust.Instance<Dust>();
+                dust.FlipV=true;
+                dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
+                dust.type=Dust.TYPE.JUMP;
+                World.level.AddChild(dust);                
             }
         }
         else if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME)
