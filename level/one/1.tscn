@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://placeholders/monsters/Zombie.tscn" type="PackedScene" id=17]
 [ext_resource path="res://placeholders/obstacles/FlamethrowerHolder.tscn" type="PackedScene" id=18]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=19]
+[ext_resource path="res://placeholders/DirectionMarkerHolder.tscn" type="PackedScene" id=20]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -315,6 +316,9 @@ RESTORE_TO_DEFAULT = true
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 19 )]
 position = Vector2( 600, 200 )
+
+[node name="DirektionMarkerHolder" parent="." instance=ExtResource( 20 )]
+position = Vector2( 232, 249 )
 
 [editable path="PlatformMoving2x2"]
 [editable path="FlamethrowerHolder"]

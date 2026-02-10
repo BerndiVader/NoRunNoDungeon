@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://placeholders/ambients/TorchPlaceholder.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=11]
 [ext_resource path="res://placeholders/monsters/CannonHolder.tscn" type="PackedScene" id=12]
+[ext_resource path="res://placeholders/DirectionMarkerHolder.tscn" type="PackedScene" id=13]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -262,6 +263,28 @@ CANNONBALL_SETTINGS = {
 "USE_SETTINGS": true
 }
 
+[node name="DirektionMarkerHolder" parent="." instance=ExtResource( 13 )]
+position = Vector2( 224, 248 )
+
+[node name="DirektionMarkerHolder2" parent="." instance=ExtResource( 13 )]
+position = Vector2( 808, -376 )
+
+[node name="DirektionMarkerHolder3" parent="." instance=ExtResource( 13 )]
+position = Vector2( 1176, 248 )
+
+[node name="DirektionMarkerHolder4" parent="." instance=ExtResource( 13 )]
+position = Vector2( 824, 224 )
+
+[node name="DirectionMarker" parent="DirektionMarkerHolder4" index="0"]
+rotation = -1.5708
+
+[node name="DirektionMarkerHolder5" parent="." instance=ExtResource( 13 )]
+position = Vector2( 1112, -328 )
+
+[node name="DirectionMarker" parent="DirektionMarkerHolder5" index="0"]
+rotation = 1.5708
+flip_v = true
+
 [editable path="ControlHolder"]
 [editable path="ControlHolder3"]
 [editable path="GateHolder"]
@@ -277,3 +300,5 @@ CANNONBALL_SETTINGS = {
 [editable path="CannonHolder"]
 [editable path="CannonHolder2"]
 [editable path="CannonHolder3"]
+[editable path="DirektionMarkerHolder4"]
+[editable path="DirektionMarkerHolder5"]

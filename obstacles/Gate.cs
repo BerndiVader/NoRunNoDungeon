@@ -104,6 +104,12 @@ public class Gate : Area2D,ISwitchable
                     settings.restoreToDefault=false;
                     settings.Set();
                 }
+
+                Dust dust=ResourceUtils.dust.Instance<Dust>();
+                dust.type=Dust.TYPE.DISAPPEAR;
+                dust.Position=World.level.ToLocal(Player.instance.GlobalPosition);
+                World.level.AddChild(dust);
+
                 GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(TeleportCall),ID+companionID,GetInstanceId());
             }
         }
@@ -170,11 +176,6 @@ public class Gate : Area2D,ISwitchable
 
     private void TeleportLevel()
     {
-        Dust dust=ResourceUtils.dust.Instance<Dust>();
-        dust.type=Dust.TYPE.DISAPPEAR;
-        dust.Position=World.level.ToLocal(Player.instance.GlobalPosition);
-        World.level.AddChild(dust);
-
         Player.instance.Teleport(true);
         Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
         Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;

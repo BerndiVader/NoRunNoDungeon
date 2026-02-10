@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://level/tileset4.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=20]
 [ext_resource path="res://placeholders/obstacles/FallHammer.tscn" type="PackedScene" id=21]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=22]
+[ext_resource path="res://placeholders/DirectionMarkerHolder.tscn" type="PackedScene" id=23]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -245,6 +246,9 @@ RESTORE_TO_DEFAULT = true
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 22 )]
 position = Vector2( 792, 192 )
+
+[node name="DirektionMarkerHolder" parent="." instance=ExtResource( 23 )]
+position = Vector2( 320, 248 )
 
 [editable path="BatonSwinging"]
 [editable path="PlatformMoving3x3"]

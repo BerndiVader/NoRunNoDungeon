@@ -356,6 +356,7 @@ public class Player : KinematicBody2D
 
                 Dust dust=ResourceUtils.dust.Instance<Dust>();
                 dust.FlipV=true;
+                dust.Offset*=-1f;
                 dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
                 dust.type=Dust.TYPE.JUMP;
                 World.level.AddChild(dust);                

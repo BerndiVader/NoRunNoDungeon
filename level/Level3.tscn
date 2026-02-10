@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=13]
 [ext_resource path="res://placeholders/obstacles/DestroyableHolder.tscn" type="PackedScene" id=14]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=15]
+[ext_resource path="res://placeholders/DirectionMarkerHolder.tscn" type="PackedScene" id=16]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -262,6 +263,9 @@ position = Vector2( 2304, 168 )
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 15 )]
 position = Vector2( 480, 224 )
+
+[node name="DirektionMarkerHolder" parent="." instance=ExtResource( 16 )]
+position = Vector2( 184, 264 )
 
 [editable path="SpikesUp3"]
 [editable path="SpikesUp5"]
