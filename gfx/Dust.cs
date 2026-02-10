@@ -9,7 +9,7 @@ public class Dust : AnimatedSprite
         JUMP,
         RUN,
         APPEAR,
-        DISAPEAR
+        DISAPPEAR
     }
 
     public TYPE type;

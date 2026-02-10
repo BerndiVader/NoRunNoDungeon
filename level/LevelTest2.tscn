@@ -70,7 +70,6 @@ position = Vector2( 886, -367 )
 
 [node name="Saw" parent="SawHolder" index="0"]
 direction = 0
-Length = 3
 
 [node name="GateHolder3" parent="." instance=ExtResource( 5 )]
 position = Vector2( 800, -8 )

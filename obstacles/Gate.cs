@@ -171,7 +171,7 @@ public class Gate : Area2D,ISwitchable
     private void TeleportLevel()
     {
         Dust dust=ResourceUtils.dust.Instance<Dust>();
-        dust.type=Dust.TYPE.DISAPEAR;
+        dust.type=Dust.TYPE.DISAPPEAR;
         dust.Position=World.level.ToLocal(Player.instance.GlobalPosition);
         World.level.AddChild(dust);
 
