@@ -18,7 +18,7 @@
 [ext_resource path="res://placeholders/monsters/FairyPlaceholder.tscn" type="PackedScene" id=16]
 [ext_resource path="res://placeholders/obstacles/FlamethrowerHolder.tscn" type="PackedScene" id=17]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=18]
-[ext_resource path="res://placeholders/DirectionMarkerHolder.tscn" type="PackedScene" id=19]
+[ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=19]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -405,8 +405,8 @@ direction = 1
 [node name="SwordItemHolder" parent="." instance=ExtResource( 18 )]
 position = Vector2( 624, 248 )
 
-[node name="DirektionMarkerHolder" parent="." instance=ExtResource( 19 )]
-position = Vector2( 320, 248 )
+[node name="CheckpointHolder" parent="." instance=ExtResource( 19 )]
+position = Vector2( 1454, 234 )
 
 [editable path="HammerFall"]
 [editable path="RocksFalling"]

@@ -85,5 +85,5 @@ frames = SubResource( 18 )
 script = ExtResource( 2 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-position = Vector2( 0.5, -7.7486e-07 )
-scale = Vector2( 1.55, 2.1 )
+position = Vector2( 1.42857, 1.01328e-06 )
+scale = Vector2( 1.57143, 2 )

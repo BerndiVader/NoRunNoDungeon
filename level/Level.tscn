@@ -25,7 +25,7 @@
 [ext_resource path="res://placeholders/platforms/PlatformFalling.tscn" type="PackedScene" id=23]
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=24]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=25]
-[ext_resource path="res://placeholders/DirectionMarkerHolder.tscn" type="PackedScene" id=26]
+[ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=26]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -366,8 +366,8 @@ TIMEOUT = 15
 [node name="SwordItemHolder" parent="." instance=ExtResource( 25 )]
 position = Vector2( 552, 201 )
 
-[node name="DirektionMarkerHolder" parent="." instance=ExtResource( 26 )]
-position = Vector2( 272, 248 )
+[node name="CheckpointHolder" parent="." instance=ExtResource( 26 )]
+position = Vector2( 1886, 234 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]

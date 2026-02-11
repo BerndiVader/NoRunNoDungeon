@@ -22,7 +22,7 @@
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=20]
 [ext_resource path="res://placeholders/obstacles/FallHammer.tscn" type="PackedScene" id=21]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=22]
-[ext_resource path="res://placeholders/DirectionMarkerHolder.tscn" type="PackedScene" id=23]
+[ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=23]
 
 [node name="TileMap" type="TileMap"]
 tile_set = ExtResource( 1 )
@@ -247,8 +247,8 @@ RESTORE_TO_DEFAULT = true
 [node name="SwordItemHolder" parent="." instance=ExtResource( 22 )]
 position = Vector2( 792, 192 )
 
-[node name="DirektionMarkerHolder" parent="." instance=ExtResource( 23 )]
-position = Vector2( 320, 248 )
+[node name="CheckpointHolder" parent="." instance=ExtResource( 23 )]
+position = Vector2( 3547, 250 )
 
 [editable path="BatonSwinging"]
 [editable path="PlatformMoving3x3"]

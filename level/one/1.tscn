@@ -19,7 +19,7 @@
 [ext_resource path="res://placeholders/monsters/Zombie.tscn" type="PackedScene" id=17]
 [ext_resource path="res://placeholders/obstacles/FlamethrowerHolder.tscn" type="PackedScene" id=18]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=19]
-[ext_resource path="res://placeholders/DirectionMarkerHolder.tscn" type="PackedScene" id=20]
+[ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=20]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -317,8 +317,8 @@ RESTORE_TO_DEFAULT = true
 [node name="SwordItemHolder" parent="." instance=ExtResource( 19 )]
 position = Vector2( 600, 200 )
 
-[node name="DirektionMarkerHolder" parent="." instance=ExtResource( 20 )]
-position = Vector2( 232, 249 )
+[node name="CheckpointHolder" parent="." instance=ExtResource( 20 )]
+position = Vector2( 2928, 170 )
 
 [editable path="PlatformMoving2x2"]
 [editable path="FlamethrowerHolder"]

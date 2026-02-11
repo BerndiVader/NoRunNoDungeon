@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://placeholders/monsters/Zombie.tscn" type="PackedScene" id=9]
 [ext_resource path="res://placeholders/monsters/KnifeGoblinHolder.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/monsters/CloneZombieHolder.tscn" type="PackedScene" id=11]
+[ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=12]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -84,6 +85,9 @@ SWITCH_ID = "542e6a9c-65a5-4fa3-9d4a-24c3c8f4dd10"
 
 [node name="CloneZombiHolder2" parent="." instance=ExtResource( 11 )]
 position = Vector2( 768, 201 )
+
+[node name="CheckpointHolder" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1264, 234 )
 
 [editable path="ControlHolder"]
 [editable path="PlatformMoving3x3"]

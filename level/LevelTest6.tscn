@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -13,6 +13,8 @@
 [ext_resource path="res://placeholders/obstacles/SawHolder.tscn" type="PackedScene" id=11]
 [ext_resource path="res://placeholders/obstacles/SpikesUp.tscn" type="PackedScene" id=12]
 [ext_resource path="res://placeholders/obstacles/DirtballHolder.tscn" type="PackedScene" id=13]
+[ext_resource path="res://placeholders/DirectionMarkerHolder.tscn" type="PackedScene" id=14]
+[ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=15]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -259,6 +261,62 @@ position = Vector2( 1827, 443 )
 scale = Vector2( 1.5, 1.5 )
 spawn_facing = 2
 
+[node name="DirektionMarkerHolder" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1077, 240 )
+
+[node name="DirectionMarker" parent="DirektionMarkerHolder" index="0"]
+rotation = 1.5708
+flip_v = true
+
+[node name="DirektionMarkerHolder2" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1042, 790 )
+
+[node name="DirektionMarkerHolder3" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1717, 786 )
+
+[node name="DirectionMarker" parent="DirektionMarkerHolder3" index="0"]
+rotation = 1.5708
+flip_h = true
+flip_v = true
+
+[node name="DirektionMarkerHolder4" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1720, 679 )
+
+[node name="DirektionMarkerHolder5" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1784, 599 )
+
+[node name="DirectionMarker" parent="DirektionMarkerHolder5" index="0"]
+flip_h = true
+
+[node name="DirektionMarkerHolder6" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1624, 502 )
+
+[node name="DirektionMarkerHolder7" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1768, 390 )
+
+[node name="DirectionMarker" parent="DirektionMarkerHolder7" index="0"]
+flip_h = true
+
+[node name="DirektionMarkerHolder8" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1640, 278 )
+
+[node name="DirektionMarkerHolder9" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1829, 272 )
+
+[node name="DirectionMarker" parent="DirektionMarkerHolder9" index="0"]
+rotation = 1.5708
+flip_h = true
+flip_v = true
+
+[node name="DirektionMarkerHolder10" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1704, -361 )
+
+[node name="DirectionMarker" parent="DirektionMarkerHolder10" index="0"]
+flip_h = true
+
+[node name="CheckpointHolder" parent="." instance=ExtResource( 15 )]
+position = Vector2( 2554, 218 )
+
 [editable path="SwordItemHolder"]
 [editable path="ControlHolder"]
 [editable path="ControlHolder2"]
@@ -276,3 +334,9 @@ spawn_facing = 2
 [editable path="SpikesUp2"]
 [editable path="SpikesUp3"]
 [editable path="DirtballHolder"]
+[editable path="DirektionMarkerHolder"]
+[editable path="DirektionMarkerHolder3"]
+[editable path="DirektionMarkerHolder5"]
+[editable path="DirektionMarkerHolder7"]
+[editable path="DirektionMarkerHolder9"]
+[editable path="DirektionMarkerHolder10"]
