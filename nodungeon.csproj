@@ -25,6 +25,7 @@
     <Compile Include="enemies\RunningZombieHurting.cs" />
     <Compile Include="enemies\WalkingTree.cs" />
     <Compile Include="enemies\Fairy.cs" />
+    <Compile Include="gfx\CheckpointMarker.cs" />
     <Compile Include="gfx\CrtShader.cs" />
     <Compile Include="gfx\DirectionMarker.cs" />
     <Compile Include="gfx\Dust.cs" />
