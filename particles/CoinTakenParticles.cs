@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class CoinTakenParticles : Particles
+public class CoinTakenParticles : CPUParticles2D
 {
     private static Vector2 offset=new Vector2(0f,0.5f);
     public static AudioStream sfxSmall=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PickUp/Retro PickUp Coin 04.wav");
@@ -11,7 +11,9 @@ public class CoinTakenParticles : Particles
 
     public override void _Ready()
     {
-        base._Ready();
+        SetProcess(false);
+        SetProcessInput(false);
+
         audio.Position=Position;
         audio.VolumeDb=-10f;
         World.level.AddChild(audio);

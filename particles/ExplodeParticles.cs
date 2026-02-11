@@ -1,12 +1,13 @@
 using Godot;
 using System;
 
-public class ExplodeParticles : Particles
+public class ExplodeParticles : CPUParticles2D
 {
     public override void _Ready()
     {
-        base._Ready();
-
+        SetProcess(false);
+        SetProcessInput(false);
+        
         OneShot=true;
         Emitting=true;
     }
