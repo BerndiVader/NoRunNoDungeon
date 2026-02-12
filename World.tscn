@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://World.cs" type="Script" id=1]
 [ext_resource path="res://Renderer.cs" type="Script" id=2]
+[ext_resource path="res://gfx/SpeedTrailsTop.tscn" type="PackedScene" id=3]
+[ext_resource path="res://gfx/SpeedTrailsBottom.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0, 0.6, 1 )
@@ -36,3 +38,14 @@ environment = SubResource( 3 )
 
 [node name="Renderer" type="CanvasModulate" parent="."]
 script = ExtResource( 2 )
+
+[node name="SpeedTrailsBottom" parent="Renderer" instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 254, 293.198 )
+z_index = 2
+
+[node name="SpeedTrailsTop" parent="Renderer" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 257, 1.19791 )
+scale = Vector2( 1.0625, 0.218021 )
+z_index = 2
