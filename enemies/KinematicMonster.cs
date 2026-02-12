@@ -81,14 +81,20 @@ public abstract class KinematicMonster : KinematicBody2D
         SetPhysicsProcess(true);
         SetProcessInput(false);
 
+        collisionController=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
+        staticBody=GetNode<StaticBody2D>(nameof(StaticBody2D));
+        animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
+
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",this,nameof(OnScreenExited));
         notifier2D.Connect("screen_entered",this,nameof(OnScreenEntered));
         AddChild(notifier2D);
 
-        collisionController=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
-        staticBody=GetNode<StaticBody2D>(nameof(StaticBody2D));
-        animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
+        Vector2 size=animationController.Frames.GetFrame(animationController.Animation,animationController.Frame).GetSize();
+        Vector2 start=animationController.Position-(size*0.5f);
+        notifier2D.Rect=new Rect2(start,size);
+        notifier2D.Scale=Scale;
+        notifier2D.Rotation=Rotation;
 
         staticBody.AddUserSignal(STATE.damage.ToString());
         staticBody.Connect(STATE.damage.ToString(), this, nameof(OnDamage));
@@ -150,7 +156,7 @@ public abstract class KinematicMonster : KinematicBody2D
             ACTIVE_MONSTERS.Add(weakRef);
         }
     }
-
+ 
     public override void _PhysicsProcess(float delta)
     {
         direction=Direction();

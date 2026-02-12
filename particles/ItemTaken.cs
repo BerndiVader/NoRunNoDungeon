@@ -1,6 +1,6 @@
 using Godot;
 
-public class ItemTaken : Particles
+public class ItemTaken : CPUParticles2D
 {
     public static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PowerUp/Retro PowerUP StereoUP 05.wav");
     public readonly SfxPlayer audio=new SfxPlayer();
@@ -8,7 +8,9 @@ public class ItemTaken : Particles
 
     public override void _Ready()
     {
-        base._Ready();
+        SetProcess(false);
+        SetProcessInput(false);
+                
         audio.Stream=sfx;
         audio.Position=Position;
         audio.VolumeDb=-10f;

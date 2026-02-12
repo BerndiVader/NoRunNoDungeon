@@ -23,9 +23,12 @@
     <Compile Include="enemies\CloningZombie.cs" />
     <Compile Include="enemies\KnifeGoblin.cs" />
     <Compile Include="enemies\RunningZombieHurting.cs" />
+    <Compile Include="enemies\Shopkeeper.cs" />
     <Compile Include="enemies\WalkingTree.cs" />
     <Compile Include="enemies\Fairy.cs" />
+    <Compile Include="gfx\CheckpointMarker.cs" />
     <Compile Include="gfx\CrtShader.cs" />
+    <Compile Include="gfx\DirectionMarker.cs" />
     <Compile Include="gfx\Dust.cs" />
     <Compile Include="gfx\TileExploder.cs" />
     <Compile Include="gfx\TorchSprite.cs" />

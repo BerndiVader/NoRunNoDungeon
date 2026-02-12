@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://image/confetti.png" type="Texture" id=1]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 16, 16 )
+
+[node name="Confetti" type="CPUParticles2D"]
+position = Vector2( -1, 0 )
+amount = 50
+lifetime = 2.0
+speed_scale = 1.79
+explosiveness = 1.0
+randomness = 1.0
+lifetime_randomness = 0.31
+texture = SubResource( 1 )
+direction = Vector2( 0, -1 )
+spread = 74.38
+gravity = Vector2( 0, 200 )
+initial_velocity = 288.25
+initial_velocity_random = 0.72
+linear_accel = -45.4
+damping = 53.38
+damping_random = 0.69
+scale_amount = 0.4
+scale_amount_random = 0.37
+color = Color( 1, 0.00392157, 0.00392157, 1 )
+hue_variation = -0.66
+hue_variation_random = 0.62

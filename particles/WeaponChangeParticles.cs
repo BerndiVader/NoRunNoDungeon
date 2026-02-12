@@ -5,6 +5,9 @@ public class WeaponChangeParticles : CPUParticles2D
 {
     public override void _Ready()
     {
+        SetProcess(false);
+        SetProcessInput(false);
+
         OneShot=true;
         Emitting=true;
     }

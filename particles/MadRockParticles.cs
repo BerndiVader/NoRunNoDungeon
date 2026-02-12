@@ -1,11 +1,13 @@
 using Godot;
 using System;
 
-public class MadRockParticles : Particles
+public class MadRockParticles : CPUParticles2D
 {
     public override void _Ready()
     {
-        base._Ready();
+        SetProcess(false);
+        SetProcessInput(false);
+
         OneShot=true;
         Emitting=true;
     }

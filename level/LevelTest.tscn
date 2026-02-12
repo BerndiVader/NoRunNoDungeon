@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -24,6 +24,7 @@
 [ext_resource path="res://placeholders/ambients/TorchPlaceholder.tscn" type="PackedScene" id=22]
 [ext_resource path="res://placeholders/obstacles/FlamethrowerHolder.tscn" type="PackedScene" id=23]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=24]
+[ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=25]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -101,7 +102,6 @@ position = Vector2( 1088, 227 )
 
 [node name="HiddenDoor" parent="DoorHidden" index="0"]
 type = 2
-oneShoot = true
 switchID = "ed495a73-064d-47bf-b377-5a12e293611c"
 
 [node name="DoorHidden2" parent="." instance=ExtResource( 13 )]
@@ -515,6 +515,9 @@ position = Vector2( 1112, -552 )
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 24 )]
 position = Vector2( 584, 208 )
+
+[node name="CheckpointHolder" parent="." instance=ExtResource( 25 )]
+position = Vector2( 1870, 234 )
 
 [editable path="Placeholder"]
 [editable path="TreeWalking"]

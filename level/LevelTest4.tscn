@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=11]
 [ext_resource path="res://placeholders/monsters/CannonHolder.tscn" type="PackedScene" id=12]
 [ext_resource path="res://placeholders/obstacles/PhysicsBlockDestHolder.tscn" type="PackedScene" id=13]
+[ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=14]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -181,6 +182,9 @@ position = Vector2( 1248, 184 )
 
 [node name="PhysicsBlockDestroyHolder6" parent="." instance=ExtResource( 13 )]
 position = Vector2( 1264, 152 )
+
+[node name="CheckpointHolder" parent="." instance=ExtResource( 14 )]
+position = Vector2( 2222, 170 )
 
 [editable path="FairyPlaceholder"]
 [editable path="GateHolder"]

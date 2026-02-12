@@ -3,6 +3,7 @@ using System;
 
 public class RunningZombieHurting : RunningZombie
 {
+    private static readonly AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/8_Atk_Magic_SFX/30_Earth_02.wav");
     private RayCast2D playerCast;
     private Area2D area;
 
@@ -46,6 +47,12 @@ public class RunningZombieHurting : RunningZombie
         }
         else if(animationController.Frame==3)
         {
+
+            SfxPlayer fx=new SfxPlayer();
+            fx.Position=Position;
+            fx.Stream=sfx;
+            World.level.AddChild(fx);
+
             area.Monitoring=true;
             cooldowner_time=0.1f;
             cooldowner=0f;

@@ -8,6 +8,8 @@ public class Dust : AnimatedSprite
         FALL,
         JUMP,
         RUN,
+        APPEAR,
+        DISAPPEAR
     }
 
     public TYPE type;
@@ -17,6 +19,11 @@ public class Dust : AnimatedSprite
         SetPhysicsProcess(false);
         SetProcess(false);
         SetProcessInput(false);
+
+        if((int)type>2)
+        {
+            Offset=Vector2.Zero;
+        }
         
         Connect("animation_finished",this,nameof(OnFinish));
         Play(type.ToString());

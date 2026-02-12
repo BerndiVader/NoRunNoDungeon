@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://placeholders/monsters/FairyPlaceholder.tscn" type="PackedScene" id=16]
 [ext_resource path="res://placeholders/obstacles/FlamethrowerHolder.tscn" type="PackedScene" id=17]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=18]
+[ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=19]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -44,20 +45,13 @@ position = Vector2( 1049, 234 )
 rotation = 2.00015
 mode = 1
 switchID = "a68ea70f-5d77-4eb9-a103-8c4b65d9041c"
-activationRange = 100.0
-destroyables = true
+DESTROYABLES = true
 
 [node name="RocksFalling" parent="." instance=ExtResource( 5 )]
 position = Vector2( 912, 145 )
 
-[node name="Rock" parent="RocksFalling" index="0"]
-ActivationDistance = 1.0
-
 [node name="RocksFalling2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 832, 145 )
-
-[node name="Rock" parent="RocksFalling2" index="0"]
-ActivationDistance = 1.0
 
 [node name="Switch" parent="." instance=ExtResource( 6 )]
 position = Vector2( 872, 177 )
@@ -68,26 +62,50 @@ SWITCH_ID = "a68ea70f-5d77-4eb9-a103-8c4b65d9041c"
 [node name="DestroyableHolder" parent="." instance=ExtResource( 7 )]
 position = Vector2( 952, 216 )
 
+[node name="Destroyables" parent="DestroyableHolder" index="0"]
+NOT_PLAYER = true
+
 [node name="DestroyableHolder2" parent="." instance=ExtResource( 7 )]
 position = Vector2( 968, 184 )
+
+[node name="Destroyables" parent="DestroyableHolder2" index="0"]
+NOT_PLAYER = true
 
 [node name="DestroyableHolder3" parent="." instance=ExtResource( 7 )]
 position = Vector2( 968, 200 )
 
+[node name="Destroyables" parent="DestroyableHolder3" index="0"]
+NOT_PLAYER = true
+
 [node name="DestroyableHolder5" parent="." instance=ExtResource( 7 )]
 position = Vector2( 968, 216 )
+
+[node name="Destroyables" parent="DestroyableHolder5" index="0"]
+NOT_PLAYER = true
 
 [node name="DestroyableHolder6" parent="." instance=ExtResource( 7 )]
 position = Vector2( 952, 232 )
 
+[node name="Destroyables" parent="DestroyableHolder6" index="0"]
+NOT_PLAYER = true
+
 [node name="DestroyableHolder7" parent="." instance=ExtResource( 7 )]
 position = Vector2( 968, 232 )
+
+[node name="Destroyables" parent="DestroyableHolder7" index="0"]
+NOT_PLAYER = true
 
 [node name="DestroyableHolder8" parent="." instance=ExtResource( 7 )]
 position = Vector2( 952, 248 )
 
+[node name="Destroyables" parent="DestroyableHolder8" index="0"]
+NOT_PLAYER = true
+
 [node name="DestroyableHolder9" parent="." instance=ExtResource( 7 )]
 position = Vector2( 968, 248 )
+
+[node name="Destroyables" parent="DestroyableHolder9" index="0"]
+NOT_PLAYER = true
 
 [node name="Switch2" parent="." instance=ExtResource( 6 )]
 position = Vector2( 952, 257 )
@@ -386,6 +404,9 @@ direction = 1
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 18 )]
 position = Vector2( 624, 248 )
+
+[node name="CheckpointHolder" parent="." instance=ExtResource( 19 )]
+position = Vector2( 1454, 234 )
 
 [editable path="HammerFall"]
 [editable path="RocksFalling"]

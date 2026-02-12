@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://placeholders/obstacles/DestroyableHolder.tscn" type="PackedScene" id=4]
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=6]
+[ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=7]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -225,6 +226,9 @@ SWITCH_ID = "eadaf243-f70a-48ad-9125-d2e596f42bf0"
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 6 )]
 position = Vector2( 624, 240 )
+
+[node name="CheckpointHolder" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1454, 234 )
 
 [editable path="ControlHolder"]
 [editable path="Switch"]
