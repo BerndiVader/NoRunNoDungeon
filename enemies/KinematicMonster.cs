@@ -54,6 +54,7 @@ public abstract class KinematicMonster : KinematicBody2D
     protected CollisionShape2D collisionController;
     protected StaticBody2D staticBody;
     protected AnimatedSprite animationController;
+    protected readonly VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
 
     protected float health;
     protected Vector2 startOffset = Vector2.Zero;
@@ -85,7 +86,6 @@ public abstract class KinematicMonster : KinematicBody2D
         staticBody=GetNode<StaticBody2D>(nameof(StaticBody2D));
         animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
 
-        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",this,nameof(OnScreenExited));
         notifier2D.Connect("screen_entered",this,nameof(OnScreenEntered));
         AddChild(notifier2D);

@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://enemies/Shopkeeper.cs" type="Script" id=1]
 [ext_resource path="res://image/0x72/shopkeeper.png" type="Texture" id=2]
+[ext_resource path="res://sounds/ingame/shop_music.wav" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 3.5, 6 )
@@ -186,3 +187,8 @@ animation = "idle"
 anims/HIT = SubResource( 4 )
 anims/PASSANGER = SubResource( 5 )
 anims/SETUP = SubResource( 6 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -15.0
+bus = "Background"

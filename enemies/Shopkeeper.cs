@@ -3,9 +3,14 @@ using System;
 
 public class Shopkeeper : KinematicMonster
 {
+    private AudioStreamPlayer player;
 
     public override void _Ready()
     {
+        player=GetNode<AudioStreamPlayer>(nameof(AudioStreamPlayer));
+        player.Connect("finished",this,nameof(OnMusicStop));
+        player.Play();
+
         base._Ready();
 
 		SetSpawnFacing();
@@ -30,6 +35,11 @@ public class Shopkeeper : KinematicMonster
             return;
         }
 
+    }
+
+    private void OnMusicStop()
+    {
+        player.Play();
     }
 
 
