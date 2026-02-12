@@ -6,19 +6,34 @@ public class Renderer : CanvasModulate
     public static Renderer instance;
     [Export] private float ShakeMax=6f;
     private float shake;
+    private Sprite trailtop,trailbottom;
     
     public override void _Ready()
     {
         instance=this;
         shake=0f;
+
+        trailtop=GetNode<Sprite>("SpeedTrailsTop");
+        trailbottom=GetNode<Sprite>("SpeedTrailsBottom");
+
     }
 
     public override void _PhysicsProcess(float delta)
     {
+        if(World.level.speed>120f)
+        {
+            trailtop.Visible=trailbottom.Visible=true;
+        }
+        else
+        {
+            trailtop.Visible=trailbottom.Visible=false;
+        }
+
         if(shake!=0d) 
         {
             ApplyShake();
         }
+
     }
 
     private void ApplyShake()
