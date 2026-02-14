@@ -89,14 +89,12 @@ public class World : Node
 	private float current_distance;
 	public int overall_coins;
 
-	private AudioStreamPlayer2D musicPlayer;
+	public readonly AudioStreamPlayer musicPlayer=new AudioStreamPlayer();
 
 	public override void _Ready()
 	{
-		musicPlayer=new AudioStreamPlayer2D();
 		musicPlayer.Bus="Background";
 		OnMusicFinishedPlaying();
-		musicPlayer.Position=new Vector2(RESOLUTION.x*0.5f,RESOLUTION.y*0.5f);
 		musicPlayer.Connect("finished",this,nameof(OnMusicFinishedPlaying));
 		AddChild(musicPlayer);
 		musicPlayer.Play();
@@ -164,7 +162,6 @@ public class World : Node
 		if(Mathf.Abs(level.Position.x)>=level.pixelLength-RESOLUTION.x)
 		{
 			SetGamestate(Gamestate.SCENE_CHANGE);
-			Worker.SetStatus(Worker.State.PREPARELEVEL);
 			return;
 		}
 
@@ -253,22 +250,27 @@ public class World : Node
 		state=s;
 		switch(state)
 		{
+			case Gamestate.RESTART:
+				goal=SceneIdle;
+				break;
 			case Gamestate.SCENE_CHANGED:
 				goal=SceneChanged;
 				break;
 			case Gamestate.SCENE_CHANGE:
+				Worker.SetStatus(Worker.State.PREPARELEVEL);
 				goal=SceneChange;
 				break;
-			case Gamestate.RUNNING:
 			case Gamestate.DIEING:
+			case Gamestate.RUNNING:
 			case Gamestate.BONUS:
 			case Gamestate.KEEP:
 			case Gamestate.BOSS:
-			case Gamestate.SHOP:
+				musicPlayer.StreamPaused=false;
 				goal=SceneRunning;
 				break;
-			default:
-				goal=SceneIdle;
+			case Gamestate.SHOP:
+				musicPlayer.StreamPaused=true;
+				goal=SceneRunning;
 				break;
 		}
 	}

@@ -21,6 +21,12 @@ public class Shopkeeper : KinematicMonster
     {
         base._PhysicsProcess(delta);
 		goal(delta);
+
+        if(!notifier2D.IsOnScreen())
+        {
+            QueueFree();
+        }
+
     }
 
     protected override void Idle(float delta)
@@ -41,7 +47,5 @@ public class Shopkeeper : KinematicMonster
     {
         player.Play();
     }
-
-
 
 }
