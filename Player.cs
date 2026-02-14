@@ -108,7 +108,7 @@ public class Player : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
-        if((int)World.state<3||onTeleport)
+        if(World.state<=Gamestate.DIEING||onTeleport)
         {
             return;
         }

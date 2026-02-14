@@ -76,7 +76,7 @@ position = Vector2( 352, -442 )
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "11"
 style = 0
-changeStateTo = 4
+changeStateTo = 5
 oneWay = true
 
 [node name="Gate" parent="." instance=ExtResource( 7 )]
@@ -84,7 +84,7 @@ position = Vector2( 2280, 229 )
 companionID = "11"
 type = 2
 style = 0
-changeStateTo = 4
+changeStateTo = 5
 oneWay = true
 LEVEL_SETTINGS = {
 "Dir": Vector2( 0, 0 ),

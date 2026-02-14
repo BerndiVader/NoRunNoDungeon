@@ -153,7 +153,7 @@ position = Vector2( 936, 246 )
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "11"
 style = 0
-changeStateTo = 9
+changeStateTo = 6
 
 [node name="GateHolder2" parent="." instance=ExtResource( 13 )]
 position = Vector2( 600, 54 )
@@ -162,7 +162,7 @@ position = Vector2( 600, 54 )
 companionID = "11"
 type = 1
 style = 0
-changeStateTo = 9
+changeStateTo = 6
 
 [node name="ControlHolder" parent="." instance=ExtResource( 14 )]
 position = Vector2( 824, 80 )

@@ -41,7 +41,7 @@ position = Vector2( 1016, 246 )
 
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "1"
-changeStateTo = 4
+changeStateTo = 5
 oneWay = true
 
 [node name="GateHolder2" parent="." instance=ExtResource( 3 )]
@@ -50,7 +50,7 @@ position = Vector2( 1112, -26 )
 [node name="Gate" parent="GateHolder2" index="0"]
 companionID = "1"
 type = 1
-changeStateTo = 4
+changeStateTo = 5
 oneWay = true
 
 [node name="GateHolder3" parent="." instance=ExtResource( 3 )]
@@ -59,7 +59,7 @@ position = Vector2( 1528, -26 )
 [node name="Gate" parent="GateHolder3" index="0"]
 companionID = "2"
 closed = true
-changeStateTo = 4
+changeStateTo = 5
 oneWay = true
 switchID = "22"
 LEVEL_SETTINGS = {
@@ -84,7 +84,7 @@ position = Vector2( 1528, 182 )
 companionID = "2"
 type = 2
 closed = true
-changeStateTo = 4
+changeStateTo = 5
 oneWay = true
 
 [node name="FlamethrowerHolder" parent="." instance=ExtResource( 5 )]

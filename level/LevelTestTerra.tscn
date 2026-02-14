@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -7,6 +7,11 @@
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=6]
 [ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=7]
+[ext_resource path="res://placeholders/monsters/ChestMimic.tscn" type="PackedScene" id=8]
+[ext_resource path="res://placeholders/monsters/ZombieRunning.tscn" type="PackedScene" id=9]
+[ext_resource path="res://placeholders/monsters/Zombie.tscn" type="PackedScene" id=10]
+[ext_resource path="res://placeholders/monsters/FairyPlaceholder.tscn" type="PackedScene" id=11]
+[ext_resource path="res://placeholders/monsters/TreeWalking.tscn" type="PackedScene" id=12]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -229,6 +234,27 @@ position = Vector2( 624, 240 )
 
 [node name="CheckpointHolder" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1454, 234 )
+
+[node name="ChestMimic" parent="." instance=ExtResource( 8 )]
+position = Vector2( 792, 232 )
+
+[node name="ZombieRunning" parent="." instance=ExtResource( 9 )]
+position = Vector2( 976, 216 )
+
+[node name="ZombieRunning2" parent="." instance=ExtResource( 9 )]
+position = Vector2( 752, 136 )
+
+[node name="ZombieRunning3" parent="." instance=ExtResource( 9 )]
+position = Vector2( 864, 168 )
+
+[node name="Zombie" parent="." instance=ExtResource( 10 )]
+position = Vector2( 968, 104 )
+
+[node name="FairyPlaceholder" parent="." instance=ExtResource( 11 )]
+position = Vector2( 1120, 56 )
+
+[node name="TreeWalking" parent="." instance=ExtResource( 12 )]
+position = Vector2( 720, 0 )
 
 [editable path="ControlHolder"]
 [editable path="Switch"]

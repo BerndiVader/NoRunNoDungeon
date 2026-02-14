@@ -57,7 +57,7 @@ position = Vector2( 791, 247 )
 
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "11"
-changeStateTo = 9
+changeStateTo = 6
 
 [node name="GateHolder2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 793, 152 )
@@ -65,7 +65,7 @@ position = Vector2( 793, 152 )
 [node name="Gate" parent="GateHolder2" index="0"]
 companionID = "11"
 type = 1
-changeStateTo = 9
+changeStateTo = 6
 
 [node name="SawHolder" parent="." instance=ExtResource( 6 )]
 position = Vector2( 886, -367 )
@@ -78,7 +78,7 @@ position = Vector2( 800, -8 )
 
 [node name="Gate" parent="GateHolder3" index="0"]
 companionID = "33"
-changeStateTo = 9
+changeStateTo = 6
 
 [node name="GateHolder4" parent="." instance=ExtResource( 5 )]
 position = Vector2( 744, -153 )
@@ -86,7 +86,7 @@ position = Vector2( 744, -153 )
 [node name="Gate" parent="GateHolder4" index="0"]
 companionID = "33"
 type = 1
-changeStateTo = 9
+changeStateTo = 6
 
 [node name="GateHolder5" parent="." instance=ExtResource( 5 )]
 position = Vector2( 656, -200 )
@@ -94,7 +94,7 @@ position = Vector2( 656, -200 )
 [node name="Gate" parent="GateHolder5" index="0"]
 companionID = "44"
 style = 0
-changeStateTo = 9
+changeStateTo = 6
 
 [node name="GateHolder6" parent="." instance=ExtResource( 5 )]
 position = Vector2( 720, -328 )
@@ -102,7 +102,7 @@ position = Vector2( 720, -328 )
 [node name="Gate" parent="GateHolder6" index="0"]
 companionID = "44"
 style = 0
-changeStateTo = 9
+changeStateTo = 6
 
 [node name="SpikesUp" parent="." instance=ExtResource( 8 )]
 position = Vector2( 1145, 62 )

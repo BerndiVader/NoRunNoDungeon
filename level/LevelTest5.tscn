@@ -60,7 +60,7 @@ position = Vector2( 2188, 23 )
 [node name="Gate" parent="GateHolder2" index="0"]
 companionID = "44"
 closed = true
-changeStateTo = 4
+changeStateTo = 5
 oneWay = true
 switchID = "4d02fea8-ae0b-4dbc-8ec8-d620aca12a90"
 
@@ -73,7 +73,7 @@ position = Vector2( 1103, 246 )
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "11"
 style = 0
-changeStateTo = 4
+changeStateTo = 5
 oneWay = true
 
 [node name="CannonHolder" parent="." instance=ExtResource( 3 )]
@@ -113,6 +113,7 @@ position = Vector2( 1811, 262 )
 companionID = "11"
 type = 2
 style = 0
+changeStateTo = 5
 oneWay = true
 
 [node name="CannonHolder2" parent="." instance=ExtResource( 3 )]
@@ -172,7 +173,7 @@ position = Vector2( 1273, 239 )
 position = Vector2( 2675, 214 )
 companionID = "44"
 type = 2
-changeStateTo = 4
+changeStateTo = 5
 oneWay = true
 LEVEL_SETTINGS = {
 "Dir": Vector2( -1, 0 ),
