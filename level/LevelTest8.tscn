@@ -42,6 +42,9 @@ LEVEL_SETTINGS = {
 [node name="ShopkeeperHolder" parent="." instance=ExtResource( 4 )]
 position = Vector2( 800, -216 )
 
+[node name="Shopkeeper" parent="ShopkeeperHolder" index="0"]
+SPAWN_LEFT_WEIGHT = 99
+
 [node name="CheckpointHolder" parent="." instance=ExtResource( 5 )]
 position = Vector2( 1276, 233 )
 
@@ -58,4 +61,5 @@ type = 1
 changeStateTo = 8
 
 [editable path="GateHolder"]
+[editable path="ShopkeeperHolder"]
 [editable path="SwordItemHolder"]

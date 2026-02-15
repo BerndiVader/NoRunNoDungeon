@@ -3,7 +3,9 @@ using System;
 
 public class Shopkeeper : KinematicMonster
 {
+    private Vector2 shopOffset;
     private AudioStreamPlayer player;
+    private ShopUI shop;
 
     public override void _Ready()
     {
@@ -14,6 +16,11 @@ public class Shopkeeper : KinematicMonster
         base._Ready();
 
 		SetSpawnFacing();
+
+        shop=GetNode<ShopUI>("Shop");
+        shopOffset=shop.RectPosition;
+        shop.owner=this;
+
         OnIdle();
     }
 
@@ -31,6 +38,23 @@ public class Shopkeeper : KinematicMonster
 
     protected override void Idle(float delta)
     {
+        if(DistanceToPlayer()<10f)
+        {
+            if(!shop.Visible)
+            {
+                RemoveChild(shop);
+                shop.RectPosition=GlobalPosition+shopOffset;
+                HUD.instance.AddChild(shop);
+                shop.Visible=true;
+            }
+        }
+        else if(shop.Visible)
+        {
+            shop.Visible=false;
+            HUD.instance.RemoveChild(shop);
+            AddChild(shop);
+        }
+
         Navigation(delta);
     }
 

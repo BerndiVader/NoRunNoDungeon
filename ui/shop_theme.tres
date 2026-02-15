@@ -1,0 +1,130 @@
+[gd_resource type="Theme" load_steps=14 format=2]
+
+[ext_resource path="res://fonts/m6x11.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://ui/GUI/GUI_2x.png" type="Texture" id=2]
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 2 )
+region_rect = Rect2( 224, 96, 32, 32 )
+margin_left = 4.0
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id=4]
+texture = ExtResource( 2 )
+region_rect = Rect2( 224, 96, 32, 32 )
+margin_left = 4.0
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 2 )
+region_rect = Rect2( 224, 96, 32, 32 )
+margin_left = 4.0
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id=6]
+texture = ExtResource( 2 )
+region_rect = Rect2( 224, 96, 32, 32 )
+margin_left = 4.18746
+margin_right = 4.37768
+margin_top = 4.371
+margin_bottom = 4.20241
+
+[sub_resource type="StyleBoxTexture" id=7]
+texture = ExtResource( 2 )
+region_rect = Rect2( 224, 96, 32, 32 )
+margin_left = 4.0
+margin_right = 4.0
+margin_top = 4.0
+margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 176, 80, 24 )
+margin_left = 10.281
+margin_right = 8.48595
+margin_top = 8.51405
+margin_bottom = 8.34132
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="DynamicFont" id=1]
+size = 10
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxTexture" id=8]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 176, 80, 24 )
+margin_left = 10.0
+margin_right = 8.0
+margin_top = 8.0
+margin_bottom = 8.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[sub_resource type="StyleBoxTexture" id=9]
+texture = ExtResource( 2 )
+region_rect = Rect2( 80, 176, 48, 16 )
+margin_left = 6.0
+margin_right = 6.0
+margin_top = 6.0
+margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id=10]
+
+[sub_resource type="StyleBoxTexture" id=11]
+texture = ExtResource( 2 )
+region_rect = Rect2( 256, 96, 32, 32 )
+margin_left = 6.0
+margin_right = 6.0
+margin_top = 6.0
+margin_bottom = 6.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[resource]
+default_font = SubResource( 1 )
+Button/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
+Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+Button/colors/font_color_focus = Color( 0.94, 0.94, 0.94, 1 )
+Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+Button/colors/font_color_hover_pressed = Color( 1, 1, 1, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/colors/icon_color_disabled = Color( 1, 1, 1, 0.4 )
+Button/colors/icon_color_focus = Color( 1, 1, 1, 1 )
+Button/colors/icon_color_hover = Color( 1, 1, 1, 1 )
+Button/colors/icon_color_hover_pressed = Color( 1, 1, 1, 1 )
+Button/colors/icon_color_normal = Color( 1, 1, 1, 1 )
+Button/colors/icon_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 2
+Button/styles/disabled = SubResource( 3 )
+Button/styles/focus = SubResource( 4 )
+Button/styles/hover = SubResource( 5 )
+Button/styles/normal = SubResource( 6 )
+Button/styles/pressed = SubResource( 7 )
+Panel/styles/panel = SubResource( 2 )
+TabContainer/colors/font_color_bg = Color( 0.4, 0.4, 0.4, 1 )
+TabContainer/colors/font_color_disabled = Color( 0.588235, 0.560784, 0.560784, 0.2 )
+TabContainer/colors/font_color_fg = Color( 1, 1, 1, 1 )
+TabContainer/fonts/font = SubResource( 1 )
+TabContainer/icons/decrement = null
+TabContainer/icons/decrement_highlight = null
+TabContainer/icons/increment = null
+TabContainer/icons/increment_highlight = null
+TabContainer/icons/menu = null
+TabContainer/icons/menu_highlight = null
+TabContainer/styles/panel = SubResource( 8 )
+TabContainer/styles/tab_bg = SubResource( 9 )
+TabContainer/styles/tab_disabled = SubResource( 10 )
+TabContainer/styles/tab_fg = SubResource( 11 )
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/decrement_pressed = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/icons/increment_pressed = null

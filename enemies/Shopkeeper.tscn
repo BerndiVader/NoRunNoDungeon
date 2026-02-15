@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://enemies/Shopkeeper.cs" type="Script" id=1]
 [ext_resource path="res://image/0x72/shopkeeper.png" type="Texture" id=2]
 [ext_resource path="res://sounds/ingame/shop_music.wav" type="AudioStream" id=3]
+[ext_resource path="res://ui/ShopUI.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 3.5, 6 )
@@ -166,6 +167,13 @@ RIDEABLE = false
 DESTORYABLE = false
 INTERACTABLE = true
 spawn_facing = 1
+
+[node name="Shop" parent="." instance=ExtResource( 4 )]
+visible = false
+margin_left = 7.0
+margin_top = -122.0
+margin_right = 183.0
+margin_bottom = -10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, 1 )
