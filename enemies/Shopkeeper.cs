@@ -45,11 +45,15 @@ public class Shopkeeper : KinematicMonster
                 RemoveChild(shop);
                 shop.RectPosition=GlobalPosition+shopOffset;
                 HUD.instance.AddChild(shop);
+                shop.Init();
                 shop.Visible=true;
+                shop.SetPhysicsProcess(true);
+                World.instance.musicPlayer.Playing=false;
             }
         }
         else if(shop.Visible)
         {
+            shop.SetPhysicsProcess(false);
             shop.Visible=false;
             HUD.instance.RemoveChild(shop);
             AddChild(shop);
