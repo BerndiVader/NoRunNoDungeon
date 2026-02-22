@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class ResourceUtils
 {
-    public static readonly bool DEBUG=true;
+    public static readonly bool DEBUG=false;
     public static readonly float MAX_SFX_DISTANCE=512f;
     public static readonly int PLAYER_LIVES_DEFAULT=3;
     public static readonly int PLAYER_LIVES_MAX=6;
