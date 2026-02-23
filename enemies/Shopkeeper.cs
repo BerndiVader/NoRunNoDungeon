@@ -57,6 +57,7 @@ public class Shopkeeper : KinematicMonster
             shop.Visible=false;
             HUD.instance.RemoveChild(shop);
             AddChild(shop);
+            World.instance.musicPlayer.Playing=true;
         }
 
         Navigation(delta);

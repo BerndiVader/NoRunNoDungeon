@@ -11,39 +11,43 @@
 [node name="Buttons" type="Node2D"]
 modulate = Color( 1, 1, 1, 0.784314 )
 light_mask = 0
-position = Vector2( 465, 244 )
+position = Vector2( 456, 237 )
 scale = Vector2( 2, 2 )
 z_index = 1500
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 237.0 ],
-"_edit_vertical_guides_": [ 480.0 ]
+"_edit_vertical_guides_": [ 456.0 ]
 }
 
 [node name="X" type="TouchScreenButton" parent="."]
 light_mask = 0
-position = Vector2( -8, 5.5 )
+position = Vector2( -9.5, 4 )
+scale = Vector2( 1.2, 1.2 )
 normal = ExtResource( 1 )
 pressed = ExtResource( 5 )
 script = ExtResource( 6 )
 
 [node name="A" type="TouchScreenButton" parent="."]
 light_mask = 0
-position = Vector2( -8, -21 )
+position = Vector2( -9.5, -22.5 )
+scale = Vector2( 1.2, 1.2 )
 normal = ExtResource( 3 )
 pressed = ExtResource( 5 )
 script = ExtResource( 6 )
 
 [node name="O" type="TouchScreenButton" parent="."]
 light_mask = 0
-position = Vector2( 7.5, -8 )
+position = Vector2( 6, -9.5 )
+scale = Vector2( 1.2, 1.2 )
 normal = ExtResource( 2 )
 pressed = ExtResource( 5 )
 script = ExtResource( 6 )
 
 [node name="0" type="TouchScreenButton" parent="."]
 light_mask = 0
-position = Vector2( -23.5, -8 )
+position = Vector2( -25, -9.5 )
+scale = Vector2( 1.2, 1.2 )
 normal = ExtResource( 4 )
 pressed = ExtResource( 5 )
 script = ExtResource( 6 )
