@@ -123,7 +123,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest8.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTestTerra.tscn"));
         }
         else
         {
