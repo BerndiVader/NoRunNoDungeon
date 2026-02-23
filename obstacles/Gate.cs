@@ -42,6 +42,7 @@ public class Gate : Area2D,ISwitchable
     private Settings settings;
     private Gamestate gamestate;
     private AnimatedSprite sprite;
+    private Position2D position2D;
 
     public override void _Ready()
     {
@@ -62,6 +63,8 @@ public class Gate : Area2D,ISwitchable
         {
             oneTime=true;
         }
+
+        position2D=GetNode<Position2D>(nameof(Position2D));
 
         sprite=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         sprite.Animation=style.ToString();
@@ -177,7 +180,7 @@ public class Gate : Area2D,ISwitchable
     private void TeleportLevel()
     {
         Player.instance.Teleport(true);
-        Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
+        Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(position2D.GlobalPosition);
         Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;
 
         if(type==TYPE.EXIT_WITH_0Y)
