@@ -6,11 +6,12 @@ public abstract class PhysicsObject : KinematicBody2D
     [Export] protected float FRICTION=0.7f;
     [Export] protected Vector2 GRAVITY=new Vector2(0,300f);
 
+    protected readonly VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
+
     protected Vector2 velocity=Vector2.Zero;
 
     public override void _Ready()
     {
-        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
     }

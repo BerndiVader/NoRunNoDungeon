@@ -5,9 +5,19 @@ public class PhysicsBlock : PhysicsObject
 {
     [Export] protected float STOP_FORCE=1300f;
 
+    private CollisionShape2D collision;
+
     public override void _Ready()
     {
         base._Ready();
+        collision=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
+
+        Vector2 size=((RectangleShape2D)collision.Shape).Extents*2f;
+        Vector2 start=collision.Position-(size*0.5f);
+
+        notifier2D.Rect=new Rect2(start,size);
+        notifier2D.Scale=Scale;
+        notifier2D.Rotation=Rotation;
     }
 
     public override void _PhysicsProcess(float delta)
