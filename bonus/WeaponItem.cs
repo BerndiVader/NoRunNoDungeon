@@ -31,6 +31,7 @@ public class WeaponItem : Bonus
         animation.Material=material;
 
         Connect("body_entered",this,nameof(OnEnteredBody));
+
     }
 
     public override void _PhysicsProcess(float delta)
@@ -54,6 +55,7 @@ public class WeaponItem : Bonus
             World.level.CallDeferred("add_child",taken);
             player.CallDeferred("EquipWeapon",ResourceUtils.weapons[(int)WEAPON_TYPE]);
             CallDeferred("queue_free");
+            BuffBlind.Create(Vector2.One,120);
         }
     }
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -26,6 +26,10 @@
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=24]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=25]
 [ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=26]
+[ext_resource path="res://placeholders/ambients/CandleBigHolder.tscn" type="PackedScene" id=27]
+[ext_resource path="res://placeholders/ambients/TorchLeftHolder.tscn" type="PackedScene" id=28]
+[ext_resource path="res://placeholders/ambients/CandleSmallHolder.tscn" type="PackedScene" id=29]
+[ext_resource path="res://placeholders/ambients/TorchRightHolder.tscn" type="PackedScene" id=30]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -173,7 +177,7 @@ LEVEL_SETTINGS = {
 "Dir": Vector2( 0, 0 ),
 "Speed": 0.0,
 "Use": true,
-"Zoom": 0.5
+"Zoom": 0.6
 }
 
 [node name="BearPlaceholder" parent="." instance=ExtResource( 14 )]
@@ -368,6 +372,18 @@ position = Vector2( 552, 201 )
 
 [node name="CheckpointHolder" parent="." instance=ExtResource( 26 )]
 position = Vector2( 1886, 234 )
+
+[node name="CandleBigHolder" parent="." instance=ExtResource( 27 )]
+position = Vector2( 680, 249 )
+
+[node name="CandleSmallHolder" parent="." instance=ExtResource( 29 )]
+position = Vector2( 728, 249 )
+
+[node name="TorchLeftHolder" parent="." instance=ExtResource( 28 )]
+position = Vector2( 687, 264 )
+
+[node name="TorchRightHolder" parent="." instance=ExtResource( 30 )]
+position = Vector2( 721, 264 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]

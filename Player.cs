@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 public class Player : KinematicBody2D
@@ -59,6 +60,7 @@ public class Player : KinematicBody2D
     private ShaderMaterial motionTrails;
 
     private Weapon weapon=null;
+    public static readonly List<WeakReference<Node>>buffs=new List<WeakReference<Node>>();
 
     public Player() : base()
     {
@@ -450,6 +452,9 @@ public class Player : KinematicBody2D
     {
         if(World.state!=Gamestate.DIEING)
         {
+
+            ClearBuffs();
+
             PlayerCamera.instance.SmoothingSpeed=0f;
             World.instance.SetGamestate(Gamestate.DIEING);
 
@@ -534,6 +539,21 @@ public class Player : KinematicBody2D
     public bool Teleport()
     {
         return onTeleport;
+    }
+
+    public void ClearBuffs()
+    {
+        foreach(WeakReference<Node>weak in buffs)
+        {
+            if(weak.TryGetTarget(out Node target))
+            {
+                if(target!=null&&!target.IsQueuedForDeletion())
+                {
+                    target.CallDeferred("queue_free");
+                }
+            }
+        }
+        buffs.Clear();        
     }
 
 }

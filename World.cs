@@ -301,6 +301,7 @@ public class World : Node
 	{
 		Player.instance.SaveCoins();
 		Player.instance.ApplyCoins(0);
+		Player.instance.ClearBuffs();
 		
 		current_distance=0f;
 		SetGamestate(Gamestate.RESTART);

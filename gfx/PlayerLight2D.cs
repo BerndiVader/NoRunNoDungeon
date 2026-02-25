@@ -18,9 +18,9 @@ public class PlayerLight2D : Light2D
 
     public override void _PhysicsProcess(float delta)
     {
-        if(lightCounter==LIGHT_DELAY)
+        if(lightCounter>LIGHT_DELAY)
         {
-            Energy=(float)MathUtils.RandomRange(MIN_LIGHT,MAX_LIGHT);
+            Energy=MathUtils.RandomRange(MIN_LIGHT,MAX_LIGHT);
             lightCounter=0;
         }
         lightCounter++;
