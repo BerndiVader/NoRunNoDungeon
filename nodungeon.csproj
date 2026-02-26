@@ -26,7 +26,7 @@
     <Compile Include="enemies\Shopkeeper.cs" />
     <Compile Include="enemies\WalkingTree.cs" />
     <Compile Include="enemies\Fairy.cs" />
-    <Compile Include="gfx\BuffBlind.cs" />
+    <Compile Include="buffs\BuffBlind.cs" />
     <Compile Include="gfx\CheckpointMarker.cs" />
     <Compile Include="gfx\CrtShader.cs" />
     <Compile Include="gfx\DirectionMarker.cs" />

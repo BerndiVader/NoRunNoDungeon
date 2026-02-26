@@ -3,30 +3,25 @@ using Godot;
 
 public class BuffBlind : Sprite
 {
-    private static readonly PackedScene pack=ResourceLoader.Load<PackedScene>("res://gfx/BuffBlind.tscn");
+    private static readonly PackedScene pack=ResourceLoader.Load<PackedScene>("res://buffs/BuffBlind.tscn");
 
-    private Vector2 scale=Vector2.One;
     private float DURATION;
     private float duration;
+    private float size;
     private WeakReference<Node>weakRef;
 
     ShaderMaterial mat;
 
-    public static void Create(Vector2 scale,float duration)
+    public static void Create(float size=3f,float duration=120f)
     {
-        if(scale==null)
-        {
-            scale=Vector2.One;
-        }
-
         BuffBlind buff=pack.Instance<BuffBlind>();
-        buff.scale=scale;
+        buff.size=size;
         buff.DURATION=duration;
-        HUD.instance.AddChild(buff);
-        buff.weakRef=new WeakReference<Node>(buff);
         buff.mat=(ShaderMaterial)buff.Material;
-        Player.buffs.Add(buff.weakRef);
+        buff.weakRef=new WeakReference<Node>(buff);
 
+        HUD.instance.AddChild(buff);
+        Player.buffs.Add(buff.weakRef);
     }
 
     public override void _Ready()
@@ -35,6 +30,8 @@ public class BuffBlind : Sprite
         SetProcess(false);
         SetProcessInput(false);
         SetPhysicsProcess(true);
+
+        mat.SetShaderParam("mask_radius",138.5f*size);
     }
 
     public override void _PhysicsProcess(float delta)
@@ -54,8 +51,8 @@ public class BuffBlind : Sprite
                 Vector2 viewport_size=World.RESOLUTION;
                 screen_pos=(screen_pos-cam_center)/PlayerCamera.instance.Zoom+(viewport_size/2);
             }
-            mat.SetShaderParam("mask_radius",138.5f*2);
             mat.SetShaderParam("mask_pos",screen_pos);
+            mat.SetShaderParam("time",OS.GetTicksMsec()/1000.0f);
         }
     }
 
