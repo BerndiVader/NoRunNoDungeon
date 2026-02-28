@@ -17,7 +17,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoLoad.cs" />
+    <Compile Include="bonus\BlindBuffThrowable.cs" />
     <Compile Include="bonus\WeaponItem.cs" />
+    <Compile Include="buffs\Buff.cs" />
     <Compile Include="enemies\Cannon.cs" />
     <Compile Include="enemies\BombTroll.cs" />
     <Compile Include="enemies\CloningZombie.cs" />

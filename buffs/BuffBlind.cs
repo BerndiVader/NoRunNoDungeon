@@ -1,14 +1,13 @@
 using System;
 using Godot;
 
-public class BuffBlind : Sprite
+public class BuffBlind : Buff
 {
     private static readonly PackedScene pack=ResourceLoader.Load<PackedScene>("res://buffs/BuffBlind.tscn");
 
-    private float DURATION;
+    protected float DURATION;
     private float duration;
-    private float size;
-    private WeakReference<Node>weakRef;
+    protected float size;
 
     ShaderMaterial mat;
 
@@ -18,10 +17,18 @@ public class BuffBlind : Sprite
         buff.size=size;
         buff.DURATION=duration;
         buff.mat=(ShaderMaterial)buff.Material;
-        buff.weakRef=new WeakReference<Node>(buff);
+        buff.weakRef=new WeakReference<Buff>(buff);
 
-        HUD.instance.AddChild(buff);
-        Player.buffs.Add(buff.weakRef);
+        Buff target=Player.instance.FindBuff(buff);
+        if(target!=null&&target.IsInsideTree())
+        {
+            buff.Replace(target);
+        }
+        else
+        {
+            buff.Apply();
+        }
+
     }
 
     public override void _Ready()
@@ -56,4 +63,22 @@ public class BuffBlind : Sprite
         }
     }
 
+    public override void Apply()
+    {
+        HUD.instance.AddChild(this);
+        Player.buffs.Add(weakRef);
+    }
+
+    public override void Replace(Buff buff)
+    {
+        if(buff is BuffBlind blind)
+        {
+            if(IsInstanceValid(blind))
+            {
+                Player.instance.RemoveBuff(blind.weakRef);
+                blind.QueueFree();
+            }
+        }
+        Apply();
+    }
 }
