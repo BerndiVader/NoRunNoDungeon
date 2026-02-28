@@ -60,7 +60,7 @@ public class Player : KinematicBody2D
     private ShaderMaterial motionTrails;
 
     private Weapon weapon=null;
-    public static readonly List<WeakReference<Node>>buffs=new List<WeakReference<Node>>();
+    public static readonly List<WeakReference<Buff>>buffs=new List<WeakReference<Buff>>();
 
     public Player() : base()
     {
@@ -543,17 +543,40 @@ public class Player : KinematicBody2D
 
     public void ClearBuffs()
     {
-        foreach(WeakReference<Node>weak in buffs)
+        foreach(WeakReference<Buff>weak in buffs)
         {
-            if(weak.TryGetTarget(out Node target))
+            if(weak.TryGetTarget(out Buff target))
             {
-                if(target!=null&&!target.IsQueuedForDeletion())
+                if(IsInstanceValid(target)&&!target.IsQueuedForDeletion()&&target.IsInsideTree())
                 {
                     target.CallDeferred("queue_free");
                 }
             }
         }
         buffs.Clear();        
+    }
+
+    public Buff FindBuff(Buff buff)
+    {
+        foreach(WeakReference<Buff>weak in buffs)
+        {
+            if(weak.TryGetTarget(out Buff target))
+            {
+                if(target!=null&&!target.IsQueuedForDeletion())
+                {
+                    if(target.GetClass()==buff.GetClass())
+                    {
+                        return target;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public void RemoveBuff(WeakReference<Buff>weak)
+    {
+        buffs.Remove(weak);
     }
 
 }
