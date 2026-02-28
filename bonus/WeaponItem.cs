@@ -55,7 +55,6 @@ public class WeaponItem : Bonus
             World.level.CallDeferred("add_child",taken);
             player.CallDeferred("EquipWeapon",ResourceUtils.weapons[(int)WEAPON_TYPE]);
             CallDeferred("queue_free");
-            BuffBlind.Create(2.5f,120f);
         }
     }
 
