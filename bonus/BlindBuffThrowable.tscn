@@ -1,14 +1,14 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://bonus/BlindBuffThrowable.cs" type="Script" id=1]
-[ext_resource path="res://image/0x72/frames/flask_big_green.png" type="Texture" id=2]
+[ext_resource path="res://image/0x72/potions.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4, 5.5 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
-region = Rect2( 3, 4, 10, 11 )
+region = Rect2( 19, 3, 10, 11 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 4, 5.5 )
@@ -23,7 +23,7 @@ position = Vector2( 0, -0.5 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = SubResource( 2 )
+texture = SubResource( 4 )
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 8

@@ -562,12 +562,9 @@ public class Player : KinematicBody2D
         {
             if(weak.TryGetTarget(out Buff target))
             {
-                if(target!=null&&!target.IsQueuedForDeletion())
+                if(IsInstanceValid(target)&&target.IsInsideTree()&&target.GetClass()==buff.GetClass())
                 {
-                    if(target.GetClass()==buff.GetClass())
-                    {
-                        return target;
-                    }
+                    return target;
                 }
             }
         }

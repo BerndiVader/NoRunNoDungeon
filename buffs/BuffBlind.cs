@@ -20,7 +20,7 @@ public class BuffBlind : Buff
         buff.weakRef=new WeakReference<Buff>(buff);
 
         Buff target=Player.instance.FindBuff(buff);
-        if(target!=null&&target.IsInsideTree())
+        if(IsInstanceValid(target)&&target.IsInsideTree())
         {
             buff.Replace(target);
         }

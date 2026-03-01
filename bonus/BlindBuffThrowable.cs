@@ -3,6 +3,15 @@ using System;
 
 public class BlindBuffThrowable : PhysicsObject
 {
+    [Export] private float strength=3.5f;
+    [Export] private int duration=60;
+
+    public static BlindBuffThrowable Create(float strength,int duration)
+    {
+        return null;
+    }
+
+
     public override void _Ready()
     {
         base._Ready();
@@ -12,20 +21,20 @@ public class BlindBuffThrowable : PhysicsObject
 
     private void OnBodyEntered(Node body) 
     {
-        if(body is Player player)
+        if(body is Player)
         {
             CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKEN].Instance();
             particles.Position=World.level.ToLocal(GlobalPosition);
             particles.audio.Stream=CoinTakenParticles.sfxSmall;
             World.level.AddChild(particles);
             CallDeferred("queue_free");
-            Apply(player);
+            Apply();
         }
     }
 
-    public void Apply(Player player)
+    public void Apply()
     {
-        BuffBlind.Create(MathUtils.RandomRange(0.5f,3f),MathUtils.RandomRange(3,20));
+        BuffBlind.Create(strength,duration);
     }
 
 }
