@@ -51,14 +51,21 @@ public class BuffBlind : Buff
         }
         else
         {
-            Vector2 screen_pos=Player.instance.GlobalPosition;
-            if(PlayerCamera.instance.Zoom!=Vector2.One)
+            Vector2 screenPos;
+            if(size>=2.5f)
             {
-                Vector2 cam_center=PlayerCamera.instance.GetCameraScreenCenter();
-                Vector2 viewport_size=World.RESOLUTION;
-                screen_pos=(screen_pos-cam_center)/PlayerCamera.instance.Zoom+(viewport_size/2);
+                screenPos=World.RESOLUTION*0.5f;
             }
-            mat.SetShaderParam("mask_pos",screen_pos);
+            else
+            {
+                screenPos=Player.instance.GlobalPosition;
+                if(PlayerCamera.instance.Zoom!=Vector2.One)
+                {
+                    Vector2 scrCenter=World.RESOLUTION*0.5f;
+                    screenPos=(screenPos-PlayerCamera.instance.GetCameraScreenCenter())/PlayerCamera.instance.Zoom+scrCenter;
+                }
+            }
+            mat.SetShaderParam("mask_pos",screenPos);
             mat.SetShaderParam("time",OS.GetTicksMsec()/1000.0f);
         }
     }
