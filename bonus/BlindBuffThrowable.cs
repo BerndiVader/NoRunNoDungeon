@@ -9,6 +9,8 @@ public class BlindBuffThrowable : PhysicsObject
     [Export] private int DURATION=60;
     [Export] private Vector2 VELOCITY=Vector2.Zero;
 
+    private float duration=1.5f;
+
     public static BlindBuffThrowable Create(float strength,int duration,Vector2 initialVelocity)
     {
         BlindBuffThrowable buff=PACK.Instance<BlindBuffThrowable>();
@@ -29,6 +31,11 @@ public class BlindBuffThrowable : PhysicsObject
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);
+        duration-=delta;
+        if(duration<=0)
+        {
+            QueueFree();
+        }
     }
 
     private void OnBodyEntered(Node body) 
