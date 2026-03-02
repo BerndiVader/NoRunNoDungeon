@@ -96,7 +96,7 @@ public class BombTroll : KinematicMonster
     {
         if(Time.GetTicksMsec()-timestamp>=THROW_DELAY_MS)
         {
-            ThrowBomb();
+            ThrowPotion();
             bomb.Visible=false;
             bomb.Stop();
             OnIdle();
@@ -176,6 +176,13 @@ public class BombTroll : KinematicMonster
             velocity.y+=DAMAGE_FORCE.y;
             animationPlayer.Play("HIT");
         }        
+    }
+
+    private void ThrowPotion()
+    {
+        BlindBuffThrowable buff=BlindBuffThrowable.Create(2f,60,new Vector2(20f*Facing().x,-100f));
+        buff.Position=World.level.ToLocal(bomb.GlobalPosition);
+        World.level.AddChild(buff);
     }
 
     private void ThrowBomb()

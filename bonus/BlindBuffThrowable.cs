@@ -3,20 +3,32 @@ using System;
 
 public class BlindBuffThrowable : PhysicsObject
 {
-    [Export] private float strength=3.5f;
-    [Export] private int duration=60;
+    private static readonly PackedScene PACK=ResourceLoader.Load<PackedScene>("res://bonus/BlindBuffThrowable.tscn");
 
-    public static BlindBuffThrowable Create(float strength,int duration)
+    [Export] private float STRENGTH=3.5f;
+    [Export] private int DURATION=60;
+    [Export] private Vector2 VELOCITY=Vector2.Zero;
+
+    public static BlindBuffThrowable Create(float strength,int duration,Vector2 initialVelocity)
     {
-        return null;
+        BlindBuffThrowable buff=PACK.Instance<BlindBuffThrowable>();
+        buff.STRENGTH=strength;
+        buff.DURATION=duration;
+        buff.VELOCITY=initialVelocity;
+        return buff;
     }
 
 
     public override void _Ready()
     {
         base._Ready();
-
+        velocity=VELOCITY;
         GetNode<Area2D>(nameof(Area2D)).Connect("body_entered",this,nameof(OnBodyEntered));
+    }
+
+    public override void _PhysicsProcess(float delta)
+    {
+        base._PhysicsProcess(delta);
     }
 
     private void OnBodyEntered(Node body) 
@@ -34,7 +46,7 @@ public class BlindBuffThrowable : PhysicsObject
 
     public void Apply()
     {
-        BuffBlind.Create(strength,duration);
+        BuffBlind.Create(STRENGTH,DURATION);
     }
 
 }
