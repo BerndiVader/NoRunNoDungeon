@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
 [ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=3]
 [ext_resource path="res://placeholders/bonus/BlindBuffHolder.tscn" type="PackedScene" id=4]
+[ext_resource path="res://placeholders/ambients/TorchSmallHolder.tscn" type="PackedScene" id=5]
 
 [node name="TileMap" type="TileMap"]
 position = Vector2( 0, -1 )
@@ -44,5 +45,26 @@ position = Vector2( 1984, 145 )
 
 [node name="BlindThrowHolder5" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1971, 129 )
+
+[node name="TorchSmallHolder3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1968, 257 )
+
+[node name="TorchSmallHolder4" parent="." instance=ExtResource( 5 )]
+position = Vector2( 1808, 273 )
+
+[node name="TorchSmallHolder5" parent="." instance=ExtResource( 5 )]
+position = Vector2( 2064, 241 )
+
+[node name="TorchSmallHolder6" parent="." instance=ExtResource( 5 )]
+position = Vector2( 2160, 241 )
+
+[node name="TorchSmallHolder7" parent="." instance=ExtResource( 5 )]
+position = Vector2( 2304, 241 )
+
+[node name="TorchSmallHolder8" parent="." instance=ExtResource( 5 )]
+position = Vector2( 2352, 241 )
+
+[node name="TorchSmallHolder9" parent="." instance=ExtResource( 5 )]
+position = Vector2( 2256, 241 )
 
 [editable path="ControlHolder"]

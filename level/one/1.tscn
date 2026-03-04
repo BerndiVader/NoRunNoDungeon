@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -20,6 +20,10 @@
 [ext_resource path="res://placeholders/obstacles/FlamethrowerHolder.tscn" type="PackedScene" id=18]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=19]
 [ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=20]
+[ext_resource path="res://placeholders/ambients/TorchMediumHolder.tscn" type="PackedScene" id=21]
+[ext_resource path="res://placeholders/ambients/FiresideMediumHolder.tscn" type="PackedScene" id=22]
+[ext_resource path="res://placeholders/ambients/FiresideHoder.tscn" type="PackedScene" id=23]
+[ext_resource path="res://placeholders/ambients/TorchSmallHolder.tscn" type="PackedScene" id=24]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -41,9 +45,6 @@ position = Vector2( 160, 232 )
 
 [node name="Torch" parent="." instance=ExtResource( 3 )]
 position = Vector2( 778, 205 )
-
-[node name="Torch2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1145, 242 )
 
 [node name="PlatformMoving2x2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 773, 84 )
@@ -172,15 +173,6 @@ position = Vector2( 2824, 192 )
 
 [node name="ZombieRunning2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 1896, 248 )
-
-[node name="Torch3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1024, 256 )
-
-[node name="Torch4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1272, 240 )
-
-[node name="Torch5" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1416, 232 )
 
 [node name="ChestMimic" parent="." instance=ExtResource( 15 )]
 position = Vector2( 1072, 264 )
@@ -319,6 +311,18 @@ position = Vector2( 600, 200 )
 
 [node name="CheckpointHolder" parent="." instance=ExtResource( 20 )]
 position = Vector2( 2928, 170 )
+
+[node name="TorchSmallHolder" parent="." instance=ExtResource( 24 )]
+position = Vector2( 1329, 238 )
+
+[node name="FiresideMedHolder" parent="." instance=ExtResource( 22 )]
+position = Vector2( 1145, 251 )
+
+[node name="FiresideHolder" parent="." instance=ExtResource( 23 )]
+position = Vector2( 1024, 263 )
+
+[node name="TorchMediumHolder" parent="." instance=ExtResource( 21 )]
+position = Vector2( 1416, 231 )
 
 [editable path="PlatformMoving2x2"]
 [editable path="FlamethrowerHolder"]
