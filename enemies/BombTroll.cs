@@ -14,7 +14,7 @@ public class BombTroll : KinematicMonster
     [Export] private Dictionary<string,object>CANNONBALL_SETTINGS=Cannonball.GetDefaults();
 
     private RayCast2D rayCast2D;
-    private AnimatedSprite bomb;
+    private AnimatedSprite throwable;
     private double timestamp;
 
     public override void _Ready()
@@ -28,9 +28,9 @@ public class BombTroll : KinematicMonster
         rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
 
-        bomb=GetNode<AnimatedSprite>(nameof(Sprite));
-        bomb.Visible=false;
-        bomb.Stop();
+        throwable=GetNode<AnimatedSprite>(nameof(Sprite));
+        throwable.Visible=false;
+        throwable.Stop();
 
         SetSpawnFacing();
         OnIdle();
@@ -96,9 +96,16 @@ public class BombTroll : KinematicMonster
     {
         if(Time.GetTicksMsec()-timestamp>=THROW_DELAY_MS)
         {
-            ThrowPotion();
-            bomb.Visible=false;
-            bomb.Stop();
+            if(throwable.Animation=="BOMB")
+            {
+                ThrowBomb();
+            }
+            else
+            {
+                ThrowPotion();
+            }
+            throwable.Visible=false;
+            throwable.Stop();
             OnIdle();
         }
         Navigation(delta);
@@ -142,8 +149,9 @@ public class BombTroll : KinematicMonster
         {
             lastState=state;
             state=STATE.alert;
-            bomb.Visible=true;
-            bomb.Play("default");
+            throwable.Animation=MathUtils.RandBool()?"BOMB":"POTION";
+            throwable.Visible=true;
+            throwable.Play();
             timestamp=Time.GetTicksMsec();
             goal=Alert;
         }
@@ -180,15 +188,16 @@ public class BombTroll : KinematicMonster
 
     private void ThrowPotion()
     {
-        BlindBuffThrowable buff=BlindBuffThrowable.Create(2f,60,new Vector2(20f*Facing().x,-100f));
-        buff.Position=World.level.ToLocal(bomb.GlobalPosition);
+        BlindBuffThrowable buff=BlindBuffThrowable.Create(2f,60,new Vector2(20f*Facing().x,-100f),1.5f);
+        buff.Position=World.level.ToLocal(throwable.GlobalPosition);
+        buff.Scale=new Vector2(0.8f,0.8f);
         World.level.AddChild(buff);
     }
 
     private void ThrowBomb()
     {
         Cannonball ball=BOMB_PACK.Instance<Cannonball>();
-        ball.Position=World.level.ToLocal(bomb.GlobalPosition);
+        ball.Position=World.level.ToLocal(throwable.GlobalPosition);
         ball.SetDirection(facing);
         if((bool)CANNONBALL_SETTINGS["USE_SETTINGS"])
         {
@@ -206,7 +215,7 @@ public class BombTroll : KinematicMonster
         staticBody.Position=FlipX(staticBody.Position);
         rayCast2D.Position=FlipX(rayCast2D.Position);
         rayCast2D.CastTo=FlipX(rayCast2D.CastTo);
-        bomb.Position=FlipX(bomb.Position);
+        throwable.Position=FlipX(throwable.Position);
 		facing=Facing();
     }
 

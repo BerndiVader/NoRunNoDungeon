@@ -9,14 +9,17 @@ public class BlindBuffThrowable : PhysicsObject
     [Export] private int DURATION=60;
     [Export] private Vector2 VELOCITY=Vector2.Zero;
 
-    private float duration=1.5f;
+    private float lifetime;
+    private bool useLifetime;
 
-    public static BlindBuffThrowable Create(float strength,int duration,Vector2 initialVelocity)
+    public static BlindBuffThrowable Create(float strength,int duration,Vector2 initialVelocity,float lifetime=-1f)
     {
         BlindBuffThrowable buff=PACK.Instance<BlindBuffThrowable>();
         buff.STRENGTH=strength;
         buff.DURATION=duration;
         buff.VELOCITY=initialVelocity;
+        buff.lifetime=lifetime;
+        buff.useLifetime=lifetime>-1f;
         return buff;
     }
 
@@ -31,10 +34,13 @@ public class BlindBuffThrowable : PhysicsObject
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);
-        duration-=delta;
-        if(duration<=0)
+        if(useLifetime)
         {
-            QueueFree();
+            lifetime-=delta;
+            if(lifetime<=0)
+            {
+                QueueFree();
+            }
         }
     }
 
