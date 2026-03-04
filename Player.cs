@@ -143,6 +143,11 @@ public class Player : KinematicBody2D
         bool dashLeft=false;
         bool dashRight=false;
 
+        if(attack&&weapon!=null)
+        {
+            weapon.Attack();
+        }        
+
         if(justLeft)
         {
             Dust dust=ResourceUtils.dust.Instance<Dust>();
@@ -179,11 +184,6 @@ public class Player : KinematicBody2D
             {
                 dashRightTap=now;
             }
-        }
-
-        if(attack&&weapon!=null)
-        {
-            weapon.Attack();
         }
 
         if(left)

@@ -6,6 +6,11 @@ public static class MathUtils
 
     private static Random random=new Random();
 
+    public static float RandomRange(Vector2 value)
+    {
+        return (float)random.NextDouble()*(value.x-value.y)+value.x;
+    }
+
     public static double RandomRange(double min,double max)
     { 
         return random.NextDouble()*(max-min)+min;
@@ -21,7 +26,7 @@ public static class MathUtils
         return random.Next(min,max);
     }
 
-    public static float MinMax(float min, float max, float delta)
+    public static float MinMax(float min,float max,float delta)
     {
         return Math.Max(Math.Min(delta, max), min);
     }
@@ -35,12 +40,12 @@ public static class MathUtils
 
     public static int RandSign()
     {
-        return random.Next() % 2 == 0 ? 1 : -1;
+        return random.Next()%2==0?1:-1;
     }
     
     public static bool RandBool()
     {
-        return random.Next() % 2 == 0;
+        return random.Next()%2==0;
     }
 
 }
