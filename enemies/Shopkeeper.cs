@@ -48,7 +48,7 @@ public class Shopkeeper : KinematicMonster
                 shop.Init();
                 shop.Visible=true;
                 shop.SetPhysicsProcess(true);
-                World.instance.musicPlayer.Playing=false;
+                World.instance.musicPlayer.StreamPaused=true;
             }
         }
         else if(shop.Visible)
@@ -57,8 +57,16 @@ public class Shopkeeper : KinematicMonster
             shop.Visible=false;
             HUD.instance.RemoveChild(shop);
             AddChild(shop);
-            World.instance.musicPlayer.Playing=true;
         }
+        else
+        {
+            if(!World.instance.musicPlayer.StreamPaused)
+            {
+                World.instance.musicPlayer.StreamPaused=true;
+            }
+        }
+
+
 
         Navigation(delta);
     }
