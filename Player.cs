@@ -40,6 +40,9 @@ public class Player : KinematicBody2D
     private Vector2 FORCE;
     private Vector2 platformSpeed=Vector2.Zero;
 
+    public float SpeedModifier=1f;
+    public float JumpMOdifier=1f;
+
     private float dashTime=0f;
     private float dashCooldown=0f;
     private int dashDirection=0;
@@ -201,6 +204,8 @@ public class Player : KinematicBody2D
             else
             {
                 float maxSpeed=(levelDirection.x>0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
+                maxSpeed*=SpeedModifier;
+            
                 if(velocity.x>-maxSpeed)
                 {
                     force.x-=WALK_FORCE;
@@ -227,6 +232,8 @@ public class Player : KinematicBody2D
                 animationController.FlipH=false;
 
                 float maxSpeed=(levelDirection.x<0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
+                maxSpeed*=SpeedModifier;
+
                 if(velocity.x<maxSpeed)
                 {
                     force.x+=WALK_FORCE;
@@ -271,13 +278,13 @@ public class Player : KinematicBody2D
         }
 
         velocity+=force*delta;
-        if(dashDirection==0) velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED)*Mathf.Sign(velocity.x);
+        if(dashDirection==0) velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED*SpeedModifier)*Mathf.Sign(velocity.x);
 
         if(platformSpeed!=Vector2.Zero&&velocity.x==0f)
         {
             velocity.x=platformSpeed.x*1.65f*friction;
         }
-        platformSpeed=Vector2.Zero;        
+        platformSpeed=Vector2.Zero;
 
         if(justJumped)
         {

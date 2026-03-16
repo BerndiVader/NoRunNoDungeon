@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://obstacles/Gate.tscn" type="PackedScene" id=7]
 [ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=8]
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=9]
+[ext_resource path="res://placeholders/bonus/SpeedBuffHolder.tscn" type="PackedScene" id=10]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -77,8 +78,15 @@ position = Vector2( 1768, 50 )
 SWITCH_ID = "b906a216-a183-484b-9cc5-304f45458c85"
 ONE_TIME = true
 
+[node name="SpeedBuffHolder" parent="." instance=ExtResource( 10 )]
+position = Vector2( 1536, 168 )
+
+[node name="SpeedBuffThrowable" parent="SpeedBuffHolder" index="0"]
+STRENGTH = 1.0
+
 [editable path="GateHolder"]
 [editable path="ShopkeeperHolder"]
 [editable path="SwordItemHolder"]
 [editable path="ControlHolder"]
 [editable path="Switch"]
+[editable path="SpeedBuffHolder"]

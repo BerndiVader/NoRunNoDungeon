@@ -3,9 +3,6 @@
 [ext_resource path="res://image/0x72/zombie_running.png" type="Texture" id=1]
 [ext_resource path="res://enemies/RunningZombie.cs" type="Script" id=9]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 4.44314, 3.56314 )
-
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 16, 16 )
@@ -50,6 +47,9 @@ animations = [ {
 "name": "stroll",
 "speed": 5.0
 } ]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 3.5, 3.28157 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 4.37473, 3.72581 )
@@ -181,16 +181,15 @@ position = Vector2( 0, -1 )
 collision_layer = 0
 collision_mask = 22
 script = ExtResource( 9 )
-ANIMATION_OFFSET = Vector2( 0, -1 )
 SPAWN_LEFT_WEIGHT = 60
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.5, 2 )
-shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 animation = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.5, 2.28157 )
+shape = SubResource( 1 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2( 5, 6 )
