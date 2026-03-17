@@ -208,7 +208,7 @@ public class Player : KinematicBody2D
             
                 if(velocity.x>-maxSpeed)
                 {
-                    force.x-=WALK_FORCE;
+                    force.x-=WALK_FORCE*SpeedModifier;
                 }
                 else if(dashTime<=0f)
                 {
@@ -236,7 +236,7 @@ public class Player : KinematicBody2D
 
                 if(velocity.x<maxSpeed)
                 {
-                    force.x+=WALK_FORCE;
+                    force.x+=WALK_FORCE*SpeedModifier;
                 }
                 else if(dashTime<=0f)
                 {
@@ -253,7 +253,7 @@ public class Player : KinematicBody2D
                 animationController.FlipH=levelDirection!=Vector2.Left;
             }
 
-            float xlength=Mathf.Abs(velocity.x)-STOP_FORCE*delta;
+            float xlength=Mathf.Abs(velocity.x)-STOP_FORCE*SpeedModifier*delta;
             velocity.x=(xlength>0f?xlength:0f)*Mathf.Sign(velocity.x);
         }
 
