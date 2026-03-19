@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=8]
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=9]
 [ext_resource path="res://placeholders/bonus/SpeedBuffHolder.tscn" type="PackedScene" id=10]
+[ext_resource path="res://placeholders/bonus/JumpBuffHolder.tscn" type="PackedScene" id=11]
+[ext_resource path="res://placeholders/bonus/BlindBuffHolder.tscn" type="PackedScene" id=12]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -25,6 +27,13 @@ __meta__ = {
 "_edit_horizontal_guides_": [ 0.0, 288.0 ],
 "_edit_vertical_guides_": [ 0.0 ]
 }
+
+[node name="BlindThrowHolder" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1488, 136 )
+
+[node name="BlindBuffThrowable" parent="BlindThrowHolder" index="0"]
+STRENGTH = 0.6
+DARKNESS = 0.96
 
 [node name="StartingPoint" type="Position2D" parent="."]
 position = Vector2( 160, 232 )
@@ -84,9 +93,14 @@ position = Vector2( 1536, 168 )
 [node name="SpeedBuffThrowable" parent="SpeedBuffHolder" index="0"]
 STRENGTH = 1.0
 
+[node name="JumpBuffHolder" parent="." instance=ExtResource( 11 )]
+position = Vector2( 1896, 136 )
+
+[editable path="BlindThrowHolder"]
 [editable path="GateHolder"]
 [editable path="ShopkeeperHolder"]
 [editable path="SwordItemHolder"]
 [editable path="ControlHolder"]
 [editable path="Switch"]
 [editable path="SpeedBuffHolder"]
+[editable path="JumpBuffHolder"]

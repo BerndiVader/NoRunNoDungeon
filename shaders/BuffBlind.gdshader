@@ -2,7 +2,9 @@ shader_type canvas_item;
 
 uniform sampler2D mask_tex;
 uniform float mask_radius=138.5f;
+uniform float darkness=0.95f;
 uniform vec2 sprite_size=vec2(512.0f,288.0f);
+uniform float rotation=0.0f;
 uniform float dizzy_strength=8.0f;
 uniform float dizzy_speed=2.0f;
 
@@ -12,7 +14,10 @@ uniform float time;
 void fragment() {
     vec2 frag_pos=UV*sprite_size;
 
+    float s=sin(rotation);
+    float c=cos(rotation);
     vec2 rel=frag_pos-mask_pos;
+
     float dist=length(rel);
 
     float angle=atan(rel.y,rel.x);
@@ -27,6 +32,6 @@ void fragment() {
         mask=texture(mask_tex,tex_uv).a;
     }
     
-    float alpha=0.95f*(1.0f-mask);
+    float alpha=darkness*(1.0f-mask);
     COLOR=vec4(0.0f,0.0f,0.0f,alpha);
 }
