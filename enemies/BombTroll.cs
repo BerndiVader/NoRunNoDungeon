@@ -188,7 +188,7 @@ public class BombTroll : KinematicMonster
 
     private void ThrowPotion()
     {
-        BlindBuffThrowable buff=BlindBuffThrowable.Create(2f,60,new Vector2(20f*Facing().x,-100f),1.5f);
+        BlindBuffThrowable buff=BlindBuffThrowable.Create(2f,60,1f,new Vector2(20f*Facing().x,-100f),1.5f);
         buff.Position=World.level.ToLocal(throwable.GlobalPosition);
         buff.Scale=new Vector2(0.8f,0.8f);
         World.level.AddChild(buff);

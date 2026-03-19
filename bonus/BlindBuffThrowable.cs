@@ -7,18 +7,20 @@ public class BlindBuffThrowable : PhysicsObject
 
     [Export] private float STRENGTH=3.5f;
     [Export] private int DURATION=60;
+    [Export] private float DARKNESS=1f;
     [Export] private Vector2 VELOCITY=Vector2.Zero;
 
     private float lifetime;
     private bool useLifetime;
 
-    public static BlindBuffThrowable Create(float strength,int duration,Vector2 initialVelocity,float lifetime=-1f)
+    public static BlindBuffThrowable Create(float strength,int duration,float darkness,Vector2 initialVelocity,float lifetime=-1f)
     {
         BlindBuffThrowable buff=PACK.Instance<BlindBuffThrowable>();
         buff.STRENGTH=strength;
         buff.DURATION=duration;
         buff.VELOCITY=initialVelocity;
         buff.lifetime=lifetime;
+        buff.DARKNESS=darkness;
         buff.useLifetime=lifetime>-1f;
         return buff;
     }
@@ -32,7 +34,7 @@ public class BlindBuffThrowable : PhysicsObject
     }
 
     public override void _PhysicsProcess(float delta)
-    {
+    {        
         base._PhysicsProcess(delta);
         if(useLifetime)
         {
@@ -59,7 +61,7 @@ public class BlindBuffThrowable : PhysicsObject
 
     public void Apply()
     {
-        BuffBlind.Create(STRENGTH,DURATION);
+        BuffBlind.Create(STRENGTH,DARKNESS,DURATION);
     }
 
 }

@@ -41,7 +41,7 @@ public class Player : KinematicBody2D
     private Vector2 platformSpeed=Vector2.Zero;
 
     public float SpeedModifier=1f;
-    public float JumpMOdifier=1f;
+    public float JumpModifier=1f;
 
     private float dashTime=0f;
     private float dashCooldown=0f;
@@ -332,7 +332,7 @@ public class Player : KinematicBody2D
 
                 if(!jumping&&slopeAngle==0f&&collision.Collider.HasUserSignal(STATE.passanger.ToString()))
                 {
-                    velocity.y=-JUMP_SPEED;
+                    velocity.y=-JUMP_SPEED*JumpModifier;
                     justJumped=jumping=true;
                     collision.Collider.EmitSignal(STATE.passanger.ToString(),this);
                 }
@@ -359,7 +359,7 @@ public class Player : KinematicBody2D
             else if(jump&&!doubleJump)
             {
                 doubleJump=true;
-                velocity.y=-(JUMP_SPEED-levelYSpeed);
+                velocity.y=-(JUMP_SPEED*JumpModifier-levelYSpeed);
                 jumpParticles.Start(animationController.FlipH);
                 Renderer.instance.PlaySfx(sfxDoubleJump,Position);
 
@@ -371,7 +371,7 @@ public class Player : KinematicBody2D
                 World.level.AddChild(dust);                
             }
         }
-        else if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME)
+        else if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME*JumpModifier)
         {
             if(onSlope)
             {
@@ -384,7 +384,7 @@ public class Player : KinematicBody2D
                     velocity.x-=50f;
                 }
             }
-            velocity.y=-(JUMP_SPEED-levelYSpeed);
+            velocity.y=-(JUMP_SPEED*JumpModifier-levelYSpeed);
             justJumped=jumping=true;
             Renderer.instance.PlaySfx(sfxJump,Position);
         }

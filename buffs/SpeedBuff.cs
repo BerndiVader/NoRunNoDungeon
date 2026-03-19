@@ -46,6 +46,7 @@ public class SpeedBuff : Buff
 
     public override void Replace(Buff buff)
     {
+        Apply();
     }
 
 }

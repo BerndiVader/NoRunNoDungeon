@@ -8,14 +8,16 @@ public class BuffBlind : Buff
     protected float DURATION;
     private float duration;
     protected float size;
+    protected float darkness;
 
     ShaderMaterial mat;
 
-    public static void Create(float size=3f,float duration=120f)
+    public static void Create(float size=3f,float darkness=1f,float duration=120f)
     {
         BuffBlind buff=pack.Instance<BuffBlind>();
         buff.size=size;
         buff.DURATION=duration;
+        buff.darkness=darkness;
         buff.mat=(ShaderMaterial)buff.Material;
         buff.weakRef=new WeakReference<Buff>(buff);
 
@@ -39,6 +41,9 @@ public class BuffBlind : Buff
         SetPhysicsProcess(true);
 
         mat.SetShaderParam("mask_radius",138.5f*size);
+        mat.SetShaderParam("dizzy_strength",8.0f*size);
+        mat.SetShaderParam("dizzy_speed",2.0f*size);
+        mat.SetShaderParam("darkness",0.95f*darkness);
     }
 
     public override void _PhysicsProcess(float delta)
