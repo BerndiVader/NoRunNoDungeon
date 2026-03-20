@@ -44,7 +44,7 @@ public class Worker : Thread
 	{
 		try
 		{
-			if(IsInstanceValid(placeholder)||placeholder.isDisposed||placeholder.IsQueuedForDeletion())
+			if(!IsInstanceValid(placeholder)||placeholder.isDisposed||placeholder.IsQueuedForDeletion())
 			{
 				return;
 			}
