@@ -14,10 +14,7 @@ uniform float time;
 void fragment() {
     vec2 frag_pos=UV*sprite_size;
 
-    float s=sin(rotation);
-    float c=cos(rotation);
     vec2 rel=frag_pos-mask_pos;
-
     float dist=length(rel);
 
     float angle=atan(rel.y,rel.x);

@@ -57,7 +57,7 @@ public class Level : TileMap
             var nodes=GetChildren();
             foreach(Node node in nodes)
             {
-                if(node!=null&&!node.IsQueuedForDeletion())
+                if(IsInstanceValid(node)&&!node.IsQueuedForDeletion())
                 {
                     node.CallDeferred("queue_free");
                 }
