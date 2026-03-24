@@ -32,7 +32,6 @@ __meta__ = {
 position = Vector2( 1488, 136 )
 
 [node name="BlindBuffThrowable" parent="BlindThrowHolder" index="0"]
-STRENGTH = 0.6
 DARKNESS = 0.96
 
 [node name="StartingPoint" type="Position2D" parent="."]
@@ -91,10 +90,13 @@ ONE_TIME = true
 position = Vector2( 1536, 168 )
 
 [node name="SpeedBuffThrowable" parent="SpeedBuffHolder" index="0"]
-STRENGTH = 1.0
+STRENGTH = -0.5
 
 [node name="JumpBuffHolder" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1896, 136 )
+
+[node name="JumpBuffThrowable" parent="JumpBuffHolder" index="0"]
+STRENGTH = 0.2
 
 [editable path="BlindThrowHolder"]
 [editable path="GateHolder"]

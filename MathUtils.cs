@@ -28,7 +28,7 @@ public static class MathUtils
 
     public static float MinMax(float min,float max,float delta)
     {
-        return Math.Max(Math.Min(delta, max), min);
+        return Math.Max(Math.Min(delta,max),min);
     }
 
     public static bool IsBetween(float a,float b,float delta)

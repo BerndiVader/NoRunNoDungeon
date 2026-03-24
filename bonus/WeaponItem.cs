@@ -60,7 +60,6 @@ public class WeaponItem : Bonus
 
     public override void Apply(Player player)
     {
-        throw new NotImplementedException();
     }
 
     public virtual bool SpawnCondition()
