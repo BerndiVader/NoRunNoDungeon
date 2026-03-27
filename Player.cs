@@ -295,7 +295,7 @@ public class Player : KinematicBody2D
 
             Translate(velocity*delta);
             justJumped=false;
-        } 
+        }
         else
         {
             Vector2 snap=jumping?Vector2.Zero:new Vector2(0f,4f);

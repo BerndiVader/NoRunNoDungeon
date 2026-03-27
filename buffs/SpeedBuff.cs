@@ -32,7 +32,7 @@ public class SpeedBuff : Buff
         if(duration>=DURATION)
         {
             Player.buffs.Remove(weakRef);
-            Player.instance.SpeedModifier=MathUtils.MinMax(0.5f,2f,Player.instance.SpeedModifier-size);
+            Player.instance.SpeedModifier=MathUtils.MinMax(0.1f,2f,Player.instance.SpeedModifier-size);
             QueueFree();
         }
     }
@@ -41,7 +41,7 @@ public class SpeedBuff : Buff
     {
         HUD.instance.AddChild(this);
         Player.buffs.Add(weakRef);
-        Player.instance.SpeedModifier=MathUtils.MinMax(0.5f,2f,Player.instance.SpeedModifier+size);
+        Player.instance.SpeedModifier=MathUtils.MinMax(0.1f,2f,Player.instance.SpeedModifier+size);
     }
 
     public override void Replace(Buff buff)

@@ -32,7 +32,7 @@ public class JumpBuff : Buff
         if(duration>=DURATION)
         {
             Player.buffs.Remove(weakRef);
-            Player.instance.JumpModifier=MathUtils.MinMax(0.5f,2f,Player.instance.JumpModifier-size);
+            Player.instance.JumpModifier=MathUtils.MinMax(0.1f,2f,Player.instance.JumpModifier-size);
             QueueFree();
         }        
     }
@@ -42,7 +42,7 @@ public class JumpBuff : Buff
     {
         HUD.instance.AddChild(this);
         Player.buffs.Add(weakRef);
-        Player.instance.JumpModifier=MathUtils.MinMax(0.5f,2f,Player.instance.JumpModifier+size);
+        Player.instance.JumpModifier=MathUtils.MinMax(0.1f,2f,Player.instance.JumpModifier+size);
     }
 
     public override void Replace(Buff buff)

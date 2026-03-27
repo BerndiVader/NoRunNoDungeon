@@ -157,6 +157,6 @@ animations = [ {
 
 [node name="Dust" type="AnimatedSprite"]
 frames = SubResource( 6 )
-animation = "RUN"
+animation = "APPEAR"
 offset = Vector2( 0, -9 )
 script = ExtResource( 4 )
