@@ -4,6 +4,12 @@ using Godot;
 
 public class World : Node
 {
+
+	private const int MAP_VIEWPORT_X=33;
+	private const int MAP_VIEWPORT_Y=18;
+	private const float TILE_SIZE=16f;
+	private const int LEVEL_ADD_TIMEOUT=40;
+
 	public static World instance;
 	public static Viewport root;
 	public static Vector2 RESOLUTION=new Vector2(512f,288f);
@@ -17,9 +23,9 @@ public class World : Node
 	{
 		int lx=(int)newLevel.GetUsedRect().End.x;
 
-		for(int x=0;x<33;x++) 
+		for(int x=0;x<MAP_VIEWPORT_X;x++) 
 		{
-			for(int y=0;y<18;y++)
+			for(int y=0;y<MAP_VIEWPORT_Y;y++)
 			{
 				int cellValue=nextLevel.GetCell(x,y);
 				Vector2 tileCoord=nextLevel.GetCellAutotileCoord(x,y);
@@ -340,19 +346,18 @@ public class World : Node
 		MergeMaps(newLevel,cachedLevel);
 		renderer.CallDeferred("add_child",newLevel);
 		int timeout=0;
-		int timeouted=40;
-		while(!newLevel.IsInsideTree()&&timeout<timeouted)
+		while(!newLevel.IsInsideTree()&&timeout<LEVEL_ADD_TIMEOUT)
 		{
 			timeout++;
 			OS.DelayMsec(1);
 		}
-		if(timeout>=timeouted)
+		if(timeout>=LEVEL_ADD_TIMEOUT)
 		{
 			GD.Print("Add new level to tree timeout.");
 		}
 		Vector2 position=level.Position;
 		renderer.CallDeferred("remove_child",level);
-		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x))-16f,position.y);
+		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x))-TILE_SIZE,position.y);
 		level=newLevel;
 		SetGamestate(Gamestate.SCENE_CHANGED);
 	}
