@@ -15,6 +15,30 @@ public class Player : KinematicBody2D
     private static readonly AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
     private static readonly AudioStream sfxDash=ResourceLoader.Load<AudioStream>("res://sounds/ingame/15_human_dash_2.wav");
 
+    public struct Input
+    {
+        public bool Left;
+        public bool Right;
+        public bool Jump;
+        public bool Down;
+        public bool Attack;
+        public bool Interact;
+        public bool JustLeft;
+        public bool JustRight;
+
+        public void Update()
+        {
+            Left=World.instance.input.Left();
+            Right=World.instance.input.Right();
+            Jump=World.instance.input.JustJump();
+            Down=World.instance.input.Down();
+            Attack=World.instance.input.JustAttack();
+            Interact=World.instance.input.JustChange();
+            JustLeft=World.instance.input.JustLeft();
+            JustRight=World.instance.input.JustRight();            
+        }
+    }
+
     [Export] private float GRAVITY=700f;
     [Export] private float WALK_FORCE=1600f;
     [Export] private float WALK_MAX_SPEED=119f;
@@ -51,7 +75,9 @@ public class Player : KinematicBody2D
 
     private bool onTeleport=false;
 
-    private List<int>weapons;
+    private Input input=new Input();
+
+    private List<WEAPONS>weapons;
     private int coins=0;
 
     private AnimatedSprite animationController;
@@ -94,9 +120,9 @@ public class Player : KinematicBody2D
         AddChild(jumpParticles);
         jumpParticles.Stop();
 
-        weapons=new List<int>
+        weapons=new List<WEAPONS>
         {
-            (int)WEAPONS.SWORD
+            WEAPONS.SWORD
         };
 
         AddToGroup(GROUPS.PLAYERS.ToString());
@@ -118,90 +144,40 @@ public class Player : KinematicBody2D
             return;
         }
 
-        UpdateDash();
-
         float friction=1f;
         Vector2 levelDirection=World.level.direction;
         if(World.level.speed!=0f&&levelDirection.x!=0f)
         {
             friction=36f/World.level.speed;
         }
-
         float levelYSpeed=levelDirection.y*World.level.speed;
-        airParticles.Direction=jumpParticles.Direction=levelDirection;
-        airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.speed*levelDirection.Length();
+
+        if(airParticles.Emitting)
+        {
+            airParticles.Direction=jumpParticles.Direction=levelDirection;
+            airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.speed*levelDirection.Length();
+        }
         
         Vector2 force=FORCE;
         float slopeAngle=0f;
 
-        bool left=World.instance.input.Left();
-        bool right=World.instance.input.Right();
-        bool jump=World.instance.input.JustJump();
-        bool down=World.instance.input.Down();
-        bool attack=World.instance.input.JustAttack();
-        bool interact=World.instance.input.JustChange();
-        bool justLeft=World.instance.input.JustLeft();
-        bool justRight=World.instance.input.JustRight();
+        input.Update();
 
-        bool dashLeft=false;
-        bool dashRight=false;
-
-        if(attack&&weapon!=null)
+        if(input.Attack&&weapon!=null)
         {
             weapon.Attack();
-        }        
-
-        if(justLeft)
-        {
-            Dust dust=ResourceUtils.dust.Instance<Dust>();
-            dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
-            dust.type=Dust.TYPE.RUN;
-            dust.FlipH=true;
-            World.level.AddChild(dust);
-
-            float now=Time.GetTicksMsec();
-            if(dashLeftTap>0f&&now-dashLeftTap<DOUBLE_TAP_TIME)
-            {
-                dashLeft=true;
-                dashLeftTap=-1f;
-            }
-            else
-            {
-                dashLeftTap=now;
-            }
-        }
-        else if(justRight)
-        {
-            Dust dust=ResourceUtils.dust.Instance<Dust>();
-            dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
-            dust.type=Dust.TYPE.RUN;
-            World.level.AddChild(dust);
-
-            float now=Time.GetTicksMsec();
-            if(dashRightTap>0f&&now-dashRightTap<DOUBLE_TAP_TIME)
-            {
-                dashRight=true;
-                dashRightTap=-1f;
-            }
-            else
-            {
-                dashRightTap=now;
-            }
         }
 
-        if(left)
+        (bool dashLeft,bool dashRight)=UpdateDash();
+        HandleDash(dashLeft,dashRight);
+        ApplyDash(ref force);
+
+        if(input.Left)
         {
             PlayerCamera.instance.direction=1;
             animationController.FlipH=true;
 
-            if(dashLeft&&dashCooldown<=0f&&dashTime<=0f)
-            {
-                dashDirection=-1;
-                dashTime=DASH_DURATION;
-                dashCooldown=DASH_COOLDOWN+DASH_DURATION;
-                Renderer.instance.PlaySfx(sfxDash,Position);
-            }
-            else
+            if(!dashLeft)
             {
                 float maxSpeed=(levelDirection.x>0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
                 maxSpeed*=SpeedModifier;
@@ -217,16 +193,9 @@ public class Player : KinematicBody2D
             }
             
         }
-        else if(right)
+        else if(input.Right)
         {
-            if(dashRight&&dashCooldown<=0f&&dashTime<=0f)
-            {
-                dashDirection=1;
-                dashTime=DASH_DURATION;
-                dashCooldown=DASH_COOLDOWN+DASH_DURATION;
-                Renderer.instance.PlaySfx(sfxDash,Position);
-            }
-            else
+            if(!dashRight)
             {
                 PlayerCamera.instance.direction=-1;
                 animationController.FlipH=false;
@@ -257,26 +226,6 @@ public class Player : KinematicBody2D
             velocity.x=(xlength>0f?xlength:0f)*Mathf.Sign(velocity.x);
         }
 
-        if(dashTime>0f)
-        {
-            animationController.FlipH=dashDirection==-1;
-            jumpParticles.Start(animationController.FlipH);
-            force.x=dashDirection*DASH_FORCE;
-            velocity.x=Mathf.Clamp(velocity.x,-DASH_MAX_SPEED,DASH_MAX_SPEED);
-            velocity.y=0f;
-            dashTime-=delta;
-        } 
-        else
-        {
-            jumpParticles.Emitting=doubleJump;
-            dashDirection=0;
-        }
-
-        if(dashCooldown>0f)
-        {
-            dashCooldown-=delta;
-        }
-
         velocity+=force*delta;
         if(dashDirection==0) velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED*SpeedModifier)*Mathf.Sign(velocity.x);
 
@@ -288,11 +237,7 @@ public class Player : KinematicBody2D
 
         if(justJumped)
         {
-            Dust dust=ResourceUtils.dust.Instance<Dust>();
-            dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
-            dust.type=Dust.TYPE.JUMP;
-            World.level.AddChild(dust);
-
+            SpawnDust(Dust.TYPE.JUMP,animationController.FlipH);
             Translate(velocity*delta);
             justJumped=false;
         }
@@ -315,20 +260,20 @@ public class Player : KinematicBody2D
         {
             Vector2 diff=GlobalPosition-lastPosition;
             bool squeezed=Mathf.Abs(velocity.y)>200f&&diff.y==0f;
+            if(squeezed)
+            {
+                OnDamaged();
+                return;
+            }
+
 
             for(int i=0;i<collides;i++)
             {
                 KinematicCollision2D collision=GetSlideCollision(i);
 
-                if(squeezed)
-                {
-                    OnDamaged();
-                    return;
-                }
-
                 slopeAngle=collision.Normal.AngleTo(Vector2.Up);
                 float sa=Mathf.Abs(slopeAngle);
-                onSlope=sa>0.785297f&&sa<1.35f;
+                onSlope|=(sa>0.785297f&&sa<1.35f);
 
                 if(!jumping&&slopeAngle==0f&&collision.Collider.HasUserSignal(STATE.passanger.ToString()))
                 {
@@ -347,7 +292,7 @@ public class Player : KinematicBody2D
 
         if(jumping)
         {
-            if(down)
+            if(input.Down)
             {
                 velocity.y*=0.92f;
             }
@@ -356,22 +301,17 @@ public class Player : KinematicBody2D
                 doubleJump=jumping=false;
                 jumpParticles.Emitting=false;
             }
-            else if(jump&&!doubleJump)
+            else if(input.Jump&&!doubleJump)
             {
                 doubleJump=true;
                 velocity.y=-(JUMP_SPEED*JumpModifier-levelYSpeed);
                 jumpParticles.Start(animationController.FlipH);
                 Renderer.instance.PlaySfx(sfxDoubleJump,Position);
 
-                Dust dust=ResourceUtils.dust.Instance<Dust>();
-                dust.FlipV=true;
-                dust.Offset*=-1f;
-                dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
-                dust.type=Dust.TYPE.JUMP;
-                World.level.AddChild(dust);                
+                SpawnDust(Dust.TYPE.JUMP,animationController.FlipH,true,-1f);
             }
         }
-        else if(jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME*JumpModifier)
+        else if(input.Jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME*JumpModifier)
         {
             if(onSlope)
             {
@@ -398,11 +338,7 @@ public class Player : KinematicBody2D
         {
             if(airParticles.Emitting)
             {
-                Dust dust=ResourceUtils.dust.Instance<Dust>();
-                dust.type=Dust.TYPE.FALL;
-                dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
-                World.level.AddChild(dust);
-                
+                SpawnDust(Dust.TYPE.FALL);
                 Renderer.instance.PlaySfx(sfxLanding,Position);
                 airParticles.Emitting=false;
             }
@@ -492,7 +428,7 @@ public class Player : KinematicBody2D
     {
         if(dashTime>0f)
         {
-            animationController.Play("RUN");
+            animationController.Play(ANIM_RUN);
         }
         else if(!onFloor&&velocity.y<0f)
         {
@@ -512,11 +448,96 @@ public class Player : KinematicBody2D
         }
     }
 
-    private void UpdateDash()
+    private (bool dashLeft,bool dashRight) UpdateDash()
     {
         float max=DASH_COOLDOWN+DASH_DURATION;
         float value=Mathf.Clamp(dashCooldown,0f,max);
-        HUD.instance.UpdateDash((int)(100f*(1f-(value/max))));
+        HUD.instance.UpdateDash(100f*(1f-(value/max)));
+
+        bool dashLeft=false;
+        bool dashRight=false;
+
+        if(input.JustLeft)
+        {
+            SpawnDust(Dust.TYPE.RUN,true);
+            float now=Time.GetTicksMsec();
+            if(dashLeftTap>0f&&now-dashLeftTap<DOUBLE_TAP_TIME)
+            {
+                dashLeft=true;
+                dashLeftTap=-1f;
+            }
+            else
+            {
+                dashLeftTap=now;
+            }
+        }
+        else if(input.JustRight)
+        {
+            SpawnDust(Dust.TYPE.RUN);
+            float now=Time.GetTicksMsec();
+            if(dashRightTap>0f&&now-dashRightTap<DOUBLE_TAP_TIME)
+            {
+                dashRight=true;
+                dashRightTap=-1f;
+            }
+            else
+            {
+                dashRightTap=now;
+            }
+        }
+        return(dashLeft,dashRight);
+    }
+
+    private void HandleDash(bool dashLeft,bool dashRight)
+    {
+        if(dashLeft&&dashCooldown<=0f&&dashTime<=0f)
+        {
+            dashDirection=-1;
+            dashTime=DASH_DURATION;
+            dashCooldown=DASH_COOLDOWN+DASH_DURATION;
+            Renderer.instance.PlaySfx(sfxDash,Position);
+        }
+        else if(dashRight&&dashCooldown<=0f&&dashTime<=0f)
+        {
+            dashDirection=1;
+            dashTime=DASH_DURATION;
+            dashCooldown=DASH_COOLDOWN+DASH_DURATION;
+            Renderer.instance.PlaySfx(sfxDash,Position);
+        }
+    }
+
+    private void ApplyDash(ref Vector2 force)
+    {
+        if(dashTime>0f)
+        {
+            animationController.FlipH=dashDirection==-1;
+            jumpParticles.Start(animationController.FlipH);
+            force.x=dashDirection*DASH_FORCE;
+            velocity.x=Mathf.Clamp(velocity.x,-DASH_MAX_SPEED,DASH_MAX_SPEED);
+            velocity.y=0f;
+            dashTime-=GetPhysicsProcessDeltaTime();
+        }
+        else
+        {
+            jumpParticles.Emitting=doubleJump;
+            dashDirection=0;
+        }
+
+        if(dashCooldown>0f)
+        {
+            dashCooldown-=GetPhysicsProcessDeltaTime();
+        }
+    }
+
+    private void SpawnDust(Dust.TYPE type,bool flipH=false,bool flipV=false,float offset=1f)
+    {
+        Dust dust=ResourceUtils.dust.Instance<Dust>();
+        dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
+        dust.type=type;
+        dust.FlipH=flipH;
+        dust.FlipV=flipV;
+        dust.Offset*=offset;
+        World.level.AddChild(dust);        
     }
 
     public void ApplyCoins(int amount)
