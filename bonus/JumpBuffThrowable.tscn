@@ -6,12 +6,12 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4, 5.5 )
 
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 4, 5.5 )
+
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
 region = Rect2( 51, 3, 10, 11 )
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 4, 5.5 )
 
 [node name="JumpBuffThrowable" type="KinematicBody2D"]
 collision_layer = 8
@@ -22,12 +22,12 @@ script = ExtResource( 1 )
 position = Vector2( 0, -0.5 )
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
-texture = SubResource( 4 )
-
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 0, -0.5 )
 shape = SubResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 4 )

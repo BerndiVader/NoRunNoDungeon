@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/flask_big_blue.png-08cccd9281d57a71e7f9e45deaa3c16f.stex"
+path="res://.import/flask_big_black.png-f55d8d027472298e2d87bacb35fd1a0b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://image/0x72/frames/flask_big_blue.png"
-dest_files=[ "res://.import/flask_big_blue.png-08cccd9281d57a71e7f9e45deaa3c16f.stex" ]
+source_file="res://image/0x72/frames/flask_big_black.png"
+dest_files=[ "res://.import/flask_big_black.png-f55d8d027472298e2d87bacb35fd1a0b.stex" ]
 
 [params]
 

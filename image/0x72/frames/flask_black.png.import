@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/flask_big_blue.png-08cccd9281d57a71e7f9e45deaa3c16f.stex"
+path="res://.import/flask_black.png-0a0f9d186b64334134dd3b99c816ac58.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://image/0x72/frames/flask_big_blue.png"
-dest_files=[ "res://.import/flask_big_blue.png-08cccd9281d57a71e7f9e45deaa3c16f.stex" ]
+source_file="res://image/0x72/frames/flask_black.png"
+dest_files=[ "res://.import/flask_black.png-0a0f9d186b64334134dd3b99c816ac58.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

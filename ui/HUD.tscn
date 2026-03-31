@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://ui/ui.tres" type="Theme" id=1]
 [ext_resource path="res://ui/HUD.cs" type="Script" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://image/0x72/frames/flask_big_red.png" type="Texture" id=5]
 [ext_resource path="res://image/0x72/frames/flask_big_yellow.png" type="Texture" id=6]
 [ext_resource path="res://image/0x72/frames/flask_big_blue.png" type="Texture" id=7]
+[ext_resource path="res://image/0x72/frames/flask_big_green.png" type="Texture" id=8]
+[ext_resource path="res://image/0x72/frames/flask_big_black.png" type="Texture" id=9]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 4 )
@@ -18,7 +20,8 @@ anchor_bottom = 1.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 19.0 ]
+"_edit_horizontal_guides_": [ 19.0, 14.0 ],
+"_edit_vertical_guides_": [ 246.0 ]
 }
 
 [node name="Lives" type="HBoxContainer" parent="."]
@@ -40,7 +43,7 @@ align = 2
 
 [node name="Modifiers" type="HBoxContainer" parent="."]
 margin_left = 122.0
-margin_right = 168.0
+margin_right = 245.0
 margin_bottom = 16.0
 
 [node name="Dash" type="TextureProgress" parent="Modifiers"]
@@ -54,8 +57,9 @@ margin_left = 20.0
 margin_right = 36.0
 margin_bottom = 16.0
 value = 100.0
-texture_progress = ExtResource( 7 )
-texture_progress_offset = Vector2( 0, -2 )
+allow_greater = true
+allow_lesser = true
+texture_progress = ExtResource( 9 )
 
 [node name="Speed" type="TextureProgress" parent="Modifiers"]
 margin_left = 40.0
@@ -63,7 +67,7 @@ margin_right = 56.0
 margin_bottom = 16.0
 value = 100.0
 texture_progress = ExtResource( 5 )
-texture_progress_offset = Vector2( 0, -2 )
+texture_progress_offset = Vector2( 0, -1 )
 
 [node name="Jump" type="TextureProgress" parent="Modifiers"]
 margin_left = 60.0
@@ -71,16 +75,32 @@ margin_right = 76.0
 margin_bottom = 16.0
 value = 100.0
 texture_progress = ExtResource( 6 )
-texture_progress_offset = Vector2( 0, -2 )
+texture_progress_offset = Vector2( 0, -1 )
+
+[node name="Poison" type="TextureProgress" parent="Modifiers"]
+margin_left = 80.0
+margin_right = 96.0
+margin_bottom = 16.0
+value = 100.0
+texture_progress = ExtResource( 8 )
+texture_progress_offset = Vector2( 0, -1 )
+
+[node name="Poison2" type="TextureProgress" parent="Modifiers"]
+margin_left = 100.0
+margin_right = 116.0
+margin_bottom = 16.0
+value = 100.0
+texture_progress = ExtResource( 7 )
+texture_progress_offset = Vector2( 0, -1 )
 
 [node name="Values" type="HBoxContainer" parent="."]
-margin_left = 202.0
-margin_right = 262.0
+margin_left = 247.0
+margin_right = 307.0
 margin_bottom = 37.0
 rect_scale = Vector2( 0.45, 0.45 )
 
 [node name="TextureRect" type="TextureRect" parent="Values"]
-margin_right = 27.0
+margin_right = 26.0
 margin_bottom = 37.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -88,8 +108,8 @@ texture = SubResource( 1 )
 stretch_mode = 5
 
 [node name="Coins" type="Label" parent="Values"]
-margin_left = 31.0
-margin_right = 60.0
+margin_left = 30.0
+margin_right = 59.0
 margin_bottom = 37.0
 text = "0"
 valign = 1
