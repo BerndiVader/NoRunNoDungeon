@@ -4,6 +4,11 @@ public class AutoLoad : Node
 {
     public override void _Ready()
     {
+        if(OS.HasFeature("server"))
+        {
+            return;
+        }
+        
         GameSettings.Init();
         GameSettings.current.SetAll(this);
 
