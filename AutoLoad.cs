@@ -4,11 +4,16 @@ public class AutoLoad : Node
 {
     public override void _Ready()
     {
-        if(OS.HasFeature("server"))
+        foreach(string arg in OS.GetCmdlineArgs())
         {
-            return;
+            if(arg=="--headless")
+			{
+				QueueFree();
+				GetTree().Quit();
+				return;
+			}
         }
-        
+
         GameSettings.Init();
         GameSettings.current.SetAll(this);
 
