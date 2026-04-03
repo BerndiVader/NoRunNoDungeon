@@ -211,11 +211,7 @@ public class CloningZombie : KinematicMonster
 
     protected override void Passanger(float delta)
     {
-        if(!animationPlayer.IsPlaying())
-        {
-            base.Passanger(delta);
-        }
-        Navigation(delta);
+        base.Passanger(delta);
     }
 
     protected override void OnAttack(Player player=null)

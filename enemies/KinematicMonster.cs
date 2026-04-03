@@ -185,14 +185,17 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void Passanger(float delta)
     {
-        if(health<=0)
+        if(animationPlayer==null||!animationPlayer.IsPlaying())
         {
-            OnDie();
-        }
-        else
-        {
-            animationController.SpeedScale=1;
-            OnIdle();
+            if(health<=0)
+            {
+                OnDie();
+            }
+            else
+            {
+                animationController.SpeedScale=1;
+                OnIdle();
+            }
         }
         Navigation(delta);
     }

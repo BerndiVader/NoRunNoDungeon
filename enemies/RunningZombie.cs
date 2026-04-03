@@ -153,10 +153,7 @@ public class RunningZombie : KinematicMonster
 
 	protected override void Passanger(float delta)
 	{
-		if(!animationPlayer.IsPlaying())
-		{
-			base.Passanger(delta);
-		}
+		base.Passanger(delta);
 	}
 
 	protected override void Die(float delta)

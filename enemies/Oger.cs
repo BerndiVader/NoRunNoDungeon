@@ -257,7 +257,7 @@ public class Oger : KinematicMonster
             }
             else
             {
-                animationController.SpeedScale = 1f;
+                animationController.SpeedScale=1f;
                 if (MathUtils.RandBool())
                 {
                     OnAttack(Player.instance);
@@ -268,6 +268,7 @@ public class Oger : KinematicMonster
                 }
             }            
         }
+        Navigation(delta);
     }
 
     protected override void OnDamage(Node2D node=null,float amount=0f)

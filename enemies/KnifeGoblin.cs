@@ -113,10 +113,7 @@ public class KnifeGoblin : KinematicMonster
 
     protected override void Passanger(float delta)
     {
-        if(!animationPlayer.IsPlaying())
-        {
-            base.Passanger(delta);
-        }
+        base.Passanger(delta);
     }
 
     public override void OnPassanger(Player player=null)

@@ -83,10 +83,7 @@ public class WalkingTree : KinematicMonster
 
     protected override void Passanger(float delta)
     {
-        if(!animationPlayer.IsPlaying())
-        {
-            base.Passanger(delta);
-        }
+        base.Passanger(delta);
     } 
 
 	protected override void OnDamage(Node2D node=null,float amount=0f)
