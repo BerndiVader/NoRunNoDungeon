@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class SpeedBuffThrowable : PhysicsObject
+public class SpeedBuffThrowable : BuffThrowable
 {
     private static readonly PackedScene PACK=ResourceLoader.Load<PackedScene>("res://bonus/SpeedBuffThrowable.tscn");
 

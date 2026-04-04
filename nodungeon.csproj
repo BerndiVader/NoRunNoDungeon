@@ -14,7 +14,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-
     <Reference Include="GodotSharp">
       <HintPath>.mono/assemblies/Debug/GodotSharp.dll</HintPath>
     </Reference>
@@ -22,19 +21,18 @@
       <HintPath>.mono/assemblies/Debug/GodotSharpEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
-
   <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
-    <Reference Include="GodotSharp" >
+    <Reference Include="GodotSharp">
       <HintPath>.mono/assemblies/Release/GodotSharp.dll</HintPath>
     </Reference>
     <Reference Include="GodotSharpEditor">
       <HintPath>.mono/assemblies/Release/GodotSharpEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
-  
   <ItemGroup>
     <Compile Include="AutoLoad.cs" />
     <Compile Include="bonus\BlindBuffThrowable.cs" />
+    <Compile Include="bonus\BuffThrowable.cs" />
     <Compile Include="bonus\JumpBuffThrowable.cs" />
     <Compile Include="bonus\SpeedBuffThrowable.cs" />
     <Compile Include="bonus\WeaponItem.cs" />
