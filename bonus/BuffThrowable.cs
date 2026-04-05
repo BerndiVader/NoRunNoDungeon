@@ -3,9 +3,6 @@ using System;
 
 public class BuffThrowable : PhysicsObject
 {
-    protected static readonly AudioStream collideSfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
-    protected static readonly PackedScene dustPack=ResourceLoader.Load<PackedScene>("res://gfx/Dust.tscn");
-
     public override void _PhysicsProcess(float delta)
     {
         velocity+=GRAVITY*delta;
@@ -26,25 +23,17 @@ public class BuffThrowable : PhysicsObject
             if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
                 Platform collider=(Platform)node;
-                velocity.x+=collider.CurrentSpeed.x*0.35f;
+                velocity.x+=collider.CurrentSpeed.x*0.36f;
             }
         }
     }
 
-
     protected void PlayFx()
     {
-        SfxPlayer sfx=new SfxPlayer();
-        Dust dust=dustPack.Instance<Dust>();
+        PotionGrounded particles=PotionGrounded.Create();
+        particles.Position=new Vector2(Position.x,Position.y+5f);
 
-        sfx.Stream=collideSfx;
-        sfx.Position=Position;
-
-        dust.Position=Position;
-        dust.type=Dust.TYPE.FALL;
-
-        World.level.AddChild(dust);
-        World.level.AddChild(sfx);
-    }
+        World.level.AddChild(particles);
+    } 
 
 }

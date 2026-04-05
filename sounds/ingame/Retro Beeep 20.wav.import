@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Retro Beeep 20.wav-0707251a3a9f0c3de4bd7056624d99be.sample"
+
+[deps]
+
+source_file="res://sounds/ingame/Retro Beeep 20.wav"
+dest_files=[ "res://.import/Retro Beeep 20.wav-0707251a3a9f0c3de4bd7056624d99be.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

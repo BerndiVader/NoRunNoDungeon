@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://particles/PotionGrounded.cs" type="Script" id=1]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0.503906, 1 ), 0.0, -0.120376, 0, 0, Vector2( 1, 0.00862074 ), -4.1931, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0, 1, 0.835938, 1, 1, 0.521569, 0, 0.258824 )
+
+[node name="PotionGrunded" type="CPUParticles2D"]
+emitting = false
+amount = 5
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+direction = Vector2( 0, -1 )
+spread = 40.86
+gravity = Vector2( 0, 60 )
+initial_velocity = 30.0
+initial_velocity_random = 0.31
+angular_velocity = 30.0
+angular_velocity_random = 0.49
+damping = 49.71
+scale_amount = 2.0
+scale_amount_random = 0.8
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
+script = ExtResource( 1 )
