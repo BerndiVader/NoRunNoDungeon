@@ -55,6 +55,7 @@
     <Compile Include="gfx\TileExploder.cs" />
     <Compile Include="gfx\TorchSprite.cs" />
     <Compile Include="IBuffDebuff.cs" />
+    <Compile Include="io\JoypadInput.cs" />
     <Compile Include="ISwitchable.cs" />
     <Compile Include="level\AutoTile.cs" />
     <Compile Include="level\LevelControlTimer.cs" />

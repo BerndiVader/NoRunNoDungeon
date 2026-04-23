@@ -221,6 +221,15 @@ public static class ResourceUtils
         }
         else
         {
+            Godot.Collections.Array pads=Input.GetConnectedJoypads();
+            if(pads.Count>0)
+            {
+                int deviceId=(int)pads[0];
+                if(Input.IsJoyKnown(deviceId))
+                {
+                    return new JoypadInput(deviceId);
+                }
+            }
             return new DesktopInput();
         }
     }
