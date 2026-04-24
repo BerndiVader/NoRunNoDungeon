@@ -1,172 +1,145 @@
+using System.Linq;
 using Godot;
 using Godot.Collections;
 public class JoypadInput : InputController
 {
     private int deviceId=-1;
-    private bool justY,justA,justX,justB,justQ,justP;
-    private bool jUp,jDown,jLeft,jRight;
 
+    private enum INPUT
+    {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN,
+        XBOXY,
+        XBOXB,
+        XBOXA,
+        XBOXX,
+        START,
+        SELECT
+    }
+
+    private readonly int[] inputs =
+    {
+        (int)JoystickList.DpadLeft,
+        (int)JoystickList.DpadRight,
+        (int)JoystickList.DpadUp,
+        (int)JoystickList.DpadDown,
+        (int)JoystickList.XboxY,
+        (int)JoystickList.XboxB,
+        (int)JoystickList.XboxA,
+        (int)JoystickList.XboxX,
+        (int)JoystickList.Start,
+        (int)JoystickList.Select
+    };
+
+    private bool[]current;
+    private bool[]previous;
+    
     public JoypadInput(int deviceId)
     {
         this.deviceId=deviceId;
-        justY=justA=justX=justB=false;
-        jUp=jDown=jLeft=jRight=false;
-    }
-    
-   public override bool Left()
-    {
-        return Input.IsJoyButtonPressed(deviceId,(int)JoystickList.DpadLeft);
-    }
-    public override bool Right()
-    {
-        return Input.IsJoyButtonPressed(deviceId,(int)JoystickList.DpadRight);
-    }
-    public override bool Up()
-    {
-        return Input.IsJoyButtonPressed(deviceId,(int)JoystickList.DpadUp);
-    }
-    public override bool Down()
-    {
-        return Input.IsJoyButtonPressed(deviceId,(int)JoystickList.DpadDown);
-    }
-    public override bool Jump()
-    {
-        return Input.IsJoyButtonPressed(deviceId,(int)JoystickList.XboxY);
-    }
-    public override bool JustJump()
-    {
-        if(Input.IsJoyButtonPressed(deviceId,(int)JoystickList.XboxY))
-        {
-            if(!justY)
-            {
-                return justY=true;
-            }
-            return false;
-        }
-        return justY=false;
+
+        current=new bool[inputs.Length];
+        previous=new bool[inputs.Length];
     }
 
-    public override bool Attack()
+    public override void Poll()
     {
-        return Input.IsJoyButtonPressed(deviceId,(int)JoystickList.XboxB);
-    }
-    public override bool JustAttack()
-    {
-        if(Input.IsJoyButtonPressed(deviceId,(int)JoystickList.XboxB))
+        for(int i=0;i<inputs.Length;i++)
         {
-            if(!justB)
-            {
-                return justB=true;
-            }
-            return false;
+            previous[i]=current[i];
+            current[i]=Input.IsJoyButtonPressed(deviceId,inputs[i]);
         }
-        return justB=false;
-    }
-    public override bool Change()
-    {
-        return Input.IsJoyButtonPressed(deviceId,(int)JoystickList.XboxA);
-    }
-    public override bool JustChange()
-    {
-        if(Input.IsJoyButtonPressed(deviceId,(int)JoystickList.XboxA))
-        {
-            if(!justA)
-            {
-                return justA=true;
-            }
-            return false;
-        }
-        return justA=false;
     }
 
-    public override bool JustAccept()
+    public override bool Left()
     {
-        if(Input.IsJoyButtonPressed(deviceId,(int)JoystickList.XboxX))
-        {
-            if(!justX)
-            {
-                return justX=true;
-            }
-            return false;
-        }
-        return justX=false;
-    }
-
-    public override bool Pause()
-    {
-        if(Input.IsJoyButtonPressed(deviceId,(int)JoystickList.Start))
-        {
-            if(!justP)
-            {
-                return justP=true;
-            }
-            return false;
-        }
-        return justP=false;     
-    }
-    public override bool Quit()
-    {
-        if(Input.IsJoyButtonPressed(deviceId,(int)JoystickList.Select))
-        {
-            if(!justQ)
-            {
-                return justQ=true;
-            }
-            return false;
-        }
-        return justQ=false;        
+        return current[(int)INPUT.LEFT];
     }
 
     public override bool JustLeft()
     {
-        if(Input.IsJoyButtonPressed(deviceId,(int)JoystickList.DpadLeft))
-        {
-            if(!jLeft)
-            {
-                return jLeft=true;
-            }
-            return false;
-        }
-        return jLeft=false;
+        return current[(int)INPUT.LEFT]&&!previous[(int)INPUT.LEFT];
+    }
+
+    public override bool Right()
+    {
+        return current[(int)INPUT.RIGHT];
     }
 
     public override bool JustRight()
     {
-        if(Input.IsJoyButtonPressed(deviceId,(int)JoystickList.DpadRight))
-        {
-            if(!jRight)
-            {
-                return jRight=true;
-            }
-            return false;
-        }
-        return jRight=false;
+        return current[(int)INPUT.RIGHT]&&!previous[(int)INPUT.RIGHT];
+    }
+
+    public override bool Up()
+    {
+        return current[(int)INPUT.UP];
     }
 
     public override bool JustUp()
     {
-        if(Input.IsJoyButtonPressed(deviceId,(int)JoystickList.DpadUp))
-        {
-            if(!jUp)
-            {
-                return jUp=true;
-            }
-            return false;
-        }
-        return jUp=false;
+        return current[(int)INPUT.UP]&&!previous[(int)INPUT.UP];
+    }
+
+    public override bool Down()
+    {
+        return current[(int)INPUT.DOWN];
     }
 
     public override bool JustDown()
     {
-        if(Input.IsJoyButtonPressed(deviceId,(int)JoystickList.DpadDown))
-        {
-            if(!jDown)
-            {
-                return jDown=true;
-            }
-            return false;
-        }
-        return jDown=false;
+        return current[(int)INPUT.DOWN]&&!previous[(int)INPUT.DOWN];
+    }
+
+    public override bool Jump()
+    {
+        return current[(int)INPUT.XBOXY];
+    }
+
+    public override bool JustJump()
+    {
+        return current[(int)INPUT.XBOXY]&&!previous[(int)INPUT.XBOXY];
+    }
+
+    public override bool Attack()
+    {
+        return current[(int)INPUT.XBOXX];
+    }
+    public override bool JustAttack()
+    {
+        return current[(int)INPUT.XBOXX]&&!previous[(int)INPUT.XBOXX];
+    }
+
+    public override bool Change()
+    {
+        return current[(int)INPUT.XBOXA];
+    }
+    public override bool JustChange()
+    {
+        return current[(int)INPUT.XBOXA]&&!previous[(int)INPUT.XBOXA];
+    }
+
+    public override bool JustAccept()
+    {
+        return current[(int)INPUT.XBOXB]&&!previous[(int)INPUT.XBOXB];
+    }
+
+    public override bool Pause()
+    {
+        return current[(int)INPUT.START]&&!previous[(int)INPUT.START];
+    }
+
+    public override bool Quit()
+    {
+        return current[(int)INPUT.SELECT]&&!previous[(int)INPUT.SELECT];
+    }
+
+    public override void Rumble(float value)
+    {
+        Input.StartJoyVibration(deviceId,1f,value,0.25f);
+        return;
     }
 
     public override void Free()

@@ -15,6 +15,9 @@ margin_right = 182.0
 margin_bottom = 172.0
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_vertical_guides_": [ 16.0 ]
+}
 SCALE_SIZE = 0.5
 
 [node name="Label" type="Label" parent="."]
@@ -96,9 +99,9 @@ margin_left = 16.0
 margin_top = 120.0
 margin_right = 344.0
 margin_bottom = 250.0
-text = "Fullscreen           No Effects
-Vertical Sync       Glow Effect
-2d Lights"
+text = "Fullscreen           -No Effects
+Vertical Sync       -Glow Effect
+2d Lights             -Rumble"
 
 [node name="Fullscreen" type="CheckBox" parent="Screen"]
 margin_left = 139.0
@@ -132,5 +135,12 @@ rect_scale = Vector2( 0.5, 0.5 )
 margin_left = 139.0
 margin_top = 64.0
 margin_right = 171.0
+margin_bottom = 104.0
+rect_scale = Vector2( 0.5, 0.5 )
+
+[node name="Rumble" type="CheckBox" parent="Screen"]
+margin_left = 299.0
+margin_top = 64.0
+margin_right = 331.0
 margin_bottom = 104.0
 rect_scale = Vector2( 0.5, 0.5 )

@@ -3,6 +3,7 @@ using System;
 
 public abstract class InputController
 {
+    public abstract void Poll();
     public abstract bool Left();
     public abstract bool JustLeft();
     public abstract bool Right();
@@ -20,5 +21,6 @@ public abstract class InputController
     public abstract bool Pause();
     public abstract bool Quit();
     public abstract bool JustAccept();
+    public abstract void Rumble(float value);
     public abstract void Free();
 }

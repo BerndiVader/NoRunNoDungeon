@@ -1,13 +1,23 @@
 using Godot;
 using System;
+using System.Runtime.Serialization;
 
 public class MobileInput : InputController
 {
 
-    private Touch touch;
-    private Stick stick;
-    private Buttons buttons;
-    private bool jUp,jDown,jLeft,jRight;
+    private readonly Touch touch;
+    private readonly Stick stick;
+    private readonly Buttons buttons;
+
+    private enum DIRECTIONS
+    {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN
+    }
+
+    private bool[]states=new bool[4];
 
     public MobileInput(Node scene)
     {
@@ -23,7 +33,15 @@ public class MobileInput : InputController
         buttons.PauseMode=Node.PauseModeEnum.Process;
         scene.PauseMode=Node.PauseModeEnum.Process;
 
-        jUp=jDown=jLeft=jRight=false;
+        for(int i=0;i<states.Length;i++)
+        {
+            states[i]=false;
+        }
+    }
+
+    public override void Poll()
+    {
+        return;
     }
 
     public override bool Left()
@@ -53,19 +71,23 @@ public class MobileInput : InputController
     }
     public override bool Attack()
     {
-        return buttons.o.IsPressed();
+        return buttons.attack.IsPressed();
     }
     public override bool JustAttack()
     {
-        return buttons.o.JustPressed();
+        return buttons.attack.JustPressed();
     }
     public override bool Change()
     {
-        return buttons.x.IsPressed();
+        return buttons.change.IsPressed();
     }
     public override bool JustChange()
     {
-        return buttons.x.JustPressed();
+        return buttons.change.JustPressed();
+    }
+        public override bool JustAccept()
+    {
+        return buttons.accept.JustPressed();
     }
 
     public override void Free()
@@ -88,56 +110,57 @@ public class MobileInput : InputController
     {
         if(stick.GetValue().x<-0.96f)
         {
-            if(!jLeft)
+            if(!states[(int)DIRECTIONS.LEFT])
             {
-                return jLeft=true;
+                return states[(int)DIRECTIONS.LEFT]=true;
             }
             return false;
         }
-        return jLeft=false;
+        return states[(int)DIRECTIONS.LEFT]=false;
     }
 
     public override bool JustRight()
     {
         if(stick.GetValue().x>0.96f)
         {
-            if(!jRight)
+            if(!states[(int)DIRECTIONS.RIGHT])
             {
-                return jRight=true;
+                return states[(int)DIRECTIONS.RIGHT]=true;
             }
             return false;
         }
-        return jRight=false;
+        return states[(int)DIRECTIONS.RIGHT]=false;
     }
 
     public override bool JustUp()
     {
         if(stick.GetValue().y<-0.96f)
         {
-            if(!jUp)
+            if(!states[(int)DIRECTIONS.UP])
             {
-                return jUp=true;
+                return states[(int)DIRECTIONS.UP]=true;
             }
             return false;
         }
-        return jUp=false;
+        return states[(int)DIRECTIONS.UP]=false;
     }
 
     public override bool JustDown()
     {
         if(stick.GetValue().y>0.96f)
         {
-            if(!jDown)
+            if(!states[(int)DIRECTIONS.DOWN])
             {
-                return jDown=true;
+                return states[(int)DIRECTIONS.DOWN]=true;
             }
             return false;
         }
-        return jDown=false;        
+        return states[(int)DIRECTIONS.DOWN]=false;        
     }
 
-    public override bool JustAccept()
+    public override void Rumble(float value)
     {
-        throw new NotImplementedException();
+        Input.VibrateHandheld(250);
     }
+
 }

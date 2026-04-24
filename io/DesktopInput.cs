@@ -4,6 +4,8 @@ using System;
 public class DesktopInput : InputController
 {
 
+    public override void Poll() {}
+
     public override bool Left()
     {
         return Input.IsKeyPressed((int)KeyList.A);
@@ -76,6 +78,11 @@ public class DesktopInput : InputController
     public override bool JustAccept()
     {
         return Input.IsActionJustPressed("ui_accept");
+    }
+
+    public override void Rumble(float value)
+    {
+        return;
     }
 
     public override void Free()

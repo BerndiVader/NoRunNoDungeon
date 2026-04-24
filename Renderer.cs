@@ -37,7 +37,7 @@ public class Renderer : CanvasModulate
             }
         }
 
-        if(shake!=0d) 
+        if(shake!=0f) 
         {
             ApplyShake();
         }
@@ -66,10 +66,18 @@ public class Renderer : CanvasModulate
     public void Shake(float amount)
     {
         shake=Mathf.Min(shake+amount,ShakeMax);
+        if(GameSettings.current.Rumble)
+        {
+            World.instance.input.Rumble(shake/ShakeMax);
+        }
     }
     public void SetShake(float amount)
     {
         shake=Mathf.Min(amount,ShakeMax);
+        if(GameSettings.current.Rumble)
+        {
+            World.instance.input.Rumble(shake/ShakeMax);
+        }
     }
 
     public void PlaySfx(AudioStream stream,Vector2 position)

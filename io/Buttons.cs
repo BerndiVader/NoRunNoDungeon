@@ -3,13 +3,13 @@ using System;
 
 public class Buttons : Node2D
 {
-    public XButton jump,x,o,c;
+    public XButton jump,attack,change,accept;
     public override void _Ready()
     {
         jump=(XButton)GetNode("A");
-        x=(XButton)GetNode("X");
-        o=(XButton)GetNode("O");
-        c=(XButton)GetNode("0");
+        attack=(XButton)GetNode("0");
+        change=(XButton)GetNode("X");
+        accept=(XButton)GetNode("O");
         SetPhysicsProcess(false);
         SetProcessInput(false);
         SetProcess(false);

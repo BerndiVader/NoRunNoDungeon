@@ -24,7 +24,7 @@ public class Intro : Node
 	}
 
 	public override void _PhysicsProcess(float delta)
-	{
+	{		
 		if(onOptions)
         {
 			if(GetNodeOrNull<OptionsUI>("Options")!=null||GetNodeOrNull<InstructionsUI>("Instructions")!=null)
@@ -35,6 +35,7 @@ public class Intro : Node
 			onOptions=false;
 			input=ResourceUtils.GetInputController(this);
         }
+		input.Poll();
 
 		if(input.Jump())
 		{

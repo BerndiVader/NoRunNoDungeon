@@ -149,6 +149,7 @@ public class World : Node
 
     public override void _PhysicsProcess(float delta)
     {
+		input.Poll();
 		goal(delta);
     }
 

@@ -13,6 +13,7 @@ public static class GameSettings
         public bool Vsync {get;set;}
         public bool Glow {get;set;}
         public bool Light {get;set;}
+        public bool Rumble {get;set;}
         public Viewport.UsageEnum Usage {get;set;}
         public float WindowSizeX{get;set;}
         public float WindowSizeY{get;set;}
@@ -49,6 +50,7 @@ public static class GameSettings
             Usage=Viewport.UsageEnum.Usage3d;
             Light=true;
             Glow=true;
+            Rumble=true;
             LowProcessorUsageMode=false;
             KeepScreenOn=true;
             TargetFps=0;

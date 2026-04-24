@@ -3,29 +3,27 @@ using System;
 
 public class XButton : TouchScreenButton
 {
-    protected bool jPressed;
+    protected bool pressed;
 
     public override void _Ready()
     {
         SetProcess(false);
         SetProcessInput(false);
         SetPhysicsProcess(false);
-        jPressed=false;
+        pressed=false;
     }
 
     public bool JustPressed()
     {
         if(IsPressed())
         {
-            if(!jPressed)
+            if(!pressed)
             {
-                jPressed=true;
-                return jPressed;
+                return pressed=true;
             }
             return false;
         }
-        jPressed=false;
-        return false;
+        return pressed=false;
     }
 
 }

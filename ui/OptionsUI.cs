@@ -9,7 +9,7 @@ public class OptionsUI : BaseUI
     public PackedScene back;
     
     private Button acceptBtn, defaultBtn, cancelBtn;
-    private CheckBox fullScreen, vSync, fx, glow,light;
+    private CheckBox fullScreen, vSync, fx, glow, light, rumble;
     private HSlider volume, sfx, background;
 
     public override void _Ready()
@@ -28,6 +28,7 @@ public class OptionsUI : BaseUI
         fx=GetNode<CheckBox>("Screen/FX");
         glow=GetNode<CheckBox>("Screen/Glow");
         light=GetNode<CheckBox>("Screen/Lights");
+        rumble=GetNode<CheckBox>("Screen/Rumble");
         
         acceptBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(acceptBtn));
         defaultBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(defaultBtn));
@@ -49,6 +50,7 @@ public class OptionsUI : BaseUI
         fx.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(fx));
         glow.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(glow));
         light.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(light));
+        rumble.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(rumble));
 
         UpdateButtons();
 
@@ -87,6 +89,7 @@ public class OptionsUI : BaseUI
                 GameSettings.current.Vsync=vSync.Pressed;
                 GameSettings.current.Glow=glow.Pressed;
                 GameSettings.current.Light=light.Pressed;
+                GameSettings.current.Rumble=rumble.Pressed;
                 if(!fullScreen.Pressed)
                 {
                     GameSettings.current.WindowPositionX=OS.WindowPosition.x;
@@ -137,6 +140,7 @@ public class OptionsUI : BaseUI
         fx.Pressed=GameSettings.current.Usage==Viewport.UsageEnum.Usage2d;
         glow.Pressed=GameSettings.current.Glow;
         light.Pressed=GameSettings.current.Light;
+        rumble.Pressed=GameSettings.current.Rumble;
     }
 
     private void Back()
