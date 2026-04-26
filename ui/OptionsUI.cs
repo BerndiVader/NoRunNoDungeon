@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class OptionsUI : BaseUI
 {
@@ -11,6 +12,8 @@ public class OptionsUI : BaseUI
     private Button acceptBtn, defaultBtn, cancelBtn;
     private CheckBox fullScreen, vSync, fx, glow, light, rumble;
     private HSlider volume, sfx, background;
+    private OptionButton inputSelector;
+    private GameSettings.InputCandit inputCandit;
 
     public override void _Ready()
     {
@@ -28,7 +31,9 @@ public class OptionsUI : BaseUI
         fx=GetNode<CheckBox>("Screen/FX");
         glow=GetNode<CheckBox>("Screen/Glow");
         light=GetNode<CheckBox>("Screen/Lights");
+
         rumble=GetNode<CheckBox>("Screen/Rumble");
+        inputSelector=GetNode<OptionButton>("InputSelector");
         
         acceptBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(acceptBtn));
         defaultBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(defaultBtn));
@@ -51,6 +56,7 @@ public class OptionsUI : BaseUI
         glow.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(glow));
         light.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(light));
         rumble.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(rumble));
+        inputSelector.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(inputSelector));
 
         UpdateButtons();
 
@@ -90,6 +96,23 @@ public class OptionsUI : BaseUI
                 GameSettings.current.Glow=glow.Pressed;
                 GameSettings.current.Light=light.Pressed;
                 GameSettings.current.Rumble=rumble.Pressed;
+
+                List<GameSettings.InputCandit>inputs=GameSettings.AvailInputs();
+                string name=inputSelector.GetItemText(inputSelector.Selected);
+
+                foreach(GameSettings.InputCandit candit in inputs)
+                {
+                    if(candit.name==name)
+                    {
+                        GameSettings.current.Input=candit;
+                        if(World.state==Gamestate.PAUSED)
+                        {
+                            World.instance.input=ResourceUtils.GetInputController(World.instance.uiLayer);
+                        }
+                        break;
+                    }
+                }             
+
                 if(!fullScreen.Pressed)
                 {
                     GameSettings.current.WindowPositionX=OS.WindowPosition.x;
@@ -141,6 +164,23 @@ public class OptionsUI : BaseUI
         glow.Pressed=GameSettings.current.Glow;
         light.Pressed=GameSettings.current.Light;
         rumble.Pressed=GameSettings.current.Rumble;
+
+        List<GameSettings.InputCandit>inputs=GameSettings.AvailInputs();
+        inputSelector.Clear();
+        foreach(GameSettings.InputCandit input in inputs)
+        {
+            inputSelector.AddItem(input.name);
+        }
+
+        for(int i=0;i<inputSelector.GetItemCount();i++)
+        {
+            if(inputSelector.GetItemText(i)==GameSettings.current.Input.name)
+            {
+                inputSelector.Selected=i;
+                break;
+            }
+        }
+
     }
 
     private void Back()

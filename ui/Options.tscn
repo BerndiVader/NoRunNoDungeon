@@ -9,10 +9,10 @@ atlas = ExtResource( 2 )
 region = Rect2( 2, 2, 44, 44 )
 
 [node name="Panel" type="Panel"]
-margin_left = -178.0
-margin_top = -128.0
-margin_right = 182.0
-margin_bottom = 172.0
+margin_left = -181.0
+margin_top = -152.0
+margin_right = 179.0
+margin_bottom = 158.0
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
 __meta__ = {
@@ -29,20 +29,26 @@ text = "Options"
 align = 1
 valign = 1
 
-[node name="Node2D" type="Sprite" parent="."]
-position = Vector2( 180, 150 )
-scale = Vector2( 8.189, 7 )
-z_index = -1
+[node name="Node2D" type="TextureRect" parent="."]
+anchor_left = 0.017
+anchor_top = 0.016
+anchor_right = 0.017
+anchor_bottom = 0.016
+margin_left = -0.12
+margin_top = 0.04
+margin_right = 347.88
+margin_bottom = 299.04
 texture = SubResource( 1 )
+expand = true
 
 [node name="Sound" type="Label" parent="."]
 margin_left = 16.0
 margin_top = 14.0
 margin_right = 344.0
 margin_bottom = 110.0
-text = "Overall Volume
-Sound FX
-Background"
+text = " Overall Volume
+       Sound FX
+    Background"
 
 [node name="Overall" type="HSlider" parent="Sound"]
 margin_left = 144.0
@@ -75,33 +81,33 @@ rounded = true
 
 [node name="Accept" type="Button" parent="."]
 margin_left = 18.0
-margin_top = 256.0
+margin_top = 269.0
 margin_right = 114.0
-margin_bottom = 285.0
+margin_bottom = 298.0
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="."]
 margin_left = 250.0
-margin_top = 256.0
+margin_top = 269.0
 margin_right = 346.0
-margin_bottom = 285.0
+margin_bottom = 298.0
 text = "Cancel"
 
 [node name="Default" type="Button" parent="."]
 margin_left = 132.0
-margin_top = 256.0
+margin_top = 269.0
 margin_right = 228.0
-margin_bottom = 285.0
+margin_bottom = 298.0
 text = "Default"
 
 [node name="Screen" type="Label" parent="."]
 margin_left = 16.0
 margin_top = 120.0
 margin_right = 344.0
-margin_bottom = 250.0
-text = "Fullscreen           -No Effects
-Vertical Sync       -Glow Effect
-2d Lights             -Rumble"
+margin_bottom = 216.0
+text = "     Fullscreen         No Effects
+ Vertical Sync        Glow Effect
+      2d Lights               Rumble"
 
 [node name="Fullscreen" type="CheckBox" parent="Screen"]
 margin_left = 139.0
@@ -144,3 +150,10 @@ margin_top = 64.0
 margin_right = 331.0
 margin_bottom = 104.0
 rect_scale = Vector2( 0.5, 0.5 )
+
+[node name="InputSelector" type="OptionButton" parent="."]
+margin_left = 97.0
+margin_top = 230.0
+margin_right = 283.0
+margin_bottom = 259.0
+clip_text = true

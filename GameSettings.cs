@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public static class GameSettings
 {
@@ -22,6 +23,7 @@ public static class GameSettings
         public bool LowProcessorUsageMode {get;set;}
         public int TargetFps {get;set;}
         public bool KeepScreenOn {get;set;}
+        public InputCandit Input {get;set;}
 
         [JsonIgnore]
         public int masterBus;
@@ -54,6 +56,15 @@ public static class GameSettings
             LowProcessorUsageMode=false;
             KeepScreenOn=true;
             TargetFps=0;
+
+            if(GameSettings.isMobile)
+            {
+                Input=InputCandit.Touchpad();
+            }
+            else
+            {
+                Input=InputCandit.Keyboard();
+            }
         }
 
         public void SetAll(Node node)
@@ -88,9 +99,46 @@ public static class GameSettings
 
     }
 
+    public class InputCandit
+    {
+        public enum TYPE
+        {
+            UNKNOWN,
+            KEYBOARD,
+            TOUCHPAD,
+            JOYPAD
+        }
+
+        public string name;
+        public TYPE type;
+        public int deviceID;
+
+        public static InputCandit Keyboard()
+        {
+            return new InputCandit
+            {
+                type=TYPE.KEYBOARD,
+                deviceID=0,
+                name="Keyboard"
+            };
+        }
+
+        public static InputCandit Touchpad()
+        {
+            return new InputCandit
+            {
+                type=TYPE.TOUCHPAD,
+                deviceID=0,
+                name="Touchpad"
+            };
+        }
+    }
+
     public static bool isMobile;
 
     public static Config current;
+    private static readonly List<InputCandit>inputCandits=new List<InputCandit>();
+
     private static string ROOT_NAME;
     private static string CONFIG_DIR=>ROOT_NAME+"gamesettings/";
     private static string CONFIG_NAME=>"config.json";
@@ -114,6 +162,41 @@ public static class GameSettings
         SaveConfig(current);
         current=LoadConfig();
 
+    }
+
+    public static List<InputCandit> AvailInputs()
+    {
+        inputCandits.Clear();
+        DefaultInputs();
+
+        foreach(int id in Input.GetConnectedJoypads())
+        {
+            if(Input.IsJoyKnown(id))
+            {
+                inputCandits.Add(
+                    new InputCandit
+                    {
+                        deviceID=id,
+                        type=InputCandit.TYPE.JOYPAD,
+                        name=Input.GetJoyName(id)+":"+id,
+                    }
+                );
+            }
+        }
+
+        return inputCandits;
+    }
+
+    private static void DefaultInputs()
+    {
+        if(!isMobile)
+        {
+            inputCandits.Add(InputCandit.Keyboard());
+        }
+        else
+        {
+            inputCandits.Add(InputCandit.Touchpad());
+        }
     }
 
     public static void SaveConfig(Config config)

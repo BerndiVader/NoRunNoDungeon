@@ -215,6 +215,19 @@ public static class ResourceUtils
 
     public static InputController GetInputController(Node scene)
     {
+        if(GameSettings.current.Input!=null)
+        {
+            switch(GameSettings.current.Input.type)
+            {
+                case GameSettings.InputCandit.TYPE.KEYBOARD:
+                    return new DesktopInput();
+                case GameSettings.InputCandit.TYPE.TOUCHPAD:
+                    return new MobileInput(scene);
+                case GameSettings.InputCandit.TYPE.JOYPAD:
+                    return new JoypadInput(GameSettings.current.Input.deviceID);
+            }
+        }
+
         if(GameSettings.isMobile)
         {
             return new MobileInput(scene);
