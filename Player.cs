@@ -19,23 +19,36 @@ public class Player : KinematicBody2D
     {
         public bool Left;
         public bool Right;
-        public bool Jump;
         public bool Down;
+        public bool Up;
+        public bool Jump;
         public bool Attack;
+        public bool JustAttack;
         public bool Interact;
+        public bool JustInteract;
+        public bool JustJump;
         public bool JustLeft;
         public bool JustRight;
+        public bool JustUp;
+        public bool JustDown;
 
         public void Update()
         {
             Left=World.instance.input.Left();
             Right=World.instance.input.Right();
-            Jump=World.instance.input.JustJump();
+            Up=World.instance.input.Up();
             Down=World.instance.input.Down();
-            Attack=World.instance.input.JustAttack();
-            Interact=World.instance.input.JustChange();
             JustLeft=World.instance.input.JustLeft();
-            JustRight=World.instance.input.JustRight();            
+            JustRight=World.instance.input.JustRight();
+            JustUp=World.instance.input.JustUp();
+            JustDown=World.instance.input.JustDown();
+
+            Jump=World.instance.input.Jump();
+            Attack=World.instance.input.Attack();
+            Interact=World.instance.input.Change();
+            JustJump=World.instance.input.JustJump();
+            JustAttack=World.instance.input.JustAttack();
+            JustInteract=World.instance.input.JustChange();
         }
     }
 
@@ -162,7 +175,7 @@ public class Player : KinematicBody2D
 
         input.Update();
 
-        if(input.Attack&&weapon!=null)
+        if(input.JustAttack&&weapon!=null)
         {
             weapon.Attack();
         }
@@ -300,7 +313,7 @@ public class Player : KinematicBody2D
                 doubleJump=jumping=false;
                 jumpParticles.Emitting=false;
             }
-            else if(input.Jump&&!doubleJump)
+            else if(input.JustJump&&!doubleJump)
             {
                 doubleJump=true;
                 velocity.y=-(JUMP_SPEED*JumpModifier-levelYSpeed);
@@ -310,7 +323,7 @@ public class Player : KinematicBody2D
                 SpawnDust(Dust.TYPE.JUMP,animationController.FlipH,true,-1f);
             }
         }
-        else if(input.Jump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME*JumpModifier)
+        else if(input.JustJump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME*JumpModifier)
         {
             if(onSlope)
             {

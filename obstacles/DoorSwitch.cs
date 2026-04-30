@@ -46,7 +46,7 @@ public class DoorSwitch : Area2D
 
     public override void _PhysicsProcess(float delta)
     {
-        if(!tween.IsActive()&&Player.instance.input.Interact)
+        if(!tween.IsActive()&&Player.instance.input.JustInteract)
         {
             if(ONE_TIME&&used)
             {
