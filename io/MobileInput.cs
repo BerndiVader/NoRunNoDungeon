@@ -17,7 +17,7 @@ public class MobileInput : InputController
         DOWN
     }
 
-    private bool[]states=new bool[4];
+    private readonly bool[]states=new bool[4];
 
     public MobileInput(Node scene)
     {

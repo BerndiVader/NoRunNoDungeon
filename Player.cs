@@ -75,7 +75,7 @@ public class Player : KinematicBody2D
 
     private bool onTeleport=false;
 
-    private Input input=new Input();
+    public Input input=new Input();
 
     private List<WEAPONS>weapons;
     private int coins=0;

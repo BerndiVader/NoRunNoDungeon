@@ -75,7 +75,7 @@ public class Gate : Area2D,ISwitchable
     {
         if(active)
         {
-            if(World.instance.input.JustChange())
+            if(Player.instance.input.Interact)
             {
                 active=false;
                 SetPhysicsProcess(active);

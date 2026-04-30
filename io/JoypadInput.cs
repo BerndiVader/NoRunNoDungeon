@@ -33,8 +33,8 @@ public class JoypadInput : InputController
         (int)JoystickList.Select
     };
 
-    private bool[]current;
-    private bool[]previous;
+    private readonly bool[]current;
+    private readonly bool[]previous;
     
     public JoypadInput(int deviceId)
     {
