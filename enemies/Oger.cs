@@ -415,13 +415,13 @@ public class Oger : KinematicMonster
             for(int i=0;i<slides;i++)
             {
                 var collision=GetSlideCollision(i);
+
                 if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
                 {
                     velocity.x=platform.CurrentSpeed.x;
-                } else
-                {
-                    velocity=StopX(velocity,delta);
+                    break;
                 }
+                velocity=StopX(velocity,delta);
             }    
         }
 

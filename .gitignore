@@ -11,3 +11,5 @@
 .gitignore
 export_presets.cfg
 nodungeon.csproj.user
+mono_crash*
+

@@ -245,11 +245,9 @@ public abstract class KinematicMonster : KinematicBody2D
                 if(GetSlideCollision(i).Collider is Platform platform)
                 {
                     velocity.x=platform.CurrentSpeed.x;
+                    break;
                 }
-                else
-                {
-                    velocity=StopX(velocity,delta);
-                }
+                velocity=StopX(velocity,delta);
             }
         }
         else
