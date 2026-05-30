@@ -240,14 +240,19 @@ public abstract class KinematicMonster : KinematicBody2D
         int slides=GetSlideCount();
         if(slides>0)
         {
+            bool stop=false;
             for(int i=0;i<slides;i++)
             {
                 if(GetSlideCollision(i).Collider is Platform platform)
                 {
                     velocity.x=platform.CurrentSpeed.x;
                     break;
+                } 
+                else if(!stop)
+                {
+                    velocity=StopX(velocity,delta);
+                    stop=true;
                 }
-                velocity=StopX(velocity,delta);
             }
         }
         else
