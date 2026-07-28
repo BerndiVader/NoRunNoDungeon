@@ -1,6 +1,5 @@
-using System.Linq;
 using Godot;
-using Godot.Collections;
+
 public class JoypadInput : InputController
 {
     private int deviceId=-1;
@@ -19,7 +18,7 @@ public class JoypadInput : InputController
         SELECT
     }
 
-    private readonly int[] inputs =
+    private readonly int[] inputs=
     {
         (int)JoystickList.DpadLeft,
         (int)JoystickList.DpadRight,

@@ -57,13 +57,10 @@ public static class GameSettings
             KeepScreenOn=true;
             TargetFps=0;
 
-            if(GameSettings.isMobile)
+            List<InputCandit>inputs=AvailInputs();
+            if(inputs.Count>0)
             {
-                Input=InputCandit.Touchpad();
-            }
-            else
-            {
-                Input=InputCandit.Keyboard();
+                Input=inputs[0];
             }
         }
 
@@ -195,7 +192,10 @@ public static class GameSettings
         }
         else
         {
-            inputCandits.Add(InputCandit.Touchpad());
+            if(OS.HasTouchscreenUiHint())
+            {
+                inputCandits.Add(InputCandit.Touchpad());
+            } 
         }
     }
 
