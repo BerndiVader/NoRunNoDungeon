@@ -37,12 +37,12 @@ public class Intro : Node
         }
 		input.Poll();
 
-		if(input.Jump())
+		if(input.JustJump())
 		{
 			input.Free();
 			World.ChangeScene(ResourceUtils.world);
 		}
-		else if(input.Change())
+		else if(input.ReleasedChange())
         {
 			input.Free();
 			OptionsUI options=BaseUI.OptionsPack.Instance<OptionsUI>();
@@ -51,7 +51,7 @@ public class Intro : Node
 			onOptions=true;
 			GetNode<RichTextLabel>(nameof(RichTextLabel)).Visible=false;
         }
-		else if(input.Attack())
+		else if(input.JustAttack())
 		{
 			input.Free();
 			InstructionsUI instructions=BaseUI.InstructionsPack.Instance<InstructionsUI>();

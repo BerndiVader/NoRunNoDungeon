@@ -13,7 +13,6 @@ public class OptionsUI : BaseUI
     private CheckBox fullScreen, vSync, fx, glow, light, rumble;
     private HSlider volume, sfx, background;
     private OptionButton inputSelector;
-    private GameSettings.InputCandit inputCandit;
 
     public override void _Ready()
     {
@@ -31,8 +30,8 @@ public class OptionsUI : BaseUI
         fx=GetNode<CheckBox>("Screen/FX");
         glow=GetNode<CheckBox>("Screen/Glow");
         light=GetNode<CheckBox>("Screen/Lights");
-
         rumble=GetNode<CheckBox>("Screen/Rumble");
+
         inputSelector=GetNode<OptionButton>("InputSelector");
         
         acceptBtn.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(acceptBtn));
@@ -50,6 +49,19 @@ public class OptionsUI : BaseUI
         sfx.Connect("drag_ended",this,nameof(ChangeSfx));
         background.Connect("drag_ended",this,nameof(ChangeBackground));
 
+        fullScreen.Connect("focus_entered",this,nameof(OnFocus),new Godot.Collections.Array(fullScreen));
+        fullScreen.Connect("focus_exited",this,nameof(OffFocus),new Godot.Collections.Array(fullScreen));
+        vSync.Connect("focus_entered",this,nameof(OnFocus),new Godot.Collections.Array(vSync));
+        vSync.Connect("focus_exited",this,nameof(OffFocus),new Godot.Collections.Array(vSync));
+        fx.Connect("focus_entered",this,nameof(OnFocus),new Godot.Collections.Array(fx));
+        fx.Connect("focus_exited",this,nameof(OffFocus),new Godot.Collections.Array(fx));
+        glow.Connect("focus_entered",this,nameof(OnFocus),new Godot.Collections.Array(glow));
+        glow.Connect("focus_exited",this,nameof(OffFocus),new Godot.Collections.Array(glow));
+        light.Connect("focus_entered",this,nameof(OnFocus),new Godot.Collections.Array(light));
+        light.Connect("focus_exited",this,nameof(OffFocus),new Godot.Collections.Array(light));
+        rumble.Connect("focus_entered",this,nameof(OnFocus),new Godot.Collections.Array(rumble));
+        rumble.Connect("focus_exited",this,nameof(OffFocus),new Godot.Collections.Array(rumble));
+
         fullScreen.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(fullScreen));
         vSync.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(vSync));
         fx.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(fx));
@@ -57,6 +69,8 @@ public class OptionsUI : BaseUI
         light.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(light));
         rumble.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(rumble));
         inputSelector.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(inputSelector));
+
+        acceptBtn.CallDeferred("grab_focus");
 
         UpdateButtons();
 
@@ -83,6 +97,16 @@ public class OptionsUI : BaseUI
         player.Bus="Background";
         player.Play();
     }
+
+    private void OnFocus(CheckBox button)
+    {
+        button.Flat=true;
+    }
+    private void OffFocus(CheckBox button)
+    {
+        button.Flat=false;
+    }
+
     private void OnButtonUp(Button button)
     {
         switch(button.Name)

@@ -85,7 +85,12 @@ public class MobileInput : InputController
     {
         return buttons.change.JustPressed();
     }
-        public override bool JustAccept()
+    public override bool ReleasedChange()
+    {
+        return JustChange();
+    }
+
+    public override bool JustAccept()
     {
         return buttons.accept.JustPressed();
     }

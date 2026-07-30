@@ -36,8 +36,8 @@ margin_left = 32.0
 margin_top = 17.0
 margin_right = 128.0
 margin_bottom = 46.0
-focus_mode = 0
-toggle_mode = true
+focus_next = NodePath("../Main")
+focus_previous = NodePath("../Quit")
 text = "Continue"
 
 [node name="Main" type="Button" parent="."]
@@ -45,7 +45,8 @@ margin_left = 32.0
 margin_top = 51.0
 margin_right = 128.0
 margin_bottom = 80.0
-focus_mode = 0
+focus_next = NodePath("../Options")
+focus_previous = NodePath("../Continue")
 toggle_mode = true
 text = "Main"
 
@@ -54,7 +55,8 @@ margin_left = 32.0
 margin_top = 85.0
 margin_right = 128.0
 margin_bottom = 114.0
-focus_mode = 0
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../Main")
 toggle_mode = true
 text = "Options"
 
@@ -63,5 +65,7 @@ margin_left = 32.0
 margin_top = 120.0
 margin_right = 128.0
 margin_bottom = 149.0
+focus_next = NodePath("../Continue")
+focus_previous = NodePath("../Options")
 toggle_mode = true
 text = "Quit"

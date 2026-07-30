@@ -125,13 +125,14 @@ public static class GameSettings
             return new InputCandit
             {
                 type=TYPE.TOUCHPAD,
-                deviceID=0,
+                deviceID=1,
                 name="Touchpad"
             };
         }
     }
 
     public static bool isMobile;
+    public static bool hasTouch;
 
     public static Config current;
     private static readonly List<InputCandit>inputCandits=new List<InputCandit>();
@@ -142,10 +143,12 @@ public static class GameSettings
 
     public static void Init()
     {
+        hasTouch=OS.HasTouchscreenUiHint();
         isMobile=OS.GetName().Equals("android",StringComparison.OrdinalIgnoreCase);
         ROOT_NAME=isMobile?"user://":"res://";
 
         current=new Config();
+        
         Directory dir=new Directory();
         if(!dir.DirExists(CONFIG_DIR))
         {
@@ -161,16 +164,45 @@ public static class GameSettings
 
     }
 
-    public static List<InputCandit> AvailInputs()
+    public static List<InputCandit> AvailInputs(bool defaults=true)
     {
         inputCandits.Clear();
-        DefaultInputs();
+        if(defaults)
+        {
+            DefaultInputs();
+        }
 
         foreach(int id in Input.GetConnectedJoypads())
         {
             if(Input.IsJoyKnown(id))
             {
-                inputCandits.Add(
+                if(!inputCandits.Exists(c=>c.deviceID==id))
+                {
+                    inputCandits.Add
+                    (
+                        new InputCandit
+                        {
+                            deviceID=id,
+                            type=InputCandit.TYPE.JOYPAD,
+                            name=Input.GetJoyName(id)+":"+id,
+                        }
+                    );
+                }
+
+            }
+        }
+
+        return inputCandits;
+    }
+
+    private static void DefaultInputs()
+    {
+        List<InputCandit>candits=new List<InputCandit>();
+        foreach(int id in Input.GetConnectedJoypads())
+        {
+            if(Input.IsJoyKnown(id))
+            {
+                candits.Add(
                     new InputCandit
                     {
                         deviceID=id,
@@ -181,21 +213,18 @@ public static class GameSettings
             }
         }
 
-        return inputCandits;
-    }
-
-    private static void DefaultInputs()
-    {
-        if(!isMobile)
+        if(candits.Count>0)
         {
-            inputCandits.Add(InputCandit.Keyboard());
+            inputCandits.Add(candits[0]);
+        }
+
+        if(hasTouch)
+        {
+            inputCandits.Add(InputCandit.Touchpad());
         }
         else
         {
-            if(OS.HasTouchscreenUiHint())
-            {
-                inputCandits.Add(InputCandit.Touchpad());
-            } 
+            inputCandits.Add(InputCandit.Keyboard());
         }
     }
 

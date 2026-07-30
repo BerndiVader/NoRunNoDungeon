@@ -46,6 +46,11 @@ public class DesktopInput : InputController
     {
         return Input.IsActionJustPressed("ui_down");
     }
+    public override bool ReleasedChange()
+    {
+        return JustChange();
+    }
+
     public override bool Pause()
     {
         return Input.IsActionJustPressed("ui_pause");

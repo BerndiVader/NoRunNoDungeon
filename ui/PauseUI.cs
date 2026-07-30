@@ -26,7 +26,7 @@ public class PauseUI : BaseUI
         main.Connect("button_up",this,nameof(OnMouseSelected),new Godot.Collections.Array(1));
         options.Connect("button_up",this,nameof(OnMouseSelected),new Godot.Collections.Array(2));
 
-
+        cont.CallDeferred("grab_focus");
         selected=0;
         base._Ready();
     }

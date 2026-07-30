@@ -7,6 +7,8 @@ public class InstructionsUI : BaseUI
     public override void _Ready()
     {
         back=GetNode<Button>("Back");
+        
+        back.CallDeferred("grab_focus");
 
         back.Connect("mouse_entered",this,nameof(PlaySfx),new Godot.Collections.Array(sfxHover));
         back.Connect("button_down",this,nameof(PlaySfx),new Godot.Collections.Array(sfxButtons));

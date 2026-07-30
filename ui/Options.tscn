@@ -55,6 +55,8 @@ margin_left = 144.0
 margin_top = 15.0
 margin_right = 318.0
 margin_bottom = 27.0
+focus_next = NodePath("../Sfx")
+focus_previous = NodePath("../../Cancel")
 min_value = -60.0
 max_value = 0.0
 value = -12.0
@@ -65,6 +67,8 @@ margin_left = 144.0
 margin_top = 41.0
 margin_right = 318.0
 margin_bottom = 53.0
+focus_next = NodePath("../Background")
+focus_previous = NodePath("../Overall")
 min_value = -60.0
 max_value = 0.0
 rounded = true
@@ -74,6 +78,8 @@ margin_left = 144.0
 margin_top = 66.0
 margin_right = 318.0
 margin_bottom = 78.0
+focus_next = NodePath("../../Screen/Fullscreen")
+focus_previous = NodePath("../Sfx")
 min_value = -60.0
 max_value = 0.0
 value = -8.0
@@ -84,6 +90,8 @@ margin_left = 18.0
 margin_top = 269.0
 margin_right = 114.0
 margin_bottom = 298.0
+focus_next = NodePath("../Default")
+focus_previous = NodePath("../InputSelector")
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="."]
@@ -91,6 +99,8 @@ margin_left = 250.0
 margin_top = 269.0
 margin_right = 346.0
 margin_bottom = 298.0
+focus_next = NodePath("../Sound/Overall")
+focus_previous = NodePath("../Default")
 text = "Cancel"
 
 [node name="Default" type="Button" parent="."]
@@ -98,6 +108,8 @@ margin_left = 132.0
 margin_top = 269.0
 margin_right = 228.0
 margin_bottom = 298.0
+focus_next = NodePath("../Cancel")
+focus_previous = NodePath("../Accept")
 text = "Default"
 
 [node name="Screen" type="Label" parent="."]
@@ -115,6 +127,9 @@ margin_top = 9.0
 margin_right = 171.0
 margin_bottom = 49.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_right = NodePath("../FX")
+focus_next = NodePath("../FX")
+focus_previous = NodePath(".")
 
 [node name="FX" type="CheckBox" parent="Screen"]
 margin_left = 300.0
@@ -122,6 +137,9 @@ margin_top = 9.0
 margin_right = 332.0
 margin_bottom = 49.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_left = NodePath("../Fullscreen")
+focus_next = NodePath("../VSync")
+focus_previous = NodePath("../Fullscreen")
 
 [node name="VSync" type="CheckBox" parent="Screen"]
 margin_left = 139.0
@@ -129,6 +147,9 @@ margin_top = 37.0
 margin_right = 171.0
 margin_bottom = 77.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_right = NodePath("../Glow")
+focus_next = NodePath("../Glow")
+focus_previous = NodePath("../FX")
 
 [node name="Glow" type="CheckBox" parent="Screen"]
 margin_left = 300.0
@@ -136,6 +157,9 @@ margin_top = 37.0
 margin_right = 332.0
 margin_bottom = 77.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_left = NodePath("../VSync")
+focus_next = NodePath("../Lights")
+focus_previous = NodePath("../VSync")
 
 [node name="Lights" type="CheckBox" parent="Screen"]
 margin_left = 139.0
@@ -143,6 +167,9 @@ margin_top = 64.0
 margin_right = 171.0
 margin_bottom = 104.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_right = NodePath("../Rumble")
+focus_next = NodePath("../Rumble")
+focus_previous = NodePath("../Glow")
 
 [node name="Rumble" type="CheckBox" parent="Screen"]
 margin_left = 299.0
@@ -150,10 +177,15 @@ margin_top = 64.0
 margin_right = 331.0
 margin_bottom = 104.0
 rect_scale = Vector2( 0.5, 0.5 )
+focus_neighbour_left = NodePath("../Lights")
+focus_next = NodePath("../../InputSelector")
+focus_previous = NodePath("../Lights")
 
 [node name="InputSelector" type="OptionButton" parent="."]
 margin_left = 97.0
 margin_top = 230.0
 margin_right = 283.0
 margin_bottom = 259.0
+focus_next = NodePath("../Accept")
+focus_previous = NodePath("../Screen/Rumble")
 clip_text = true

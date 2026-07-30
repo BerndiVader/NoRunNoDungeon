@@ -103,7 +103,7 @@ public static class ResourceUtils
             }
         }
 
-        if(GameSettings.isMobile)
+        if(GameSettings.hasTouch)
         {
             Console.WriteLine("Found Mobile, loading touch input");
             touch=ResourceLoader.Load<PackedScene>("res://io/Touch.tscn");
@@ -228,20 +228,20 @@ public static class ResourceUtils
             }
         }
 
-        if(GameSettings.isMobile)
+        List<GameSettings.InputCandit>candits=GameSettings.AvailInputs(false);
+        if(GameSettings.hasTouch)
         {
+            if(candits.Count>0)
+            {
+                return new JoypadInput(candits[0].deviceID);
+            }
             return new MobileInput(scene);
         }
         else
         {
-            Godot.Collections.Array pads=Input.GetConnectedJoypads();
-            if(pads.Count>0)
+            if(candits.Count>0)
             {
-                int deviceId=(int)pads[0];
-                if(Input.IsJoyKnown(deviceId))
-                {
-                    return new JoypadInput(deviceId);
-                }
+                return new JoypadInput(candits[0].deviceID);
             }
             return new DesktopInput();
         }

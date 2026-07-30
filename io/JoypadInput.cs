@@ -119,6 +119,10 @@ public class JoypadInput : InputController
     {
         return current[(int)INPUT.XBOXA]&&!previous[(int)INPUT.XBOXA];
     }
+    public override bool ReleasedChange()
+    {
+        return !current[(int)INPUT.XBOXA]&&previous[(int)INPUT.XBOXA];
+    }
 
     public override bool JustAccept()
     {

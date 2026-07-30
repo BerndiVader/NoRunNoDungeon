@@ -18,6 +18,7 @@ public abstract class InputController
     public abstract bool JustAttack();
     public abstract bool Change();
     public abstract bool JustChange();
+    public abstract bool ReleasedChange();
     public abstract bool Pause();
     public abstract bool Quit();
     public abstract bool JustAccept();
