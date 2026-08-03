@@ -6,7 +6,6 @@ public class ShopUI : TabContainer
     public Shopkeeper owner;
 
     private AnimatedSprite icons;
-
     public override void _Ready()
     {
         icons=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
@@ -18,13 +17,12 @@ public class ShopUI : TabContainer
         SetTabTitle(1,"");
         SetTabTitle(2,"");
 
-        SetProcess(false);
-        SetProcessInput(false);
-        SetPhysicsProcess(true);
+        SetPhysicsProcess(false);
     }
 
     public override void _PhysicsProcess(float delta)
     {
+
         if(GetTree().Paused&&Visible)
         {
             Visible=false;
@@ -32,6 +30,30 @@ public class ShopUI : TabContainer
             owner.AddChild(this);
             SetPhysicsProcess(false);
         }
+        else
+        {
+            int sum=GetTabCount();
+
+            if(Player.instance.input.JustRight)
+            {
+                CurrentTab=(CurrentTab+sum+1)%sum;
+                GetCurrentTabControl().CallDeferred("grab_focus");
+            }
+            else if(Player.instance.input.JustLeft)
+            {
+                CurrentTab=(CurrentTab+sum-1)%sum;
+                GetCurrentTabControl().CallDeferred("grab_focus");
+            }
+            else if(Player.instance.input.Down)
+            {
+                GetCurrentTabControl().GetNode<ScrollContainer>(nameof(ScrollContainer)).ScrollVertical+=5;
+            }
+            else if(Player.instance.input.Up)
+            {
+                GetCurrentTabControl().GetNode<ScrollContainer>(nameof(ScrollContainer)).ScrollVertical-=5;
+            }
+        }
+
     }
 
     public void Init()
@@ -43,6 +65,7 @@ public class ShopUI : TabContainer
             ScrollContainer scroller=GetTabControl(i).GetNode<ScrollContainer>("ScrollContainer");
             scroller.ScrollVertical=0;
         }
+        GetCurrentTabControl().CallDeferred("grab_focus");
     }
 
 

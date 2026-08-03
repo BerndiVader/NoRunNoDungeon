@@ -80,6 +80,8 @@ anchor_bottom = 0.361
 margin_right = 295.808
 margin_bottom = 144.032
 rect_clip_content = true
+focus_neighbour_right = NodePath("Weapons")
+focus_mode = 2
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
 
@@ -91,10 +93,14 @@ margin_top = 29.0
 margin_right = -8.0
 margin_bottom = -8.0
 hint_tooltip = "Weapons"
+focus_neighbour_left = NodePath("../Specials")
+focus_neighbour_right = NodePath("../PowerUps")
+focus_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Weapons"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+focus_mode = 2
 scroll_horizontal_enabled = false
 
 [node name="GridContainer" type="GridContainer" parent="Weapons/ScrollContainer"]
@@ -198,15 +204,19 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
-margin_top = 29.0
+margin_top = 21.0
 margin_right = -8.0
 margin_bottom = -8.0
 rect_clip_content = true
 hint_tooltip = "Power Ups"
+focus_neighbour_left = NodePath("../Weapons")
+focus_neighbour_right = NodePath("../Specials")
+focus_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PowerUps"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+focus_mode = 2
 scroll_horizontal_enabled = false
 
 [node name="GridContainer" type="GridContainer" parent="PowerUps/ScrollContainer"]
@@ -310,15 +320,19 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
-margin_top = 29.0
+margin_top = 21.0
 margin_right = -8.0
 margin_bottom = -8.0
 rect_clip_content = true
 hint_tooltip = "Power Ups"
+focus_neighbour_left = NodePath("../PowerUps")
+focus_neighbour_right = NodePath("../Weapons")
+focus_mode = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Specials"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+focus_mode = 2
 scroll_horizontal_enabled = false
 
 [node name="GridContainer" type="GridContainer" parent="Specials/ScrollContainer"]
