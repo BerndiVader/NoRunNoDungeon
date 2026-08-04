@@ -158,7 +158,6 @@ tracks/3/keys = {
 }
 
 [node name="Shopkeeper" type="KinematicBody2D"]
-position = Vector2( 0, -1 )
 collision_layer = 0
 collision_mask = 22
 script = ExtResource( 1 )
@@ -170,10 +169,10 @@ spawn_facing = 1
 
 [node name="Shop" parent="." instance=ExtResource( 4 )]
 visible = false
-margin_left = 7.0
-margin_top = -122.0
-margin_right = 183.0
-margin_bottom = -10.0
+margin_left = 8.0
+margin_top = -57.0
+margin_right = 146.0
+margin_bottom = 53.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, 1 )

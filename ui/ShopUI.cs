@@ -37,12 +37,10 @@ public class ShopUI : TabContainer
             if(Player.instance.input.JustRight)
             {
                 CurrentTab=(CurrentTab+sum+1)%sum;
-                GetCurrentTabControl().CallDeferred("grab_focus");
             }
             else if(Player.instance.input.JustLeft)
             {
                 CurrentTab=(CurrentTab+sum-1)%sum;
-                GetCurrentTabControl().CallDeferred("grab_focus");
             }
             else if(Player.instance.input.Down)
             {
@@ -52,6 +50,9 @@ public class ShopUI : TabContainer
             {
                 GetCurrentTabControl().GetNode<ScrollContainer>(nameof(ScrollContainer)).ScrollVertical-=5;
             }
+            else if(Player.instance.input.JustAttack)
+            {
+            }
         }
 
     }
@@ -59,14 +60,23 @@ public class ShopUI : TabContainer
     public void Init()
     {
         CurrentTab=0;
-        int size=GetTabCount();
-        for(int i=0;i<size;i++)
+        int sum=GetTabCount();
+        for(int i=0;i<sum;i++)
         {
             ScrollContainer scroller=GetTabControl(i).GetNode<ScrollContainer>("ScrollContainer");
             scroller.ScrollVertical=0;
         }
-        GetCurrentTabControl().CallDeferred("grab_focus");
     }
+
+    public void OnWeaponFocusEntered()
+    {
+        GD.Print("Weapons focus entered");
+    }
+    public void OnWeaponFocusExited()
+    {
+        GD.Print("Weapons focus exited");
+    }
+
 
 
 }
