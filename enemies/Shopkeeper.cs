@@ -3,6 +3,8 @@ using System;
 
 public class Shopkeeper : KinematicMonster
 {
+    private static readonly PackedScene itemPack=ResourceLoader.Load<PackedScene>("res://ui/ShopItem.tscn");
+
     private Vector2 shopOffset;
     private AudioStreamPlayer player;
     private ShopUI shop;
@@ -18,9 +20,11 @@ public class Shopkeeper : KinematicMonster
 		SetSpawnFacing();
 
         shop=GetNode<ShopUI>("Shop");
-        shopOffset=shop.RectPosition;
+        shop.Visible=false;
         shop.owner=this;
-
+        shopOffset=shop.RectPosition;
+        PopulateShop();
+        
         OnIdle();
     }
 
@@ -66,8 +70,6 @@ public class Shopkeeper : KinematicMonster
             }
         }
 
-
-
         Navigation(delta);
     }
 
@@ -85,4 +87,17 @@ public class Shopkeeper : KinematicMonster
         player.Play();
     }
 
+    private void PopulateShop()
+    {
+        for(int i=0;i<20;i++)
+        {
+            ShopItem item=itemPack.Instance<ShopItem>();
+            shop.Populate(ShopUI.Cat.WEAPONS,item);
+            item=itemPack.Instance<ShopItem>();
+            shop.Populate(ShopUI.Cat.SPECIALS,item);
+            item=itemPack.Instance<ShopItem>();
+            shop.Populate(ShopUI.Cat.POWERUPS,item);
+        }
+        
+    }
 }

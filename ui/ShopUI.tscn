@@ -1,10 +1,8 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://ui/shop_theme.tres" type="Theme" id=1]
-[ext_resource path="res://image/gate_animated.png" type="Texture" id=2]
 [ext_resource path="res://ui/ShopUI.cs" type="Script" id=3]
 [ext_resource path="res://ui/GUI/shop_icons.png" type="Texture" id=4]
-[ext_resource path="res://ui/ShopItem.tscn" type="PackedScene" id=5]
 
 [sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 4 )
@@ -103,86 +101,10 @@ focus_mode = 2
 scroll_horizontal_enabled = false
 
 [node name="GridContainer" type="GridContainer" parent="Weapons/ScrollContainer"]
-margin_right = 108.0
-margin_bottom = 108.0
 rect_clip_content = true
 custom_constants/vseparation = 4
 custom_constants/hseparation = 4
 columns = 4
-
-[node name="ShopItem" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-
-[node name="ShopItem2" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 28.0
-margin_right = 52.0
-
-[node name="ShopItem3" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 56.0
-margin_right = 80.0
-
-[node name="ShopItem4" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 84.0
-margin_right = 108.0
-
-[node name="ShopItem5" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_top = 28.0
-margin_bottom = 52.0
-
-[node name="ShopItem6" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 28.0
-margin_top = 28.0
-margin_right = 52.0
-margin_bottom = 52.0
-
-[node name="ShopItem7" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 56.0
-margin_top = 28.0
-margin_right = 80.0
-margin_bottom = 52.0
-
-[node name="ShopItem8" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 84.0
-margin_top = 28.0
-margin_right = 108.0
-margin_bottom = 52.0
-
-[node name="ShopItem9" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_top = 56.0
-margin_bottom = 80.0
-
-[node name="ShopItem10" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 28.0
-margin_top = 56.0
-margin_right = 52.0
-margin_bottom = 80.0
-
-[node name="ShopItem11" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 56.0
-margin_top = 56.0
-margin_right = 80.0
-margin_bottom = 80.0
-
-[node name="ShopItem12" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 84.0
-margin_top = 56.0
-margin_right = 108.0
-margin_bottom = 80.0
-
-[node name="ShopItem13" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_top = 84.0
-margin_bottom = 108.0
-
-[node name="ShopItem14" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 28.0
-margin_top = 84.0
-margin_right = 52.0
-margin_bottom = 108.0
-
-[node name="ShopItem15" parent="Weapons/ScrollContainer/GridContainer" instance=ExtResource( 5 )]
-margin_left = 56.0
-margin_top = 84.0
-margin_right = 80.0
-margin_bottom = 108.0
 
 [node name="PowerUps" type="Tabs" parent="."]
 visible = false
@@ -205,100 +127,10 @@ focus_mode = 2
 scroll_horizontal_enabled = false
 
 [node name="GridContainer" type="GridContainer" parent="PowerUps/ScrollContainer"]
-margin_right = 280.0
-margin_bottom = 372.0
 rect_clip_content = true
-custom_constants/vseparation = 0
-custom_constants/hseparation = 0
-columns = 2
-
-[node name="TextureRect8" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_right = 140.0
-margin_bottom = 62.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect3" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_right = 280.0
-margin_bottom = 62.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_top = 62.0
-margin_right = 140.0
-margin_bottom = 124.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect2" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_top = 62.0
-margin_right = 280.0
-margin_bottom = 124.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect4" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_top = 124.0
-margin_right = 140.0
-margin_bottom = 186.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect5" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_top = 124.0
-margin_right = 280.0
-margin_bottom = 186.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect6" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_top = 186.0
-margin_right = 140.0
-margin_bottom = 248.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect7" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_top = 186.0
-margin_right = 280.0
-margin_bottom = 248.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect9" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_top = 248.0
-margin_right = 140.0
-margin_bottom = 310.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect10" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_top = 248.0
-margin_right = 280.0
-margin_bottom = 310.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect11" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_top = 310.0
-margin_right = 140.0
-margin_bottom = 372.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect12" type="TextureRect" parent="PowerUps/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_top = 310.0
-margin_right = 280.0
-margin_bottom = 372.0
-texture = ExtResource( 2 )
-stretch_mode = 3
+custom_constants/vseparation = 4
+custom_constants/hseparation = 4
+columns = 4
 
 [node name="Specials" type="Tabs" parent="."]
 visible = false
@@ -321,100 +153,10 @@ focus_mode = 2
 scroll_horizontal_enabled = false
 
 [node name="GridContainer" type="GridContainer" parent="Specials/ScrollContainer"]
-margin_right = 280.0
-margin_bottom = 372.0
 rect_clip_content = true
-custom_constants/vseparation = 0
-custom_constants/hseparation = 0
-columns = 2
-
-[node name="TextureRect8" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_right = 140.0
-margin_bottom = 62.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect3" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_right = 280.0
-margin_bottom = 62.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_top = 62.0
-margin_right = 140.0
-margin_bottom = 124.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect2" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_top = 62.0
-margin_right = 280.0
-margin_bottom = 124.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect4" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_top = 124.0
-margin_right = 140.0
-margin_bottom = 186.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect5" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_top = 124.0
-margin_right = 280.0
-margin_bottom = 186.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect6" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_top = 186.0
-margin_right = 140.0
-margin_bottom = 248.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect7" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_top = 186.0
-margin_right = 280.0
-margin_bottom = 248.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect9" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_top = 248.0
-margin_right = 140.0
-margin_bottom = 310.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect10" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_top = 248.0
-margin_right = 280.0
-margin_bottom = 310.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect11" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_top = 310.0
-margin_right = 140.0
-margin_bottom = 372.0
-texture = ExtResource( 2 )
-stretch_mode = 3
-
-[node name="TextureRect12" type="TextureRect" parent="Specials/ScrollContainer/GridContainer"]
-margin_left = 140.0
-margin_top = 310.0
-margin_right = 280.0
-margin_bottom = 372.0
-texture = ExtResource( 2 )
-stretch_mode = 3
+custom_constants/vseparation = 4
+custom_constants/hseparation = 4
+columns = 4
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 visible = false

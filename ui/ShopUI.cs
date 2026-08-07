@@ -3,9 +3,17 @@ using System;
 
 public class ShopUI : TabContainer
 {
+    public enum Cat
+    {
+        WEAPONS,
+        POWERUPS,
+        SPECIALS
+    }
+
     public Shopkeeper owner;
 
     private AnimatedSprite icons;
+
     public override void _Ready()
     {
         icons=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
@@ -68,15 +76,11 @@ public class ShopUI : TabContainer
         }
     }
 
-    public void OnWeaponFocusEntered()
+    public void Populate(Cat what,ShopItem item)
     {
-        GD.Print("Weapons focus entered");
+        Control tab=GetTabControl((int)what);
+        GridContainer grid=tab.GetNode<GridContainer>("ScrollContainer/GridContainer");
+        grid.AddChild(item);
     }
-    public void OnWeaponFocusExited()
-    {
-        GD.Print("Weapons focus exited");
-    }
-
-
 
 }

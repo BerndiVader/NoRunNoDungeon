@@ -168,11 +168,10 @@ INTERACTABLE = true
 spawn_facing = 1
 
 [node name="Shop" parent="." instance=ExtResource( 4 )]
-visible = false
 margin_left = 8.0
 margin_top = -57.0
-margin_right = 146.0
-margin_bottom = 53.0
+margin_right = 154.0
+margin_bottom = 59.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, 1 )
