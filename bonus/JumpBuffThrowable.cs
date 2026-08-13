@@ -7,7 +7,6 @@ public class JumpBuffThrowable : BuffThrowable
 
     [Export] private float STRENGTH=0.25f;
     [Export] private int DURATION=20;
-    [Export] private Vector2 VELOCITY=Vector2.Zero;
 
     private float lifetime;
     private bool useLifetime;
@@ -23,13 +22,6 @@ public class JumpBuffThrowable : BuffThrowable
         return buff;
     }
 
-    public override void _Ready()
-    {
-        base._Ready();
-        velocity=VELOCITY;
-        GetNode<Area2D>(nameof(Area2D)).Connect("body_entered",this,nameof(OnBodyEntered));        
-    }
-
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);
@@ -43,22 +35,9 @@ public class JumpBuffThrowable : BuffThrowable
         }
     }    
 
-    public void Apply()
+    public override void Apply()
     {
         JumpBuff.Create(STRENGTH,DURATION);
     }    
-
-    private void OnBodyEntered(Node body) 
-    {
-        if(body is Player)
-        {
-            CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKEN].Instance();
-            particles.Position=World.level.ToLocal(GlobalPosition);
-            particles.audio.Stream=CoinTakenParticles.sfxSmall;
-            World.level.AddChild(particles);
-            CallDeferred("queue_free");
-            Apply();
-        }
-    }
 
 }
