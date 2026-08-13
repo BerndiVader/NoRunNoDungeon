@@ -1,10 +1,13 @@
+using System;
 using Godot;
 
 public class ItemTaken : CPUParticles2D
 {
-    public static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PowerUp/Retro PowerUP StereoUP 05.wav");
-    public readonly SfxPlayer audio=new SfxPlayer();
-    private static Vector2 offset=new Vector2(0f,0.05f);
+    private static readonly AudioStream sfxDefault=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PowerUp/Retro PowerUP StereoUP 05.wav");
+    private static readonly Vector2 offset=new Vector2(0f,0.05f);
+
+    private readonly SfxPlayer audio=new SfxPlayer();
+    public AudioStream sfx=sfxDefault;
 
     public override void _Ready()
     {
