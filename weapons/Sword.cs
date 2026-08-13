@@ -50,7 +50,7 @@ public class Sword : Weapon
 
     public override bool Attack()
     {
-        if (state == WEAPONSTATE.IDLE)
+        if (state==WEAPONSTATE.IDLE)
         {
             if(USE_SHADER)
             {
@@ -61,7 +61,7 @@ public class Sword : Weapon
             }
             PlaySfx(sfxSwing);
             animationPlayer.Play(AnimationNames.SWING + GetStringDirection());
-            state = WEAPONSTATE.ATTACK;
+            state=WEAPONSTATE.ATTACK;
             return true;
         }
         return false;

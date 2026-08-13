@@ -200,6 +200,7 @@ public static class ResourceUtils
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/KingsSword.tscn"));
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/AztecSword.tscn"));
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Rapier.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/RustySword.tscn"));
 
         Console.WriteLine("Loading ingame musics...");
         ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 01 Stronghold Of The Barbarians.mp3"));
