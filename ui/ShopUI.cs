@@ -26,6 +26,8 @@ public class ShopUI : TabContainer
         SetTabTitle(2,"");
 
         SetPhysicsProcess(false);
+        SetProcess(false);
+        SetProcessInput(false);
     }
 
     public override void _PhysicsProcess(float delta)

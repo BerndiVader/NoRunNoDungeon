@@ -101,8 +101,11 @@ public abstract class KinematicMonster : KinematicBody2D
 
         if(RIDEABLE)
         {
-            AddUserSignal(STATE.passanger.ToString());
-            Connect(STATE.passanger.ToString(),this,nameof(OnPassanger));
+            /*
+                AddUserSignal(STATE.passanger.ToString());
+                Connect(STATE.passanger.ToString(),this,nameof(OnPassanger));
+            */
+
             staticBody.AddUserSignal(STATE.passanger.ToString());
             staticBody.Connect(STATE.passanger.ToString(),this,nameof(OnPassanger));
         }
@@ -202,7 +205,7 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void Damage(float delta)
     {
-        if(health<=0)
+        if(health<=0f)
         {
             OnDie();
         }
@@ -213,6 +216,7 @@ public abstract class KinematicMonster : KinematicBody2D
         }
         Navigation(delta);
     }
+    
     protected virtual void Die(float delta)
     {
         EnemieDieParticles particles=ResourceUtils.particles[(int)PARTICLES.ENEMIEDIE].Instance<EnemieDieParticles>();
