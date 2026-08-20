@@ -9,7 +9,7 @@ public class BlindBuffThrowable : BuffThrowable
     [Export] private int DURATION=60;
     [Export] private float DARKNESS=1f;
 
-    private float BASE_STRENGTH=3.5f;
+    private readonly float BASE_STRENGTH=3.5f;
     private float lifetime;
     private bool useLifetime;
 
