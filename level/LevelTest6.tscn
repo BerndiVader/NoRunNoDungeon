@@ -97,7 +97,6 @@ LEVEL_SETTINGS = {
 position = Vector2( 831, 203 )
 
 [node name="BombTroll" parent="BombTrollHolder" index="0"]
-DAMAGE_FORCE = Vector2( 200, -50 )
 HEALTH = 1.0
 CANNON_INITIAL_FORCE = 50.0
 CANNONBALL_SETTINGS = {

@@ -10,4 +10,5 @@ public enum WEAPONS
     KINGSWORD,
     MYTHICSWORD,
     RAPIER,
+    RUSTY,
 }

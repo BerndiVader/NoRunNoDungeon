@@ -161,7 +161,6 @@ extents = Vector2( 5, 6.5 )
 collision_layer = 0
 collision_mask = 6
 script = ExtResource( 9 )
-ANIMATION_OFFSET = Vector2( 0, -1 )
 DAMAGE_FORCE = Vector2( 200, -50 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -190,3 +189,4 @@ shape = SubResource( 6 )
 
 [node name="Mace" parent="." instance=ExtResource( 3 )]
 position = Vector2( 3, 1 )
+cooldown = 5.0

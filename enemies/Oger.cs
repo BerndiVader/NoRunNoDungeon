@@ -165,7 +165,7 @@ public class Oger : KinematicMonster
             float angle=Mathf.Rad2Deg(GlobalPosition.AngleToPoint(victim.GlobalPosition));
             if(angle>45f&&angle<165f)
             {
-                if (MathUtils.RandBool())
+                if(MathUtils.RandBool())
                 {
                     OnStroll();
                 }
@@ -294,10 +294,16 @@ public class Oger : KinematicMonster
     {
         if(state!=STATE.fight)
         {
-            base.OnFight(player);
-            animationController.Play("idle");
-            weapon.Attack();
-            WALK_MAX_SPEED=0f;
+            if(!weapon.Attack())
+            {
+                OnStroll();
+            }
+            else
+            {
+                base.OnFight(player);
+                animationController.Play("idle");
+                WALK_MAX_SPEED=0f;
+            }
         }
     }
 

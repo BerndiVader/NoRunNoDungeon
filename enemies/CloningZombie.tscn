@@ -245,9 +245,10 @@ position = Vector2( 0, -1 )
 collision_layer = 0
 collision_mask = 22
 script = ExtResource( 2 )
-DAMAGE_FORCE = Vector2( 200, -50 )
 
 [node name="ButcherMonster" parent="." instance=ExtResource( 1 )]
+cooldown = 5.0
+warmup = 5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.5, 2 )

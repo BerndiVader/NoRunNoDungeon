@@ -20,9 +20,9 @@ public abstract class KinematicMonster : KinematicBody2D
 
     [Export] protected float DAMAGE_AMOUNT=1f;
     /// <summary>
-    /// HINT: Vector2(200f,-50f)
+    /// HINT: Vector2(100f,-50f)
     /// </summary>
-    [Export] protected Vector2 DAMAGE_FORCE=new Vector2(0f,0f);
+    [Export] protected Vector2 DAMAGE_FORCE=new Vector2(100f,-50f);
     [Export] protected float HEALTH=1f;
     [Export] protected bool RIDEABLE=true;
     [Export] protected bool DESTORYABLE=true;

@@ -3,8 +3,8 @@ using System;
 
 public class HUD : Control
 {
-    private static Texture heart_full=ResourceLoader.Load<Texture>("res://image/0x72/frames/ui_heart_full.png");
-    private static Texture heart_empty=ResourceLoader.Load<Texture>("res://image/0x72/frames/ui_heart_empty.png");
+    private static readonly Texture heart_full=ResourceLoader.Load<Texture>("res://image/0x72/frames/ui_heart_full.png");
+    private static readonly Texture heart_empty=ResourceLoader.Load<Texture>("res://image/0x72/frames/ui_heart_empty.png");
 
     public static HUD instance;
     private HBoxContainer lives;

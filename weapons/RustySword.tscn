@@ -372,7 +372,9 @@ collision_layer = 128
 collision_mask = 32
 script = ExtResource( 2 )
 damage = 0.5
-cooldown = 20
+cooldown = 50
+warmup = 50
+USE_SHADER = false
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
