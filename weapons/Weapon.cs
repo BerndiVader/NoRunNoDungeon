@@ -1,12 +1,14 @@
+using System.Data.Odbc;
 using Godot;
-using System;
 
 public abstract class Weapon : Area2D
 {
-    [Export] protected float damage = 1f;
-    [Export] protected int cooldown = 0;
-    [Export] protected int warmup = 0;
-    protected int cooldownCount,warmupCount;
+    [Export] protected float damage=1f;
+    [Export] protected float cooldown=0.1f;
+    [Export] protected float  warmup=0.1f;
+
+    protected Timer cooldownTimer;
+    protected Timer warmupTimer;
 
     protected AnimationPlayer animationPlayer;
     protected bool hit;
@@ -20,12 +22,30 @@ public abstract class Weapon : Area2D
         DOUBLE_SWING
     }
 
+    protected bool warmupReady=false;
+    protected bool cooldownReady=false;
+
     protected static readonly AudioStream sfxSwing=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/56_Attack_03.wav");
     protected static readonly AudioStream sfxHit=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/61_Hit_03.wav");
     protected static readonly AudioStream sfxMiss=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/08_Step_rock_02.wav");
 
     public override void _Ready()
     {
+        cooldownTimer=new Timer();
+        warmupTimer=new Timer();
+
+        cooldownTimer.OneShot=true;
+        cooldownTimer.WaitTime=cooldown;
+
+        warmupTimer.OneShot=true;
+        warmupTimer.WaitTime=warmup;
+
+        AddChild(cooldownTimer);
+        AddChild(warmupTimer);
+
+        warmupTimer.Start();
+        cooldownTimer.Start();
+
         animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
         animationPlayer.CurrentAnimation=AnimationNames.SETUP.ToString();
         animationPlayer.Play();
@@ -38,29 +58,24 @@ public abstract class Weapon : Area2D
         
         SetProcess(false);
         SetProcessInput(false);
+
         Visible=true;
         state=WEAPONSTATE.IDLE;
         oldState=state;
-
-        warmupCount=warmup;
-    }
-
-    public override void _PhysicsProcess(float delta)
-    {
-        if(warmupCount>0)
-        {
-            warmupCount--;
-        }
-        if(cooldownCount>0)
-        {
-            cooldownCount--;
-        }
-
     }
 
     public virtual void _Free() {}
 
-    public abstract bool Attack();
+    public virtual bool Attack()
+    {
+        if(state==WEAPONSTATE.IDLE&&CooldownReady()&&WarmupReady())
+        {
+            animationPlayer.Play(AnimationNames.SWING+GetStringDirection());
+            state=WEAPONSTATE.ATTACK;
+            return true;
+        }
+        return false;
+    }
 
     protected enum WEAPONSTATE
     {
@@ -77,13 +92,11 @@ public abstract class Weapon : Area2D
                 PlaySfx(sfxHit);
                 node.EmitSignal(STATE.damage.ToString(),Player.instance,damage);
                 hit = true;
-                cooldownCount = cooldown;
                 animationPlayer.PlayBackwards();
             }
             else
             {
                 PlaySfx(sfxMiss);
-                warmupCount = warmup;
             }
         }
     }
@@ -104,6 +117,16 @@ public abstract class Weapon : Area2D
         sfx.Position=World.level.ToLocal(GlobalPosition);
         sfx.Stream=stream;
         World.level.AddChild(sfx);
+    }
+
+    public bool CooldownReady()
+    {
+        return 0f==cooldownTimer.TimeLeft;
+    }
+
+    public bool WarmupReady()
+    {
+        return 0f==warmupTimer.TimeLeft;
     }
 
 }

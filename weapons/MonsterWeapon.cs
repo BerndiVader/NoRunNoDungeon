@@ -7,7 +7,6 @@ public class MonsterWeapon : Weapon
     public override void _Ready()
     {
         base._Ready();
-        warmupCount=0;
         Connect("body_entered",this,nameof(OnHitSomething));
     }
     
@@ -20,7 +19,6 @@ public class MonsterWeapon : Weapon
 
     public override void _PhysicsProcess(float delta)
     {
-        base._PhysicsProcess(delta);
         switch(state)
         {
             case WEAPONSTATE.IDLE:
@@ -38,17 +36,17 @@ public class MonsterWeapon : Weapon
                     animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
                     state=WEAPONSTATE.IDLE;
                     hit=false;
+                    cooldownTimer.Start();
                 }
                 break;
             }
-        }        
+        }
     }
 
     public override bool Attack()
     {
-        if(state==WEAPONSTATE.IDLE&&cooldownCount==0&&warmupCount==0)
+        if(state==WEAPONSTATE.IDLE&&CooldownReady()&&WarmupReady())
         {
-            warmupCount=warmup;
             animationPlayer.Play(AnimationNames.SWING+GetStringDirection());
             state=WEAPONSTATE.ATTACK;
             return true;
@@ -63,23 +61,16 @@ public class MonsterWeapon : Weapon
 
     protected override void OnHitSomething(Node node)
     {
-        if (state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.damage)
+        if(state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.damage)
         {
-            if (node.IsInGroup(GROUPS.PLAYERS.ToString()))
+            if(node.IsInGroup(GROUPS.PLAYERS.ToString()))
             {
-                cooldownCount=cooldown;
                 node.EmitSignal(STATE.damage.ToString(),this,damage);
                 hit=true;
-            }
-            else
-            {
-                warmupCount=warmup;
+                return;
             }
         }
-        else
-        {
-            warmupCount=warmup;
-        }
+
     }
 
 
