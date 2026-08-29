@@ -5,7 +5,7 @@ public class WeaponItem : Bonus
 {    
     public static readonly GradientTexture2D gradient=CreateGradient();
 
-    [Export] private WEAPONS WEAPON_TYPE=WEAPONS.SWORD;
+    [Export] private WEAPONS WEAPON_TYPE=WEAPONS.RUSTY;
     [Export] private bool FORCE_SPAWN=false;
 
     protected readonly Shader glintShader=ResourceLoader.Load<Shader>("res://shaders/Glint.gdshader");
@@ -16,9 +16,14 @@ public class WeaponItem : Bonus
     {
         if(!FORCE_SPAWN&&!SpawnCondition())
         {
-            CallDeferred("queue_free");
-            return;
+            if(!SpawnCondition())
+            {
+                CallDeferred("queue_free");
+                return;
+            }
+            WEAPON_TYPE=WEAPONS.RUSTY;
         }
+
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
