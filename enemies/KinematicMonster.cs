@@ -97,7 +97,7 @@ public abstract class KinematicMonster : KinematicBody2D
         notifier2D.Rotation=Rotation;
 
         staticBody.AddUserSignal(STATE.damage.ToString());
-        staticBody.Connect(STATE.damage.ToString(), this, nameof(OnDamage));
+        staticBody.Connect(STATE.damage.ToString(),this,nameof(OnDamage));
 
         if(RIDEABLE)
         {
@@ -169,7 +169,7 @@ public abstract class KinematicMonster : KinematicBody2D
         squeezed=Mathf.Abs(velocity.y)>200f&&diff.y==0f;
         if(squeezed)
         {
-            OnDamage(this,1f);
+            OnDamage(this,1f,true);
         }
 
         LastPosition=GlobalPosition;
@@ -306,7 +306,8 @@ public abstract class KinematicMonster : KinematicBody2D
             goal=Fight;
         }
     }
-    protected virtual void OnDamage(Node2D node=null,float amount=0f)
+
+    protected virtual void OnDamage(Node2D node=null,float amount=0f,bool overrideDestroyable=false)
     {
         onDelay=false;
         if(state!=STATE.damage&&state!=STATE.die)
@@ -331,10 +332,13 @@ public abstract class KinematicMonster : KinematicBody2D
             lastState=state;
             state=STATE.damage;
 
-            health-=amount;
-            if(amount!=0f&&health>0f)
+            if(DESTORYABLE||overrideDestroyable)
             {
-                HealthNotifier(health);
+                health-=amount;
+                if(amount!=0f&&health>0f)
+                {
+                    HealthNotifier(health);
+                }
             }
 
             goal=Damage;
