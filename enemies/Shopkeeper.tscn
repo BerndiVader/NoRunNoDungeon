@@ -161,6 +161,7 @@ tracks/3/keys = {
 collision_layer = 0
 collision_mask = 22
 script = ExtResource( 1 )
+DAMAGE_FORCE = Vector2( 0, 0 )
 HEALTH = 999.0
 RIDEABLE = false
 DESTORYABLE = false

@@ -86,11 +86,11 @@ public class WalkingTree : KinematicMonster
         base.Passanger(delta);
     } 
 
-	protected override void OnDamage(Node2D node=null,float amount=0f)
+	protected override void OnDamage(Node2D node=null,float amount=0f,bool overrideDestroyable=false)
 	{
 		if(state!=STATE.damage&&state!=STATE.die)
 		{
-			base.OnDamage(node,0f);
+			base.OnDamage(node,amount);
             animationPlayer.Play("PASSANGER");
 		}
 	}

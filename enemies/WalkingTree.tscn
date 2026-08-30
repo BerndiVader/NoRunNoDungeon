@@ -181,7 +181,8 @@ position = Vector2( 0, -1 )
 collision_layer = 0
 collision_mask = 22
 script = ExtResource( 9 )
-ANIMATION_OFFSET = Vector2( 0, -1 )
+DAMAGE_FORCE = Vector2( 0, 0 )
+DESTORYABLE = false
 WALK_FORCE = 20.0
 WALK_MAX_SPEED = 10.0
 

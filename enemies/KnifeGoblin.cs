@@ -138,7 +138,7 @@ public class KnifeGoblin : KinematicMonster
         }
     }
 
-    protected override void OnDamage(Node2D node=null,float amount=0)
+    protected override void OnDamage(Node2D node=null,float amount=0f,bool overrideDestroyable=false)
     {
         if(state!=STATE.damage&&state!=STATE.die)
         {

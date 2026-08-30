@@ -240,7 +240,7 @@ public class CloningZombie : KinematicMonster
         }        
     }
 
-    protected override void OnDamage(Node2D node=null,float amount=0)
+    protected override void OnDamage(Node2D node=null,float amount=0,bool overrideDestroyable=false)
     {
         if(forcedState)
         {

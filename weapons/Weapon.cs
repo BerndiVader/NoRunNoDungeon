@@ -90,7 +90,7 @@ public abstract class Weapon : Area2D
             if(node.HasUserSignal(STATE.damage.ToString()))
             {
                 PlaySfx(sfxHit);
-                node.EmitSignal(STATE.damage.ToString(),Player.instance,damage);
+                node.EmitSignal(STATE.damage.ToString(),Player.instance,damage,false);
                 hit = true;
                 animationPlayer.PlayBackwards();
             }

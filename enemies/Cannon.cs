@@ -81,7 +81,7 @@ public class Cannon : KinematicMonster
         Navigation(delta);
     }
 
-    protected override void OnDamage(Node2D node=null, float amount=0)
+    protected override void OnDamage(Node2D node=null,float amount=0f,bool overrideDestroyable=false)
     {
 
         DaggerShoot particle=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT].Instance<DaggerShoot>();
