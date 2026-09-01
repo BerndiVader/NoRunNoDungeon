@@ -76,7 +76,7 @@ public class CloningZombie : KinematicMonster
         {
             OnAlert();
         }
-        else if(LookingTo(Player.instance.GlobalPosition)&&DistanceToPlayer()<20f)
+        else if(LookingTo(Player.instance.GlobalPosition)&&DistanceSquaredToPlayer()<400f)
         {
             if(!jumping&&rayCast2D.IsColliding())
             {
@@ -85,7 +85,7 @@ public class CloningZombie : KinematicMonster
         }
         else if(IsOnWall())
         {
-            if(DistanceToPlayer()<20f&&!jumping)
+            if(DistanceSquaredToPlayer()<400f&&!jumping)
             {
                 velocity.y=-JUMP_SPEED;
                 jumping=true;
@@ -96,7 +96,7 @@ public class CloningZombie : KinematicMonster
                 FlipH();
             }
         }
-        if(DistanceToPlayer()>50f)
+        if(DistanceSquaredToPlayer()>2500f)
         {
             OnIdle();
         }
@@ -111,12 +111,12 @@ public class CloningZombie : KinematicMonster
         {
             OnAlert();
         }
-        else if(LookingTo(Player.instance.GlobalPosition)&&DistanceToPlayer()<20f)
+        else if(LookingTo(Player.instance.GlobalPosition)&&DistanceSquaredToPlayer()<400f)
         {
             FlipH();
             OnStroll();
         }
-        else if(DistanceToPlayer()<20f)
+        else if(DistanceSquaredToPlayer()<400f)
         {
             if(!rayCast2D.IsColliding()&&!jumping)
             {

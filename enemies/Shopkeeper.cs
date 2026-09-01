@@ -42,7 +42,7 @@ public class Shopkeeper : KinematicMonster
 
     protected override void Idle(float delta)
     {
-        if(DistanceToPlayer()<10f)
+        if(DistanceSquaredToPlayer()<100f)
         {
             if(!shop.Visible)
             {

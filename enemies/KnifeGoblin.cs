@@ -11,10 +11,14 @@ public class KnifeGoblin : KinematicMonster
     private RayCast2D playerCast;
     private MonsterWeapon weapon;
 
+    private float activation_distance_sqrd;
+
 
     public override void _Ready()
     {
         base._Ready();
+
+        activation_distance_sqrd=ACTIVATION_DISTANCE*ACTIVATION_DISTANCE;
 
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
         animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
@@ -50,7 +54,7 @@ public class KnifeGoblin : KinematicMonster
             weapon.Attack();
         }
 
-        if(DistanceToPlayer()<ACTIVATION_DISTANCE)
+        if(DistanceSquaredToPlayer()<activation_distance_sqrd)
         {
             if(facing.x!=Mathf.Sign(Player.instance.GlobalPosition.x-GlobalPosition.x))
             {
@@ -67,7 +71,7 @@ public class KnifeGoblin : KinematicMonster
 
     protected override void Stroll(float delta)
     {
-        if(playerCast.IsColliding()&&DistanceToPlayer()<10f&&!weapon.IsPlaying())
+        if(playerCast.IsColliding()&&DistanceSquaredToPlayer()<100f&&!weapon.IsPlaying())
         {
             weapon.Attack();
         }

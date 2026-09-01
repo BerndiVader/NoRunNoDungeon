@@ -41,8 +41,12 @@ public class Flamethrower : Area2D,ISwitchable
     private CPUParticles2D particles;
     private Timer timer;
 
+    private float distance_sqrd;
+
     public override void _Ready()
     {
+        distance_sqrd=distance*distance;
+
         SetProcess(false);
         SetPhysicsProcess(false);
         SetProcessInput(false);
@@ -102,8 +106,8 @@ public class Flamethrower : Area2D,ISwitchable
     {
         if(InFOV())
         {
-            float d=GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
-            if(d<distance)
+            float d=GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
+            if(d<distance_sqrd)
             {
                 animation.Play("default");
                 SetPhysicsProcess(false);

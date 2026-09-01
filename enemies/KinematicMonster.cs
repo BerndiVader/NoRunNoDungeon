@@ -586,6 +586,11 @@ public abstract class KinematicMonster : KinematicBody2D
         return GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
     }
 
+    protected float DistanceSquaredToPlayer()
+    {
+        return GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
+    }
+
     protected virtual void OnAnimationControllerFinished()
     {
         string current=animationController.Animation;

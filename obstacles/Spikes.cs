@@ -26,8 +26,12 @@ public class Spikes : Area2D,ISwitchable
     private Vector2 MoveDirection;
     private bool moving=false;
 
+    private float ActOnDistanceSqrd;
+
     public override void _Ready()
     {
+        ActOnDistanceSqrd=ActOnDistance*ActOnDistance;
+
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
@@ -82,9 +86,9 @@ public class Spikes : Area2D,ISwitchable
 
     public override void _PhysicsProcess(float delta)
     {
-        float distance=GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
+        float distance=GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
 
-        if(distance<ActOnDistance)
+        if(distance<ActOnDistanceSqrd)
         {
             SetPhysicsProcess(false);
             TweenIn();

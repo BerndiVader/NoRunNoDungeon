@@ -37,6 +37,8 @@ public class SwingingBaton : Area2D,ISwitchable
     private float lastRotation=999f;
     private bool active=false;
 
+    private float activationRangeSqrd;
+
     private delegate void Goal(float delta);
     private Goal goal;
 
@@ -45,6 +47,8 @@ public class SwingingBaton : Area2D,ISwitchable
 
     public override void _Ready()
     {
+        activationRangeSqrd=activationRange*activationRange;
+
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
@@ -110,8 +114,8 @@ public class SwingingBaton : Area2D,ISwitchable
     {
         if(mode==MODE.DISTANCE&&!active)
         {
-            float distance=shape.GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
-            if(distance<activationRange)
+            float distance=shape.GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
+            if(distance<activationRangeSqrd)
             {
                 active=true;
             } 

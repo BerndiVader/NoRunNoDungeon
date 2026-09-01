@@ -16,10 +16,13 @@ public class BombTroll : KinematicMonster
     private RayCast2D rayCast2D;
     private AnimatedSprite throwable;
     private double timestamp;
+    private float activation_distance_sqrd;
 
     public override void _Ready()
     {
         base._Ready();
+
+        activation_distance_sqrd=ACTIVATION_DISTANCE*ACTIVATION_DISTANCE;
 
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
         animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
@@ -44,7 +47,7 @@ public class BombTroll : KinematicMonster
 
     protected override void Idle(float delta)
     {
-        if(DistanceToPlayer()<ACTIVATION_DISTANCE)
+        if(DistanceSquaredToPlayer()<activation_distance_sqrd)
         {
             if(facing.x!=Mathf.Sign(Player.instance.GlobalPosition.x-GlobalPosition.x))
             {

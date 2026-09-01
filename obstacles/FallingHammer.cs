@@ -38,11 +38,16 @@ public class FallingHammer : Area2D,ISwitchable
     private bool playedOnce=false;
     private HAMMERSTATE state=HAMMERSTATE.IDLE;
 
+    private float ACTIVATION_RANGE_SQRD;
+
     private RayCast2D raycast;
     private Tween tween;
 
     public override void _Ready()
     {
+
+        ACTIVATION_RANGE_SQRD=ACTIVATION_RANGE*ACTIVATION_RANGE;
+
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
         AddChild(notifier2D);
@@ -76,10 +81,10 @@ public class FallingHammer : Area2D,ISwitchable
     {
         if(mode==MODE.DISTANCE&&state==HAMMERSTATE.IDLE)
         {
-            float distance=raycast.GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
+            float distance=raycast.GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
             Vector2 direction=raycast.GlobalPosition.DirectionTo(Player.instance.GlobalPosition);
 
-            if(ACTIVATION_RANGE>distance&&Mathf.Sign(direction.x)==-1&&Mathf.Sign(direction.y)==1)
+            if(ACTIVATION_RANGE_SQRD>distance&&Mathf.Sign(direction.x)==-1&&Mathf.Sign(direction.y)==1)
             {
                 Start();
             }

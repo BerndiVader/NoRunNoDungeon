@@ -17,7 +17,7 @@ public class MovingPlatform : Platform
     {
         base._Ready();
 
-        maxDistance=Length*16f;
+        maxDistance=Mathf.Pow(Length*16f,2f);
         speed=Speed;
 
         if(platformState==PLATFORMSTATE.SWITCH)
@@ -30,7 +30,7 @@ public class MovingPlatform : Platform
     public override void _PhysicsProcess(float delta)
     {
         lastPosition=Position;
-        float distance=Position.DistanceTo(startPosition);
+        float distance=Position.DistanceSquaredTo(startPosition);
 
         if(platformState==PLATFORMSTATE.ONPLAYER&&!playerOn)
         {
