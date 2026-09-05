@@ -4,8 +4,10 @@ using System;
 public class Zombie : KinematicMonster
 {
     private int cooldown;
+    private float alertTimer;
     private RayCast2D rayCast2D;
     private Vector2 castTo;
+    private CPUParticles2D aura;
     private MonsterWeapon weapon;
     
     public override void _Ready()
@@ -13,6 +15,8 @@ public class Zombie : KinematicMonster
         base._Ready();
 
         weapon=GetNode<MonsterWeapon>("Mace");
+        aura=GetNode<CPUParticles2D>("Aura");
+        aura.Emitting=false;
 
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
         animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
@@ -51,7 +55,7 @@ public class Zombie : KinematicMonster
         if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId())
         {
             cooldown=0;
-            OnAttack(Player.instance);
+            OnAlert();
         }
         else if(cooldown>250)
         {
@@ -62,16 +66,28 @@ public class Zombie : KinematicMonster
         Navigation(delta);
     }
 
+    protected override void Alert(float delta)
+    {
+        alertTimer+=delta;
+        if(alertTimer>0.45f)
+        {
+            aura.Emitting=false;
+            OnAttack(Player.instance);
+        }
+
+        Navigation(delta);
+    }
+
     protected override void Attack(float delta)
     {
         float distance=rayCast2D.GlobalPosition.DistanceTo(victim.GlobalPosition);
-        if (distance<41f)
+        if(distance<41f)
         {
             Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(victim.GlobalPosition);
             SetFlipH(direction.x<0f);
 
             rayCast2D.CastTo=direction*distance;
-            if (rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
+            if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
             {
                 if(cooldown<0&&!weapon.IsPlaying())
                 {
@@ -131,6 +147,19 @@ public class Zombie : KinematicMonster
     protected override void Die(float delta)
     {
         base.Die(delta);
+    }
+
+    protected override void OnAlert()
+    {
+        onDelay=false;
+        if(state!=STATE.alert&&state!=STATE.die)
+        {
+            lastState=state;
+            state=STATE.alert;
+            goal=Alert;
+            alertTimer=0f;
+            aura.Emitting=true;
+        }
     }
 
     protected override void OnDamage(Node2D node=null,float amount=0f,bool overrideDestroyable=false)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://image/0x72/zombie.png" type="Texture" id=1]
+[ext_resource path="res://particles/Aura.tscn" type="PackedScene" id=2]
 [ext_resource path="res://weapons/Mace.tscn" type="PackedScene" id=3]
 [ext_resource path="res://enemies/Zombie.cs" type="Script" id=9]
 
@@ -163,6 +164,9 @@ collision_mask = 6
 script = ExtResource( 9 )
 DAMAGE_FORCE = Vector2( 200, -50 )
 
+[node name="Aura" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 8 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 7 )
 animation = "idle"
@@ -189,4 +193,3 @@ shape = SubResource( 6 )
 
 [node name="Mace" parent="." instance=ExtResource( 3 )]
 position = Vector2( 3, 1 )
-cooldown = 5.0
