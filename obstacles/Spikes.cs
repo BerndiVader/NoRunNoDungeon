@@ -154,7 +154,7 @@ public class Spikes : Area2D,ISwitchable
     {
         if(node.HasUserSignal(STATE.damage.ToString()))
         {
-            node.EmitSignal(STATE.damage.ToString(),this,Damage);
+            node.EmitSignal(STATE.damage.ToString(),this,Damage,false);
         }
     }
 

@@ -33,9 +33,9 @@ public class SkullBullet : Area2D
 
     public void OnBodyEntered(Node node)
     {
-        if(node.Name=="Player")
+        if(node is Player)
         {
-            node.EmitSignal(STATE.damage.ToString(),this,1f);
+            node.EmitSignal(STATE.damage.ToString(),this,1f,false);
         }
         Destroy();
     }

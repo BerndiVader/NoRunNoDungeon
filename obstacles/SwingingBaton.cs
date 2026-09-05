@@ -104,9 +104,9 @@ public class SwingingBaton : Area2D,ISwitchable
 
     private void OnBodyEntered(Node2D body)
     {
-        if(body.IsInGroup(GROUPS.PLAYERS.ToString()))
+        if(body is Player)
         {
-            body.EmitSignal(STATE.damage.ToString(),this,1f);
+            body.EmitSignal(STATE.damage.ToString(),this,1f,false);
         }
     }
 

@@ -191,7 +191,7 @@ public class Dirtball : KinematicMonster
             goal=Attack;
             if(player!=null)
             {
-                player.EmitSignal(STATE.damage.ToString(),this,DAMAGE_AMOUNT);
+                player.EmitSignal(STATE.damage.ToString(),this,DAMAGE_AMOUNT,false);
             }
         }
     }

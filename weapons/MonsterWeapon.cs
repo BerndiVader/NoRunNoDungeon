@@ -65,7 +65,7 @@ public class MonsterWeapon : Weapon
         {
             if(node.IsInGroup(GROUPS.PLAYERS.ToString()))
             {
-                node.EmitSignal(STATE.damage.ToString(),this,damage);
+                node.EmitSignal(STATE.damage.ToString(),this,damage,false);
                 hit=true;
                 return;
             }

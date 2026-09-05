@@ -118,7 +118,7 @@ public class FallingRocks : StaticBody2D,ISwitchable
     {
         if(body.IsInGroup(GROUPS.PLAYERS.ToString())&&state==State.FALLING) 
         {
-            body.EmitSignal(STATE.damage.ToString(),this,1f);
+            body.EmitSignal(STATE.damage.ToString(),this,1f,false);
         }
     }
 

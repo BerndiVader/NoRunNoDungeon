@@ -19,8 +19,8 @@ public class Fairy : KinematicMonster
 
         passedTime=0f;
         state=STATE.unknown;
-        EmitSignal(STATE.idle.ToString());
         projectileCooldown=0;
+        OnIdle();
     }
 
     public override void _PhysicsProcess(float delta)

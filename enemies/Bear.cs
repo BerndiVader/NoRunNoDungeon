@@ -142,7 +142,7 @@ public class Bear : KinematicMonster
     private void OnPlayerEntered(Node body)
     {
         damager.SetDeferred("Monitoring",false);
-        body.EmitSignal(STATE.damage.ToString(),this,1f);
+        body.EmitSignal(STATE.damage.ToString(),this,1f,false);
     }
 
     protected override void FlipH()

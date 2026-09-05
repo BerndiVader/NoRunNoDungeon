@@ -129,7 +129,7 @@ public class Flamethrower : Area2D,ISwitchable
     {
         if(node.HasUserSignal(STATE.damage.ToString()))
         {
-            node.EmitSignal(STATE.damage.ToString(),this,1f);
+            node.EmitSignal(STATE.damage.ToString(),this,1f,false);
             SetDeferred("monitoring",false);
         }
         

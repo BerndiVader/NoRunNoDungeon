@@ -141,7 +141,7 @@ public class Player : KinematicBody2D
         ZIndex=2;
 
         AddUserSignal(STATE.damage.ToString());
-        Connect(STATE.damage.ToString(),this,nameof(OnDamaged));
+        Connect(STATE.damage.ToString(),this,nameof(OnDamage));
 
         FORCE=new Vector2(0f,GRAVITY);
         motionTrails=(ShaderMaterial)animationController.Material;
@@ -274,7 +274,7 @@ public class Player : KinematicBody2D
             bool squeezed=Mathf.Abs(velocity.y)>200f&&diff.y==0f;
             if(squeezed)
             {
-                OnDamaged();
+                OnDamage();
                 return;
             }
 
@@ -370,7 +370,7 @@ public class Player : KinematicBody2D
 
         if(Position.x<-20f||Position.y<-60f||Position.x>World.RESOLUTION.x+20f||Position.y>World.RESOLUTION.y+20f)
         {
-            OnDamaged();
+            OnDamage();
         }
 
         UpdateAnimation(onFloor,friction);
@@ -403,7 +403,7 @@ public class Player : KinematicBody2D
         return weapon!=null;
     }
 
-    private void OnDamaged(Node2D damager=null,float amount=1f)
+    private void OnDamage(Node2D damager=null,float amount=1f,bool ignore=false)
     {
         if(World.state!=Gamestate.DIEING)
         {

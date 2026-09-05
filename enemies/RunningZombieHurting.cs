@@ -86,7 +86,7 @@ public class RunningZombieHurting : RunningZombie
     {
         if(state==STATE.attack&&node is Player)
         {
-            node.EmitSignal("damage",this,1f);
+            node.EmitSignal("damage",this,1f,false);
             area.SetDeferred("monitoring",false);
         }
     }

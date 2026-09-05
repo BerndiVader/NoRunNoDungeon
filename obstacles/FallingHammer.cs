@@ -108,7 +108,7 @@ public class FallingHammer : Area2D,ISwitchable
                     {
                         if(hit["collider"] is Destroyables destroyable)
                         {
-                            destroyable.EmitSignal(STATE.damage.ToString(),this,1f);
+                            destroyable.EmitSignal(STATE.damage.ToString(),this,1f,false);
                         }
                     }
                 }
@@ -224,7 +224,7 @@ public class FallingHammer : Area2D,ISwitchable
                         if(victim.IsInGroup(GROUPS.PLAYERS.ToString())
                             ||(HIT_MONSTERS&&victim.IsInGroup(GROUPS.ENEMIES.ToString())))
                         {
-                            victim.EmitSignal(STATE.damage.ToString(),this,1f);
+                            victim.EmitSignal(STATE.damage.ToString(),this,1f,false);
                         }
                         break;
                     }

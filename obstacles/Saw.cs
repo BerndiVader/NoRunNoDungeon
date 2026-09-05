@@ -134,7 +134,7 @@ public class Saw : Area2D
         if(node is Player)
         {
             SetDeferred("monitoring",false);
-            node.EmitSignal(STATE.damage.ToString(),this,1f);
+            node.EmitSignal(STATE.damage.ToString(),this,1f,false);
         }
     }
 

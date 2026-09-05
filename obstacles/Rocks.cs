@@ -45,7 +45,7 @@ public class Rocks : PhysicsObject
         if(node.IsInGroup(GROUPS.PLAYERS.ToString()))
         {
             collision.SetDeferred("monitoring",false);
-            node.EmitSignal(STATE.damage.ToString(),this,DAMAGE);
+            node.EmitSignal(STATE.damage.ToString(),this,DAMAGE,false);
         }
     }
     
