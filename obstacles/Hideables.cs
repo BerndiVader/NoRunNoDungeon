@@ -57,7 +57,7 @@ public class Hideables : Area2D,ISwitchable
 
     }
 
-    private void OnDamage(Node2D node=null,float amount=0f)
+    private void OnDamage(Node2D node=null,float amount=0f,bool ignore=false)
     {
         if(NOT_PLAYER&&node.IsInGroup(GROUPS.PLAYERS.ToString()))
         {
