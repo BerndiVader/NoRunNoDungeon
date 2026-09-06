@@ -90,8 +90,8 @@ public class BombTroll : KinematicMonster
 		}
 
 		velocity+=force*delta;
-		velocity=MoveAndSlideWithSnap(velocity,justDamaged?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
-        justDamaged=false;
+		velocity=MoveAndSlideWithSnap(velocity,noSnap?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
+        noSnap=false;
         
     }
 
@@ -179,7 +179,7 @@ public class BombTroll : KinematicMonster
             {
                 animationDirection=-1;
             }
-            justDamaged=true;
+            noSnap=true;
             velocity.x+=DAMAGE_FORCE.x*animationDirection;
             velocity.y+=DAMAGE_FORCE.y;
             animationPlayer.Play("HIT");

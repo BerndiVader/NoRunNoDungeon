@@ -49,7 +49,7 @@ public class KnifeGoblin : KinematicMonster
     protected override void Idle(float delta)
     {
 
-        if(!justDamaged&&playerCast.IsColliding()&&!weapon.IsPlaying())
+        if(!noSnap&&playerCast.IsColliding()&&!weapon.IsPlaying())
         {
             weapon.Attack();
         }
@@ -97,8 +97,8 @@ public class KnifeGoblin : KinematicMonster
 		}
 
 		velocity+=force*delta;
-		velocity=MoveAndSlideWithSnap(velocity,justDamaged?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
-        justDamaged=false;
+		velocity=MoveAndSlideWithSnap(velocity,noSnap?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
+        noSnap=false;
     }
 
     protected override void Damage(float delta)

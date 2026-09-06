@@ -145,7 +145,7 @@ public class Dirtball : KinematicMonster
             {
                 animationDirection=-1;
             }
-            justDamaged=true;
+            noSnap=true;
             velocity.x+=DAMAGE_FORCE.x*animationDirection;
             velocity.y+=DAMAGE_FORCE.y;
 

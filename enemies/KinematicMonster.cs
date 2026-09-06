@@ -69,7 +69,7 @@ public abstract class KinematicMonster : KinematicBody2D
     protected Goal goal;
     protected bool onDelay=false;
     protected bool squeezed=false;
-    protected bool justDamaged=false;
+    protected bool noSnap=false;
     protected bool forcedState=false;
 
     public override void _Ready()
@@ -238,8 +238,8 @@ public abstract class KinematicMonster : KinematicBody2D
     protected virtual void Navigation(float delta)
     {
         velocity+=FORCE*delta;
-        velocity=MoveAndSlideWithSnap(velocity,justDamaged?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
-        justDamaged=false;
+        velocity=MoveAndSlideWithSnap(velocity,noSnap?Vector2.Zero:snap,Vector2.Up,false,4,0.785398f,true);
+        noSnap=false;
 
         int slides=GetSlideCount();
         if(slides>0)
@@ -312,7 +312,7 @@ public abstract class KinematicMonster : KinematicBody2D
         onDelay=false;
         if(state!=STATE.damage&&state!=STATE.die)
         {
-            justDamaged=true;
+            noSnap=true;
 
             if(node==null)
             {
