@@ -118,7 +118,7 @@ public class MimicChest : KinematicMonster
         base.Passanger(delta);
 	}      
 
-    public override void OnPassanger(Player player=null)
+    protected override void OnPassanger(Player player=null)
     {
         if(state!=STATE.attack)
         {

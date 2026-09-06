@@ -177,7 +177,7 @@ public class Zombie : KinematicMonster
         }
     }
 
-    public override void OnPassanger(Player player=null)
+    protected override void OnPassanger(Player player=null)
     {
         if(state!=STATE.passanger)
         {

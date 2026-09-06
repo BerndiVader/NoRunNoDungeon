@@ -344,7 +344,7 @@ public abstract class KinematicMonster : KinematicBody2D
             goal=Damage;
         }
     }
-    public virtual void OnPassanger(Player player=null)
+    protected virtual void OnPassanger(Player player=null)
     {      
         onDelay=false;
         if(state!=STATE.passanger)

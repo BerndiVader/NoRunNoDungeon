@@ -125,7 +125,7 @@ public class Cannon : KinematicMonster
         }
     }
 
-    public override void OnPassanger(Player player=null)
+    protected override void OnPassanger(Player player=null)
     {
         base.OnPassanger(player);
     }

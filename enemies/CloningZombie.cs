@@ -227,7 +227,7 @@ public class CloningZombie : KinematicMonster
         }
     }
 
-    public override void OnPassanger(Player player=null)
+    protected override void OnPassanger(Player player=null)
     {
         if(forcedState)
         {
