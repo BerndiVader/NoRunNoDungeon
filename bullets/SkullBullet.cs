@@ -5,6 +5,7 @@ public class SkullBullet : Area2D
 {
     [Export] private float SPEED=100f;
     [Export] private float LIVE_SPAN=50f;
+    [Export] private bool HIT_MONSTER=false;
 
     private Sprite sprite;
     public Vector2 direction=Vector2.Zero;
@@ -33,7 +34,7 @@ public class SkullBullet : Area2D
 
     public void OnBodyEntered(Node node)
     {
-        if(node is Player)
+        if(node is Player||(HIT_MONSTER&&node.HasUserSignal(STATE.damage.ToString())))
         {
             node.EmitSignal(STATE.damage.ToString(),this,1f,false);
         }

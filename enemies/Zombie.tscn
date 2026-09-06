@@ -162,10 +162,6 @@ extents = Vector2( 5, 6.5 )
 collision_layer = 0
 collision_mask = 6
 script = ExtResource( 9 )
-DAMAGE_FORCE = Vector2( 200, -50 )
-
-[node name="Aura" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, 8 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 7 )
@@ -190,6 +186,11 @@ collision_layer = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource( 6 )
+
+[node name="Aura" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 8 )
+amount = 10
+emission_rect_extents = Vector2( 5, 0 )
 
 [node name="Mace" parent="." instance=ExtResource( 3 )]
 position = Vector2( 3, 1 )

@@ -3,12 +3,14 @@ using System;
 
 public class Zombie : KinematicMonster
 {
-    private int cooldown;
-    private float alertTimer;
-    private RayCast2D rayCast2D;
-    private Vector2 castTo;
-    private CPUParticles2D aura;
-    private MonsterWeapon weapon;
+    [Export] protected float ATTACK_RANGE=41f;
+    
+    protected int cooldown;
+    protected float alertTimer;
+    protected RayCast2D rayCast2D;
+    protected Vector2 castTo;
+    protected CPUParticles2D aura;
+    protected MonsterWeapon weapon;
     
     public override void _Ready()
     {
@@ -16,6 +18,7 @@ public class Zombie : KinematicMonster
 
         weapon=GetNode<MonsterWeapon>("Mace");
         aura=GetNode<CPUParticles2D>("Aura");
+        aura.OneShot=true;
         aura.Emitting=false;
 
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
@@ -69,7 +72,7 @@ public class Zombie : KinematicMonster
     protected override void Alert(float delta)
     {
         alertTimer+=delta;
-        if(alertTimer>0.45f)
+        if(alertTimer>0.15f)
         {
             aura.Emitting=false;
             OnAttack(Player.instance);
@@ -81,7 +84,7 @@ public class Zombie : KinematicMonster
     protected override void Attack(float delta)
     {
         float distance=rayCast2D.GlobalPosition.DistanceTo(victim.GlobalPosition);
-        if(distance<41f)
+        if(distance<ATTACK_RANGE)
         {
             Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(victim.GlobalPosition);
             SetFlipH(direction.x<0f);
@@ -154,6 +157,9 @@ public class Zombie : KinematicMonster
         onDelay=false;
         if(state!=STATE.alert&&state!=STATE.die)
         {
+            velocity.y+=-50f;
+            noSnap=true;
+
             lastState=state;
             state=STATE.alert;
             goal=Alert;
@@ -187,7 +193,7 @@ public class Zombie : KinematicMonster
         facing=Facing();
     }
 
-    private void SetFlipH(bool flip=false)
+    protected virtual void SetFlipH(bool flip=false)
     {
         animationController.FlipH=flip;
         if(flip)

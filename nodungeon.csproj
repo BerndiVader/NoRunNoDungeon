@@ -98,6 +98,7 @@
     <Compile Include="enemies\RunningZombie.cs" />
     <Compile Include="enemies\MimicChest.cs" />
     <Compile Include="enemies\Zombie.cs" />
+    <Compile Include="enemies\ZombieNovice.cs" />
     <Compile Include="enumerations\BULLETS.cs" />
     <Compile Include="enumerations\GROUPS.cs" />
     <Compile Include="enumerations\PARTICLES.cs" />

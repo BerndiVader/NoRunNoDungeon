@@ -270,8 +270,8 @@ public class Player : KinematicBody2D
 
         if(collides>0)
         {
-            Vector2 diff=GlobalPosition-lastPosition;
-            bool squeezed=Mathf.Abs(velocity.y)>200f&&diff.y==0f;
+            float diff=GlobalPosition.y-lastPosition.y;
+            bool squeezed=Mathf.Abs(velocity.y)>200f&&diff==0f;
             if(squeezed)
             {
                 OnDamage();
