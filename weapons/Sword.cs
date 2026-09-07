@@ -50,8 +50,11 @@ public class Sword : Weapon
 
     public override bool Attack()
     {
-        if(state==WEAPONSTATE.IDLE)
+        if(state==WEAPONSTATE.IDLE&&CooldownReady())
         {
+            cooldownTimer.WaitTime=COOLDOWN;
+            cooldownTimer.Start();
+
             if(USE_SHADER)
             {
                 sprite.Visible=false;
@@ -59,11 +62,13 @@ public class Sword : Weapon
                 shader.SetShaderParam("flip_h",!Player.instance.AnimationController.FlipH);
                 shader.SetShaderParam("swing",true);
             }
+
             PlaySfx(sfxSwing);
             animationPlayer.Play(AnimationNames.SWING+GetStringDirection());
             state=WEAPONSTATE.ATTACK;
             return true;
         }
+
         return false;
     }
 

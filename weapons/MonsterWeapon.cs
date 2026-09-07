@@ -45,7 +45,7 @@ public class MonsterWeapon : Weapon
 
     public override bool Attack()
     {
-        if(state==WEAPONSTATE.IDLE&&CooldownReady()&&WarmupReady())
+        if(state==WEAPONSTATE.IDLE&&CooldownReady())
         {
             animationPlayer.Play(AnimationNames.SWING+GetStringDirection());
             state=WEAPONSTATE.ATTACK;
@@ -65,7 +65,7 @@ public class MonsterWeapon : Weapon
         {
             if(node.IsInGroup(GROUPS.PLAYERS.ToString()))
             {
-                node.EmitSignal(STATE.damage.ToString(),this,damage,false);
+                node.EmitSignal(STATE.damage.ToString(),this,DAMAGE,false);
                 hit=true;
                 return;
             }

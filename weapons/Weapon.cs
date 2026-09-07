@@ -3,12 +3,11 @@ using Godot;
 
 public abstract class Weapon : Area2D
 {
-    [Export] protected float damage=1f;
-    [Export] protected float cooldown=0.1f;
-    [Export] protected float  warmup=0.1f;
+    [Export] protected float DAMAGE=1f;
+    [Export] protected float COOLDOWN=0.1f;
+    [Export] protected float WARMUP=0.1f;
 
     protected Timer cooldownTimer;
-    protected Timer warmupTimer;
 
     protected AnimationPlayer animationPlayer;
     protected bool hit;
@@ -22,28 +21,19 @@ public abstract class Weapon : Area2D
         DOUBLE_SWING
     }
 
-    protected bool warmupReady=false;
-    protected bool cooldownReady=false;
-
     protected static readonly AudioStream sfxSwing=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/56_Attack_03.wav");
     protected static readonly AudioStream sfxHit=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/61_Hit_03.wav");
     protected static readonly AudioStream sfxMiss=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/08_Step_rock_02.wav");
 
     public override void _Ready()
     {
-        cooldownTimer=new Timer();
-        warmupTimer=new Timer();
-
-        cooldownTimer.OneShot=true;
-        cooldownTimer.WaitTime=cooldown;
-
-        warmupTimer.OneShot=true;
-        warmupTimer.WaitTime=warmup;
+        cooldownTimer=new Timer
+        {
+            OneShot=true,
+            WaitTime=WARMUP
+        };
 
         AddChild(cooldownTimer);
-        AddChild(warmupTimer);
-
-        warmupTimer.Start();
         cooldownTimer.Start();
 
         animationPlayer=GetNode<AnimationPlayer>("AnimationPlayer");
@@ -68,8 +58,10 @@ public abstract class Weapon : Area2D
 
     public virtual bool Attack()
     {
-        if(state==WEAPONSTATE.IDLE&&CooldownReady()&&WarmupReady())
+        if(state==WEAPONSTATE.IDLE&&CooldownReady())
         {
+            cooldownTimer.WaitTime=COOLDOWN;
+            cooldownTimer.Start();
             animationPlayer.Play(AnimationNames.SWING+GetStringDirection());
             state=WEAPONSTATE.ATTACK;
             return true;
@@ -89,8 +81,11 @@ public abstract class Weapon : Area2D
         {
             if(node.HasUserSignal(STATE.damage.ToString()))
             {
+                cooldownTimer.Stop();
+                cooldownTimer.WaitTime=WARMUP;
+                cooldownTimer.Start();
                 PlaySfx(sfxHit);
-                node.EmitSignal(STATE.damage.ToString(),Player.instance,damage,false);
+                node.EmitSignal(STATE.damage.ToString(),Player.instance,DAMAGE,false);
                 hit = true;
                 animationPlayer.PlayBackwards();
             }
@@ -122,11 +117,6 @@ public abstract class Weapon : Area2D
     public bool CooldownReady()
     {
         return 0f==cooldownTimer.TimeLeft;
-    }
-
-    public bool WarmupReady()
-    {
-        return 0f==warmupTimer.TimeLeft;
     }
 
 }

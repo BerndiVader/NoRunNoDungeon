@@ -120,10 +120,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ false, true, true ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -171,8 +171,8 @@ tracks/2/keys = {
 extents = Vector2( 1.44889, 3.76897 )
 
 [node name="KnifeMonster" type="Area2D"]
-position = Vector2( 6, -2 )
-rotation = -0.261799
+position = Vector2( -8, 0 )
+rotation = -1.47837
 collision_layer = 0
 script = ExtResource( 2 )
 
@@ -187,6 +187,7 @@ anims/SWING_RIGHT = SubResource( 5 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0.154792, -4.7349 )
 shape = SubResource( 6 )
+disabled = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0.189469, -3.1566 )

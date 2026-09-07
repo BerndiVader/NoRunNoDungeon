@@ -8,7 +8,7 @@ public class Dagger : Weapon
         base._Ready();
         Connect("body_entered",this,nameof(OnHitSomething));
         Connect("area_entered", this, nameof(OnHitSomething));
-        cooldown=5;
+        COOLDOWN=5;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -25,7 +25,7 @@ public class Dagger : Weapon
                     }
 
                     hit=false;
-                    cooldown=0;
+                    COOLDOWN=0;
                     state=WEAPONSTATE.IDLE;
                 }
                 break;
@@ -36,9 +36,9 @@ public class Dagger : Weapon
                 {
                     animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
                 }
-                if(cooldown<5) 
+                if(COOLDOWN<5) 
                 {
-                    cooldown++;
+                    COOLDOWN++;
                 }
                 break;
             }
@@ -47,7 +47,7 @@ public class Dagger : Weapon
 
     public override bool Attack()
     {
-        if (state == WEAPONSTATE.IDLE && cooldown == 5)
+        if (state == WEAPONSTATE.IDLE && COOLDOWN == 5)
         {
             PlaySfx(sfxSwing);
             animationPlayer.Play(AnimationNames.SWING + GetStringDirection());
