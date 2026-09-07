@@ -75,6 +75,7 @@ public class Zombie : KinematicMonster
         if(alertTimer>0.15f)
         {
             aura.Emitting=false;
+            alertTimer=0f;
             OnAttack(Player.instance);
         }
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -30,6 +30,7 @@
 [ext_resource path="res://placeholders/ambients/TorchLeftHolder.tscn" type="PackedScene" id=28]
 [ext_resource path="res://placeholders/ambients/CandleSmallHolder.tscn" type="PackedScene" id=29]
 [ext_resource path="res://placeholders/ambients/TorchRightHolder.tscn" type="PackedScene" id=30]
+[ext_resource path="res://placeholders/monsters/KnifeGoblinHolder.tscn" type="PackedScene" id=31]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -265,7 +266,7 @@ Speed = 2.0
 TransType = 0
 
 [node name="MadTreasure" parent="." instance=ExtResource( 19 )]
-position = Vector2( 693, 108 )
+position = Vector2( 568, 8 )
 
 [node name="RocksPlaceholder" parent="." instance=ExtResource( 20 )]
 position = Vector2( 704, 221 )
@@ -384,6 +385,10 @@ position = Vector2( 687, 264 )
 
 [node name="TorchRightHolder" parent="." instance=ExtResource( 30 )]
 position = Vector2( 721, 264 )
+
+[node name="KnifeGoblinHolder" parent="." instance=ExtResource( 31 )]
+position = Vector2( 693, 144 )
+scale = Vector2( 1.05075, 1 )
 
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]

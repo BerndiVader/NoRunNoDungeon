@@ -2,21 +2,27 @@ using Godot;
 
 public class KnifeGoblin : KinematicMonster
 {
-    [Export] private float ACTIVATION_DISTANCE=80f;
-    [Export] private float WALK_FORCE=600f;
-    [Export] private float WALK_MIN_SPEED=20f;
-    [Export] private float WALK_MAX_SPEED=120f;
+    [Export] protected float ACTIVATION_DISTANCE=80f;
+    [Export] protected float WALK_FORCE=600f;
+    [Export] protected float WALK_MIN_SPEED=20f;
+    [Export] protected float WALK_MAX_SPEED=120f;
 
-    private RayCast2D rayCast2D;
-    private RayCast2D playerCast;
-    private MonsterWeapon weapon;
+    protected RayCast2D rayCast2D;
+    protected RayCast2D playerCast;
+    protected CPUParticles2D aura;
+    protected MonsterWeapon weapon;
 
-    private float activation_distance_sqrd;
+
+    protected float activation_distance_sqrd;
 
 
     public override void _Ready()
     {
         base._Ready();
+
+        aura=GetNode<CPUParticles2D>("Aura");
+        aura.OneShot=true;
+        aura.Emitting=false;        
 
         activation_distance_sqrd=ACTIVATION_DISTANCE*ACTIVATION_DISTANCE;
 
