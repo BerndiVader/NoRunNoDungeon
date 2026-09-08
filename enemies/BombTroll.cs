@@ -3,8 +3,6 @@ using Godot;
 
 public class BombTroll : KinematicMonster
 {
-    private static readonly PackedScene BOMB_PACK=Cannon.BOMB_PACK;
-
     [Export] private float ACTIVATION_DISTANCE=80f;
     [Export] private float WALK_FORCE=600f;
     [Export] private float WALK_MIN_SPEED=10f;
@@ -99,17 +97,21 @@ public class BombTroll : KinematicMonster
     {
         if(Time.GetTicksMsec()-timestamp>=THROW_DELAY_MS)
         {
-            if(throwable.Animation=="BOMB")
+            switch(throwable.Animation)
             {
-                ThrowBomb();
+                case "BOMB":
+                    ThrowBomb();
+                    break;
+                
+                case "POTION":
+                    ThrowPotion();
+                    break;
             }
-            else
-            {
-                ThrowPotion();
-            }
+
             throwable.Visible=false;
             throwable.Stop();
             OnIdle();
+
         }
         Navigation(delta);
     }
@@ -188,7 +190,7 @@ public class BombTroll : KinematicMonster
 
     private void ThrowPotion()
     {
-        BlindBuffThrowable buff=BlindBuffThrowable.Create(2f,60,1f,new Vector2(20f*Facing().x,-100f),1.5f);
+        BlindBuffThrowable buff=BlindBuffThrowable.Create(2f,60,1f,new Vector2(20f*Facing().x,-100f),2.5f);
         buff.Position=World.level.ToLocal(throwable.GlobalPosition);
         buff.Scale=new Vector2(0.8f,0.8f);
         World.level.AddChild(buff);
@@ -196,7 +198,7 @@ public class BombTroll : KinematicMonster
 
     private void ThrowBomb()
     {
-        Cannonball ball=BOMB_PACK.Instance<Cannonball>();
+        Cannonball ball=Cannonball.CreateBomb();
         ball.Position=World.level.ToLocal(throwable.GlobalPosition);
         ball.SetDirection(facing);
         if((bool)CANNONBALL_SETTINGS["USE_SETTINGS"])

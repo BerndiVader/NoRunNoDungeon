@@ -148,7 +148,7 @@ public class Cannon : KinematicMonster
 
     private void Fire()
     {
-        Cannonball ball=CANNONBALL==CANNONBALL_TYPE.BOMB?BOMB_PACK.Instance<Cannonball>():BALL_PACK.Instance<Cannonball>();
+        Cannonball ball=CANNONBALL==CANNONBALL_TYPE.BOMB?Cannonball.CreateBomb():Cannonball.CreateBall();
         ball.Position=Position;
         ball.SetDirection(facing);
         if((bool)CANNONBALL_SETTINGS["USE_SETTINGS"])

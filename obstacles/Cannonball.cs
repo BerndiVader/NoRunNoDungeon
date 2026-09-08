@@ -3,7 +3,10 @@ using Godot;
 
 public class Cannonball : KinematicMonster
 {
+    private static readonly PackedScene BOMB_PACK=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball.tscn");
+    private static readonly PackedScene BALL_PACK=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball2.tscn");
     private static readonly AudioStream SFX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/Retro Impact 20.wav");
+
     [Export] public float MOVE_FORCE=150f;
     [Export] public float INITIAL_FORCE=200f;
     [Export] public float MIN_SPEED=20f;
@@ -14,6 +17,16 @@ public class Cannonball : KinematicMonster
     [Export] public int EXPLODE_AFTER_MS=0;
 
     private Area2D collider;
+
+    public static Cannonball CreateBomb()
+    {
+        return BOMB_PACK.Instance<Cannonball>();
+    }
+
+    public static Cannonball CreateBall()
+    {
+        return BALL_PACK.Instance<Cannonball>();
+    }
 
     public override void _Ready()
     {
