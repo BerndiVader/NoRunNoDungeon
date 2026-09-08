@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://placeholders/obstacles/SwitchDoor.tscn" type="PackedScene" id=4]
 [ext_resource path="res://placeholders/monsters/KnifeGoblinHolder.tscn" type="PackedScene" id=5]
 [ext_resource path="res://placeholders/monsters/KnifeGoblinNoviceHolder.tscn" type="PackedScene" id=6]
+[ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=7]
+[ext_resource path="res://placeholders/monsters/ZombieNovice.tscn" type="PackedScene" id=8]
+[ext_resource path="res://placeholders/monsters/Zombie.tscn" type="PackedScene" id=9]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -30,7 +33,6 @@ position = Vector2( 872, -56 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
 SPEED = 0.0
-ZOOM = 0.9
 SWITCH_ID = "dee33836-5f59-490e-9fd0-bc6cab0a68ce"
 
 [node name="Switch" parent="." instance=ExtResource( 4 )]
@@ -42,8 +44,37 @@ SWITCH_ID = "dee33836-5f59-490e-9fd0-bc6cab0a68ce"
 [node name="KnifeGoblinHolder" parent="." instance=ExtResource( 5 )]
 position = Vector2( 696, 144 )
 
+[node name="KnifeGoblin" parent="KnifeGoblinHolder" index="0"]
+HEALTH = 5.0
+
 [node name="KnifeGoblinNoviceHolder" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1056, 144 )
 
+[node name="KnifeGoblinNovice" parent="KnifeGoblinNoviceHolder" index="0"]
+HEALTH = 5.0
+
+[node name="SwordItemHolder" parent="." instance=ExtResource( 7 )]
+position = Vector2( 712, 231 )
+
+[node name="WeaponItem" parent="SwordItemHolder" index="0"]
+FORCE_SPAWN = true
+
+[node name="NoviceZombie" parent="." instance=ExtResource( 8 )]
+position = Vector2( 800, 184 )
+
+[node name="ZombieNovice" parent="NoviceZombie" index="0"]
+HEALTH = 10.0
+
+[node name="Zombie" parent="." instance=ExtResource( 9 )]
+position = Vector2( 944, 176 )
+
+[node name="Zombie" parent="Zombie" index="0"]
+HEALTH = 10.0
+
 [editable path="ControlHolder"]
 [editable path="Switch"]
+[editable path="KnifeGoblinHolder"]
+[editable path="KnifeGoblinNoviceHolder"]
+[editable path="SwordItemHolder"]
+[editable path="NoviceZombie"]
+[editable path="Zombie"]
