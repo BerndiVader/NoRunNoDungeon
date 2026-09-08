@@ -90,7 +90,7 @@ public class KnifeGoblinNovice : KnifeGoblin
         onDelay=false;
         if(state!=STATE.alert)
         {
-            aura.Emitting=true;
+            aura.Restart();
             lastState=state;
             state=STATE.alert;
             goal=Alert;

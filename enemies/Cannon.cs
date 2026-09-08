@@ -4,8 +4,6 @@ using Godot;
 
 public class Cannon : KinematicMonster
 {
-    public static readonly PackedScene BOMB_PACK=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball.tscn");
-    public static readonly PackedScene BALL_PACK=ResourceLoader.Load<PackedScene>("res://obstacles/Cannonball2.tscn");
     private static readonly AudioStream SHOOT_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/SingleShot 04.wav");
     private static readonly AudioStream HIT_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/26_sword_hit_1.wav");
 

@@ -165,7 +165,7 @@ public class Zombie : KinematicMonster
             state=STATE.alert;
             goal=Alert;
             alertTimer=0f;
-            aura.Emitting=true;
+            aura.Restart();
         }
     }
 

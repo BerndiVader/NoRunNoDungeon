@@ -593,8 +593,7 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void OnAnimationControllerFinished()
     {
-        string current=animationController.Animation;
-        if(!animationController.Frames.GetAnimationLoop(current))
+        if(!animationController.Frames.GetAnimationLoop(animationController.Animation))
         {
             animationController.Playing=false;
         }
