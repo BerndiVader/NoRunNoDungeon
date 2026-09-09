@@ -7,6 +7,7 @@ public class Zombie : KinematicMonster
     
     protected int cooldown;
     protected float alertTimer;
+    protected float attack_range_sqrd;
     protected RayCast2D rayCast2D;
     protected Vector2 castTo;
     protected CPUParticles2D aura;
@@ -15,6 +16,8 @@ public class Zombie : KinematicMonster
     public override void _Ready()
     {
         base._Ready();
+
+        attack_range_sqrd=ATTACK_RANGE*ATTACK_RANGE;
 
         weapon=GetNode<MonsterWeapon>("Mace");
         aura=GetNode<CPUParticles2D>("Aura");
@@ -132,7 +135,13 @@ public class Zombie : KinematicMonster
             else
             {
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
+                if(facing.x!=MathUtils.SignVector(GlobalPosition.DirectionTo(Player.instance.GlobalPosition)).x)
+                {
+                    FlipH();
+                    cooldown=0;
+                }
                 OnIdle();
+
             }
         }
         Navigation(delta);

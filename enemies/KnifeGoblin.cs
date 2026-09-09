@@ -109,15 +109,19 @@ public class KnifeGoblin : KinematicMonster
 
     protected override void Damage(float delta)
     {
-        if(health<=0)
+        if(!animationPlayer.IsPlaying())
         {
-            OnDie();
+            if(health<=0)
+            {
+                OnDie();
+            }
+            else
+            {
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
+                OnStroll();
+            }
         }
-        else
-        {
-            staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
-            OnStroll();
-        }
+
         Navigation(delta);
     }   
 

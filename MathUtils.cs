@@ -48,4 +48,9 @@ public static class MathUtils
         return random.Next()%2==0;
     }
 
+    public static Vector2 SignVector(Vector2 vector)
+    {
+        return new Vector2(Mathf.Sign(vector.x),Mathf.Sign(vector.y));
+    }
+
 }
