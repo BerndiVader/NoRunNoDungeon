@@ -72,6 +72,21 @@ public abstract class KinematicMonster : KinematicBody2D
     protected bool noSnap=false;
     protected bool forcedState=false;
 
+    public override void _Draw()
+    {
+        if(ResourceUtils.DEBUG_EXT)
+        {
+            DrawSetTransform(Vector2.Zero,0,new Vector2(0.25f,0.25f));
+
+            DrawString(
+                HUD.instance.GetFont("font"),
+                new Vector2(-10f,-40f),
+                $"{state}"
+            );
+        }
+    }
+
+
     public override void _Ready()
     {
         FORCE=new Vector2(0f,GRAVITY);
@@ -173,6 +188,11 @@ public abstract class KinematicMonster : KinematicBody2D
         }
 
         LastPosition=GlobalPosition;
+
+        if(ResourceUtils.DEBUG_EXT)
+        {
+            Update();
+        }
     }
 
     protected virtual void Unknown(float delta) { }
