@@ -52,6 +52,19 @@ public class Player : KinematicBody2D
         }
     }
 
+    public enum PLAYER_STATE
+    {
+        IDLE,
+        RUN,
+        JUMP,
+        FALL,
+        ATTACK,
+        DAMAGE,
+        DASH,
+        TELEPRT,
+        UNKNOWN
+    }
+
     [Export] private float GRAVITY=700f;
     [Export] private float WALK_FORCE=1600f;
     [Export] private float WALK_MAX_SPEED=119f;
@@ -100,9 +113,10 @@ public class Player : KinematicBody2D
     private CPUParticles2D airParticles;
     private JumpParticles jumpParticles;
     private ShaderMaterial motionTrails;
-
     private Weapon weapon=null;
+
     public static readonly List<WeakReference<Buff>>buffs=new List<WeakReference<Buff>>();
+    public PLAYER_STATE player_state=PLAYER_STATE.UNKNOWN;
 
     public Player() : base()
     {
@@ -146,7 +160,6 @@ public class Player : KinematicBody2D
         FORCE=new Vector2(0f,GRAVITY);
         motionTrails=(ShaderMaterial)animationController.Material;
         lastPosition=GlobalPosition;
-
     }
 
     public override void _PhysicsProcess(float delta)
@@ -164,7 +177,7 @@ public class Player : KinematicBody2D
         }
         float levelYSpeed=levelDirection.y*World.level.speed;
 
-        if(airParticles.Emitting)
+        if(airParticles.Emitting||jumpParticles.Emitting)
         {
             airParticles.Direction=jumpParticles.Direction=levelDirection;
             airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.speed*levelDirection.Length();
@@ -207,11 +220,11 @@ public class Player : KinematicBody2D
         }
         else if(input.Right)
         {
+            PlayerCamera.instance.direction=-1;
+            animationController.FlipH=false;
+
             if(!dashRight)
             {
-                PlayerCamera.instance.direction=-1;
-                animationController.FlipH=false;
-
                 float maxSpeed=(levelDirection.x<0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
                 maxSpeed*=SpeedModifier;
 
@@ -363,7 +376,7 @@ public class Player : KinematicBody2D
         }
         else if(!airParticles.Emitting)
         {
-            airParticles.Emitting=true;
+            airParticles.Restart();
         }
 
         onAirTime+=delta;
