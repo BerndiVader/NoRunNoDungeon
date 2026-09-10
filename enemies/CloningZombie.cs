@@ -202,7 +202,6 @@ public class CloningZombie : KinematicMonster
             }
             else
             {
-                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
                 OnIdle();
             }
         }

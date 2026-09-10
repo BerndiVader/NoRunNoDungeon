@@ -4,6 +4,7 @@ using System;
 public class Zombie : KinematicMonster
 {
     [Export] protected float ATTACK_RANGE=41f;
+    [Export] protected float ALERT_TIMING=0.05f;
     
     protected int cooldown;
     protected float alertTimer;
@@ -75,9 +76,8 @@ public class Zombie : KinematicMonster
     protected override void Alert(float delta)
     {
         alertTimer+=delta;
-        if(alertTimer>0.15f)
+        if(alertTimer>ALERT_TIMING)
         {
-            aura.Emitting=false;
             alertTimer=0f;
             OnAttack(Player.instance);
         }
@@ -134,7 +134,6 @@ public class Zombie : KinematicMonster
             }
             else
             {
-                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
                 if(facing.x!=MathUtils.SignVector(GlobalPosition.DirectionTo(Player.instance.GlobalPosition)).x)
                 {
                     FlipH();

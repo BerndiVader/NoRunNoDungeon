@@ -117,7 +117,6 @@ public class KnifeGoblin : KinematicMonster
             }
             else
             {
-                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
                 OnStroll();
             }
         }
@@ -145,6 +144,10 @@ public class KnifeGoblin : KinematicMonster
         onDelay=false;
         if(state!=STATE.stroll)
         {
+            if(state==STATE.damage)
+            {
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
+            }
             lastState=state;
             state=STATE.stroll;
             animationController.Play("stroll");

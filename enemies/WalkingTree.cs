@@ -73,7 +73,6 @@ public class WalkingTree : KinematicMonster
             }
             else
             {
-                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
                 animationController.SpeedScale=1f;
                 OnIdle();
             }

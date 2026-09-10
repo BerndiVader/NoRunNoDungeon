@@ -84,7 +84,7 @@ public class Bear : KinematicMonster
         if(state!=STATE.damage&&state!=STATE.die)
         {
             damager.SetDeferred("monitoring",false);
-            base.OnDamage(node, amount);
+            base.OnDamage(node,amount);
             if(node.GlobalPosition.DirectionTo(GlobalPosition).Normalized().x<0)
             {
                 animationDirection=-1;
@@ -132,7 +132,6 @@ public class Bear : KinematicMonster
             }
             else
             {
-                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
                 OnIdle();
             }
         }

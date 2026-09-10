@@ -235,7 +235,6 @@ public class Oger : KinematicMonster
             }
             else
             {
-                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
                 OnAlert();
             }
         }
@@ -345,6 +344,10 @@ public class Oger : KinematicMonster
         onDelay=false;
         if(state!=STATE.alert)
         {
+            if(state==STATE.damage)
+            {
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
+            }
             lastState=state;
             state=STATE.alert;
             goal=Alert;

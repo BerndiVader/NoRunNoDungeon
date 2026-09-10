@@ -129,8 +129,8 @@ public abstract class KinematicMonster : KinematicBody2D
         {
             AddUserSignal(STATE.interact.ToString());
             Connect(STATE.interact.ToString(),this,nameof(OnInteract));
-            staticBody.AddUserSignal(STATE.interact.ToString());
-            staticBody.Connect(STATE.interact.ToString(),this,nameof(OnInteract));
+            //staticBody.AddUserSignal(STATE.interact.ToString());
+            //staticBody.Connect(STATE.interact.ToString(),this,nameof(OnInteract));
         }
 
         AddUserSignal(STATE.damage.ToString());
@@ -231,7 +231,6 @@ public abstract class KinematicMonster : KinematicBody2D
         }
         else
         {
-            staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
             OnIdle();
         }
         Navigation(delta);
@@ -311,10 +310,14 @@ public abstract class KinematicMonster : KinematicBody2D
         }
     }
     protected virtual void OnFight(Player player=null)
-    {    
+    {
         onDelay=false;
         if(state!=STATE.fight)
         {
+            if(state==STATE.damage)
+            {
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
+            }
             if (player==null)
             {
                 player=Player.instance;
@@ -365,7 +368,7 @@ public abstract class KinematicMonster : KinematicBody2D
         }
     }
     protected virtual void OnPassanger(Player player=null)
-    {      
+    {
         onDelay=false;
         if(state!=STATE.passanger)
         {
@@ -423,6 +426,10 @@ public abstract class KinematicMonster : KinematicBody2D
         onDelay=false;
         if(state!=STATE.idle)
         {
+            if(state==STATE.damage)
+            {
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
+            }
             lastState=state;
             state=STATE.idle;
             animationController.Play("idle");

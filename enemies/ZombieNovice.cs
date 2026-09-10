@@ -23,14 +23,13 @@ public class ZombieNovice : Zombie
             return;
         }
 
-        float distance=rayCast2D.GlobalPosition.DistanceTo(victim.GlobalPosition);
-
+        float distance=GlobalPosition.DistanceSquaredTo(victim.GlobalPosition);
         if(distance<ATTACK_RANGE)
         {
-            Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(victim.GlobalPosition);
+            Vector2 direction=GlobalPosition.DirectionTo(victim.GlobalPosition);
             SetFlipH(direction.x<0f);
 
-            rayCast2D.CastTo=direction*distance;
+            rayCast2D.CastTo=Mathf.Sqrt(distance)*direction;
             if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
             {
                 if(cooldown<0&&!weapon.IsPlaying())
@@ -83,8 +82,6 @@ public class ZombieNovice : Zombie
             }
             else
             {
-                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
-
                 if(facing.x!=MathUtils.SignVector(GlobalPosition.DirectionTo(Player.instance.GlobalPosition)).x)
                 {
                     FlipH();
