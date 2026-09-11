@@ -59,9 +59,8 @@ public class Player : KinematicBody2D
         JUMP,
         FALL,
         ATTACK,
-        DAMAGE,
         DASH,
-        TELEPRT,
+        TELEPORT,
         UNKNOWN
     }
 
@@ -123,6 +122,20 @@ public class Player : KinematicBody2D
         instance=this;
     }
 
+    public override void _Draw()
+    {
+        if(ResourceUtils.DEBUG_EXT)
+        {
+            DrawSetTransform(Vector2.Zero,0,new Vector2(0.25f,0.25f));
+
+            DrawString(
+                HUD.instance.GetFont("font"),
+                new Vector2(-10f,-40f),
+                $"{player_state}"
+            );
+        }
+    }
+
     public override void _Ready()
     {
         Position=World.instance.renderer.ToLocal(World.level.startingPoint);
@@ -164,11 +177,18 @@ public class Player : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
+        UpdateState();
+
+        if(ResourceUtils.DEBUG_EXT)
+        {
+            Update();
+        } 
+
         if(World.state<=Gamestate.DIEING||onTeleport)
         {
             return;
         }
-
+       
         Vector2 force=FORCE;
         float slopeAngle=0f;        
 
@@ -419,7 +439,6 @@ public class Player : KinematicBody2D
     {
         if(World.state!=Gamestate.DIEING)
         {
-
             ClearBuffs();
 
             PlayerCamera.instance.SmoothingSpeed=0f;
@@ -469,6 +488,38 @@ public class Player : KinematicBody2D
         else
         {
             animationController.Play(friction==1f?ANIM_IDLE:ANIM_RUN);
+        }
+    }
+
+    private void UpdateState()
+    {
+        if(onTeleport)
+        {
+            player_state=PLAYER_STATE.TELEPORT;
+        }
+        else if(weapon!=null&&weapon.IsPlaying())
+        {
+            player_state=PLAYER_STATE.ATTACK;
+        }
+        else if(dashDirection!=0)
+        {
+            player_state=PLAYER_STATE.DASH;
+        }
+        else if(input.Left||input.Right)
+        {
+            player_state=PLAYER_STATE.RUN;
+        }
+        else if(jumping)
+        {
+            player_state=PLAYER_STATE.JUMP;
+        }
+        else if(airParticles.Emitting)
+        {
+            player_state=PLAYER_STATE.FALL;
+        }
+        else
+        {
+            player_state=PLAYER_STATE.IDLE;
         }
     }
 
