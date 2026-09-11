@@ -12,18 +12,18 @@ public class JumpParticles : CPUParticles2D
 
     public override void _PhysicsProcess(float delta)
     {
-        float flip=Player.instance.AnimationController.FlipH?1f:0f;
-        if(AnimOffset!=flip)
-        {
-            AnimOffset=flip;
-        }
+            float flip=Player.instance.AnimationController.FlipH?1f:0f;
+            if(AnimOffset!=flip)
+            {
+                AnimOffset=flip;
+            }
     }
 
-    public void Start(bool flipped)
+    public void Start(bool flipped,bool ignore=false)
     {
-        AnimOffset=flipped?1f:0f;
-        if(!Emitting)
+        if(ignore||!Emitting)
         {
+            AnimOffset=flipped?1f:0f;
             Restart();
         }
     }

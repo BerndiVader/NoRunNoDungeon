@@ -169,25 +169,24 @@ public class Player : KinematicBody2D
             return;
         }
 
+        Vector2 force=FORCE;
+        float slopeAngle=0f;        
+
         float friction=1f;
         Vector2 levelDirection=World.level.direction;
-        if(World.level.speed!=0f&&levelDirection.x!=0f)
+        float levelSpeed=World.level.speed;
+        
+        if(levelSpeed!=0f&&levelDirection.x!=0f)
         {
-            friction=36f/World.level.speed;
+            friction=36f/levelSpeed;
         }
-        float levelYSpeed=levelDirection.y*World.level.speed;
 
         if(airParticles.Emitting||jumpParticles.Emitting)
         {
             airParticles.Direction=jumpParticles.Direction=levelDirection;
-            airParticles.InitialVelocity=jumpParticles.InitialVelocity=World.level.speed*levelDirection.Length();
+            airParticles.InitialVelocity=jumpParticles.InitialVelocity=levelSpeed*levelDirection.Length();
         }
         
-        Vector2 force=FORCE;
-        float slopeAngle=0f;
-
-        input.Update();
-
         if(input.JustAttack&&weapon!=null)
         {
             weapon.Attack();
@@ -195,8 +194,9 @@ public class Player : KinematicBody2D
 
         (bool dashLeft,bool dashRight)=UpdateDash();
         HandleDash(dashLeft,dashRight);
-        ApplyDash(ref force);
+        ApplyDash(ref force,delta);
 
+        input.Update();
         if(input.Left)
         {
             PlayerCamera.instance.direction=1;
@@ -272,7 +272,7 @@ public class Player : KinematicBody2D
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
         }
 
-        Vector2 motVel=velocity==Vector2.Zero?levelDirection*World.level.speed*-1.4f:(velocity-(levelDirection*World.level.speed))*1.2f;
+        Vector2 motVel=velocity==Vector2.Zero?levelDirection*levelSpeed*-1.4f:(velocity-(levelDirection*levelSpeed))*1.2f;
         motionTrails.SetShaderParam("velocity",motVel);
         motionTrails.SetShaderParam("flip",animationController.FlipH);
 
@@ -321,7 +321,7 @@ public class Player : KinematicBody2D
             {
                 velocity.y*=0.92f;
             }
-            if(velocity.y>0f)
+            if(velocity.y>=0f)
             {
                 doubleJump=jumping=false;
                 jumpParticles.Emitting=false;
@@ -329,10 +329,9 @@ public class Player : KinematicBody2D
             else if(input.JustJump&&!doubleJump)
             {
                 doubleJump=true;
-                velocity.y=-(JUMP_SPEED*JumpModifier-levelYSpeed);
+                velocity.y=-(JUMP_SPEED*JumpModifier-(levelDirection.y*levelSpeed));
                 jumpParticles.Start(animationController.FlipH);
                 Renderer.instance.PlaySfx(sfxDoubleJump,Position);
-
                 SpawnDust(Dust.TYPE.JUMP,animationController.FlipH,true,-1f);
             }
         }
@@ -340,16 +339,16 @@ public class Player : KinematicBody2D
         {
             if(onSlope)
             {
-                if(slopeAngle<0f) 
+                if(slopeAngle<0f)
                 {
                     velocity.x+=50f;
-                } 
+                }
                 else if(slopeAngle<1f) 
                 {
                     velocity.x-=50f;
                 }
             }
-            velocity.y=-(JUMP_SPEED*JumpModifier-levelYSpeed);
+            velocity.y=-(JUMP_SPEED*JumpModifier-(levelDirection.y*levelSpeed));
             justJumped=jumping=true;
             Renderer.instance.PlaySfx(sfxJump,Position);
         }
@@ -372,7 +371,7 @@ public class Player : KinematicBody2D
             {
                 Renderer.instance.Shake(lastVelocity.y*0.004f);
             }
-            onAirTime=0.0f;
+            onAirTime=0f;
         }
         else if(!airParticles.Emitting)
         {
@@ -531,7 +530,7 @@ public class Player : KinematicBody2D
         }
     }
 
-    private void ApplyDash(ref Vector2 force)
+    private void ApplyDash(ref Vector2 force,float delta)
     {
         if(dashTime>0f)
         {
@@ -540,7 +539,7 @@ public class Player : KinematicBody2D
             force.x=dashDirection*DASH_FORCE;
             velocity.x=Mathf.Clamp(velocity.x,-DASH_MAX_SPEED,DASH_MAX_SPEED);
             velocity.y=0f;
-            dashTime-=GetPhysicsProcessDeltaTime();
+            dashTime-=delta;
         }
         else
         {
@@ -550,7 +549,7 @@ public class Player : KinematicBody2D
 
         if(dashCooldown>0f)
         {
-            dashCooldown-=GetPhysicsProcessDeltaTime();
+            dashCooldown-=delta;
         }
     }
 
