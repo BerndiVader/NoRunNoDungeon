@@ -37,6 +37,7 @@
     <Compile Include="bonus\SpeedBuffThrowable.cs" />
     <Compile Include="bonus\WeaponItem.cs" />
     <Compile Include="buffs\Buff.cs" />
+    <Compile Include="buffs\BuffBlindDeprectated.cs" />
     <Compile Include="buffs\JumpBuff.cs" />
     <Compile Include="buffs\SpeedBuff.cs" />
     <Compile Include="enemies\Cannon.cs" />

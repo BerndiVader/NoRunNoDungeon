@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://buffs/BuffBlind.cs" type="Script" id=1]
+[ext_resource path="res://buffs/BuffBlindDeprectated.cs" type="Script" id=1]
 [ext_resource path="res://image/gfx/blind.png" type="Texture" id=2]
 [ext_resource path="res://image/gfx/black.png" type="Texture" id=3]
 [ext_resource path="res://shaders/BuffBlind.gdshader" type="Shader" id=4]
@@ -10,13 +10,13 @@ shader = ExtResource( 4 )
 shader_param/mask_radius = 138.5
 shader_param/darkness = 0.95
 shader_param/sprite_size = Vector2( 512, 288 )
-shader_param/mask_pos = Vector2( 256, 144 )
+shader_param/mask_pos = null
 shader_param/time = null
 shader_param/dizzy_strength = 4.0
 shader_param/dizzy_speed = 0.5
 shader_param/mask_tex = ExtResource( 2 )
 
-[node name="BuffBlind" type="Sprite"]
+[node name="BuffBlindDeprecated" type="Sprite"]
 show_behind_parent = true
 material = SubResource( 2 )
 z_index = -1

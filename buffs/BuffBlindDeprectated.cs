@@ -1,10 +1,9 @@
 using System;
 using Godot;
 
-public class BuffBlind : Buff
+public class BuffBlindDeprecated : Buff
 {
-    private static readonly PackedScene pack=ResourceLoader.Load<PackedScene>("res://buffs/BuffBlind.tscn");
-    private static readonly Vector2 HALF_RES=new Vector2(World.RESOLUTION*0.5f);
+    private static readonly PackedScene pack=ResourceLoader.Load<PackedScene>("res://buffs/BuffBlindDeprecated.tscn");
 
     protected float DURATION;
     private float duration;
@@ -15,7 +14,7 @@ public class BuffBlind : Buff
 
     public static void Create(float size=3f,float darkness=1f,float duration=120f)
     {
-        BuffBlind buff=pack.Instance<BuffBlind>();
+        BuffBlindDeprecated buff=pack.Instance<BuffBlindDeprecated>();
         buff.size=size;
         buff.DURATION=duration;
         buff.darkness=darkness;
@@ -42,10 +41,11 @@ public class BuffBlind : Buff
         SetPhysicsProcess(true);
 
         shader.SetShaderParam("mask_radius",138.5f*size);
-        shader.SetShaderParam("dizzy_strength",4.0f*size);
-        shader.SetShaderParam("dizzy_speed",0.5f*size);
+        shader.SetShaderParam("dizzy_strength",8.0f*size);
+        shader.SetShaderParam("dizzy_speed",2.0f*size);
         shader.SetShaderParam("darkness",0.95f*darkness);
-        shader.SetShaderParam("mask_pos",HALF_RES);
+        shader.SetShaderParam("mask_pos",World.RESOLUTION*0.5f);
+
     }
 
     public override void _PhysicsProcess(float delta)
@@ -61,7 +61,8 @@ public class BuffBlind : Buff
             Vector2 pos=Player.instance.GlobalPosition;
             if(PlayerCamera.instance.Zoom!=Vector2.One)
             {
-                pos=(pos-PlayerCamera.instance.GetCameraScreenCenter())/PlayerCamera.instance.Zoom+HALF_RES;
+                Vector2 center=World.RESOLUTION*0.5f;
+                pos=(pos-PlayerCamera.instance.GetCameraScreenCenter())/PlayerCamera.instance.Zoom+center;
             }
             shader.SetShaderParam("mask_pos",pos);
         }
@@ -75,7 +76,7 @@ public class BuffBlind : Buff
 
     public override void Replace(Buff buff)
     {
-        if(buff is BuffBlind blind)
+        if(buff is BuffBlindDeprecated blind)
         {
             if(IsInstanceValid(blind))
             {
