@@ -119,6 +119,12 @@ Linear = false
 [node name="CoinPhysics" parent="." instance=ExtResource( 16 )]
 position = Vector2( 1696, 128 )
 
+[node name="BlindThrowHolder2" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1656, 224 )
+
+[node name="BlindBuffThrowable" parent="BlindThrowHolder2" index="0"]
+STRENGTH = 0.95
+
 [editable path="BlindThrowHolder"]
 [editable path="GateHolder"]
 [editable path="ShopkeeperHolder"]
@@ -128,3 +134,4 @@ position = Vector2( 1696, 128 )
 [editable path="SpeedBuffHolder"]
 [editable path="JumpBuffHolder"]
 [editable path="PlatformMoving2x2"]
+[editable path="BlindThrowHolder2"]

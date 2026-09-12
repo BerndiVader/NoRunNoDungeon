@@ -174,6 +174,9 @@ public class OptionsUI : BaseUI
                 PlaySfx(sfxClick);
                 GetViewport().Usage=fx.Pressed?Viewport.UsageEnum.Usage2d:Viewport.UsageEnum.Usage3d;
                 break;
+            default:
+                PlaySfx(sfxClick);
+                break;
         }
     }
 
