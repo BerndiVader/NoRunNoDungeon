@@ -54,6 +54,7 @@ public class BuffBlind : Buff
         if(duration>=DURATION)
         {
             Player.buffs.Remove(weakRef);
+            SetPhysicsProcess(false);
             QueueFree();
         }
         else if(size<2.5f)
@@ -80,6 +81,7 @@ public class BuffBlind : Buff
             if(IsInstanceValid(blind))
             {
                 Player.instance.RemoveBuff(blind.weakRef);
+                blind.SetPhysicsProcess(false);
                 blind.QueueFree();
             }
         }

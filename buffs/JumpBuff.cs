@@ -33,6 +33,7 @@ public class JumpBuff : Buff
         {
             Player.buffs.Remove(weakRef);
             Player.instance.JumpModifier=MathUtils.MinMax(0.1f,2f,Player.instance.JumpModifier-size);
+            SetPhysicsProcess(false);
             QueueFree();
         }        
     }

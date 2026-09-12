@@ -33,6 +33,7 @@ public class SpeedBuff : Buff
         {
             Player.buffs.Remove(weakRef);
             Player.instance.SpeedModifier=MathUtils.MinMax(0.1f,2f,Player.instance.SpeedModifier-size);
+            SetPhysicsProcess(false);
             QueueFree();
         }
     }
