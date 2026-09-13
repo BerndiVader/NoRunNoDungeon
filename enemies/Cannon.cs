@@ -68,7 +68,7 @@ public class Cannon : KinematicMonster
     {
         if(animationController.Frame==4)
         {
-            timer.WaitTime=MathUtils.RandomRange(1,4);
+            timer.WaitTime=FIRE_DELAY;
             OnIdle();
         }
         else if(animationController.Frame==2&&!fired)
