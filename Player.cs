@@ -127,11 +127,12 @@ public class Player : KinematicBody2D
         if(ResourceUtils.DEBUG_EXT)
         {
             DrawSetTransform(Vector2.Zero,0,new Vector2(0.25f,0.25f));
+            Vector2 velocity=(Vector2)motionTrails.GetShaderParam("velocity");
 
             DrawString(
                 HUD.instance.GetFont("font"),
                 new Vector2(-10f,-40f),
-                $"{player_state}"
+                $"{velocity}"
             );
         }
     }
@@ -153,6 +154,8 @@ public class Player : KinematicBody2D
         collisionShape=GetNode<CollisionPolygon2D>(nameof(CollisionPolygon2D));
         animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
 
+        motionTrails=(ShaderMaterial)animationController.Material;
+
         airParticles=GetNode<CPUParticles2D>(nameof(airParticles));
         airParticles.Emitting=false;
         jumpParticles=ResourceUtils.particles[(int)PARTICLES.JUMP].Instance<JumpParticles>();
@@ -171,7 +174,6 @@ public class Player : KinematicBody2D
         Connect(STATE.damage.ToString(),this,nameof(OnDamage));
 
         FORCE=new Vector2(0f,GRAVITY);
-        motionTrails=(ShaderMaterial)animationController.Material;
         lastPosition=GlobalPosition;
     }
 
@@ -292,7 +294,12 @@ public class Player : KinematicBody2D
             velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
         }
 
-        Vector2 motVel=velocity==Vector2.Zero?levelDirection*levelSpeed*-1.4f:(velocity-(levelDirection*levelSpeed))*1.2f;
+        Vector2 motVel=(velocity-(levelDirection*levelSpeed))*1.2f;
+        if(motVel==Vector2.Zero)
+        {
+            motVel=levelDirection*levelSpeed*-1.4f;
+        }
+
         motionTrails.SetShaderParam("velocity",motVel);
         motionTrails.SetShaderParam("flip",animationController.FlipH);
 
