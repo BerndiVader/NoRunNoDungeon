@@ -30,7 +30,7 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 7.8732, 6.41868 )
 
-[node name="TreasureMap" type="KinematicBody2D"]
+[node name="TreasureMad" type="KinematicBody2D"]
 collision_layer = 0
 collision_mask = 38
 script = ExtResource( 4 )

@@ -41,17 +41,17 @@ public class Destroyables : Area2D,ISwitchable
 
     }
 
-    private void OnDamage(Node2D node=null,float amount=0f,bool ignore=false)
+    private void OnDamage(Node2D collider=null,float amount=0f,bool ignore=false)
     {
-        if(NOT_PLAYER&&node is Player)
+        if(NOT_PLAYER&&collider is Player)
         {
             return;
         }
 
-        if(node is Player)
+        if(collider is Player)
         {
             DaggerShoot particle=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT].Instance<DaggerShoot>();
-            particle.Position=Position+GetCollisionRectEdge(node.GlobalPosition);
+            particle.Position=Position+GetCollisionRectEdge(collider.GlobalPosition);
 
             SfxPlayer sfx=new SfxPlayer
             {

@@ -57,6 +57,7 @@ HEALTH = 5.0
 position = Vector2( 712, 231 )
 
 [node name="WeaponItem" parent="SwordItemHolder" index="0"]
+WEAPON_TYPE = 8
 FORCE_SPAWN = true
 
 [node name="NoviceZombie" parent="." instance=ExtResource( 8 )]

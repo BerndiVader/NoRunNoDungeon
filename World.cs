@@ -321,12 +321,14 @@ public class World : Node
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
 		MergeMaps(level,cachedLevel);
 		renderer.AddChild(level);
+
 		renderer.RemoveChild(Player.instance);
 		Player.instance.RemoveChild(PlayerCamera.instance);
 		Player.instance.QueueFree();
 		ResourceUtils.player.Instance();
 		Player.instance.AddChild(PlayerCamera.instance);
 		renderer.AddChild(Player.instance);
+		
 		HUD.instance.UpdateLives();
 		SetGamestate(Gamestate.RUNNING);
 	}

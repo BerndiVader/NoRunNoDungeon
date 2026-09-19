@@ -20,8 +20,9 @@ public class PhysicsCoin : PhysicsObject
             particles.Position=World.level.ToLocal(GlobalPosition);
             particles.audio.Stream=CoinTakenParticles.sfxSmall;
             World.level.AddChild(particles);
-            CallDeferred("queue_free");
+            
             Apply(player);
+            CallDeferred("queue_free");
         }
     }
 

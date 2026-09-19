@@ -8,9 +8,9 @@ public class TreasureMad : PhysicsObject
     {
         base._Ready();
 
-        GetNode<AnimatedSprite>(nameof(AnimatedSprite)).Playing = true; 
-
-        collider = GetNode<StaticBody2D>(nameof(StaticBody2D));
+        GetNode<AnimatedSprite>(nameof(AnimatedSprite)).Playing=true; 
+        collider=GetNode<StaticBody2D>(nameof(StaticBody2D));
+        
         AddToGroup(GROUPS.OBSTACLES.ToString());
         collider.AddToGroup(GROUPS.OBSTACLES.ToString());
 
@@ -21,9 +21,9 @@ public class TreasureMad : PhysicsObject
 
         KinematicCollision2D collision=MoveAndCollide(velocity*delta);
 
-        if(collision!=null) 
+        if(collision!=null)
         {
-            Node2D node = (Node2D)collision.Collider;
+            Node2D node=(Node2D)collision.Collider;
             velocity=velocity.Bounce(Vector2.Up);
 
             if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))

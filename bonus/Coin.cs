@@ -18,6 +18,7 @@ public class Coin : Bonus
             particles.Position=World.level.ToLocal(GlobalPosition);
             particles.audio.Stream=CoinTakenParticles.sfxBig;
             World.level.AddChild(particles);
+            
             CallDeferred("queue_free");
             Apply(player);
         }
