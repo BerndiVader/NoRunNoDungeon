@@ -13,7 +13,9 @@ public class Stick : TouchScreenButton
 
     private int onGoing=-1;
     private bool visible;
+    
     public bool useAccelerometer;
+    public bool justPressed=false;
 
     private Touch touch;
 
@@ -75,6 +77,7 @@ public class Stick : TouchScreenButton
                     
                     if(@t.IsPressed()&&position.x<256f)
                     {
+                        justPressed=true;
                         touch.Position=position;
                         touch.oPosition=position;
                         visible=true;
@@ -92,6 +95,7 @@ public class Stick : TouchScreenButton
                     }
                     onGoing=index;
                 }
+
             }
 
             if(!@event.IsPressed()&&@event is InputEventScreenTouch)

@@ -1,6 +1,4 @@
 using Godot;
-using System;
-using System.Runtime.Serialization;
 
 public class MobileInput : InputController
 {
@@ -117,7 +115,9 @@ public class MobileInput : InputController
         {
             if(!states[(int)DIRECTIONS.LEFT])
             {
-                return states[(int)DIRECTIONS.LEFT]=true;
+                bool state=stick.justPressed;
+                stick.justPressed=false;
+                return states[(int)DIRECTIONS.LEFT]=true&&state;
             }
             return false;
         }
@@ -130,7 +130,9 @@ public class MobileInput : InputController
         {
             if(!states[(int)DIRECTIONS.RIGHT])
             {
-                return states[(int)DIRECTIONS.RIGHT]=true;
+                bool state=stick.justPressed;
+                stick.justPressed=false;
+                return states[(int)DIRECTIONS.RIGHT]=true&&state;
             }
             return false;
         }
