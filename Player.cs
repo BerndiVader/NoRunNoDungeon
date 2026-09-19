@@ -122,6 +122,13 @@ public class Player : KinematicBody2D
         instance=this;
     }
 
+    public void SoftReset()
+    {
+        airParticles.Emitting=false;
+        jumpParticles.Stop();
+        Position=World.instance.renderer.ToLocal(World.level.startingPoint);
+    }
+
     public override void _Draw()
     {
         if(ResourceUtils.DEBUG_EXT)
@@ -420,8 +427,14 @@ public class Player : KinematicBody2D
 
     public void EquipWeapon(PackedScene packed)
     {
+        if(IsInstanceValid(weapon)&&weapon.IsInsideTree())
+        {
+            RemoveChild(weapon);
+            weapon.QueueFree();
+        }
+
         weapon=packed.Instance<Weapon>();
-        if(weapon!=null)
+        if(IsInstanceValid(weapon))
         {
             AddChild(weapon);
         }
@@ -446,8 +459,6 @@ public class Player : KinematicBody2D
     {
         if(World.state!=Gamestate.DIEING)
         {
-            ClearBuffs();
-
             PlayerCamera.instance.SmoothingSpeed=0f;
             World.instance.SetGamestate(Gamestate.DIEING);
 
