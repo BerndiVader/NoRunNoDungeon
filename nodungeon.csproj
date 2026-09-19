@@ -40,6 +40,7 @@
     <Compile Include="buffs\BuffBlindDeprectated.cs" />
     <Compile Include="buffs\JumpBuff.cs" />
     <Compile Include="buffs\SpeedBuff.cs" />
+    <Compile Include="bullets\SpearBullet.cs" />
     <Compile Include="enemies\Cannon.cs" />
     <Compile Include="enemies\BombTroll.cs" />
     <Compile Include="enemies\CloningZombie.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="weapons\Broadsword.cs" />
     <Compile Include="weapons\Dagger.cs" />
     <Compile Include="weapons\MonsterWeapon.cs" />
+    <Compile Include="weapons\Spear.cs" />
     <Compile Include="weapons\Sword.cs" />
     <Compile Include="weapons\Weapon.cs" />
     <Compile Include="Worker.cs" />

@@ -58,6 +58,7 @@ public class WeaponItem : Bonus
             taken.Position=Position;
             taken.Texture=animation.Frames.GetFrame("default",0);
             World.level.CallDeferred("add_child",taken);
+
             player.CallDeferred("EquipWeapon",ResourceUtils.weapons[(int)WEAPON_TYPE]);
             CallDeferred("queue_free");
         }

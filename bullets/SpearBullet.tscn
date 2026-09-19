@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://image/0x72/frames/weapon_spear.png" type="Texture" id=1]
+[ext_resource path="res://bullets/SpearBullet.cs" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 0.999998, 2.23205 )
+
+[node name="SpearBullet" type="Area2D"]
+collision_layer = 64
+collision_mask = 54
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.267935, -4.4641 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )

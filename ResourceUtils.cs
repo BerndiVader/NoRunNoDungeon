@@ -186,6 +186,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading bullets...");
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/SkullBullet.tscn"));
         bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/DaggerBullet.tscn"));
+        bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/SpearBullet.tscn"));
 
         Console.WriteLine("Loading visual effects...");
         gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx1.tscn"));
@@ -203,6 +204,7 @@ public static class ResourceUtils
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/AztecSword.tscn"));
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Rapier.tscn"));
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/RustySword.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Spear.tscn"));
 
         Console.WriteLine("Loading ingame musics...");
         ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 01 Stronghold Of The Barbarians.mp3"));
