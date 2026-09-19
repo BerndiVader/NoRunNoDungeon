@@ -3,67 +3,63 @@ using System;
 
 public class Dagger : Weapon
 {
+
+    private int facing;
+
     public override void _Ready()
     {
         base._Ready();
         Connect("body_entered",this,nameof(OnHitSomething));
         Connect("area_entered", this, nameof(OnHitSomething));
-        COOLDOWN=5;
     }
 
     public override void _PhysicsProcess(float delta)
     {
         switch(state)
         {
+
+            case WEAPONSTATE.IDLE:
+                if(!animationPlayer.IsPlaying()&&AnimationNames.SETUP+GetStringDirection()!=animationPlayer.CurrentAnimation)
+                {
+                    animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
+                }
+                break;
             case WEAPONSTATE.ATTACK:
-            {
                 if(!animationPlayer.IsPlaying())
                 {
                     if(!hit)
                     {
                         ThrowDagger();
                     }
-
-                    hit=false;
-                    COOLDOWN=0;
                     state=WEAPONSTATE.IDLE;
+                    hit=false;
                 }
-                break;
-            }
-            case WEAPONSTATE.IDLE:
-            {
-                if(!animationPlayer.IsPlaying()&&AnimationNames.SETUP+GetStringDirection()!=animationPlayer.CurrentAnimation)
-                {
-                    animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
-                }
-                if(COOLDOWN<5) 
-                {
-                    COOLDOWN++;
-                }
-                break;
-            }
-        }        
+                break;        }        
     }
 
     public override bool Attack()
     {
-        if (state == WEAPONSTATE.IDLE && COOLDOWN == 5)
+        if(state==WEAPONSTATE.IDLE&&CooldownReady())
         {
-            PlaySfx(sfxSwing);
-            animationPlayer.Play(AnimationNames.SWING + GetStringDirection());
-            state = WEAPONSTATE.ATTACK;
+
+            facing=Player.instance.AnimationController.FlipH?-1:1;
+            cooldownTimer.WaitTime=COOLDOWN;
+            cooldownTimer.Start();
+            animationPlayer.Play(AnimationNames.SWING+GetStringDirection());
+            state=WEAPONSTATE.ATTACK;
             return true;
         }
         return false;
-
     }
+
     private void ThrowDagger()
     {
         DaggerShoot shoot=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT].Instance<DaggerShoot>();
         shoot.Position=World.level.ToLocal(GetNode<Position2D>(nameof(Position2D)).GlobalPosition);
         shoot.Emitting=true;
         World.level.AddChild(shoot);
-        DaggerBullet bullet=ResourceUtils.bullets[(int)BULLETS.DAGGERBULLET].Instance<DaggerBullet>();
+        
+        DaggerBullet bullet=DaggerBullet.Create(facing);
         bullet.Position=World.level.ToLocal(GlobalPosition);
         World.level.AddChild(bullet);
     }

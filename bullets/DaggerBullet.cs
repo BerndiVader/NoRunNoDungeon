@@ -2,18 +2,30 @@ using Godot;
 
 public class DaggerBullet : Area2D
 {
-    [Export] private Vector2 OFFSET=new Vector2(150f,50f);
 
-    private Vector2 start, end, height; 
+    private static PackedScene PACK=ResourceLoader.Load<PackedScene>("res://bullets/DaggerBullet.tscn");
+
+    [Export] private Vector2 HEIGHT_OFFSET=new Vector2(150f,50f);
+    private readonly Vector2 END_OFFSET=new Vector2(0f,-50f);
+
+    private Vector2 start,end,height; 
     private float elapsed=0f;
-    private const float FLIGHT_TIME=0.5f;
+    private const float FLIGHT_TIME=0.4f;
+    private int xdir=1;
+
+    public static DaggerBullet Create(int facing)
+    {
+        DaggerBullet bullet=PACK.Instance<DaggerBullet>();
+        bullet.xdir=facing;
+        return bullet;
+    }
+
 
     public override void _Ready()
     {
-        int xDir=Player.instance.AnimationController.FlipH?-1:1;
         start=Position;
-        end=new Vector2(start.x+(OFFSET.x*xDir),start.y+OFFSET.y);
-        height=(start+end)*0.5f+new Vector2(0f,-50f);
+        end=new Vector2(start.x+(HEIGHT_OFFSET.x*xdir),start.y+HEIGHT_OFFSET.y);
+        height=(start+end)*0.5f+END_OFFSET;
 
         Connect("body_entered",this,nameof(OnBodyEntered));
         Connect("area_entered",this,nameof(OnBodyEntered));
@@ -29,7 +41,7 @@ public class DaggerBullet : Area2D
 
         if(elapsed>FLIGHT_TIME)
         {
-            QueueFree();
+            Destroy();
         }
     }
 
