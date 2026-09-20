@@ -54,14 +54,14 @@ public class Player : KinematicBody2D
 
     public enum PLAYER_STATE
     {
-        IDLE,
-        RUN,
-        JUMP,
-        FALL,
-        ATTACK,
-        DASH,
-        TELEPORT,
-        UNKNOWN
+        idle,
+        run,
+        jump,
+        fall,
+        attack,
+        dash,
+        teleport,
+        unkown
     }
 
     [Export] private float GRAVITY=700f;
@@ -115,7 +115,8 @@ public class Player : KinematicBody2D
     private Weapon weapon=null;
 
     public static readonly List<WeakReference<Buff>>buffs=new List<WeakReference<Buff>>();
-    public PLAYER_STATE player_state=PLAYER_STATE.UNKNOWN;
+    public PLAYER_STATE currentState=PLAYER_STATE.unkown;
+    public PLAYER_STATE lastState=PLAYER_STATE.unkown;
 
     public Player() : base()
     {
@@ -133,13 +134,12 @@ public class Player : KinematicBody2D
     {
         if(ResourceUtils.DEBUG_EXT)
         {
-            DrawSetTransform(Vector2.Zero,0,new Vector2(0.25f,0.25f));
-            Vector2 velocity=(Vector2)motionTrails.GetShaderParam("velocity");
+            DrawSetTransform(Vector2.Zero,0f,new Vector2(0.25f,0.25f));
 
             DrawString(
                 HUD.instance.GetFont("font"),
                 new Vector2(-10f,-40f),
-                $"{velocity}"
+                $"{currentState+"-"+lastState}"
             );
         }
     }
@@ -186,7 +186,7 @@ public class Player : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
-        UpdateState();
+        UpdatePlayerState();
 
         if(ResourceUtils.DEBUG_EXT)
         {
@@ -509,35 +509,44 @@ public class Player : KinematicBody2D
         }
     }
 
-    private void UpdateState()
+    private void UpdatePlayerState()
     {
         if(onTeleport)
         {
-            player_state=PLAYER_STATE.TELEPORT;
+            SetPlayerState(PLAYER_STATE.teleport);
         }
-        else if(weapon!=null&&weapon.IsPlaying())
+        else if(weapon!=null&&weapon.IsAttacking())
         {
-            player_state=PLAYER_STATE.ATTACK;
+            SetPlayerState(PLAYER_STATE.attack);
         }
         else if(dashDirection!=0)
         {
-            player_state=PLAYER_STATE.DASH;
+            SetPlayerState(PLAYER_STATE.dash);
         }
         else if(input.Left||input.Right)
         {
-            player_state=PLAYER_STATE.RUN;
+            SetPlayerState(PLAYER_STATE.run);
         }
         else if(jumping)
         {
-            player_state=PLAYER_STATE.JUMP;
+            SetPlayerState(PLAYER_STATE.jump);
         }
         else if(airParticles.Emitting)
         {
-            player_state=PLAYER_STATE.FALL;
+            SetPlayerState(PLAYER_STATE.fall);
         }
         else
         {
-            player_state=PLAYER_STATE.IDLE;
+            SetPlayerState(PLAYER_STATE.idle);
+        }
+    }
+
+    private void SetPlayerState(PLAYER_STATE state)
+    {
+        if(currentState!=state)
+        {
+            lastState=currentState;
+            currentState=state;
         }
     }
 

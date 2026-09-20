@@ -81,7 +81,7 @@ public abstract class KinematicMonster : KinematicBody2D
             DrawString(
                 HUD.instance.GetFont("font"),
                 new Vector2(-10f,-40f),
-                $"{state}"
+                $"{state+"-"+lastState}"
             );
         }
     }
