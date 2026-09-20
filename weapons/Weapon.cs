@@ -72,7 +72,8 @@ public abstract class Weapon : Area2D
     protected enum WEAPONSTATE
     {
         IDLE,
-        ATTACK
+        ATTACK,
+        THROWN,
     }
 
     protected virtual void OnHitSomething(Node node)
@@ -99,6 +100,11 @@ public abstract class Weapon : Area2D
     public virtual bool IsPlaying()
     {
         return animationPlayer.IsPlaying();
+    }
+
+    public virtual bool IsAttacking()
+    {
+        return state==WEAPONSTATE.ATTACK;
     }
 
     protected virtual string GetStringDirection()

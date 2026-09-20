@@ -5,6 +5,7 @@ public class Spear : Weapon
 {
 
     private int facing;
+    private WeakRef thrown;
 
     public override void _Ready()
     {
@@ -17,7 +18,6 @@ public class Spear : Weapon
     {
         switch(state)
         {
-
             case WEAPONSTATE.IDLE:
                 if(!animationPlayer.IsPlaying()&&AnimationNames.SETUP+GetStringDirection()!=animationPlayer.CurrentAnimation)
                 {
@@ -27,14 +27,27 @@ public class Spear : Weapon
             case WEAPONSTATE.ATTACK:
                 if(!animationPlayer.IsPlaying())
                 {
-                    if(!hit)
+                    if(!hit&&Player.instance.input.Attack)
                     {
-                        ThrowDagger();
+                        ThrowSpear();
+                        state=WEAPONSTATE.THROWN;
+                        Visible=false;
                     }
-                    state=WEAPONSTATE.IDLE;
+                    else
+                    {
+                        state=WEAPONSTATE.IDLE;
+                    }
                     hit=false;
                 }
-                break;        }        
+                break;
+            case WEAPONSTATE.THROWN:
+                if(!(thrown.GetRef() is SpearBullet bullet)||!IsInstanceValid(bullet))
+                {
+                    state=WEAPONSTATE.IDLE;
+                    Visible=true;
+                }
+                break;
+        }
     }
 
     public override bool Attack()
@@ -52,7 +65,7 @@ public class Spear : Weapon
         return false;
     }
 
-    private void ThrowDagger()
+    private void ThrowSpear()
     {
         DaggerShoot shoot=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT].Instance<DaggerShoot>();
         shoot.Position=World.level.ToLocal(GetNode<Position2D>(nameof(Position2D)).GlobalPosition);
@@ -62,6 +75,7 @@ public class Spear : Weapon
         SpearBullet bullet=SpearBullet.Create(facing);
         bullet.Position=World.level.ToLocal(GlobalPosition);
         World.level.AddChild(bullet);
+        thrown=WeakRef(bullet);
     }
 
 }
