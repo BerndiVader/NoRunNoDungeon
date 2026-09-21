@@ -19,7 +19,7 @@ public class PlayerDieEffect : CPUParticles2D
         SetProcessInput(false);
         SetProcess(false);
 
-        Renderer.instance.PlaySfx(sfx,Position);
+        Renderer.instance.PlaySfx(sfx,GlobalPosition);
 
         OneShot=true;
         Emitting=true;

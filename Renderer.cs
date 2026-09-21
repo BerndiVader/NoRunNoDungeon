@@ -80,11 +80,11 @@ public class Renderer : CanvasModulate
         }
     }
 
-    public void PlaySfx(AudioStream stream,Vector2 position)
+    public void PlaySfx(AudioStream stream,Vector2 globalPosition,float volume=0f)
     {
         SfxPlayer sfx=new SfxPlayer();
         sfx.Stream=stream;
-        sfx.Position=position;
+        sfx.Position=ToLocal(globalPosition);
         AddChild(sfx);
     }
 

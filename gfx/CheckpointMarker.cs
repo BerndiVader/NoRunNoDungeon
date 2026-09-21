@@ -45,7 +45,7 @@ public class CheckpointMarker : AnimatedSprite
             state=STATE.RAISE;
             Connect("animation_finished",this,nameof(OnFlagRaised));
             Play(state.ToString());
-            Renderer.instance.PlaySfx(sfx,Renderer.instance.ToLocal(GlobalPosition));
+            Renderer.instance.PlaySfx(sfx,GlobalPosition);
         }
     }
 

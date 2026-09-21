@@ -9,7 +9,7 @@ public class BulletMiss : CPUParticles2D
         SetProcess(false);
         SetProcessInput(false);
         
-        Renderer.instance.PlaySfx(sfx,Position);
+        Renderer.instance.PlaySfx(sfx,GlobalPosition);
         OneShot=true;
         Emitting=true;
     }

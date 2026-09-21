@@ -365,7 +365,7 @@ public class Player : KinematicBody2D
                 doubleJump=true;
                 velocity.y=-(JUMP_SPEED*JumpModifier-(levelDirection.y*levelSpeed));
                 jumpParticles.Start(animationController.FlipH);
-                Renderer.instance.PlaySfx(sfxDoubleJump,Position);
+                Renderer.instance.PlaySfx(sfxDoubleJump,GlobalPosition);
                 SpawnDust(Dust.TYPE.JUMP,animationController.FlipH,true,-1f);
             }
         }
@@ -384,7 +384,7 @@ public class Player : KinematicBody2D
             }
             velocity.y=-(JUMP_SPEED*JumpModifier-(levelDirection.y*levelSpeed));
             justJumped=jumping=true;
-            Renderer.instance.PlaySfx(sfxJump,Position);
+            Renderer.instance.PlaySfx(sfxJump,GlobalPosition);
         }
 
         if(onCeiling) 
@@ -397,7 +397,7 @@ public class Player : KinematicBody2D
             if(airParticles.Emitting)
             {
                 SpawnDust(Dust.TYPE.FALL);
-                Renderer.instance.PlaySfx(sfxLanding,Position);
+                Renderer.instance.PlaySfx(sfxLanding,GlobalPosition);
                 airParticles.Emitting=false;
             }
 
@@ -597,14 +597,14 @@ public class Player : KinematicBody2D
             dashDirection=-1;
             dashTime=DASH_DURATION;
             dashCooldown=DASH_COOLDOWN+DASH_DURATION;
-            Renderer.instance.PlaySfx(sfxDash,Position);
+            Renderer.instance.PlaySfx(sfxDash,GlobalPosition);
         }
         else if(dashRight&&dashCooldown<=0f&&dashTime<=0f)
         {
             dashDirection=1;
             dashTime=DASH_DURATION;
             dashCooldown=DASH_COOLDOWN+DASH_DURATION;
-            Renderer.instance.PlaySfx(sfxDash,Position);
+            Renderer.instance.PlaySfx(sfxDash,GlobalPosition);
         }
     }
 

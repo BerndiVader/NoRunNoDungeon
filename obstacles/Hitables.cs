@@ -81,7 +81,7 @@ public class Hitables : Area2D
                             particles.Position=Position;
                             World.level.AddChild(particles);
                             Renderer.instance.Shake(1.5f);
-                            Renderer.instance.PlaySfx(BONUS_FX,Position);
+                            Renderer.instance.PlaySfx(BONUS_FX,GlobalPosition);
                             player.ApplyCoins(1);
                             CallDeferred("queue_free");
                         }
@@ -95,7 +95,7 @@ public class Hitables : Area2D
 
     private async void FlashMarker()
     {
-        Renderer.instance.PlaySfx(BLOCK_FX,Position);
+        Renderer.instance.PlaySfx(BLOCK_FX,GlobalPosition);
         Renderer.instance.Shake(1f);
         marker.Modulate=new Color(1,1,1,1f);
         await ToSignal(GetTree().CreateTimer(0.11f),"timeout");

@@ -18,7 +18,7 @@ public class PhysicsCoin : PhysicsObject
         {
             CoinTakenParticles particles=(CoinTakenParticles)ResourceUtils.particles[(int)PARTICLES.COINTAKEN].Instance();
             particles.Position=World.level.ToLocal(GlobalPosition);
-            particles.audio.Stream=CoinTakenParticles.sfxSmall;
+            particles.sfx=CoinTakenParticles.sfxSmall;
             World.level.AddChild(particles);
             
             Apply(player);
