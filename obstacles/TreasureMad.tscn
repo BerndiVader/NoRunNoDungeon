@@ -5,7 +5,7 @@
 [ext_resource path="res://obstacles/SpikesDown.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8.05464, 6.48893 )
+extents = Vector2( 5.5, 6 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
@@ -36,7 +36,7 @@ collision_mask = 38
 script = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 1 )
+position = Vector2( 0.5, 1 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

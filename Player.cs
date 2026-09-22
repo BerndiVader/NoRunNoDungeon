@@ -193,7 +193,7 @@ public class Player : KinematicBody2D
             Update();
         } 
 
-        if(World.state<=Gamestate.DIEING||onTeleport)
+        if(World.state<=Gamestate.DIEING||currentState==PLAYER_STATE.teleport)
         {
             return;
         }
