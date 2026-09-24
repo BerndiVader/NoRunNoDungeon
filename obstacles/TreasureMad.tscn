@@ -36,19 +36,19 @@ collision_mask = 38
 script = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.5, 1 )
+position = Vector2( 0, 1 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 0, 1 )
 collision_layer = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 0, 1 )
 shape = SubResource( 3 )
 
 [node name="Spikes" parent="." instance=ExtResource( 5 )]
-position = Vector2( -0.594223, 7.05683 )
+position = Vector2( -0.594223, 12.0568 )
 StaticElement = true
