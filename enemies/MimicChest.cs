@@ -3,19 +3,32 @@ using System;
 
 public class MimicChest : KinematicMonster
 {
-    private int cooldown;
-    private float shake;
-    private float ShakeMax=0.6f;
+    [Export] private float SHAKE_MAX=0.6f;
+    [Export] private float DAMAGE_RANGE=14f;
+ 
     private RayCast2D rayCast2D;
+    private CPUParticles2D aura;
+    private ShaderMaterial shader;
+
     private Vector2 castTo;
+    private int cooldown=0;
+    private float shake;
+    private float damageRangeSqrd;
 
     public override void _Ready()
     {
         base._Ready();
 
+        damageRangeSqrd=DAMAGE_RANGE*DAMAGE_RANGE;
+
+        shader=(ShaderMaterial)animationController.Material;
+
         rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
         rayCast2D.Enabled=true;
-        castTo=rayCast2D.CastTo;
+        
+
+        aura=GetNode<CPUParticles2D>("Aura");
+        aura.Emitting=false;
 
 		animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
 		animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
@@ -25,7 +38,7 @@ public class MimicChest : KinematicMonster
         animationController.Play("idle");
         animationController.FlipH=MathUtils.RandBool();
 
-        cooldown=0;
+        castTo=rayCast2D.CastTo;
 
         if(animationController.FlipH)
         {
@@ -45,15 +58,16 @@ public class MimicChest : KinematicMonster
         }
 
         goal(delta);
+        shader.SetShaderParam("direction",Mathf.Sign(rayCast2D.CastTo.x));
+
     }
 
     protected override void Idle(float delta)
     {
-        float distance=GlobalPosition.DistanceTo(Player.instance.GlobalPosition);
+        float distance=GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
 
-        if(distance<14f||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId()))
+        if(distance<damageRangeSqrd||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId()))
         {
-            cooldown=0;
             animationController.Play("attack");
             OnAttack(Player.instance);
         }
@@ -62,6 +76,7 @@ public class MimicChest : KinematicMonster
             FlipH();
             cooldown=0;
         }
+
         cooldown++;
         Navigation(delta);
     }
@@ -71,6 +86,7 @@ public class MimicChest : KinematicMonster
         if(animationController.Frame>1)
         {
             animationController.Play("fight");
+            aura.Restart();
             OnFight(victim);
         }
         Navigation(delta);
@@ -78,16 +94,17 @@ public class MimicChest : KinematicMonster
 
     protected override void Fight(float delta)
     {
-        float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
+        float distance=GlobalPosition.DistanceSquaredTo(victim.GlobalPosition);
 
-        if(distance<14f)
+        if(distance<damageRangeSqrd)
         {
             victim.EmitSignal(STATE.damage.ToString(),this,DAMAGE_AMOUNT,false);
         }
-        else if(distance<100f)
+        else if(distance<10000f)
         {
-            Vector2 direction=new Vector2(GlobalPosition.DirectionTo(victim.GlobalPosition));
-            rayCast2D.CastTo=direction*distance;
+            Vector2 direction=GlobalPosition.DirectionTo(victim.GlobalPosition);
+            rayCast2D.CastTo=direction*Mathf.Sqrt(distance);
+
             if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
             {
                 shake=0.1f;
@@ -109,6 +126,7 @@ public class MimicChest : KinematicMonster
         if(animationController.Frame==2)
         {
             OnIdle();
+
         }
         Navigation(delta);
     }
@@ -139,10 +157,11 @@ public class MimicChest : KinematicMonster
         if(state!=STATE.calm)
         {
             base.OnCalm();
+            aura.Emitting=false;
             rayCast2D.CastTo=castTo;
             animationController.Play("calm");
             victim=null;
-            cooldown=0;            
+            cooldown=0;
         }
     }
 
@@ -155,7 +174,7 @@ public class MimicChest : KinematicMonster
 
     private void ApplyShake()
     {
-        shake=Math.Min(shake,ShakeMax);
+        shake=Math.Min(shake,SHAKE_MAX);
         if(shake>=0.02f)
         {
             float offset=(float)MathUtils.RandomRange(-shake,shake);
