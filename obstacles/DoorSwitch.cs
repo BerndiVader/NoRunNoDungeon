@@ -5,7 +5,8 @@ using System;
 public class DoorSwitch : Area2D
 {
     private static readonly AudioStream SFX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/01_chest_open_4.wav");
-    private readonly AudioStreamPlayer2D SFX_PLAYER=new AudioStreamPlayer2D();
+    private AudioStreamPlayer2D sfxPlayer;
+    private readonly VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
 
     [Export] private string SWITCH_ID="";
     [Export] private bool ONE_TIME=false;
@@ -17,31 +18,29 @@ public class DoorSwitch : Area2D
 
     public override void _Ready()
     {
-        if(!Engine.EditorHint) 
+        SetPhysicsProcess(false);
+        SetProcess(false);
+        SetProcessInput(false);
+
+        if(Engine.EditorHint)
         {
-            VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-            notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
-            AddChild(notifier2D);
+            if(string.IsNullOrEmpty(SWITCH_ID))
+            {
+                SWITCH_ID=Guid.NewGuid().ToString();
+                PropertyListChangedNotify();
+            }
+            return;
         }
 
-        if(Engine.EditorHint&&SWITCH_ID=="")
-        {
-            SWITCH_ID=Guid.NewGuid().ToString();
-            PropertyListChangedNotify();
-        }
+        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
+        AddChild(notifier2D);
 
-        SFX_PLAYER.Stream=SFX;
-        SFX_PLAYER.Bus="Sfx";
-        SFX_PLAYER.MaxDistance=ResourceUtils.MAX_SFX_DISTANCE;
-        AddChild(SFX_PLAYER);
+        sfxPlayer=GetNode<AudioStreamPlayer2D>(nameof(AudioStreamPlayer2D));
+        sfxPlayer.Stream=SFX;
         
         tween=GetNode<Tween>(nameof(Tween));
         Connect("body_entered",this,nameof(OnBodyEntered));
         Connect("body_exited",this,nameof(OnBodyExited));
-
-        SetPhysicsProcess(false);
-        SetProcess(false);
-        SetProcessInput(false);
     }
 
     public override void _PhysicsProcess(float delta)
@@ -60,7 +59,7 @@ public class DoorSwitch : Area2D
 
     private void Interact()
     {
-        SFX_PLAYER.Play();
+        sfxPlayer.Play();
         RotationDegrees=-40f;
         tween.InterpolateProperty(this,"rotation_degrees",-40f,40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut);
         tween.InterpolateProperty(this,"rotation_degrees",40f,-40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut,0.3f);
