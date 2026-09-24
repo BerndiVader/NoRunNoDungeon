@@ -11,12 +11,17 @@ public class Oger : KinematicMonster
     [Export] private float DETECT_DISTANCE=150f;
     
     private float travelTime=0f;
+
     private RayCast2D rayCast2D,playerCast2D;
+    private CPUParticles2D aura;
     private MonsterWeapon weapon;
 
     public override void _Ready()
     {
         base._Ready();
+
+        aura=GetNode<CPUParticles2D>("Aura");
+        aura.Emitting=false;
 
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
         animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
@@ -229,8 +234,9 @@ public class Oger : KinematicMonster
     {
         if(!animationPlayer.IsPlaying())
         {
-            if (health<=0f)
+            if(health<=0f)
             {
+                aura.Emitting=false;
                 OnDie();
             }
             else
@@ -243,7 +249,6 @@ public class Oger : KinematicMonster
     protected override void Alert(float delta)
     {
         Fight(delta);
-        
     }
 
     protected override void Passanger(float delta)
@@ -286,6 +291,7 @@ public class Oger : KinematicMonster
             base.OnAttack(player);
             animationController.Play("stroll");
             WALK_MAX_SPEED=80f;
+            aura.Restart();
         }
     }
 
@@ -302,6 +308,7 @@ public class Oger : KinematicMonster
                 base.OnFight(player);
                 animationController.Play("idle");
                 WALK_MAX_SPEED=0f;
+                aura.Restart();
             }
         }
     }
@@ -323,6 +330,7 @@ public class Oger : KinematicMonster
             WALK_MAX_SPEED=30f;
             travelTime=0f;
             playerCast2D.CastTo=Facing()*DETECT_DISTANCE;
+            aura.Emitting=false;
             base.OnStroll();
         }
     }
@@ -330,11 +338,12 @@ public class Oger : KinematicMonster
 
     protected override void OnIdle()
     {
-        if (state != STATE.idle)
+        if(state!=STATE.idle)
         {
-            travelTime = 0f;
-            WALK_MAX_SPEED = 30f;
-            playerCast2D.CastTo = Facing()*DETECT_DISTANCE;
+            travelTime=0f;
+            WALK_MAX_SPEED=30f;
+            playerCast2D.CastTo=Facing()*DETECT_DISTANCE;
+            aura.Emitting=false;
             base.OnIdle();
         }
     }
