@@ -321,7 +321,7 @@ public class CloningZombie : KinematicMonster
 
     private bool ShouldClone()
     {
-        return !hasCloned&&DistanceToPlayer()<10f;
+        return !hasCloned&&DistanceSquaredToPlayer()<100f;
     }
 
 	protected override void FlipH()

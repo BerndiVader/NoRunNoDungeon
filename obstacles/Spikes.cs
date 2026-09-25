@@ -86,9 +86,7 @@ public class Spikes : Area2D,ISwitchable
 
     public override void _PhysicsProcess(float delta)
     {
-        float distance=GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
-
-        if(distance<ActOnDistanceSqrd)
+        if(GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<ActOnDistanceSqrd)
         {
             SetPhysicsProcess(false);
             TweenIn();

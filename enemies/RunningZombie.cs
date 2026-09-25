@@ -12,11 +12,14 @@ public class RunningZombie : KinematicMonster
 	protected float cooldowner_time=1.0f;
 	protected float cooldowner=0f;
 	protected bool jumping=false;
+	protected float activationRangeSqrd;
 	protected RayCast2D rayCast2D;
 
     public override void _Ready()
 	{
 		base._Ready();
+
+		activationRangeSqrd=ACTIVATION_RANGE*ACTIVATION_RANGE;
 
 		animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
 		animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
@@ -187,7 +190,7 @@ public class RunningZombie : KinematicMonster
 
 	protected bool InRange()
 	{
-		return Mathf.Abs(Player.instance.GlobalPosition.DistanceTo(GlobalPosition))<ACTIVATION_RANGE;
+		return Mathf.Abs(Player.instance.GlobalPosition.DistanceSquaredTo(GlobalPosition))<activationRangeSqrd;
 	}
 
 	protected override void FlipH()

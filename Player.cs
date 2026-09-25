@@ -671,6 +671,11 @@ public class Player : KinematicBody2D
         return onTeleport;
     }
 
+    public (PLAYER_STATE,PLAYER_STATE) PlayerStates()
+    {
+        return (currentState,lastState);
+    }
+
     public void ClearBuffs()
     {
         foreach(WeakReference<Buff>weak in buffs)

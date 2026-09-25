@@ -24,7 +24,7 @@ public class ZombieNovice : Zombie
         }
 
         float distance=GlobalPosition.DistanceSquaredTo(victim.GlobalPosition);
-        if(distance<ATTACK_RANGE)
+        if(distance<attackRangeSqrd)
         {
             Vector2 direction=GlobalPosition.DirectionTo(victim.GlobalPosition);
             SetFlipH(direction.x<0f);

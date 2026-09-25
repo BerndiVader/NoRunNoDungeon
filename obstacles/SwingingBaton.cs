@@ -114,8 +114,7 @@ public class SwingingBaton : Area2D,ISwitchable
     {
         if(mode==MODE.DISTANCE&&!active)
         {
-            float distance=shape.GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
-            if(distance<activationRangeSqrd)
+            if(shape.GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<activationRangeSqrd)
             {
                 active=true;
             } 

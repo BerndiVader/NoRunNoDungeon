@@ -13,7 +13,7 @@ public class KnifeGoblin : KinematicMonster
     protected MonsterWeapon weapon;
 
 
-    protected float activation_distance_sqrd;
+    protected float activationDistanceSqrd;
 
 
     public override void _Ready()
@@ -24,7 +24,7 @@ public class KnifeGoblin : KinematicMonster
         aura.OneShot=true;
         aura.Emitting=false;        
 
-        activation_distance_sqrd=ACTIVATION_DISTANCE*ACTIVATION_DISTANCE;
+        activationDistanceSqrd=ACTIVATION_DISTANCE*ACTIVATION_DISTANCE;
 
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
         animationPlayer.Connect("animation_started",this,nameof(OnAnimationPlayerStarts));
@@ -60,7 +60,7 @@ public class KnifeGoblin : KinematicMonster
             weapon.Attack();
         }
 
-        if(DistanceSquaredToPlayer()<activation_distance_sqrd)
+        if(DistanceSquaredToPlayer()<activationDistanceSqrd)
         {
             if(facing.x!=Mathf.Sign(Player.instance.GlobalPosition.x-GlobalPosition.x))
             {

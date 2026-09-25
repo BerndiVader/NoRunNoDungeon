@@ -8,7 +8,7 @@ public class Zombie : KinematicMonster
     
     protected int cooldown;
     protected float alertTimer;
-    protected float attack_range_sqrd;
+    protected float attackRangeSqrd;
     protected RayCast2D rayCast2D;
     protected Vector2 castTo;
     protected CPUParticles2D aura;
@@ -18,7 +18,7 @@ public class Zombie : KinematicMonster
     {
         base._Ready();
 
-        attack_range_sqrd=ATTACK_RANGE*ATTACK_RANGE;
+        attackRangeSqrd=ATTACK_RANGE*ATTACK_RANGE;
 
         weapon=GetNode<MonsterWeapon>("Mace");
         aura=GetNode<CPUParticles2D>("Aura");
@@ -87,13 +87,13 @@ public class Zombie : KinematicMonster
 
     protected override void Attack(float delta)
     {
-        float distance=rayCast2D.GlobalPosition.DistanceTo(victim.GlobalPosition);
-        if(distance<ATTACK_RANGE)
+        float distance=rayCast2D.GlobalPosition.DistanceSquaredTo(victim.GlobalPosition);
+        if(distance<attackRangeSqrd)
         {
             Vector2 direction=rayCast2D.GlobalPosition.DirectionTo(victim.GlobalPosition);
             SetFlipH(direction.x<0f);
 
-            rayCast2D.CastTo=direction*distance;
+            rayCast2D.CastTo=direction*Mathf.Sqrt(distance);
             if(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==victim.GetInstanceId())
             {
                 if(cooldown<0&&!weapon.IsPlaying())

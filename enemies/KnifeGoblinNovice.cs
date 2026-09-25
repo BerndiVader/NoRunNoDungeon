@@ -37,7 +37,7 @@ public class KnifeGoblinNovice : KnifeGoblin
             OnAlert();
         }
 
-        if(DistanceSquaredToPlayer()<activation_distance_sqrd)
+        if(DistanceSquaredToPlayer()<activationDistanceSqrd)
         {
             if(facing.x!=Mathf.Sign(Player.instance.GlobalPosition.x-GlobalPosition.x))
             {

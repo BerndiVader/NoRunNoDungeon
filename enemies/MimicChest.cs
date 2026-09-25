@@ -64,9 +64,8 @@ public class MimicChest : KinematicMonster
 
     protected override void Idle(float delta)
     {
-        float distance=GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
-
-        if(distance<damageRangeSqrd||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId()))
+        if(GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<damageRangeSqrd
+        ||(rayCast2D.IsColliding()&&rayCast2D.GetCollider().GetInstanceId()==Player.instance.GetInstanceId()))
         {
             animationController.Play("attack");
             OnAttack(Player.instance);

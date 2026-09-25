@@ -11,6 +11,7 @@ public class Oger : KinematicMonster
     [Export] private float DETECT_DISTANCE=150f;
     
     private float travelTime=0f;
+    private float fightDistanceSqrd;
 
     private RayCast2D rayCast2D,playerCast2D;
     private CPUParticles2D aura;
@@ -19,6 +20,8 @@ public class Oger : KinematicMonster
     public override void _Ready()
     {
         base._Ready();
+
+        fightDistanceSqrd=FIGHT_DISTANCE*FIGHT_DISTANCE;
 
         aura=GetNode<CPUParticles2D>("Aura");
         aura.Emitting=false;
@@ -108,11 +111,11 @@ public class Oger : KinematicMonster
 
     protected override void Attack(float delta)
     {
-        float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
+        float distance=GlobalPosition.DistanceSquaredTo(victim.GlobalPosition);
         Vector2 dir=GlobalPosition.DirectionTo(victim.GlobalPosition);
         playerCast2D.CastTo=dir*DETECT_DISTANCE;
 
-        if(distance>FIGHT_DISTANCE)
+        if(distance>fightDistanceSqrd)
         {
             if(!CanSeePlayer())
             {
@@ -188,7 +191,7 @@ public class Oger : KinematicMonster
 
     protected override void Fight(float delta)
     {
-        if(GlobalPosition.DistanceTo(victim.GlobalPosition)<=FIGHT_DISTANCE)
+        if(GlobalPosition.DistanceSquaredTo(victim.GlobalPosition)<=fightDistanceSqrd)
         {
             Vector2 dir=GlobalPosition.DirectionTo(victim.GlobalPosition);
             playerCast2D.CastTo=dir*(FIGHT_DISTANCE+15f);
@@ -362,7 +365,7 @@ public class Oger : KinematicMonster
             goal=Alert;
 
             victim=Player.instance;
-            float distance=GlobalPosition.DistanceTo(victim.GlobalPosition);
+            float distance=GlobalPosition.DistanceSquaredTo(victim.GlobalPosition);
             Vector2 dir=GlobalPosition.DirectionTo(victim.GlobalPosition);
             playerCast2D.CastTo=dir*DETECT_DISTANCE;
 
@@ -371,7 +374,7 @@ public class Oger : KinematicMonster
                 FlipH();
             }
 
-            if (distance>FIGHT_DISTANCE)
+            if (distance>fightDistanceSqrd)
             {
                 OnAttack(victim);
             }
