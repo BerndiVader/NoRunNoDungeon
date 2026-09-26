@@ -4,10 +4,10 @@ using System;
 public class Settings
 {
     private float speed,prevSpeed;
-    private Vector2 zoom,prevZoom,prevPosition,direction,prevDirection;
+    private readonly Vector2 zoom,prevZoom,prevPosition,direction,prevDirection;
     private bool restoreCalled=false;
-    public bool autoRestore=false;
-    public bool restoreToDefault=false;
+    public bool autoRestore;
+    public bool restoreToDefault;
     public bool noStop=false;
     public string CallID="";
     private readonly WeakReference<Level>levelRef;
@@ -39,15 +39,21 @@ public class Settings
         else if(levelRef.TryGetTarget(out Level level))
         {
             level.settings=this;
-            
+
+            SceneTreeTween tween=level.GetTree().CreateTween().SetParallel().BindNode(level);
+
             if(speed!=-1)
             {
-                level.speed=speed;
+                tween.TweenProperty(level,"speed",speed,0.5f)
+                    .SetTrans(Tween.TransitionType.Cubic)
+                    .SetEase(Tween.EaseType.InOut);
             }
             if(zoom.x!=-1f)
             {
-                PlayerCamera.instance.Zoom=zoom;
                 PlayerCamera.instance.GlobalPosition=Player.instance.GlobalPosition;
+                tween.TweenProperty(PlayerCamera.instance,"zoom",zoom,0.5f)
+                    .SetTrans(Tween.TransitionType.Cubic)
+                    .SetEase(Tween.EaseType.InOut);
             }
             if(direction!=Vector2.Zero)
             {
@@ -63,14 +69,23 @@ public class Settings
         {
             if(restoreToDefault)
             {
-                level.DEFAULT_SETTING.Restore();
+                level.DEFAULT_SETTING.Set();
             }
             else
             {
-                level.speed=prevSpeed;
                 level.direction=prevDirection;
-                PlayerCamera.instance.Zoom=prevZoom;
-                PlayerCamera.instance.Position=prevPosition;
+
+                SceneTreeTween tween=level.GetTree().CreateTween().SetParallel().BindNode(level);
+                tween.TweenProperty(level,"speed",prevSpeed,0.5f)
+                    .SetTrans(Tween.TransitionType.Cubic)
+                    .SetEase(Tween.EaseType.InOut);
+                tween.TweenProperty(PlayerCamera.instance,"zoom",prevZoom,0.5f)
+                    .SetTrans(Tween.TransitionType.Cubic)
+                    .SetEase(Tween.EaseType.InOut);
+                tween.TweenProperty(PlayerCamera.instance,"position",prevPosition,0.5f)
+                    .SetTrans(Tween.TransitionType.Cubic)
+                    .SetEase(Tween.EaseType.InOut);
+
             }
         }
     }
