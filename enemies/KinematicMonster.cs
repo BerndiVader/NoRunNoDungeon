@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Godot;
 
@@ -7,6 +6,17 @@ public abstract class KinematicMonster : KinematicBody2D
     protected static List<WeakRef>ACTIVE_MONSTERS=new List<WeakRef>();
     private static readonly PackedScene LEVELCONTROL_PACK=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
     protected static readonly Vector2 DEFAULT_DAMAGE_FORCE=new Vector2(200f,-50f);
+
+    protected static readonly Godot.Collections.Dictionary<string,object> DEFAULT_LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
+    {
+        {"Use",false},
+        {"Dir",Vector2.Zero},
+        {"Speed",-1.0f},
+        {"Zoom",-1.0f},
+        {"DefaultOnly",false},
+        {"RestoreOnly",false}
+    };
+
 
     protected enum SPAWN_FACING
     {
@@ -35,13 +45,7 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected int SPAWN_LEFT_WEIGHT=50;
     [Export] protected bool CALL_SWITCH_ON_DIE=false;
     [Export] protected string SWITCH_ID="";
-    [Export] protected Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
-    {
-        {"Use",false},
-        {"Dir",Vector2.Zero},
-        {"Speed",-1.0f},
-        {"Zoom",-1.0f},
-    };
+    [Export] protected Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=DEFAULT_LEVEL_SETTINGS.Duplicate();
 
     protected readonly Vector2 VELOCITY=Vector2.Zero;
 
@@ -93,6 +97,7 @@ public abstract class KinematicMonster : KinematicBody2D
         health=HEALTH;
         velocity=VELOCITY;
         LastPosition=GlobalPosition;
+
         SetProcess(false);
         SetPhysicsProcess(true);
         SetProcessInput(false);
@@ -625,7 +630,23 @@ public abstract class KinematicMonster : KinematicBody2D
             animationController.Playing=false;
         }
         
-    }    
+    }
+
+    protected bool UseSettings()
+    {
+        return (bool)LEVEL_SETTINGS["Use"];
+    }
+
+    protected void PopulateSettings()
+    {
+        foreach(string key in DEFAULT_LEVEL_SETTINGS.Keys)
+        {
+            if(!LEVEL_SETTINGS.ContainsKey(key))
+            {
+                LEVEL_SETTINGS[key]=DEFAULT_LEVEL_SETTINGS[key];
+            }
+        }
+    }
 
     private void OnScreenEntered()
     {
@@ -642,13 +663,17 @@ public abstract class KinematicMonster : KinematicBody2D
     
     public override void _EnterTree()
     {
-        if((bool)LEVEL_SETTINGS["Use"])
+        if(UseSettings())
         {
-            levelSettings=new Settings(World.level,Vector2.Zero,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
-            LevelControl control=LEVELCONTROL_PACK.Instance<LevelControl>();
-            control.SetMonsterControlled(levelSettings);
-            control.Position=Position;
-            World.level.AddChild(control);
+            PopulateSettings();
+            if(!(bool)LEVEL_SETTINGS["DefaultOnly"]&&!(bool)LEVEL_SETTINGS["RestoreOnly"])
+            {
+                levelSettings=new Settings(World.level,Vector2.Zero,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
+                LevelControl control=LEVELCONTROL_PACK.Instance<LevelControl>();
+                control.SetMonsterControlled(levelSettings);
+                control.Position=Position;
+                World.level.AddChild(control);
+            }
         }
     }
 
@@ -659,9 +684,20 @@ public abstract class KinematicMonster : KinematicBody2D
             ACTIVE_MONSTERS.Remove(weakRef);
         }
         
-        if((bool)LEVEL_SETTINGS["Use"])
+        if(UseSettings())
         {
-            levelSettings.Restore();
+            if((bool)LEVEL_SETTINGS["DefaultOnly"])
+            {
+                World.level.DEFAULT_SETTING.Set();
+            }
+            else if((bool)LEVEL_SETTINGS["RestoreOnly"])
+            {
+                World.level.settings.Restore();
+            }
+            else
+            {
+                levelSettings.Restore();
+            }
         }
     }
 
