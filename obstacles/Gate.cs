@@ -104,7 +104,6 @@ public class Gate : Area2D,ISwitchable
                 {
                     settings=new Settings(World.level,Vector2.Zero,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
                     settings.autoRestore=World.level.settings.autoRestore;
-                    settings.restoreToDefault=false;
                     settings.Set();
                 }
 

@@ -47,5 +47,4 @@ z_index = 2
 [node name="SpeedTrailsTop" parent="Renderer" instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 257, 1.19791 )
-scale = Vector2( 1.0625, 0.218021 )
 z_index = 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -31,6 +31,7 @@
 [ext_resource path="res://placeholders/ambients/CandleSmallHolder.tscn" type="PackedScene" id=29]
 [ext_resource path="res://placeholders/ambients/TorchRightHolder.tscn" type="PackedScene" id=30]
 [ext_resource path="res://placeholders/monsters/KnifeGoblinHolder.tscn" type="PackedScene" id=31]
+[ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=32]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -175,6 +176,7 @@ position = Vector2( 776, 248 )
 position = Vector2( 0, -8 )
 HEALTH = 5.0
 LEVEL_SETTINGS = {
+"DefaultOnly": true,
 "Dir": Vector2( 0, 0 ),
 "Speed": 0.0,
 "Use": true,
@@ -197,6 +199,16 @@ WALK_MAX_SPEED = 0.0
 
 [node name="OgerPlaceholder2" parent="." instance=ExtResource( 13 )]
 position = Vector2( 1298, 165 )
+
+[node name="Oger" parent="OgerPlaceholder2" index="0"]
+LEVEL_SETTINGS = {
+"DefaultOnly": false,
+"Dir": Vector2( 0, 0 ),
+"RestoreOnly": true,
+"Speed": -1.0,
+"Use": true,
+"Zoom": -1.0
+}
 
 [node name="CoinPhysics2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 1222, 80 )
@@ -390,6 +402,11 @@ position = Vector2( 721, 264 )
 position = Vector2( 693, 144 )
 scale = Vector2( 1.05075, 1 )
 
+[node name="LevelControl" parent="." instance=ExtResource( 32 )]
+position = Vector2( 704, 64 )
+SPEED = 0.0
+ZOOM = 0.6
+
 [editable path="PlatformMoving3x3"]
 [editable path="PlatformMoving3x4"]
 [editable path="RocksFalling3"]
@@ -405,6 +422,7 @@ scale = Vector2( 1.05075, 1 )
 [editable path="SpikesUp"]
 [editable path="OgerPlaceholder"]
 [editable path="TreeWalking3"]
+[editable path="OgerPlaceholder2"]
 [editable path="PlatformCycling"]
 [editable path="PlatformCycling2"]
 [editable path="PlatformCycling3"]
