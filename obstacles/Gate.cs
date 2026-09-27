@@ -28,13 +28,7 @@ public class Gate : Area2D,ISwitchable
     [Export] private bool oneTime=true;
     [Export] private bool oneWay=false;
     [Export] private string switchID="";
-    [Export] private Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
-    {
-        {"Use",false},
-        {"Dir",Vector2.Zero},
-        {"Speed",-1.0f},
-        {"Zoom",-1.0f},
-    };
+    [Export] private Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=Settings.DEFAULT_LEVEL_SETTINGS.Duplicate();
 
     private bool active=false;
     private bool used=false;
@@ -102,7 +96,8 @@ public class Gate : Area2D,ISwitchable
                 }
                 if((bool)LEVEL_SETTINGS["Use"])
                 {
-                    settings=new Settings(World.level,Vector2.Zero,(float)LEVEL_SETTINGS["Speed"],(float)LEVEL_SETTINGS["Zoom"]);
+                    Settings.Populate(LEVEL_SETTINGS);
+                    settings=new Settings(World.level,LEVEL_SETTINGS);
                     settings.autoRestore=World.level.settings.autoRestore;
                     settings.Set();
                 }

@@ -3,31 +3,66 @@ using System;
 
 public class Settings
 {
+    public static readonly Godot.Collections.Dictionary<string,object> DEFAULT_LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
+    {
+        {"Use",false},
+        {"Dir",Vector2.Zero},
+        {"Speed",-1.0f},
+        {"Zoom",-1.0f},
+        {"RestoreToDefault",false},
+        {"DefaultOnly",false},
+        {"RestoreOnly",false},
+        {"AutoRestore",false},
+        {"NoStop",false},
+        {"CallID",string.Empty}
+    };
+
+    public static void Populate(Godot.Collections.Dictionary<string,object>settings)
+    {
+        foreach(string key in DEFAULT_LEVEL_SETTINGS.Keys)
+        {
+            if(!settings.ContainsKey(key))
+            {
+                settings[key]=DEFAULT_LEVEL_SETTINGS[key];
+            }
+        }
+    }
+
+    public static bool Usable(Godot.Collections.Dictionary<string,object>settings)
+    {
+        return (bool)settings["Use"];
+    }
+
+    private bool use,defaultOnly,restoreOnly;
     private float speed,prevSpeed;
-    private readonly Vector2 zoom,prevZoom,prevPosition,direction,prevDirection;
-    private bool restoreCalled=false;
+    private readonly Vector2 zoom,prevZoom,direction,prevDirection,prevPosition;
     public bool autoRestore;
     public bool restoreToDefault;
     public bool noStop=false;
     public string CallID="";
+
     private readonly WeakReference<Level>levelRef;
+    public bool restoreCalled=false;
 
-    public Settings(Level level) : this(level,Vector2.Zero) {}
-
-    public Settings(Level level,Vector2 direction,float speed=-1f,float zoom=-1f,bool autoRestore=false,bool restoreToDefault=false,bool noStop=false)
+    public Settings(Level level,Godot.Collections.Dictionary<string,object>settings)
     {
-        levelRef=new WeakReference<Level>(level);
-        this.zoom=new Vector2(zoom,zoom);
-        this.speed=speed;
-        this.direction=direction;
-        this.autoRestore=autoRestore;
-        this.restoreToDefault=restoreToDefault;
-        this.noStop=noStop;
-
         prevSpeed=level.speed;
         prevZoom=PlayerCamera.instance.Zoom;
         prevPosition=PlayerCamera.instance.Position;
-        prevDirection=level.direction;
+        prevDirection=level.direction;        
+
+        levelRef=new WeakReference<Level>(level);
+
+        use=(bool)settings["Use"];
+        direction=(Vector2)settings["Dir"];
+        speed=(float)settings["Speed"];
+        zoom=new Vector2((float)settings["Zoom"],(float)settings["Zoom"]);
+        restoreToDefault=(bool)settings["RestoreToDefault"];
+        defaultOnly=(bool)settings["DefaultOnly"];
+        restoreOnly=(bool)settings["RestoreOnly"];
+        autoRestore=(bool)settings["AutoRestore"];
+        noStop=(bool)settings["NoStop"];
+        CallID=(string)settings["CallID"];
     }
 
     public void Set()
@@ -36,10 +71,10 @@ public class Settings
         {
             Restore();
         }
+
         else if(levelRef.TryGetTarget(out Level level))
         {
             level.settings=this;
-
             SceneTreeTween tween=level.GetTree().CreateTween().SetParallel().BindNode(level);
 
             if(speed!=-1)
@@ -69,7 +104,11 @@ public class Settings
         {
             if(restoreToDefault)
             {
-                level.DEFAULT_SETTING.Set();
+                level.DEFAULT_SETTING.Restore();
+            }
+            else if(restoreOnly)
+            {
+                level.settings.Restore();
             }
             else
             {
@@ -82,9 +121,15 @@ public class Settings
                 tween.TweenProperty(PlayerCamera.instance,"zoom",prevZoom,0.5f)
                     .SetTrans(Tween.TransitionType.Cubic)
                     .SetEase(Tween.EaseType.InOut);
+                PlayerCamera.instance.Position=prevPosition;
+
+                /*
+
                 tween.TweenProperty(PlayerCamera.instance,"position",prevPosition,0.5f)
                     .SetTrans(Tween.TransitionType.Cubic)
                     .SetEase(Tween.EaseType.InOut);
+                    
+                */
 
             }
         }

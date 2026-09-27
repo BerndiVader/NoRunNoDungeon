@@ -47,6 +47,13 @@ public class LevelControlTimer : Node,ISwitchable
         current=(int)timer.TimeLeft;
         if(current<last)
         {
+            if(World.level.settings.restoreCalled||settings.restoreCalled)
+            {
+                SetPhysicsProcess(false);
+                CallDeferred("queue_free");
+                return;
+            }
+
             last=current;
             if(current<5)
             {

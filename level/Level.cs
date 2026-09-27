@@ -46,8 +46,14 @@ public class Level : TileMap
 
         lastDirection=direction;
 
-        settings=new Settings(this,direction,speed,1f,false);
-        DEFAULT_SETTING=new Settings(this,direction,speed,1f,false);
+        Godot.Collections.Dictionary<string,object>settingsList=Settings.DEFAULT_LEVEL_SETTINGS.Duplicate();
+        settingsList["Speed"]=speed;
+        settingsList["Dir"]=direction;
+        settingsList["Zoom"]=1f;
+        settingsList["AutoRestore"]=false;
+
+        settings=new Settings(this,settingsList);
+        DEFAULT_SETTING=new Settings(this,settingsList);
     }
 
     public void FreeLevel() 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 public class LevelControl : Node2D,ISwitchable
@@ -33,10 +34,16 @@ public class LevelControl : Node2D,ISwitchable
         size=GetViewportRect().Size*0.5f;
         if(settings==null)
         {
-            settings=new Settings(World.level,DIRECTION,SPEED,ZOOM,AUTO_RESTORE);
-            settings.noStop=NO_STOP;
-            settings.CallID=CALL_ID;
-            settings.restoreToDefault=RESTORE_TO_DEFAULT;
+            Godot.Collections.Dictionary<string,object>options=Settings.DEFAULT_LEVEL_SETTINGS.Duplicate();
+            options["Dir"]=DIRECTION;
+            options["Speed"]=SPEED;
+            options["Zoom"]=ZOOM;
+            options["AutoRestore"]=AUTO_RESTORE;
+            options["NoStop"]=NO_STOP;
+            options["CallID"]=CALL_ID;
+            options["RestoreToDefault"]=RESTORE_TO_DEFAULT;
+
+            settings=new Settings(World.level,options);
         }
 
         if(SWITCH_ID!="")
