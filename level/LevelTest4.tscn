@@ -62,12 +62,6 @@ closed = true
 changeStateTo = 5
 oneWay = true
 switchID = "22"
-LEVEL_SETTINGS = {
-"Dir": Vector2( 0, -1 ),
-"Speed": 120.0,
-"Use": true,
-"Zoom": -1.0
-}
 
 [node name="ControlHolder" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1344, -247 )
@@ -86,6 +80,18 @@ type = 2
 closed = true
 changeStateTo = 5
 oneWay = true
+LEVEL_SETTINGS = {
+"AutoRestore": false,
+"CallID": "",
+"DefaultOnly": false,
+"Dir": Vector2( 0, 0 ),
+"NoStop": false,
+"RestoreOnly": true,
+"RestoreToDefault": false,
+"Speed": -1.0,
+"Use": true,
+"Zoom": -1.0
+}
 
 [node name="FlamethrowerHolder" parent="." instance=ExtResource( 5 )]
 position = Vector2( 1889, 194 )

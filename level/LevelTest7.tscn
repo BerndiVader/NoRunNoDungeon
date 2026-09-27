@@ -71,9 +71,6 @@ position = Vector2( 800, 135 )
 [node name="BombTrollHolder" parent="." instance=ExtResource( 5 )]
 position = Vector2( 952, 200 )
 
-[node name="BombTroll" parent="BombTrollHolder" index="0"]
-DAMAGE_FORCE = Vector2( 100, -50 )
-
 [node name="KnifeGoblinHolder" parent="." instance=ExtResource( 10 )]
 position = Vector2( 808, 248 )
 
