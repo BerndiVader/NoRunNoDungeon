@@ -69,6 +69,7 @@ scale = Vector2( 0.7, 0.7 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
 SPEED = 0.0
+ZOOM = 1.0
 TIMEOUT = 15
 RESTORE_TO_DEFAULT = true
 SIGNAL = false
@@ -86,11 +87,11 @@ LEVEL_SETTINGS = {
 "DefaultOnly": false,
 "Dir": Vector2( 0, 0 ),
 "NoStop": false,
-"RestoreOnly": true,
-"RestoreToDefault": false,
+"RestoreOnly": false,
+"RestoreToDefault": true,
 "Speed": -1.0,
 "Use": true,
-"Zoom": -1.0
+"Zoom": 1.0
 }
 
 [node name="FlamethrowerHolder" parent="." instance=ExtResource( 5 )]

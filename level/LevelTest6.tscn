@@ -87,7 +87,13 @@ style = 0
 changeStateTo = 5
 oneWay = true
 LEVEL_SETTINGS = {
+"AutoRestore": false,
+"CallID": "",
+"DefaultOnly": false,
 "Dir": Vector2( 0, 0 ),
+"NoStop": false,
+"RestoreOnly": false,
+"RestoreToDefault": true,
 "Speed": -1.0,
 "Use": true,
 "Zoom": -1.0

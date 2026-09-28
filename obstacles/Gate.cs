@@ -33,7 +33,7 @@ public class Gate : Area2D,ISwitchable
     private bool active=false;
     private bool used=false;
     private Vector2 restorePosition=Vector2.Zero;
-    private Settings settings;
+    private Settings settings,restoreSettings;
     private Gamestate gamestate;
     private AnimatedSprite sprite;
 
@@ -104,7 +104,7 @@ public class Gate : Area2D,ISwitchable
 
             if(settings!=null)
             {
-                settings.autoRestore=World.level.settings.autoRestore;
+                restoreSettings=World.level.settings;
                 settings.Set();
             }
 
@@ -183,7 +183,7 @@ public class Gate : Area2D,ISwitchable
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.InOut);
         tween.TweenCallback(this,nameof(TeleportPlayer));
-        
+
     }
 
     private void TeleportPlayer()
@@ -211,9 +211,9 @@ public class Gate : Area2D,ISwitchable
 
         if(Settings.Usable(LEVEL_SETTINGS))
         {
-            if(settings!=null)
+            if(restoreSettings!=null&&!settings.restoreToDefault)
             {
-                settings.Restore();
+                restoreSettings.Set();
             }
             else
             {

@@ -49,10 +49,16 @@ position = Vector2( 760, 246 )
 companionID = "11"
 changeStateTo = 8
 LEVEL_SETTINGS = {
+"AutoRestore": false,
+"CallID": "",
+"DefaultOnly": false,
 "Dir": Vector2( 0, 0 ),
+"NoStop": false,
+"RestoreOnly": false,
+"RestoreToDefault": true,
 "Speed": 0.0,
 "Use": true,
-"Zoom": -1.0
+"Zoom": 0.6
 }
 
 [node name="ShopkeeperHolder" parent="." instance=ExtResource( 4 )]

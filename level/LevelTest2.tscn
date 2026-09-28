@@ -39,6 +39,7 @@ position = Vector2( 736, 231 )
 [node name="LevelControl" parent="ControlHolder" index="0"]
 SPEED = 50.0
 DIRECTION = Vector2( 0, 1 )
+ZOOM = 1.0
 RESTORE_TO_DEFAULT = true
 AUTO_RESTORE = true
 
@@ -48,6 +49,7 @@ position = Vector2( 1152, -407 )
 [node name="LevelControl" parent="ControlHolder3" index="0"]
 SPEED = 60.0
 DIRECTION = Vector2( 0, -1 )
+ZOOM = 1.0
 RESTORE_TO_DEFAULT = true
 AUTO_RESTORE = true
 
@@ -175,6 +177,18 @@ position = Vector2( 1448, 86 )
 [node name="Gate" parent="GateHolder7" index="0"]
 companionID = "66"
 type = 1
+LEVEL_SETTINGS = {
+"AutoRestore": false,
+"CallID": "",
+"DefaultOnly": false,
+"Dir": Vector2( 0, 0 ),
+"NoStop": false,
+"RestoreOnly": false,
+"RestoreToDefault": true,
+"Speed": -1.0,
+"Use": false,
+"Zoom": -1.0
+}
 
 [node name="GateHolder8" parent="." instance=ExtResource( 5 )]
 position = Vector2( 1120, 214 )

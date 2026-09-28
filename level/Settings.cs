@@ -87,7 +87,7 @@ public class Settings
             {
                 PlayerCamera.instance.GlobalPosition=Player.instance.GlobalPosition;
                 tween.TweenProperty(PlayerCamera.instance,"zoom",zoom,1f)
-                    .SetTrans(Tween.TransitionType.Bounce)
+                    .SetTrans(Tween.TransitionType.Cubic)
                     .SetEase(Tween.EaseType.InOut);
             }
             if(direction!=Vector2.Zero)

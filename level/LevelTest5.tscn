@@ -106,6 +106,7 @@ position = Vector2( 1984, 112 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
 SPEED = 0.0
+ZOOM = 1.0
 RESTORE_TO_DEFAULT = true
 
 [node name="Gate" parent="." instance=ExtResource( 6 )]
@@ -176,8 +177,14 @@ type = 2
 changeStateTo = 5
 oneWay = true
 LEVEL_SETTINGS = {
-"Dir": Vector2( -1, 0 ),
-"Speed": 120.0,
+"AutoRestore": false,
+"CallID": "",
+"DefaultOnly": false,
+"Dir": Vector2( 0, 0 ),
+"NoStop": false,
+"RestoreOnly": false,
+"RestoreToDefault": true,
+"Speed": -1.0,
 "Use": true,
 "Zoom": -1.0
 }

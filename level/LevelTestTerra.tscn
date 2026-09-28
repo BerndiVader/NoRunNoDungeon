@@ -275,9 +275,6 @@ type = 1
 closed = true
 switchID = "0aeaf52c-3c54-4a29-8cb7-8891257488a6"
 
-[node name="Position2D" parent="Gate2" index="2"]
-position = Vector2( 223, -110 )
-
 [node name="GateHolder" parent="." instance=ExtResource( 14 )]
 position = Vector2( 1088, 6 )
 

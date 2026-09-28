@@ -276,6 +276,7 @@ position = Vector2( 872, 264 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
 SPEED = 0.0
+ZOOM = 1.0
 RESTORE_TO_DEFAULT = true
 SWITCH_ID = "5c71020b-0d68-419c-a1bb-7a627dfb7522"
 
@@ -294,10 +295,16 @@ position = Vector2( 945, 38 )
 [node name="Gate" parent="GateHolder" index="0"]
 companionID = "1"
 LEVEL_SETTINGS = {
+"AutoRestore": true,
+"CallID": "",
+"DefaultOnly": false,
 "Dir": Vector2( 0, 0 ),
+"NoStop": false,
+"RestoreOnly": false,
+"RestoreToDefault": false,
 "Speed": 0.0,
 "Use": true,
-"Zoom": 0.8
+"Zoom": 0.6
 }
 
 [node name="Torch" parent="." instance=ExtResource( 13 )]
