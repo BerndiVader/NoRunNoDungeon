@@ -24,7 +24,7 @@ public class Gate : Area2D,ISwitchable
     [Export] private TYPE type=TYPE.ENTRY;
     [Export] private STYLE style=STYLE.WOOD;
     [Export] private bool closed=false;
-    [Export] private Gamestate changeStateTo=Gamestate.BONUS;
+    [Export] private Gamestate changeStateTo=Gamestate.BOSS;
     [Export] private bool oneTime=true;
     [Export] private bool oneWay=false;
     [Export] private string switchID="";
@@ -36,7 +36,6 @@ public class Gate : Area2D,ISwitchable
     private Settings settings;
     private Gamestate gamestate;
     private AnimatedSprite sprite;
-    private Position2D position2D;
 
     public override void _Ready()
     {
@@ -58,57 +57,63 @@ public class Gate : Area2D,ISwitchable
             oneTime=true;
         }
 
-        position2D=GetNode<Position2D>(nameof(Position2D));
-
         sprite=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         sprite.Animation=style.ToString();
         sprite.Frame=closed?4:0;
+
+        if(Settings.Usable(LEVEL_SETTINGS))
+        {
+            Settings.Populate(LEVEL_SETTINGS);
+            settings=new Settings(World.level,LEVEL_SETTINGS);
+        }
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        if(active)
+        if(!active)
         {
-            if(Player.instance.input.JustInteract)
+            return;
+        }
+
+        if(Player.instance.input.JustInteract)
+        {
+            active=false;
+            SetPhysicsProcess(active);
+            if(oneTime&&used)
             {
-                active=false;
-                SetPhysicsProcess(active);
-                if(oneTime&&used)
-                {
-                    closed=true;
-                    sprite.Play();
-                    return;
-                }
-                used=true;
-                if(type==TYPE.ENTRY)
-                {
-                    if(changeStateTo!=Gamestate.KEEP)
-                    {
-                        gamestate=World.state;
-                        World.instance.SetGamestate(changeStateTo);
-                        restorePosition=World.level.Position;
-                    }
-                }
-                else if(oneTime)
-                {
-                    closed=true;
-                    sprite.Play();
-                }
-                if((bool)LEVEL_SETTINGS["Use"])
-                {
-                    Settings.Populate(LEVEL_SETTINGS);
-                    settings=new Settings(World.level,LEVEL_SETTINGS);
-                    settings.autoRestore=World.level.settings.autoRestore;
-                    settings.Set();
-                }
-
-                Dust dust=ResourceUtils.dust.Instance<Dust>();
-                dust.type=Dust.TYPE.DISAPPEAR;
-                dust.Position=World.level.ToLocal(Player.instance.GlobalPosition);
-                World.level.AddChild(dust);
-
-                GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(TeleportCall),ID+companionID,GetInstanceId());
+                closed=true;
+                sprite.Play();
+                return;
             }
+            used=true;
+
+            if(type==TYPE.ENTRY)
+            {
+                if(changeStateTo!=Gamestate.KEEP)
+                {
+                    gamestate=World.state;
+                    World.instance.SetGamestate(changeStateTo);
+                    restorePosition=World.level.Position;
+                }
+            }
+            else if(oneTime)
+            {
+                closed=true;
+                sprite.Play();
+            }
+
+            if(settings!=null)
+            {
+                settings.autoRestore=World.level.settings.autoRestore;
+                settings.Set();
+            }
+
+            Dust dust=ResourceUtils.dust.Instance<Dust>();
+            dust.type=Dust.TYPE.DISAPPEAR;
+            dust.Position=World.level.ToLocal(Player.instance.GlobalPosition);
+            World.level.AddChild(dust);
+
+            GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(TeleportCall),ID+companionID,GetInstanceId());
         }
     }
 
@@ -135,12 +140,7 @@ public class Gate : Area2D,ISwitchable
     {
         if(instance!=GetInstanceId()&&id==ID+companionID)
         {
-            SfxPlayer teleportFx=new SfxPlayer
-            {
-                Position=Position,
-                Stream=TELEPORT_FX
-            };
-            World.level.AddChild(teleportFx);
+            Renderer.instance.PlaySfx(TELEPORT_FX,GlobalPosition);
 
             if(changeStateTo!=Gamestate.KEEP)
             {
@@ -149,6 +149,7 @@ public class Gate : Area2D,ISwitchable
                     closed=true;
                     sprite.Frame=0;
                     sprite.Play();
+                    Renderer.instance.PlaySfx(CLOSE_FX,GlobalPosition);
                 }
                 TeleportLevel();
             }
@@ -159,12 +160,7 @@ public class Gate : Area2D,ISwitchable
                     closed=true;
                     sprite.Frame=0;
                     sprite.Play();
-                    SfxPlayer closefx=new SfxPlayer
-                    {
-                        Stream=CLOSE_FX,
-                        Position=Position
-                    };
-                    World.level.AddChild(closefx);
+                    Renderer.instance.PlaySfx(CLOSE_FX,GlobalPosition);
                 }
                 TeleportPlayer();
             }
@@ -174,7 +170,7 @@ public class Gate : Area2D,ISwitchable
     private void TeleportLevel()
     {
         Player.instance.Teleport(true);
-        Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(position2D.GlobalPosition);
+        Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
         Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;
 
         if(type==TYPE.EXIT_WITH_0Y)
@@ -187,6 +183,7 @@ public class Gate : Area2D,ISwitchable
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.InOut);
         tween.TweenCallback(this,nameof(TeleportPlayer));
+        
     }
 
     private void TeleportPlayer()
@@ -204,13 +201,7 @@ public class Gate : Area2D,ISwitchable
         {
             sprite.Frame=0;
             sprite.Play();
-            SfxPlayer closefx=new SfxPlayer
-            {
-                Stream=CLOSE_FX,
-                Position=Position
-            };
-            World.level.AddChild(closefx);
-
+            Renderer.instance.PlaySfx(CLOSE_FX,GlobalPosition);
         }
 
         if(type==TYPE.ENTRY&&changeStateTo!=Gamestate.KEEP)
@@ -218,7 +209,7 @@ public class Gate : Area2D,ISwitchable
             World.instance.SetGamestate(gamestate);
         }
 
-        if((bool)LEVEL_SETTINGS["Use"])
+        if(Settings.Usable(LEVEL_SETTINGS))
         {
             if(settings!=null)
             {
@@ -248,12 +239,7 @@ public class Gate : Area2D,ISwitchable
                     closed=true;
                     break;
             }
-            SfxPlayer closefx=new SfxPlayer
-            {
-                Stream=CLOSE_FX,
-                Position=Position
-            };
-            World.level.AddChild(closefx);            
+            Renderer.instance.PlaySfx(CLOSE_FX,GlobalPosition);
         }
     }
 }

@@ -102,7 +102,7 @@ CANNONBALL_SETTINGS = {
 }
 
 [node name="ControlHolder" parent="." instance=ExtResource( 5 )]
-position = Vector2( 2008, 112 )
+position = Vector2( 1984, 112 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
 SPEED = 0.0
