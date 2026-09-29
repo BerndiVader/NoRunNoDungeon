@@ -30,7 +30,7 @@ public abstract class Weapon : Area2D
         cooldownTimer=new Timer
         {
             OneShot=true,
-            WaitTime=WARMUP
+            WaitTime=COOLDOWN
         };
 
         AddChild(cooldownTimer);
@@ -87,7 +87,7 @@ public abstract class Weapon : Area2D
                 cooldownTimer.Start();
                 PlaySfx(sfxHit);
                 node.EmitSignal(STATE.damage.ToString(),Player.instance,DAMAGE,false);
-                hit = true;
+                hit=true;
                 animationPlayer.PlayBackwards();
             }
             else
@@ -114,10 +114,7 @@ public abstract class Weapon : Area2D
 
     protected void PlaySfx(AudioStream stream)
     {
-        SfxPlayer sfx=new SfxPlayer();
-        sfx.Position=World.level.ToLocal(GlobalPosition);
-        sfx.Stream=stream;
-        World.level.AddChild(sfx);
+        Renderer.instance.PlaySfx(stream,GlobalPosition);
     }
 
     public bool CooldownReady()

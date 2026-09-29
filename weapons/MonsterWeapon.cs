@@ -33,7 +33,7 @@ public class MonsterWeapon : Weapon
             {
                 if(!animationPlayer.IsPlaying())
                 {
-                    animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
+                    cooldownTimer.WaitTime=hit?WARMUP:COOLDOWN;
                     state=WEAPONSTATE.IDLE;
                     hit=false;
                     cooldownTimer.Start();
@@ -67,6 +67,7 @@ public class MonsterWeapon : Weapon
             {
                 node.EmitSignal(STATE.damage.ToString(),this,DAMAGE,false);
                 hit=true;
+                animationPlayer.PlayBackwards();
                 return;
             }
         }

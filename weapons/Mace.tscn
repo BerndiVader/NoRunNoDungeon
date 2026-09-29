@@ -120,7 +120,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.15 ),
+"times": PoolRealArray( 0, 0.09 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -161,7 +161,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.15 ),
+"times": PoolRealArray( 0, 0.09 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -171,8 +171,8 @@ tracks/2/keys = {
 extents = Vector2( 2.21269, 13.058 )
 
 [node name="Mace" type="Area2D"]
-position = Vector2( -6, -2 )
-rotation = 0.261799
+position = Vector2( 6, -2 )
+rotation = -0.261799
 collision_layer = 0
 script = ExtResource( 2 )
 

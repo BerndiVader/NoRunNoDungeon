@@ -194,3 +194,5 @@ emission_rect_extents = Vector2( 5, 0 )
 
 [node name="Mace" parent="." instance=ExtResource( 3 )]
 position = Vector2( 3, 1 )
+COOLDOWN = 0.3
+WARMUP = 0.5
