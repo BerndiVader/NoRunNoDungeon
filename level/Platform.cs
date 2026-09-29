@@ -12,6 +12,8 @@ public class Platform : StaticBody2D,ISwitchable
     }
 
     [Export] protected PLATFORMSTATE platformState=PLATFORMSTATE.NORMAL;
+    [Export] protected float BUMP_STRENGTH=4f;
+    [Export] protected float BUMP_STRENGTH_SOFT=1f;
     [Export] protected string switchID="";
 
     protected float damage=1f;
@@ -47,9 +49,28 @@ public class Platform : StaticBody2D,ISwitchable
         if(collision.Shape is RectangleShape2D shape)
         {
             bumpArea.Position=collision.Position;
+
             RectangleShape2D rect=areaCollision.Shape as RectangleShape2D;
             rect.Extents=new Vector2(shape.Extents.x+2f,shape.Extents.y+2f);
             extents=rect.Extents;
+        } 
+        else if(collision.Shape is CapsuleShape2D capsule)
+        {
+            bumpArea.Position=collision.Position;
+
+            float width=capsule.Radius*2f;
+            float height=capsule.Height;
+            float angle=collision.Rotation;
+            float cos=Mathf.Abs(Mathf.Cos(angle));
+            float sin=Mathf.Abs(Mathf.Sin(angle));
+
+            float boundingWidth=width*cos+height*sin;
+            float boundingHeight=width*sin+height*cos;
+
+            RectangleShape2D rect=areaCollision.Shape as RectangleShape2D;
+            rect.Extents=new Vector2(boundingWidth*0.5f+8f,boundingHeight*0.5f+4f);
+            extents=rect.Extents;            
+                
         }
         AddChild(bumpArea);
         AddChild(bump);
@@ -65,10 +86,11 @@ public class Platform : StaticBody2D,ISwitchable
         if(node is Player player)
         {
             Vector2 diff=player.GlobalPosition-GlobalPosition;
-            if(Mathf.Abs(diff.x)<=extents.x)
+            if(Mathf.Abs(diff.x)<=extents.x||diff.y<-12f)
             {
                 Vector2 direction=diff.y>0f?Vector2.Up:Vector2.Down;
-                Vector2 target=Position+direction*4f;
+                float strength=direction==Vector2.Down?BUMP_STRENGTH_SOFT:BUMP_STRENGTH;
+                Vector2 target=Position+direction*strength;
                 playerOn=direction==Vector2.Down;
 
                 if(!bump.IsActive())

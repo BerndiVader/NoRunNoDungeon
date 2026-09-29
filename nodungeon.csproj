@@ -71,6 +71,7 @@
     <Compile Include="obstacles\Gate.cs" />
     <Compile Include="obstacles\HiddenDoor.cs" />
     <Compile Include="obstacles\Hideables.cs" />
+    <Compile Include="obstacles\Lever.cs" />
     <Compile Include="obstacles\PhysicsBlock.cs" />
     <Compile Include="obstacles\Rocks.cs" />
     <Compile Include="obstacles\FallingHammer.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="particles\WeaponChangeParticles.cs" />
     <Compile Include="placeholders\PlaceholderTool.cs" />
     <Compile Include="platforms\CyclingPlatform.cs" />
+    <Compile Include="platforms\StaticPlatform.cs" />
     <Compile Include="PlayerCamera.cs" />
     <Compile Include="enemies\Bear.cs" />
     <Compile Include="level\Background.cs" />

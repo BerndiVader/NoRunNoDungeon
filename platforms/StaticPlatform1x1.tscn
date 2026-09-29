@@ -1,20 +1,21 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://platforms/MovingPlatform.cs" type="Script" id=1]
+[ext_resource path="res://platforms/StaticPlatform.cs" type="Script" id=1]
 [ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_platform_center.png" type="Texture" id=2]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8.24962, 6.9714 )
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 6.0
+height = 4.0
 
-[node name="MovingPlatform0" type="StaticBody2D"]
+[node name="StaticPlatform1x1" type="StaticBody2D"]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource( 1 )
-BUMP_STRENGTH_SOFT = 4.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -1 )
-shape = SubResource( 1 )
 
 [node name="terrain_platform_center" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -1 )
+rotation = -1.5708
+shape = SubResource( 1 )
