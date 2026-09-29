@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -16,8 +16,10 @@
 [ext_resource path="res://placeholders/obstacles/DestroyableHolder.tscn" type="PackedScene" id=14]
 [ext_resource path="res://placeholders/platforms/PlatformMoving2x2.tscn" type="PackedScene" id=15]
 [ext_resource path="res://placeholders/bonus/CoinPhysics.tscn" type="PackedScene" id=16]
+[ext_resource path="res://placeholders/platforms/PlatformStatic1x1.tscn" type="PackedScene" id=17]
 
 [node name="TileMap" type="TileMap"]
+position = Vector2( 0, 1 )
 z_index = -1000
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
@@ -130,6 +132,36 @@ position = Vector2( 1656, 224 )
 
 [node name="BlindBuffThrowable" parent="BlindThrowHolder2" index="0"]
 STRENGTH = 0.95
+
+[node name="PlatformHolder" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1537, 192 )
+
+[node name="PlatformHolder2" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1554, 192 )
+
+[node name="PlatformHolder3" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1571, 192 )
+
+[node name="PlatformHolder4" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1587, 192 )
+
+[node name="PlatformHolder7" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1603, 192 )
+
+[node name="PlatformHolder8" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1619, 192 )
+
+[node name="PlatformHolder9" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1636, 192 )
+
+[node name="PlatformHolder11" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1652, 192 )
+
+[node name="PlatformHolder12" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1521, 192 )
+
+[node name="PlatformHolder13" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1504, 192 )
 
 [editable path="BlindThrowHolder"]
 [editable path="GateHolder"]
