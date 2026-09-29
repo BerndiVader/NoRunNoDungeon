@@ -28,6 +28,7 @@ public class Gate : Area2D,ISwitchable
     [Export] private bool oneTime=true;
     [Export] private bool oneWay=false;
     [Export] private string switchID="";
+    [Export] private Vector2 CUSTOM_LEVEL_POSITION=Vector2.Zero;
     [Export] private Godot.Collections.Dictionary<string,object> LEVEL_SETTINGS=Settings.DEFAULT_LEVEL_SETTINGS.Duplicate();
 
     private bool active=false;
@@ -36,6 +37,7 @@ public class Gate : Area2D,ISwitchable
     private Settings settings,restoreSettings;
     private Gamestate gamestate;
     private AnimatedSprite sprite;
+    private Position2D position2D;
 
     public override void _Ready()
     {
@@ -60,6 +62,12 @@ public class Gate : Area2D,ISwitchable
         sprite=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
         sprite.Animation=style.ToString();
         sprite.Frame=closed?4:0;
+
+        if(CUSTOM_LEVEL_POSITION!=Vector2.Zero)
+        {
+            position2D=GetNode<Position2D>(nameof(Position2D));
+            position2D.Position=CUSTOM_LEVEL_POSITION;
+        }
 
         if(Settings.Usable(LEVEL_SETTINGS))
         {
@@ -170,7 +178,7 @@ public class Gate : Area2D,ISwitchable
     private void TeleportLevel()
     {
         Player.instance.Teleport(true);
-        Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(GlobalPosition);
+        Vector2 offset=World.RESOLUTION/2-Renderer.instance.ToLocal(position2D!=null?position2D.GlobalPosition:GlobalPosition);
         Vector2 targetPosition=restorePosition!=Vector2.Zero?restorePosition:World.level.Position+offset;
 
         if(type==TYPE.EXIT_WITH_0Y)

@@ -73,3 +73,5 @@ frame = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.5, 2 )
 shape = SubResource( 1 )
+
+[node name="Position2D" type="Position2D" parent="."]
