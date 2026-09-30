@@ -5,7 +5,8 @@ public class Level : TileMap
 {
     [Export] public bool KEEP_TILESET=false;
     [Export] public float speed=120f;
-    [Export] public Vector2 direction=new Vector2(-1f,0f);
+    [Export] public Vector2 direction=Vector2.Left;
+    [Export(PropertyHint.Range,"0.5,1.5,0.1")] public float zoom=1f;
 
     public Vector2 lastDirection=Vector2.Zero;
     public int mapLength;
@@ -49,11 +50,12 @@ public class Level : TileMap
         Godot.Collections.Dictionary<string,object>settingsList=Settings.DEFAULT_LEVEL_SETTINGS.Duplicate();
         settingsList["Speed"]=speed;
         settingsList["Dir"]=direction;
-        settingsList["Zoom"]=1f;
+        settingsList["Zoom"]=zoom;
         settingsList["AutoRestore"]=false;
 
         settings=new Settings(this,settingsList);
         DEFAULT_SETTING=new Settings(this,settingsList);
+        settings.Set();
     }
 
     public void FreeLevel() 
