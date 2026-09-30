@@ -5,13 +5,13 @@
 [ext_resource path="res://level/BackgroundLayer.cs" type="Script" id=3]
 
 [node name="Background" type="ParallaxBackground"]
-scroll_base_scale = Vector2( 0.3, 0.3 )
+scroll_base_scale = Vector2( 0.1, 0.1 )
 script = ExtResource( 1 )
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
 z_index = -1000
-motion_scale = Vector2( 0.5, 1 )
-motion_mirroring = Vector2( 512, 0 )
+motion_scale = Vector2( 0.8, 0.8 )
+motion_mirroring = Vector2( 512, 288 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="ParallaxLayer2"]
@@ -20,7 +20,7 @@ script = ExtResource( 2 )
 
 [node name="ParallaxLayer1" type="ParallaxLayer" parent="."]
 z_index = -1001
-motion_mirroring = Vector2( 512, 0 )
+motion_mirroring = Vector2( 512, 288 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="ParallaxLayer1"]
@@ -29,8 +29,8 @@ script = ExtResource( 2 )
 
 [node name="ParallaxLayer0" type="ParallaxLayer" parent="."]
 z_index = -1002
-motion_scale = Vector2( 2, 1 )
-motion_mirroring = Vector2( 512, 0 )
+motion_scale = Vector2( 1.5, 1.5 )
+motion_mirroring = Vector2( 512, 288 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="ParallaxLayer0"]

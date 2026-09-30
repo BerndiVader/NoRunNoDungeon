@@ -12,7 +12,7 @@ public class Background : ParallaxBackground
 
     public override void _PhysicsProcess(float delta) 
     {
-        speed.x=World.level!=null?-World.level.speed*0.1f:0f;
+        speed=World.level!=null?World.level.direction*(World.level.speed*0.5f):Vector2.Zero;
         ScrollBaseOffset+=speed*delta;
     }
 }
