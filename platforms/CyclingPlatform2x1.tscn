@@ -14,7 +14,7 @@ extents = Vector2( 16, 7 )
 collision_layer = 4
 collision_mask = 0
 script = ExtResource( 3 )
-BUMP_STRENGTH_SOFT = 4.0
+BUMP_STRENGTH = 3.0
 
 [node name="terrain_platform_center" type="Sprite" parent="."]
 position = Vector2( -8, 0 )

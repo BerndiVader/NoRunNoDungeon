@@ -11,7 +11,7 @@ extents = Vector2( 16.0385, 6.9714 )
 collision_layer = 4
 collision_mask = 0
 script = ExtResource( 1 )
-BUMP_STRENGTH_SOFT = 4.0
+BUMP_STRENGTH = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -1 )

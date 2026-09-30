@@ -11,9 +11,10 @@ public class Platform : StaticBody2D,ISwitchable
         ONPLAYER,
     }
 
-    [Export] protected PLATFORMSTATE platformState=PLATFORMSTATE.NORMAL;
-    [Export] protected float BUMP_STRENGTH=4f;
-    [Export] protected float BUMP_STRENGTH_SOFT=1f;
+    [Export(PropertyHint.Enum,"")] protected PLATFORMSTATE platformState=PLATFORMSTATE.NORMAL;
+
+    [Export(PropertyHint.Range,"0,4,0.5")] protected float BUMP_STRENGTH=4f;
+    [Export(PropertyHint.Range,"0,4,0.5")] protected float BUMP_STRENGTH_SOFT=1f;
     [Export] protected string switchID="";
 
     protected float damage=1f;
