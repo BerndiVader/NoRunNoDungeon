@@ -128,7 +128,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id=5]
 resource_name = "SWING_LEFT"
-length = 0.2
+length = 0.4
 step = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -149,10 +149,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 2.55, 0.2, 1 ),
 "update": 0,
-"values": [ 100.0, 0.0, -105.0 ]
+"values": [ 100.0, 0.0, -120.0 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:z_index")
@@ -173,15 +173,15 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ true, false, true ]
 }
 
 [sub_resource type="Animation" id=6]
 resource_name = "SWING_RIGHT"
-length = 0.2
+length = 0.4
 step = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -202,8 +202,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 2.55, 0.2, 1 ),
 "update": 0,
 "values": [ -100.0, 0.0, 120.0 ]
 }
@@ -226,23 +226,23 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ true, false, true ]
 }
 
 [node name="Baton" type="Area2D"]
-position = Vector2( -6, 7 )
-rotation = 1.74533
+position = Vector2( 6, 7 )
+rotation = 2.0944
 scale = Vector2( 2, 2 )
-z_index = -1
 collision_layer = 0
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -8 )
 shape = SubResource( 1 )
+disabled = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -8 )
