@@ -1,8 +1,38 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 public class Settings
 {
+    private static SceneTreeTween tween;
+
+    private class Property
+    {
+        public readonly Vector2 direction;
+        public readonly float speed;
+        public readonly float zoom;
+        public readonly Vector2 position;
+
+        public Property()
+        {
+            direction=Vector2.Zero;
+            speed=-1f;
+            zoom=-1f;
+            position=Vector2.Zero;
+        }
+
+        public Property(Vector2 direction,float speed,float zoom,Vector2 position)
+        {
+            this.direction=direction;
+            this.speed=speed;
+            this.zoom=zoom;
+            this.position=position;
+        }
+    }
+
+    private static Queue<Property>properties=new Queue<Property>();
+
     public static readonly Godot.Collections.Dictionary<string,object> DEFAULT_LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
     {
         {"Use",false},
@@ -75,25 +105,8 @@ public class Settings
         else if(levelRef.TryGetTarget(out Level level))
         {
             level.settings=this;
-            SceneTreeTween tween=level.GetTree().CreateTween().SetParallel().BindNode(level);
-
-            if(speed!=-1)
-            {
-                tween.TweenProperty(level,"speed",speed,0.25f)
-                    .SetTrans(Tween.TransitionType.Cubic)
-                    .SetEase(Tween.EaseType.InOut);
-            }
-            if(zoom.x!=-1f)
-            {
-                PlayerCamera.instance.GlobalPosition=Player.instance.GlobalPosition;
-                tween.TweenProperty(PlayerCamera.instance,"zoom",zoom,1f)
-                    .SetTrans(Tween.TransitionType.Cubic)
-                    .SetEase(Tween.EaseType.InOut);
-            }
-            if(direction!=Vector2.Zero)
-            {
-                level.direction=direction;
-            }
+            Property props=new Property(direction,speed,zoom.x,Vector2.Zero);
+            AddTween(level,props);
         }
     }
 
@@ -112,27 +125,67 @@ public class Settings
             }
             else
             {
-                level.direction=prevDirection;
-
-                SceneTreeTween tween=level.GetTree().CreateTween().SetParallel().BindNode(level);
-                tween.TweenProperty(level,"speed",prevSpeed,0.5f)
-                    .SetTrans(Tween.TransitionType.Cubic)
-                    .SetEase(Tween.EaseType.InOut);
-                tween.TweenProperty(PlayerCamera.instance,"zoom",prevZoom,0.5f)
-                    .SetTrans(Tween.TransitionType.Cubic)
-                    .SetEase(Tween.EaseType.InOut);
-                PlayerCamera.instance.Position=prevPosition;
-
-                /*
-
-                tween.TweenProperty(PlayerCamera.instance,"position",prevPosition,0.5f)
-                    .SetTrans(Tween.TransitionType.Cubic)
-                    .SetEase(Tween.EaseType.InOut);
-                    
-                */
-
+                Property props=new Property(prevDirection,prevSpeed,prevZoom.x,prevPosition);
+                AddTween(level,props);
             }
         }
+    }
+
+    private static void AddTween(Level level,Property props)
+    {
+        properties.Enqueue(props);
+        if(tween==null||!tween.IsValid()||!tween.IsRunning())
+        {
+            ProcessNextTween(level);
+        }
+    }
+
+    public static void ProcessNextTween(Level level)
+    {
+        if(properties.Count==0)
+        {
+            return;
+        }
+
+        Property props=properties.Dequeue();
+        float speed=props.speed;
+        Vector2 direction=props.direction;
+        Vector2 zoom=new Vector2(props.zoom,props.zoom);
+        Vector2 position=props.position;
+
+        tween=level.GetTree().CreateTween().SetParallel().BindNode(level);
+
+        if(speed!=-1)
+        {
+            tween.TweenProperty(level,"speed",speed,0.25f)
+                .SetTrans(Tween.TransitionType.Cubic)
+                .SetEase(Tween.EaseType.InOut);
+        }
+        if(zoom.x!=-1f)
+        {
+            if(position==Vector2.Zero)
+            {
+                PlayerCamera.instance.GlobalPosition=Player.instance.GlobalPosition;
+            }
+            else
+            {
+                PlayerCamera.instance.GlobalPosition=position;
+            }
+            tween.TweenProperty(PlayerCamera.instance,"zoom",zoom,0.25f)
+                .SetTrans(Tween.TransitionType.Cubic)
+                .SetEase(Tween.EaseType.InOut);
+        }
+        if(direction!=Vector2.Zero)
+        {
+            level.direction=direction;
+        }
+        tween.TweenCallback(level,nameof(Level.OnSettingsTweenCompleted));
+    }
+
+    public static void Stop()
+    {
+        properties.Clear();
+        tween?.Kill();
     }
 
 }

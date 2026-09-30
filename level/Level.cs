@@ -62,6 +62,8 @@ public class Level : TileMap
     {
         if(!IsQueuedForDeletion())
         {
+            Settings.Stop();
+
             var nodes=GetChildren();
             foreach(Node node in nodes)
             {
@@ -121,6 +123,11 @@ public class Level : TileMap
     new public void SetCell(int x,int y,int tile,bool flipX=false,bool flipY=false,bool transpose=false,Vector2? autotileCoord=null) 
     {
         base.SetCell(x,y,tile,flipX,flipY,transpose,autotileCoord);
+    }
+
+    public void OnSettingsTweenCompleted()
+    {
+        Settings.ProcessNextTween(this);
     }
 
 }
