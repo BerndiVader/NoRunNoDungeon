@@ -11,6 +11,7 @@ public class HUD : Control
     private Label distance;
     private TextureProgress dash;
     private Label coins;
+    private Label currentLevel;
 
     public HUD():base()
     {
@@ -23,6 +24,7 @@ public class HUD : Control
         distance=GetNode<HBoxContainer>("Distance").GetNode<Label>("Yards");
         dash=GetNode<HBoxContainer>("Modifiers").GetNode<TextureProgress>("Dash");
         coins=GetNode<HBoxContainer>("Values").GetNode<Label>("Coins");
+        currentLevel=GetNode<HBoxContainer>("Values").GetNode<Label>("CurrentLevel");
 
         PopulateLives();
         PopulateDistance();
@@ -30,9 +32,8 @@ public class HUD : Control
 
     public void UpdateDistance(float dist)
     {
-        distance.Text=Mathf.RoundToInt(dist)+" yards";
+        distance.Text=Mathf.RoundToInt(dist/16)+" meters";
     }
-
     public void UpdateLives()
     {
         int hearts=lives.GetChildCount();
@@ -42,7 +43,6 @@ public class HUD : Control
             heart.Texture=i<Player.LIVES?heart_full:heart_empty;
         }
     }
-
     public void UpdateDash(float value)
     {
         dash.Value=value;
@@ -50,6 +50,10 @@ public class HUD : Control
     public void UpdateCoins(int amount)
     {
         coins.Text=amount.ToString();
+    }
+    public void UpdateCurrentLevel(string name)
+    {
+        currentLevel.Text=name;
     }
 
     private void PopulateLives()

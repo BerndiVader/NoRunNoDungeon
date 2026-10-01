@@ -90,6 +90,8 @@ public class World : Node
 	private delegate void Goal(float delta);
 	private Goal goal;
 
+	public string currentLevelName=string.Empty;
+
 	private Vector2 levelLastPosition;
 	private float overall_distance;
 	private float current_distance;
@@ -123,6 +125,7 @@ public class World : Node
 		tileSet=ResourceUtils.tilesets[MathUtils.RandomRange(0,ResourceUtils.tilesets.Count)];
 		currentLevel=GetALevel();
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
+		currentLevelName=ResourceUtils.levels[currentLevel].ResourcePath.GetFile().BaseName();		
 		nextLevel=GetALevel(currentLevel);
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
 		MergeMaps(level,cachedLevel);
@@ -143,6 +146,7 @@ public class World : Node
 		ResourceUtils.hud.Instance();
 		uiLayer.AddChild(HUD.instance);
 		HUD.instance.UpdateLives();
+		HUD.instance.UpdateCurrentLevel(currentLevelName);
 		
 		SetGamestate(Gamestate.RUNNING);
 	}
@@ -172,7 +176,8 @@ public class World : Node
 			return;
 		}
 
-		current_distance+=level.Position.DistanceTo(levelLastPosition);
+		current_distance+=Mathf.Abs(level.Position.x-levelLastPosition.x);
+		current_distance+=Mathf.Abs(level.Position.y-levelLastPosition.y);
 		HUD.instance.UpdateDistance(overall_distance+current_distance);
 
 		if(!level.settings.noStop&&level.direction.y!=0f)
@@ -231,6 +236,7 @@ public class World : Node
 		if(level.IsInsideTree())
 		{
 			Player.instance.ApplyCoins(0);
+			HUD.instance.UpdateCurrentLevel(currentLevelName);
 			SetGamestate(Gamestate.RUNNING);
 			Tick(delta);
 		}
@@ -319,6 +325,8 @@ public class World : Node
 			currentLevel=GetALevel(nextLevel);
 		}
 		level=(Level)ResourceUtils.levels[currentLevel].Instance();
+		currentLevelName=ResourceUtils.levels[currentLevel].ResourcePath.GetFile().BaseName();
+
 		MergeMaps(level,cachedLevel);
 		renderer.AddChild(level);
 
@@ -330,6 +338,7 @@ public class World : Node
 		renderer.AddChild(Player.instance);
 		
 		HUD.instance.UpdateLives();
+		HUD.instance.UpdateCurrentLevel(currentLevelName);
 		SetGamestate(Gamestate.RUNNING);
 	}
 
@@ -342,6 +351,7 @@ public class World : Node
 
 		RemoveALevel(currentLevel);
 		currentLevel=nextLevel;
+		currentLevelName=ResourceUtils.levels[currentLevel].ResourcePath.GetFile().BaseName();
 		nextLevel=GetALevel(currentLevel);
 		Level newLevel=cachedLevel!=null?cachedLevel:(Level)ResourceUtils.levels[currentLevel].Instance();
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
