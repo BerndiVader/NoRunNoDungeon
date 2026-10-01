@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 public class Settings
 {
@@ -31,7 +30,7 @@ public class Settings
         }
     }
 
-    private static Queue<Property>properties=new Queue<Property>();
+    private static readonly Queue<Property>PROPERTIES=new Queue<Property>();
 
     public static readonly Godot.Collections.Dictionary<string,object> DEFAULT_LEVEL_SETTINGS=new Godot.Collections.Dictionary<string,object>()
     {
@@ -60,7 +59,7 @@ public class Settings
 
     public static bool Usable(Godot.Collections.Dictionary<string,object>settings)
     {
-        return (bool)settings["Use"];
+        return settings.TryGetValue("Use",out object obj)&&obj is bool use&&use;
     }
 
     private bool use,defaultOnly,restoreOnly;
@@ -101,12 +100,10 @@ public class Settings
         {
             Restore();
         }
-
         else if(levelRef.TryGetTarget(out Level level))
         {
             level.settings=this;
-            Property props=new Property(direction,speed,zoom.x,Vector2.Zero);
-            AddTween(level,props);
+            AddTweenProperty(level,new Property(direction,speed,zoom.x,Vector2.Zero));
         }
     }
 
@@ -125,15 +122,14 @@ public class Settings
             }
             else
             {
-                Property props=new Property(prevDirection,prevSpeed,prevZoom.x,prevPosition);
-                AddTween(level,props);
+                AddTweenProperty(level,new Property(prevDirection,prevSpeed,prevZoom.x,prevPosition));
             }
         }
     }
 
-    private static void AddTween(Level level,Property props)
+    private static void AddTweenProperty(Level level,Property props)
     {
-        properties.Enqueue(props);
+        PROPERTIES.Enqueue(props);
         if(tween==null||!tween.IsValid()||!tween.IsRunning())
         {
             ProcessNextTween(level);
@@ -142,12 +138,12 @@ public class Settings
 
     public static void ProcessNextTween(Level level)
     {
-        if(properties.Count==0)
+        if(PROPERTIES.Count==0)
         {
             return;
         }
 
-        Property props=properties.Dequeue();
+        Property props=PROPERTIES.Dequeue();
         float speed=props.speed;
         Vector2 direction=props.direction;
         Vector2 zoom=new Vector2(props.zoom,props.zoom);
@@ -179,12 +175,12 @@ public class Settings
         {
             level.direction=direction;
         }
-        tween.TweenCallback(level,nameof(Level.OnSettingsTweenCompleted));
+        tween.Chain().TweenCallback(level,nameof(Level.OnSettingsTweenCompleted));
     }
 
     public static void Stop()
     {
-        properties.Clear();
+        PROPERTIES.Clear();
         tween?.Kill();
     }
 
