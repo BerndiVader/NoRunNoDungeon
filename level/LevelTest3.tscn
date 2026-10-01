@@ -32,6 +32,7 @@ position = Vector2( 768, 80 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
 SPEED = 0.0
+DIRECTION = Vector2( -1, 0 )
 RESTORE_TO_DEFAULT = true
 SWITCH_ID = "d5a9fa6f-a03a-44b1-843f-f7b923d7c23e"
 
