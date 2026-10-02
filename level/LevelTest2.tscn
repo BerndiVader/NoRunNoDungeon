@@ -178,13 +178,13 @@ position = Vector2( 1448, 86 )
 companionID = "66"
 type = 1
 LEVEL_SETTINGS = {
-"AutoRestore": false,
+"AutoRestore": true,
 "CallID": "",
 "DefaultOnly": false,
 "Dir": Vector2( 0, 0 ),
 "NoStop": false,
 "RestoreOnly": false,
-"RestoreToDefault": true,
+"RestoreToDefault": false,
 "Speed": -1.0,
 "Use": false,
 "Zoom": -1.0
@@ -202,7 +202,7 @@ LEVEL_SETTINGS = {
 "Dir": Vector2( 0, 0 ),
 "NoStop": false,
 "RestoreOnly": false,
-"RestoreToDefault": true,
+"RestoreToDefault": false,
 "Speed": 0.0,
 "Use": true,
 "Zoom": 0.6

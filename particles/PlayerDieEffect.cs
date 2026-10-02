@@ -29,9 +29,9 @@ public class PlayerDieEffect : CPUParticles2D
     {
         if(!Emitting)
         {
-            Player.instance.Die();
             SetPhysicsProcess(false);
-            QueueFree();
+            Player.instance.Die();
+            CallDeferred("queue_free");
         }
     }
 

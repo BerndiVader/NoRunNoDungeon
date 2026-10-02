@@ -3,13 +3,13 @@ using System;
 
 public class BulletMiss : CPUParticles2D
 {
-    private static AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_Battle_SFX/35_Miss_Evade_02.wav");
+    private static readonly AudioStream SFX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/10_Battle_SFX/35_Miss_Evade_02.wav");
     public override void _Ready()
     {
         SetProcess(false);
         SetProcessInput(false);
         
-        Renderer.instance.PlaySfx(sfx,GlobalPosition);
+        Renderer.instance.PlaySfx(SFX,GlobalPosition);
         OneShot=true;
         Emitting=true;
     }
@@ -18,8 +18,8 @@ public class BulletMiss : CPUParticles2D
     {
         if(!Emitting) 
         {
-            QueueFree();
             SetPhysicsProcess(false);
+            CallDeferred("queue_free");
         }
     }
 

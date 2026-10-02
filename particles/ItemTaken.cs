@@ -23,8 +23,8 @@ public class ItemTaken : CPUParticles2D
     {
         if(!Emitting)
         {
-            QueueFree();
             SetPhysicsProcess(false);
+            CallDeferred("queue_free");
         }
         Position-=offset;
     }

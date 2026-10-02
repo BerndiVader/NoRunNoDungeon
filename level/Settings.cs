@@ -96,7 +96,7 @@ public class Settings
 
     public void Set()
     {
-        if(restoreCalled)
+        if(restoreCalled||restoreOnly)
         {
             Restore();
         }

@@ -23,7 +23,7 @@ public class Alert : CPUParticles2D
         if(!Emitting)
         {
             SetPhysicsProcess(false);
-            QueueFree();
+            CallDeferred("queue_free");
         }
     }
 

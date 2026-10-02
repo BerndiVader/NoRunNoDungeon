@@ -20,7 +20,7 @@ public class HealthLoss : CPUParticles2D
         if(!Emitting)
         {
             SetPhysicsProcess(false);
-            QueueFree();
+            CallDeferred("queue_free");
         }
         Position-=offset;
     }
