@@ -127,7 +127,7 @@ public class Level : TileMap
 
     public void OnSettingsTweenCompleted()
     {
-        Settings.ProcessNextTween(this);
+        Settings.NewPropertyTween(this);
     }
 
 }

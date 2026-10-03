@@ -132,11 +132,11 @@ public class Settings
         PROPERTIES.Enqueue(props);
         if(tween==null||!tween.IsValid()||!tween.IsRunning())
         {
-            ProcessNextTween(level);
+            NewPropertyTween(level);
         }
     }
 
-    public static void ProcessNextTween(Level level)
+    public static void NewPropertyTween(Level level)
     {
         if(PROPERTIES.Count==0)
         {
@@ -154,8 +154,8 @@ public class Settings
         if(speed!=-1)
         {
             tween.TweenProperty(level,"speed",speed,0.25f)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.InOut);
+                .SetTrans(Tween.TransitionType.Quad)
+                .SetEase(Tween.EaseType.Out);
         }
         if(zoom.x!=-1f)
         {
@@ -168,8 +168,8 @@ public class Settings
                 PlayerCamera.instance.GlobalPosition=position;
             }
             tween.TweenProperty(PlayerCamera.instance,"zoom",zoom,0.25f)
-                .SetTrans(Tween.TransitionType.Cubic)
-                .SetEase(Tween.EaseType.InOut);
+                .SetTrans(Tween.TransitionType.Quad)
+                .SetEase(Tween.EaseType.Out);
         }
         if(direction!=Vector2.Zero)
         {
