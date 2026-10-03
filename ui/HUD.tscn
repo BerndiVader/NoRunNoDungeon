@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://ui/ui.tres" type="Theme" id=1]
 [ext_resource path="res://ui/HUD.cs" type="Script" id=2]
@@ -13,6 +13,8 @@
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 4 )
 region = Rect2( 18, 16, 12, 16 )
+
+[sub_resource type="StyleBoxEmpty" id=2]
 
 [node name="HUD" type="Control"]
 anchor_right = 1.0
@@ -120,3 +122,28 @@ margin_right = 69.0
 margin_bottom = 37.0
 align = 1
 valign = 1
+
+[node name="CurrentLvelLabel" type="Label" parent="Values"]
+margin_left = 73.0
+margin_top = 10.0
+margin_right = 146.0
+margin_bottom = 27.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.545098 )
+custom_styles/normal = SubResource( 2 )
+text = "Lvl name"
+
+[node name="LevelsLeft" type="Label" parent="Values"]
+margin_left = 150.0
+margin_right = 170.0
+margin_bottom = 37.0
+align = 1
+valign = 1
+
+[node name="LevelsLeftLabel" type="Label" parent="Values"]
+margin_left = 174.0
+margin_top = 10.0
+margin_right = 250.0
+margin_bottom = 27.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.545098 )
+custom_styles/normal = SubResource( 2 )
+text = "Lvls left"

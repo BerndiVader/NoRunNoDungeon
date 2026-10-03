@@ -12,6 +12,7 @@ public class HUD : Control
     private TextureProgress dash;
     private Label coins;
     private Label currentLevel;
+    private Label levelsLeft;
 
     public HUD():base()
     {
@@ -25,6 +26,7 @@ public class HUD : Control
         dash=GetNode<HBoxContainer>("Modifiers").GetNode<TextureProgress>("Dash");
         coins=GetNode<HBoxContainer>("Values").GetNode<Label>("Coins");
         currentLevel=GetNode<HBoxContainer>("Values").GetNode<Label>("CurrentLevel");
+        levelsLeft=GetNode<HBoxContainer>("Values").GetNode<Label>("LevelsLeft");
 
         PopulateLives();
         PopulateDistance();
@@ -54,6 +56,7 @@ public class HUD : Control
     public void UpdateCurrentLevel(string name)
     {
         currentLevel.Text=name;
+        levelsLeft.Text=World.instance.levels.Count.ToString();
     }
 
     private void PopulateLives()

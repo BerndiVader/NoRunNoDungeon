@@ -82,7 +82,7 @@ public class World : Node
 	public Renderer renderer;
 	public CanvasLayer uiLayer;
 	public InputController input;
-	private List<int>levels;
+	public List<int>levels;
 	private int currentLevel,nextLevel;
 	private static Gamestate lastState;
 	public static Gamestate state;
