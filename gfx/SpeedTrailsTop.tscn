@@ -24,6 +24,6 @@ size = Vector2( 512, 200 )
 
 [node name="SpeedTrailsTop" type="Sprite"]
 material = SubResource( 2 )
-position = Vector2( 256, 18.1979 )
-scale = Vector2( 1.0625, 0.218021 )
+position = Vector2( 256, 22 )
+scale = Vector2( 1.1, 0.26 )
 texture = SubResource( 5 )
