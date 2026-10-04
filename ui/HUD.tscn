@@ -111,39 +111,41 @@ stretch_mode = 5
 
 [node name="Coins" type="Label" parent="Values"]
 margin_left = 16.0
-margin_right = 45.0
+margin_right = 75.0
 margin_bottom = 37.0
-text = "0"
-valign = 1
-
-[node name="CurrentLevel" type="Label" parent="Values"]
-margin_left = 49.0
-margin_right = 69.0
-margin_bottom = 37.0
-align = 1
-valign = 1
-
-[node name="CurrentLvelLabel" type="Label" parent="Values"]
-margin_left = 73.0
-margin_top = 10.0
-margin_right = 146.0
-margin_bottom = 27.0
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.545098 )
-custom_styles/normal = SubResource( 2 )
-text = "Lvl name"
-
-[node name="LevelsLeft" type="Label" parent="Values"]
-margin_left = 150.0
-margin_right = 170.0
-margin_bottom = 37.0
-align = 1
+text = "0000"
 valign = 1
 
 [node name="LevelsLeftLabel" type="Label" parent="Values"]
-margin_left = 174.0
+margin_left = 79.0
 margin_top = 10.0
-margin_right = 250.0
+margin_right = 123.0
 margin_bottom = 27.0
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.545098 )
 custom_styles/normal = SubResource( 2 )
-text = "Lvls left"
+text = "Left;"
+
+[node name="LevelsLeft" type="Label" parent="Values"]
+margin_left = 127.0
+margin_right = 176.0
+margin_bottom = 37.0
+text = "000"
+align = 1
+valign = 1
+
+[node name="LevelsLeftLabel2" type="Label" parent="Values"]
+margin_left = 180.0
+margin_top = 10.0
+margin_right = 209.0
+margin_bottom = 27.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.545098 )
+custom_styles/normal = SubResource( 2 )
+text = "Lvl:"
+
+[node name="CurrentLevel" type="Label" parent="Values"]
+margin_left = 213.0
+margin_right = 262.0
+margin_bottom = 37.0
+text = "---"
+align = 1
+valign = 1

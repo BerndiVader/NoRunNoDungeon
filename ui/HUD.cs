@@ -51,12 +51,12 @@ public class HUD : Control
     }
     public void UpdateCoins(int amount)
     {
-        coins.Text=amount.ToString();
+        coins.Text=amount.ToString("D4");
     }
     public void UpdateCurrentLevel(string name)
     {
         currentLevel.Text=name;
-        levelsLeft.Text=World.instance.levels.Count.ToString();
+        levelsLeft.Text=World.instance.levels.Count.ToString("D3");
     }
 
     private void PopulateLives()
