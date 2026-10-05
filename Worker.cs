@@ -56,7 +56,7 @@ public class Worker : Thread
 				{
 					ResourceLoader.Load(instancePath);
 				}
-				placeholder.EmitSignal("Create",iPlaceholder);
+				placeholder.EmitSignal("Create",iPlaceholder,true);
 			}
 			else
 			{

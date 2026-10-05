@@ -144,7 +144,7 @@ project/assembly_name="nodungeon"
 
 [physics]
 
-2d/thread_model=2
+2d/thread_model=0
 
 [rendering]
 
@@ -158,7 +158,6 @@ quality/shadows/filter_mode=0
 quality/reflections/texture_array_reflections=false
 quality/reflections/high_quality_ggx=false
 quality/shading/force_vertex_shading=true
-quality/shading/force_lambert_over_burley=true
 quality/shading/force_blinn_over_ggx.mobile=false
 quality/filters/anisotropic_filter_level=1
 quality/filters/use_nearest_mipmap_filter=true

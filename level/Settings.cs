@@ -149,7 +149,12 @@ public class Settings
         Vector2 zoom=new Vector2(props.zoom,props.zoom);
         Vector2 position=props.position;
 
-        tween=level.GetTree().CreateTween().SetParallel().BindNode(level);
+        if(!Godot.Object.IsInstanceValid(level))
+        {
+            level=World.level;
+        }
+
+        tween=World.instance.GetTree().CreateTween().SetParallel().BindNode(World.instance);
 
         if(speed!=-1)
         {

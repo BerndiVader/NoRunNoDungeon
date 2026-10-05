@@ -249,7 +249,7 @@ public class World : Node
 
 	private void SceneChange(float delta)
 	{
-		if(level!=null&&level.IsInsideTree())
+		if(level!=null&&IsInstanceValid(level)&&level.IsInsideTree())
 		{
 			Tick(delta);
 		}
@@ -369,8 +369,12 @@ public class World : Node
 			GD.Print("Add new level to tree timeout.");
 		}
 		Vector2 position=level.Position;
+		newLevel.SetDeferred("position",new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x))-TILE_SIZE,position.y));
 		renderer.CallDeferred("remove_child",level);
-		newLevel.Position=new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x))-TILE_SIZE,position.y);
+		while(IsInstanceValid(level)&&level.IsInsideTree())
+		{
+			OS.DelayMsec(1);
+		}
 		level=newLevel;
 		SetGamestate(Gamestate.SCENE_CHANGED);
 	}
