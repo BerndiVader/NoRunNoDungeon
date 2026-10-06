@@ -67,11 +67,7 @@ public class World : Node
 	public static void Quit() 
 	{
 		Worker.Stop();
-		if(instance!=null)
-		{
-			instance.FreeWorld();
-		}
-
+		instance?.FreeWorld();
 		root.GetTree().Quit();
 	}
 	 

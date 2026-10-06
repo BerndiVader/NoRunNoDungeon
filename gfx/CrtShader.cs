@@ -7,6 +7,7 @@ public class CrtShader : ColorRect
     {
         SetProcess(false);
         SetPhysicsProcess(false);
+        SetProcessInput(false);
     }
 
 }

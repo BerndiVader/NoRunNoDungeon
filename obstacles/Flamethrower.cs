@@ -104,14 +104,13 @@ public class Flamethrower : Area2D,ISwitchable
 
     public override void _PhysicsProcess(float delta)
     {
-        if(InFOV())
+        float distance=GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
+        if(distance<distance_sqrd&&InFOV())
         {
-            float d=GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition);
-            if(d<distance_sqrd)
-            {
-                animation.Play("default");
-                SetPhysicsProcess(false);
-            }
+
+            animation.Play("default");
+            SetPhysicsProcess(false);
+
         }
     }
 

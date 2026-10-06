@@ -68,7 +68,6 @@ LEVEL_SETTINGS = {
 position = Vector2( 913, 160 )
 
 [node name="Oger" parent="OgerPlaceholder" index="0"]
-position = Vector2( 0, 0 )
 HEALTH = 2.0
 
 [node name="Zombie" parent="." instance=ExtResource( 5 )]

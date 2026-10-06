@@ -4,7 +4,7 @@ using Godot;
 public class CheckpointMarker : AnimatedSprite
 {
 
-    private static readonly AudioStream sfx=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PowerUp/Retro PowerUP 09.wav");
+    private static readonly AudioStream SFX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/PowerUp/Retro PowerUP 09.wav");
 
     private enum STATE
     {
@@ -45,7 +45,7 @@ public class CheckpointMarker : AnimatedSprite
             state=STATE.RAISE;
             Connect("animation_finished",this,nameof(OnFlagRaised));
             Play(state.ToString());
-            Renderer.instance.PlaySfx(sfx,GlobalPosition);
+            Renderer.instance.PlaySfx(SFX,GlobalPosition);
         }
     }
 

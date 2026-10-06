@@ -12,7 +12,7 @@ public class Intro : Node
 	{
 		MUSIC_PLAYER.Bus="Master";
 		MUSIC_PLAYER.Stream=MUSIC;
-		MUSIC_PLAYER.Position=new Vector2(256f,146f);
+		MUSIC_PLAYER.Position=new Vector2(256f,144f);
 		AddChild(MUSIC_PLAYER);
 		MUSIC_PLAYER.Play();
 

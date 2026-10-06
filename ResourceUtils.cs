@@ -124,7 +124,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest2.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest.tscn"));
         }
         else
         {

@@ -138,7 +138,7 @@ public class Settings
 
     public static void NewPropertyTween(Level level)
     {
-        if(PROPERTIES.Count==0)
+        if(PROPERTIES.Count==0||!Godot.Object.IsInstanceValid(World.instance))
         {
             return;
         }

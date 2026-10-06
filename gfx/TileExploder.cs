@@ -4,7 +4,6 @@ using System;
 public class TileExploder : Sprite
 {
     private static readonly Shader SHADER=ResourceLoader.Load<Shader>("res://shaders/TileExploder.gdshader");
-    private Tween tween;
 
     public override void _Ready()
     {
@@ -13,15 +12,13 @@ public class TileExploder : Sprite
         SetProcessInput(false);
 
         Material=new ShaderMaterial{Shader=SHADER};
-        tween=new Tween();
-        tween.Connect("tween_all_completed",this,nameof(OnComplete));
-        AddChild(tween);
+        SceneTreeTween tween=GetTree().CreateTween();
 
-        tween.InterpolateProperty(
-            Material,"shader_param/progress",0f,1f,1f,
-            Tween.TransitionType.Sine,Tween.EaseType.InOut
-        );
-        tween.Start();
+        tween.TweenProperty(Material,"shader_param/progress",1f,1f)
+            .SetTrans(Tween.TransitionType.Quint)
+            .SetEase(Tween.EaseType.Out);
+        tween.TweenCallback(this,nameof(OnComplete));
+
     }
 
     private void OnComplete()

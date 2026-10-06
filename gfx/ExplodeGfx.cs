@@ -4,7 +4,6 @@ using System;
 public class ExplodeGfx : AnimatedSprite
 {
     public bool useParticles=true;
-    protected int animationLength;
     
     public override void _Ready()
     {
@@ -15,16 +14,17 @@ public class ExplodeGfx : AnimatedSprite
             World.level.AddChild(particles);
         }
         ZIndex=4;
-        animationLength=Frames.GetFrameCount(Animation)-1;
+
+        SetProcessInput(false);
+        SetProcess(false);
+        SetPhysicsProcess(false);        
+
+        Connect("animation_finished",this,nameof(OnFinish));
         Play();
     }
 
-    public override void _PhysicsProcess(float delta)
+    protected void OnFinish()
     {
-        if(Frame==animationLength)
-        {
-            QueueFree();
-            SetPhysicsProcess(false);
-        }
+        CallDeferred("queue_free");
     }
 }
