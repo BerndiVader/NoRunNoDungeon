@@ -156,17 +156,16 @@ public class World : Node
 	private void Tick(float delta) 
 	{
 		levelLastPosition=level.Position;
-		float speedDelta=level.speed*delta;
-		level.MoveLocalX(level.direction.x*speedDelta);
-		level.MoveLocalY(level.direction.y*speedDelta);
-		level.lastDirection=level.direction;
+		Vector2 movement=level.direction*level.speed*delta;
+		level.MoveLocalX(movement.x);
+		level.MoveLocalY(movement.y);
 
 		if(state!=Gamestate.RUNNING) 
 		{
 			return;
 		}
 
-		if(Mathf.Abs(level.Position.x)>=level.pixelLength-RESOLUTION.x)
+		if(-level.Position.x>=level.pixelLength-RESOLUTION.x)
 		{
 			SetGamestate(Gamestate.SCENE_CHANGE);
 			return;
@@ -178,30 +177,29 @@ public class World : Node
 
 		if(!level.settings.noStop&&level.direction.y!=0f)
 		{
-			if(level.Position.y<0f)
+			float maxY=level.pixelHeight.y-RESOLUTION.y;
+			float clamp=Mathf.Clamp(level.Position.y,0f,maxY);
+
+			if(clamp!=level.Position.y)
 			{
-				level.Position=new Vector2(level.Position.x,0f);
+				level.Position=new Vector2(level.Position.x,clamp);
 				if(level.settings.autoRestore)
 				{
-					level.DEFAULT_SETTING.Restore();
+					if(level.settings.restoreToDefault)
+					{
+						level.DEFAULT_SETTING.Restore();
+					}
+					else
+					{
+						level.settings.Restore();
+					}
 				}
 				else
 				{
 					level.direction=Vector2.Zero;
 				}
 			}
-			else if(level.Position.y+RESOLUTION.y>level.pixelHeight.y)
-			{
-				level.Position=new Vector2(level.Position.x,level.pixelHeight.y-RESOLUTION.y);
-				if(level.settings.autoRestore)
-				{
-					level.DEFAULT_SETTING.Restore();
-				}
-				else
-				{
-					level.direction=Vector2.Zero;
-				}
-			}
+			
 		}		
 	}
 
@@ -224,6 +222,7 @@ public class World : Node
 			CallDeferred(nameof(RestartLevel),false);
 			return;
 		}
+
 		Tick(delta);
 	}
 
