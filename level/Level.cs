@@ -8,8 +8,8 @@ public class Level : TileMap
     [Export] public Vector2 direction=Vector2.Left;
     [Export(PropertyHint.Range,"0.5,1.5,0.1")] public float zoom=1f;
 
-    public Vector2 lastDirection=Vector2.Zero;
     public int mapLength;
+    public Rect2 usedRect2;
     public Vector2 pixelHeight;
     public int pixelLength;
     public Vector2 startingPoint;
@@ -30,7 +30,9 @@ public class Level : TileMap
             TileSet=World.instance.tileSet;
         }
 
-        mapLength=(int)GetUsedRect().End.x;
+        usedRect2=GetUsedRect();
+
+        mapLength=(int)usedRect2.End.x;
         pixelLength=mapLength*16;
         pixelHeight=LevelHeight()*16;
         CellYSort=false;
@@ -44,8 +46,6 @@ public class Level : TileMap
         
         Connect("tree_exiting",this,nameof(FreeLevel));
         AddToGroup(GROUPS.LEVEL.ToString());
-
-        lastDirection=direction;
 
         Godot.Collections.Dictionary<string,object>settingsList=Settings.DEFAULT_LEVEL_SETTINGS.Duplicate();
         settingsList["Speed"]=speed;
@@ -116,8 +116,7 @@ public class Level : TileMap
 
     private Vector2 LevelHeight()
     {
-        Rect2 rect=GetUsedRect();
-        return new Vector2((int)rect.Position.y,(int)(rect.Size.y-1f));
+        return new Vector2((int)usedRect2.Position.y,(int)(usedRect2.Size.y-1f));
     }
 
     new public void SetCell(int x,int y,int tile,bool flipX=false,bool flipY=false,bool transpose=false,Vector2? autotileCoord=null) 

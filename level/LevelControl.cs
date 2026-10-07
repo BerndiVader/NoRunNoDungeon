@@ -16,22 +16,23 @@ public class LevelControl : Node2D,ISwitchable
     [Export] private string SWITCH_ID="";
     [Export] private string CALL_ID="";
 
-    private VisibilityNotifier2D notifier;
-    private Vector2 size;
-    private Settings settings; 
+    protected Vector2 size;
+    protected Vector2 direction;
+    protected Settings settings; 
 
     public override void _Ready()
     {
-        notifier=new VisibilityNotifier2D();
+        VisibilityNotifier2D notifier=GetNode<VisibilityNotifier2D>(nameof(VisibilityNotifier2D));
         notifier.Connect("screen_entered",this,nameof(OnScreenEntered));
         notifier.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
-        AddChild(notifier);
 
         SetProcess(false);
         SetPhysicsProcess(false);
         SetProcessInput(false);
 
         size=GetViewportRect().Size*0.5f;
+        direction=World.level.direction;
+
         if(settings==null)
         {
             Godot.Collections.Dictionary<string,object>options=Settings.DEFAULT_LEVEL_SETTINGS.Duplicate();
@@ -91,7 +92,7 @@ public class LevelControl : Node2D,ISwitchable
         this.settings=settings;
     }
 
-    private void OnScreenEntered()
+    protected virtual void OnScreenEntered()
     {
         if(SIGNAL)
         {
@@ -100,11 +101,10 @@ public class LevelControl : Node2D,ISwitchable
             effect.scale=15f;
             World.instance.renderer.AddChild(effect);
         }
-        
         SetPhysicsProcess(true);
     }
 
-    public void SwitchCall(string id)
+    public virtual void SwitchCall(string id)
     {
         if(id==SWITCH_ID)
         {
