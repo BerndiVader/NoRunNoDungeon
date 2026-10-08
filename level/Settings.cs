@@ -164,6 +164,17 @@ public class Settings
         }
         if(zoom.x!=-1f)
         {
+            if(zoom.x>1f)
+            {
+                PlayerCamera.instance.LimitRight=(int)(PlayerCamera.instance.LimitRight*zoom.x);
+                PlayerCamera.instance.LimitBottom=(int)(PlayerCamera.instance.LimitBottom*zoom.x);
+            }
+            else
+            {
+                PlayerCamera.instance.LimitRight=(int)World.RESOLUTION.x;
+                PlayerCamera.instance.LimitBottom=(int)World.RESOLUTION.y;
+
+            }
             if(position==Vector2.Zero)
             {
                 PlayerCamera.instance.GlobalPosition=Player.instance.GlobalPosition;

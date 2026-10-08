@@ -11,6 +11,7 @@ public enum Gamestate
     RUNNING,
     KEEP,
     BONUS,
+    RUNNING_FREECAM,
     SHOP,
     BOSS
 }

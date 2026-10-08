@@ -17,7 +17,6 @@ public class LevelControl : Node2D,ISwitchable
     [Export] private string CALL_ID="";
 
     protected Vector2 size;
-    protected Vector2 direction;
     protected Settings settings; 
 
     public override void _Ready()
@@ -31,7 +30,6 @@ public class LevelControl : Node2D,ISwitchable
         SetProcessInput(false);
 
         size=GetViewportRect().Size*0.5f;
-        direction=World.level.direction;
 
         if(settings==null)
         {
@@ -55,7 +53,16 @@ public class LevelControl : Node2D,ISwitchable
 
     public override void _PhysicsProcess(float delta)
     {
-        if(GlobalPosition.x<=size.x)
+        if(Player.instance.Teleport())
+        {
+            return;
+        }
+
+        bool activate=World.level.direction.x!=0f
+            ?GlobalPosition.x*World.level.direction.x>=size.x*World.level.direction.x
+            :World.level.direction.y==0f||GlobalPosition.y*World.level.direction.y>=size.y*World.level.direction.y;
+
+        if(activate)
         {
             SetPhysicsProcess(false);
             if(!RESTORE)

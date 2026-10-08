@@ -414,9 +414,17 @@ public class Player : KinematicBody2D
 
         onAirTime+=delta;
 
-        if(Position.x<-20f||Position.y<-60f||Position.x>World.RESOLUTION.x+20f||Position.y>World.RESOLUTION.y+20f)
+        if(World.state==Gamestate.RUNNING)
         {
-            OnDamage();
+            Vector2 offset=World.RESOLUTION;
+            if(PlayerCamera.instance.Zoom.x>1f)
+            {
+                offset*=PlayerCamera.instance.Zoom.x;
+            }
+            if(Position.x<-20f||Position.y<-60f||Position.x>offset.x+20f||Position.y>offset.y+20f)
+            {
+                OnDamage();
+            }
         }
 
         UpdateAnimation(onFloor,friction);

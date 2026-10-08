@@ -274,9 +274,16 @@ public class World : Node
 			case Gamestate.KEEP:
 			case Gamestate.BOSS:
 				musicPlayer.StreamPaused=false;
+				PlayerCamera.instance.FixedCamMode();
+				goal=SceneRunning;
+				break;
+			case Gamestate.RUNNING_FREECAM:
+				musicPlayer.StreamPaused=false;
+				PlayerCamera.instance.FreeCamMode(level.usedRect2);
 				goal=SceneRunning;
 				break;
 			case Gamestate.SHOP:
+				PlayerCamera.instance.FixedCamMode();
 				musicPlayer.StreamPaused=true;
 				goal=SceneRunning;
 				break;
