@@ -20,8 +20,8 @@ public class Renderer : CanvasModulate
         instance=this;
         shake=0f;
 
-        trailtop=GetNode<Sprite>("SpeedTrailsTop");
-        trailbottom=GetNode<Sprite>("SpeedTrailsBottom");
+        trailtop=GetNode<CanvasLayer>(nameof(CanvasLayer)).GetNode<Sprite>("SpeedTrailsTop");
+        trailbottom=GetNode<CanvasLayer>(nameof(CanvasLayer)).GetNode<Sprite>("SpeedTrailsBottom");
     }
 
     public override void _PhysicsProcess(float delta)

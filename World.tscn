@@ -39,12 +39,14 @@ environment = SubResource( 3 )
 [node name="Renderer" type="CanvasModulate" parent="."]
 script = ExtResource( 2 )
 
-[node name="SpeedTrailsBottom" parent="Renderer" instance=ExtResource( 4 )]
+[node name="CanvasLayer" type="CanvasLayer" parent="Renderer"]
+
+[node name="SpeedTrailsBottom" parent="Renderer/CanvasLayer" instance=ExtResource( 4 )]
 visible = false
 position = Vector2( 254, 288 )
 z_index = 2
 
-[node name="SpeedTrailsTop" parent="Renderer" instance=ExtResource( 3 )]
+[node name="SpeedTrailsTop" parent="Renderer/CanvasLayer" instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 254, 0 )
 z_index = 2
