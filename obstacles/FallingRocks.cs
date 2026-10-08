@@ -85,16 +85,12 @@ public class FallingRocks : StaticBody2D,ISwitchable
 
     private void OnBodyEntered(Node2D body)
     {
-        if(body.IsInGroup(GROUPS.PLATFORMS.ToString())&&body!=this)
+        if(body==this)
         {
-            collider=(Platform)body;
-            colliding=true;
-            shake=SHAKE_MAX;
-            Renderer.instance.Shake(2f);
-            state=State.FALLEN;
-            AddToGroup(GROUPS.PLATFORMS.ToString());
-        } 
-        else if(body.IsInGroup(GROUPS.LEVEL.ToString())&&body!=this)
+            return;
+        }
+
+        if(body.IsInGroup(GROUPS.LEVEL.ToString()))
         {
             area.Disconnect("body_entered",this,nameof(OnBodyEntered));
             shake=SHAKE_MAX;
@@ -102,6 +98,15 @@ public class FallingRocks : StaticBody2D,ISwitchable
             state=State.FALLEN;
             AddToGroup(GROUPS.LEVEL.ToString());
         }
+        else if(body.IsInGroup(GROUPS.PLATFORMS.ToString()))
+        {
+            collider=(Platform)body;
+            colliding=true;
+            shake=SHAKE_MAX;
+            Renderer.instance.Shake(2f);
+            state=State.FALLEN;
+            AddToGroup(GROUPS.PLATFORMS.ToString());
+        }        
 
     }
 
