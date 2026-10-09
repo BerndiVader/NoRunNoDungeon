@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 
 public abstract class KinematicMonster : KinematicBody2D
 {
-    public static List<WeakRef>ACTIVE_MONSTERS=new List<WeakRef>();
+    public static List<WeakReference<KinematicMonster>>ACTIVE_MONSTERS=new List<WeakReference<KinematicMonster>>();
     private static readonly PackedScene LEVELCONTROL_PACK=ResourceLoader.Load<PackedScene>("res://level/LevelControl.tscn");
     protected static readonly Vector2 DEFAULT_DAMAGE_FORCE=new Vector2(200f,-50f);
 
@@ -15,7 +16,7 @@ public abstract class KinematicMonster : KinematicBody2D
         RIGHT
     }
 
-    protected WeakRef weakRef;
+    protected WeakReference<KinematicMonster> weakRef;
 
     [Export] protected float DAMAGE_AMOUNT=1f;
     /// <summary>
@@ -162,7 +163,7 @@ public abstract class KinematicMonster : KinematicBody2D
 
         facing=direction=Facing();
 
-        weakRef=WeakRef(this);
+        weakRef=new WeakReference<KinematicMonster>(this);
         ACTIVE_MONSTERS.Add(weakRef);
     }
  

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -9,6 +11,8 @@ public class World : Node
 	private const int MAP_VIEWPORT_Y=18;
 	private const float TILE_SIZE=16f;
 	private const int LEVEL_ADD_TIMEOUT=40;
+
+	public static readonly ConcurrentDictionary<ulong,WeakReference<Node2D>>MARKED_NODES=new ConcurrentDictionary<ulong, WeakReference<Node2D>>();
 
 	public static World instance;
 	public static Viewport root;
@@ -58,10 +62,18 @@ public class World : Node
 
 	public static void OnObjectExitedScreen(Node node)
 	{
-        if(PlayerCamera.instance.Zoom.x==1f&&state<Gamestate.BONUS)
-        {
-            node.CallDeferred("queue_free");
-        }
+		if(!node.IsQueuedForDeletion())
+		{
+			if(PlayerCamera.instance.Zoom.x==1f&&state<Gamestate.BONUS)
+			{
+				node.CallDeferred("queue_free");
+			}
+			else if(node is Node2D node2d)
+			{
+				ulong id=node2d.GetInstanceId();
+				MARKED_NODES.TryAdd(id,new WeakReference<Node2D>(node2d));
+			}
+		}
 	}
 
 	public static void Quit() 
@@ -215,6 +227,7 @@ public class World : Node
 				PauseUI pause=(PauseUI)ResourceUtils.pause.Instance();
 				pause.PauseMode=PauseModeEnum.Process;
 				instance.uiLayer.AddChild(pause);
+				Renderer.instance.trailbottom.Visible=Renderer.instance.trailtop.Visible=false;
 			}
 		}
 		else if(input.Quit())

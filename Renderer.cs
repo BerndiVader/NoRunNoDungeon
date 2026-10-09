@@ -13,7 +13,7 @@ public class Renderer : CanvasModulate
     private Vector2 bottomH=new Vector2(254f,288f);
     private Vector2 bottomV=new Vector2(512f,144f);
     private readonly Vector2 MIN_SPEED=new Vector2(80f,30f);
-    private Sprite trailtop,trailbottom;
+    public Sprite trailtop,trailbottom;
     
     public override void _Ready()
     {
@@ -31,14 +31,17 @@ public class Renderer : CanvasModulate
         Vector2 currentDirection=level.direction;
         bool speedChanged=currentSpeed!=speed;
         bool directionChanged=currentDirection!=direction;
+        bool vertical=currentDirection.y!=0f;
+        float minspeed=vertical?MIN_SPEED.y:MIN_SPEED.x;
+
+
+        trailbottom.Visible=trailtop.Visible=currentSpeed>=minspeed;
+
 
         if(speedChanged||directionChanged)
         {
             direction=currentDirection;
             speed=currentSpeed;
-
-            bool vertical=currentDirection.y!=0f;
-            float minspeed=vertical?MIN_SPEED.y:MIN_SPEED.x;
 
             if(directionChanged)
             {
@@ -66,12 +69,8 @@ public class Renderer : CanvasModulate
                 float alpha=Mathf.Clamp((currentSpeed-minspeed)/(minspeed*1.45f),0.1f,1f);
                 trailtop.Modulate=new Color(modulate.r,modulate.g,modulate.b,alpha);
                 trailbottom.Modulate=trailtop.Modulate;
-                trailtop.Visible=trailbottom.Visible=true;
             }
-            else
-            {
-                trailtop.Visible=trailbottom.Visible=false;
-            }
+
         }
 
         if(shake!=0f) 

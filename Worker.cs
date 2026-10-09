@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 public class Worker : Thread
 {
     public static Worker instance;
-	public static ConcurrentStack<WeakReference>placeholders;
+	public static readonly ConcurrentStack<WeakReference>placeholders=new ConcurrentStack<WeakReference>();
 
 	public enum State
 	{
@@ -18,6 +18,8 @@ public class Worker : Thread
 	private delegate void Goal();
 	private static Goal goal;
 	private static bool quit;
+	private static float DISTANCE_SQRT;
+	private static ulong nextMarkedScan=0;
 
 	public static void Start()
 	{
@@ -26,10 +28,12 @@ public class Worker : Thread
 
 	public Worker() : base()
 	{
-		placeholders=new ConcurrentStack<WeakReference>();
 		SetStatus(State.IDLE);
 		quit=false;
 		Start(this,nameof(Runner));
+		DISTANCE_SQRT=(World.RESOLUTION.x+World.RESOLUTION.y)*0.5f;
+		DISTANCE_SQRT*=DISTANCE_SQRT;
+		DISTANCE_SQRT*=2f;
 	}
 
 	private void Runner()
@@ -73,6 +77,7 @@ public class Worker : Thread
 	private static void PrepareAndChangeLevel()
 	{
 		placeholders.Clear();
+		World.MARKED_NODES.Clear();
 		World.instance.PrepareAndChangeLevel();
 		SetStatus(State.IDLE);
 	}
@@ -82,6 +87,34 @@ public class Worker : Thread
 		if(placeholders.TryPop(out WeakReference result)&&result.IsAlive&&result.Target is Placeholder p)
 		{
 			InstantiatePlaceholder(p);
+		}
+		else if(World.MARKED_NODES.Count>0&&World.state<Gamestate.BONUS&&OS.GetTicksMsec()>nextMarkedScan)
+		{
+			nextMarkedScan=OS.GetTicksMsec()+20000;
+
+			foreach(var entry in World.MARKED_NODES)
+			{
+				WeakReference<Node2D>candit=entry.Value;
+				if(candit.TryGetTarget(out Node2D target))
+				{
+					if(IsInstanceValid(target)&&!target.IsQueuedForDeletion())
+					{
+						if(target.GlobalPosition.DistanceSquaredTo(PlayerCamera.instance.GlobalPosition)>DISTANCE_SQRT)
+						{
+                			World.MARKED_NODES.TryRemove(entry.Key,out _);
+							target.CallDeferred("queue_free");
+						}
+					}
+					else
+					{
+						World.MARKED_NODES.TryRemove(entry.Key,out _);
+					}
+				}
+				else
+				{
+                	World.MARKED_NODES.TryRemove(entry.Key,out _);
+				}
+			}
 		}
 		else
 		{
