@@ -15,6 +15,7 @@ public class LevelControl : Node2D,ISwitchable
     [Export] private bool SIGNAL=true;
     [Export] private string SWITCH_ID="";
     [Export] private string CALL_ID="";
+    [Export] private Gamestate STATE=Gamestate.KEEP;
 
     protected Vector2 size;
     protected Settings settings; 
@@ -41,6 +42,7 @@ public class LevelControl : Node2D,ISwitchable
             options["NoStop"]=NO_STOP;
             options["CallID"]=CALL_ID;
             options["RestoreToDefault"]=RESTORE_TO_DEFAULT;
+            options["State"]=STATE;
 
             settings=new Settings(World.level,options);
         }

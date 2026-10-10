@@ -12,6 +12,7 @@ public class Settings
         public readonly float speed;
         public readonly float zoom;
         public readonly Vector2 position;
+        public readonly Gamestate state;
 
         public Property()
         {
@@ -19,14 +20,16 @@ public class Settings
             speed=-1f;
             zoom=-1f;
             position=Vector2.Zero;
+            state=Gamestate.KEEP;
         }
 
-        public Property(Vector2 direction,float speed,float zoom,Vector2 position)
+        public Property(Vector2 direction,float speed,float zoom,Vector2 position,Gamestate state=Gamestate.KEEP)
         {
             this.direction=direction;
             this.speed=speed;
             this.zoom=zoom;
             this.position=position;
+            this.state=state;
         }
     }
 
@@ -43,7 +46,8 @@ public class Settings
         {"RestoreOnly",false},
         {"AutoRestore",false},
         {"NoStop",false},
-        {"CallID",string.Empty}
+        {"CallID",string.Empty},
+        {"State",Gamestate.KEEP}
     };
 
     public static void Populate(Godot.Collections.Dictionary<string,object>settings)
@@ -65,6 +69,7 @@ public class Settings
     private bool use,defaultOnly,restoreOnly;
     private float speed,prevSpeed;
     private readonly Vector2 zoom,prevZoom,direction,prevDirection,prevPosition;
+    private Gamestate state,prevState;
     public bool autoRestore;
     public bool restoreToDefault;
     public bool noStop=false;
@@ -78,7 +83,8 @@ public class Settings
         prevSpeed=level.speed;
         prevZoom=PlayerCamera.instance.Zoom;
         prevPosition=PlayerCamera.instance.Position;
-        prevDirection=level.direction;        
+        prevDirection=level.direction;
+        prevState=state!=Gamestate.KEEP?World.state:Gamestate.KEEP;
 
         levelRef=new WeakReference<Level>(level);
 
@@ -92,6 +98,7 @@ public class Settings
         autoRestore=(bool)settings["AutoRestore"];
         noStop=(bool)settings["NoStop"];
         CallID=(string)settings["CallID"];
+        state=(Gamestate)settings["State"];
     }
 
     public void Set()
@@ -103,7 +110,7 @@ public class Settings
         else if(levelRef.TryGetTarget(out Level level))
         {
             level.settings=this;
-            AddTweenProperty(level,new Property(direction,speed,zoom.x,Vector2.Zero));
+            AddTweenProperty(level,new Property(direction,speed,zoom.x,Vector2.Zero,state));
         }
     }
 
@@ -122,7 +129,18 @@ public class Settings
             }
             else
             {
-                AddTweenProperty(level,new Property(prevDirection,prevSpeed,prevZoom.x,prevPosition));
+                AddTweenProperty
+                (
+                    level,
+                    new Property
+                    (
+                        prevDirection,
+                        prevSpeed,
+                        prevZoom.x,
+                        prevPosition,
+                        state!=Gamestate.KEEP&&prevState>Gamestate.PAUSED?prevState:Gamestate.KEEP
+                    )
+                );
             }
         }
     }
@@ -148,6 +166,7 @@ public class Settings
         Vector2 direction=props.direction;
         Vector2 zoom=new Vector2(props.zoom,props.zoom);
         Vector2 position=props.position;
+        Gamestate state=props.state;
 
         if(!Godot.Object.IsInstanceValid(level))
         {
@@ -191,6 +210,7 @@ public class Settings
         {
             level.direction=direction;
         }
+        tween.Chain().TweenCallback(level,nameof(Level.CheckOrSetState),new Godot.Collections.Array(state));
         tween.Chain().TweenCallback(level,nameof(Level.OnSettingsTweenCompleted));
     }
 

@@ -52,6 +52,7 @@ public class Level : TileMap
         settingsList["Dir"]=direction;
         settingsList["Zoom"]=zoom;
         settingsList["AutoRestore"]=false;
+        settingsList["State"]=Gamestate.RUNNING;
 
         settings=new Settings(this,settingsList);
         DEFAULT_SETTING=new Settings(this,settingsList);
@@ -127,6 +128,18 @@ public class Level : TileMap
     public void OnSettingsTweenCompleted()
     {
         Settings.NewPropertyTween(this);
+    }
+
+    public void CheckOrSetState(Gamestate state)
+    {
+        if(state==Gamestate.KEEP)
+        {
+            return;
+        }
+        else if(World.state>Gamestate.PAUSED)
+        {
+            World.instance.SetGamestate(state);
+        }
     }
 
 }
