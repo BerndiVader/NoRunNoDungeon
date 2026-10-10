@@ -46,7 +46,8 @@ public class Hitables : Area2D
         marker.Modulate=new Color(1f,1f,1f,0f);
 
         Alert alert=ResourceUtils.particles[(int)PARTICLES.ALERT].Instance<Alert>();
-        alert.chr="?"[0];
+        alert.chr="^"[0];
+        alert.Scale*=0.75f;
         AddChild(alert);        
 
     }
@@ -98,8 +99,8 @@ public class Hitables : Area2D
         Renderer.instance.PlaySfx(BLOCK_FX,GlobalPosition);
         Renderer.instance.Shake(1f);
         marker.Modulate=new Color(1,1,1,1f);
-        await ToSignal(GetTree().CreateTimer(0.11f),"timeout");
-        marker.Modulate=new Color(1f,1f,1f,0f);
-    }    
+
+        CreateTween().TweenProperty(marker,"modulate:a",0f,0.22f);
+    }
 
 }
