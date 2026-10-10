@@ -169,11 +169,7 @@ public class Cannonball : KinematicMonster
             animationController.Play("attack");
             animationController.Rotation=0f;
             goal=Attack;
-            
-            SfxPlayer sfxplayer=new SfxPlayer();
-            sfxplayer.Stream=SFX;
-            sfxplayer.Position=Position;
-            World.level.AddChild(sfxplayer);
+            Renderer.instance.PlaySfx(SFX,GlobalPosition);
 
             if(player!=null)
             {

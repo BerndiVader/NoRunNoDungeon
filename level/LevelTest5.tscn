@@ -102,11 +102,11 @@ CANNONBALL_SETTINGS = {
 }
 
 [node name="ControlHolder" parent="." instance=ExtResource( 5 )]
-position = Vector2( 1984, 112 )
+position = Vector2( 1979, 160 )
 
 [node name="LevelControl" parent="ControlHolder" index="0"]
 SPEED = 0.0
-ZOOM = 1.0
+ZOOM = 0.95
 RESTORE_TO_DEFAULT = true
 
 [node name="Gate" parent="." instance=ExtResource( 6 )]

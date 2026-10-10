@@ -7,7 +7,7 @@ public class Worker : Thread
 {
     public static Worker instance;
 	public static readonly ConcurrentStack<WeakReference>placeholders=new ConcurrentStack<WeakReference>();
-	private static readonly ConcurrentDictionary<ulong,WeakReference<Node2D>>cleanup_candits=new ConcurrentDictionary<ulong, WeakReference<Node2D>>();
+	public static readonly ConcurrentDictionary<ulong,WeakReference<Node2D>>cleanup_candits=new ConcurrentDictionary<ulong, WeakReference<Node2D>>();
 
 
 	public enum State
@@ -115,7 +115,7 @@ public class Worker : Thread
 
 	private static void Cleanup()
 	{
-		NEXT_CLEANUP=Time.GetTicksMsec()+20000;
+		NEXT_CLEANUP=Time.GetTicksMsec()+10000;
 		Vector2 cam=PlayerCamera.instance.GlobalPosition;
 
 		foreach(var entry in cleanup_candits)
