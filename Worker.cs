@@ -7,6 +7,8 @@ public class Worker : Thread
 {
     public static Worker instance;
 	public static readonly ConcurrentStack<WeakReference>placeholders=new ConcurrentStack<WeakReference>();
+	private static readonly ConcurrentDictionary<ulong,WeakReference<Node2D>>cleanup_candits=new ConcurrentDictionary<ulong, WeakReference<Node2D>>();
+
 
 	public enum State
 	{
@@ -18,8 +20,8 @@ public class Worker : Thread
 	private delegate void Goal();
 	private static Goal goal;
 	private static bool quit;
-	private static float DISTANCE_SQRT;
-	private static ulong nextMarkedScan=0;
+	private static float CLEANUP_DISTANCE_SQRT;
+	private static ulong NEXT_CLEANUP=0;
 
 	public static void Start()
 	{
@@ -31,9 +33,9 @@ public class Worker : Thread
 		SetStatus(State.IDLE);
 		quit=false;
 		Start(this,nameof(Runner));
-		DISTANCE_SQRT=(World.RESOLUTION.x+World.RESOLUTION.y)*0.5f;
-		DISTANCE_SQRT*=DISTANCE_SQRT;
-		DISTANCE_SQRT*=2f;
+		CLEANUP_DISTANCE_SQRT=(World.RESOLUTION.x+World.RESOLUTION.y)*0.5f;
+		CLEANUP_DISTANCE_SQRT*=CLEANUP_DISTANCE_SQRT;
+		CLEANUP_DISTANCE_SQRT*=2f;
 	}
 
 	private void Runner()
@@ -77,7 +79,7 @@ public class Worker : Thread
 	private static void PrepareAndChangeLevel()
 	{
 		placeholders.Clear();
-		World.MARKED_NODES.Clear();
+		cleanup_candits.Clear();
 		World.instance.PrepareAndChangeLevel();
 		SetStatus(State.IDLE);
 	}
@@ -88,38 +90,53 @@ public class Worker : Thread
 		{
 			InstantiatePlaceholder(p);
 		}
-		else if(World.MARKED_NODES.Count>0&&World.state<Gamestate.BONUS&&OS.GetTicksMsec()>nextMarkedScan)
+		else if(cleanup_candits.Count>0&&World.state<Gamestate.BONUS&&Time.GetTicksMsec()>NEXT_CLEANUP)
 		{
-			nextMarkedScan=OS.GetTicksMsec()+20000;
-
-			foreach(var entry in World.MARKED_NODES)
-			{
-				WeakReference<Node2D>candit=entry.Value;
-				if(candit.TryGetTarget(out Node2D target))
-				{
-					if(IsInstanceValid(target)&&!target.IsQueuedForDeletion())
-					{
-						if(target.GlobalPosition.DistanceSquaredTo(PlayerCamera.instance.GlobalPosition)>DISTANCE_SQRT)
-						{
-                			World.MARKED_NODES.TryRemove(entry.Key,out _);
-							target.CallDeferred("queue_free");
-						}
-					}
-					else
-					{
-						World.MARKED_NODES.TryRemove(entry.Key,out _);
-					}
-				}
-				else
-				{
-                	World.MARKED_NODES.TryRemove(entry.Key,out _);
-				}
-			}
+			Cleanup();
 		}
 		else
 		{
 			OS.DelayMsec(20);
 		}
+	}
+
+	public static void CleanupCandit(Node2D candit)
+	{
+		cleanup_candits.TryAdd(candit.GetInstanceId(),new WeakReference<Node2D>(candit));
+	}
+
+	public static async void ForceCleanupAsync()
+	{
+		await Task.Run(delegate()
+		{
+			Cleanup();
+		});
+	}
+
+	private static void Cleanup()
+	{
+		NEXT_CLEANUP=Time.GetTicksMsec()+20000;
+		Vector2 cam=PlayerCamera.instance.GlobalPosition;
+
+		foreach(var entry in cleanup_candits)
+		{
+			if(!entry.Value.TryGetTarget(out Node2D candit)||!IsInstanceValid(candit)||candit.IsQueuedForDeletion())
+			{
+				cleanup_candits.TryRemove(entry.Key,out _);
+				continue;
+			}
+
+			if(candit.GlobalPosition.DistanceSquaredTo(cam)<CLEANUP_DISTANCE_SQRT)
+			{
+				continue;
+			}
+
+			if(cleanup_candits.TryRemove(entry.Key,out _))
+			{
+				candit.CallDeferred("queue_free");
+			}
+		}
+
 	}
 	
 	private static void Quitting()
