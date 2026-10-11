@@ -66,6 +66,10 @@ public class LevelControl : Node2D,ISwitchable
 
         if(activate)
         {
+            if(settings.CallID!="")
+            {
+                GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),CALL_ID);
+            }
             SetPhysicsProcess(false);
             if(!RESTORE)
             {
@@ -78,10 +82,6 @@ public class LevelControl : Node2D,ISwitchable
             }
             else
             {
-                if(settings.CallID!="")
-                {
-                    GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),CALL_ID);
-                }
                 if(RESTORE_TO_DEFAULT)
                 {
                     World.level.DEFAULT_SETTING.Restore();
