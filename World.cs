@@ -168,7 +168,7 @@ public class World : Node
 		level.MoveLocalX(movement.x);
 		level.MoveLocalY(movement.y);
 
-		if(state!=Gamestate.RUNNING) 
+		if(state!=Gamestate.RUNNING)
 		{
 			return;
 		}
@@ -280,11 +280,13 @@ public class World : Node
 			case Gamestate.DIEING:
 			case Gamestate.RUNNING:
 			case Gamestate.BONUS:
-			case Gamestate.KEEP:
 			case Gamestate.BOSS:
 				musicPlayer.StreamPaused=false;
 				PlayerCamera.instance.FixedCamMode();
 				goal=SceneRunning;
+				break;
+			case Gamestate.KEEP:
+				musicPlayer.StreamPaused=false;
 				break;
 			case Gamestate.RUNNING_FREECAM:
 				musicPlayer.StreamPaused=false;
