@@ -61,22 +61,19 @@ public class HiddenDoor : StaticBody2D,ISwitchable
 
     private void StartAutomaticMode()
     {
-        switch(DOORSTATE)
-        {
-            case DOOR_STATE.CLOSED:
-                OpenDoor();
-                timer.WaitTime=OPENED_TIME;
-                timer.Start();
-                break;
-            case DOOR_STATE.OPENED:
-                CloseDoor();
-                timer.WaitTime=CLOSED_TIME;
-                timer.Start();
-                break;
-        }
+        timer.WaitTime=DOORSTATE==DOOR_STATE.OPENED?OPENED_TIME:CLOSED_TIME;
+        timer.Start();
     }
     private void OnAutomaticTimeout()
     {
+        if(DOORSTATE==DOOR_STATE.CLOSED)
+        {
+            OpenDoor();
+        }
+        else
+        {
+            CloseDoor();
+        }
         StartAutomaticMode();
     }
 
