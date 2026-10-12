@@ -78,6 +78,15 @@ public class Player : KinematicBody2D
 
     [Export] private float DOUBLE_TAP_TIME=300f;
 
+    private float FLOAT_GRAVITY_SCALE=0.2f;
+    private float FLOAT_JUMP_SCALE=0.8f;
+    private float FLOAT_MAX_FALL_SPEED=40f;
+    private float FLOAT_MOVE_MODIFIER=0.5f;
+    private float FLOAT_CARRY_FACTOR=0.5f;
+
+    private int floatAreaCount=0;
+    public bool Floating=>floatAreaCount>0;
+
     private Vector2 velocity=Vector2.Zero;
     public Vector2 Velocity=>velocity;
     private float onAirTime=100f;
@@ -199,7 +208,15 @@ public class Player : KinematicBody2D
         }
        
         Vector2 force=FORCE;
-        float slopeAngle=0f;        
+        float slopeAngle=0f;
+
+        float moveModifier=Floating?FLOAT_MOVE_MODIFIER:1f;
+        float speedModifier=SpeedModifier*moveModifier;
+
+        if(Floating)
+        {
+            force.y*=FLOAT_GRAVITY_SCALE;
+        }
 
         float friction=1f;
         Vector2 levelDirection=World.level.direction;
@@ -234,11 +251,11 @@ public class Player : KinematicBody2D
             if(!dashLeft)
             {
                 float maxSpeed=(levelDirection.x>0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
-                maxSpeed*=SpeedModifier;
+                maxSpeed*=speedModifier;
             
                 if(velocity.x>-maxSpeed)
                 {
-                    force.x-=WALK_FORCE*SpeedModifier;
+                    force.x-=WALK_FORCE*speedModifier;
                 }
                 else if(dashTime<=0f)
                 {
@@ -255,11 +272,11 @@ public class Player : KinematicBody2D
             if(!dashRight)
             {
                 float maxSpeed=(levelDirection.x<0f)?WALK_MAX_SPEED*friction:WALK_MAX_SPEED;
-                maxSpeed*=SpeedModifier;
+                maxSpeed*=speedModifier;
 
                 if(velocity.x<maxSpeed)
                 {
-                    force.x+=WALK_FORCE*SpeedModifier;
+                    force.x+=WALK_FORCE*speedModifier;
                 }
                 else if(dashTime<=0f)
                 {
@@ -276,12 +293,14 @@ public class Player : KinematicBody2D
                 animationController.FlipH=levelDirection!=Vector2.Left;
             }
 
-            float xlength=Mathf.Abs(velocity.x)-STOP_FORCE*SpeedModifier*delta;
+            float xlength=Mathf.Abs(velocity.x)-STOP_FORCE*speedModifier*delta;
             velocity.x=(xlength>0f?xlength:0f)*Mathf.Sign(velocity.x);
         }
 
         velocity+=force*delta;
-        if(dashDirection==0) velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED*SpeedModifier)*Mathf.Sign(velocity.x);
+
+        if(Floating&&velocity.y>FLOAT_MAX_FALL_SPEED) velocity.y=FLOAT_MAX_FALL_SPEED;
+        if(dashDirection==0) velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED*speedModifier)*Mathf.Sign(velocity.x);
 
         if(platformSpeed!=Vector2.Zero&&velocity.x==0f)
         {
@@ -298,7 +317,8 @@ public class Player : KinematicBody2D
         else
         {
             Vector2 snap=jumping?Vector2.Zero:new Vector2(0f,4f);
-            velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
+            Vector2 carry=Floating?levelDirection*levelSpeed*FLOAT_CARRY_FACTOR:Vector2.Zero;
+            velocity=MoveAndSlideWithSnap(velocity+carry,snap,Vector2.Up,false,4,0.785398f,true)-carry;
         }
 
         Vector2 motVel=(velocity-(levelDirection*levelSpeed))*1.2f;
@@ -355,6 +375,10 @@ public class Player : KinematicBody2D
             {
                 velocity.y*=0.92f;
             }
+            if(Floating)
+            {
+                velocity.y*=FLOAT_JUMP_SCALE;
+            }
             if(velocity.y>=0f)
             {
                 doubleJump=jumping=false;
@@ -369,7 +393,7 @@ public class Player : KinematicBody2D
                 SpawnDust(Dust.TYPE.JUMP,animationController.FlipH,true,-1f);
             }
         }
-        else if(input.JustJump&&!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME*JumpModifier)
+        else if(input.JustJump&&(!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME*JumpModifier||Floating))
         {
             if(onSlope)
             {
@@ -517,6 +541,11 @@ public class Player : KinematicBody2D
         }
     }
 
+    public void SetFloating(bool floating)
+    {
+        floatAreaCount=Mathf.Max(0,floatAreaCount+(floating?1:-1));
+    }
+
     private void UpdatePlayerState()
     {
         if(onTeleport)
@@ -566,6 +595,11 @@ public class Player : KinematicBody2D
 
         bool dashLeft=false;
         bool dashRight=false;
+
+        if(Floating)
+        {
+            return(dashLeft,dashRight);
+        }
 
         if(input.JustLeft)
         {
