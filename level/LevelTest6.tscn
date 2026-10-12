@@ -346,7 +346,7 @@ CANNONBALL_SETTINGS = {
 position = Vector2( 1320, -428 )
 
 [node name="LevelControl" parent="ControlHolder5" index="0"]
-SPEED = 125.0
+SPEED = 120.0
 ZOOM = 0.95
 
 [node name="DirektionMarkerHolder4" parent="." instance=ExtResource( 14 )]
@@ -359,14 +359,14 @@ flip_h = true
 position = Vector2( 888, -408 )
 
 [node name="LevelControl" parent="ControlHolder6" index="0"]
-SPEED = 130.0
+SPEED = 120.0
 ZOOM = 0.9
 
 [node name="ControlHolder7" parent="." instance=ExtResource( 4 )]
 position = Vector2( 616, -432 )
 
 [node name="LevelControl" parent="ControlHolder7" index="0"]
-SPEED = 135.0
+SPEED = 120.0
 ZOOM = 0.85
 
 [node name="Gate2" parent="." instance=ExtResource( 7 )]
