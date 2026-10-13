@@ -71,10 +71,12 @@ script = ExtResource( 1 )
 texture = ExtResource( 9 )
 color = Color( 1, 0.976471, 0.552941, 1 )
 mode = 2
+range_z_min = -10
+shadow_item_cull_mask = 0
 script = ExtResource( 8 )
 MIN_LIGHT = 0.8
 MAX_LIGHT = 1.2
-IMAGE_SCALE = Vector2( 1, 1 )
+IMAGE_SCALE = Vector2( 1.2, 1.2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = SubResource( 4 )

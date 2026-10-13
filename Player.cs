@@ -15,6 +15,15 @@ public class Player : KinematicBody2D
     private static readonly AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
     private static readonly AudioStream sfxDash=ResourceLoader.Load<AudioStream>("res://sounds/ingame/15_human_dash_2.wav");
 
+    public struct Floatload
+    {
+        public float FLOAT_GRAVITY_SCALE;
+        public float FLOAT_JUMP_SCALE;
+        public float FLOAT_MAX_FALL_SPEED;
+        public float FLOAT_MOVE_MODIFIER;
+        public float FLOAT_CARRY_FACTOR;        
+    }
+
     public struct Input
     {
         public bool Left;
@@ -384,7 +393,7 @@ public class Player : KinematicBody2D
                 doubleJump=jumping=false;
                 jumpParticles.Emitting=false;
             }
-            else if(input.JustJump&&!doubleJump)
+            else if(input.JustJump&&!doubleJump&&!Floating)
             {
                 doubleJump=true;
                 velocity.y=-(JUMP_SPEED*JumpModifier-(levelDirection.y*levelSpeed));
@@ -541,9 +550,18 @@ public class Player : KinematicBody2D
         }
     }
 
-    public void SetFloating(bool floating)
+    public void SetFloating(bool floating,Floatload? load=null)
     {
         floatAreaCount=Mathf.Max(0,floatAreaCount+(floating?1:-1));
+        if(load.HasValue)
+        {
+            Floatload l=load.Value;
+            FLOAT_CARRY_FACTOR=l.FLOAT_CARRY_FACTOR;
+            FLOAT_GRAVITY_SCALE=l.FLOAT_GRAVITY_SCALE;
+            FLOAT_JUMP_SCALE=l.FLOAT_JUMP_SCALE;
+            FLOAT_MAX_FALL_SPEED=l.FLOAT_MAX_FALL_SPEED;
+            FLOAT_MOVE_MODIFIER=l.FLOAT_MOVE_MODIFIER;
+        }
     }
 
     private void UpdatePlayerState()

@@ -64,7 +64,7 @@
     <Compile Include="level\LevelControlAdv.cs" />
     <Compile Include="level\LevelControlTimer.cs" />
     <Compile Include="level\Settings.cs" />
-    <Compile Include="level\Solid.cs" />
+    <Compile Include="level\Liquid.cs" />
     <Compile Include="obstacles\Cannonball.cs" />
     <Compile Include="obstacles\Destroyables.cs" />
     <Compile Include="obstacles\Dirtball.cs" />
