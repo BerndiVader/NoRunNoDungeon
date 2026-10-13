@@ -21,7 +21,7 @@ public class Player : KinematicBody2D
         public float FLOAT_JUMP_SCALE;
         public float FLOAT_MAX_FALL_SPEED;
         public float FLOAT_MOVE_MODIFIER;
-        public float FLOAT_CARRY_FACTOR;        
+        public float FLOAT_CARRY_FACTOR;
     }
 
     public struct Input
@@ -70,6 +70,8 @@ public class Player : KinematicBody2D
         attack,
         dash,
         teleport,
+        floating,
+        half_floating,
         unkown
     }
 
@@ -92,6 +94,7 @@ public class Player : KinematicBody2D
     private float FLOAT_MAX_FALL_SPEED=40f;
     private float FLOAT_MOVE_MODIFIER=0.5f;
     private float FLOAT_CARRY_FACTOR=0.5f;
+    private Vector2 FLOAT_SURFACE_GLOBALPOS=-Vector2.One;
 
     private int floatAreaCount=0;
     public bool Floating=>floatAreaCount>0;
@@ -106,6 +109,8 @@ public class Player : KinematicBody2D
     private Vector2 lastPosition=Vector2.Zero;
     private Vector2 FORCE;
     private Vector2 platformSpeed=Vector2.Zero;
+    private Vector2 levelDirection=Vector2.Zero;
+    private float levelSpeed=0f;
 
     public float SpeedModifier=1f;
     public float JumpModifier=1f;
@@ -205,6 +210,7 @@ public class Player : KinematicBody2D
     public override void _PhysicsProcess(float delta)
     {
         UpdatePlayerState();
+        bool half_floating=(FLOAT_SURFACE_GLOBALPOS.y-GlobalPosition.y)>8f;
 
         if(ResourceUtils.DEBUG_EXT)
         {
@@ -228,8 +234,8 @@ public class Player : KinematicBody2D
         }
 
         float friction=1f;
-        Vector2 levelDirection=World.level.direction;
-        float levelSpeed=World.level.speed;
+        levelDirection=World.level.direction;
+        levelSpeed=World.level.speed;
         
         if(levelSpeed!=0f&&levelDirection.x!=0f)
         {
@@ -336,7 +342,7 @@ public class Player : KinematicBody2D
             motVel=levelDirection*levelSpeed*-1.4f;
         }
 
-        motionTrails.SetShaderParam("velocity",motVel);
+        motionTrails.SetShaderParam("velocity",Floating?Vector2.Zero:motVel);
         motionTrails.SetShaderParam("flip",animationController.FlipH);
 
         int collides=GetSlideCount();
@@ -365,7 +371,7 @@ public class Player : KinematicBody2D
 
                 if(!jumping&&slopeAngle==0f&&collision.Collider.HasUserSignal(STATE.passanger.ToString()))
                 {
-                    velocity.y=-JUMP_SPEED*JumpModifier;
+                    ApplyJump();
                     justJumped=jumping=true;
                     collision.Collider.EmitSignal(STATE.passanger.ToString(),this);
                 }
@@ -396,7 +402,7 @@ public class Player : KinematicBody2D
             else if(input.JustJump&&!doubleJump&&!Floating)
             {
                 doubleJump=true;
-                velocity.y=-(JUMP_SPEED*JumpModifier-(levelDirection.y*levelSpeed));
+                ApplyJump();
                 jumpParticles.Start(animationController.FlipH);
                 Renderer.instance.PlaySfx(sfxDoubleJump,GlobalPosition);
                 SpawnDust(Dust.TYPE.JUMP,animationController.FlipH,true,-1f);
@@ -415,7 +421,7 @@ public class Player : KinematicBody2D
                     velocity.x-=50f;
                 }
             }
-            velocity.y=-(JUMP_SPEED*JumpModifier-(levelDirection.y*levelSpeed));
+            ApplyJump();
             justJumped=jumping=true;
             Renderer.instance.PlaySfx(sfxJump,GlobalPosition);
         }
@@ -550,7 +556,7 @@ public class Player : KinematicBody2D
         }
     }
 
-    public void SetFloating(bool floating,Floatload? load=null)
+public void SetFloating(bool floating,Floatload? load=null,Vector2? surface=null)
     {
         floatAreaCount=Mathf.Max(0,floatAreaCount+(floating?1:-1));
         if(load.HasValue)
@@ -561,6 +567,14 @@ public class Player : KinematicBody2D
             FLOAT_JUMP_SCALE=l.FLOAT_JUMP_SCALE;
             FLOAT_MAX_FALL_SPEED=l.FLOAT_MAX_FALL_SPEED;
             FLOAT_MOVE_MODIFIER=l.FLOAT_MOVE_MODIFIER;
+        }
+        if(surface.HasValue)
+        {
+            FLOAT_SURFACE_GLOBALPOS=surface.Value;
+        }
+        else
+        {
+            FLOAT_SURFACE_GLOBALPOS=-Vector2.One;
         }
     }
 
@@ -573,6 +587,18 @@ public class Player : KinematicBody2D
         else if(weapon!=null&&weapon.IsAttacking())
         {
             SetPlayerState(PLAYER_STATE.attack);
+        }
+        else if(Floating) 
+        {
+            float y=FLOAT_SURFACE_GLOBALPOS.y-GlobalPosition.y;
+            if(y>8)
+            {
+                SetPlayerState(PLAYER_STATE.half_floating);
+            }
+            else
+            {
+                SetPlayerState(PLAYER_STATE.floating);
+            }
         }
         else if(dashDirection!=0)
         {
@@ -691,15 +717,31 @@ public class Player : KinematicBody2D
         }
     }
 
-    private void SpawnDust(Dust.TYPE type,bool flipH=false,bool flipV=false,float offset=1f)
+    private void ApplyJump(bool ignore=false,Vector2? modifier=null)
     {
-        Dust dust=ResourceUtils.dust.Instance<Dust>();
-        dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
-        dust.type=type;
-        dust.FlipH=flipH;
-        dust.FlipV=flipV;
-        dust.Offset*=offset;
-        World.level.AddChild(dust);        
+        if(!ignore)
+        {
+            float value=JUMP_SPEED*JumpModifier-(levelDirection.y*levelSpeed);
+            velocity.y=-value;
+        }
+        else
+        {
+            velocity.y=-JUMP_SPEED;
+        }
+    }
+
+    private void SpawnDust(Dust.TYPE type,bool flipH=false,bool flipV=false,float offset=1f,bool ignorefloating=false)
+    {
+        if(ignorefloating||!Floating)
+        {
+            Dust dust=ResourceUtils.dust.Instance<Dust>();
+            dust.Position=World.level.ToLocal(airParticles.GlobalPosition);
+            dust.type=type;
+            dust.FlipH=flipH;
+            dust.FlipV=flipV;
+            dust.Offset*=offset;
+            World.level.AddChild(dust);
+        }
     }
 
     public void ApplyCoins(int amount)

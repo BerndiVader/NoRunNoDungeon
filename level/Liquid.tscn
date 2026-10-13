@@ -4,12 +4,10 @@
 [ext_resource path="res://image/solid_fill.png" type="Texture" id=2]
 
 [sub_resource type="AtlasTexture" id=2]
-flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=3]
-flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 16, 0, 16, 16 )
 

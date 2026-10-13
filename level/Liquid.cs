@@ -10,7 +10,7 @@ public class Liquid : Node2D
         FLOAT_JUMP_SCALE=0.8f,
         FLOAT_GRAVITY_SCALE=0.3f,
         FLOAT_MAX_FALL_SPEED=50f,
-        FLOAT_MOVE_MODIFIER=0.6f    
+        FLOAT_MOVE_MODIFIER=0.6f
     };
     private readonly Player.Floatload SLIME_LOAd=new Player.Floatload
     {
@@ -77,7 +77,7 @@ public class Liquid : Node2D
 
     private void OnBodyEntered(Node _)
     {
-        Player.instance.SetFloating(true,LIQUID==LIQUID_TYPE.WATER?WATER_LOAD:SLIME_LOAd);
+        Player.instance.SetFloating(true,LIQUID==LIQUID_TYPE.WATER?WATER_LOAD:SLIME_LOAd,GlobalPosition);
     }
     private void OnBodyExited(Node _)
     {
