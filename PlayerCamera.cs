@@ -4,17 +4,30 @@ using System;
 public class PlayerCamera : Camera2D
 {
 
+    public enum DIRECTION
+    {
+        LEFT=1,
+        RIGHT=-1,
+        NONE=0
+    }
+
+
+
     [Export] private float SMOOTHING_SPEED=2f;
 
-    private const float ROT=0.001f;
-    private const float MIN_ZOOM=0.5f;
-    private const float ZOOM_PADDING=1.30f;
-    private const float MAX_FRAMING_DISTANCE=256f;
+    private const float MIN_ZOOM=0.3f;
+
+    private const float PLAYER_MOVING_ROT_SPEED=0.06f;
+    private const float PLAYER_MOVING_ROT_ANGLE=0.02f;
+
+    private const float FRAMING_ZOOM_PADDING=1.30f;
+    private const float FRAMING_MAX_FRAMING_DISTANCE_SQRT=65536f;
     private const float FRAMING_SMOOTHING_SPEED=4f;
+
     public static PlayerCamera instance;
     private static Rect2 DEFAULT_LIMIT=new Rect2(Vector2.Zero,World.RESOLUTION);
-
-    public int direction;
+    
+    public DIRECTION direction;
     private Node2D framedTarget;
     private Vector2 prevZoom,prevPosition;
     private Vector2 framingZoom,framingPosition;
@@ -33,15 +46,15 @@ public class PlayerCamera : Camera2D
 
     public override void _PhysicsProcess(float delta)
     {
-        if(direction!=0f)
+        if(direction!=DIRECTION.NONE)
         {
-            float target=direction*0.02f;
-            Rotation=Mathf.MoveToward(Rotation,target,ROT);
+            float target=(int)direction*PLAYER_MOVING_ROT_ANGLE;
+            Rotation=Mathf.MoveToward(Rotation,target,PLAYER_MOVING_ROT_SPEED*delta);
 
         }
         else if(Rotation!=0f)
         {
-            Rotation=Mathf.MoveToward(Rotation,0f,ROT);
+            Rotation=Mathf.MoveToward(Rotation,0f,PLAYER_MOVING_ROT_SPEED*delta);
         }
 
         if(framing)
@@ -92,11 +105,9 @@ public class PlayerCamera : Camera2D
             return;
         }
 
-        Vector2 viewportSize=World.RESOLUTION;
-
         Vector2 playerPosition=Player.instance.GlobalPosition;
         Vector2 targetPosition=target.GlobalPosition;
-        if(playerPosition.DistanceTo(targetPosition)>MAX_FRAMING_DISTANCE)
+        if(playerPosition.DistanceSquaredTo(targetPosition)>FRAMING_MAX_FRAMING_DISTANCE_SQRT)
         {
             StopFraming(target);
             return;
@@ -116,13 +127,14 @@ public class PlayerCamera : Camera2D
         Vector2 separation=(targetPosition-playerPosition).Abs();
         float requiredZoom=Mathf.Max
         (
-            separation.x/viewportSize.x,
-            separation.y/viewportSize.y
-        )*ZOOM_PADDING;
+            separation.x/DEFAULT_LIMIT.Size.x,
+            separation.y/DEFAULT_LIMIT.Size.y
+        )*FRAMING_ZOOM_PADDING;
         float zoom=Mathf.Max(MIN_ZOOM,requiredZoom);
 
         framingZoom=new Vector2(zoom,zoom);
         framingPosition=Player.instance.ToLocal((playerPosition+targetPosition)*0.5f);
+        
         framing=true;
     }
 

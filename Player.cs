@@ -157,12 +157,12 @@ public class Player : KinematicBody2D
     {
         if(ResourceUtils.DEBUG_EXT)
         {
+            Vector2 screenPos = GetViewport().CanvasTransform*GlobalPosition;            
             DrawSetTransform(Vector2.Zero,0f,new Vector2(0.25f,0.25f));
-
             DrawString(
                 HUD.instance.GetFont("font"),
                 new Vector2(-10f,-40f),
-                $"{currentState+"-"+lastState}"
+                $"{screenPos}"
             );
         }
     }
@@ -260,7 +260,7 @@ public class Player : KinematicBody2D
         input.Update();
         if(input.Left)
         {
-            PlayerCamera.instance.direction=1;
+            PlayerCamera.instance.direction=PlayerCamera.DIRECTION.LEFT;
             animationController.FlipH=true;
 
             if(!dashLeft)
@@ -281,7 +281,7 @@ public class Player : KinematicBody2D
         }
         else if(input.Right)
         {
-            PlayerCamera.instance.direction=-1;
+            PlayerCamera.instance.direction=PlayerCamera.DIRECTION.RIGHT;
             animationController.FlipH=false;
 
             if(!dashRight)
@@ -302,7 +302,7 @@ public class Player : KinematicBody2D
         }
         else
         {
-            PlayerCamera.instance.direction=0;
+            PlayerCamera.instance.direction=PlayerCamera.DIRECTION.NONE;
             if(friction!=1f)
             {
                 animationController.FlipH=levelDirection!=Vector2.Left;
