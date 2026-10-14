@@ -4,6 +4,9 @@ using Godot;
 
 public class LevelControl : Node2D,ISwitchable
 {
+    [Export] private float ACTIVATION_DISTANCE=-1f;
+    [Export] private bool SET_LEVEL_POSITION=false;
+    [Export] private bool SET_LEVEL_Y0=false;
     [Export] private float SPEED=-1f;
     [Export] private Vector2 DIRECTION=Vector2.Zero;
     [Export] private float ZOOM=-1f;
@@ -18,13 +21,19 @@ public class LevelControl : Node2D,ISwitchable
     [Export] private Gamestate STATE=Gamestate.KEEP;
 
     protected Vector2 size;
-    protected Settings settings; 
+    protected Settings settings;
+
+    private bool activate;
+
+    private float ACTIVATION_DISTANCE_SQRT;
 
     public override void _Ready()
     {
         VisibilityNotifier2D notifier=GetNode<VisibilityNotifier2D>(nameof(VisibilityNotifier2D));
         notifier.Connect("screen_entered",this,nameof(OnScreenEntered));
         notifier.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
+
+        ACTIVATION_DISTANCE_SQRT=ACTIVATION_DISTANCE*ACTIVATION_DISTANCE;
 
         SetProcess(false);
         SetPhysicsProcess(false);
@@ -60,9 +69,16 @@ public class LevelControl : Node2D,ISwitchable
             return;
         }
 
-        bool activate=World.level.direction.x!=0f
-            ?GlobalPosition.x*World.level.direction.x>=size.x*World.level.direction.x
-            :World.level.direction.y==0f||GlobalPosition.y*World.level.direction.y>=size.y*World.level.direction.y;
+        if(ACTIVATION_DISTANCE==-1f)
+        {
+            activate=World.level.direction.x!=0f
+                ?GlobalPosition.x*World.level.direction.x>=size.x*World.level.direction.x
+                :World.level.direction.y==0f||GlobalPosition.y*World.level.direction.y>=size.y*World.level.direction.y;
+        }
+        else
+        {
+            activate=GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<ACTIVATION_DISTANCE_SQRT;
+        }
 
         if(activate)
         {
@@ -71,6 +87,28 @@ public class LevelControl : Node2D,ISwitchable
                 GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),CALL_ID);
             }
             SetPhysicsProcess(false);
+
+			if(SET_LEVEL_POSITION)
+            {
+                Vector2 offset=World.level.ToLocal(Player.instance.GlobalPosition);
+                Vector2 screenPos=GetViewport().CanvasTransform*Player.instance.GlobalPosition;
+                Vector2 leveloffset=offset-=screenPos;
+                leveloffset+=World.level.Position;
+                PlayerCamera.instance.FixedCamMode();
+                PlayerCamera.instance.ResetSmoothing();                
+                World.level.Position-=leveloffset;
+                Player.instance.Position-=leveloffset;
+
+                if(SET_LEVEL_Y0)
+                {
+                    SceneTreeTween tween=GetTree().CreateTween();
+                    tween.TweenProperty(World.level,"position:y",0f,1f)
+                        .SetTrans(Tween.TransitionType.Cubic)
+                        .SetEase(Tween.EaseType.InOut);
+                }
+
+            }            
+ 
             if(!RESTORE)
             {
                 settings.Set();
