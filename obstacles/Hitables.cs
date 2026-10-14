@@ -94,7 +94,7 @@ public class Hitables : Area2D
         }
     }
 
-    private async void FlashMarker()
+    private void FlashMarker()
     {
         Renderer.instance.PlaySfx(BLOCK_FX,GlobalPosition);
         Renderer.instance.Shake(1f);

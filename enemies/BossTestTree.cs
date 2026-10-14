@@ -11,7 +11,7 @@ public class BossTestTree : WalkingTree,IKeepOnScreen
 
     public void KeepOnScreen()
     {
-        PlayerCamera.instance.KeepPlayerAndTargetOnScreen(this);
+        PlayerCamera.instance.Framing(this);
     }
 
     public override void _ExitTree()
@@ -20,7 +20,7 @@ public class BossTestTree : WalkingTree,IKeepOnScreen
 
         if(IsInstanceValid(PlayerCamera.instance))
         {
-            PlayerCamera.instance.StopKeepingPlayerAndTargetOnScreen(this);
+            PlayerCamera.instance.StopFraming(this);
         }
     }
 }

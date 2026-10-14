@@ -18,7 +18,7 @@ public class PlayerCamera : Camera2D
     private Node2D framedTarget;
     private Vector2 prevZoom,prevPosition;
     private Vector2 framingZoom,framingPosition;
-    private bool hasFramingOrigin,framingTransition;
+    private bool framingOrigin,framing;
 
     public PlayerCamera() : base()
     {
@@ -44,7 +44,7 @@ public class PlayerCamera : Camera2D
             Rotation=Mathf.MoveToward(Rotation,0f,ROT);
         }
 
-        if(framingTransition)
+        if(framing)
         {
             float weight=1f-Mathf.Exp(-FRAMING_SMOOTHING_SPEED*delta);
             Zoom=Zoom.LinearInterpolate(framingZoom,weight);
@@ -54,10 +54,10 @@ public class PlayerCamera : Camera2D
             {
                 Zoom=framingZoom;
                 Position=framingPosition;
-                framingTransition=false;
+                framing=false;
                 if(framedTarget==null)
                 {
-                    hasFramingOrigin=false;
+                    framingOrigin=false;
                 }
             }
         }
@@ -84,11 +84,11 @@ public class PlayerCamera : Camera2D
         LimitBottom=(int)DEFAULT_LIMIT.Size.y;
     }
 
-    public void KeepPlayerAndTargetOnScreen(Node2D target)
+    public void Framing(Node2D target)
     {
         if(World.state!=Gamestate.RUNNING_FREECAM)
         {
-            RestorePlayerAndTargetFraming();
+            StopFraming(target);
             return;
         }
 
@@ -98,17 +98,17 @@ public class PlayerCamera : Camera2D
         Vector2 targetPosition=target.GlobalPosition;
         if(playerPosition.DistanceTo(targetPosition)>MAX_FRAMING_DISTANCE)
         {
-            RestorePlayerAndTargetFraming();
+            StopFraming(target);
             return;
         }
 
         if(framedTarget!=target)
         {
-            if(!hasFramingOrigin)
+            if(!framingOrigin)
             {
                 prevZoom=Zoom;
                 prevPosition=Position;
-                hasFramingOrigin=true;
+                framingOrigin=true;
             }
             framedTarget=target;
         }
@@ -123,20 +123,12 @@ public class PlayerCamera : Camera2D
 
         framingZoom=new Vector2(zoom,zoom);
         framingPosition=Player.instance.ToLocal((playerPosition+targetPosition)*0.5f);
-        framingTransition=true;
+        framing=true;
     }
 
-    public void StopKeepingPlayerAndTargetOnScreen(Node2D target)
+    public void StopFraming(Node2D target)
     {
-        if(framedTarget==target)
-        {
-            RestorePlayerAndTargetFraming();
-        }
-    }
-
-    private void RestorePlayerAndTargetFraming()
-    {
-        if(!hasFramingOrigin)
+        if(!framingOrigin||framedTarget!=target)
         {
             return;
         }
@@ -144,7 +136,7 @@ public class PlayerCamera : Camera2D
         framedTarget=null;
         framingZoom=prevZoom;
         framingPosition=prevPosition;
-        framingTransition=true;
+        framing=true;
     }
 
 }
