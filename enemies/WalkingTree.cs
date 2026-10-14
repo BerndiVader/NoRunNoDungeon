@@ -16,8 +16,8 @@ public class WalkingTree : KinematicMonster
         animationPlayer.Connect("animation_started", this, nameof(OnAnimationPlayerStarts));
         animationPlayer.Connect("animation_finished", this, nameof(OnAnimationPlayerEnded));
 
-        rayCast2D = GetNode<RayCast2D>(nameof(RayCast2D));
-        rayCast2D.Enabled = true;
+        rayCast2D=GetNode<RayCast2D>(nameof(RayCast2D));
+        rayCast2D.Enabled=true;
 
         SetSpawnFacing();
         OnIdle();
@@ -101,7 +101,7 @@ public class WalkingTree : KinematicMonster
 			base.OnDamage(player,0f);
             animationPlayer.Play("PASSANGER");
         }
-    }   
+    }
             
     protected override void FlipH()
     {

@@ -1,26 +1,34 @@
 using Godot;
 using System;
 
-public class BossTestTree : WalkingTree,IKeepOnScreen
+public class BossTestTree : WalkingTree,IFraming
 {
     public override void _PhysicsProcess(float delta)
     {
-        base._PhysicsProcess(delta);
-        KeepOnScreen();
+        goal(delta);
+        Framing();
     }
 
-    public void KeepOnScreen()
+    protected override void OnPassanger(Player player=null)
+    {
+        if(state!=STATE.passanger)
+        {
+			base.OnDamage(player,1f);
+            animationPlayer.Play("PASSANGER");
+        }
+    }    
+
+    public void Framing()
     {
         PlayerCamera.instance.Framing(this);
     }
 
     public override void _ExitTree()
     {
-        base._ExitTree();
-
         if(IsInstanceValid(PlayerCamera.instance))
         {
             PlayerCamera.instance.StopFraming(this);
         }
+        base._ExitTree();
     }
 }

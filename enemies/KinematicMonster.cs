@@ -643,7 +643,7 @@ public abstract class KinematicMonster : KinematicBody2D
                 LevelControl control=LEVELCONTROL_PACK.Instance<LevelControl>();
                 control.SetMonsterControlled(levelSettings);
                 control.Position=Position;
-                World.level.AddChild(control);
+                World.level.CallDeferred("add_child",control);
             }
         }
     }

@@ -281,8 +281,8 @@ public class World : Node
 			case Gamestate.RUNNING:
 			case Gamestate.BONUS:
 			case Gamestate.BOSS:
-				musicPlayer.StreamPaused=false;
 				PlayerCamera.instance.FixedCamMode();
+				musicPlayer.StreamPaused=false;
 				goal=SceneRunning;
 				break;
 			case Gamestate.KEEP:
