@@ -7,8 +7,10 @@ public class Placeholder : Node2D
 
     [Signal]
     public delegate void Create(InstancePlaceholder iHolder);
+    [Export] private bool USE_CHILD_RECT=false;
 
     public bool isDisposed=false;
+    
     public override void _Ready()
     {
         Visible=false;
@@ -18,12 +20,21 @@ public class Placeholder : Node2D
 
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
         notifier2D.Connect("screen_entered",this,nameof(OnEnteredScreen));
+        if(USE_CHILD_RECT)
+        {
+            if(GetChildOrNull<InstancePlaceholder>(0) is InstancePlaceholder holder)
+            {
+                if(holder.Get("scale") is Vector2 scale)
+                {
+                    notifier2D.Rect=new Rect2(notifier2D.Rect.Position,scale*16);
+                }
+            }
+        }
         AddChild(notifier2D);
-
         Connect(nameof(Create),this,nameof(OnCreate));
     }
 
-    public void OnDeferredCreate(InstancePlaceholder iHolder)
+    private void OnDeferredCreate(InstancePlaceholder iHolder)
     {
         RemoveChild(iHolder);
         iHolder.Set("position",Position);
