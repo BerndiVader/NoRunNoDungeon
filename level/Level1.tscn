@@ -150,7 +150,6 @@ position = Vector2( 1728, 146 )
 position = Vector2( 1888, 64 )
 
 [node name="Oger" parent="OgerPlaceholder3" index="0"]
-REQUEST_FRAMING = true
 LEVEL_SETTINGS = {
 "Speed": 0.0,
 "Use": true,
@@ -160,8 +159,14 @@ LEVEL_SETTINGS = {
 [node name="OgerPlaceholder4" parent="." instance=ExtResource( 6 )]
 position = Vector2( 2256, 112 )
 
+[node name="Oger" parent="OgerPlaceholder4" index="0"]
+REQUEST_FRAMING = true
+
 [node name="OgerPlaceholder5" parent="." instance=ExtResource( 6 )]
 position = Vector2( 2768, 64 )
+
+[node name="Oger" parent="OgerPlaceholder5" index="0"]
+REQUEST_FRAMING = true
 
 [node name="OgerPlaceholder6" parent="." instance=ExtResource( 6 )]
 position = Vector2( 3216, 160 )
@@ -257,6 +262,8 @@ position = Vector2( 3547, 250 )
 [editable path="SpikesUp"]
 [editable path="CoinStatic"]
 [editable path="OgerPlaceholder3"]
+[editable path="OgerPlaceholder4"]
+[editable path="OgerPlaceholder5"]
 [editable path="Placeholder"]
 [editable path="Placeholder3"]
 [editable path="FairyPlaceholder"]

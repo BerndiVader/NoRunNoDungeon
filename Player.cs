@@ -14,6 +14,8 @@ public class Player : KinematicBody2D
     private static readonly AudioStream sfxDoubleJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
     private static readonly AudioStream sfxLanding=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/45_Landing_01.wav");
     private static readonly AudioStream sfxDash=ResourceLoader.Load<AudioStream>("res://sounds/ingame/15_human_dash_2.wav");
+    private static readonly AudioStream sfxBubble=ResourceLoader.Load<AudioStream>("res://sounds/ingame/bubble.wav");
+    private static readonly AudioStream sfxBlubb=ResourceLoader.Load<AudioStream>("res://sounds/ingame/blubb.wav");
 
     public struct Floatload
     {
@@ -161,7 +163,7 @@ public class Player : KinematicBody2D
             DrawString(
                 HUD.instance.GetFont("font"),
                 new Vector2(-10f,-40f),
-                $"{Worker.cleanup_candits.Count}"
+                $"{PlayerCamera.instance.Zoom+":"+PlayerCamera.instance.Position}"
             );
         }
     }
@@ -568,6 +570,7 @@ public void SetFloating(bool floating,Floatload? load=null,Vector2? surface=null
             FLOAT_JUMP_SCALE=l.FLOAT_JUMP_SCALE;
             FLOAT_MAX_FALL_SPEED=l.FLOAT_MAX_FALL_SPEED;
             FLOAT_MOVE_MODIFIER=l.FLOAT_MOVE_MODIFIER;
+            Renderer.instance.PlaySfx(sfxBubble,GlobalPosition,5f);
         }
         if(surface.HasValue)
         {
@@ -728,6 +731,10 @@ public void SetFloating(bool floating,Floatload? load=null,Vector2? surface=null
         else
         {
             velocity.y=-JUMP_SPEED;
+        }
+        if(Floating)
+        {
+            Renderer.instance.PlaySfx(sfxBlubb,GlobalPosition,-20f);
         }
     }
 

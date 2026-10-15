@@ -121,6 +121,7 @@ public class Renderer : CanvasModulate
         SfxPlayer sfx=new SfxPlayer();
         sfx.Stream=stream;
         sfx.Position=ToLocal(globalPosition);
+        sfx.VolumeDb=volume;
         AddChild(sfx);
     }
 
