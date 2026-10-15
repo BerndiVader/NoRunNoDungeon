@@ -28,6 +28,7 @@ public abstract class KinematicMonster : KinematicBody2D
     [Export] protected bool DESTORYABLE=true;
     [Export] protected bool INTERACTABLE=false;
     [Export] protected bool COLLIDABLE=false;
+    [Export] protected bool REQUEST_FRAMING=false;
     [Export] protected float GRAVITY=500f;
     [Export] protected float FRICTION=0.01f;
     [Export] protected float STOP_FORCE=1300f;
@@ -180,6 +181,11 @@ public abstract class KinematicMonster : KinematicBody2D
         }
 
         LastPosition=GlobalPosition;
+
+        if(REQUEST_FRAMING)
+        {
+            Framing();
+        }
 
         if(ResourceUtils.DEBUG_EXT)
         {
@@ -619,6 +625,11 @@ public abstract class KinematicMonster : KinematicBody2D
         
     }
 
+    protected virtual void Framing()
+    {
+        PlayerCamera.instance.Framing(this);
+    }    
+
     private void OnScreenEntered()
     {
         wasVisible=true;
@@ -666,6 +677,11 @@ public abstract class KinematicMonster : KinematicBody2D
             {
                 levelSettings.Restore();
             }
+        }
+
+        if(REQUEST_FRAMING&&IsInstanceValid(PlayerCamera.instance))
+        {
+            PlayerCamera.instance.StopFraming(this);
         }
     }
 

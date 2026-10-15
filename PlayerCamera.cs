@@ -99,7 +99,7 @@ public class PlayerCamera : Camera2D
 
     public void Framing(Node2D target)
     {
-        if(World.state!=Gamestate.RUNNING_FREECAM)
+        if(World.state!=Gamestate.RUNNING_FREECAM&&World.state!=Gamestate.RUNNING)
         {
             StopFraming(target);
             return;

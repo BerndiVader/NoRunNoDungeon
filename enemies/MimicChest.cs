@@ -51,15 +51,12 @@ public class MimicChest : KinematicMonster
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);
-
         if(shake!=0f)
         {
             ApplyShake();
         }
-
         goal(delta);
         shader.SetShaderParam("direction",Mathf.Sign(rayCast2D.CastTo.x));
-
     }
 
     protected override void Idle(float delta)

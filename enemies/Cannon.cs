@@ -51,7 +51,6 @@ public class Cannon : KinematicMonster
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);
-
         goal(delta);
     }
 

@@ -25,6 +25,8 @@ public class Fairy : KinematicMonster
 
     public override void _PhysicsProcess(float delta)
     {
+        base._PhysicsProcess(delta);
+        
         float lastX=Position.x;
         goal(delta);
         bool direction=Position.x>lastX;

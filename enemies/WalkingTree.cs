@@ -25,6 +25,7 @@ public class WalkingTree : KinematicMonster
 
     public override void _PhysicsProcess(float delta)
     {
+        base._PhysicsProcess(delta);
         goal(delta);
     }
 
