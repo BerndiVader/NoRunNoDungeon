@@ -157,12 +157,11 @@ public class Player : KinematicBody2D
     {
         if(ResourceUtils.DEBUG_EXT)
         {
-            Vector2 screenPos = GetViewport().CanvasTransform*GlobalPosition;            
             DrawSetTransform(Vector2.Zero,0f,new Vector2(0.25f,0.25f));
             DrawString(
                 HUD.instance.GetFont("font"),
                 new Vector2(-10f,-40f),
-                $"{screenPos}"
+                $"{Worker.cleanup_candits.Count}"
             );
         }
     }
@@ -210,7 +209,6 @@ public class Player : KinematicBody2D
     public override void _PhysicsProcess(float delta)
     {
         UpdatePlayerState();
-        bool half_floating=(FLOAT_SURFACE_GLOBALPOS.y-GlobalPosition.y)>8f;
 
         if(ResourceUtils.DEBUG_EXT)
         {
@@ -399,13 +397,16 @@ public class Player : KinematicBody2D
                 doubleJump=jumping=false;
                 jumpParticles.Emitting=false;
             }
-            else if(input.JustJump&&!doubleJump&&!Floating)
+            else if(input.JustJump&&(!doubleJump||Floating))
             {
                 doubleJump=true;
                 ApplyJump();
-                jumpParticles.Start(animationController.FlipH);
-                Renderer.instance.PlaySfx(sfxDoubleJump,GlobalPosition);
-                SpawnDust(Dust.TYPE.JUMP,animationController.FlipH,true,-1f);
+                if(!Floating)
+                {
+                    jumpParticles.Start(animationController.FlipH);
+                    Renderer.instance.PlaySfx(sfxDoubleJump,GlobalPosition);
+                    SpawnDust(Dust.TYPE.JUMP,animationController.FlipH,true,-1f);
+                }
             }
         }
         else if(input.JustJump&&(!jumping&&onAirTime<JUMP_MAX_AIRBORNE_TIME*JumpModifier||Floating))

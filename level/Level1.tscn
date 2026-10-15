@@ -150,6 +150,7 @@ position = Vector2( 1728, 146 )
 position = Vector2( 1888, 64 )
 
 [node name="Oger" parent="OgerPlaceholder3" index="0"]
+REQUEST_FRAMING = true
 LEVEL_SETTINGS = {
 "Speed": 0.0,
 "Use": true,
@@ -258,6 +259,7 @@ position = Vector2( 3547, 250 )
 [editable path="OgerPlaceholder3"]
 [editable path="Placeholder"]
 [editable path="Placeholder3"]
+[editable path="FairyPlaceholder"]
 [editable path="Switch"]
 [editable path="HammerFall"]
 [editable path="ControlHolder"]
