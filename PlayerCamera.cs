@@ -18,7 +18,7 @@ public class PlayerCamera : Camera2D
     private const float MIN_ZOOM=0.3f;
 
     private const float PLAYER_MOVING_ROT_SPEED=0.06f;
-    private const float PLAYER_MOVING_ROT_ANGLE=0.02f;
+    private const float PLAYER_MOVING_ROT_ANGLE=0.016f;
 
     private const float FRAMING_ZOOM_PADDING=1.30f;
     private const float FRAMING_MAX_FRAMING_DISTANCE_SQRT=65536f;
