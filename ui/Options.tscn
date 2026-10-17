@@ -12,11 +12,11 @@ region = Rect2( 2, 2, 44, 44 )
 margin_left = -181.0
 margin_top = -152.0
 margin_right = 179.0
-margin_bottom = 158.0
+margin_bottom = 187.0
 theme = ExtResource( 1 )
 script = ExtResource( 3 )
 __meta__ = {
-"_edit_vertical_guides_": [ 16.0 ]
+"_edit_vertical_guides_": [ 16.0, -24.0, 135.0 ]
 }
 SCALE_SIZE = 0.5
 
@@ -35,9 +35,9 @@ anchor_top = 0.016
 anchor_right = 0.017
 anchor_bottom = 0.016
 margin_left = -0.12
-margin_top = 0.04
+margin_top = -0.424
 margin_right = 347.88
-margin_bottom = 299.04
+margin_bottom = 327.576
 texture = SubResource( 1 )
 expand = true
 
@@ -87,27 +87,27 @@ rounded = true
 
 [node name="Accept" type="Button" parent="."]
 margin_left = 18.0
-margin_top = 269.0
+margin_top = 299.0
 margin_right = 114.0
-margin_bottom = 298.0
+margin_bottom = 328.0
 focus_next = NodePath("../Default")
 focus_previous = NodePath("../InputSelector")
 text = "Accept"
 
 [node name="Cancel" type="Button" parent="."]
 margin_left = 250.0
-margin_top = 269.0
+margin_top = 299.0
 margin_right = 346.0
-margin_bottom = 298.0
+margin_bottom = 328.0
 focus_next = NodePath("../Sound/Overall")
 focus_previous = NodePath("../Default")
 text = "Cancel"
 
 [node name="Default" type="Button" parent="."]
 margin_left = 132.0
-margin_top = 269.0
+margin_top = 299.0
 margin_right = 228.0
-margin_bottom = 298.0
+margin_bottom = 328.0
 focus_next = NodePath("../Cancel")
 focus_previous = NodePath("../Accept")
 text = "Default"
@@ -116,15 +116,16 @@ text = "Default"
 margin_left = 16.0
 margin_top = 120.0
 margin_right = 344.0
-margin_bottom = 216.0
+margin_bottom = 250.0
 text = "     Fullscreen         No Effects
  Vertical Sync        Glow Effect
-      2d Lights               Rumble"
+      2d Lights               Rumble
+Stretch Mode"
 
 [node name="Fullscreen" type="CheckBox" parent="Screen"]
-margin_left = 139.0
+margin_left = 141.0
 margin_top = 9.0
-margin_right = 171.0
+margin_right = 173.0
 margin_bottom = 49.0
 rect_scale = Vector2( 0.5, 0.5 )
 focus_neighbour_right = NodePath("../FX")
@@ -142,9 +143,9 @@ focus_next = NodePath("../VSync")
 focus_previous = NodePath("../Fullscreen")
 
 [node name="VSync" type="CheckBox" parent="Screen"]
-margin_left = 139.0
+margin_left = 141.0
 margin_top = 37.0
-margin_right = 171.0
+margin_right = 173.0
 margin_bottom = 77.0
 rect_scale = Vector2( 0.5, 0.5 )
 focus_neighbour_right = NodePath("../Glow")
@@ -162,30 +163,39 @@ focus_next = NodePath("../Lights")
 focus_previous = NodePath("../VSync")
 
 [node name="Lights" type="CheckBox" parent="Screen"]
-margin_left = 139.0
-margin_top = 64.0
-margin_right = 171.0
-margin_bottom = 104.0
+margin_left = 141.0
+margin_top = 63.0
+margin_right = 173.0
+margin_bottom = 103.0
 rect_scale = Vector2( 0.5, 0.5 )
 focus_neighbour_right = NodePath("../Rumble")
 focus_next = NodePath("../Rumble")
 focus_previous = NodePath("../Glow")
 
 [node name="Rumble" type="CheckBox" parent="Screen"]
-margin_left = 299.0
+margin_left = 300.0
 margin_top = 64.0
-margin_right = 331.0
+margin_right = 332.0
 margin_bottom = 104.0
 rect_scale = Vector2( 0.5, 0.5 )
 focus_neighbour_left = NodePath("../Lights")
-focus_next = NodePath("../../InputSelector")
+focus_next = NodePath("../Stretch")
 focus_previous = NodePath("../Lights")
+
+[node name="Stretch" type="CheckBox" parent="Screen"]
+margin_left = 141.0
+margin_top = 89.0
+margin_right = 173.0
+margin_bottom = 129.0
+rect_scale = Vector2( 0.5, 0.5 )
+focus_next = NodePath("../../InputSelector")
+focus_previous = NodePath("../Rumble")
 
 [node name="InputSelector" type="OptionButton" parent="."]
 margin_left = 97.0
-margin_top = 230.0
+margin_top = 260.0
 margin_right = 283.0
-margin_bottom = 259.0
+margin_bottom = 289.0
 focus_next = NodePath("../Accept")
 focus_previous = NodePath("../Screen/Rumble")
 clip_text = true

@@ -10,7 +10,7 @@ public class OptionsUI : BaseUI
     public PackedScene back;
     
     private Button acceptBtn, defaultBtn, cancelBtn;
-    private CheckBox fullScreen, vSync, fx, glow, light, rumble;
+    private CheckBox fullScreen, vSync, fx, glow, light, rumble, stretch;
     private HSlider volume, sfx, background;
     private OptionButton inputSelector;
 
@@ -31,6 +31,7 @@ public class OptionsUI : BaseUI
         glow=GetNode<CheckBox>("Screen/Glow");
         light=GetNode<CheckBox>("Screen/Lights");
         rumble=GetNode<CheckBox>("Screen/Rumble");
+        stretch=GetNode<CheckBox>("Screen/Stretch");
 
         inputSelector=GetNode<OptionButton>("InputSelector");
         
@@ -61,6 +62,8 @@ public class OptionsUI : BaseUI
         light.Connect("focus_exited",this,nameof(OffFocus),new Godot.Collections.Array(light));
         rumble.Connect("focus_entered",this,nameof(OnFocus),new Godot.Collections.Array(rumble));
         rumble.Connect("focus_exited",this,nameof(OffFocus),new Godot.Collections.Array(rumble));
+        stretch.Connect("focus_entered",this,nameof(OnFocus),new Godot.Collections.Array(stretch));
+        stretch.Connect("focus_exited",this,nameof(OffFocus),new Godot.Collections.Array(stretch));
 
         fullScreen.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(fullScreen));
         vSync.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(vSync));
@@ -68,6 +71,7 @@ public class OptionsUI : BaseUI
         glow.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(glow));
         light.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(light));
         rumble.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(rumble));
+        stretch.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(stretch));
         inputSelector.Connect("button_up",this,nameof(OnButtonUp),new Godot.Collections.Array(inputSelector));
 
         acceptBtn.CallDeferred("grab_focus");
@@ -120,6 +124,7 @@ public class OptionsUI : BaseUI
                 GameSettings.current.Glow=glow.Pressed;
                 GameSettings.current.Light=light.Pressed;
                 GameSettings.current.Rumble=rumble.Pressed;
+                GameSettings.current.Stretch=stretch.Pressed;
 
                 List<GameSettings.InputCandit>inputs=GameSettings.AvailInputs();
                 string name=inputSelector.GetItemText(inputSelector.Selected);
@@ -157,6 +162,10 @@ public class OptionsUI : BaseUI
             case "Cancel":
                 Back();
                 break;
+            case "Stretch":
+                PlaySfx(sfxClick);
+                GameSettings.current.StretchMode(this,stretch.Pressed);
+                break;
             case "Fullscreen":
                 PlaySfx(sfxClick);
                 OS.WindowFullscreen=fullScreen.Pressed;
@@ -191,6 +200,7 @@ public class OptionsUI : BaseUI
         glow.Pressed=GameSettings.current.Glow;
         light.Pressed=GameSettings.current.Light;
         rumble.Pressed=GameSettings.current.Rumble;
+        stretch.Pressed=GameSettings.current.Stretch;
 
         List<GameSettings.InputCandit>inputs=GameSettings.AvailInputs();
         inputSelector.Clear();

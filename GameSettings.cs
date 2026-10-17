@@ -15,6 +15,7 @@ public static class GameSettings
         public bool Glow {get;set;}
         public bool Light {get;set;}
         public bool Rumble {get;set;}
+        public bool Stretch {get;set;}
         public Viewport.UsageEnum Usage {get;set;}
         public float WindowSizeX{get;set;}
         public float WindowSizeY{get;set;}
@@ -53,6 +54,7 @@ public static class GameSettings
             Light=true;
             Glow=true;
             Rumble=true;
+            Stretch=true;
             LowProcessorUsageMode=false;
             KeepScreenOn=true;
             TargetFps=0;
@@ -68,6 +70,7 @@ public static class GameSettings
         {
             SetAll();
             node.GetTree().Root.Usage=Usage;
+            StretchMode(node,Stretch);
         }
 
         private void SetAll()
@@ -85,6 +88,19 @@ public static class GameSettings
             OS.LowProcessorUsageMode=LowProcessorUsageMode;
             OS.KeepScreenOn=KeepScreenOn;
             Engine.TargetFps=TargetFps;
+            
+        }
+
+        public void StretchMode(Node node,bool stretch)
+        {
+            SceneTree.StretchMode mode=stretch?SceneTree.StretchMode.Mode2d:SceneTree.StretchMode.Viewport;
+            node.GetTree().SetScreenStretch
+                (
+                    mode,
+                    SceneTree.StretchAspect.Keep,
+                    World.RESOLUTION,
+                    1f
+                );
         }
 
         public Config Clone()
