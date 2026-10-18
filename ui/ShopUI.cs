@@ -13,6 +13,7 @@ public class ShopUI : TabContainer
     public Shopkeeper owner;
 
     private AnimatedSprite icons;
+    private int tabSum;
 
     public override void _Ready()
     {
@@ -24,6 +25,8 @@ public class ShopUI : TabContainer
         SetTabTitle(0,"");
         SetTabTitle(1,"");
         SetTabTitle(2,"");
+        
+        tabSum=GetTabCount();
 
         SetPhysicsProcess(false);
         SetProcess(false);
@@ -33,24 +36,27 @@ public class ShopUI : TabContainer
     public override void _PhysicsProcess(float delta)
     {
 
-        if(GetTree().Paused&&Visible)
+        if(!IsInstanceValid(owner))
         {
+            SetPhysicsProcess(false);
+            CallDeferred("queue_free");
+        }
+        else if(World.state==Gamestate.PAUSED&&Visible)
+        {
+            SetPhysicsProcess(false);
             Visible=false;
             HUD.instance.RemoveChild(this);
             owner.AddChild(this);
-            SetPhysicsProcess(false);
         }
         else
         {
-            int sum=GetTabCount();
-
             if(Player.instance.input.JustRight)
             {
-                CurrentTab=(CurrentTab+sum+1)%sum;
+                CurrentTab=(CurrentTab+tabSum+1)%tabSum;
             }
             else if(Player.instance.input.JustLeft)
             {
-                CurrentTab=(CurrentTab+sum-1)%sum;
+                CurrentTab=(CurrentTab+tabSum-1)%tabSum;
             }
             else if(Player.instance.input.Down)
             {
@@ -70,8 +76,8 @@ public class ShopUI : TabContainer
     public void Init()
     {
         CurrentTab=0;
-        int sum=GetTabCount();
-        for(int i=0;i<sum;i++)
+        tabSum=GetTabCount();
+        for(int i=0;i<tabSum;i++)
         {
             ScrollContainer scroller=GetTabControl(i).GetNode<ScrollContainer>("ScrollContainer");
             scroller.ScrollVertical=0;

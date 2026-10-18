@@ -33,9 +33,7 @@ public class Worker : Thread
 		SetStatus(State.IDLE);
 		quit=false;
 		Start(this,nameof(Runner));
-		CLEANUP_DISTANCE_SQRT=(World.RESOLUTION.x+World.RESOLUTION.y)*0.5f;
-		CLEANUP_DISTANCE_SQRT*=CLEANUP_DISTANCE_SQRT;
-		CLEANUP_DISTANCE_SQRT*=2f;
+		CLEANUP_DISTANCE_SQRT=World.RESOLUTION.LengthSquared()*2f;
 	}
 
 	private void Runner()
@@ -90,7 +88,7 @@ public class Worker : Thread
 		{
 			InstantiatePlaceholder(p);
 		}
-		else if(cleanup_candits.Count>0&&World.state<Gamestate.BONUS&&Time.GetTicksMsec()>NEXT_CLEANUP)
+		else if(cleanup_candits.Count>0&&World.state==Gamestate.RUNNING&&Time.GetTicksMsec()>NEXT_CLEANUP)
 		{
 			Cleanup();
 		}

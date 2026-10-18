@@ -61,7 +61,7 @@ public class World : Node
 	{
 		if(!node.IsQueuedForDeletion())
 		{
-			if(PlayerCamera.instance.Zoom.x==1f&&state<Gamestate.BONUS)
+			if(state==Gamestate.RUNNING&&PlayerCamera.instance.Zoom.x==1f)
 			{
 				node.CallDeferred("queue_free");
 			}
