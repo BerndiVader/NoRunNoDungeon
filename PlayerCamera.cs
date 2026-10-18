@@ -11,17 +11,15 @@ public class PlayerCamera : Camera2D
         NONE=0
     }
 
-
-
     [Export] private float SMOOTHING_SPEED=2f;
-
-    private const float MIN_ZOOM=0.35f;
 
     private const float PLAYER_MOVING_ROT_SPEED=0.06f;
     private const float PLAYER_MOVING_ROT_ANGLE=0.016f;
 
+    private const float MIN_ZOOM=0.3f;
+    private const float MAX_ZOOM=1.7f;
     private const float FRAMING_ZOOM_PADDING=1.60f;
-    private const float FRAMING_MAX_FRAMING_DISTANCE_SQRT=65536f;
+    private const float FRAMING_MAX_FRAMING_DISTANCE_SQRT=350f*350f;
     private const float FRAMING_SMOOTHING_SPEED=4f;
 
     public static PlayerCamera instance;
@@ -139,7 +137,7 @@ public class PlayerCamera : Camera2D
             separation.x/DEFAULT_LIMIT.Size.x,
             separation.y/DEFAULT_LIMIT.Size.y
         )*FRAMING_ZOOM_PADDING;
-        float zoom=Mathf.Max(MIN_ZOOM,requiredZoom);
+        float zoom=Mathf.Clamp(requiredZoom,MIN_ZOOM,MAX_ZOOM);
 
         framingZoom=new Vector2(zoom,zoom);
         framingPosition=Player.instance.ToLocal((playerPosition+targetPosition)*0.5f);
