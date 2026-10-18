@@ -208,7 +208,7 @@ public class World : Node
 				}
 			}
 			
-		}		
+		}
 	}
 
 	private void SceneRunning(float delta)

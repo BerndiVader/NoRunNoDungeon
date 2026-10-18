@@ -15,12 +15,12 @@ public class PlayerCamera : Camera2D
 
     [Export] private float SMOOTHING_SPEED=2f;
 
-    private const float MIN_ZOOM=0.3f;
+    private const float MIN_ZOOM=0.35f;
 
     private const float PLAYER_MOVING_ROT_SPEED=0.06f;
     private const float PLAYER_MOVING_ROT_ANGLE=0.016f;
 
-    private const float FRAMING_ZOOM_PADDING=1.30f;
+    private const float FRAMING_ZOOM_PADDING=1.60f;
     private const float FRAMING_MAX_FRAMING_DISTANCE_SQRT=65536f;
     private const float FRAMING_SMOOTHING_SPEED=4f;
 
@@ -107,7 +107,8 @@ public class PlayerCamera : Camera2D
 
         Vector2 playerPosition=Player.instance.GlobalPosition;
         Vector2 targetPosition=target.GlobalPosition;
-        if(playerPosition.DistanceSquaredTo(targetPosition)>FRAMING_MAX_FRAMING_DISTANCE_SQRT)
+        float distance=playerPosition.DistanceSquaredTo(targetPosition);
+        if(distance>FRAMING_MAX_FRAMING_DISTANCE_SQRT)
         {
             StopFraming(target);
             return;
@@ -120,8 +121,16 @@ public class PlayerCamera : Camera2D
                 prevZoom=Zoom;
                 prevPosition=Position;
                 framingOrigin=true;
+                framedTarget=target;
             }
-            framedTarget=target;
+            else if(framedTarget==null||distance<playerPosition.DistanceSquaredTo(framedTarget.GlobalPosition))
+            {
+                framedTarget=target;
+            }
+            else
+            {
+                return;
+            }
         }
 
         Vector2 separation=(targetPosition-playerPosition).Abs();
