@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -12,9 +12,7 @@
 [ext_resource path="res://placeholders/LiquidHolder.tscn" type="PackedScene" id=10]
 [ext_resource path="res://placeholders/obstacles/SpikesUp.tscn" type="PackedScene" id=11]
 [ext_resource path="res://placeholders/platforms/PlatformMoving2x2.tscn" type="PackedScene" id=12]
-[ext_resource path="res://placeholders/platforms/PlatformCycling3x1.tscn" type="PackedScene" id=13]
-[ext_resource path="res://placeholders/platforms/PlatformFalling.tscn" type="PackedScene" id=14]
-[ext_resource path="res://placeholders/platforms/PlatformStatic1x1.tscn" type="PackedScene" id=15]
+[ext_resource path="res://placeholders/platforms/PlatformStatic3x3.tscn" type="PackedScene" id=13]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -213,10 +211,10 @@ position = Vector2( 2024, 508 )
 position = Vector2( 2039, 508 )
 
 [node name="SpikesUp10" parent="." instance=ExtResource( 11 )]
-position = Vector2( 2055, 508 )
+position = Vector2( 2137, 513 )
 
 [node name="SpikesUp11" parent="." instance=ExtResource( 11 )]
-position = Vector2( 2071, 512 )
+position = Vector2( 2121, 512 )
 
 [node name="SpikesUp12" parent="." instance=ExtResource( 11 )]
 position = Vector2( 2240, 510 )
@@ -280,35 +278,17 @@ LIQUID = 1
 position = Vector2( 2128, 424 )
 
 [node name="MovingPlatform0" parent="PlatformMoving2x2" index="0"]
-MaxSpeed = 50.0
+MaxSpeed = 60.0
 Length = 5
+Linear = false
 
-[node name="PlatformMoving2x3" parent="." instance=ExtResource( 12 )]
-position = Vector2( 2112, 280 )
+[node name="PlatformHolder" parent="." instance=ExtResource( 13 )]
+position = Vector2( 848, 235 )
 
-[node name="MovingPlatform0" parent="PlatformMoving2x3" index="0"]
-Direction = Vector2( 1, 0 )
-
-[node name="PlatformCycling" parent="." instance=ExtResource( 13 )]
-position = Vector2( 2192, 306 )
-
-[node name="PlatformHolder" parent="." instance=ExtResource( 15 )]
-position = Vector2( 1969, 280 )
-
-[node name="PlatformFalling" parent="." instance=ExtResource( 14 )]
-position = Vector2( 2056, 312 )
-
-[node name="FallingPlatform" parent="PlatformFalling" index="0"]
-BUMP_STRENGTH = 1.0
-
-[node name="PlatformHolder2" parent="." instance=ExtResource( 15 )]
-position = Vector2( 1986, 280 )
-
-[node name="PlatformHolder3" parent="." instance=ExtResource( 15 )]
-position = Vector2( 2003, 280 )
-
-[node name="PlatformHolder4" parent="." instance=ExtResource( 15 )]
-position = Vector2( 1952, 280 )
+[node name="StaticPlatform3x3" parent="PlatformHolder" index="0"]
+HIDEABLE = true
+IS_HIDING = true
+HIDE_USAGE = 3
 
 [editable path="Placeholder"]
 [editable path="ControlHolder"]
@@ -323,5 +303,4 @@ position = Vector2( 1952, 280 )
 [editable path="LiquidHolder"]
 [editable path="LiquidHolder2"]
 [editable path="PlatformMoving2x2"]
-[editable path="PlatformMoving2x3"]
-[editable path="PlatformFalling"]
+[editable path="PlatformHolder"]

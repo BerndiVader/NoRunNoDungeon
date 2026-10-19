@@ -12,7 +12,8 @@ height = 18.0
 collision_layer = 4
 collision_mask = 0
 script = ExtResource( 1 )
-BUMP_STRENGTH = 3.0
+BUMP_STRENGTH = 1.0
+BUMP_STRENGTH_SOFT = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -1 )
