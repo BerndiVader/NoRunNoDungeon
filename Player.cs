@@ -378,7 +378,7 @@ public class Player : KinematicBody2D
                 
                 if(collision.Collider is Platform platform)
                 {
-                    platformSpeed=platform.CurrentSpeed;
+                    platformSpeed=platform.Velocity;
                 }
             }
 

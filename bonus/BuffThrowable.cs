@@ -40,7 +40,7 @@ public abstract class BuffThrowable : PhysicsObject
             if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
                 Platform collider=(Platform)node;
-                velocity.x+=collider.CurrentSpeed.x*0.36f;
+                velocity.x+=collider.Velocity.x*0.36f;
             }
         }
     }

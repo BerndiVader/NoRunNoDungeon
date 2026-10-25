@@ -30,7 +30,7 @@ public abstract class PhysicsObject : KinematicBody2D
             if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
             {
                 Platform collider=(Platform)node;
-                velocity.x+=collider.CurrentSpeed.x*0.35f;
+                velocity.x+=collider.Velocity.x*0.35f;
             }
 
         }

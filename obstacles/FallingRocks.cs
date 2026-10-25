@@ -64,7 +64,7 @@ public class FallingRocks : StaticBody2D,ISwitchable
             case State.FALLING:
                 if(colliding)
                 {
-                    velocity=collider.CurrentSpeed;
+                    velocity=collider.Velocity;
                 }
                 else
                 {
@@ -75,7 +75,7 @@ public class FallingRocks : StaticBody2D,ISwitchable
             case State.FALLEN:
                 if(colliding)
                 {
-                    velocity=collider.CurrentSpeed;
+                    velocity=collider.Velocity;
                     Translate(velocity*delta);
                 }
                 break;

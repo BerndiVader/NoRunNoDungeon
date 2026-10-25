@@ -38,7 +38,7 @@ public class PhysicsBlock : PhysicsObject
                 var collision=GetSlideCollision(i);
                 if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
                 {
-                    velocity.x=platform.CurrentSpeed.x;
+                    velocity.x=platform.Velocity.x;
                 }
                 else
                 {
