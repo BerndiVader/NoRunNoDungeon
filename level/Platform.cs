@@ -33,7 +33,7 @@ public class Platform : StaticBody2D,ISwitchable
     protected bool playerOn=false;
     protected Vector2 startPosition,lastPosition;
     
-    public Vector2 CurrentSpeed;
+    public Vector2 Velocity;
 
     protected CollisionShape2D collision;
     protected Timer hidingTimer;
@@ -64,7 +64,7 @@ public class Platform : StaticBody2D,ISwitchable
         }
 
         startPosition=lastPosition=Position;
-        CurrentSpeed=new Vector2(0f,0f);
+        Velocity=new Vector2(0f,0f);
 
         AddToGroup(GROUPS.PLATFORMS.ToString());
     }
@@ -102,6 +102,28 @@ public class Platform : StaticBody2D,ISwitchable
         }
     }
 
+    private void SwitchHiding()
+    {
+        if(isHiding&&playerOn)
+        {
+            hidingTimer.WaitTime=0.5f;
+            hidingTimer.Start();
+            return;
+        }
+
+        float duration=wasActive?HIDE_TWEEN_TIME:0f;
+        wasActive=true;
+        isHiding=!isHiding;
+        collision.Disabled=isHiding;
+        TweenHideAmount(isHiding?1f:0f,duration);
+        
+        if(HIDE_USAGE==PLATFORMSTATE.NORMAL)
+        {
+            hidingTimer.WaitTime=HIDE_TIMER;
+            hidingTimer.Start();
+        }
+    }
+
     private void SetHideAmount(float value)
     {
         hideAmount=value;
@@ -124,27 +146,22 @@ public class Platform : StaticBody2D,ISwitchable
         hideTween.Start();
     }
 
-    private void SwitchHiding()
+    protected void HideAreaEntered()
     {
-        if(isHiding&&playerOn)
+        if(hidingTimer.TimeLeft>0f)
         {
-            hidingTimer.WaitTime=0.5f;
-            hidingTimer.Start();
             return;
         }
-
-        float duration=wasActive?HIDE_TWEEN_TIME:0f;
-        wasActive=true;
-        isHiding=!isHiding;
-        collision.Disabled=isHiding;
-        TweenHideAmount(isHiding?1f:0f,duration);
-        
-        if(HIDE_USAGE==PLATFORMSTATE.NORMAL)
+        if(HIDE_USAGE==PLATFORMSTATE.ONPLAYER)
         {
             hidingTimer.WaitTime=HIDE_TIMER;
             hidingTimer.Start();
         }
     }
+
+    protected void HideareaExited()
+    {
+    }   
 
     private void CreateBumpArea()
     {
@@ -199,6 +216,10 @@ public class Platform : StaticBody2D,ISwitchable
                 if(HIDEABLE)
                 {
                     HideAreaEntered();
+                    if(isHiding)
+                    {
+                        return;
+                    }
                 }
 
                 if(!bumpTween.IsActive())
@@ -222,23 +243,6 @@ public class Platform : StaticBody2D,ISwitchable
                 HideareaExited();
             }
         }
-    }
-
-    protected void HideAreaEntered()
-    {
-        if(hidingTimer.TimeLeft>0f)
-        {
-            return;
-        }
-        if(HIDE_USAGE==PLATFORMSTATE.ONPLAYER)
-        {
-            hidingTimer.WaitTime=HIDE_TIMER;
-            hidingTimer.Start();
-        }
-    }
-
-    protected void HideareaExited()
-    {
     }
 
     protected bool BumpActive()

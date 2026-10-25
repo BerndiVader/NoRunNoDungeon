@@ -43,6 +43,7 @@ public class MovingPlatform : Platform
 
         if(((int)distance)>maxDistance)
         {
+            Position=startPosition+Direction*(Length*16f);
             Direction*=-1;
             if(platformState==PLATFORMSTATE.ONETIME||platformState==PLATFORMSTATE.SWITCH)
             {
@@ -57,12 +58,12 @@ public class MovingPlatform : Platform
         }
 
         speed=Mathf.Min(speed,MaxSpeed);
-        CurrentSpeed=Direction*speed;
-        Translate(CurrentSpeed*delta);
-        if(!IsPhysicsProcessing())
+        Velocity=Direction*speed;
+        if(!moving)
         {
-            CurrentSpeed=Vector2.Zero;
+            Velocity=Vector2.Zero;
         }
+        Translate(Velocity*delta);
     }
 
     public override void SwitchCall(string id)
