@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - The Dwarven Citadel of Grimhold.mp3-03516753786bfbdef66cbe5bf6773cc1.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age Legendry - The Dwarven Citadel of Grimhold.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - The Dwarven Citadel of Grimhold.mp3-03516753786bfbdef66cbe5bf6773cc1.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

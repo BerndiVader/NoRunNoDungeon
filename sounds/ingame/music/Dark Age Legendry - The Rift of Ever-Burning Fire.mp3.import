@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - The Rift of Ever-Burning Fire.mp3-3290de34f5e050e7980550584ffe2d10.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age Legendry - The Rift of Ever-Burning Fire.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - The Rift of Ever-Burning Fire.mp3-3290de34f5e050e7980550584ffe2d10.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

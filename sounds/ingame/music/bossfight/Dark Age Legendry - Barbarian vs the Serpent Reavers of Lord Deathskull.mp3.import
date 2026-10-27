@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - Barbarian vs the Serpent Reavers of Lord Deathskull.mp3-4805e97723a71aebeb0eaae07100ccdb.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/bossfight/Dark Age Legendry - Barbarian vs the Serpent Reavers of Lord Deathskull.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - Barbarian vs the Serpent Reavers of Lord Deathskull.mp3-4805e97723a71aebeb0eaae07100ccdb.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

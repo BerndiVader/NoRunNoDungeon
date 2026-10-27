@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - The Mighty Citadel of Deathskull Crag.mp3-14472dc1e7bb4a8bbbf9bc5be41f5893.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/bossfight/Dark Age Legendry - The Mighty Citadel of Deathskull Crag.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - The Mighty Citadel of Deathskull Crag.mp3-14472dc1e7bb4a8bbbf9bc5be41f5893.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

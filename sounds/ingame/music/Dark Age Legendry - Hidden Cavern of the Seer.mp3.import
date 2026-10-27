@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - Hidden Cavern of the Seer.mp3-aa290ba95fd1d43d1d620f1671104ac3.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age Legendry - Hidden Cavern of the Seer.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - Hidden Cavern of the Seer.mp3-aa290ba95fd1d43d1d620f1671104ac3.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -124,7 +124,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest10.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTestTerra.tscn"));
         }
         else
         {
@@ -210,13 +210,16 @@ public static class ResourceUtils
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Spear.tscn"));
 
         Console.WriteLine("Loading ingame musics...");
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 01 Stronghold Of The Barbarians.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 02 The Lightning - Riven Crag Of Lord Doom.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 03 Orcs And Goblins Emerge From The Bogswamps.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 05 Battle Theme I.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 09 The Rift Of Ever - Burning Fire.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age 10 Battle Theme II - 1.mp3"));
-
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Barbarians & Elves Battle Against Doom Giants & Greenskins.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Barbarians & Elves vs Lord Doom & The Giants (Greenskins vs Everybody).mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Hidden Cavern of the Seer.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Mountain Fortress of the Storm Giants.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Orcs & Goblins Emerge From the Bogswamps.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Shadows Over the Realm of the Sylvan Elves.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Stronghold of the Barbarians.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - The Dwarven Citadel of Grimhold.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - The Lightning-Riven Crag of Lord Doom.mp3"));
+        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - The Rift of Ever-Burning Fire.mp3"));
 
         Console.WriteLine("Done!");
     }

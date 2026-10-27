@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - Barbarians & Elves Battle Against Doom Giants & Greenskins.mp3-83de1bffb27793c549c341bbc653a9a3.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age Legendry - Barbarians & Elves Battle Against Doom Giants & Greenskins.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - Barbarians & Elves Battle Against Doom Giants & Greenskins.mp3-83de1bffb27793c549c341bbc653a9a3.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

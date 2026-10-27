@@ -42,7 +42,6 @@ public class Cannonball : KinematicMonster
         if(EXPLODE_AFTER_MS!=0)
         {
             GetTree().CreateTimer(1f).Connect("timeout",this,nameof(OnAttack));
-
         }
     }
 

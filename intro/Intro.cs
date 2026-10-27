@@ -4,7 +4,7 @@ using System;
 public class Intro : Node
 {
 	private static InputController input;
-	private static readonly AudioStreamMP3 MUSIC=ResourceLoader.Load<AudioStreamMP3>("res://sounds/title/Dark Age 11 Heroic Victory - 1.mp3");
+	private static readonly AudioStreamMP3 MUSIC=ResourceLoader.Load<AudioStreamMP3>("res://sounds/title/Dark Age Legendry - Heroic Victory.mp3");
 	private readonly AudioStreamPlayer2D MUSIC_PLAYER=new AudioStreamPlayer2D();
 	private bool onOptions=false;
 	

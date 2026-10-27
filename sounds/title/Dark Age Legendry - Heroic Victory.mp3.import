@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - Heroic Victory.mp3-984bf53cb53f3d65f706e7224a178884.mp3str"
+
+[deps]
+
+source_file="res://sounds/title/Dark Age Legendry - Heroic Victory.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - Heroic Victory.mp3-984bf53cb53f3d65f706e7224a178884.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

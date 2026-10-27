@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - Orcs & Goblins Emerge From the Bogswamps.mp3-f3dd1313bd39767caa13d3c2e595a26b.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age Legendry - Orcs & Goblins Emerge From the Bogswamps.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - Orcs & Goblins Emerge From the Bogswamps.mp3-f3dd1313bd39767caa13d3c2e595a26b.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

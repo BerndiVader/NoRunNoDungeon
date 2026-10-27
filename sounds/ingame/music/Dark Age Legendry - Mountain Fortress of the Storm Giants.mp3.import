@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - Mountain Fortress of the Storm Giants.mp3-da1278e51bdfa31f3368da5d2b4c0661.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age Legendry - Mountain Fortress of the Storm Giants.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - Mountain Fortress of the Storm Giants.mp3-da1278e51bdfa31f3368da5d2b4c0661.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - The Final Battle： Barbarian Smites Lord Deathskull.mp3-b7c27887c0533cd476ca7d870d2c31b6.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/bossfight/Dark Age Legendry - The Final Battle： Barbarian Smites Lord Deathskull.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - The Final Battle： Barbarian Smites Lord Deathskull.mp3-b7c27887c0533cd476ca7d870d2c31b6.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

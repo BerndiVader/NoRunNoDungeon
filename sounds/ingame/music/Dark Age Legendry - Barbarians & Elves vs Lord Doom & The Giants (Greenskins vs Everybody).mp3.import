@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - Barbarians & Elves vs Lord Doom & The Giants (Greenskins vs Everybody).mp3-79013f797e9b2ff4cc64312ea70a6f6f.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/Dark Age Legendry - Barbarians & Elves vs Lord Doom & The Giants (Greenskins vs Everybody).mp3"
+dest_files=[ "res://.import/Dark Age Legendry - Barbarians & Elves vs Lord Doom & The Giants (Greenskins vs Everybody).mp3-79013f797e9b2ff4cc64312ea70a6f6f.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

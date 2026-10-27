@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Dark Age Legendry - Cursed Mountains of the Serpent Lord.mp3-910cf6c16425a874c74752989d85cdc8.mp3str"
+
+[deps]
+
+source_file="res://sounds/ingame/music/bossfight/Dark Age Legendry - Cursed Mountains of the Serpent Lord.mp3"
+dest_files=[ "res://.import/Dark Age Legendry - Cursed Mountains of the Serpent Lord.mp3-910cf6c16425a874c74752989d85cdc8.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
