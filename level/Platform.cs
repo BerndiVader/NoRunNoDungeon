@@ -3,6 +3,9 @@ using System.Linq;
 
 public class Platform : StaticBody2D,ISwitchable
 {
+
+    private static readonly Shader HIDE_SHADER=ResourceLoader.Load<Shader>("res://shaders/HideGhost.gdshader");
+
     protected enum PLATFORMSTATE
     {
         NORMAL,
@@ -72,7 +75,7 @@ public class Platform : StaticBody2D,ISwitchable
     private void CreateHideable()
     {
         sprites=GetChildren().OfType<Sprite>().ToArray();
-        Shader hideShader=GD.Load<Shader>("res://shaders/HideGhost.gdshader");
+        Shader hideShader=(Shader)HIDE_SHADER.Duplicate();
         foreach(Sprite sprite in sprites)
         {
             sprite.Material=new ShaderMaterial{Shader=hideShader};
@@ -80,6 +83,7 @@ public class Platform : StaticBody2D,ISwitchable
         }
 
         hideTween=new Tween();
+        hideTween.Connect("tween_all_completed",this,nameof(HideTweenComplete));
         AddChild(hideTween);
 
         hidingTimer=new Timer();
@@ -87,6 +91,8 @@ public class Platform : StaticBody2D,ISwitchable
         hidingTimer.OneShot=true;
         AddChild(hidingTimer);
 
+        collision.Disabled=isHiding;
+        
         isHiding=!isHiding;
         SwitchHiding();
 
@@ -114,7 +120,11 @@ public class Platform : StaticBody2D,ISwitchable
         float duration=wasActive?HIDE_TWEEN_TIME:0f;
         wasActive=true;
         isHiding=!isHiding;
-        collision.Disabled=isHiding;
+        if(!isHiding)
+        {
+            collision.Disabled=isHiding;
+        }
+
         TweenHideAmount(isHiding?1f:0f,duration);
         
         if(HIDE_USAGE==PLATFORMSTATE.NORMAL)
@@ -144,6 +154,11 @@ public class Platform : StaticBody2D,ISwitchable
         hideTween.RemoveAll();
         hideTween.InterpolateMethod(this,nameof(SetHideAmount),hideAmount,target,duration,Tween.TransitionType.Linear,Tween.EaseType.InOut);
         hideTween.Start();
+    }
+
+    protected void HideTweenComplete()
+    {
+        collision.Disabled=isHiding;
     }
 
     protected void HideAreaEntered()
