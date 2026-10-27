@@ -371,9 +371,8 @@ public class Player : KinematicBody2D
 
                 if(!jumping&&slopeAngle==0f&&collision.Collider.HasUserSignal(STATE.passanger.ToString()))
                 {
-                    ApplyJump();
-                    justJumped=jumping=true;
                     collision.Collider.EmitSignal(STATE.passanger.ToString(),this);
+                    justJumped=jumping=true;
                 }
                 
                 if(collision.Collider is Platform platform)
@@ -721,11 +720,16 @@ public void SetFloating(bool floating,Floatload? load=null,Vector2? surface=null
         }
     }
 
-    private void ApplyJump(bool ignore=false,Vector2? modifier=null)
+    public void ApplyJump(bool ignore=false,Vector2? modifier=null)
     {
-        if(!ignore)
+        if(!ignore&&!modifier.HasValue)
         {
             float value=JUMP_SPEED*JumpModifier-(levelDirection.y*levelSpeed);
+            velocity.y=-value;
+        }
+        else if(modifier.HasValue)
+        {
+            float value=JUMP_SPEED*modifier.Value.y-(levelDirection.y*levelSpeed);
             velocity.y=-value;
         }
         else

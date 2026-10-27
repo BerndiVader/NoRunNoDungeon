@@ -375,6 +375,8 @@ public abstract class KinematicMonster : KinematicBody2D
                 player=Player.instance;
             }
 
+            player.ApplyJump();
+
             Renderer.instance.Shake(1f);
             lastState=state;
             state=STATE.passanger;

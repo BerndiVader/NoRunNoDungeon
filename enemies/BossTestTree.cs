@@ -14,6 +14,7 @@ public class BossTestTree : WalkingTree
         if(state!=STATE.passanger)
         {
 			base.OnDamage(player,1f);
+            player?.ApplyJump();
             animationPlayer.Play("PASSANGER");
         }
     }

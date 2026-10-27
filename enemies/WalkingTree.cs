@@ -101,6 +101,7 @@ public class WalkingTree : KinematicMonster
         {
 			base.OnDamage(player,0f);
             animationPlayer.Play("PASSANGER");
+            player?.ApplyJump();
         }
     }
             
