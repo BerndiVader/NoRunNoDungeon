@@ -70,7 +70,8 @@ public class MovingPlatform : Platform
     {
         if(switchID==id&&!moving)
         {
-            SetPhysicsProcess(true);
+            moving=true;
+            SetPhysicsProcess(moving);
         }
     }
 

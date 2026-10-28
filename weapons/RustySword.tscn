@@ -371,7 +371,6 @@ rotation = -2.35619
 collision_layer = 128
 collision_mask = 32
 script = ExtResource( 2 )
-USE_SHADER = false
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

@@ -219,9 +219,7 @@ emission_rect_extents = Vector2( 5, 0 )
 
 [node name="KnifeMonster" parent="." instance=ExtResource( 2 )]
 position = Vector2( 8, 0 )
-
-[node name="CollisionShape2D" parent="KnifeMonster" index="1"]
-disabled = true
+COOLDOWN = 0.5
 
 [node name="PlayerCast" type="RayCast2D" parent="."]
 cast_to = Vector2( 30, 0 )

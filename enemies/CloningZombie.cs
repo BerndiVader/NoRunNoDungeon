@@ -230,9 +230,9 @@ public class CloningZombie : KinematicMonster
     {
         if(forcedState)
         {
-            return;
+            player?.ApplyJump();
         }
-        if(state!=STATE.passanger)
+        else if(state!=STATE.passanger)
         {
             base.OnPassanger(player);
             animationPlayer.Play("PASSANGER");

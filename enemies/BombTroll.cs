@@ -9,6 +9,7 @@ public class BombTroll : KinematicMonster
     [Export] private float WALK_MAX_SPEED=60f;
     [Export] private double THROW_DELAY_MS=1000d;
     [Export] private float CANNON_INITIAL_FORCE=100f;
+    [Export] private bool RANDOM_THROWABLE=false;
     [Export] private Dictionary<string,object>CANNONBALL_SETTINGS=Cannonball.GetDefaults();
 
     private RayCast2D rayCast2D;
@@ -153,7 +154,10 @@ public class BombTroll : KinematicMonster
         {
             lastState=state;
             state=STATE.alert;
-            throwable.Animation=MathUtils.RandBool()?"BOMB":"POTION";
+            if(RANDOM_THROWABLE)
+            {
+                throwable.Animation=MathUtils.RandBool()?"BOMB":"POTION";
+            }
             throwable.Visible=true;
             throwable.Play();
             timestamp=Time.GetTicksMsec();
