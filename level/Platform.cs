@@ -103,6 +103,9 @@ public class Platform : StaticBody2D,ISwitchable
                 hidingTimer.WaitTime=HIDE_TIMER;
                 hidingTimer.Start();
                 break;
+            case PLATFORMSTATE.SWITCH:
+                AddToGroup(GROUPS.SWITCHABLES.ToString());
+                break;
             default:
                 break;
         }
@@ -267,6 +270,10 @@ public class Platform : StaticBody2D,ISwitchable
 
     public virtual void SwitchCall(string id)
     {
+        if(HIDE_USAGE==PLATFORMSTATE.SWITCH)
+        {
+            SwitchHiding();
+        }
         return;
     }
 }
