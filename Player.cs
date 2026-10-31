@@ -317,12 +317,6 @@ public class Player : KinematicBody2D
         if(Floating&&velocity.y>FLOAT_MAX_FALL_SPEED) velocity.y=FLOAT_MAX_FALL_SPEED;
         if(dashDirection==0) velocity.x=Mathf.Min(Mathf.Abs(velocity.x),WALK_MAX_SPEED*speedModifier)*Mathf.Sign(velocity.x);
 
-        if(platformSpeed!=Vector2.Zero&&velocity.x==0f)
-        {
-            velocity.x=platformSpeed.x*1.65f*friction;
-        }
-        platformSpeed=Vector2.Zero;
-
         if(justJumped)
         {
             SpawnDust(Dust.TYPE.JUMP,animationController.FlipH);
@@ -331,11 +325,11 @@ public class Player : KinematicBody2D
         }
         else
         {
+            Vector2 carry=platformSpeed+(Floating?levelDirection*levelSpeed*FLOAT_CARRY_FACTOR:Vector2.Zero);
             Vector2 snap=jumping?Vector2.Zero:new Vector2(0f,4f);
-            Vector2 carry=Floating?levelDirection*levelSpeed*FLOAT_CARRY_FACTOR:Vector2.Zero;
             velocity=MoveAndSlideWithSnap(velocity+carry,snap,Vector2.Up,false,4,0.785398f,true)-carry;
         }
-
+        
         Vector2 motVel=(velocity-(levelDirection*levelSpeed))*1.2f;
         if(motVel==Vector2.Zero)
         {
@@ -349,6 +343,7 @@ public class Player : KinematicBody2D
         bool onSlope=false;
         bool onCeiling=IsOnCeiling();
         bool onFloor=IsOnFloor();
+        platformSpeed=Vector2.Zero;
 
         if(collides>0)
         {
@@ -378,6 +373,7 @@ public class Player : KinematicBody2D
                 if(collision.Collider is Platform platform)
                 {
                     platformSpeed=platform.Velocity;
+                    platformSpeed.y=0f;
                 }
             }
 
