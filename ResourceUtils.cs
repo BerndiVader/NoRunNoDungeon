@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class ResourceUtils
 {
-    public static readonly bool DEBUG=false;
+    public static readonly bool DEBUG=true;
     public static readonly bool DEBUG_EXT=false;
     public static readonly float MAX_SFX_DISTANCE=512f;
     public static readonly int PLAYER_LIVES_DEFAULT=3;
@@ -26,7 +26,7 @@ public static class ResourceUtils
     public static List<PackedScene> gfx;
     public static PackedScene background;
     public static List<Texture> bgTextures;
-    public static List<AudioStreamMP3>ingameMusic;
+    public static List<string>ingameMusic;
     public static PackedScene touch;
     public static PackedScene buttons;
     public static BitmapFont font;
@@ -42,7 +42,7 @@ public static class ResourceUtils
         bullets=new List<PackedScene>();
         gfx=new List<PackedScene>();
         weapons=new List<PackedScene>();
-        ingameMusic=new List<AudioStreamMP3>();
+        ingameMusic=new List<string>();
 
         font=new BitmapFont();
         font.CreateFromFnt("res://fonts/m6x11.fnt");
@@ -61,28 +61,28 @@ public static class ResourceUtils
         if(!GameSettings.isMobile)
         {
             Console.WriteLine("Check for addons...");
-            Directory dir=new Directory();
+            Directory dlcs=new Directory();
             List<string>files=new List<string>();
 
-            if(dir.DirExists("res://dlcs"))
+            if(dlcs.DirExists("res://dlcs"))
             {
-                dir.Open("res://dlcs");
-                dir.ListDirBegin();
+                dlcs.Open("res://dlcs");
+                dlcs.ListDirBegin();
 
-                string file=dir.GetNext();
+                string file=dlcs.GetNext();
                 while(file!="")
                 {
                     if(file.EndsWith(".pck"))
                     {
                         files.Add("res://dlcs/"+file);
                     }
-                    file=dir.GetNext();
+                    file=dlcs.GetNext();
                 }
-                dir.ListDirEnd();
+                dlcs.ListDirEnd();
             }
             else
             {
-                dir.MakeDir("res://dlcs");
+                dlcs.MakeDir("res://dlcs");
             }
             if(files.Count>0)
             {
@@ -124,7 +124,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTestTerra.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest.tscn"));
         }
         else
         {
@@ -210,17 +210,22 @@ public static class ResourceUtils
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Spear.tscn"));
 
         Console.WriteLine("Loading ingame musics...");
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Barbarians & Elves Battle Against Doom Giants & Greenskins.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Barbarians & Elves vs Lord Doom & The Giants (Greenskins vs Everybody).mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Hidden Cavern of the Seer.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Mountain Fortress of the Storm Giants.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Orcs & Goblins Emerge From the Bogswamps.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Shadows Over the Realm of the Sylvan Elves.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - Stronghold of the Barbarians.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - The Dwarven Citadel of Grimhold.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - The Lightning-Riven Crag of Lord Doom.mp3"));
-        ingameMusic.Add(ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/music/Dark Age Legendry - The Rift of Ever-Burning Fire.mp3"));
 
+        Directory musics=new Directory();
+        if(musics.Open("res://sounds/ingame/music")==Error.Ok)
+        {
+            musics.ListDirBegin(true,true);
+            string name;
+            while((name=musics.GetNext())!="")
+            {
+                if(musics.CurrentIsDir()||!name.EndsWith(".mp3"))
+                {
+                    continue;
+                }
+                ingameMusic.Add("res://sounds/ingame/music/" + name);
+            }
+            musics.ListDirEnd();
+        }
         Console.WriteLine("Done!");
     }
 
