@@ -83,15 +83,9 @@ public class Cannon : KinematicMonster
 
         DaggerShoot particle=ResourceUtils.particles[(int)PARTICLES.DAGGERSHOOT].Instance<DaggerShoot>();
         particle.Position=Position+GetCollisionRectEdge(node.GlobalPosition);
-
-        SfxPlayer sfx=new SfxPlayer
-        {
-            Stream=HIT_FX,
-            Position=Position
-        };
-        World.level.AddChild(sfx);
-        sfx.Play();
         World.level.AddChild(particle);
+
+        Renderer.instance.PlaySfx(HIT_FX,GlobalPosition);
 
         if(DESTORYABLE)
         {

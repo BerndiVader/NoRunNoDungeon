@@ -3,7 +3,6 @@ using System;
 
 public class Spear : Weapon
 {
-
     private int facing;
     private WeakRef thrown;
 

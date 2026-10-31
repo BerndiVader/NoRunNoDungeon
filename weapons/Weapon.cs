@@ -54,8 +54,6 @@ public abstract class Weapon : Area2D
         oldState=state;
     }
 
-    public virtual void _Free() {}
-
     public virtual bool Attack()
     {
         if(state==WEAPONSTATE.IDLE&&CooldownReady())

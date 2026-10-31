@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class ResourceUtils
 {
-    public static readonly bool DEBUG=true;
+    public static readonly bool DEBUG=false;
     public static readonly bool DEBUG_EXT=false;
     public static readonly float MAX_SFX_DISTANCE=512f;
     public static readonly int PLAYER_LIVES_DEFAULT=3;
@@ -124,7 +124,7 @@ public static class ResourceUtils
         Console.WriteLine("Loading levels...");
         if(DEBUG)
         {
-            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Easy1.tscn"));
         }
         else
         {

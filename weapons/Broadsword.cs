@@ -18,8 +18,6 @@ public class Broadsword : Weapon
 
     public override void _PhysicsProcess(float delta)
     {
-        base._PhysicsProcess(delta);
-        
         switch(state)
         {
             case WEAPONSTATE.IDLE:

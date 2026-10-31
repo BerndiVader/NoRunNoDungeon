@@ -22,15 +22,12 @@ public class MonsterWeapon : Weapon
         switch(state)
         {
             case WEAPONSTATE.IDLE:
-            {
                 if(!animationPlayer.IsPlaying()&&(AnimationNames.SETUP+GetStringDirection()!=animationPlayer.CurrentAnimation))
                 {
                     animationPlayer.Play(AnimationNames.SETUP+GetStringDirection());
                 }
                 break;
-            }
             case WEAPONSTATE.ATTACK:
-            {
                 if(!animationPlayer.IsPlaying())
                 {
                     cooldownTimer.WaitTime=hit?WARMUP:COOLDOWN;
@@ -39,7 +36,6 @@ public class MonsterWeapon : Weapon
                     cooldownTimer.Start();
                 }
                 break;
-            }
         }
     }
 
@@ -63,11 +59,12 @@ public class MonsterWeapon : Weapon
     {
         if(state==WEAPONSTATE.ATTACK&&!hit&&owner.state!=STATE.damage)
         {
-            if(node.IsInGroup(GROUPS.PLAYERS.ToString()))
+            if(node is Player player)
             {
-                node.EmitSignal(STATE.damage.ToString(),this,DAMAGE,false);
+                player.EmitSignal(STATE.damage.ToString(),this,DAMAGE,false);
                 hit=true;
                 animationPlayer.PlayBackwards();
+                Renderer.instance.PlaySfx(sfxHit,GlobalPosition);
                 return;
             }
         }

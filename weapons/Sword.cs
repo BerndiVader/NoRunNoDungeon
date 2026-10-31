@@ -3,19 +3,25 @@ using System;
 
 public class Sword : Weapon
 {
-    [Export] private bool USE_SHADER=true;
-    Sprite sprite,shaderSprite;
-    ShaderMaterial shader;
+    [Export] protected bool USE_SHADER=true;
+
+    protected Sprite sprite,shaderSprite;
+    protected ShaderMaterial shader;
+
     public override void _Ready()
     {
         base._Ready();
 
-        sprite=GetNode<Sprite>("Sprite");
         if(USE_SHADER)
         {
+            sprite=GetNode<Sprite>("Sprite");
             shaderSprite=GetNode<Sprite>("ShaderSprite");
             shader=(ShaderMaterial)shaderSprite.Material;
             shaderSprite.Visible=false;
+        }
+        else
+        {
+            GetNodeOrNull<Sprite>("ShaderSprite")?.QueueFree();
         }
 
         Connect("body_entered", this, nameof(OnHitSomething));
