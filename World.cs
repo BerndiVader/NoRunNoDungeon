@@ -444,6 +444,6 @@ public class World : Node
 
 	private void OnMusicFinishedPlaying()
 	{
-		musicPlayer.Stream=ResourceLoader.Load<AudioStreamMP3>(ResourceUtils.ingameMusic[MathUtils.RandomRange(0,ResourceUtils.ingameMusic.Count)]);
+		//musicPlayer.Stream=ResourceLoader.Load<AudioStreamMP3>(ResourceUtils.ingameMusic[MathUtils.RandomRange(0,ResourceUtils.ingameMusic.Count)]);
 	}
 }
