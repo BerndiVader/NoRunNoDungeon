@@ -32,6 +32,20 @@ public static class ResourceUtils
     public static BitmapFont font;
     public static Image fontTexture;
 
+    private static readonly string[] INGAME_MUSIC_FILES=
+    {
+        "Dark Age Legendry - Orcs & Goblins Emerge From the Bogswamps.mp3",
+        "Dark Age Legendry - Mountain Fortress of the Storm Giants.mp3",
+        "Dark Age Legendry - Hidden Cavern of the Seer.mp3",
+        "Dark Age Legendry - Barbarians & Elves vs Lord Doom & The Giants (Greenskins vs Everybody).mp3",
+        "Dark Age Legendry - Barbarians & Elves Battle Against Doom Giants & Greenskins.mp3",
+        "Dark Age Legendry - Stronghold of the Barbarians.mp3",
+        "Dark Age Legendry - Shadows Over the Realm of the Sylvan Elves.mp3",
+        "Dark Age Legendry - The Dwarven Citadel of Grimhold.mp3",
+        "Dark Age Legendry - The Lightning-Riven Crag of Lord Doom.mp3",
+        "Dark Age Legendry - The Rift of Ever-Burning Fire.mp3"
+    };
+
     public static void Init() 
     {
         levels=new List<PackedScene>();
@@ -210,21 +224,9 @@ public static class ResourceUtils
         weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Spear.tscn"));
 
         Console.WriteLine("Loading ingame musics...");
-
-        Directory musics=new Directory();
-        if(musics.Open("res://sounds/ingame/music")==Error.Ok)
+        foreach(string name in INGAME_MUSIC_FILES)
         {
-            musics.ListDirBegin(true,true);
-            string name;
-            while((name=musics.GetNext())!="")
-            {
-                if(musics.CurrentIsDir()||!name.EndsWith(".mp3"))
-                {
-                    continue;
-                }
-                ingameMusic.Add("res://sounds/ingame/music/" + name);
-            }
-            musics.ListDirEnd();
+            ingameMusic.Add("res://sounds/ingame/music/" + name);
         }
         Console.WriteLine("Done!");
     }
