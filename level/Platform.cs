@@ -104,14 +104,17 @@ public class Platform : StaticBody2D,ISwitchable
                 hidingTimer.Start();
                 break;
             case PLATFORMSTATE.SWITCH:
-                AddToGroup(GROUPS.SWITCHABLES.ToString());
+                if(platformState!=PLATFORMSTATE.SWITCH)
+                {
+                    AddToGroup(GROUPS.SWITCHABLES.ToString());
+                }
                 break;
             default:
                 break;
         }
     }
 
-    private void SwitchHiding()
+    protected void SwitchHiding()
     {
         if(isHiding&&playerOn)
         {
@@ -270,10 +273,9 @@ public class Platform : StaticBody2D,ISwitchable
 
     public virtual void SwitchCall(string id)
     {
-        if(HIDE_USAGE==PLATFORMSTATE.SWITCH)
+        if(id==switchID&&HIDE_USAGE==PLATFORMSTATE.SWITCH&&platformState!=PLATFORMSTATE.SWITCH)
         {
             SwitchHiding();
         }
-        return;
     }
 }

@@ -113,9 +113,16 @@ public class CyclingPlatform : Platform
 
     public override void SwitchCall(string id)
     {
-        if(switchID==id&&!tween.IsActive())
+        if(switchID==id)
         {
-            StartTween();
+            if(platformState==PLATFORMSTATE.SWITCH&&!tween.IsActive())
+            {
+                StartTween();
+            }
+            else if(HIDE_USAGE==PLATFORMSTATE.SWITCH)
+            {
+                SwitchHiding();
+            }
         }
     }
 

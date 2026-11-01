@@ -66,15 +66,6 @@ public class MovingPlatform : Platform
         Translate(Velocity*delta);
     }
 
-    public override void SwitchCall(string id)
-    {
-        if(switchID==id&&!moving)
-        {
-            moving=true;
-            SetPhysicsProcess(moving);
-        }
-    }
-
     protected override void BumpAreaEntered(Node node)
     {
         base.BumpAreaEntered(node);
@@ -85,5 +76,16 @@ public class MovingPlatform : Platform
         }
     }
 
+    public override void SwitchCall(string id)
+    {
+        if(switchID==id)
+        {
+            if(switchID==id&&!moving)
+            {
+                moving=true;
+                SetPhysicsProcess(moving);
+            }
+        }
+    }    
 
 }
