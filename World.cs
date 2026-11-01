@@ -332,6 +332,7 @@ public class World : Node
 		current_distance=0f;
 		SetGamestate(Gamestate.RESTART);
 		renderer.RemoveChild(level);
+		level.QueueFree();
 		if(!keepLevel)
 		{
 			Worker.Gc();
