@@ -89,7 +89,6 @@ public class Cannon : KinematicMonster
 
         if(DESTORYABLE)
         {
-            onDelay=false;
             if(state!=STATE.damage&&state!=STATE.die)
             {
                 if(node==null)
@@ -123,7 +122,6 @@ public class Cannon : KinematicMonster
 
     protected override void OnAttack(Player player=null)
     {
-        onDelay=false;
         if(state!=STATE.attack)
         {
             lastState=state;

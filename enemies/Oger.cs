@@ -353,7 +353,6 @@ public class Oger : KinematicMonster
 
     protected override void OnAlert()
     {
-        onDelay=false;
         if(state!=STATE.alert)
         {
             if(state==STATE.damage)

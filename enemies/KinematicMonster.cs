@@ -62,7 +62,6 @@ public abstract class KinematicMonster : KinematicBody2D
     public STATE state,lastState;
     protected delegate void Goal(float delta);
     protected Goal goal;
-    protected bool onDelay=false;
     protected bool squeezed=false;
     protected bool noSnap=false;
     protected bool forcedState=false;
@@ -284,7 +283,6 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void OnDie()
     {
-        onDelay=false;
         if(state!=STATE.die)
         {
             lastState=state;
@@ -298,7 +296,6 @@ public abstract class KinematicMonster : KinematicBody2D
         {
             player=Player.instance;
         }
-        onDelay=false;
         if(state!=STATE.attack)
         {
             lastState=state;
@@ -309,7 +306,6 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void OnFight(Player player=null)
     {
-        onDelay=false;
         if(state!=STATE.fight)
         {
             if(state==STATE.damage)
@@ -330,7 +326,6 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void OnDamage(Node2D node=null,float amount=0f,bool overrideDestroyable=false)
     {
-        onDelay=false;
         if(state!=STATE.damage&&state!=STATE.die)
         {
             noSnap=true;
@@ -367,7 +362,6 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void OnPassanger(Player player=null)
     {
-        onDelay=false;
         if(state!=STATE.passanger)
         {
             if(player==null)
@@ -393,7 +387,6 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void OnCalm()
     {
-        onDelay=false;
         if (state!=STATE.calm)
         {
             lastState=state;
@@ -403,7 +396,6 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void OnPanic()
     {
-        onDelay=false;
         if (state!=STATE.panic)
         {
             lastState=state;
@@ -413,7 +405,6 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void OnAlert()
     {
-        onDelay=false;
         if(state!=STATE.alert)
         {
             lastState=state;
@@ -423,7 +414,6 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void OnIdle()
     {
-        onDelay=false;
         if(state!=STATE.idle)
         {
             if(state==STATE.damage)
@@ -438,7 +428,6 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void OnStroll()
     {
-        onDelay=false;
         if(state!=STATE.stroll)
         {
             lastState=state;
@@ -450,7 +439,6 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual void OnInteract()
     {
-        onDelay=false;
         if(state!=STATE.interact)
         {
             lastState=state;
@@ -460,26 +448,11 @@ public abstract class KinematicMonster : KinematicBody2D
     }
     protected virtual void OnSpawn()
     {
-        onDelay=false;
         if(state!=STATE.spawn)
         {
             lastState=state;
             state=STATE.spawn;
             goal=Spawn;
-        }
-    }
-
-    protected virtual void DelayedState(float seconds,STATE next,params object[] args)
-    {
-        if(!onDelay)
-        {
-            onDelay=true;
-            char[]chr=next.ToString().ToCharArray();
-            chr[0]=char.ToUpper(chr[0]);
-            string method="On"+new string(chr);
-
-            SceneTreeTimer timer=GetTree().CreateTimer(seconds,false);
-            timer.Connect("timeout",this,method,new Godot.Collections.Array(args));
         }
     }
 

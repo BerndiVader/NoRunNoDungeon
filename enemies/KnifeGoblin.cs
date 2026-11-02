@@ -141,7 +141,6 @@ public class KnifeGoblin : KinematicMonster
 
     protected override void OnStroll()
     {
-        onDelay=false;
         if(state!=STATE.stroll)
         {
             if(state==STATE.damage)

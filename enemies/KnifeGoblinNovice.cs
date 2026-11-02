@@ -87,7 +87,6 @@ public class KnifeGoblinNovice : KnifeGoblin
 
     protected override void OnAlert()
     {
-        onDelay=false;
         if(state!=STATE.alert)
         {
             aura.Restart();

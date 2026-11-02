@@ -43,7 +43,6 @@ public class Fairy : KinematicMonster
 
     protected override void OnIdle()
     {
-        onDelay=false;
         if(state!=STATE.idle)
         {
             lastState=state;

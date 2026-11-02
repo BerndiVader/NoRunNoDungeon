@@ -133,7 +133,6 @@ public class Dirtball : KinematicMonster
 
     protected override void OnDamage(Node2D node=null, float amount=0f,bool overrideDestroyable=false)
     {
-        onDelay=false;
         if(state!=STATE.damage&&state!=STATE.die)
         {
             if(node==null)
@@ -163,7 +162,6 @@ public class Dirtball : KinematicMonster
 
     protected override void OnStroll()
     {
-        onDelay=false;
         if(state!=STATE.stroll)
         {
             lastState=state;
@@ -181,7 +179,6 @@ public class Dirtball : KinematicMonster
     }
     protected override void OnAttack(Player player=null)
     {
-        onDelay=false;
         if(state!=STATE.attack)
         {
             lastState=state;

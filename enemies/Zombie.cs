@@ -163,7 +163,6 @@ public class Zombie : KinematicMonster
 
     protected override void OnAlert()
     {
-        onDelay=false;
         if(state!=STATE.alert&&state!=STATE.die)
         {
             velocity.y+=-50f;

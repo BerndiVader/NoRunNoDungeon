@@ -20,7 +20,7 @@ public class RunningZombieHurting : RunningZombie
     {
         base._PhysicsProcess(delta);
 
-        if(playerCast.Enabled&&playerCast.IsColliding()&&playerCast.GetCollider() is Player)
+        if(playerCast.Enabled&&state==STATE.stroll&&playerCast.IsColliding()&&playerCast.GetCollider() is Player)
         {
             OnAttack();
         }
@@ -45,7 +45,7 @@ public class RunningZombieHurting : RunningZombie
         {
             OnDie();
         }
-        else if(animationController.Frame==3)
+        else if(animationController.Frame==8)
         {
 
             SfxPlayer fx=new SfxPlayer();

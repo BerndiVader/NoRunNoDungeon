@@ -142,7 +142,6 @@ public class Cannonball : KinematicMonster
 
     protected override void OnStroll()
     {
-        onDelay=false;
         if(state!=STATE.stroll)
         {
             lastState=state;
@@ -160,7 +159,6 @@ public class Cannonball : KinematicMonster
     }
     protected override void OnAttack(Player player=null)
     {
-        onDelay=false;
         if(state!=STATE.attack)
         {
             lastState=state;

@@ -149,7 +149,6 @@ public class BombTroll : KinematicMonster
 
     protected override void OnAlert()
     {
-        onDelay=false;
         if(state!=STATE.alert)
         {
             lastState=state;
@@ -167,7 +166,6 @@ public class BombTroll : KinematicMonster
 
     protected override void OnStroll()
     {
-        onDelay=false;
         if(state!=STATE.stroll)
         {
             lastState=state;
