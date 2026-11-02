@@ -147,7 +147,7 @@ public class OptionsUI : BaseUI
                     GameSettings.current.WindowPositionX=OS.WindowPosition.x;
                     GameSettings.current.WindowPositionY=OS.WindowPosition.y;
                     GameSettings.current.WindowSizeX=OS.WindowSize.x;
-                    GameSettings.current.WindowPositionY=OS.WindowSize.y;
+                    GameSettings.current.WindowSizeY=OS.WindowSize.y;
                 }
                 GameSettings.current.Usage=fx.Pressed?Viewport.UsageEnum.Usage2d:Viewport.UsageEnum.Usage3d;
                 GameSettings.SaveConfig(GameSettings.current);

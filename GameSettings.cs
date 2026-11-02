@@ -153,7 +153,7 @@ public static class GameSettings
     public static Config current;
     private static readonly List<InputCandit>inputCandits=new List<InputCandit>();
 
-    private static string ROOT_NAME;
+    private static readonly string ROOT_NAME="user://";
     private static string CONFIG_DIR=>ROOT_NAME+"gamesettings/";
     private static string CONFIG_NAME=>"config.json";
 
@@ -161,7 +161,6 @@ public static class GameSettings
     {
         hasTouch=OS.HasTouchscreenUiHint();
         isMobile=OS.GetName().Equals("android",StringComparison.OrdinalIgnoreCase);
-        ROOT_NAME=isMobile?"user://":"res://";
 
         current=new Config();
         
@@ -175,7 +174,6 @@ public static class GameSettings
         {
             SaveConfig(current);
         }
-        SaveConfig(current);
         current=LoadConfig();
 
     }
@@ -247,9 +245,16 @@ public static class GameSettings
     public static void SaveConfig(Config config)
     {
         File file=new File();
-        file.Open(CONFIG_DIR+CONFIG_NAME,File.ModeFlags.Write);
-        file.StoreString(JsonConvert.SerializeObject(config));
-        file.Close();
+        Error err=file.Open(CONFIG_DIR+CONFIG_NAME,File.ModeFlags.Write);
+        if(err==Error.Ok)
+        {
+            file.StoreString(JsonConvert.SerializeObject(config));
+            file.Close();
+        }
+        else
+        {
+            GD.PrintErr(err);
+        }
     }
 
     public static Config LoadConfig()
