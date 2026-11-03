@@ -111,21 +111,16 @@ public abstract class KinematicMonster : KinematicBody2D
 
         if(RIDEABLE)
         {
-            /*
-                AddUserSignal(STATE.passanger.ToString());
-                Connect(STATE.passanger.ToString(),this,nameof(OnPassanger));
-            */
-
             staticBody.AddUserSignal(STATE.passanger.ToString());
             staticBody.Connect(STATE.passanger.ToString(),this,nameof(OnPassanger));
         }
 
         if(INTERACTABLE)
         {
-            AddUserSignal(STATE.interact.ToString());
-            Connect(STATE.interact.ToString(),this,nameof(OnInteract));
-            //staticBody.AddUserSignal(STATE.interact.ToString());
-            //staticBody.Connect(STATE.interact.ToString(),this,nameof(OnInteract));
+            //AddUserSignal(STATE.interact.ToString());
+            //Connect(STATE.interact.ToString(),this,nameof(OnInteract));
+            staticBody.AddUserSignal(STATE.interact.ToString());
+            staticBody.Connect(STATE.interact.ToString(),this,nameof(OnInteract));
         }
 
         AddUserSignal(STATE.damage.ToString());
@@ -154,9 +149,6 @@ public abstract class KinematicMonster : KinematicBody2D
 
         AddToGroup(GROUPS.ENEMIES.ToString());
         staticBody.AddToGroup(GROUPS.ENEMIES.ToString());
-
-        attacker=victim=null;
-        FORCE=new Vector2(0f,GRAVITY);
 
         state=STATE.unknown;
         goal=Unknown;
@@ -312,7 +304,7 @@ public abstract class KinematicMonster : KinematicBody2D
             {
                 staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
             }
-            if (player==null)
+            if(player==null)
             {
                 player=Player.instance;
             }                
