@@ -332,7 +332,6 @@ public class World : Node
 		current_distance=0f;
 		SetGamestate(Gamestate.RESTART);
 		renderer.RemoveChild(level);
-		level.QueueFree();
 		if(!keepLevel)
 		{
 			Worker.Gc();
@@ -344,7 +343,6 @@ public class World : Node
 		MergeMaps(level,cachedLevel);
 		renderer.AddChild(level);
 
-		renderer.RemoveChild(Player.instance);
 		Player.instance.RemoveChild(PlayerCamera.instance);
 		Player.instance.QueueFree();
 		ResourceUtils.player.Instance();
@@ -367,11 +365,12 @@ public class World : Node
 		currentLevel=nextLevel;
 		currentLevelName=ResourceUtils.levels[currentLevel].ResourcePath.GetFile().BaseName();
 		nextLevel=GetALevel(currentLevel);
+
 		Level newLevel=cachedLevel!=null?cachedLevel:(Level)ResourceUtils.levels[currentLevel].Instance();
 		cachedLevel=(Level)ResourceUtils.levels[nextLevel].Instance();
-
 		MergeMaps(newLevel,cachedLevel);
 		renderer.CallDeferred("add_child",newLevel);
+
 		int timeout=0;
 		while(!newLevel.IsInsideTree()&&timeout<LEVEL_ADD_TIMEOUT)
 		{
@@ -385,10 +384,14 @@ public class World : Node
 		Vector2 position=level.Position;
 		newLevel.SetDeferred("position",new Vector2(-(Mathf.Abs(position.x)-(level.pixelLength-RESOLUTION.x))-TILE_SIZE,position.y));
 		renderer.CallDeferred("remove_child",level);
+
+		long stamp=0L;
 		while(IsInstanceValid(level)&&level.IsInsideTree())
 		{
 			OS.DelayMsec(1);
+			stamp++;
 		}
+
 		level=newLevel;
 		SetGamestate(Gamestate.SCENE_CHANGED);
 	}

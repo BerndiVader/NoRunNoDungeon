@@ -212,16 +212,16 @@ public class Player : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
+        if(World.state<=Gamestate.DIEING||onTeleport)
+        {
+            return;
+        }
+        
         UpdatePlayerState();
 
         if(ResourceUtils.DEBUG_EXT)
         {
             Update();
-        } 
-
-        if(World.state<=Gamestate.DIEING||currentState==PLAYER_STATE.teleport)
-        {
-            return;
         }
        
         Vector2 force=FORCE;
@@ -472,9 +472,12 @@ public class Player : KinematicBody2D
             {
                 offset*=PlayerCamera.instance.Zoom.x;
             }
-            if(Position.x<-20f||Position.y<-60f||Position.x>offset.x+20f||Position.y>offset.y+20f)
+            if(Position.x<-30f||Position.y<-60f||Position.x>offset.x+30f||Position.y>offset.y+60f)
             {
-                OnDamage();
+                if(World.state!=Gamestate.RUNNING_FREECAM&&World.level.speed!=0f)
+                {
+                    OnDamage();
+                }
             }
         }
 
@@ -593,11 +596,7 @@ public void SetFloating(bool floating,Floatload? load=null,Vector2? surface=null
 
     private void UpdatePlayerState()
     {
-        if(onTeleport)
-        {
-            SetPlayerState(PLAYER_STATE.teleport);
-        }
-        else if(weapon!=null&&weapon.IsAttacking())
+        if(weapon!=null&&weapon.IsAttacking())
         {
             SetPlayerState(PLAYER_STATE.attack);
         }
@@ -788,6 +787,7 @@ public void SetFloating(bool floating,Floatload? load=null,Vector2? surface=null
     {
         onTeleport=teleport;
         Visible=teleport==false;
+        SetPlayerState(PLAYER_STATE.teleport);
     }
 
     public bool Teleport()

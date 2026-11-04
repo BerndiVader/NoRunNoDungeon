@@ -144,7 +144,7 @@ project/assembly_name="nodungeon"
 
 [physics]
 
-2d/thread_model=0
+2d/thread_model=2
 
 [rendering]
 

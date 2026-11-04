@@ -24,6 +24,7 @@ public class Gate : Area2D,ISwitchable
     [Export] private TYPE type=TYPE.ENTRY;
     [Export] private STYLE style=STYLE.WOOD;
     [Export] private bool closed=false;
+    [Export] private bool visible=true;
     [Export] private Gamestate changeStateTo=Gamestate.BOSS;
     [Export] private bool oneTime=true;
     [Export] private bool oneWay=false;
@@ -51,6 +52,8 @@ public class Gate : Area2D,ISwitchable
 
         AddToGroup(GROUPS.SWITCHABLES.ToString());
 
+        Visible=visible;
+        
         Connect("body_entered",this,nameof(OnBodyEntered));
         Connect("body_exited",this,nameof(OnBodyExited));
 
