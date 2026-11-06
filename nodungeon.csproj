@@ -91,6 +91,7 @@
     <Compile Include="particles\WeaponChangeParticles.cs" />
     <Compile Include="placeholders\PlaceholderTool.cs" />
     <Compile Include="platforms\CyclingPlatform.cs" />
+    <Compile Include="platforms\SocketPlatform.cs" />
     <Compile Include="platforms\StaticPlatform.cs" />
     <Compile Include="PlayerCamera.cs" />
     <Compile Include="enemies\Bear.cs" />

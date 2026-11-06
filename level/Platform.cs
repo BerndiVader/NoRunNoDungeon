@@ -12,6 +12,7 @@ public class Platform : StaticBody2D,ISwitchable
         ONETIME,
         SWITCH,
         ONPLAYER,
+        DISTANCE
     }
 
     [Export(PropertyHint.Enum,"")] protected PLATFORMSTATE platformState=PLATFORMSTATE.NORMAL;
@@ -21,6 +22,7 @@ public class Platform : StaticBody2D,ISwitchable
     [Export] protected bool IS_HIDING=false;
     [Export(PropertyHint.Enum,"0,1,3")] protected PLATFORMSTATE HIDE_USAGE=PLATFORMSTATE.NORMAL;
     [Export] protected float HIDE_TIMER=5f;
+    [Export] protected float DISTANCE_TO_PLAYER=0f;
 
     [Export] protected string switchID="";
 
