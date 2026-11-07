@@ -22,6 +22,8 @@ public class SocketPlatform : Platform
     private float particlesGroundY;
     private Vector2 GROUND_POSITION;
     private bool moveUp,used=false;
+    private bool active=false;
+    private bool particlesInit=false;
 
     private float distanceToPlayerSqrt;
 
@@ -34,30 +36,35 @@ public class SocketPlatform : Platform
 
         particles1=GetNode<CPUParticles2D>(nameof(particles1));
         particles2=GetNode<CPUParticles2D>(nameof(particles2));
-        SetParticlesGlobalY();
 
         socketSprite=GetNode<Sprite>(nameof(socketSprite));
         socketCollision=GetNode<CollisionShape2D>(nameof(socketCollision));
         socketCollision.Shape=new RectangleShape2D();
 
-        UpdateSize();
         tween=GetNode<Tween>(nameof(Tween));
         tween.Connect("tween_all_completed",this,nameof(TweenCompleted));
         moveUp=START_DIRECTION==Vector2.Up;
 
+        if(platformState==PLATFORMSTATE.SWITCH||switchID!="")
+        {
+            AddToGroup(GROUPS.SWITCHABLES.ToString());
+        }
+    }
+
+    private void InitParticles()
+    {
+        SetParticlesGlobalY();
+        UpdateSize();
+        UpdateParticlesPosition();
     }
 
     public override void _PhysicsProcess(float delta)
     {
-        if(!tween.IsActive()&&!used&&GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<distanceToPlayerSqrt)
+        if(!particlesInit)
         {
-            if(ONE_TIME)
-            {
-                used=true;
-            }
-            
-            StartTween(moveUp);
-            moveUp=!moveUp;
+            particlesInit=true;
+            InitParticles();
+
         }
 
         if(lastPosition!=Position)
@@ -65,6 +72,41 @@ public class SocketPlatform : Platform
             UpdateSize();
         }
         lastPosition=Position;
+
+        if(active||used)
+        {
+            return;
+        }
+
+        switch(platformState)
+        {
+            case PLATFORMSTATE.DISTANCE:
+                if(GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<distanceToPlayerSqrt)
+                {
+                    used=ONE_TIME;
+                    StartTween(moveUp);
+                    moveUp=!moveUp;
+                }
+                break;
+            case PLATFORMSTATE.NORMAL:
+                used=ONE_TIME;
+                StartTween(moveUp);
+                moveUp=!moveUp;
+                break;
+            case PLATFORMSTATE.ONETIME:
+                StartTween(moveUp);
+                moveUp=!moveUp;
+                used=true;
+                break;
+            case PLATFORMSTATE.ONPLAYER:
+                if(playerOn)
+                {
+                    used=ONE_TIME;
+                    StartTween(moveUp);
+                    moveUp=!moveUp;
+                }
+                break;
+        }
 
     }
 
@@ -117,7 +159,9 @@ public class SocketPlatform : Platform
         {
             return;
         }
+        active=true;
 
+        bumpTween.StopAll();
         tween.StopAll();
         tween.InterpolateProperty(this,"position",Position,destination,
         distance/SPEED,Tween.TransitionType.Sine,Tween.EaseType.Out);
@@ -126,9 +170,32 @@ public class SocketPlatform : Platform
         
     }
 
+    protected override bool BumpBlocked()
+    {
+        return active;
+    }    
+
     private void TweenCompleted()
     {
+        active=false;
         particles1.Emitting=particles2.Emitting=false;
     }
+
+    public override void SwitchCall(string id)
+    {
+        if(switchID==id)
+        {
+            if(!active&&!used)
+            {
+                used=ONE_TIME;
+                StartTween(moveUp);
+                moveUp=!moveUp;
+            }
+            else if(HIDE_USAGE==PLATFORMSTATE.SWITCH)
+            {
+                SwitchHiding();
+            }
+        }
+    }    
 
 }
