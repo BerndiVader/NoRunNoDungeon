@@ -109,6 +109,7 @@ public class Player : KinematicBody2D
     private bool jumping=false;
     private bool doubleJump=false;
     private bool justJumped=false;
+    private readonly Vector2 SNAP=new Vector2(0f,4f);
     private Vector2 lastVelocity=Vector2.Zero;
     private Vector2 lastPosition=Vector2.Zero;
     private Vector2 FORCE;
@@ -337,8 +338,7 @@ public class Player : KinematicBody2D
                 carry+=levelDirection*levelSpeed*GROUND_CARRY_FACTOR;
             }
 
-            Vector2 snap=jumping?Vector2.Zero:new Vector2(0f,4f);
-            velocity=MoveAndSlideWithSnap(velocity+carry,snap,Vector2.Up,false,4,0.785398f,true)-carry;
+            velocity=MoveAndSlideWithSnap(velocity+carry,jumping?Vector2.Zero:SNAP,Vector2.Up,false,4,0.785398f,true)-carry;
         }
         
         Vector2 motVel=(velocity-(levelDirection*levelSpeed))*1.2f;

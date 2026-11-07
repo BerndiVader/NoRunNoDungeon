@@ -26,6 +26,8 @@ public class Platform : StaticBody2D,ISwitchable
 
     [Export] protected string switchID="";
 
+    protected virtual bool BumpBlocked()=>false;
+
     private const float BUMP_AREA_MARGIN=2f;
     private const float CAPSULE_MARGIN_X=8f;
     private const float CAPSULE_MARGIN_Y=4f;
@@ -33,7 +35,7 @@ public class Platform : StaticBody2D,ISwitchable
     private const float HIDE_TWEEN_TIME=1f;
 
     private Vector2 extents=Vector2.Zero;
-    private Tween bumpTween;
+    protected Tween bumpTween;
 
     protected bool playerOn=false;
     protected Vector2 startPosition,lastPosition;
@@ -58,10 +60,8 @@ public class Platform : StaticBody2D,ISwitchable
 
         collision=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
 
-        if(BUMP_STRENGTH+BUMP_STRENGTH_SOFT!=0f)
-        {
-            CreateBumpArea();
-        }
+        CreateBumpArea();
+
         if(HIDEABLE)
         {
             isHiding=IS_HIDING;
@@ -245,7 +245,7 @@ public class Platform : StaticBody2D,ISwitchable
                     }
                 }
 
-                if(!bumpTween.IsActive())
+                if(!BumpBlocked()&&!bumpTween.IsActive()&&BUMP_STRENGTH+BUMP_STRENGTH_SOFT>0f)
                 {
                     bumpTween.InterpolateProperty(this,"position:y",Position.y,target.y,0.1f,Tween.TransitionType.Expo,Tween.EaseType.Out);
                     bumpTween.InterpolateProperty(this,"position:y",target.y,Position.y,0.2f,Tween.TransitionType.Cubic,Tween.EaseType.In,0.1f);

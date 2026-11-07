@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
 [ext_resource path="res://platforms/SocketPlatform.tscn" type="PackedScene" id=3]
-[ext_resource path="res://obstacles/Lever.tscn" type="PackedScene" id=4]
 [ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=5]
+[ext_resource path="res://obstacles/LeverPhysics.tscn" type="PackedScene" id=6]
+[ext_resource path="res://platforms/MovingPlatform3x3.tscn" type="PackedScene" id=7]
+[ext_resource path="res://obstacles/MadRock.tscn" type="PackedScene" id=8]
+[ext_resource path="res://bonus/Coin.tscn" type="PackedScene" id=9]
+[ext_resource path="res://bonus/SwordItem.tscn" type="PackedScene" id=10]
+[ext_resource path="res://bonus/PhysicsCoin.tscn" type="PackedScene" id=11]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -25,15 +30,11 @@ __meta__ = {
 position = Vector2( 160, 232 )
 
 [node name="SocketPlatform" parent="." instance=ExtResource( 3 )]
-position = Vector2( 865, 235 )
-platformState = 0
+position = Vector2( 865, 228 )
+platformState = 3
+switchID = "234234"
 MAX_MOVE_DISTANCE = 100.0
 SPEED = 120.0
-START_DIRECTION = Vector2( 0, 1 )
-
-[node name="Lever" parent="." instance=ExtResource( 4 )]
-position = Vector2( 928, 254 )
-SWITCH_ID = "ec2087b5-6b1c-452e-8683-c1e121ba76a2"
 
 [node name="LevelControl" parent="." instance=ExtResource( 5 )]
 position = Vector2( 866, 160 )
@@ -43,7 +44,35 @@ SWITCH_ID = "ec2087b5-6b1c-452e-8683-c1e121ba76a2"
 
 [node name="SocketPlatform2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 715, 162 )
+platformState = 0
 DISTANCE_TO_GROUND = 45.0
 MAX_MOVE_DISTANCE = 40.0
 START_DIRECTION = Vector2( 0, 1 )
-ONE_TIME = true
+
+[node name="LeverPhysics" parent="." instance=ExtResource( 6 )]
+position = Vector2( 713, 140 )
+SWITCH_ID = "ec2087b5-6b1c-452e-8683-c1e121ba76a2"
+
+[node name="MovingPlatform0" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1010, 207 )
+platformState = 3
+BUMP_STRENGTH = 0.5
+BUMP_STRENGTH_SOFT = 0.5
+Direction = Vector2( 1, 0 )
+
+[node name="MadRock" parent="." instance=ExtResource( 8 )]
+position = Vector2( 1090, 181 )
+
+[node name="SwordItem" parent="." instance=ExtResource( 10 )]
+position = Vector2( 787, 247 )
+
+[node name="Coin" parent="." instance=ExtResource( 9 )]
+position = Vector2( 865, 69 )
+scale = Vector2( 1.05, 1.05 )
+
+[node name="Coin2" parent="." instance=ExtResource( 11 )]
+position = Vector2( 1012, 240 )
+
+[node name="LeverPhysics2" parent="." instance=ExtResource( 6 )]
+position = Vector2( 1088, 160 )
+SWITCH_ID = "234234"

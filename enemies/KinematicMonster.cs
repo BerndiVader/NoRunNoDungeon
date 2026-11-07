@@ -477,11 +477,7 @@ public abstract class KinematicMonster : KinematicBody2D
 
     protected virtual Vector2 StopX(Vector2 velocity,float delta)
     {
-        float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
-        if(xLength<0f) {
-            xLength=0f;
-        }
-        velocity.x=xLength*Mathf.Sign(velocity.x);
+        velocity.x=Mathf.Max(Mathf.Abs(velocity.x)-STOP_FORCE*delta,0f)*Mathf.Sign(velocity.x);
         return velocity;
     }
 
