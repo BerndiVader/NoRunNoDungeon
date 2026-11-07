@@ -283,7 +283,7 @@ Length = 5
 Linear = false
 
 [node name="PlatformHolder" parent="." instance=ExtResource( 13 )]
-position = Vector2( 848, 247 )
+position = Vector2( 848, 223 )
 
 [node name="StaticPlatform3x3" parent="PlatformHolder" index="0"]
 HIDEABLE = true

@@ -5,7 +5,12 @@ public class PhysicsBlock : PhysicsObject
 {
     [Export] protected float STOP_FORCE=1300f;
 
-    private CollisionShape2D collision;
+    protected Platform riding;
+    protected int ridingFrames;
+    protected readonly Vector2 SNAP=new Vector2(0f,16f);
+    protected readonly Vector2 UP_DIRECTION=new Vector2(8f,8f);
+
+    protected CollisionShape2D collision;
 
     public override void _Ready()
     {
@@ -25,41 +30,42 @@ public class PhysicsBlock : PhysicsObject
         Navigation(delta);
     }
 
-    private void Navigation(float delta)
+    protected virtual void Navigation(float delta)
     {
         velocity+=GRAVITY*delta;
-        velocity=MoveAndSlideWithSnap(velocity,Vector2.Zero,new Vector2(4f,4f),true,4,0f,true);
+        velocity=MoveAndSlideWithSnap(velocity,SNAP,UP_DIRECTION,true,4,0f,true);
         
         int slides=GetSlideCount();
-        if(slides>0)
+        bool contact=false;
+
+        for(int i=0;i<slides;i++)
         {
-            for(int i=0;i<slides;i++)
+            var collision=GetSlideCollision(i);
+            if(collision.Collider is Platform platform&&collision.Normal.y<-0.9f)
             {
-                var collision=GetSlideCollision(i);
-                if(collision.Collider is Platform platform&&collision.Normal==Vector2.Up)
-                {
-                    velocity.x=platform.Velocity.x;
-                }
-                else
-                {
-                    velocity=StopX(velocity,delta);
-                }
-            }    
+                riding=platform;
+                ridingFrames=0;
+                contact=true;
+            }
+        }
+        if(!contact&&riding!=null&&++ridingFrames>3)
+        {
+            riding=null;
+        }
+        if(riding!=null)
+        {
+            velocity.x=riding.Velocity.x;
         }
         else
         {
-            velocity=StopX(velocity,delta);
+            StopX(delta);
         }
 
     }
 
-    private Vector2 StopX(Vector2 velocity,float delta)
+    protected virtual void StopX(float delta)
     {
-        float xLength=Mathf.Abs(velocity.x)-(STOP_FORCE*delta);
-        if(xLength<0f) {
-            xLength=0f;
-        }
-        velocity.x=xLength*Mathf.Sign(velocity.x);
-        return velocity;
+        velocity.x=Mathf.Max(Mathf.Abs(velocity.x)-STOP_FORCE*delta,0f)*Mathf.Sign(velocity.x);
     }
+
 }

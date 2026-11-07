@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
 [ext_resource path="res://platforms/SocketPlatform.tscn" type="PackedScene" id=3]
+[ext_resource path="res://placeholders/obstacles/PhysicsBlockDestHolder.tscn" type="PackedScene" id=4]
 [ext_resource path="res://level/LevelControl.tscn" type="PackedScene" id=5]
 [ext_resource path="res://obstacles/LeverPhysics.tscn" type="PackedScene" id=6]
 [ext_resource path="res://platforms/MovingPlatform3x3.tscn" type="PackedScene" id=7]
@@ -74,5 +75,20 @@ scale = Vector2( 1.05, 1.05 )
 position = Vector2( 1012, 240 )
 
 [node name="LeverPhysics2" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1088, 160 )
+position = Vector2( 1009, 195 )
 SWITCH_ID = "234234"
+
+[node name="PhysicsBlockDestroyHolder" parent="." instance=ExtResource( 4 )]
+position = Vector2( 647, 244 )
+
+[node name="PhysicsBlockDestroyHolder2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 649, 222 )
+
+[node name="PhysicsBlockDestroyHolder3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 655, 203 )
+
+[node name="PhysicsBlockDestroyHolder4" parent="." instance=ExtResource( 4 )]
+position = Vector2( 860, 177 )
+
+[node name="PhysicsBlockDestroyHolder5" parent="." instance=ExtResource( 4 )]
+position = Vector2( 868, 198 )
