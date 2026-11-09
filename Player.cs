@@ -328,14 +328,19 @@ public class Player : KinematicBody2D
         }
         else
         {
-            Vector2 carry=platformSpeed;
+            Vector2 carry=Vector2.Zero;
             if(Floating)
             {
                 carry+=levelDirection*levelSpeed*FLOAT_CARRY_FACTOR;
             }
-            if(platformSpeed!=Vector2.Zero)
+
+            if(levelSpeed==0f||levelDirection==Vector2.Zero)
             {
-                carry+=levelDirection*levelSpeed*GROUND_CARRY_FACTOR;
+                if(platformSpeed.x!=0f)
+                {
+                    carry.x+=platformSpeed.x;
+                    carry+=levelDirection*levelSpeed*GROUND_CARRY_FACTOR;
+                }
             }
 
             velocity=MoveAndSlideWithSnap(velocity+carry,jumping?Vector2.Zero:SNAP,Vector2.Up,false,4,0.785398f,true)-carry;
@@ -381,13 +386,9 @@ public class Player : KinematicBody2D
                     justJumped=jumping=true;
                 }
                 
-                if(collision.Collider is Platform platform)
+                if(sa<0.785f&&collision.Collider is Platform platform)
                 {
-                    if(levelSpeed==0f||levelDirection==Vector2.Zero)
-                    {
-                        platformSpeed=platform.Velocity;
-                        platformSpeed.y=0f;
-                    }
+                    platformSpeed=platform.Velocity;
                 }
             }
 
@@ -434,6 +435,7 @@ public class Player : KinematicBody2D
                 }
             }
             ApplyJump();
+            velocity+=platformSpeed;
             justJumped=jumping=true;
             Renderer.instance.PlaySfx(sfxJump,GlobalPosition);
         }
@@ -571,8 +573,15 @@ public class Player : KinematicBody2D
         }
     }
 
-public void SetFloating(bool floating,Floatload? load=null,Vector2? surface=null)
+    public void SetFloating(bool floating,Floatload? load=null,Vector2? surface=null)
     {
+        if(floatAreaCount==0)
+        {
+            Splash splash=Splash.Create();
+            splash.Position=World.level.ToLocal(GlobalPosition);
+            World.level.AddChild(splash);
+            Renderer.instance.PlaySfx(sfxBubble,GlobalPosition,5f);
+        }
         floatAreaCount=Mathf.Max(0,floatAreaCount+(floating?1:-1));
         if(load.HasValue)
         {
@@ -582,7 +591,6 @@ public void SetFloating(bool floating,Floatload? load=null,Vector2? surface=null
             FLOAT_JUMP_SCALE=l.FLOAT_JUMP_SCALE;
             FLOAT_MAX_FALL_SPEED=l.FLOAT_MAX_FALL_SPEED;
             FLOAT_MOVE_MODIFIER=l.FLOAT_MOVE_MODIFIER;
-            Renderer.instance.PlaySfx(sfxBubble,GlobalPosition,5f);
         }
         if(surface.HasValue)
         {

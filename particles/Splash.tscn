@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://particles/Splash.cs" type="Script" id=1]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0.503906, 1 ), 0.0, -0.120376, 0, 0, Vector2( 1, 0.00862074 ), -4.1931, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.258824 )
+
+[node name="Splash" type="CPUParticles2D"]
+emitting = false
+amount = 10
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+emission_shape = 2
+emission_rect_extents = Vector2( 16, 1 )
+direction = Vector2( 0, -1 )
+spread = 25.0
+gravity = Vector2( 0, 60 )
+initial_velocity = 30.0
+initial_velocity_random = 0.42
+damping = 20.0
+scale_amount = 2.0
+scale_amount_random = 0.8
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
+script = ExtResource( 1 )

@@ -90,6 +90,7 @@
     <Compile Include="particles\PlayerDieEffect.cs" />
     <Compile Include="particles\PotionGrounded.cs" />
     <Compile Include="particles\SettingsEffect.cs" />
+    <Compile Include="particles\Splash.cs" />
     <Compile Include="particles\WeaponChangeParticles.cs" />
     <Compile Include="placeholders\PlaceholderTool.cs" />
     <Compile Include="platforms\CyclingPlatform.cs" />
