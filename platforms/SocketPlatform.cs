@@ -67,6 +67,7 @@ public class SocketPlatform : Platform
 
         }
 
+        Velocity=(Position-lastPosition)/delta;
         if(lastPosition!=Position)
         {
             UpdateSize();
