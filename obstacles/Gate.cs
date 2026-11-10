@@ -25,6 +25,7 @@ public class Gate : Area2D,ISwitchable
     [Export] private STYLE style=STYLE.WOOD;
     [Export] private bool closed=false;
     [Export] private bool visible=true;
+    [Export] private bool auto_gate=false;
     [Export] private Gamestate changeStateTo=Gamestate.BOSS;
     [Export] private bool oneTime=true;
     [Export] private bool oneWay=false;
@@ -86,7 +87,7 @@ public class Gate : Area2D,ISwitchable
             return;
         }
 
-        if(Player.instance.input.JustInteract)
+        if(Player.instance.input.JustInteract||auto_gate)
         {
             active=false;
             SetPhysicsProcess(active);
@@ -131,7 +132,7 @@ public class Gate : Area2D,ISwitchable
 
     private void OnBodyEntered(Node node)
     {
-        if(!closed&&!active&&node is Player)
+        if(!closed&&!active)
         {
             active=true;
             SetPhysicsProcess(active);
@@ -140,7 +141,7 @@ public class Gate : Area2D,ISwitchable
 
     private void OnBodyExited(Node node)
     {
-        if(active&&node is Player)
+        if(active)
         {
             active=false;
             SetPhysicsProcess(active);
