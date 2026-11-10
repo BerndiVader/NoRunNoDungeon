@@ -8,7 +8,8 @@ public class Player : KinematicBody2D
     private const string ANIM_RUN="RUN";
     private const string ANIM_JUMP="HIT";
     private const string ANIM_IDLE="IDLE";
-    public static int LIVES;
+    private static int LIVES;
+    public static int Lives() => LIVES;
 
     private static readonly AudioStream sfxJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/30_Jump_03.wav");
     private static readonly AudioStream sfxDoubleJump=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/42_Cling_climb_03.wav");
@@ -16,6 +17,24 @@ public class Player : KinematicBody2D
     private static readonly AudioStream sfxDash=ResourceLoader.Load<AudioStream>("res://sounds/ingame/15_human_dash_2.wav");
     private static readonly AudioStream sfxBubble=ResourceLoader.Load<AudioStream>("res://sounds/ingame/bubble.wav");
     private static readonly AudioStream sfxBlubb=ResourceLoader.Load<AudioStream>("res://sounds/ingame/blubb.wav");
+
+    public static void Lives(int amount,bool set=false)
+    {
+        if(!set)
+        {
+            LIVES=(int)MathUtils.MinMax(0,ResourceUtils.PLAYER_LIVES_MAX,LIVES+amount);
+        }
+        else
+        {
+            LIVES=(int)MathUtils.MinMax(0,ResourceUtils.PLAYER_LIVES_MAX,amount);
+        }
+
+        if(IsInstanceValid(HUD.instance))
+        {
+            HUD.instance.UpdateLives();
+        }
+
+    }
 
     public struct Floatload
     {

@@ -34,6 +34,7 @@
     <Compile Include="bonus\BlindBuffThrowable.cs" />
     <Compile Include="bonus\BuffThrowable.cs" />
     <Compile Include="bonus\JumpBuffThrowable.cs" />
+    <Compile Include="bonus\OneUp.cs" />
     <Compile Include="bonus\SpeedBuffThrowable.cs" />
     <Compile Include="bonus\WeaponItem.cs" />
     <Compile Include="buffs\Buff.cs" />

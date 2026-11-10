@@ -42,7 +42,7 @@ public class HUD : Control
         for(int i=0;i<hearts;i++)
         {
             TextureRect heart=(TextureRect)lives.GetChild(i);
-            heart.Texture=i<Player.LIVES?heart_full:heart_empty;
+            heart.Texture=i<Player.Lives()?heart_full:heart_empty;
         }
     }
     public void UpdateDash(float value)
@@ -66,7 +66,7 @@ public class HUD : Control
         {
             heart=new TextureRect
             {
-                Texture=i<Player.LIVES?heart_full:heart_empty,
+                Texture=i<Player.Lives()?heart_full:heart_empty,
                 Expand=false,
                 StretchMode=TextureRect.StretchModeEnum.KeepCentered
             };
