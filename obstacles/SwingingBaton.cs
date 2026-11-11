@@ -42,7 +42,6 @@ public class SwingingBaton : Area2D,ISwitchable
     private delegate void Goal(float delta);
     private Goal goal;
 
-    private CollisionShape2D shape;
     private AudioStreamPlayer2D audioPlayer;
 
     public override void _Ready()
@@ -61,11 +60,6 @@ public class SwingingBaton : Area2D,ISwitchable
 
         switch(mode)
         {
-            case MODE.DISTANCE:
-                shape=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
-                break;
-            case MODE.NORMAL:
-                break;
             case MODE.SWITCH:
                 AddToGroup(GROUPS.SWITCHABLES.ToString());
                 SetPhysicsProcess(false);
@@ -114,7 +108,7 @@ public class SwingingBaton : Area2D,ISwitchable
     {
         if(mode==MODE.DISTANCE&&!active)
         {
-            if(shape.GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<activationRangeSqrd)
+            if(audioPlayer.GlobalPosition.DistanceSquaredTo(Player.instance.GlobalPosition)<activationRangeSqrd)
             {
                 active=true;
             } 

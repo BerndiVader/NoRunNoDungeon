@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://obstacles/SwingingBaton.cs" type="Script" id=1]
+[ext_resource path="res://image/0x72/frames/weapon_double_axe.png" type="Texture" id=2]
+[ext_resource path="res://sounds/ingame/10_Battle_SFX/35_Miss_Evade_02.wav" type="AudioStream" id=3]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 6.0
+height = 18.0
+
+[node name="SwingingAxe" type="Area2D"]
+collision_layer = 48
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 3, 3 )
+texture = ExtResource( 2 )
+offset = Vector2( 0, 10 )
+flip_v = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2( -16, 49 )
+scale = Vector2( 1, 1 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 16, 48 )
+shape = SubResource( 1 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 0, 50 )
+stream = ExtResource( 3 )
+volume_db = 5.0
+panning_strength = 3.0
+bus = "Sfx"
+area_mask = 0
