@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://placeholders/obstacles/FlamethrowerHolder.tscn" type="PackedScene" id=23]
 [ext_resource path="res://placeholders/bonus/SwordItem.tscn" type="PackedScene" id=24]
 [ext_resource path="res://placeholders/CheckpointHolder.tscn" type="PackedScene" id=25]
+[ext_resource path="res://placeholders/ControlHolder.tscn" type="PackedScene" id=26]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -117,6 +118,7 @@ position = Vector2( 752, 99 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
 SWITCH_ID = "ed495a73-064d-47bf-b377-5a12e293611c"
+SELF_ID = "05734bac-f8b1-4a25-9b32-8bcf92b921eb"
 
 [node name="Destroyables" parent="." instance=ExtResource( 12 )]
 position = Vector2( 648, 72 )
@@ -161,23 +163,22 @@ position = Vector2( 784, 36 )
 position = Vector2( 1408, 128 )
 
 [node name="RunningZombie" parent="ZombieRunning2" index="0"]
-LEVEL_SETTINGS = {
-"Dir": Vector2( 0, 0 ),
-"Speed": 0.0,
-"Use": true,
-"Zoom": 0.8
-}
+CALL_SWITCH_ON_DIE = true
+SWITCH_ID = "df2f0d4f-fe82-4b75-933a-bc3e370141f8"
 
 [node name="Switch3" parent="." instance=ExtResource( 14 )]
 position = Vector2( 1368, 208 )
 
 [node name="DoorSwitch" parent="Switch3" index="0"]
 SWITCH_ID = "007903d9-42d5-4562-8fdf-9de6a11e23ab"
+SELF_ID = "48463232-9bbf-4f17-bf7a-078c32f94c21"
 
 [node name="Placeholder2" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1384, 128 )
 
 [node name="RunningZombieHurting" parent="Placeholder2" index="0"]
+CALL_SWITCH_ON_DIE = true
+SWITCH_ID = "df2f0d4f-fe82-4b75-933a-bc3e370141f8"
 ACTIVATION_RANGE = 400.0
 
 [node name="DoorHidden6" parent="." instance=ExtResource( 13 )]
@@ -192,6 +193,7 @@ position = Vector2( 1448, 208 )
 
 [node name="DoorSwitch" parent="Switch4" index="0"]
 SWITCH_ID = "fa2d60cd-e7f5-433e-b579-349d910db718"
+SELF_ID = "b9afcba3-ef41-4429-9589-070702ce4ff9"
 
 [node name="SpikesRight" parent="." instance=ExtResource( 19 )]
 position = Vector2( 1352, 89 )
@@ -302,6 +304,7 @@ position = Vector2( 841, 82 )
 
 [node name="DoorSwitch" parent="Switch5" index="0"]
 SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
+SELF_ID = "f201c9e7-3440-4688-8452-7b95c89c7397"
 
 [node name="DestroyableHolder5" parent="." instance=ExtResource( 17 )]
 position = Vector2( 728, 56 )
@@ -339,18 +342,24 @@ SWITCH_ID = "07213dcc-ef2c-4f33-9f57-e1c182965aa1"
 position = Vector2( 1456, 128 )
 
 [node name="RunningZombieHurting" parent="Placeholder3" index="0"]
+CALL_SWITCH_ON_DIE = true
+SWITCH_ID = "df2f0d4f-fe82-4b75-933a-bc3e370141f8"
 ACTIVATION_RANGE = 400.0
 
 [node name="Placeholder4" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1352, 128 )
 
 [node name="RunningZombieHurting" parent="Placeholder4" index="0"]
+CALL_SWITCH_ON_DIE = true
+SWITCH_ID = "df2f0d4f-fe82-4b75-933a-bc3e370141f8"
 ACTIVATION_RANGE = 400.0
 
 [node name="Placeholder5" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1432, 128 )
 
 [node name="RunningZombieHurting" parent="Placeholder5" index="0"]
+CALL_SWITCH_ON_DIE = true
+SWITCH_ID = "df2f0d4f-fe82-4b75-933a-bc3e370141f8"
 ACTIVATION_RANGE = 400.0
 
 [node name="PlatformCycling2" parent="." instance=ExtResource( 21 )]
@@ -518,6 +527,23 @@ position = Vector2( 584, 208 )
 [node name="CheckpointHolder" parent="." instance=ExtResource( 25 )]
 position = Vector2( 1870, 234 )
 
+[node name="Switch2" parent="." instance=ExtResource( 14 )]
+position = Vector2( 1416, 264 )
+
+[node name="DoorSwitch" parent="Switch2" index="0"]
+SWITCH_ID = "df2f0d4f-fe82-4b75-933a-bc3e370141f8"
+SELF_ID = "c8bbc13f-fba1-43ce-ab5b-0d675b6b3bbd"
+ACTIVATE_COUNTER = 5
+VISIBLE = false
+
+[node name="ControlHolder" parent="." instance=ExtResource( 26 )]
+position = Vector2( 1416, 240 )
+
+[node name="LevelControl" parent="ControlHolder" index="0"]
+SPEED = 0.0
+ZOOM = 0.8
+SWITCH_ID = "c8bbc13f-fba1-43ce-ab5b-0d675b6b3bbd"
+
 [editable path="Placeholder"]
 [editable path="TreeWalking"]
 [editable path="FairyPlaceholder"]
@@ -556,3 +582,5 @@ position = Vector2( 1870, 234 )
 [editable path="FlamethrowerHolder2"]
 [editable path="GateHolder3"]
 [editable path="GateHolder4"]
+[editable path="Switch2"]
+[editable path="ControlHolder"]

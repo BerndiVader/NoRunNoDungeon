@@ -2,17 +2,22 @@ using Godot;
 using System;
 
 [Tool]
-public class DoorSwitch : Area2D
+public class DoorSwitch : Area2D,ISwitchable
 {
     private static readonly AudioStream SFX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/01_chest_open_4.wav");
     private AudioStreamPlayer2D sfxPlayer;
     private readonly VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
 
     [Export] private string SWITCH_ID="";
+    [Export] private string SELF_ID="";
     [Export] private bool ONE_TIME=false;
+    [Export] private int ACTIVATE_COUNTER=0;
+    [Export] private bool VISIBLE=true;
+    [Export] private bool NOTIFY_COUNT=true;
 
     private bool active=false;
     private bool used=false;
+    private bool calling=false;
 
     private Tween tween;
 
@@ -29,6 +34,11 @@ public class DoorSwitch : Area2D
                 SWITCH_ID=Guid.NewGuid().ToString();
                 PropertyListChangedNotify();
             }
+            if(string.IsNullOrEmpty(SELF_ID))
+            {
+                SELF_ID=Guid.NewGuid().ToString();
+                PropertyListChangedNotify();
+            }
             return;
         }
 
@@ -41,6 +51,10 @@ public class DoorSwitch : Area2D
         tween=GetNode<Tween>(nameof(Tween));
         Connect("body_entered",this,nameof(OnBodyEntered));
         Connect("body_exited",this,nameof(OnBodyExited));
+
+        AddToGroup(GROUPS.SWITCHABLES.ToString());
+
+        Visible=VISIBLE;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -64,6 +78,7 @@ public class DoorSwitch : Area2D
         tween.InterpolateProperty(this,"rotation_degrees",-40f,40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut);
         tween.InterpolateProperty(this,"rotation_degrees",40f,-40f,0.3f, Tween.TransitionType.Sine,Tween.EaseType.InOut,0.3f);
         tween.Start();
+        calling=true;
         GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),SWITCH_ID);
     }
 
@@ -89,4 +104,29 @@ public class DoorSwitch : Area2D
         }
     }
 
+    public void SwitchCall(string id)
+    {
+        if(id==SWITCH_ID)
+        {
+            if(!calling)
+            {
+                ACTIVATE_COUNTER--;
+                if(ACTIVATE_COUNTER<=0)
+                {
+                    GetTree().CallGroup(GROUPS.SWITCHABLES.ToString(),nameof(ISwitchable.SwitchCall),SELF_ID);
+                }
+                else
+                {
+                    if(NOTIFY_COUNT&&ACTIVATE_COUNTER<10)
+                    {
+                        SettingsEffect count=LevelControlTimer.COUNT_EFFECT.Instance<SettingsEffect>();
+                        count.chr=ACTIVATE_COUNTER.ToString()[0];
+                        World.instance.renderer.AddChild(count);
+                    }
+                    sfxPlayer.Play();
+                }
+            }
+            calling=false;
+        }
+    }
 }

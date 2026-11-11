@@ -21,7 +21,7 @@ public class OneUp : WeaponItem
 
     public override void _PhysicsProcess(float delta)
     {
-        shine+=delta*2f;
+        shine+=delta*1.5f;
         float progress=shine%1f;
         material.SetShaderParam("shine_progress",progress);
 

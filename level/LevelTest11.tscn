@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://bonus/Coin.tscn" type="PackedScene" id=9]
 [ext_resource path="res://bonus/SwordItem.tscn" type="PackedScene" id=10]
 [ext_resource path="res://bonus/PhysicsCoin.tscn" type="PackedScene" id=11]
+[ext_resource path="res://placeholders/bonus/OneUpHolder.tscn" type="PackedScene" id=12]
+[ext_resource path="res://obstacles/DoorSwitch.tscn" type="PackedScene" id=13]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -41,7 +43,7 @@ SPEED = 120.0
 position = Vector2( 866, 160 )
 SPEED = 0.0
 SIGNAL = false
-SWITCH_ID = "ec2087b5-6b1c-452e-8683-c1e121ba76a2"
+SWITCH_ID = "3539508e-a0da-4a23-8e39-e96617a7c589"
 
 [node name="SocketPlatform2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 715, 162 )
@@ -68,11 +70,10 @@ position = Vector2( 1090, 181 )
 position = Vector2( 787, 247 )
 
 [node name="Coin" parent="." instance=ExtResource( 9 )]
-position = Vector2( 865, 69 )
-scale = Vector2( 1.05, 1.05 )
+position = Vector2( 866, 37 )
 
 [node name="Coin2" parent="." instance=ExtResource( 11 )]
-position = Vector2( 1012, 240 )
+position = Vector2( 961, 162 )
 
 [node name="LeverPhysics2" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1009, 195 )
@@ -92,3 +93,13 @@ position = Vector2( 860, 177 )
 
 [node name="PhysicsBlockDestroyHolder5" parent="." instance=ExtResource( 4 )]
 position = Vector2( 868, 198 )
+
+[node name="OneUpHolder" parent="." instance=ExtResource( 12 )]
+position = Vector2( 936, 231 )
+
+[node name="DoorSwitch" parent="." instance=ExtResource( 13 )]
+position = Vector2( 863, 18 )
+SWITCH_ID = "ec2087b5-6b1c-452e-8683-c1e121ba76a2"
+SELF_ID = "3539508e-a0da-4a23-8e39-e96617a7c589"
+ACTIVATE_COUNTER = 5
+VISIBLE = false
