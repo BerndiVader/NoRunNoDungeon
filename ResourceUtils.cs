@@ -1,0 +1,300 @@
+using Godot;
+using System;
+using System.Collections.Generic;
+
+public static class ResourceUtils
+{
+    public static readonly bool DEBUG=false;
+    public static readonly bool DEBUG_EXT=false;
+    public static readonly float MAX_SFX_DISTANCE=512f;
+    public static readonly int PLAYER_LIVES_DEFAULT=3;
+    public static readonly int PLAYER_LIVES_MAX=6;
+    public static PackedScene world;
+    public static PackedScene intro;
+    public static PackedScene pause;
+    public static PackedScene player;
+    public static PackedScene camera;
+    public static PackedScene hud;
+    public static PackedScene dust;
+
+    public static List<PackedScene> levels;
+    public static List<PackedScene> enemies;
+    public static List<PackedScene> bullets;
+    public static List<PackedScene> weapons;
+    public static List<TileSet> tilesets;
+    public static List<PackedScene> particles;
+    public static List<PackedScene> gfx;
+    public static PackedScene background;
+    public static List<Texture> bgTextures;
+    public static List<string>ingameMusic;
+    public static PackedScene touch;
+    public static PackedScene buttons;
+    public static BitmapFont font;
+    public static Image fontTexture;
+
+    public static void Init() 
+    {
+        levels=new List<PackedScene>();
+        enemies=new List<PackedScene>();
+        tilesets=new List<TileSet>();
+        bgTextures=new List<Texture>();
+        particles=new List<PackedScene>();
+        bullets=new List<PackedScene>();
+        gfx=new List<PackedScene>();
+        weapons=new List<PackedScene>();
+        ingameMusic=new List<string>();
+
+        font=new BitmapFont();
+        font.CreateFromFnt("res://fonts/m6x11.fnt");
+        fontTexture=font.GetTexture(0).GetData();        
+
+        bool pck=ProjectSettings.LoadResourcePack("res://nodungeon.pck");
+        if(pck)
+        {
+            Console.WriteLine("Found external main dlc, using it.");
+        }
+        else
+        {
+            Console.WriteLine("No external main dlc found.");
+        }
+
+        if(!GameSettings.isMobile)
+        {
+            Console.WriteLine("Check for addons...");
+            Directory dlcs=new Directory();
+            List<string>files=new List<string>();
+
+            if(dlcs.DirExists("res://dlcs"))
+            {
+                dlcs.Open("res://dlcs");
+                dlcs.ListDirBegin();
+
+                string file=dlcs.GetNext();
+                while(file!="")
+                {
+                    if(file.EndsWith(".pck"))
+                    {
+                        files.Add("res://dlcs/"+file);
+                    }
+                    file=dlcs.GetNext();
+                }
+                dlcs.ListDirEnd();
+            }
+            else
+            {
+                dlcs.MakeDir("res://dlcs");
+            }
+            if(files.Count>0)
+            {
+                files.ForEach(file=>
+                {
+                    if(ProjectSettings.LoadResourcePack(file,false))
+                    {
+                        Console.WriteLine("Loaded "+file);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to load "+file);
+                    }
+                });
+            }
+            else
+            {
+                Console.WriteLine("No addons found.");
+            }
+        }
+
+        if(GameSettings.hasTouch)
+        {
+            Console.WriteLine("Found Mobile, loading touch input");
+            touch=ResourceLoader.Load<PackedScene>("res://io/Touch.tscn");
+            buttons=ResourceLoader.Load<PackedScene>("res://io/Buttons.tscn");
+        }
+
+        Console.WriteLine("Loading Resources...");
+        world=ResourceLoader.Load<PackedScene>("res://World.tscn");
+        intro=ResourceLoader.Load<PackedScene>("res://intro/Intro.tscn");
+        pause=ResourceLoader.Load<PackedScene>("res://ui/PauseUI.tscn");
+        player=ResourceLoader.Load<PackedScene>("res://Player.tscn");
+        background=ResourceLoader.Load<PackedScene>("res://level/Background.tscn");
+        camera=ResourceLoader.Load<PackedScene>("res://PlayerCamera.tscn");
+        hud=ResourceLoader.Load<PackedScene>("res://ui/HUD.tscn");
+        dust=ResourceLoader.Load<PackedScene>("res://gfx/Dust.tscn");
+
+        Console.WriteLine("Loading levels...");
+        if(DEBUG)
+        {
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest11.tscn"));
+        }
+        else
+        {
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Easy1.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/one/1.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level1.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level2.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level3.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level4.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/Level5.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest1.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest2.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest3.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest4.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest5.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest6.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest7.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest8.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest9.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest11.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTest10.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelTestTerra.tscn"));
+            levels.Add(ResourceLoader.Load<PackedScene>("res://level/LevelSpeedUp.tscn"));
+        }
+
+        Console.WriteLine("Loading tilesets...");
+        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset1.tres"));
+        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset2.tres"));
+        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset3.tres"));
+        tilesets.Add(ResourceLoader.Load<TileSet>("res://level/tileset4.tres"));
+
+        Console.WriteLine("Loading background textures...");
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_A/PNG/bg1.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_A/PNG/bg2.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_A/PNG/bg3.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_B/PNG/bg1.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_B/PNG/bg2.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_B/PNG/bg3.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_C/PNG/bg1.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_C/PNG/bg2.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_C/PNG/bg3.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_D/PNG/bg1.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_D/PNG/bg2.png"));
+        bgTextures.Add(ResourceLoader.Load<Texture>("res://image/super_pixel_cave/style_D/PNG/bg3.png"));
+
+        Console.WriteLine("Loading particles...");
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/BlockParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/CoinTakenParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/EnemieDieParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/BulletMiss.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/MadRockParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/WeaponChangeParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/JumpParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/DaggerShoot.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/PlayerDieEffect.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/ExplodeParticles.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/Alert.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/ItemTaken.tscn"));
+        particles.Add(ResourceLoader.Load<PackedScene>("res://particles/HealthLoss.tscn"));
+
+        Console.WriteLine("Loading bullets...");
+        bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/SkullBullet.tscn"));
+        bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/DaggerBullet.tscn"));
+        bullets.Add((PackedScene)ResourceLoader.Load("res://bullets/SpearBullet.tscn"));
+
+        Console.WriteLine("Loading visual effects...");
+        gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx1.tscn"));
+        gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx2.tscn"));
+        gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx3.tscn"));
+        gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx4.tscn"));
+        gfx.Add(ResourceLoader.Load<PackedScene>("res://gfx/ExplodeGfx5.tscn"));
+
+        Console.WriteLine("Loading weapons...");
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Sword.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Katana.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Broadsword.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Dagger.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/KingsSword.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/AztecSword.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Rapier.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/RustySword.tscn"));
+        weapons.Add(ResourceLoader.Load<PackedScene>("res://weapons/Spear.tscn"));
+
+        Console.WriteLine("Loading ingame musics...");
+
+        Directory musics=new Directory();
+        string path="res://sounds/ingame/music/";
+        if(musics.Open(path)==Error.Ok)
+        {
+            musics.ListDirBegin();
+            string music=musics.GetNext();
+            while(music!="")
+            {
+                if(music.EndsWith(".mp3.import"))
+                {
+                    ingameMusic.Add(path+music.Replace(".import",""));
+                }
+                else if(music.EndsWith(".mp3"))
+                {
+                    ingameMusic.Add(path+music);
+                }
+                music=musics.GetNext();
+            }
+            musics.ListDirEnd();
+        }
+        Console.WriteLine("Done!");
+    }
+
+    public static InputController GetInputController(Node scene)
+    {
+        if(GameSettings.current.Input!=null)
+        {
+            switch(GameSettings.current.Input.type)
+            {
+                case GameSettings.InputCandit.TYPE.KEYBOARD:
+                    return new DesktopInput();
+                case GameSettings.InputCandit.TYPE.TOUCHPAD:
+                    return new MobileInput(scene);
+                case GameSettings.InputCandit.TYPE.JOYPAD:
+                    return new JoypadInput(GameSettings.current.Input.deviceID);
+            }
+        }
+
+        List<GameSettings.InputCandit>candits=GameSettings.AvailInputs(false);
+        if(GameSettings.hasTouch)
+        {
+            if(candits.Count>0)
+            {
+                return new JoypadInput(candits[0].deviceID);
+            }
+            return new MobileInput(scene);
+        }
+        else
+        {
+            if(candits.Count>0)
+            {
+                return new JoypadInput(candits[0].deviceID);
+            }
+            return new DesktopInput();
+        }
+    }
+
+    public static ImageTexture CreateTextureFromText(string text,BitmapFont font,Image image)
+    {
+        float totalWidth=0;
+        float maxHeight=0;
+        List<Rect2> rects=new List<Rect2>();
+
+        foreach(char c in text)
+        {
+            Rect2 rect=font.GetCharTxUvRect(c);
+            rects.Add(rect);
+            totalWidth+=rect.Size.x;
+            maxHeight=Mathf.Max(maxHeight,rect.Size.y);
+        }
+
+        Image img=new Image();
+        img.Create((int)totalWidth,(int)maxHeight,false,Image.Format.Rgba8);
+
+        float x=0;
+        foreach(Rect2 rect in rects)
+        {
+            img.BlitRect(image,rect,new Vector2(x,0f));
+            x+=rect.Size.x;
+        }
+
+        ImageTexture texture=new ImageTexture();
+        texture.CreateFromImage(img,1);
+        return texture;
+    }
+}
