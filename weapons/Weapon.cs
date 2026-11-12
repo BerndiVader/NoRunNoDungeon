@@ -44,7 +44,7 @@ public abstract class Weapon : Area2D
         initParticles.Position=World.level.ToLocal(GlobalPosition);
         initParticles.Texture=GetNode<Sprite>(nameof(Sprite)).Texture;
         initParticles.Rotation=Rotation;
-        World.level.AddChild(initParticles);
+        World.level.CallDeferred("add_child",initParticles);
         
         SetProcess(false);
         SetProcessInput(false);

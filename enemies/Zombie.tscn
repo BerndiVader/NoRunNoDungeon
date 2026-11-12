@@ -189,6 +189,7 @@ shape = SubResource( 6 )
 
 [node name="Aura" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0, 8 )
+emitting = false
 amount = 10
 emission_rect_extents = Vector2( 5, 0 )
 
