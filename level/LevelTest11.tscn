@@ -38,6 +38,7 @@ platformState = 3
 switchID = "234234"
 MAX_MOVE_DISTANCE = 100.0
 SPEED = 120.0
+USE_SHAKE = true
 
 [node name="LevelControl" parent="." instance=ExtResource( 5 )]
 position = Vector2( 866, 160 )

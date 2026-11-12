@@ -3,11 +3,18 @@ using System;
 
 public class SocketPlatform : Platform
 {
+
+    private const float SHAKE_START=0.2f;
+    private const float SHAKE_MAX=2f;
+    private const float SHAKE_DECAY=0.5f;
+
     [Export] private float DISTANCE_TO_GROUND=0f;
     [Export] private float MAX_MOVE_DISTANCE=0f;
     [Export] private float SPEED=50f;
     [Export] private Vector2 START_DIRECTION=Vector2.Up;
     [Export] private bool ONE_TIME=false;
+
+    [Export] private bool USE_SHAKE=false;
 
     [Export] private float PARTICLE_MARGIN=-2f;
     [Export] private float RAY_START_LENGTH=30f;
@@ -15,7 +22,7 @@ public class SocketPlatform : Platform
 
 
     private CollisionShape2D socketCollision;
-    private Sprite socketSprite;
+    private Sprite socketSprite,sprite;
     private CPUParticles2D particles1,particles2;
     private Tween tween;
 
@@ -24,6 +31,7 @@ public class SocketPlatform : Platform
     private bool moveUp,used=false;
     private bool active=false;
     private bool particlesInit=false;
+    private float shake=0f;
 
     private float distanceToPlayerSqrt;
 
@@ -37,6 +45,8 @@ public class SocketPlatform : Platform
         particles1=GetNode<CPUParticles2D>(nameof(particles1));
         particles2=GetNode<CPUParticles2D>(nameof(particles2));
 
+        sprite=GetNode<Sprite>(nameof(sprite));
+
         socketSprite=GetNode<Sprite>(nameof(socketSprite));
         socketCollision=GetNode<CollisionShape2D>(nameof(socketCollision));
         socketCollision.Shape=new RectangleShape2D();
@@ -49,13 +59,6 @@ public class SocketPlatform : Platform
         {
             AddToGroup(GROUPS.SWITCHABLES.ToString());
         }
-    }
-
-    private void InitParticles()
-    {
-        SetParticlesGlobalY();
-        UpdateSize();
-        UpdateParticlesPosition();
     }
 
     public override void _PhysicsProcess(float delta)
@@ -73,6 +76,11 @@ public class SocketPlatform : Platform
             UpdateSize();
         }
         lastPosition=Position;
+
+        if(USE_SHAKE)
+        {
+            UpdateShake();
+        }
 
         if(active||used)
         {
@@ -111,13 +119,10 @@ public class SocketPlatform : Platform
 
     }
 
-
     private void UpdateSize()
     {
-        float distanceToGround=Mathf.Max(0f,GROUND_POSITION.y-Position.y);
-
         Rect2 rect=socketSprite.RegionRect;
-        rect.Size=new Vector2(rect.Size.x,distanceToGround);
+        rect.Size=new Vector2(rect.Size.x,Mathf.Max(0f,GROUND_POSITION.y-Position.y));
         socketSprite.RegionRect=rect;
 
         RectangleShape2D shape=(RectangleShape2D)socketCollision.Shape;
@@ -127,29 +132,59 @@ public class SocketPlatform : Platform
         UpdateParticlesPosition();
     }
 
-    private void UpdateParticlesPosition()
+    private void InitParticles()
     {
-        float localY=particlesGroundY-GlobalPosition.y;
-        particles1.Position=new Vector2(particles1.Position.x,localY);
-        particles2.Position=new Vector2(particles2.Position.x,localY);
+        FindAndSetGround();
+        UpdateSize();
+        UpdateParticlesPosition();
     }
 
-    private void SetParticlesGlobalY()
+    private void UpdateParticlesPosition()
     {
-        float localGroundY=GROUND_POSITION.y-Position.y;
-        Vector2 rayStart=ToGlobal(new Vector2(0f,-RAY_START_LENGTH));
-        Vector2 rayEnd=ToGlobal(new Vector2(0f,localGroundY+RAY_END_LENGTH));
+        float y=particlesGroundY-GlobalPosition.y;
+        particles1.Position=new Vector2(particles1.Position.x,y);
+        particles2.Position=new Vector2(particles2.Position.x,y);
+    }
 
-        var hit=GetWorld2d().DirectSpaceState.IntersectRay(rayStart,rayEnd,new Godot.Collections.Array(this),2);
+    private void FindAndSetGround()
+    {
+        float y=GROUND_POSITION.y-Position.y;
+        Vector2 start=ToGlobal(new Vector2(0f,-RAY_START_LENGTH));
+        Vector2 end=ToGlobal(new Vector2(0f,y+RAY_END_LENGTH));
+
+        var hit=GetWorld2d().DirectSpaceState.IntersectRay(start,end,new Godot.Collections.Array(this),2);
         if(hit.Count>0)
         {
             particlesGroundY=((Vector2)hit["position"]).y-PARTICLE_MARGIN;
         }
         else
         {
-            particlesGroundY=ToGlobal(new Vector2(0f,localGroundY)).y;
+            particlesGroundY=ToGlobal(new Vector2(0f,y)).y;
         }
-    }    
+    }
+
+    private void UpdateShake()
+    {
+        if(active)
+        {
+            shake=Mathf.Min(Mathf.Max(shake,SHAKE_START),SHAKE_MAX);
+            Vector2 offset=new Vector2
+            (
+                MathUtils.RandomRange(-shake,shake),
+                MathUtils.RandomRange(-shake,shake)
+
+            );
+            sprite.Offset=offset;
+            socketSprite.Offset=offset;
+            shake*=SHAKE_DECAY;
+        }
+        else if(socketSprite.Offset!=Vector2.Zero||sprite.Offset!=Vector2.Zero)
+        {
+            socketSprite.Offset=Vector2.Zero;
+            sprite.Offset=Vector2.Zero;
+            shake=0f;
+        }
+    }
 
     private void StartTween(bool up)
     {
