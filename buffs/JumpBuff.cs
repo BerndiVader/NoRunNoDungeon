@@ -8,6 +8,7 @@ public class JumpBuff : Buff
     protected float DURATION;
     private float duration;
     protected float size;
+    private float applied;
 
     public static void Create(float size=0.25f,float duration=120f)
     {
@@ -32,7 +33,7 @@ public class JumpBuff : Buff
         if(duration>=DURATION)
         {
             Player.buffs.Remove(weakRef);
-            Player.instance.JumpModifier=MathUtils.MinMax(0.1f,2f,Player.instance.JumpModifier-size);
+            Player.instance.JumpModifier=MathUtils.MinMax(0f,2f,Player.instance.JumpModifier-applied);
             SetPhysicsProcess(false);
             QueueFree();
         }        
@@ -43,7 +44,9 @@ public class JumpBuff : Buff
     {
         HUD.instance.AddChild(this);
         Player.buffs.Add(weakRef);
-        Player.instance.JumpModifier=MathUtils.MinMax(0.1f,2f,Player.instance.JumpModifier+size);
+        float current=Player.instance.JumpModifier;
+        Player.instance.JumpModifier=MathUtils.MinMax(0f,2f,current+size);
+        applied=Player.instance.JumpModifier-current;
     }
 
     public override void Replace(Buff buff)

@@ -8,6 +8,7 @@ public class SpeedBuff : Buff
     protected float DURATION;
     private float duration;
     protected float size;
+    private float applied;
 
     public static void Create(float size=0.25f,float duration=120f)
     {
@@ -32,7 +33,7 @@ public class SpeedBuff : Buff
         if(duration>=DURATION)
         {
             Player.buffs.Remove(weakRef);
-            Player.instance.SpeedModifier=MathUtils.MinMax(0.1f,2f,Player.instance.SpeedModifier-size);
+            Player.instance.SpeedModifier=MathUtils.MinMax(0f,2f,Player.instance.SpeedModifier-applied);
             SetPhysicsProcess(false);
             QueueFree();
         }
@@ -42,7 +43,9 @@ public class SpeedBuff : Buff
     {
         HUD.instance.AddChild(this);
         Player.buffs.Add(weakRef);
-        Player.instance.SpeedModifier=MathUtils.MinMax(0.1f,2f,Player.instance.SpeedModifier+size);
+        float current=Player.instance.SpeedModifier;
+        Player.instance.SpeedModifier=MathUtils.MinMax(0f,2f,current+size);
+        applied=Player.instance.SpeedModifier-current;
     }
 
     public override void Replace(Buff buff)
