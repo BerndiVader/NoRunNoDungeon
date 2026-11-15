@@ -33,12 +33,14 @@
     <Compile Include="AutoLoad.cs" />
     <Compile Include="bonus\BlindBuffThrowable.cs" />
     <Compile Include="bonus\BuffThrowable.cs" />
+    <Compile Include="bonus\FreezeBuffThrowable.cs" />
     <Compile Include="bonus\JumpBuffThrowable.cs" />
     <Compile Include="bonus\OneUp.cs" />
     <Compile Include="bonus\SpeedBuffThrowable.cs" />
     <Compile Include="bonus\WeaponItem.cs" />
     <Compile Include="buffs\Buff.cs" />
     <Compile Include="buffs\BuffBlindDeprectated.cs" />
+    <Compile Include="buffs\FreezeBuff.cs" />
     <Compile Include="buffs\JumpBuff.cs" />
     <Compile Include="buffs\SpeedBuff.cs" />
     <Compile Include="bullets\SpearBullet.cs" />

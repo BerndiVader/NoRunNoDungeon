@@ -144,6 +144,7 @@ public class Player : KinematicBody2D
     private int dashDirection=0;
     private float dashLeftTap=-1f;
     private float dashRightTap=-1f;
+    public bool DashDenied=false;
 
     private bool onTeleport=false;
 
@@ -247,8 +248,7 @@ public class Player : KinematicBody2D
         Vector2 force=FORCE;
         float slopeAngle=0f;
 
-        float moveModifier=Floating?FLOAT_MOVE_MODIFIER:1f;
-        float speedModifier=SpeedModifier*moveModifier;
+        float speedModifier=SpeedModifier*(Floating?FLOAT_MOVE_MODIFIER:1f);
 
         if(Floating)
         {
@@ -679,7 +679,7 @@ public class Player : KinematicBody2D
         bool dashLeft=false;
         bool dashRight=false;
 
-        if(Floating)
+        if(Floating||DashDenied)
         {
             return(dashLeft,dashRight);
         }
