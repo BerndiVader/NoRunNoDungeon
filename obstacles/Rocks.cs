@@ -30,11 +30,11 @@ public class Rocks : PhysicsObject
             rSpeed=MathUtils.RandBool()?ROTATION_SPEED:ROTATION_SPEED*-1f;
             velocity=velocity.Bounce(Vector2.Up);
 
-            Node node=(Node)collision.Collider;
-            if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
+            if(collision.Collider is Platform platform)
             {
-                Platform collider=(Platform)node;
-                velocity.x+=collider.Velocity.x*0.35f;
+                Vector2 rest=collision.Remainder.Slide(collision.Normal);
+                MoveAndCollide(rest);
+                velocity.x=platform.Velocity.x;                
             }
         }
 

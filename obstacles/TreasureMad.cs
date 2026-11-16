@@ -23,13 +23,13 @@ public class TreasureMad : PhysicsObject
 
         if(collision!=null)
         {
-            Node2D node=(Node2D)collision.Collider;
             velocity=velocity.Bounce(Vector2.Up);
 
-            if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
+            if(collision.Collider is Platform platform)
             {
-                Platform collider=(Platform)node;
-                velocity.x+=collider.Velocity.x*0.5f;
+                Vector2 rest=collision.Remainder.Slide(collision.Normal);
+                MoveAndCollide(rest);
+                velocity.x=platform.Velocity.x;
             }
         }
     }

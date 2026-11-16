@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -17,6 +17,12 @@
 [ext_resource path="res://placeholders/platforms/PlatformMoving2x2.tscn" type="PackedScene" id=15]
 [ext_resource path="res://placeholders/bonus/CoinPhysics.tscn" type="PackedScene" id=16]
 [ext_resource path="res://placeholders/platforms/PlatformStatic1x1.tscn" type="PackedScene" id=17]
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.45
+rough = true
+bounce = 0.69
+absorbent = true
 
 [node name="TileMap" type="TileMap"]
 position = Vector2( 0, 1 )
@@ -97,6 +103,7 @@ position = Vector2( 1768, 50 )
 
 [node name="DoorSwitch" parent="Switch" index="0"]
 SWITCH_ID = "b906a216-a183-484b-9cc5-304f45458c85"
+SELF_ID = "cae7c5c8-907c-45e1-9ecd-94bc449ccae3"
 ONE_TIME = true
 
 [node name="SpeedBuffHolder" parent="." instance=ExtResource( 10 )]
@@ -121,6 +128,7 @@ position = Vector2( 1624, 152 )
 position = Vector2( 1776, 200 )
 
 [node name="MovingPlatform0" parent="PlatformMoving2x2" index="0"]
+physics_material_override = SubResource( 1 )
 Direction = Vector2( 1, 0 )
 Linear = false
 

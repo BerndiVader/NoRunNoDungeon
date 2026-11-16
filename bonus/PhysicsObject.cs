@@ -26,11 +26,11 @@ public abstract class PhysicsObject : KinematicBody2D
         {
             velocity=velocity.Bounce(collision.Normal)*FRICTION;
 
-            Node node=(Node)collision.Collider;
-            if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
+            if(collision.Collider is Platform platform)
             {
-                Platform collider=(Platform)node;
-                velocity.x+=collider.Velocity.x*0.35f;
+                Vector2 rest=collision.Remainder.Slide(collision.Normal);
+                MoveAndCollide(rest);
+                velocity.x=platform.Velocity.x;
             }
 
         }

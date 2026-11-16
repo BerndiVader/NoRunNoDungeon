@@ -36,11 +36,11 @@ public abstract class BuffThrowable : PhysicsObject
 
             velocity=bounce;
 
-            Node node=(Node)collision.Collider;
-            if(node.IsInGroup(GROUPS.PLATFORMS.ToString()))
+            if(collision.Collider is Platform platform)
             {
-                Platform collider=(Platform)node;
-                velocity.x+=collider.Velocity.x*0.36f;
+                Vector2 rest=collision.Remainder.Slide(collision.Normal);
+                MoveAndCollide(rest);
+                velocity.x=platform.Velocity.x;
             }
         }
     }
