@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://bonus/FreezeBuffThrowable.cs" type="Script" id=1]
 [ext_resource path="res://image/0x72/frames/flask_big_blue.png" type="Texture" id=2]
+[ext_resource path="res://image/gfx/jumpdust.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4, 5.5 )
@@ -28,3 +29,11 @@ shape = SubResource( 3 )
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -2 )
 texture = ExtResource( 2 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2( 0, 4 )
+texture = ExtResource( 3 )
+emission_shape = 2
+emission_rect_extents = Vector2( 5, 1 )
+gravity = Vector2( 0, -30 )
+color = Color( 0, 0.623529, 1, 0.360784 )
