@@ -445,11 +445,6 @@ public class Oger : KinematicMonster
             }    
         }
 
-        if(IsOnFloor())
-        {
-            velocity-=GetFloorVelocity()*delta;
-        }
-
         if(IsOnWall()||!rayCast2D.IsColliding())
         {
             if(IsOnFloor())

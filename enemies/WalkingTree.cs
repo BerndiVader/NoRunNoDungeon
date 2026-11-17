@@ -57,11 +57,6 @@ public class WalkingTree : KinematicMonster
         velocity+=force*delta;
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
-        if(IsOnFloor())
-        {
-            velocity-=GetFloorVelocity()*delta;
-        }
-
     }
 
     protected override void Damage(float delta)

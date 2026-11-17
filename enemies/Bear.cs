@@ -68,11 +68,6 @@ public class Bear : KinematicMonster
         velocity+=force*delta;
         velocity=MoveAndSlideWithSnap(velocity,snap,Vector2.Up,false,4,0.785398f,true);
 
-        if(IsOnFloor())
-        {
-            velocity-=GetFloorVelocity()*delta;
-        }
-
         if(IsOnWall()||!raycast.IsColliding())
         {
             FlipH();
