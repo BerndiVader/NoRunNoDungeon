@@ -1,6 +1,6 @@
 using Godot;
 
-public class Gate : Area2D,ISwitchable
+public class Gate : KinematicBody2D,ISwitchable
 {
     private static readonly AudioStream TELEPORT_FX=ResourceLoader.Load<AudioStream>("res://sounds/ingame/12_Player_Movement_SFX/88_Teleport_02.wav");
     private static readonly AudioStreamMP3 CLOSE_FX=ResourceLoader.Load<AudioStreamMP3>("res://sounds/ingame/06_door_close_1.mp3");
@@ -20,6 +20,10 @@ public class Gate : Area2D,ISwitchable
         EXIT_WITH_DY
     }
 
+    [Export] private bool PHYSICAL=false;
+    [Export] private float FRICTION=1f;
+    [Export] private Vector2 GRAVITY=new Vector2(0f,900f);
+
     [Export] private string companionID="";
     [Export] private TYPE type=TYPE.ENTRY;
     [Export] private STYLE style=STYLE.WOOD;
@@ -36,6 +40,8 @@ public class Gate : Area2D,ISwitchable
     private bool active=false;
     private bool used=false;
     private Vector2 restorePosition=Vector2.Zero;
+    private Vector2 velocity=Vector2.Zero;
+
     private Settings settings,restoreSettings;
     private Gamestate gamestate;
     private AnimatedSprite sprite;
@@ -43,20 +49,20 @@ public class Gate : Area2D,ISwitchable
 
     public override void _Ready()
     {
-        SetProcess(false);
-        SetPhysicsProcess(false);
-        SetProcessInput(false);
+        VisibilityNotifier2D notifier=GetNode<VisibilityNotifier2D>(nameof(VisibilityNotifier2D));
+        notifier.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
 
-        VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
-        AddChild(notifier2D);
+        Area2D area=GetNode<Area2D>(nameof(Area2D));
+        area.Connect("body_entered",this,nameof(OnBodyEntered));
+        area.Connect("body_exited",this,nameof(OnBodyExited));        
+
+        SetProcess(false);
+        SetPhysicsProcess(PHYSICAL||active);
+        SetProcessInput(false);
 
         AddToGroup(GROUPS.SWITCHABLES.ToString());
 
         Visible=visible;
-        
-        Connect("body_entered",this,nameof(OnBodyEntered));
-        Connect("body_exited",this,nameof(OnBodyExited));
 
         if(changeStateTo!=Gamestate.KEEP)
         {
@@ -82,6 +88,10 @@ public class Gate : Area2D,ISwitchable
 
     public override void _PhysicsProcess(float delta)
     {
+        if(PHYSICAL)
+        {
+            MovePhysical(delta);
+        }
         if(!active)
         {
             return;
@@ -90,7 +100,7 @@ public class Gate : Area2D,ISwitchable
         if(Player.instance.input.JustInteract||auto_gate)
         {
             active=false;
-            SetPhysicsProcess(active);
+            SetPhysicsProcess(PHYSICAL||active);
             if(oneTime&&used)
             {
                 closed=true;
@@ -129,13 +139,32 @@ public class Gate : Area2D,ISwitchable
         }
     }
 
+    private void MovePhysical(float delta)
+    {
+        velocity+=GRAVITY*delta;
+        KinematicCollision2D collision=MoveAndCollide(velocity*delta);
+
+        if(collision!=null) 
+        {
+            velocity=velocity.Slide(collision.Normal)*FRICTION;
+
+            if(collision.Collider is Platform platform)
+            {
+                Vector2 rest=collision.Remainder.Slide(collision.Normal);
+                MoveAndCollide(rest);
+                velocity.x=platform.Velocity.x;
+            }
+
+        }        
+    }
+
 
     private void OnBodyEntered(Node node)
     {
         if(!closed&&!active)
         {
             active=true;
-            SetPhysicsProcess(active);
+            SetPhysicsProcess(PHYSICAL||active);
         }
     }
 
@@ -144,7 +173,7 @@ public class Gate : Area2D,ISwitchable
         if(active)
         {
             active=false;
-            SetPhysicsProcess(active);
+            SetPhysicsProcess(PHYSICAL||active);
         }
     }
 
