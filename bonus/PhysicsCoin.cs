@@ -3,7 +3,8 @@ using System;
 
 public class PhysicsCoin : PhysicsObject
 {
-    [Export] int VALUE=1;
+    [Export] protected int VALUE=1;
+    
     public override void _Ready()
     {
         base._Ready();

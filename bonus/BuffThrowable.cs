@@ -28,18 +28,15 @@ public abstract class BuffThrowable : PhysicsObject
         if(collision!=null)
         {
             Vector2 bounce=velocity.Bounce(collision.Normal)*FRICTION;
-
             if((bounce-velocity).Length()>80f)
             {
                 PlayFx();
             }
-
             velocity=bounce;
 
             if(collision.Collider is Platform platform)
             {
-                Vector2 rest=collision.Remainder.Slide(collision.Normal);
-                MoveAndCollide(rest);
+                MoveAndCollide(collision.Remainder.Slide(collision.Normal));
                 velocity.x=platform.Velocity.x;
             }
         }
