@@ -7,10 +7,14 @@ public class Rocks : PhysicsObject
 
     private float rSpeed=1.5f;
     private Area2D collision;
+    private AnimatedSprite sprite;
 
     public override void _Ready()
     {
         base._Ready();
+
+        sprite=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
+        sprite.Play();
 
         collision=GetNode<Area2D>(nameof(Area2D));
         collision.Connect("body_entered",this,nameof(BodyEntered));

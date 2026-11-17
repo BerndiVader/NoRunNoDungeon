@@ -107,7 +107,6 @@ public class Dirtball : KinematicMonster
             {
                 velocity.y=-BOUNCE_FORCE.y;
             }
-            animationController.Rotation=Mathf.Deg2Rad(MathUtils.RandomRange(-45,45));
         }
 
         if(onWall)
