@@ -410,7 +410,7 @@ public abstract class KinematicMonster : KinematicBody2D
         {
             if(state==STATE.damage)
             {
-                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled", false);
+                staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D)).SetDeferred("disabled",false);
             }
             lastState=state;
             state=STATE.idle;

@@ -1,88 +1,83 @@
 using Godot;
 using System;
 
-public class Cage : KinematicBody2D
+public class Cage : KinematicMonster
 {
-    [Export]private float GRAVITY=500f;
-    [Export] protected float STOP_FORCE=1300f;
-    [Export] protected float FRICTION=0.01f;
-
-    private bool wasVisible=false;
-    private Vector2 velocity=Vector2.Zero;
-    private Vector2 FORCE;
-    protected readonly Vector2 SNAP=new Vector2(0f,8f);
-    private bool noSnap=false;
-
     public override void _Ready()
     {
-        VisibilityNotifier2D notifier=GetNode<VisibilityNotifier2D>(nameof(VisibilityNotifier2D));
-        notifier.Connect("screen_exited",this,nameof(OnScreenExited));
-        notifier.Connect("screen_entered",this,nameof(OnScreenEntered));
-
-        AddUserSignal(STATE.damage.ToString());
-        Connect(STATE.damage.ToString(),this,nameof(OnDamage));        
-
-        FORCE=new Vector2(0f,GRAVITY);
+        base._Ready();
+        animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
+        OnIdle();
     }
 
     public override void _PhysicsProcess(float delta)
     {
+        base._PhysicsProcess(delta);
+        goal(delta);
+    }
+
+    protected override void Idle(float delta)
+    {
         Navigation(delta);
     }
 
-    private void Navigation(float delta)
+    protected override void Damage(float delta)
     {
-        velocity+=FORCE*delta;
-        velocity=MoveAndSlideWithSnap(velocity,noSnap?Vector2.Zero:SNAP,Vector2.Up,false,4,0.785398f,true);
-        noSnap=false;
-
-        int slides=GetSlideCount();
-        if(slides>0)
+        if(!animationPlayer.IsPlaying())
         {
-            bool stop=false;
-            for(int i=0;i<slides;i++)
+            if(health<=0f)
             {
-                if(GetSlideCollision(i).Collider is Platform platform)
+                OnDie();
+            }
+            else
+            {
+                OnIdle();
+            }            
+        }
+        Navigation(delta);
+    }
+
+    protected override void OnIdle()
+    {
+        if(state!=STATE.idle)
+        {
+            animationPlayer.Play("SETUP");
+            base.OnIdle();
+        }
+    }
+
+    protected override void OnDamage(Node2D node=null,float amount=0f,bool overrideDestroyable=false)
+    {
+        if(state!=STATE.damage&&state!=STATE.die)
+        {
+            if(node==null)
+            {
+                node=this;
+            }
+            else if(node is Player)
+            {
+                attacker=Player.instance;
+            }
+
+            Renderer.instance.Shake(1f);
+
+            lastState=state;
+            state=STATE.damage;
+
+            if(DESTORYABLE||overrideDestroyable)
+            {
+                health-=amount;
+                if(amount!=0f&&health>0f)
                 {
-                    velocity.x=platform.Velocity.x;
-                    break;
-                } 
-                else if(!stop)
-                {
-                    velocity=StopX(velocity,delta);
-                    stop=true;
+                    HealthNotifier(health);
                 }
             }
+
+            animationPlayer.Play("HIT");
+            goal=Damage;
         }
-        else
-        {
-            velocity=StopX(velocity,delta);
-        }
+        
     }
-
-    private Vector2 StopX(Vector2 velocity,float delta)
-    {
-        velocity.x=Mathf.Max(Mathf.Abs(velocity.x)-STOP_FORCE*delta,0f)*Mathf.Sign(velocity.x);
-        return velocity;
-    }
-
-    protected void OnDamage(Node2D node=null, float amount=0f,bool overrideDestroyable=false)
-    {
-        Renderer.instance.Shake(1f);
-    }
-
-    private void OnScreenEntered()
-    {
-        wasVisible=true;
-    }
-
-    private void OnScreenExited()
-    {
-        if(wasVisible)
-        {
-            World.OnObjectExitedScreen(this);
-        }
-    }    
 
 
 }
