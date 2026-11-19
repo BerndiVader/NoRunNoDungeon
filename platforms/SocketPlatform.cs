@@ -196,6 +196,7 @@ public class SocketPlatform : Platform
             return;
         }
         active=true;
+        shake=SHAKE_START;
 
         bumpTween.StopAll();
         tween.StopAll();

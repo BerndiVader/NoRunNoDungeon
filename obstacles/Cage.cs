@@ -3,6 +3,12 @@ using System;
 
 public class Cage : KinematicMonster
 {
+    private const float SHAKE_START=2f;
+    private const float SHAKE_MAX=5f;
+    private const float SHAKE_DECAY=0.1f;
+    
+    private float shake=0f;
+
     public override void _Ready()
     {
         base._Ready();
@@ -13,6 +19,7 @@ public class Cage : KinematicMonster
     public override void _PhysicsProcess(float delta)
     {
         base._PhysicsProcess(delta);
+        UpdateShake();
         goal(delta);
     }
 
@@ -60,6 +67,7 @@ public class Cage : KinematicMonster
             }
 
             Renderer.instance.Shake(1f);
+            shake=SHAKE_START;
 
             lastState=state;
             state=STATE.damage;
@@ -79,5 +87,25 @@ public class Cage : KinematicMonster
         
     }
 
+    private void UpdateShake()
+    {
+        if(state==STATE.damage)
+        {
+            shake=Mathf.Min(Mathf.Max(shake,SHAKE_START),SHAKE_MAX);
+            Vector2 offset=new Vector2
+            (
+                MathUtils.RandomRange(-shake,shake),
+                MathUtils.RandomRange(-shake,shake)
+
+            );
+            animationController.Offset=offset;
+            shake*=SHAKE_DECAY;
+        }
+        else if(animationController.Offset!=Vector2.Zero)
+        {
+            animationController.Offset=Vector2.Zero;
+            shake=0f;
+        }
+    }
 
 }
