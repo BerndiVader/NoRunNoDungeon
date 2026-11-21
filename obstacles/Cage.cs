@@ -3,16 +3,23 @@ using System;
 
 public class Cage : KinematicMonster
 {
-    private const float SHAKE_START=2f;
+    private const float SHAKE_MIN=0.2f;
     private const float SHAKE_MAX=5f;
-    private const float SHAKE_DECAY=0.1f;
+    private const float SHAKE_DECAY=0.8f;
+
+    private AnimatedSprite princess;
+    private float princessTimer=0f;
     
     private float shake=0f;
 
     public override void _Ready()
     {
         base._Ready();
+
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
+        princess=GetNode<AnimatedSprite>(nameof(princess));
+        princess.Playing=true;
+
         OnIdle();
     }
 
@@ -25,6 +32,15 @@ public class Cage : KinematicMonster
 
     protected override void Idle(float delta)
     {
+        princessTimer+=delta;
+        if(princessTimer>5f)
+        {
+            princessTimer=0f;
+            if(MathUtils.RandBool())
+            {
+                princess.FlipH^=true;
+            }
+        }
         Navigation(delta);
     }
 
@@ -67,7 +83,7 @@ public class Cage : KinematicMonster
             }
 
             Renderer.instance.Shake(1f);
-            shake=SHAKE_START;
+            shake=SHAKE_MAX;
 
             lastState=state;
             state=STATE.damage;
@@ -91,7 +107,6 @@ public class Cage : KinematicMonster
     {
         if(state==STATE.damage)
         {
-            shake=Mathf.Min(Mathf.Max(shake,SHAKE_START),SHAKE_MAX);
             Vector2 offset=new Vector2
             (
                 MathUtils.RandomRange(-shake,shake),
@@ -99,7 +114,8 @@ public class Cage : KinematicMonster
 
             );
             animationController.Offset=offset;
-            shake*=SHAKE_DECAY;
+            
+            shake=Mathf.Max(shake*SHAKE_DECAY,SHAKE_MIN);
         }
         else if(animationController.Offset!=Vector2.Zero)
         {

@@ -4,9 +4,9 @@ using System;
 public class SocketPlatform : Platform
 {
 
-    private const float SHAKE_START=0.2f;
+    private const float SHAKE_MIN=0.2f;
     private const float SHAKE_MAX=2f;
-    private const float SHAKE_DECAY=0.5f;
+    private const float SHAKE_DECAY=0.8f;
 
     [Export] private float DISTANCE_TO_GROUND=0f;
     [Export] private float MAX_MOVE_DISTANCE=0f;
@@ -167,7 +167,6 @@ public class SocketPlatform : Platform
     {
         if(active)
         {
-            shake=Mathf.Min(Mathf.Max(shake,SHAKE_START),SHAKE_MAX);
             Vector2 offset=new Vector2
             (
                 MathUtils.RandomRange(-shake,shake),
@@ -176,7 +175,8 @@ public class SocketPlatform : Platform
             );
             sprite.Offset=offset;
             socketSprite.Offset=offset;
-            shake*=SHAKE_DECAY;
+
+            shake=Mathf.Min(shake*SHAKE_DECAY,SHAKE_MAX);
         }
         else if(socketSprite.Offset!=Vector2.Zero||sprite.Offset!=Vector2.Zero)
         {
@@ -196,7 +196,7 @@ public class SocketPlatform : Platform
             return;
         }
         active=true;
-        shake=SHAKE_START;
+        shake=SHAKE_MAX;
 
         bumpTween.StopAll();
         tween.StopAll();
