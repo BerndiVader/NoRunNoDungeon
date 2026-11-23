@@ -7,6 +7,9 @@ public class Cage : KinematicMonster
     private const float SHAKE_MAX=5f;
     private const float SHAKE_DECAY=0.8f;
 
+    [Export]private bool USE_PHYSICS=true;
+    [Export]private bool ONE_WAY_COLL=false;
+
     private AnimatedSprite princess;
     private float princessTimer=0f;
     
@@ -19,6 +22,15 @@ public class Cage : KinematicMonster
         animationPlayer=GetNode<AnimationPlayer>(nameof(AnimationPlayer));
         princess=GetNode<AnimatedSprite>(nameof(princess));
         princess.Playing=true;
+
+
+        if(ONE_WAY_COLL)
+        {
+            CollisionShape2D collision=staticBody.GetNode<CollisionShape2D>(nameof(CollisionShape2D));
+            collision.OneWayCollision=true;
+            collision.OneWayCollisionMargin=5f;
+        }
+
 
         OnIdle();
     }
@@ -48,6 +60,8 @@ public class Cage : KinematicMonster
     {
         if(!animationPlayer.IsPlaying())
         {
+            collisionController.SetDeferred("disabled",false);
+
             if(health<=0f)
             {
                 OnDie();
@@ -58,6 +72,14 @@ public class Cage : KinematicMonster
             }            
         }
         Navigation(delta);
+    }
+
+    protected override void Navigation(float delta)
+    {
+        if(USE_PHYSICS)
+        {
+            base.Navigation(delta);
+        }
     }
 
     protected override void OnIdle()
@@ -97,6 +119,7 @@ public class Cage : KinematicMonster
                 }
             }
 
+            collisionController.SetDeferred("disabled",true);
             animationPlayer.Play("HIT");
             goal=Damage;
         }
