@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://image/super_pixel_cave/style_A/PNG/terrain_corner_inner_top_left.png" type="Texture" id=1]
-[ext_resource path="res://obstacles/PhysicsBlock.cs" type="Script" id=2]
+[ext_resource path="res://image/sandstone.png" type="Texture" id=1]
+[ext_resource path="res://obstacles/PhysicsBlockExt.cs" type="Script" id=2]
 [ext_resource path="res://obstacles/Destroyables.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -16,8 +16,10 @@ collision_layer = 4096
 collision_mask = 4118
 moving_platform_apply_velocity_on_leave = 2
 script = ExtResource( 2 )
+CARRIEABLE = false
 
 [node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
 z_index = -1
 texture = ExtResource( 1 )
 
@@ -35,3 +37,4 @@ shape = SubResource( 2 )
 [node name="Destroyables" parent="." instance=ExtResource( 3 )]
 TERRAFORM = false
 DESTROY_PARENT = true
+MARK = false

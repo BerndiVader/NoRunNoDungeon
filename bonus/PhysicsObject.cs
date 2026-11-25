@@ -12,7 +12,7 @@ public abstract class PhysicsObject : KinematicBody2D
 
     public override void _Ready()
     {
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",this,nameof(OnScreenExited));
         AddChild(notifier2D);
     }
 
@@ -34,5 +34,10 @@ public abstract class PhysicsObject : KinematicBody2D
             }
 
         }
+    }
+
+    public virtual void OnScreenExited()
+    {
+        World.OnObjectExitedScreen(this);
     }
 }

@@ -55,7 +55,7 @@ public class Platform : StaticBody2D,ISwitchable
     public override void _Ready()
     {
         VisibilityNotifier2D notifier2D=new VisibilityNotifier2D();
-        notifier2D.Connect("screen_exited",World.instance,nameof(World.OnObjectExitedScreen),new Godot.Collections.Array(this));
+        notifier2D.Connect("screen_exited",this,nameof(OnExitedScreen));
         AddChild(notifier2D);
 
         collision=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
@@ -271,6 +271,11 @@ public class Platform : StaticBody2D,ISwitchable
     protected bool BumpActive()
     {
         return bumpTween.IsActive();
+    }
+
+    protected virtual void OnExitedScreen()
+    {
+        World.OnObjectExitedScreen(this);
     }
 
     public virtual void SwitchCall(string id)

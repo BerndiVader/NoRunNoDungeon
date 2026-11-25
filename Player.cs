@@ -56,6 +56,7 @@ public class Player : KinematicBody2D
         public bool JustAttack;
         public bool Interact;
         public bool JustInteract;
+        public bool JustAccept;
         public bool JustJump;
         public bool JustLeft;
         public bool JustRight;
@@ -76,6 +77,7 @@ public class Player : KinematicBody2D
             Jump=World.instance.input.Jump();
             Attack=World.instance.input.Attack();
             Interact=World.instance.input.Change();
+            JustAccept=World.instance.input.JustAccept();
             JustJump=World.instance.input.JustJump();
             JustAttack=World.instance.input.JustAttack();
             JustInteract=World.instance.input.JustChange();
@@ -122,6 +124,8 @@ public class Player : KinematicBody2D
 
     private readonly float GROUND_CARRY_FACTOR=1f;
 
+    public bool FacingLeft=>animationController.FlipH;
+
     private Vector2 velocity=Vector2.Zero;
     public Vector2 Velocity=>velocity;
     private float onAirTime=100f;
@@ -161,6 +165,7 @@ public class Player : KinematicBody2D
     private JumpParticles jumpParticles;
     private ShaderMaterial motionTrails;
     private Weapon weapon=null;
+    private PhysicsBlockExt load=null;
 
     public static readonly List<WeakReference<Buff>>buffs=new List<WeakReference<Buff>>();
     public PLAYER_STATE currentState=PLAYER_STATE.unkown;
@@ -186,7 +191,7 @@ public class Player : KinematicBody2D
             DrawString(
                 HUD.instance.GetFont("font"),
                 new Vector2(-10f,-40f),
-                $"{PlayerCamera.instance.Zoom+":"+PlayerCamera.instance.Position}"
+                $"{Velocity}"
             );
         }
     }
@@ -270,7 +275,7 @@ public class Player : KinematicBody2D
             airParticles.InitialVelocity=jumpParticles.InitialVelocity=levelSpeed*levelDirection.Length();
         }
         
-        if(input.JustAttack&&weapon!=null)
+        if(input.JustAttack&&weapon!=null&&load==null)
         {
             weapon.Attack();
         }
@@ -380,6 +385,60 @@ public class Player : KinematicBody2D
         bool onFloor=IsOnFloor();
         platformSpeed=Vector2.Zero;
 
+        if(input.JustAccept)
+        {
+            if(load==null)
+            {
+                Vector2 from=GlobalPosition;
+                Vector2 to=from+new Vector2(FacingLeft?-8f:8f,0f);
+                Godot.Collections.Dictionary hit=GetWorld2d().DirectSpaceState.IntersectRay
+                (
+                    from,
+                    to,
+                    new Godot.Collections.Array(this),
+                    1u<<12
+                );
+
+                if(hit.Count>0)
+                {
+                    if(hit["collider"] is PhysicsBlockExt crate)
+                    {
+                        if(crate.Carry())
+                        {
+                            load=crate;
+                            crate.Position=new Vector2(0f,-10f);
+                            ActivateWeapon(false);
+                            AddChild(crate);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Vector2 dir=FacingLeft?Vector2.Left:Vector2.Right;
+                Vector2 target=GlobalPosition+dir*16f+new Vector2(0f,-load.Size.y*0.5f);                
+
+                RectangleShape2D shape=new RectangleShape2D{Extents=load.Size*0.5f*0.95f};
+                Physics2DShapeQueryParameters query=new Physics2DShapeQueryParameters
+                {
+                    Transform=new Transform2D(0f,target),
+                    CollisionLayer=4406u,
+                    Exclude=new Godot.Collections.Array(this)
+
+                };
+                query.SetShape(shape);
+                Godot.Collections.Array hits=GetWorld2d().DirectSpaceState.IntersectShape(query);
+                if(hits.Count==0)
+                {
+                    RemoveChild(load);
+                    load.Place(World.level.ToLocal(target));
+                    load=null;
+                    ActivateWeapon(true);
+                }
+            }
+
+        }
+
         if(collides>0)
         {
             float diff=GlobalPosition.y-lastPosition.y;
@@ -389,7 +448,6 @@ public class Player : KinematicBody2D
                 OnDamage();
                 return;
             }
-
 
             for(int i=0;i<collides;i++)
             {
@@ -536,6 +594,14 @@ public class Player : KinematicBody2D
     public bool HasWeapon()
     {
         return weapon!=null;
+    }
+
+    public void ActivateWeapon(bool state)
+    {
+        if(weapon!=null)
+        {
+            weapon.Visible=state;
+        }
     }
 
     private void OnDamage(Node2D damager=null,float amount=1f,bool ignore=false)

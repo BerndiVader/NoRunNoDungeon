@@ -75,13 +75,19 @@ public class Liquid : Node2D
 
     }
 
-    private void OnBodyEntered(Node _)
+    private void OnBodyEntered(Node node)
     {
-        Player.instance.SetFloating(true,LIQUID==LIQUID_TYPE.WATER?WATER_LOAD:SLIME_LOAd,GlobalPosition);
+        if(node is Player)
+        {
+            Player.instance.SetFloating(true,LIQUID==LIQUID_TYPE.WATER?WATER_LOAD:SLIME_LOAd,GlobalPosition);
+        }
     }
-    private void OnBodyExited(Node _)
+    private void OnBodyExited(Node node)
     {
-        Player.instance.SetFloating(false);
+        if(node is Player)
+        {
+            Player.instance.SetFloating(false);
+        }
     }
 
 }

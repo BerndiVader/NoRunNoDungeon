@@ -4,15 +4,26 @@ using System;
 public class PhysicsBlockExt : PhysicsObject
 {
     [Export] protected float STOP_FORCE=1300f;
+    [Export] protected bool CARRIEABLE=true;
 
     private readonly Vector2 UP_DIRECTION=new Vector2(8f,8f);
-
     private CollisionShape2D collision;
+    private StaticBody2D staticBody;
+    private bool carried=false;
+    private uint mask,layer,maskStatic;
+
+    public bool Carrieable=>CARRIEABLE;
+    public Vector2 Size=>((RectangleShape2D)collision.Shape).Extents*2f;
 
     public override void _Ready()
     {
         base._Ready();
         collision=GetNode<CollisionShape2D>(nameof(CollisionShape2D));
+        staticBody=GetNode<StaticBody2D>(nameof(StaticBody2D));
+
+        mask=CollisionMask;
+        layer=CollisionLayer;
+        maskStatic=staticBody.CollisionMask;
 
         Vector2 size=((RectangleShape2D)collision.Shape).Extents*2f;
         Vector2 start=collision.Position-(size*0.5f);
@@ -64,4 +75,44 @@ public class PhysicsBlockExt : PhysicsObject
         velocity.x=xLength*Mathf.Sign(velocity.x);
         return velocity;
     }
+
+    public void Place(Vector2 position)
+    {
+        if(carried)
+        {
+            Position=position;
+            carried=false;
+            CollisionLayer=layer;
+            CollisionMask=mask;
+            staticBody.CollisionMask=maskStatic;
+            Scale=Vector2.One;
+            World.level.AddChild(this);
+            SetPhysicsProcess(true);
+        }
+    }
+
+    public bool Carry()
+    {
+        if(CARRIEABLE&&!carried)
+        {
+            SetPhysicsProcess(false);
+            carried=true;
+            World.level.RemoveChild(this);
+            CollisionLayer=CollisionMask=staticBody.CollisionMask=0u;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public override void OnScreenExited()
+    {
+        if(!carried)
+        {
+            base.OnScreenExited();
+        }
+    }
+
 }
