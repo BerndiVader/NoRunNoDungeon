@@ -88,6 +88,8 @@ public abstract class KinematicMonster : KinematicBody2D
         velocity=VELOCITY;
         LastPosition=GlobalPosition;
 
+        CollisionMask=4118;
+
         SetProcess(false);
         SetPhysicsProcess(true);
         SetProcessInput(false);

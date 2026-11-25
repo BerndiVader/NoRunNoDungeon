@@ -12,6 +12,8 @@ public class Cage : KinematicMonster
 
     private AnimatedSprite princess;
     private float princessTimer=0f;
+    private uint COLLISION_MASK;
+    private uint COLLISION_MASK_DAMAGE=(1u<<6)|(1u<<7);
     
     private float shake=0f;
 
@@ -23,6 +25,8 @@ public class Cage : KinematicMonster
         princess=GetNode<AnimatedSprite>(nameof(princess));
         princess.Playing=true;
 
+        COLLISION_MASK=CollisionMask;
+        COLLISION_MASK_DAMAGE=COLLISION_MASK&~COLLISION_MASK_DAMAGE;
 
         if(ONE_WAY_COLL)
         {
@@ -30,7 +34,6 @@ public class Cage : KinematicMonster
             collision.OneWayCollision=true;
             collision.OneWayCollisionMargin=5f;
         }
-
 
         OnIdle();
     }
@@ -60,7 +63,7 @@ public class Cage : KinematicMonster
     {
         if(!animationPlayer.IsPlaying())
         {
-            collisionController.SetDeferred("disabled",false);
+            SetDeferred("collision_mask",COLLISION_MASK);
 
             if(health<=0f)
             {
@@ -119,7 +122,8 @@ public class Cage : KinematicMonster
                 }
             }
 
-            collisionController.SetDeferred("disabled",true);
+            SetDeferred("collision_mask",COLLISION_MASK_DAMAGE);
+
             animationPlayer.Play("HIT");
             goal=Damage;
         }

@@ -87,7 +87,7 @@ position = Vector2( 1160, 69 )
 USE_CHILD_RECT = true
 
 [node name="Cage" parent="CageHolder" index="0"]
-DESTORYABLE = false
+HEALTH = 20.0
 ONE_WAY_COLL = true
 
 [node name="SwordItemHolder" parent="." instance=ExtResource( 8 )]

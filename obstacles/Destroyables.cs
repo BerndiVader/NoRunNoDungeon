@@ -8,10 +8,10 @@ public class Destroyables : Area2D,ISwitchable
     [Export] private bool TERRAFORM=true;
     [Export] private bool NOT_PLAYER=false;
     [Export] private bool DESTROY_PARENT=false;
+    [Export] private bool MARK=true;
     [Export] private string SWITCH_ID="";
 
     private CollisionShape2D collisionController;
-    private Alert alert;
 
     public override void _Ready()
     {
@@ -30,9 +30,12 @@ public class Destroyables : Area2D,ISwitchable
             AddUserSignal(STATE.damage.ToString());
             Connect(STATE.damage.ToString(),this,nameof(OnDamage));
 
-            alert=ResourceUtils.particles[(int)PARTICLES.ALERT].Instance<Alert>();
-            alert.chr="x"[0];
-            AddChild(alert);
+            if(MARK)
+            {
+                Alert alert=ResourceUtils.particles[(int)PARTICLES.ALERT].Instance<Alert>();
+                alert.chr="x"[0];
+                AddChild(alert);
+            }
         }
         else
         {

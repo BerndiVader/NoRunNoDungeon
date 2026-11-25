@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://level/tileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://level/Level.cs" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://placeholders/obstacles/SpikesUp.tscn" type="PackedScene" id=11]
 [ext_resource path="res://placeholders/platforms/PlatformMoving2x2.tscn" type="PackedScene" id=12]
 [ext_resource path="res://placeholders/platforms/PlatformStatic3x3.tscn" type="PackedScene" id=13]
+[ext_resource path="res://placeholders/obstacles/PhysicsBlockHolder.tscn" type="PackedScene" id=14]
 
 [node name="TileMap" type="TileMap"]
 z_index = -1000
@@ -289,6 +290,21 @@ position = Vector2( 848, 223 )
 HIDEABLE = true
 IS_HIDING = true
 HIDE_USAGE = 3
+
+[node name="PhysicsBlockHolder" parent="." instance=ExtResource( 14 )]
+position = Vector2( 832, 320 )
+
+[node name="PhysicsBlockHolder2" parent="." instance=ExtResource( 14 )]
+position = Vector2( 840, 304 )
+
+[node name="PhysicsBlockHolder3" parent="." instance=ExtResource( 14 )]
+position = Vector2( 808, 320 )
+
+[node name="PhysicsBlockHolder4" parent="." instance=ExtResource( 14 )]
+position = Vector2( 776, 312 )
+
+[node name="PhysicsBlockHolder5" parent="." instance=ExtResource( 14 )]
+position = Vector2( 792, 328 )
 
 [editable path="Placeholder"]
 [editable path="ControlHolder"]
