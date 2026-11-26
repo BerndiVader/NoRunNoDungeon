@@ -36,6 +36,8 @@ public class Cannonball : KinematicMonster
         collider=GetNode<Area2D>(nameof(Area2D));
         collider.Connect("body_entered",this,nameof(OnBodyEntered));
 
+        CollisionMask=4310u;
+
         SetSpawnFacing();
         OnStroll();
 

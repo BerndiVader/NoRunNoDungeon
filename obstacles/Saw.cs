@@ -151,7 +151,7 @@ public class Saw : Area2D
         sfxPlayer.Play();
     }
 
-    private void OnDamage(Node damager,float amount)
+    private void OnDamage(Node damager,float amount,bool ignore)
     {
         SfxPlayer sfx=new SfxPlayer
         {

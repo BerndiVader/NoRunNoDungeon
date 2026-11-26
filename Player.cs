@@ -685,6 +685,16 @@ public class Player : KinematicBody2D
         {
             FLOAT_SURFACE_GLOBALPOS=-Vector2.One;
         }
+
+        if(floatAreaCount>0)
+        {
+            ActivateWeapon(FLOAT_SURFACE_GLOBALPOS.y-GlobalPosition.y>8f);
+        }
+        else
+        {
+            ActivateWeapon(true);
+        }
+
     }
 
     private void UpdatePlayerState()
