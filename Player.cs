@@ -245,6 +245,15 @@ public class Player : KinematicBody2D
         
         UpdatePlayerState();
 
+        if(currentState==PLAYER_STATE.floating)
+        {
+            ActivateWeapon(false);
+        }
+        else if(load==null)
+        {
+            ActivateWeapon(true);
+        }
+
         if(ResourceUtils.DEBUG_EXT)
         {
             Update();
@@ -275,7 +284,7 @@ public class Player : KinematicBody2D
             airParticles.InitialVelocity=jumpParticles.InitialVelocity=levelSpeed*levelDirection.Length();
         }
         
-        if(input.JustAttack&&weapon!=null&&load==null)
+        if(input.JustAttack&&weapon!=null&&weapon.Visible)
         {
             weapon.Attack();
         }
@@ -433,7 +442,7 @@ public class Player : KinematicBody2D
                     RemoveChild(load);
                     load.Place(World.level.ToLocal(target));
                     load=null;
-                    ActivateWeapon(true);
+                    ActivateWeapon(currentState!=PLAYER_STATE.floating);
                 }
             }
 
@@ -684,15 +693,6 @@ public class Player : KinematicBody2D
         else
         {
             FLOAT_SURFACE_GLOBALPOS=-Vector2.One;
-        }
-
-        if(floatAreaCount>0)
-        {
-            ActivateWeapon(FLOAT_SURFACE_GLOBALPOS.y-GlobalPosition.y>8f);
-        }
-        else
-        {
-            ActivateWeapon(true);
         }
 
     }
