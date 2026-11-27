@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://image/cage.png" type="Texture" id=1]
 [ext_resource path="res://obstacles/Cage.cs" type="Script" id=2]
 [ext_resource path="res://image/0x72/prinzess.png" type="Texture" id=3]
+[ext_resource path="res://image/help_bubble.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10.5, 17.5 )
@@ -143,3 +144,8 @@ animation = "idle"
 scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 8 )
 animation = "idle"
+
+[node name="help" type="Sprite" parent="."]
+position = Vector2( 0, -6 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )

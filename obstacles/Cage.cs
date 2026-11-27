@@ -11,6 +11,8 @@ public class Cage : KinematicMonster
     [Export]private bool ONE_WAY_COLL=false;
 
     private AnimatedSprite princess;
+    private Sprite help;
+
     private float princessTimer=0f;
     private uint COLLISION_MASK;
     private uint COLLISION_MASK_DAMAGE=(1u<<6)|(1u<<7);
@@ -25,6 +27,10 @@ public class Cage : KinematicMonster
         princess=GetNode<AnimatedSprite>(nameof(princess));
         princess.Playing=true;
 
+        help=GetNode<Sprite>(nameof(help));
+        help.Visible=false;
+
+        CollisionMask=4350u;
         COLLISION_MASK=CollisionMask;
         COLLISION_MASK_DAMAGE=COLLISION_MASK&~COLLISION_MASK_DAMAGE;
 
@@ -50,6 +56,7 @@ public class Cage : KinematicMonster
         princessTimer+=delta;
         if(princessTimer>5f)
         {
+            help.Visible^=true;
             princessTimer=0f;
             if(MathUtils.RandBool())
             {
