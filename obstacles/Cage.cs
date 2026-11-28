@@ -3,6 +3,8 @@ using System;
 
 public class Cage : KinematicMonster
 {
+    private static PackedScene prisonerPack=ResourceLoader.Load<PackedScene>("res://enemies/Prisoner.tscn");
+
     private const float SHAKE_MIN=0.2f;
     private const float SHAKE_MAX=5f;
     private const float SHAKE_DECAY=0.8f;
@@ -54,7 +56,7 @@ public class Cage : KinematicMonster
     protected override void Idle(float delta)
     {
         princessTimer+=delta;
-        if(princessTimer>5f)
+        if(princessTimer>3f)
         {
             help.Visible^=true;
             princessTimer=0f;
@@ -135,6 +137,21 @@ public class Cage : KinematicMonster
             goal=Damage;
         }
         
+    }
+
+    protected override void OnDie()
+    {
+        if(state!=STATE.die)
+        {
+            lastState=state;
+            state=STATE.die;
+
+            Prisoner prisoner=prisonerPack.Instance<Prisoner>();
+            prisoner.Position=World.level.ToLocal(princess.GlobalPosition);
+            World.level.AddChild(prisoner);
+
+            goal=Die;
+        }
     }
 
     private void UpdateShake()

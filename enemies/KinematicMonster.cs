@@ -66,6 +66,9 @@ public abstract class KinematicMonster : KinematicBody2D
     protected bool noSnap=false;
     protected bool forcedState=false;
 
+    private void HandleScreenExited()=>OnScreenExited();
+    private void HandleScreenEntered()=>OnScreenEntered();
+
     public override void _Draw()
     {
         if(ResourceUtils.DEBUG_EXT)
@@ -75,7 +78,7 @@ public abstract class KinematicMonster : KinematicBody2D
             DrawString(
                 HUD.instance.GetFont("font"),
                 new Vector2(-10f,-40f),
-                $"{state+"-"+lastState}"
+                $"{notifier2D.IsOnScreen()}"
             );
         }
     }
@@ -98,12 +101,13 @@ public abstract class KinematicMonster : KinematicBody2D
         staticBody=GetNode<StaticBody2D>(nameof(StaticBody2D));
         animationController=GetNode<AnimatedSprite>(nameof(AnimatedSprite));
 
-        notifier2D.Connect("screen_exited",this,nameof(OnScreenExited));
-        notifier2D.Connect("screen_entered",this,nameof(OnScreenEntered));
+        notifier2D.Connect("screen_exited",this,nameof(HandleScreenExited));
+        notifier2D.Connect("screen_entered",this,nameof(HandleScreenEntered));
         AddChild(notifier2D);
 
         Vector2 size=animationController.Frames.GetFrame(animationController.Animation,animationController.Frame).GetSize();
         Vector2 start=animationController.Position-(size*0.5f);
+
         notifier2D.Rect=new Rect2(start,size);
         notifier2D.Scale=Scale;
         notifier2D.Rotation=Rotation;
@@ -595,12 +599,12 @@ public abstract class KinematicMonster : KinematicBody2D
         PlayerCamera.instance.Framing(this);
     }    
 
-    private void OnScreenEntered()
+    protected virtual void OnScreenEntered()
     {
         wasVisible=true;
     }
 
-    private void OnScreenExited()
+    protected virtual void OnScreenExited()
     {
         if(wasVisible)
         {
